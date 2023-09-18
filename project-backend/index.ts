@@ -1,17 +1,18 @@
-//import cors from 'cors';
 import express from 'express';
 
 import { PORT } from './util/config';
 import { connectToDatabase } from './util/db';
 
+import itemRouter from './routes/itemRouter';
+
 const app = express();
 app.use(express.json());
-//app.use(cors);
 
 app.get('/', (_req, res) => {
-    res.status(200).send('Full Stack open');
+    res.status(200).send('Full Stack open project');
 });
 
+app.use('/api/items', itemRouter);
 
 const start = async () => {
     await connectToDatabase();
