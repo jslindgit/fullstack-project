@@ -3,7 +3,7 @@ import express from 'express';
 import { PORT } from './util/config';
 import { connectToDatabase } from './util/db';
 
-import itemRouter from './routes/itemRouter';
+import itemRouter from './routes/item_router';
 
 const app = express();
 app.use(express.json());

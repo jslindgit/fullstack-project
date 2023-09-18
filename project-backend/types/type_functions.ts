@@ -1,10 +1,14 @@
-import { NewItem } from '../types';
+import { NewItem } from './types';
 
-const isNumber = (text: unknown): text is number => {
+export const isNumber = (text: unknown): text is number => {
     return typeof text === 'number' || text instanceof Number;
 };
 
-const isString = (text: unknown): text is string => {
+export const isObject = (variable: unknown): variable is object => {
+    return typeof variable === 'object' || variable instanceof Object;
+};
+
+export const isString = (text: unknown): text is string => {
     return typeof text === 'string' || text instanceof String;
 };
 
@@ -13,23 +17,24 @@ export const toNewItem = (object: unknown): NewItem => {
         throw new Error('Incorrect or missing data');
     }
 
-    if (
-        'name' in object &&
-        'description' in object &&
-        'price' in object &&
-        'stockbalance' in object
-    ) {
+    if ('name' in object && 'price' in object) {
         const newItem: NewItem = {
             name: parseString(object.name, 'name'),
-            description: parseString(object.description, 'description'),
+            description:
+                'description' in object
+                    ? parseString(object.description, 'description')
+                    : '',
             price: parseNumber(object.price, 'price'),
-            stockbalance: parseNumber(object.stockbalance, 'stockbalance'),
+            stockbalance:
+                'stockbalance' in object
+                    ? parseNumber(object.stockbalance, 'stockbalance')
+                    : 0,
         };
 
         return newItem;
     }
 
-    throw new Error('Incorrect data: some fields are missing');
+    throw new Error('Incorrect data: some fields (name or price)are missing');
 };
 
 const parseNumber = (value: unknown, fieldName: string): number => {

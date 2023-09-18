@@ -19,7 +19,11 @@
             "error",
             { "argsIgnorePattern": "^_" }
         ],
-        "no-case-declarations": "off"
+        "no-case-declarations": "off",
+        "linebreak-style": ["error", "unix"],
+        "indent": ["error", 4],
+        "no-trailing-spaces": "error",
+        "quotes": ["error", "single"]
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

@@ -15,7 +15,7 @@ module.exports = {
             },
             description: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                defaultValue: '',
             },
             price: {
                 type: DataTypes.DECIMAL,
