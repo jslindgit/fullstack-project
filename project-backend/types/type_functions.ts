@@ -1,4 +1,4 @@
-import { NewCategory, NewItem } from './types';
+import { NewCategory, NewItem, NewItem_Category } from './types';
 
 export const isNumber = (text: unknown): text is number => {
     return typeof text === 'number' || text instanceof Number;
@@ -12,9 +12,26 @@ export const isString = (text: unknown): text is string => {
     return typeof text === 'string' || text instanceof String;
 };
 
+export const toNewCategory = (object: unknown): NewCategory => {
+    if (!isObject(object)) {
+        throw new Error('Incorrect or missing data for toNewCategory');
+    }
+
+    if ('name' in object) {
+        const newCategory: NewCategory = {
+            name: parseString(object.name, 'name'),
+            description: 'description' in object ? parseString(object.description, 'description') : '',
+        };
+
+        return newCategory;
+    }
+
+    throw new Error('Incorrect data: "name" field is missing');
+};
+
 export const toNewItem = (object: unknown): NewItem => {
     if (!isObject(object)) {
-        throw new Error('Incorrect or missing data');
+        throw new Error('Incorrect or missing data for toNewItem');
     }
 
     if ('name' in object && 'price' in object) {
@@ -31,21 +48,21 @@ export const toNewItem = (object: unknown): NewItem => {
     throw new Error('Incorrect data: some fields (name or price) are missing');
 };
 
-export const toNewCategory = (object: unknown): NewCategory => {
+export const toNewItem_Category = (object: unknown): NewItem_Category => {
     if (!isObject(object)) {
-        throw new Error('Incorrect or missing data');
+        throw new Error('Incorrect or missing data for toNewItem_Category');
     }
 
-    if ('name' in object) {
-        const newCategory: NewCategory = {
-            name: parseString(object.name, 'name'),
-            description: 'description' in object ? parseString(object.description, 'description') : '',
+    if ('item_id' in object && 'category_id' in object) {
+        const newItem_Category: NewItem_Category = {
+            itemId: parseNumber(object.item_id, 'item_id'),
+            categoryId: parseNumber(object.category_id, 'category_id'),
         };
 
-        return newCategory;
+        return newItem_Category;
     }
 
-    throw new Error('Incorrect data: "name" field is missing');
+    throw new Error('Incorrect data: some fields ("item_id" or "category_id") are missing');
 };
 
 const parseNumber = (value: unknown, fieldName: string): number => {

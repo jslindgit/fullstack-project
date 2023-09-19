@@ -2,7 +2,7 @@ import { QueryInterface, DataTypes } from 'sequelize';
 
 module.exports = {
     up: async ({ context }: { context: QueryInterface }) => {
-        await context.createTable('item_category_connections', {
+        await context.createTable('item_categories', {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
@@ -27,6 +27,6 @@ module.exports = {
         });
     },
     down: async ({ context }: { context: QueryInterface }) => {
-        await context.dropTable('item_category_connections');
+        await context.dropTable('item_categories');
     },
 };

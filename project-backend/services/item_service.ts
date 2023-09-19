@@ -1,9 +1,10 @@
 import { Op } from 'sequelize';
 
-import { Item as ItemModel } from '../models/item';
+import { Item as ItemModel } from '../models';
 import { NewItem } from '../types/types';
 import { isNumber, isObject } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
+import { Category } from '../models/category';
 
 const addNew = async (newItem: NewItem): Promise<ItemModel | null> => {
     try {
@@ -45,6 +46,12 @@ const getAll = async (searchQuery: string = ''): Promise<Array<ItemModel> | null
         }
 
         const items = await ItemModel.findAll({
+            include: [
+                {
+                    model: Category,
+                    through: { attributes: [] },
+                },
+            ],
             where,
         });
 
@@ -55,9 +62,19 @@ const getAll = async (searchQuery: string = ''): Promise<Array<ItemModel> | null
     }
 };
 
+// prettier-ignore
 const getById = async (id: unknown): Promise<ItemModel | null> => {
     try {
-        const item = isNumber(Number(id)) ? await ItemModel.findByPk(Number(id)) : null;
+        const item = isNumber(Number(id))
+            ? await ItemModel.findByPk(Number(id), {
+                include: [
+                    {
+                        model: Category,
+                        through: { attributes: [] },
+                    }
+                ],
+            })
+            : null;
         return item;
     } catch (err: unknown) {
         handleError(err);

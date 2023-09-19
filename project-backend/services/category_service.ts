@@ -1,13 +1,14 @@
 import { Op } from 'sequelize';
 
-import { Category as CategoryModel } from '../models/category';
+import { Category } from '../models';
 import { NewCategory } from '../types/types';
 import { isNumber, isObject } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
+import { Item } from '../models/item';
 
-const addNew = async (newCategory: NewCategory): Promise<CategoryModel | null> => {
+const addNew = async (newCategory: NewCategory): Promise<Category | null> => {
     try {
-        const category = await CategoryModel.create(newCategory);
+        const category = await Category.create(newCategory);
         await category.save();
         return category;
     } catch (err: unknown) {
@@ -16,7 +17,7 @@ const addNew = async (newCategory: NewCategory): Promise<CategoryModel | null> =
     }
 };
 
-const deleteById = async (id: unknown): Promise<CategoryModel | null> => {
+const deleteById = async (id: unknown): Promise<Category | null> => {
     try {
         const category = await getById(id);
         if (category) {
@@ -29,7 +30,7 @@ const deleteById = async (id: unknown): Promise<CategoryModel | null> => {
     }
 };
 
-const getAll = async (searchQuery: string = ''): Promise<Array<CategoryModel> | null> => {
+const getAll = async (searchQuery: string = ''): Promise<Array<Category> | null> => {
     try {
         let where = {};
         if (searchQuery && searchQuery.length > 0) {
@@ -44,7 +45,13 @@ const getAll = async (searchQuery: string = ''): Promise<Array<CategoryModel> | 
             };
         }
 
-        const categories = await CategoryModel.findAll({
+        const categories = await Category.findAll({
+            include: [
+                {
+                    model: Item,
+                    through: { attributes: [] },
+                },
+            ],
             where,
         });
 
@@ -55,9 +62,19 @@ const getAll = async (searchQuery: string = ''): Promise<Array<CategoryModel> | 
     }
 };
 
-const getById = async (id: unknown): Promise<CategoryModel | null> => {
+// prettier-ignore
+const getById = async (id: unknown): Promise<Category | null> => {
     try {
-        const category = isNumber(Number(id)) ? await CategoryModel.findByPk(Number(id)) : null;
+        const category = isNumber(Number(id))
+            ? await Category.findByPk(Number(id), {
+                include: [
+                    {
+                        model: Item,
+                        through: { attributes: [] },
+                    },
+                ],
+            })
+            : null;
         return category;
     } catch (err: unknown) {
         handleError(err);
@@ -65,7 +82,7 @@ const getById = async (id: unknown): Promise<CategoryModel | null> => {
     }
 };
 
-const update = async (id: unknown, props: unknown): Promise<CategoryModel | null> => {
+const update = async (id: unknown, props: unknown): Promise<Category | null> => {
     try {
         const category = await getById(id);
         if (category) {
