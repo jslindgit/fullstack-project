@@ -8,5 +8,6 @@
 | 18.9. | 2    | Lisää modeleita ja migraatioita, Item type+service+router, virheenkäsittelyä       |
 |       | 2    | Lisää servicejä+routeja, parempi virheenkäsittely                                  |
 | 19.9. | 2    | Uusi Model "Category" ja sille service+routet, Item-Category liitostaulu, rollback |
+|       | 3    | Item_Category liitostaulun valmiiksi + sille service & router                      |
 
-| yht | 10 | |
+| yht | 13 | |
