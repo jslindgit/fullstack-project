@@ -1,6 +1,6 @@
-PUT http://localhost:3001/api/items/11
+PUT http://localhost:3001/api/items/2
 Content-Type: application/json
 
 {
-	"stockbalance": 400
+	"instock": 40
 }

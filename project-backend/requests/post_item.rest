@@ -2,8 +2,8 @@ POST http://localhost:3001/api/items
 Content-Type: application/json
 
 {
-	"name": "Sekalainen tuote 1",
-	"description": "Erimerkkituotekuvaus",
-	"price": 10.00,
-	"stockbalance": 50
+	"name": "Viiri 3",
+	"description": "Isännänviiri",
+	"price": 80.00,
+	"instock": 50
 }

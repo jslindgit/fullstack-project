@@ -2,7 +2,7 @@ import { QueryInterface, DataTypes } from 'sequelize';
 
 module.exports = {
     up: async ({ context }: { context: QueryInterface }) => {
-        await context.createTable('items', {
+        await context.createTable('categories', {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
@@ -16,14 +16,6 @@ module.exports = {
             description: {
                 type: DataTypes.STRING,
                 defaultValue: '',
-            },
-            price: {
-                type: DataTypes.DECIMAL,
-                allowNull: false,
-            },
-            instock: {
-                type: DataTypes.INTEGER,
-                defaultValue: 0,
             },
             created_at: {
                 type: DataTypes.DATE,

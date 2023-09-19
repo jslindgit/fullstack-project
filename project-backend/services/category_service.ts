@@ -1,35 +1,35 @@
 import { Op } from 'sequelize';
 
-import { Item as ItemModel } from '../models/item';
-import { NewItem } from '../types/types';
+import { Category as CategoryModel } from '../models/category';
+import { NewCategory } from '../types/types';
 import { isNumber, isObject } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
 
-const addNew = async (newItem: NewItem): Promise<ItemModel | null> => {
+const addNew = async (newCategory: NewCategory): Promise<CategoryModel | null> => {
     try {
-        const item = await ItemModel.create(newItem);
-        await item.save();
-        return item;
+        const category = await CategoryModel.create(newCategory);
+        await category.save();
+        return category;
     } catch (err: unknown) {
         handleError(err);
         return null;
     }
 };
 
-const deleteById = async (id: unknown): Promise<ItemModel | null> => {
+const deleteById = async (id: unknown): Promise<CategoryModel | null> => {
     try {
-        const item = await getById(id);
-        if (item) {
-            await item.destroy();
+        const category = await getById(id);
+        if (category) {
+            await category.destroy();
         }
-        return item;
+        return category;
     } catch (err: unknown) {
         handleError(err);
         return null;
     }
 };
 
-const getAll = async (searchQuery: string = ''): Promise<Array<ItemModel> | null> => {
+const getAll = async (searchQuery: string = ''): Promise<Array<CategoryModel> | null> => {
     try {
         let where = {};
         if (searchQuery && searchQuery.length > 0) {
@@ -44,46 +44,46 @@ const getAll = async (searchQuery: string = ''): Promise<Array<ItemModel> | null
             };
         }
 
-        const items = await ItemModel.findAll({
+        const categories = await CategoryModel.findAll({
             where,
         });
 
-        return items;
+        return categories;
     } catch (err: unknown) {
         handleError(err);
         return null;
     }
 };
 
-const getById = async (id: unknown): Promise<ItemModel | null> => {
+const getById = async (id: unknown): Promise<CategoryModel | null> => {
     try {
-        const item = isNumber(Number(id)) ? await ItemModel.findByPk(Number(id)) : null;
-        return item;
+        const category = isNumber(Number(id)) ? await CategoryModel.findByPk(Number(id)) : null;
+        return category;
     } catch (err: unknown) {
         handleError(err);
         return null;
     }
 };
 
-const update = async (id: unknown, props: unknown): Promise<ItemModel | null> => {
+const update = async (id: unknown, props: unknown): Promise<CategoryModel | null> => {
     try {
-        const item = await getById(id);
-        if (item) {
+        const category = await getById(id);
+        if (category) {
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
-                    if (key in item) {
-                        item.setDataValue(key, props[key as keyof typeof props]);
+                    if (key in category) {
+                        category.setDataValue(key, props[key as keyof typeof props]);
                     } else {
-                        throw new Error(`Invalid property '${key}' for Item`);
+                        throw new Error(`Invalid property '${key}' for Category`);
                     }
                 });
 
-                await item.save();
+                await category.save();
             } else {
                 throw new Error('Invalid props value (not an object)');
             }
         }
-        return item;
+        return category;
     } catch (err: unknown) {
         handleError(err);
         return null;

@@ -2,19 +2,19 @@ import express from 'express';
 import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
-import service from '../services/item_service';
-import { isString, toNewItem } from '../types/type_functions';
+import service from '../services/category_service';
+import { isString, toNewCategory } from '../types/type_functions';
 
 const router = express.Router();
 
 router.delete('/:id', (async (req, res, next) => {
     try {
-        const deletedItem = await service.deleteById(req.params.id);
-        if (deletedItem) {
+        const deletedCategory = await service.deleteById(req.params.id);
+        if (deletedCategory) {
             res.status(204).end();
         } else {
             res.status(404).json({
-                error: `Item with id ${req.params.id} not found`,
+                error: `Category with id ${req.params.id} not found`,
             });
         }
     } catch (err) {
@@ -24,8 +24,8 @@ router.delete('/:id', (async (req, res, next) => {
 
 router.get('/', (async (req, res, next) => {
     try {
-        const items = await service.getAll(isString(req.query.search) ? req.query.search : '');
-        res.json(items);
+        const categories = await service.getAll(isString(req.query.search) ? req.query.search : '');
+        res.json(categories);
     } catch (err) {
         next(err);
     }
@@ -33,12 +33,12 @@ router.get('/', (async (req, res, next) => {
 
 router.get('/:id', (async (req, res, next) => {
     try {
-        const item = await service.getById(req.params.id);
-        if (item) {
-            res.json(item);
+        const category = await service.getById(req.params.id);
+        if (category) {
+            res.json(category);
         } else {
             res.status(404).json({
-                error: `Item with id ${req.params.id} not found`,
+                error: `Category with id ${req.params.id} not found`,
             });
         }
     } catch (err) {
@@ -48,10 +48,10 @@ router.get('/:id', (async (req, res, next) => {
 
 router.post('/', (async (req, res, next) => {
     try {
-        const newItem = toNewItem(req.body);
-        const addedItem = await service.addNew(newItem);
+        const newCategory = toNewCategory(req.body);
+        const addedCategory = await service.addNew(newCategory);
 
-        res.status(201).json(addedItem);
+        res.status(201).json(addedCategory);
     } catch (err) {
         next(err);
     }

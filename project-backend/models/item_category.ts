@@ -2,37 +2,30 @@ import { Model, DataTypes } from 'sequelize';
 
 import { sequelize } from '../util/db';
 
-export class Item extends Model {}
+export class Item_Category extends Model {}
 
-Item.init(
+Item_Category.init(
     {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        name: {
-            type: DataTypes.STRING,
-            unique: true,
-            allowNull: false,
-        },
-        description: {
-            type: DataTypes.STRING,
-            defaultValue: '',
-        },
-        price: {
-            type: DataTypes.DECIMAL,
-            allowNull: false,
-        },
-        instock: {
+        itemId: {
             type: DataTypes.INTEGER,
-            defaultValue: 0,
+            allowNull: false,
+            references: { model: 'items', key: 'id' },
+        },
+        categoryId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: { model: 'categories', key: 'id' },
         },
     },
     {
         sequelize,
         underscored: true,
         timestamps: true,
-        modelName: 'item',
+        modelName: 'item_category',
     }
 );

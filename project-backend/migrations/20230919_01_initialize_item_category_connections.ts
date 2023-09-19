@@ -2,28 +2,21 @@ import { QueryInterface, DataTypes } from 'sequelize';
 
 module.exports = {
     up: async ({ context }: { context: QueryInterface }) => {
-        await context.createTable('items', {
+        await context.createTable('item_category_connections', {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            name: {
-                type: DataTypes.STRING,
-                unique: true,
-                allowNull: false,
-            },
-            description: {
-                type: DataTypes.STRING,
-                defaultValue: '',
-            },
-            price: {
-                type: DataTypes.DECIMAL,
-                allowNull: false,
-            },
-            instock: {
+            item_id: {
                 type: DataTypes.INTEGER,
-                defaultValue: 0,
+                allowNull: false,
+                references: { model: 'items', key: 'id' },
+            },
+            category_id: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                references: { model: 'categories', key: 'id' },
             },
             created_at: {
                 type: DataTypes.DATE,
@@ -34,6 +27,6 @@ module.exports = {
         });
     },
     down: async ({ context }: { context: QueryInterface }) => {
-        await context.dropTable('items');
+        await context.dropTable('item_category_connections');
     },
 };

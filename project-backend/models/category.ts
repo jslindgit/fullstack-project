@@ -2,32 +2,21 @@ import { Model, DataTypes } from 'sequelize';
 
 import { sequelize } from '../util/db';
 
-export class User extends Model {}
+export class Category extends Model {}
 
-User.init(
+Category.init(
     {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        username: {
+        name: {
             type: DataTypes.STRING,
-            validate: {
-                isEmail: true,
-            },
             unique: true,
             allowNull: false,
         },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        disabled: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false,
-        },
-        token: {
+        description: {
             type: DataTypes.STRING,
             defaultValue: '',
         },
@@ -36,6 +25,6 @@ User.init(
         sequelize,
         underscored: true,
         timestamps: true,
-        modelName: 'user',
+        modelName: 'category',
     }
 );
