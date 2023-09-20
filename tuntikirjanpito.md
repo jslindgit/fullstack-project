@@ -9,5 +9,6 @@
 |       | 2    | Lisää servicejä+routeja, parempi virheenkäsittely                                  |
 | 19.9. | 2    | Uusi Model "Category" ja sille service+routet, Item-Category liitostaulu, rollback |
 |       | 3    | Item_Category liitostaulun valmiiksi + sille service & router                      |
+| 20.9. | 2    | User-modelille admin-property ja service+router                                    |
 
-| yht | 13 | |
+| yht | 15 | |

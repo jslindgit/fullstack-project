@@ -6,10 +6,11 @@
     "scripts": {
         "dev": "ts-node-dev index.ts",
         "lint": "eslint --ext .ts .",
-        "migration:down": "ts-node util/rollback.ts",
-        "start": "ts-node index.ts",
+        "migration:down": "ts-node util/rollback.ts",        
+        "start": "node build/index.js",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "ts-node": "ts-node"
+        "ts-node": "ts-node",
+        "tsc": "tsc"
     },
     "author": "Joonas Lindstedt",
     "license": "ISC",

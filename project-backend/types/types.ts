@@ -20,3 +20,14 @@ export interface Item_Category {
     categoryId: number;
 }
 export type NewItem_Category = Omit<Item_Category, 'id'>;
+
+export interface User {
+    id: number;
+    username: string;
+    name: string;
+    admin: boolean;
+    disabled: boolean;
+    token: string;
+}
+
+export type NewUser = Omit<User, 'id'>;

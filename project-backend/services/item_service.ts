@@ -1,14 +1,14 @@
 import { Op } from 'sequelize';
 
-import { Item as ItemModel } from '../models';
+import { Item } from '../models';
 import { NewItem } from '../types/types';
 import { isNumber, isObject } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
 import { Category } from '../models/category';
 
-const addNew = async (newItem: NewItem): Promise<ItemModel | null> => {
+const addNew = async (newItem: NewItem): Promise<Item | null> => {
     try {
-        const item = await ItemModel.create(newItem);
+        const item = await Item.create(newItem);
         await item.save();
         return item;
     } catch (err: unknown) {
@@ -17,7 +17,7 @@ const addNew = async (newItem: NewItem): Promise<ItemModel | null> => {
     }
 };
 
-const deleteById = async (id: unknown): Promise<ItemModel | null> => {
+const deleteById = async (id: unknown): Promise<Item | null> => {
     try {
         const item = await getById(id);
         if (item) {
@@ -30,7 +30,7 @@ const deleteById = async (id: unknown): Promise<ItemModel | null> => {
     }
 };
 
-const getAll = async (searchQuery: string = ''): Promise<Array<ItemModel> | null> => {
+const getAll = async (searchQuery: string = ''): Promise<Array<Item> | null> => {
     try {
         let where = {};
         if (searchQuery && searchQuery.length > 0) {
@@ -45,7 +45,7 @@ const getAll = async (searchQuery: string = ''): Promise<Array<ItemModel> | null
             };
         }
 
-        const items = await ItemModel.findAll({
+        const items = await Item.findAll({
             include: [
                 {
                     model: Category,
@@ -63,10 +63,10 @@ const getAll = async (searchQuery: string = ''): Promise<Array<ItemModel> | null
 };
 
 // prettier-ignore
-const getById = async (id: unknown): Promise<ItemModel | null> => {
+const getById = async (id: unknown): Promise<Item | null> => {
     try {
         const item = isNumber(Number(id))
-            ? await ItemModel.findByPk(Number(id), {
+            ? await Item.findByPk(Number(id), {
                 include: [
                     {
                         model: Category,
@@ -82,7 +82,7 @@ const getById = async (id: unknown): Promise<ItemModel | null> => {
     }
 };
 
-const update = async (id: unknown, props: unknown): Promise<ItemModel | null> => {
+const update = async (id: unknown, props: unknown): Promise<Item | null> => {
     try {
         const item = await getById(id);
         if (item) {

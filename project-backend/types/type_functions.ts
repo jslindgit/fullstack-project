@@ -1,4 +1,8 @@
-import { NewCategory, NewItem, NewItem_Category } from './types';
+import { NewCategory, NewItem, NewItem_Category, NewUser } from './types';
+
+export const isBoolean = (text: unknown): text is boolean => {
+    return typeof text === 'boolean' || text instanceof Boolean;
+};
 
 export const isNumber = (text: unknown): text is number => {
     return typeof text === 'number' || text instanceof Number;
@@ -26,7 +30,7 @@ export const toNewCategory = (object: unknown): NewCategory => {
         return newCategory;
     }
 
-    throw new Error('Incorrect data: "name" field is missing');
+    throw new Error('Incorrect data: "name" field is missing for toNewCategory');
 };
 
 export const toNewItem = (object: unknown): NewItem => {
@@ -45,7 +49,7 @@ export const toNewItem = (object: unknown): NewItem => {
         return newItem;
     }
 
-    throw new Error('Incorrect data: some fields (name or price) are missing');
+    throw new Error('Incorrect data: some fields ("name" or "price") are missing for toNewItem');
 };
 
 export const toNewItem_Category = (object: unknown): NewItem_Category => {
@@ -62,7 +66,34 @@ export const toNewItem_Category = (object: unknown): NewItem_Category => {
         return newItem_Category;
     }
 
-    throw new Error('Incorrect data: some fields ("item_id" or "category_id") are missing');
+    throw new Error('Incorrect data: some fields ("item_id" or "category_id") are missing for toNewItem_Category');
+};
+
+export const toNewUser = (object: unknown): NewUser => {
+    if (!isObject(object)) {
+        throw new Error('Incorrect or missing data for toNewUser');
+    }
+
+    if ('username' in object && 'name' in object) {
+        const newUser: NewUser = {
+            username: parseString(object.username, 'username'),
+            name: parseString(object.name, 'name'),
+            admin: 'admin' in object ? parseBoolean(object.admin, 'admin') : false,
+            disabled: 'disabled' in object ? parseBoolean(object.disabled, 'disabled') : false,
+            token: '',
+        };
+
+        return newUser;
+    }
+
+    throw new Error('Incorrect data: some fields ("username" or "name") are missing for toNewUser');
+};
+
+const parseBoolean = (value: unknown, fieldName: string): boolean => {
+    if (!value || !isBoolean(value)) {
+        throw new Error(`Incorrect or missing value for ${fieldName}: "${value}"`);
+    }
+    return value;
 };
 
 const parseNumber = (value: unknown, fieldName: string): number => {
