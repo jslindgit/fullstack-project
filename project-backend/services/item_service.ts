@@ -53,6 +53,7 @@ const getAll = async (searchQuery: string = ''): Promise<Array<Item> | null> => 
                 },
             ],
             where,
+            order: [['name', 'ASC']],
         });
 
         return items;
