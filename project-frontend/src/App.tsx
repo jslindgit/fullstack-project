@@ -1,32 +1,37 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { apiBaseUrl } from './constants';
-import { Item } from './types';
+import { Category, Config, Item } from './types';
 import itemService from './services/itemService';
+import categoryService from './services/categoryService';
+import { defaultConfig } from './types';
 
 import './App.css';
+import MainPage from './components/MainPage';
 import Menu from './components/Menu';
+import Items from './components/Items';
 
 function App() {
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [config, setConfig] = useState<Config>(defaultConfig);
     const [items, setItems] = useState<Item[]>([]);
     const [loaded, setLoaded] = useState<boolean>(false);
-    const [selectedItem, setSelectedItem] = useState<Item>();
 
     useEffect(() => {
         void axios.get(`${apiBaseUrl}/ping`);
 
-        const fetchItems = async () => {
+        const fetchData = async () => {
+            setConfig(defaultConfig); // temp
+
             const items = await itemService.getAll();
             setItems(items);
-        };
-        void fetchItems();
 
-        const fetchSelectedItem = async () => {
-            const item = await itemService.getById(2);
-            setSelectedItem(item);
+            const categories = await categoryService.getAll();
+            setCategories(categories);
         };
-        void fetchSelectedItem();
+        void fetchData();
 
         setLoaded(true);
     }, []);
@@ -41,7 +46,20 @@ function App() {
                     <tbody>
                         <tr>
                             <td>
-                                <Menu />
+                                <Menu categories={categories} />
+                                <Router>
+                                    <Routes>
+                                        <Route path='/' element={<MainPage config={config} />} />
+                                        <Route
+                                            path='/liput'
+                                            element={<Items categories={categories} categoryId={1} />}
+                                        />
+                                        <Route
+                                            path='/viirit'
+                                            element={<Items categories={categories} categoryId={2} />}
+                                        />
+                                    </Routes>
+                                </Router>
                             </td>
                         </tr>
                         <tr>
@@ -64,7 +82,6 @@ function App() {
                         </tr>
                     </tbody>
                 </table>
-                <p>Selected: {selectedItem ? selectedItem.name : 'None'}</p>
             </div>
         </>
     );

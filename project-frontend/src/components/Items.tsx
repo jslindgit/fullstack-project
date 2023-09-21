@@ -1,22 +1,21 @@
 import '../App.css';
-import { Category } from '../types';
+import { Category, Item } from '../types';
 
 interface Props {
     categories: Category[];
+    categoryId: number;
 }
 
-const Menu = ({ categories }: Props) => {
+const Items = ({ categories, categoryId }: Props) => {
     return (
         <>
             <div>
                 <table align='center'>
                     <tbody>
                         <tr>
-                            {categories.map((c) => (
-                                <td key={c.id}>
-                                    <h2>{c.name}</h2>
-                                </td>
-                            ))}
+                            <td>
+                                <h2>Welcome to {config.storeName}</h2>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -25,4 +24,4 @@ const Menu = ({ categories }: Props) => {
     );
 };
 
-export default Menu;
+export default Items;

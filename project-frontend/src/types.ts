@@ -4,6 +4,10 @@ export interface Category {
     description: string;
 }
 
+export interface Config {
+    storeName: string;
+}
+
 export interface Item {
     id: number;
     name: string;
@@ -11,3 +15,7 @@ export interface Item {
     price: number;
     instock: number;
 }
+
+export const defaultConfig: Config = {
+    storeName: 'Webstore',
+};

@@ -2,6 +2,6 @@ POST http://localhost:3001/api/item_categories
 Content-Type: application/json
 
 {
-	"item_id": 2,
-	"category_id": 1
+	"item_id": 9,
+	"category_id": 2
 }
