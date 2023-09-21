@@ -1,5 +1,5 @@
 import '../App.css';
-import { Config } from '../types';
+import { Config } from '../types/types';
 
 interface Props {
     config: Config;

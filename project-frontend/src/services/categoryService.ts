@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { apiBaseUrl } from '../constants';
-import { Category as Interface } from '../types';
+import { Category as Interface } from '../types/types';
 
 const url = apiBaseUrl + '/categories';
 

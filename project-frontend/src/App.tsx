@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
 import { apiBaseUrl } from './constants';
-import { Category, Config, Item } from './types';
-import itemService from './services/itemService';
+import { Category, Config } from './types/types';
 import categoryService from './services/categoryService';
-import { defaultConfig } from './types';
+import { defaultConfig } from './types/types';
 
 import './App.css';
 import MainPage from './components/MainPage';
@@ -16,7 +14,6 @@ import Items from './components/Items';
 function App() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [config, setConfig] = useState<Config>(defaultConfig);
-    const [items, setItems] = useState<Item[]>([]);
     const [loaded, setLoaded] = useState<boolean>(false);
 
     useEffect(() => {
@@ -24,9 +21,6 @@ function App() {
 
         const fetchData = async () => {
             setConfig(defaultConfig); // temp
-
-            const items = await itemService.getAll();
-            setItems(items);
 
             const categories = await categoryService.getAll();
             setCategories(categories);
@@ -46,38 +40,13 @@ function App() {
                     <tbody>
                         <tr>
                             <td>
-                                <Menu categories={categories} />
                                 <Router>
+                                    <Menu categories={categories} />
                                     <Routes>
                                         <Route path='/' element={<MainPage config={config} />} />
-                                        <Route
-                                            path='/liput'
-                                            element={<Items categories={categories} categoryId={1} />}
-                                        />
-                                        <Route
-                                            path='/viirit'
-                                            element={<Items categories={categories} categoryId={2} />}
-                                        />
+                                        <Route path='/products/:id' element={<Items categories={categories} />} />
                                     </Routes>
                                 </Router>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h1>Items</h1>
-                                <table>
-                                    <tbody>
-                                        {items.map((item) => (
-                                            <tr key={item.id}>
-                                                <td>{item.name}</td>
-                                                <td>{item.description}</td>
-                                                <td>{item.price} €</td>
-                                                <td>In stock: {item.instock}</td>
-                                                <td>Product code: {item.id}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
                             </td>
                         </tr>
                     </tbody>

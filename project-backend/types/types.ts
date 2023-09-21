@@ -31,3 +31,8 @@ export interface User {
 }
 
 export type NewUser = Omit<User, 'id'>;
+
+export interface UserForToken {
+    username: string;
+    id: number;
+}

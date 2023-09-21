@@ -1,22 +1,38 @@
 import '../App.css';
-import { Category, Item } from '../types';
+
+import { useParams } from 'react-router-dom';
+
+import { isNumber } from '../types/type_functions';
+import { Category } from '../types/types';
 
 interface Props {
     categories: Category[];
-    categoryId: number;
 }
 
-const Items = ({ categories, categoryId }: Props) => {
+const Items = ({ categories }: Props) => {
+    const id = Number(useParams().id);
+    const category = id && isNumber(id) ? categories.find((c) => c.id === id) : undefined;
+
+    if (category === undefined) {
+        return <div>Something went wrong.</div>;
+    }
+
     return (
         <>
             <div>
+                <h2>{category.name}</h2>
+                <p>{category.description}</p>
                 <table align='center'>
                     <tbody>
-                        <tr>
-                            <td>
-                                <h2>Welcome to {config.storeName}</h2>
-                            </td>
-                        </tr>
+                        {category.items.map((item) => (
+                            <tr key={item.id}>
+                                <td>{item.name}</td>
+                                <td>{item.description}</td>
+                                <td>{item.price} €</td>
+                                <td>In stock: {item.instock}</td>
+                                <td>Product code: {item.id}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
+
 import '../App.css';
-import { Category } from '../types';
+import { Category } from '../types/types';
 
 interface Props {
     categories: Category[];
@@ -12,9 +14,16 @@ const Menu = ({ categories }: Props) => {
                 <table align='center'>
                     <tbody>
                         <tr>
+                            <td>
+                                <Link to='/'>
+                                    <h3>Main Page</h3>
+                                </Link>
+                            </td>
                             {categories.map((c) => (
                                 <td key={c.id}>
-                                    <h2>{c.name}</h2>
+                                    <Link to={'/products/' + c.id}>
+                                        <h3>{c.name}</h3>
+                                    </Link>
                                 </td>
                             ))}
                         </tr>
