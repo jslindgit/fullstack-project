@@ -12,5 +12,6 @@
 | 20.9. | 2    | User-modelille admin-property ja service+router                                    |
 |       | 2    | Frontend aluilleen                                                                 |
 | 21.9. | 3    | Frontendiin navigaatio, backendiin login/logout service                            |
+| 22.9. | 1    | Login/logout router                                                                |
 
-| yht | 20 | |
+| yht | 21 | |

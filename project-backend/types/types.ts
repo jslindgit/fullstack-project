@@ -5,6 +5,11 @@ export interface Category {
 }
 export type NewCategory = Omit<Category, 'id'>;
 
+export interface Credentials {
+    username: string;
+    password: string;
+}
+
 export interface Item {
     id: number;
     name: string;

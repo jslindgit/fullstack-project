@@ -2,44 +2,39 @@ import express from 'express';
 import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
-import service from '../services/user_service';
-import { isString, toNewUser } from '../types/type_functions';
+import { isObject, isString, toCredentials } from '../types/type_functions';
+import { LoginError, LogoutResult } from '../services/login_service';
+import service from '../services/login_service';
+import { User } from '../models';
 
 const router = express.Router();
 
 router.delete('/:id', (async (req, res, next) => {
     try {
-        const deletedUser = await service.deleteById(req.params.id);
-        if (deletedUser) {
-            res.status(204).end();
-        } else {
-            res.status(404).json({
-                error: `User with id ${req.params.id} not found`,
-            });
+        const authorization = req.get('authorization');
+        if (!isString(authorization)) {
+            res.status(401).json({ error: 'Token missing' });
+            return;
         }
-    } catch (err) {
-        next(err);
-    }
-}) as RequestHandler);
+        const token = authorization.substring(7);
+        const response: LogoutResult = await service.logout(token);
 
-router.get('/', (async (req, res, next) => {
-    try {
-        const users = await service.getAll(isString(req.query.search) ? req.query.search : '');
-        res.json(users);
-    } catch (err) {
-        next(err);
-    }
-}) as RequestHandler);
-
-router.get('/:id', (async (req, res, next) => {
-    try {
-        const user = await service.getById(req.params.id);
-        if (user) {
-            res.json(user);
-        } else {
-            res.status(404).json({
-                error: `User with id ${req.params.id} not found`,
-            });
+        // prettier-ignore
+        switch (response) {
+        case LogoutResult.InvalidToken:
+            res.status(401).json({ error: 'Invalid token'});
+            return;
+        case LogoutResult.SomethingWentWrong:
+            res.status(400).json({ error: 'Something went wrong' });
+            return;
+        case LogoutResult.TokenMismatch:
+            res.status(400).json({ error: 'Token mismatch' });
+            return;
+        case LogoutResult.UserMatchingTokenNotFound:
+            res.status(404).json({ error: 'User matching token not found' });
+            return;
+        case LogoutResult.Success:
+            res.status(200).end();
         }
     } catch (err) {
         next(err);
@@ -48,25 +43,36 @@ router.get('/:id', (async (req, res, next) => {
 
 router.post('/', (async (req, res, next) => {
     try {
-        const newUser = toNewUser(req.body);
-        const addedUser = await service.addNew(newUser);
+        const credentials = toCredentials(req.body);
+        const response = await service.login(credentials);
 
-        res.status(201).json(addedUser);
-    } catch (err) {
-        next(err);
-    }
-}) as RequestHandler);
-
-router.put('/:id', (async (req, res, next) => {
-    try {
-        const user = await service.update(req.params.id, req.body);
-        if (user) {
-            res.json(user);
-        } else {
-            res.status(404).json({
-                error: `User with id ${req.params.id} not found`,
-            });
+        // prettier-ignore
+        switch (response) {
+        case LoginError.InvalidPassword:
+            res.status(401).json({ error: 'Invalid password' });
+            return;
+        case LoginError.InvalidUsername:
+            res.status(401).json({ error: 'Invalid username' });
+            return;
+        case LoginError.SomethingWentWrong:
+            res.status(400).json({ error: 'Something went wrong' });
+            return;
         }
+
+        if (
+            isObject(response) &&
+            'token' in response &&
+            isString(response.token) &&
+            'user' in response &&
+            response.user instanceof User
+        ) {
+            res.status(200).send({
+                response,
+            });
+            return;
+        }
+
+        res.status(400).json({ error: 'Something went wrong' });
     } catch (err) {
         next(err);
     }

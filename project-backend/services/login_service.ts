@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 
+import { Credentials, UserForToken } from '../types/types';
+import { handleError } from '../util/error_handler';
+import { isNumber, isString } from '../types/type_functions';
 import { SECRET } from '../util/config';
 import { User } from '../models';
-import { UserForToken } from '../types/types';
-import { isNumber, isString } from '../types/type_functions';
-import { handleError } from '../util/error_handler';
 
 export enum LoginError {
     InvalidUsername,
@@ -25,18 +25,18 @@ export enum LogoutResult {
     SomethingWentWrong,
 }
 
-const login = async (username: unknown, password: unknown): Promise<LoginResult | LoginError> => {
+const login = async (credentials: Credentials): Promise<LoginResult | LoginError> => {
     try {
-        if (!isString(username) || !isString(password)) {
-            throw new Error('"username" and "password" must be strings"');
+        if (!credentials) {
+            throw new Error('Invalid credentials');
         }
 
-        const user = await User.findOne({ where: { username: username } });
+        const user = await User.findOne({ where: { username: credentials.username } });
         if (!user) {
             return LoginError.InvalidUsername;
         }
 
-        const passwordCorrect = password === 'salainen'; // temp
+        const passwordCorrect = credentials.password === 'salainen'; // temp
         if (!passwordCorrect) {
             return LoginError.InvalidPassword;
         }

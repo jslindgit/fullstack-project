@@ -1,4 +1,4 @@
-import { NewCategory, NewItem, NewItem_Category, NewUser } from './types';
+import { NewCategory, Credentials, NewItem, NewItem_Category, NewUser } from './types';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
@@ -14,6 +14,23 @@ export const isObject = (variable: unknown): variable is object => {
 
 export const isString = (text: unknown): text is string => {
     return typeof text === 'string' || text instanceof String;
+};
+
+export const toCredentials = (object: unknown): Credentials => {
+    if (!isObject(object)) {
+        throw new Error('Incorrect or missing data for toCredentials');
+    }
+
+    if ('username' in object && 'password' in object) {
+        const credentials: Credentials = {
+            username: parseString(object.username, 'username'),
+            password: parseString(object.password, 'password'),
+        };
+
+        return credentials;
+    }
+
+    throw new Error('Incorrect data: some fields ("username" or "password") are missing for toNewItem');
 };
 
 export const toNewCategory = (object: unknown): NewCategory => {
