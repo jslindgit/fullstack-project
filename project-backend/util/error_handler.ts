@@ -10,8 +10,7 @@ export const handleError = (err: unknown): void => {
             err.errors.forEach((e) => {
                 errorMessage += e.message + ', ';
             });
-            errorMessage =
-                errorMessage.substring(0, errorMessage.length - 2) + ')';
+            errorMessage = errorMessage.substring(0, errorMessage.length - 2) + ')';
         }
     }
 

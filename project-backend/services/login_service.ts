@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 import { Credentials, UserForToken } from '../types/types';
 import { handleError } from '../util/error_handler';
-import { isNumber, isString } from '../types/type_functions';
+import { isNumber, isObject, isString } from '../types/type_functions';
 import { SECRET } from '../util/config';
 import { User } from '../models';
 
@@ -72,7 +72,7 @@ const logout = async (token: string): Promise<LogoutResult> => {
         }
 
         const decodedToken: unknown = jwt.verify(token, SECRET);
-        if (!(decodedToken instanceof Object && 'id' in decodedToken && isNumber(decodedToken.id))) {
+        if (!(isObject(decodedToken) && 'id' in decodedToken && isNumber(decodedToken.id))) {
             return LogoutResult.InvalidToken;
         }
 

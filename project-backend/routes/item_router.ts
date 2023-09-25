@@ -2,12 +2,13 @@ import express from 'express';
 import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
+import { tokenExtractor } from '../middlewares/token_extractor';
 import service from '../services/item_service';
 import { isString, toNewItem } from '../types/type_functions';
 
 const router = express.Router();
 
-router.delete('/:id', (async (req, res, next) => {
+router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
         const deletedItem = await service.deleteById(req.params.id);
         if (deletedItem) {
@@ -46,7 +47,7 @@ router.get('/:id', (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.post('/', (async (req, res, next) => {
+router.post('/', tokenExtractor, (async (req, res, next) => {
     try {
         const newItem = toNewItem(req.body);
         const addedItem = await service.addNew(newItem);
@@ -57,7 +58,7 @@ router.post('/', (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.put('/:id', (async (req, res, next) => {
+router.put('/:id', tokenExtractor, (async (req, res, next) => {
     try {
         const item = await service.update(req.params.id, req.body);
         if (item) {
