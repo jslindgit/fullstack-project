@@ -2,22 +2,23 @@ import express from 'express';
 import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
+import { tokenExtractor } from '../middlewares/token_extractor';
 import { isObject, isString, toCredentials } from '../types/type_functions';
 import { LoginError, LogoutResult } from '../services/login_service';
 import service from '../services/login_service';
-import { User } from '../models';
 
 const router = express.Router();
 
-router.delete('/:id', (async (req, res, next) => {
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+router.delete('/', tokenExtractor, (async (_req, res, next) => {
     try {
-        const authorization = req.get('authorization');
-        if (!isString(authorization)) {
+        console.log('res.locals:', res.locals);
+        if (!res.locals.token || !isString(res.locals.token)) {
             res.status(401).json({ error: 'Token missing' });
             return;
         }
-        const token = authorization.substring(7);
-        const response: LogoutResult = await service.logout(token);
+
+        const response: LogoutResult = await service.logout(res.locals.token);
 
         // prettier-ignore
         switch (response) {
@@ -49,13 +50,13 @@ router.post('/', (async (req, res, next) => {
         // prettier-ignore
         switch (response) {
         case LoginError.InvalidPassword:
-            res.status(401).json({ error: 'Invalid password' });
+            res.status(401).send({ error: 'Invalid password' });
             return;
         case LoginError.InvalidUsername:
-            res.status(401).json({ error: 'Invalid username' });
+            res.status(401).send({ error: 'Invalid username' });
             return;
         case LoginError.SomethingWentWrong:
-            res.status(400).json({ error: 'Something went wrong' });
+            res.status(400).send({ error: 'Something went wrong' });
             return;
         }
 
@@ -63,8 +64,8 @@ router.post('/', (async (req, res, next) => {
             isObject(response) &&
             'token' in response &&
             isString(response.token) &&
-            'user' in response &&
-            response.user instanceof User
+            'username' in response &&
+            isString(response.username)
         ) {
             res.status(200).send({
                 response,

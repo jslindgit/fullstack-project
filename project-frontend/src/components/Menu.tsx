@@ -26,6 +26,11 @@ const Menu = ({ categories }: Props) => {
                                     </Link>
                                 </td>
                             ))}
+                            <td>
+                                <Link to='/login'>
+                                    <h3>Login</h3>
+                                </Link>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 import { RequestHandler } from 'express';
 
@@ -10,13 +11,17 @@ const router = express.Router();
 
 router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const deletedItem = await service.deleteById(req.params.id);
-        if (deletedItem) {
-            res.status(204).end();
+        if (res.locals.admin === true) {
+            const deletedItem = await service.deleteById(req.params.id);
+            if (deletedItem) {
+                res.status(204).end();
+            } else {
+                res.status(404).json({
+                    error: `Item with id ${req.params.id} not found`,
+                });
+            }
         } else {
-            res.status(404).json({
-                error: `Item with id ${req.params.id} not found`,
-            });
+            res.status(403).json({ error: 'Access denied' });
         }
     } catch (err) {
         next(err);
@@ -49,10 +54,14 @@ router.get('/:id', (async (req, res, next) => {
 
 router.post('/', tokenExtractor, (async (req, res, next) => {
     try {
-        const newItem = toNewItem(req.body);
-        const addedItem = await service.addNew(newItem);
+        if (res.locals.admin === true) {
+            const newItem = toNewItem(req.body);
+            const addedItem = await service.addNew(newItem);
 
-        res.status(201).json(addedItem);
+            res.status(201).json(addedItem);
+        } else {
+            res.status(403).json({ error: 'Access denied' });
+        }
     } catch (err) {
         next(err);
     }
@@ -60,13 +69,17 @@ router.post('/', tokenExtractor, (async (req, res, next) => {
 
 router.put('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const item = await service.update(req.params.id, req.body);
-        if (item) {
-            res.json(item);
+        if (res.locals.admin === true) {
+            const item = await service.update(req.params.id, req.body);
+            if (item) {
+                res.json(item);
+            } else {
+                res.status(404).json({
+                    error: `Item with id ${req.params.id} not found`,
+                });
+            }
         } else {
-            res.status(404).json({
-                error: `Item with id ${req.params.id} not found`,
-            });
+            res.status(403).json({ error: 'Access denied' });
         }
     } catch (err) {
         next(err);

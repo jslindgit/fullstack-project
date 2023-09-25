@@ -14,7 +14,7 @@ export enum LoginError {
 
 export interface LoginResult {
     token: string;
-    user: User;
+    username: string;
 }
 
 export enum LogoutResult {
@@ -57,7 +57,7 @@ const login = async (credentials: Credentials): Promise<LoginResult | LoginError
 
         return {
             token: token,
-            user: user,
+            username: user.username,
         };
     } catch (err) {
         handleError(err);

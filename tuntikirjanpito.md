@@ -13,5 +13,6 @@
 |       | 2    | Frontend aluilleen                                                                 |
 | 21.9. | 3    | Frontendiin navigaatio, backendiin login/logout service                            |
 | 22.9. | 1    | Login/logout router                                                                |
+| 25.9. | 2    | Lisää käyttäjänhallintaa backendiin ja frontendiin                                 |
 
-| yht | 21 | |
+| yht | 23 | |

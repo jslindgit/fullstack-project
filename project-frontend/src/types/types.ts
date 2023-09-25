@@ -17,6 +17,10 @@ export interface Item {
     instock: number;
 }
 
-export const defaultConfig: Config = {
-    storeName: 'Webstore',
-};
+export interface User {
+    id: number;
+    username: string;
+    name: string;
+    admin: boolean;
+    disabled: boolean;
+}

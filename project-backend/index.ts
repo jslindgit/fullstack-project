@@ -7,6 +7,7 @@ import { connectToDatabase } from './util/db';
 import categoryRouter from './routes/category_router';
 import item_categoryRouter from './routes/item_category_router';
 import itemRouter from './routes/item_router';
+import loginRouter from './routes/login_router';
 import userRouter from './routes/user_router';
 
 const app = express();
@@ -25,6 +26,7 @@ app.get('/api/ping', (_req, res) => {
 app.use('/api/categories', categoryRouter);
 app.use('/api/items', itemRouter);
 app.use('/api/item_categories', item_categoryRouter);
+app.use('/api/login', loginRouter);
 app.use('/api/users', userRouter);
 
 const start = async () => {

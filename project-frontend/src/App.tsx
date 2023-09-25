@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import { apiBaseUrl } from './constants';
 import { Category, Config } from './types/types';
 import categoryService from './services/categoryService';
-import { defaultConfig } from './types/types';
+import { defaultConfig } from './constants';
 
 import './App.css';
-import MainPage from './components/MainPage';
-import Menu from './components/Menu';
+import Home from './components/Home';
 import Items from './components/Items';
+import Menu from './components/Menu';
+import Login from './components/Login';
 
 function App() {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -43,7 +45,8 @@ function App() {
                                 <Router>
                                     <Menu categories={categories} />
                                     <Routes>
-                                        <Route path='/' element={<MainPage config={config} />} />
+                                        <Route path='/' element={<Home config={config} />} />
+                                        <Route path='/login' element={<Login />} />
                                         <Route path='/products/:id' element={<Items categories={categories} />} />
                                     </Routes>
                                 </Router>
