@@ -3,7 +3,7 @@ import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
 import { tokenExtractor } from '../middlewares/token_extractor';
-import { isObject, isString, toCredentials } from '../types/type_functions';
+import { isBoolean, isObject, isString, toCredentials } from '../types/type_functions';
 import { LoginError, LogoutResult } from '../services/login_service';
 import service from '../services/login_service';
 
@@ -65,7 +65,9 @@ router.post('/', (async (req, res, next) => {
             'token' in response &&
             isString(response.token) &&
             'username' in response &&
-            isString(response.username)
+            isString(response.username) &&
+            'admin' in response &&
+            isBoolean(response.admin)
         ) {
             res.status(200).send({
                 response,

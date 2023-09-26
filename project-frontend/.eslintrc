@@ -4,7 +4,7 @@
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
-    "plugins": ["@typescript-eslint"],
+    "plugins": ["@typescript-eslint", "react-hooks"],
     "env": {
         "node": true,
         "es6": true
@@ -20,7 +20,9 @@
         "linebreak-style": ["error", "unix"],
         "indent": ["error", 4],
         "no-trailing-spaces": "error",
-        "quotes": ["error", "single"]
+        "quotes": ["error", "single"],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

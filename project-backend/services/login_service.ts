@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 import { Credentials, UserForToken } from '../types/types';
 import { handleError } from '../util/error_handler';
-import { isNumber, isObject, isString } from '../types/type_functions';
+import { isBoolean, isNumber, isObject, isString } from '../types/type_functions';
 import { SECRET } from '../util/config';
 import { User } from '../models';
 
@@ -15,6 +15,7 @@ export enum LoginError {
 export interface LoginResult {
     token: string;
     username: string;
+    admin: boolean;
 }
 
 export enum LogoutResult {
@@ -41,7 +42,9 @@ const login = async (credentials: Credentials): Promise<LoginResult | LoginError
             return LoginError.InvalidPassword;
         }
 
-        if (!('username' in user && isString(user.username) && 'id' in user && isNumber(user.id) && 'token' in user)) {
+        if (
+            !('username' in user && isString(user.username) && 'id' in user && isNumber(user.id) && 'token' in user && 'admin' in user && isBoolean(user.admin))
+        ) {
             return LoginError.SomethingWentWrong;
         }
 
@@ -58,6 +61,7 @@ const login = async (credentials: Credentials): Promise<LoginResult | LoginError
         return {
             token: token,
             username: user.username,
+            admin: user.admin,
         };
     } catch (err) {
         handleError(err);

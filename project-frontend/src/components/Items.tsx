@@ -3,13 +3,16 @@ import '../App.css';
 import { useParams } from 'react-router-dom';
 
 import { isNumber } from '../types/type_functions';
-import { Category } from '../types/types';
+import { Category, LoggedUser } from '../types/types';
+
+import AddItemForm from './AddItemForm';
 
 interface Props {
     categories: Category[];
+    loggedUser: LoggedUser | null;
 }
 
-const Items = ({ categories }: Props) => {
+const Items = ({ categories, loggedUser }: Props) => {
     const id = Number(useParams().id);
     const category = id && isNumber(id) ? categories.find((c) => c.id === id) : undefined;
 
@@ -35,6 +38,7 @@ const Items = ({ categories }: Props) => {
                         ))}
                     </tbody>
                 </table>
+                {loggedUser?.admin ? <AddItemForm /> : <></>}
             </div>
         </>
     );

@@ -20,6 +20,7 @@ export interface Item {
 export interface LoggedUser {
     token: string;
     username: string;
+    admin: boolean;
 }
 
 export interface User {
