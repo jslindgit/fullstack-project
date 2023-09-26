@@ -2,6 +2,30 @@ import { Link } from 'react-router-dom';
 
 import '../App.css';
 import { Category } from '../types/types';
+import { getLoggedUser } from '../util/logged_handler';
+import loginService from '../services/loginService';
+
+const login = () => {
+    const loggedUser = getLoggedUser();
+
+    console.log('loggedUser:', loggedUser);
+
+    if (loggedUser) {
+        return (
+            <>
+                Logged in as {loggedUser?.username}
+                <br />
+                <Link to='/' onClick={() => loginService.logout} />
+            </>
+        );
+    } else {
+        return (
+            <Link to='/login'>
+                <h3>Login</h3>
+            </Link>
+        );
+    }
+};
 
 interface Props {
     categories: Category[];
@@ -16,7 +40,7 @@ const Menu = ({ categories }: Props) => {
                         <tr>
                             <td>
                                 <Link to='/'>
-                                    <h3>Main Page</h3>
+                                    <h3>Home</h3>
                                 </Link>
                             </td>
                             {categories.map((c) => (
@@ -26,11 +50,7 @@ const Menu = ({ categories }: Props) => {
                                     </Link>
                                 </td>
                             ))}
-                            <td>
-                                <Link to='/login'>
-                                    <h3>Login</h3>
-                                </Link>
-                            </td>
+                            <td>{login()}</td>
                         </tr>
                     </tbody>
                 </table>

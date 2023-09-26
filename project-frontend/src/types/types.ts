@@ -17,6 +17,11 @@ export interface Item {
     instock: number;
 }
 
+export interface LoggedUser {
+    token: string;
+    username: string;
+}
+
 export interface User {
     id: number;
     username: string;
