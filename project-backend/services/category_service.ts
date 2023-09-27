@@ -50,10 +50,14 @@ const getAll = async (searchQuery: string = ''): Promise<Array<Category> | null>
                 {
                     model: Item,
                     through: { attributes: [] },
+                    attributes: ['id', 'name', 'description', 'price', 'instock'],
                 },
             ],
             where,
-            order: [['name', 'ASC']],
+            order: [
+                ['name', 'ASC'],
+                [Item, 'name', 'ASC'],
+            ],
         });
 
         return categories;

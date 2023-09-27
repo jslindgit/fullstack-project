@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
 import service from '../services/item_category_service';
 import { toNewItem_Category } from '../types/type_functions';
+import { tokenExtractor } from '../middlewares/token_extractor';
 
 const router = express.Router();
 
@@ -46,12 +48,16 @@ router.get('/:id', (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.post('/', (async (req, res, next) => {
+router.post('/', tokenExtractor, (async (req, res, next) => {
     try {
-        const newItem_Category = toNewItem_Category(req.body);
-        const addedItem_Category = await service.addNew(newItem_Category);
+        if (res.locals.admin === true) {
+            const newItem_Category = toNewItem_Category(req.body);
+            const addedItem_Category = await service.addNew(newItem_Category);
 
-        res.status(201).json(addedItem_Category);
+            res.status(201).json(addedItem_Category);
+        } else {
+            res.status(403).json({ error: 'Access denied' });
+        }
     } catch (err) {
         next(err);
     }

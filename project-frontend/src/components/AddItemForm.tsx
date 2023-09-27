@@ -4,8 +4,15 @@ import { ChangeEventHandler, useState } from 'react';
 
 import useField from '../hooks/useField';
 import itemService from '../services/itemService';
+import { Category, Config } from '../types/types';
 
-const AddItemForm = () => {
+interface Props {
+    token: string;
+    config: Config;
+    categories: Category[];
+}
+
+const AddItemForm = ({ token, config, categories }: Props) => {
     const name = useField('text');
     const description = useField('text');
     const price = useField('number');
@@ -35,7 +42,13 @@ const AddItemForm = () => {
 
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const response = await itemService.add({ name: name.value, description: description.value, price: price.value, instock: instock.value });
+        const selectElement = document.getElementById('categorySelect') as HTMLSelectElement;
+        const response = await itemService.add(
+            { name: name.value, description: description.value, price: price.value, instock: instock.value },
+            Number(selectElement.value),
+            token,
+            config
+        );
         setMessage(response);
 
         name.reset();
@@ -60,6 +73,18 @@ const AddItemForm = () => {
                         {inputField('Description', description.type, description.value, description.onChange)}
                         {inputField('Price', price.type, price.value, price.onChange)}
                         {inputField('In stock', instock.type, instock.value, instock.onChange)}
+                        <tr>
+                            <td>Category:</td>
+                            <td>
+                                <select id='categorySelect' name='category'>
+                                    {categories.map((c) => (
+                                        <option value={c.id} key={c.id}>
+                                            {c.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </td>
+                        </tr>
                         <tr>
                             <td></td>
                             <td>

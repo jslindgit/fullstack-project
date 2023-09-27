@@ -7,7 +7,10 @@ export interface Category {
 
 export interface Config {
     storeName: string;
+    currency: Currency;
 }
+
+export type Currency = 'EUR' | 'USD';
 
 export interface Item {
     id: number;

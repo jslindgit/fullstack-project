@@ -52,7 +52,7 @@ function App() {
                                     <Routes>
                                         <Route path='/' element={<Home config={config} />} />
                                         <Route path='/login' element={<Login loggedUser={loggedUser} setLoggedUser={setLoggedUser} />} />
-                                        <Route path='/products/:id' element={<Items categories={categories} loggedUser={loggedUser} />} />
+                                        <Route path='/products/:id' element={<Items categories={categories} loggedUser={loggedUser} config={config} />} />
                                     </Routes>
                                 </Router>
                             </td>

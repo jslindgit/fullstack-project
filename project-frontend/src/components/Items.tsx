@@ -3,16 +3,17 @@ import '../App.css';
 import { useParams } from 'react-router-dom';
 
 import { isNumber } from '../types/type_functions';
-import { Category, LoggedUser } from '../types/types';
+import { Category, Config, LoggedUser } from '../types/types';
 
 import AddItemForm from './AddItemForm';
 
 interface Props {
     categories: Category[];
     loggedUser: LoggedUser | null;
+    config: Config;
 }
 
-const Items = ({ categories, loggedUser }: Props) => {
+const Items = ({ categories, loggedUser, config }: Props) => {
     const id = Number(useParams().id);
     const category = id && isNumber(id) ? categories.find((c) => c.id === id) : undefined;
 
@@ -27,18 +28,25 @@ const Items = ({ categories, loggedUser }: Props) => {
                 <p>{category.description}</p>
                 <table align='center'>
                     <tbody>
+                        <tr>
+                            <td>Product</td>
+                            <td>Description</td>
+                            <td>Price</td>
+                            <td>In stock</td>
+                            <td>Product code</td>
+                        </tr>
                         {category.items.map((item) => (
                             <tr key={item.id}>
                                 <td>{item.name}</td>
                                 <td>{item.description}</td>
                                 <td>{item.price} €</td>
-                                <td>In stock: {item.instock}</td>
-                                <td>Product code: {item.id}</td>
+                                <td>{item.instock}</td>
+                                <td>{item.id}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-                {loggedUser?.admin ? <AddItemForm /> : <></>}
+                {loggedUser?.admin ? <AddItemForm token={loggedUser?.token} config={config} categories={categories} /> : <></>}
             </div>
         </>
     );

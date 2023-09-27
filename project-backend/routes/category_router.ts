@@ -1,21 +1,27 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
 import service from '../services/category_service';
 import { isString, toNewCategory } from '../types/type_functions';
+import { tokenExtractor } from '../middlewares/token_extractor';
 
 const router = express.Router();
 
-router.delete('/:id', (async (req, res, next) => {
+router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const deletedCategory = await service.deleteById(req.params.id);
-        if (deletedCategory) {
-            res.status(204).end();
+        if (res.locals.admin === true) {
+            const deletedCategory = await service.deleteById(req.params.id);
+            if (deletedCategory) {
+                res.status(204).end();
+            } else {
+                res.status(404).json({
+                    error: `Category with id ${req.params.id} not found`,
+                });
+            }
         } else {
-            res.status(404).json({
-                error: `Category with id ${req.params.id} not found`,
-            });
+            res.status(403).json({ error: 'Access denied' });
         }
     } catch (err) {
         next(err);
@@ -46,12 +52,16 @@ router.get('/:id', (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.post('/', (async (req, res, next) => {
+router.post('/', tokenExtractor, (async (req, res, next) => {
     try {
-        const newCategory = toNewCategory(req.body);
-        const addedCategory = await service.addNew(newCategory);
+        if (res.locals.admin === true) {
+            const newCategory = toNewCategory(req.body);
+            const addedCategory = await service.addNew(newCategory);
 
-        res.status(201).json(addedCategory);
+            res.status(201).json(addedCategory);
+        } else {
+            res.status(403).json({ error: 'Access denied' });
+        }
     } catch (err) {
         next(err);
     }

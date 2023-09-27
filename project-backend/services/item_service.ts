@@ -1,15 +1,21 @@
 import { Op } from 'sequelize';
 
-import { Item } from '../models';
-import { NewItem } from '../types/types';
-import { isNumber, isObject } from '../types/type_functions';
+import { Category, Item } from '../models';
+import { NewItem, NewItem_Category } from '../types/types';
+import { isNumber, isObject, toNewItem_Category } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
-import { Category } from '../models/category';
+import item_category_service from './item_category_service';
 
-const addNew = async (newItem: NewItem): Promise<Item | null> => {
+const addNew = async (newItem: NewItem, category_id: number | null): Promise<Item | null> => {
     try {
         const item = await Item.create(newItem);
         await item.save();
+
+        if (category_id && 'id' in item) {
+            const newItem_Category: NewItem_Category = toNewItem_Category({ item_id: item.id, category_id: category_id });
+            await item_category_service.addNew(newItem_Category);
+        }
+
         return item;
     } catch (err: unknown) {
         handleError(err);
@@ -49,6 +55,7 @@ const getAll = async (searchQuery: string = ''): Promise<Array<Item> | null> => 
             include: [
                 {
                     model: Category,
+                    attributes: ['id', 'name'],
                     through: { attributes: [] },
                 },
             ],

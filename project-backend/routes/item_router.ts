@@ -5,7 +5,7 @@ import { RequestHandler } from 'express';
 import { errorHandler } from '../middlewares/errors';
 import { tokenExtractor } from '../middlewares/token_extractor';
 import service from '../services/item_service';
-import { isString, toNewItem } from '../types/type_functions';
+import { isNumber, isObject, isString, toNewItem } from '../types/type_functions';
 
 const router = express.Router();
 
@@ -56,7 +56,11 @@ router.post('/', tokenExtractor, (async (req, res, next) => {
     try {
         if (res.locals.admin === true) {
             const newItem = toNewItem(req.body);
-            const addedItem = await service.addNew(newItem);
+            let category_id = null;
+            if (isObject(req.body) && 'category_id' in req.body && isNumber(req.body.category_id)) {
+                category_id = req.body.category_id;
+            }
+            const addedItem = await service.addNew(newItem, category_id);
 
             res.status(201).json(addedItem);
         } else {
