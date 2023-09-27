@@ -35,6 +35,9 @@ const login = async (username: string, password: string, setLoggedUser: React.Di
 };
 
 const logout = async (token: string, setLoggedUser: React.Dispatch<React.SetStateAction<LoggedUser | null>>) => {
+    localstorage_handler.setLoggedUser(null);
+    setLoggedUser(null);
+
     try {
         await axios.delete(url, {
             headers: {
@@ -44,9 +47,6 @@ const logout = async (token: string, setLoggedUser: React.Dispatch<React.SetStat
     } catch (err: unknown) {
         handleError(err);
     }
-
-    localstorage_handler.setLoggedUser(null);
-    setLoggedUser(null);
 };
 
 export default {

@@ -16,6 +16,27 @@ export const isString = (text: unknown): text is string => {
     return typeof text === 'string' || text instanceof String;
 };
 
+const parseBoolean = (value: unknown, fieldName: string): boolean => {
+    if (!value || !isBoolean(value)) {
+        throw new Error(`Incorrect or missing value for ${fieldName}: "${value}"`);
+    }
+    return value;
+};
+
+const parseNumber = (value: unknown, fieldName: string): number => {
+    if (!value || !isNumber(value)) {
+        throw new Error(`Incorrect or missing value for ${fieldName}: "${value}"`);
+    }
+    return value;
+};
+
+const parseString = (value: unknown, fieldName: string): string => {
+    if (!value || !isString(value)) {
+        throw new Error(`Incorrect or missing value for ${fieldName}: "${value}"`);
+    }
+    return value;
+};
+
 export const toCredentials = (object: unknown): Credentials => {
     if (!isObject(object)) {
         throw new Error('Incorrect or missing data for toCredentials');
@@ -104,25 +125,4 @@ export const toNewUser = (object: unknown): NewUser => {
     }
 
     throw new Error('Incorrect data: some fields ("username" or "name") are missing for toNewUser');
-};
-
-const parseBoolean = (value: unknown, fieldName: string): boolean => {
-    if (!value || !isBoolean(value)) {
-        throw new Error(`Incorrect or missing value for ${fieldName}: "${value}"`);
-    }
-    return value;
-};
-
-const parseNumber = (value: unknown, fieldName: string): number => {
-    if (!value || !isNumber(value)) {
-        throw new Error(`Incorrect or missing value for ${fieldName}: "${value}"`);
-    }
-    return value;
-};
-
-const parseString = (value: unknown, fieldName: string): string => {
-    if (!value || !isString(value)) {
-        throw new Error(`Incorrect or missing value for ${fieldName}: "${value}"`);
-    }
-    return value;
 };

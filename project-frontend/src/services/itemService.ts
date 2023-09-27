@@ -2,12 +2,13 @@ import axios from 'axios';
 
 import { apiBaseUrl } from '../constants';
 import { Item as Interface } from '../types/types';
+import { toNewItem } from '../types/type_functions';
 
 const url = apiBaseUrl + '/items';
 
-const add = async (): Promise<string> => {
+const add = async (toAdd: object): Promise<string> => {
     // TODO: post a new item to server
-    return 'temp response';
+    return toNewItem(toAdd).name;
 };
 
 const deleteById = async (id: number) => {

@@ -1,15 +1,27 @@
 import '../App.css';
 
-import { useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 
+import useField from '../hooks/useField';
 import itemService from '../services/itemService';
 
 const AddItemForm = () => {
-    const [name, setName] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
-    const [price, setPrice] = useState<number>(0);
-    const [instock, setInstock] = useState<number>(0);
+    const name = useField('text');
+    const description = useField('text');
+    const price = useField('number');
+    const instock = useField('number');
     const [message, setMessage] = useState<string>('');
+
+    const inputField = (label: string, type: string, value: string | number, onChange: ChangeEventHandler<HTMLInputElement>) => (
+        <>
+            <tr>
+                <td width='10'>{label}:</td>
+                <td>
+                    <input type={type} value={value} onChange={onChange} />
+                </td>
+            </tr>
+        </>
+    );
 
     const showMessage = () => {
         if (message && message.length > 0) {
@@ -23,13 +35,13 @@ const AddItemForm = () => {
 
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const response = await itemService.add(); // TODO: <- new item as props
+        const response = await itemService.add({ name: name.value, description: description.value, price: price.value, instock: instock.value });
         setMessage(response);
 
-        setName('');
-        setDescription('');
-        setPrice(0);
-        setInstock(0);
+        name.reset();
+        description.reset();
+        price.reset();
+        instock.reset();
     };
 
     return (
@@ -42,31 +54,16 @@ const AddItemForm = () => {
                         <tr>
                             <td width='10'>Name:</td>
                             <td>
-                                <input value={name} onChange={({ target }) => setName(target.value)} />
+                                <input type={name.type} value={name.value} onChange={name.onChange} />
                             </td>
                         </tr>
-                        <tr>
-                            <td width='10'>Description:</td>
-                            <td>
-                                <input value={description} onChange={({ target }) => setDescription(target.value)} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width='10'>Price:</td>
-                            <td>
-                                <input type='number' value={price} onChange={({ target }) => setPrice(Number(target.value))} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width='10'>Name:</td>
-                            <td>
-                                <input type='number' value={instock} onChange={({ target }) => setInstock(Number(target.value))} />
-                            </td>
-                        </tr>
+                        {inputField('Description', description.type, description.value, description.onChange)}
+                        {inputField('Price', price.type, price.value, price.onChange)}
+                        {inputField('In stock', instock.type, instock.value, instock.onChange)}
                         <tr>
                             <td></td>
                             <td>
-                                <button type='submit'>Login</button>
+                                <button type='submit'>Add</button>
                             </td>
                         </tr>
                     </tbody>

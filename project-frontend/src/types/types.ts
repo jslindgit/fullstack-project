@@ -17,6 +17,8 @@ export interface Item {
     instock: number;
 }
 
+export type NewItem = Omit<Item, 'id'>;
+
 export interface LoggedUser {
     token: string;
     username: string;

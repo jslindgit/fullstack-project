@@ -3,10 +3,10 @@ import { AxiosError } from 'axios';
 export const handleError = (err: unknown): void => {
     let errorMessage = 'Something went wrong.';
     if (err instanceof Error) {
-        errorMessage = err.name + ': ' + err.message;
+        errorMessage = `${err.name}: ${err.message}`;
 
         if (err instanceof AxiosError) {
-            errorMessage += ' (AxiosError.Status: ' + err.status + ')';
+            errorMessage += ` (AxiosError.Status: ${err.response?.status}: "${err.response?.data.error}")`;
         }
     }
 
