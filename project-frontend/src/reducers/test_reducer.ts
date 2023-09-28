@@ -1,37 +1,32 @@
-export interface CounterState {
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+export interface TestState {
     viirit: number;
     liput: number;
 }
 
-export type CounterAction = { type: 'VIIRI' } | { type: 'LIPPU' };
-
-const initialState: CounterState = {
+const initialState: TestState = {
     viirit: 0,
     liput: 0,
 };
 
-export const addViiri = (): CounterAction => {
-    return {
-        type: 'VIIRI',
-    };
-};
+const testSlice = createSlice({
+    name: 'test',
+    initialState,
+    reducers: {
+        addViiri(state: TestState, action: PayloadAction<number>) {
+            state.viirit += action.payload;
+        },
+        addLippu(state: TestState, action: PayloadAction<number>) {
+            state.liput += action.payload;
+        },
+        setState(_state: TestState, action: PayloadAction<TestState>) {
+            return action.payload;
+        },
+    },
+});
 
-export const addLippu = (): CounterAction => {
-    return {
-        type: 'LIPPU',
-    };
-};
+//console.log(JSON.parse(JSON.stringify(state)))
 
-/*eslint indent: [2, 4, {"SwitchCase": 1}]*/
-const testReducer = (state: CounterState = initialState, action: CounterAction) => {
-    switch (action.type) {
-        case 'VIIRI':
-            return { ...state, viirit: state.viirit + 1 };
-        case 'LIPPU':
-            return { ...state, liput: state.liput + 1 };
-        default:
-            return state;
-    }
-};
-
-export default testReducer;
+export const { addLippu, addViiri, setState } = testSlice.actions;
+export default testSlice.reducer;

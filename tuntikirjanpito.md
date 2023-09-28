@@ -16,5 +16,6 @@
 | 25.9. | 2    | Lisää käyttäjänhallintaa backendiin ja frontendiin                                 |
 | 26.9. | 2    | Lisää käyttäjienhallintaa ja uusien tuotteiden lisäys aluilleen                    |
 | 27.9. | 4    | Frontendiin tuotteenlisäysmahdollisuus + backendiin hienosäätöä                    |
+| 28.9. | 3    | Reduxin käyttöönottoa                                                              |
 
-| yht | 29 | |
+| yht | 32 | |

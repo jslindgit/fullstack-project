@@ -5,8 +5,8 @@ import { Category, LoggedUser } from '../types/types';
 import loginService from '../services/loginService';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addLippu, addViiri } from '../reducers/test_reducer';
-import { CounterState } from '../reducers/test_reducer';
+import { addLippu, addViiri, setState } from '../reducers/test_reducer';
+import { RootState } from '../reducers/root_reducer';
 
 const login = (loggedUser: LoggedUser | null, setLoggedUser: React.Dispatch<React.SetStateAction<LoggedUser | null>>) => {
     if (loggedUser) {
@@ -37,7 +37,7 @@ interface Props {
 
 const Menu = ({ categories, loggedUser, setLoggedUser }: Props) => {
     const dispatch = useDispatch();
-    const state: CounterState = useSelector((state: CounterState) => state);
+    const state = useSelector((state: RootState) => state.test);
 
     return (
         <>
@@ -54,7 +54,7 @@ const Menu = ({ categories, loggedUser, setLoggedUser }: Props) => {
                                 <Link
                                     to='#'
                                     onClick={() => {
-                                        dispatch(addViiri());
+                                        dispatch(addViiri(1));
                                     }}
                                 >
                                     viiri ({state.viirit})
@@ -64,10 +64,20 @@ const Menu = ({ categories, loggedUser, setLoggedUser }: Props) => {
                                 <Link
                                     to='#'
                                     onClick={() => {
-                                        dispatch(addLippu());
+                                        dispatch(addLippu(2));
                                     }}
                                 >
                                     lippu ({state.liput})
+                                </Link>
+                            </td>
+                            <td>
+                                <Link
+                                    to='#'
+                                    onClick={() => {
+                                        dispatch(setState({ viirit: 50, liput: 100 }));
+                                    }}
+                                >
+                                    set
                                 </Link>
                             </td>
                             {categories.map((c) => (
