@@ -4,6 +4,10 @@ import '../App.css';
 import { Category, LoggedUser } from '../types/types';
 import loginService from '../services/loginService';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { addLippu, addViiri } from '../reducers/test_reducer';
+import { CounterState } from '../reducers/test_reducer';
+
 const login = (loggedUser: LoggedUser | null, setLoggedUser: React.Dispatch<React.SetStateAction<LoggedUser | null>>) => {
     if (loggedUser) {
         return (
@@ -32,6 +36,9 @@ interface Props {
 }
 
 const Menu = ({ categories, loggedUser, setLoggedUser }: Props) => {
+    const dispatch = useDispatch();
+    const state: CounterState = useSelector((state: CounterState) => state);
+
     return (
         <>
             <div>
@@ -41,6 +48,26 @@ const Menu = ({ categories, loggedUser, setLoggedUser }: Props) => {
                             <td>
                                 <Link to='/'>
                                     <h3>Home</h3>
+                                </Link>
+                            </td>
+                            <td>
+                                <Link
+                                    to='#'
+                                    onClick={() => {
+                                        dispatch(addViiri());
+                                    }}
+                                >
+                                    viiri ({state.viirit})
+                                </Link>
+                            </td>
+                            <td>
+                                <Link
+                                    to='#'
+                                    onClick={() => {
+                                        dispatch(addLippu());
+                                    }}
+                                >
+                                    lippu ({state.liput})
                                 </Link>
                             </td>
                             {categories.map((c) => (

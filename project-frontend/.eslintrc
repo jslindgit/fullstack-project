@@ -1,9 +1,5 @@
 {
-    "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
-    ],
+    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/recommended-requiring-type-checking"],
     "plugins": ["@typescript-eslint", "react-hooks"],
     "env": {
         "node": true,
@@ -18,7 +14,7 @@
         "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
         "no-case-declarations": "off",
         "linebreak-style": ["error", "unix"],
-        "indent": ["error", 4],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
         "no-trailing-spaces": "error",
         "quotes": ["error", "single"],
         "react-hooks/rules-of-hooks": "error",
