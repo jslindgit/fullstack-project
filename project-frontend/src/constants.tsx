@@ -1,8 +1,9 @@
-import { Config } from './types/types';
+import { Currency, Config } from './types/types';
 
 export const apiBaseUrl = 'http://localhost:3001/api';
 
 export const defaultConfig: Config = {
     storeName: 'Webstore',
-    currency: 'EUR',
+    currency: Currency.EUR,
+    currencyBeforeSum: false,
 };

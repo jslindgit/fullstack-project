@@ -1,23 +1,26 @@
 import '../App.css';
 
 import { ChangeEventHandler, useState } from 'react';
+import { useSelector } from 'react-redux';
 
+import { RootState } from '../reducers/root_reducer';
 import useField from '../hooks/useField';
 import itemService from '../services/itemService';
-import { Category, Config } from '../types/types';
 
 interface Props {
     token: string;
-    config: Config;
-    categories: Category[];
+    selected_category_id: number;
 }
 
-const AddItemForm = ({ token, config, categories }: Props) => {
+const AddItemForm = ({ token, selected_category_id }: Props) => {
     const name = useField('text');
     const description = useField('text');
     const price = useField('number');
     const instock = useField('number');
     const [message, setMessage] = useState<string>('');
+
+    const categoriesState = useSelector((state: RootState) => state.categories);
+    const configState = useSelector((state: RootState) => state.config);
 
     const inputField = (label: string, type: string, value: string | number, onChange: ChangeEventHandler<HTMLInputElement>) => (
         <>
@@ -43,12 +46,7 @@ const AddItemForm = ({ token, config, categories }: Props) => {
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
         const selectElement = document.getElementById('categorySelect') as HTMLSelectElement;
-        const response = await itemService.add(
-            { name: name.value, description: description.value, price: price.value, instock: instock.value },
-            Number(selectElement.value),
-            token,
-            config
-        );
+        const response = await itemService.add({ name: name.value, description: description.value, price: price.value, instock: instock.value }, Number(selectElement.value), token, configState);
         setMessage(response);
 
         name.reset();
@@ -77,8 +75,8 @@ const AddItemForm = ({ token, config, categories }: Props) => {
                             <td>Category:</td>
                             <td>
                                 <select id='categorySelect' name='category'>
-                                    {categories.map((c) => (
-                                        <option value={c.id} key={c.id}>
+                                    {categoriesState.map((c) => (
+                                        <option key={c.id} value={c.id} selected={c.id === selected_category_id}>
                                             {c.name}
                                         </option>
                                     ))}

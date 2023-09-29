@@ -4,7 +4,7 @@ import { Category } from '../types/types';
 
 export type CategoryState = Category[];
 
-const categorySlice = createSlice({
+const slice = createSlice({
     name: 'categories',
     initialState: [] as CategoryState,
     reducers: {
@@ -14,5 +14,5 @@ const categorySlice = createSlice({
     },
 });
 
-export const { setCategories } = categorySlice.actions;
-export default categorySlice.reducer;
+export const { setCategories } = slice.actions;
+export default slice.reducer;

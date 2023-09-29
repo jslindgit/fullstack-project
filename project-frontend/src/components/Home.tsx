@@ -1,11 +1,12 @@
 import '../App.css';
-import { Config } from '../types/types';
 
-interface Props {
-    config: Config;
-}
+import { useSelector } from 'react-redux';
 
-const MainPage = ({ config }: Props) => {
+import { RootState } from '../reducers/root_reducer';
+
+const MainPage = () => {
+    const configState = useSelector((state: RootState) => state.config);
+
     return (
         <>
             <div>
@@ -13,7 +14,7 @@ const MainPage = ({ config }: Props) => {
                     <tbody>
                         <tr>
                             <td>
-                                <h2>Welcome to {config.storeName}</h2>
+                                <h2>Welcome to {configState.storeName}</h2>
                             </td>
                         </tr>
                     </tbody>

@@ -7,7 +7,7 @@ import { LoggedUser } from '../types/types';
 
 const url = apiBaseUrl + '/login';
 
-const login = async (username: string, password: string, setLoggedUser: React.Dispatch<React.SetStateAction<LoggedUser | null>>): Promise<string> => {
+const login = async (username: string, password: string, setLoggedUser: (loggedUser: LoggedUser | null) => void): Promise<string> => {
     try {
         const res = await axios.post(url, { username: username, password: password });
 
@@ -34,7 +34,7 @@ const login = async (username: string, password: string, setLoggedUser: React.Di
     }
 };
 
-const logout = async (token: string, setLoggedUser: React.Dispatch<React.SetStateAction<LoggedUser | null>>) => {
+const logout = async (token: string, setLoggedUser: (loggedUser: LoggedUser | null) => void) => {
     localstorage_handler.setLoggedUser(null);
     setLoggedUser(null);
 

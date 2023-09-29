@@ -1,18 +1,25 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { LoggedUser } from '../types/types';
+import { RootState } from '../reducers/root_reducer';
+
 import loginService from '../services/loginService';
 
-interface Props {
-    loggedUser: LoggedUser | null;
-    setLoggedUser: React.Dispatch<React.SetStateAction<LoggedUser | null>>;
-}
+import { setLoggedUser } from '../reducers/users_reducer';
 
-const Login = ({ loggedUser, setLoggedUser }: Props) => {
+const Login = () => {
     const [message, setMessage] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+
+    const dispatch = useDispatch();
+    const usersState = useSelector((state: RootState) => state.users);
+
+    const setLogged = (loggedUser: LoggedUser | null) => {
+        dispatch(setLoggedUser(loggedUser));
+    };
 
     const loginForm = () => (
         <>
@@ -29,11 +36,7 @@ const Login = ({ loggedUser, setLoggedUser }: Props) => {
                         <tr>
                             <td>Password:</td>
                             <td>
-                                <input
-                                    type='password'
-                                    value={password}
-                                    onChange={({ target }) => setPassword(target.value)}
-                                />
+                                <input type='password' value={password} onChange={({ target }) => setPassword(target.value)} />
                             </td>
                         </tr>
                         <tr>
@@ -49,12 +52,13 @@ const Login = ({ loggedUser, setLoggedUser }: Props) => {
     );
 
     const userInfo = () => {
-        if (loggedUser) {
+        if (usersState.loggedUser) {
+            const logged = usersState.loggedUser;
             return (
                 <>
-                    <h2>Logged in as {loggedUser?.username}</h2>
+                    <h2>Logged in as {logged.username}</h2>
                     <br />
-                    <Link to='/login' onClick={async () => await loginService.logout(loggedUser.token, setLoggedUser)}>
+                    <Link to='/login' onClick={async () => await loginService.logout(logged.token, setLogged)}>
                         <h2>Logout</h2>
                     </Link>
                 </>
@@ -74,7 +78,7 @@ const Login = ({ loggedUser, setLoggedUser }: Props) => {
 
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const response = await loginService.login(username, password, setLoggedUser);
+        const response = await loginService.login(username, password, setLogged);
         setMessage(response);
         setUsername('');
         setPassword('');
@@ -83,7 +87,7 @@ const Login = ({ loggedUser, setLoggedUser }: Props) => {
     return (
         <div>
             {showMessage()}
-            {loggedUser ? userInfo() : loginForm()}
+            {usersState.loggedUser ? userInfo() : loginForm()}
         </div>
     );
 };

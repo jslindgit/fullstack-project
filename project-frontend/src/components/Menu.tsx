@@ -1,14 +1,15 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import '../App.css';
-import { Category, LoggedUser } from '../types/types';
-import loginService from '../services/loginService';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { addLippu, addViiri, setState } from '../reducers/test_reducer';
+import { LoggedUser } from '../types/types';
 import { RootState } from '../reducers/root_reducer';
 
-const login = (loggedUser: LoggedUser | null, setLoggedUser: React.Dispatch<React.SetStateAction<LoggedUser | null>>) => {
+import loginService from '../services/loginService';
+import { setLoggedUser } from '../reducers/users_reducer';
+
+import '../App.css';
+
+const login = (loggedUser: LoggedUser | null, setLoggedUser: (loggedUser: LoggedUser | null) => void) => {
     if (loggedUser) {
         return (
             <>
@@ -29,15 +30,14 @@ const login = (loggedUser: LoggedUser | null, setLoggedUser: React.Dispatch<Reac
     }
 };
 
-interface Props {
-    categories: Category[];
-    loggedUser: LoggedUser | null;
-    setLoggedUser: React.Dispatch<React.SetStateAction<LoggedUser | null>>;
-}
-
-const Menu = ({ categories, loggedUser, setLoggedUser }: Props) => {
+const Menu = () => {
     const dispatch = useDispatch();
-    const state = useSelector((state: RootState) => state.test);
+    const categoryState = useSelector((state: RootState) => state.categories);
+    const usersState = useSelector((state: RootState) => state.users);
+
+    const setLogged = (loggedUser: LoggedUser | null) => {
+        dispatch(setLoggedUser(loggedUser));
+    };
 
     return (
         <>
@@ -50,44 +50,14 @@ const Menu = ({ categories, loggedUser, setLoggedUser }: Props) => {
                                     <h3>Home</h3>
                                 </Link>
                             </td>
-                            <td>
-                                <Link
-                                    to='#'
-                                    onClick={() => {
-                                        dispatch(addViiri(1));
-                                    }}
-                                >
-                                    viiri ({state.viirit})
-                                </Link>
-                            </td>
-                            <td>
-                                <Link
-                                    to='#'
-                                    onClick={() => {
-                                        dispatch(addLippu(2));
-                                    }}
-                                >
-                                    lippu ({state.liput})
-                                </Link>
-                            </td>
-                            <td>
-                                <Link
-                                    to='#'
-                                    onClick={() => {
-                                        dispatch(setState({ viirit: 50, liput: 100 }));
-                                    }}
-                                >
-                                    set
-                                </Link>
-                            </td>
-                            {categories.map((c) => (
+                            {categoryState.map((c) => (
                                 <td key={c.id}>
                                     <Link to={'/products/' + c.id}>
                                         <h3>{c.name}</h3>
                                     </Link>
                                 </td>
                             ))}
-                            <td>{login(loggedUser, setLoggedUser)}</td>
+                            <td>{login(usersState.loggedUser, setLogged)}</td>
                         </tr>
                     </tbody>
                 </table>

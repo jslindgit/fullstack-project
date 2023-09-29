@@ -1,12 +1,18 @@
 import { combineReducers } from 'redux';
-import testReducer, { TestState } from './test_reducer';
+import categoryReducer, { CategoryState } from './category_reducer';
+import configReducer, { ConfigState } from './config_reducer';
+import usersReducer, { UsersState } from './users_reducer';
 
 export interface RootState {
-    test: TestState;
+    categories: CategoryState;
+    config: ConfigState;
+    users: UsersState;
 }
 
 const rootReducer = combineReducers({
-    test: testReducer,
+    categories: categoryReducer,
+    config: configReducer,
+    users: usersReducer,
 });
 
 export default rootReducer;

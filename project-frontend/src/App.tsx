@@ -1,41 +1,43 @@
 import './App.css';
 
+// Libraries:
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
+// Functions/values:
 import { apiBaseUrl } from './constants';
-import { Category, Config, LoggedUser } from './types/types';
 import categoryService from './services/categoryService';
-import { defaultConfig } from './constants';
 import localstorage_handler from './util/localstorage_handler';
 
+// Reducers:
+import { setCategories } from './reducers/category_reducer';
+import { setLoggedUser } from './reducers/users_reducer';
+
+// Components:
 import Home from './components/Home';
 import Items from './components/Items';
 import Menu from './components/Menu';
 import Login from './components/Login';
 
 function App() {
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [config, setConfig] = useState<Config>(defaultConfig);
     const [loaded, setLoaded] = useState<boolean>(false);
-    const [loggedUser, setLoggedUser] = useState<LoggedUser | null>(null);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         void axios.get(`${apiBaseUrl}/ping`);
 
         const fetchData = async () => {
-            setConfig(defaultConfig); // temp
-
-            const categories = await categoryService.getAll();
-            setCategories(categories);
+            dispatch(setCategories(await categoryService.getAll()));
         };
         void fetchData();
 
-        setLoggedUser(localstorage_handler.getLoggedUser());
+        dispatch(setLoggedUser(localstorage_handler.getLoggedUser()));
 
         setLoaded(true);
-    }, []);
+    }, [dispatch]);
 
     if (!loaded) {
         return <div>Loading...</div>;
@@ -48,11 +50,11 @@ function App() {
                         <tr>
                             <td>
                                 <Router>
-                                    <Menu categories={categories} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />
+                                    <Menu />
                                     <Routes>
-                                        <Route path='/' element={<Home config={config} />} />
-                                        <Route path='/login' element={<Login loggedUser={loggedUser} setLoggedUser={setLoggedUser} />} />
-                                        <Route path='/products/:id' element={<Items categories={categories} loggedUser={loggedUser} config={config} />} />
+                                        <Route path='/' element={<Home />} />
+                                        <Route path='/login' element={<Login />} />
+                                        <Route path='/products/:id' element={<Items />} />
                                     </Routes>
                                 </Router>
                             </td>

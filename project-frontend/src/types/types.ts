@@ -8,9 +8,13 @@ export interface Category {
 export interface Config {
     storeName: string;
     currency: Currency;
+    currencyBeforeSum: boolean;
 }
 
-export type Currency = 'EUR' | 'USD';
+export enum Currency {
+    EUR = '€',
+    USD = '$',
+}
 
 export interface Item {
     id: number;
