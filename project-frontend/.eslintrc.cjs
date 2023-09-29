@@ -4,7 +4,10 @@ module.exports = {
     extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react-hooks/recommended'],
     ignorePatterns: ['dist', '.eslintrc.cjs'],
     parser: '@typescript-eslint/parser',
-    plugins: ['react-refresh'],
+    parserOptions: {
+        project: './tsconfig.json',
+    },
+    plugins: ['react-refresh', '@typescript-eslint', 'react-hooks'],
     rules: {
         'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
         '@typescript-eslint/semi': ['error'],
@@ -15,8 +18,10 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
         'no-case-declarations': 'off',
         'linebreak-style': ['error', 'unix'],
-        indent: ['error', 4],
+        indent: ['error', 4, { SwitchCase: 1 }],
         'no-trailing-spaces': 'error',
         quotes: ['error', 'single'],
+        'react-hooks/rules-of-hooks': 'error',
+        'react-hooks/exhaustive-deps': 'warn',
     },
 };

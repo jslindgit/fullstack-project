@@ -1,33 +1,42 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { Link } from './CustomLink';
 
 import { LoggedUser } from '../types/types';
 import { RootState } from '../reducers/root_reducer';
 
 import loginService from '../services/loginService';
+
 import { setLoggedUser } from '../reducers/users_reducer';
+import { setNotification } from '../reducers/misc_reducer';
+import { setPreviousLocation } from '../reducers/misc_reducer';
 
 import '../App.css';
 
-const login = (loggedUser: LoggedUser | null, setLoggedUser: (loggedUser: LoggedUser | null) => void) => {
+const login = (loggedUser: LoggedUser | null, setLogged: (loggedUser: LoggedUser | null) => void, setLocation: () => void, setLogoutNotification: () => void) => {
     if (loggedUser) {
         return (
             <>
-                Logged in as {loggedUser?.username}
+                {loggedUser?.username}
                 {loggedUser.admin ? <> (Admin)</> : <></>}
                 <br />
-                <Link to='#' onClick={async () => await loginService.logout(loggedUser.token, setLoggedUser)}>
+                <Link to='#' onClick={async () => await logout(loggedUser, setLogged, setLogoutNotification)}>
                     Logout
                 </Link>
             </>
         );
     } else {
         return (
-            <Link to='/login'>
+            <Link to='/login' onClick={() => setLocation()}>
                 <h3>Login</h3>
             </Link>
         );
     }
+};
+
+const logout = async (loggedUser: LoggedUser, setLogged: (loggedUser: LoggedUser | null) => void, setLogoutNotification: () => void) => {
+    await loginService.logout(loggedUser.token, setLogged);
+    setLogoutNotification();
 };
 
 const Menu = () => {
@@ -35,8 +44,32 @@ const Menu = () => {
     const categoryState = useSelector((state: RootState) => state.categories);
     const usersState = useSelector((state: RootState) => state.users);
 
+    const currentPath = useLocation().pathname;
+
     const setLogged = (loggedUser: LoggedUser | null) => {
         dispatch(setLoggedUser(loggedUser));
+    };
+
+    const setLocation = () => {
+        dispatch(setPreviousLocation(currentPath));
+    };
+
+    const setLogoutNotification = () => {
+        dispatch(setNotification({ tone: 'Neutral', message: 'Logged out' }));
+    };
+
+    const showAdminMenu = () => {
+        if (usersState.loggedUser?.admin) {
+            return (
+                <td>
+                    <Link to='/admin/'>
+                        <h3>Admin</h3>
+                    </Link>
+                </td>
+            );
+        } else {
+            return <></>;
+        }
     };
 
     return (
@@ -57,7 +90,8 @@ const Menu = () => {
                                     </Link>
                                 </td>
                             ))}
-                            <td>{login(usersState.loggedUser, setLogged)}</td>
+                            <td>{login(usersState.loggedUser, setLogged, setLocation, setLogoutNotification)}</td>
+                            {showAdminMenu()}
                         </tr>
                     </tbody>
                 </table>

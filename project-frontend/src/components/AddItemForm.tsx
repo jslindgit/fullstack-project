@@ -1,11 +1,14 @@
 import '../App.css';
 
-import { ChangeEventHandler, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { ChangeEventHandler, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/root_reducer';
+
 import useField from '../hooks/useField';
 import itemService from '../services/itemService';
+
+import { setNotification } from '../reducers/misc_reducer';
 
 interface Props {
     token: string;
@@ -17,10 +20,20 @@ const AddItemForm = ({ token, selected_category_id }: Props) => {
     const description = useField('text');
     const price = useField('number');
     const instock = useField('number');
-    const [message, setMessage] = useState<string>('');
+    const [selectedCategory, setSelectedCategory] = useState<string>(selected_category_id.toString());
+
+    const dispatch = useDispatch();
 
     const categoriesState = useSelector((state: RootState) => state.categories);
     const configState = useSelector((state: RootState) => state.config);
+
+    useEffect(() => {
+        setSelectedCategory(selected_category_id.toString());
+    }, [selected_category_id]);
+
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedCategory(event.target.value);
+    };
 
     const inputField = (label: string, type: string, value: string | number, onChange: ChangeEventHandler<HTMLInputElement>) => (
         <>
@@ -33,21 +46,11 @@ const AddItemForm = ({ token, selected_category_id }: Props) => {
         </>
     );
 
-    const showMessage = () => {
-        if (message && message.length > 0) {
-            return (
-                <div>
-                    <h1>{message}</h1>
-                </div>
-            );
-        }
-    };
-
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const selectElement = document.getElementById('categorySelect') as HTMLSelectElement;
-        const response = await itemService.add({ name: name.value, description: description.value, price: price.value, instock: instock.value }, Number(selectElement.value), token, configState);
-        setMessage(response);
+        const response = await itemService.add({ name: name.value, description: description.value, price: price.value, instock: instock.value }, Number(selectedCategory), token, configState);
+
+        dispatch(setNotification({ tone: 'Neutral', message: response }));
 
         name.reset();
         description.reset();
@@ -57,7 +60,6 @@ const AddItemForm = ({ token, selected_category_id }: Props) => {
 
     return (
         <>
-            {showMessage()}
             <h2>Add item</h2>
             <form onSubmit={submit}>
                 <table>
@@ -74,9 +76,9 @@ const AddItemForm = ({ token, selected_category_id }: Props) => {
                         <tr>
                             <td>Category:</td>
                             <td>
-                                <select id='categorySelect' name='category'>
+                                <select id='categorySelect' name='category' value={selectedCategory} onChange={handleCategoryChange}>
                                     {categoriesState.map((c) => (
-                                        <option key={c.id} value={c.id} selected={c.id === selected_category_id}>
+                                        <option key={c.id} value={c.id}>
                                             {c.name}
                                         </option>
                                     ))}

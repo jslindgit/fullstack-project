@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -7,15 +7,18 @@ import { RootState } from '../reducers/root_reducer';
 
 import loginService from '../services/loginService';
 
+import { setNotification } from '../reducers/misc_reducer';
 import { setLoggedUser } from '../reducers/users_reducer';
 
 const Login = () => {
-    const [message, setMessage] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
     const dispatch = useDispatch();
+    const miscState = useSelector((state: RootState) => state.misc);
     const usersState = useSelector((state: RootState) => state.users);
+
+    const navigate = useNavigate();
 
     const setLogged = (loggedUser: LoggedUser | null) => {
         dispatch(setLoggedUser(loggedUser));
@@ -66,30 +69,20 @@ const Login = () => {
         }
     };
 
-    const showMessage = () => {
-        if (message && message.length > 0) {
-            return (
-                <div>
-                    <h1>{message}</h1>
-                </div>
-            );
-        }
-    };
-
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
         const response = await loginService.login(username, password, setLogged);
-        setMessage(response);
-        setUsername('');
         setPassword('');
+        if (response.success) {
+            setUsername('');
+            navigate(miscState.previousLocation);
+            dispatch(setNotification({ tone: 'Positive', message: response.message }));
+        } else {
+            dispatch(setNotification({ tone: 'Negative', message: response.message }));
+        }
     };
 
-    return (
-        <div>
-            {showMessage()}
-            {usersState.loggedUser ? userInfo() : loginForm()}
-        </div>
-    );
+    return <div>{usersState.loggedUser ? userInfo() : loginForm()}</div>;
 };
 
 export default Login;

@@ -1,13 +1,14 @@
 import axios, { AxiosError } from 'axios';
 
+import { LoggedUser, LoginResponse } from '../types/types';
+
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/error_handler';
 import localstorage_handler from '../util/localstorage_handler';
-import { LoggedUser } from '../types/types';
 
 const url = apiBaseUrl + '/login';
 
-const login = async (username: string, password: string, setLoggedUser: (loggedUser: LoggedUser | null) => void): Promise<string> => {
+const login = async (username: string, password: string, setLoggedUser: (loggedUser: LoggedUser | null) => void): Promise<LoginResponse> => {
     try {
         const res = await axios.post(url, { username: username, password: password });
 
@@ -19,17 +20,17 @@ const login = async (username: string, password: string, setLoggedUser: (loggedU
             };
             localstorage_handler.setLoggedUser(loggedUser);
             setLoggedUser(loggedUser);
-            return `Logged in as ${res.data.response.username}`;
+            return { success: true, message: `Logged in as ${res.data.response.username}` };
         } else {
-            return 'Something went wrong, please try again later...';
+            return { success: false, message: 'Something went wrong, please try again later...' };
         }
     } catch (err: unknown) {
         console.log('err:', err);
 
         if (err instanceof AxiosError && err.response?.status === 401) {
-            return 'Invalid username or password';
+            return { success: false, message: 'Invalid username or password' };
         } else {
-            return 'Something went wrong';
+            return { success: false, message: 'Something went wrong' };
         }
     }
 };

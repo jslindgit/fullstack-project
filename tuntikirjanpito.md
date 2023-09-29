@@ -18,5 +18,6 @@
 | 27.9. | 4    | Frontendiin tuotteenlisäysmahdollisuus + backendiin hienosäätöä                    |
 | 28.9. | 3    | Reduxin käyttöönottoa                                                              |
 | 29.9. | 2    | Reduxin käyttöönotto valmis                                                        |
+| 30.9. | 3    | Notifikaatiosysteemi, alustava Admin-sivusto, parempi tuotteenlisäyslomake         |
 
-| yht | 36 | |
+| yht | 39 | |

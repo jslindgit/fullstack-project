@@ -1,10 +1,11 @@
-import './App.css';
-
 // Libraries:
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+// Types:
+import { RootState } from './reducers/root_reducer';
 
 // Functions/values:
 import { apiBaseUrl } from './constants';
@@ -16,15 +17,21 @@ import { setCategories } from './reducers/category_reducer';
 import { setLoggedUser } from './reducers/users_reducer';
 
 // Components:
+import AdminPanel from './components/Admin/AdminPanel';
+import Error404 from './components/Error404';
 import Home from './components/Home';
 import Items from './components/Items';
-import Menu from './components/Menu';
 import Login from './components/Login';
+import Menu from './components/Menu';
+import ShowNotification from './components/ShowNotification';
 
-function App() {
+import './App.css';
+
+const App = () => {
     const [loaded, setLoaded] = useState<boolean>(false);
 
     const dispatch = useDispatch();
+    const usersState = useSelector((state: RootState) => state.users);
 
     useEffect(() => {
         void axios.get(`${apiBaseUrl}/ping`);
@@ -39,6 +46,14 @@ function App() {
         setLoaded(true);
     }, [dispatch]);
 
+    const adminPage = (): JSX.Element => {
+        if (usersState.loggedUser?.admin) {
+            return <AdminPanel />;
+        } else {
+            return <Error404 />;
+        }
+    };
+
     if (!loaded) {
         return <div>Loading...</div>;
     }
@@ -51,10 +66,14 @@ function App() {
                             <td>
                                 <Router>
                                     <Menu />
+                                    <ShowNotification />
                                     <Routes>
                                         <Route path='/' element={<Home />} />
                                         <Route path='/login' element={<Login />} />
                                         <Route path='/products/:id' element={<Items />} />
+                                        <Route path='/admin' element={adminPage()} />
+                                        <Route path='/admin/:page' element={adminPage()} />
+                                        <Route path='*' element={<Error404 />} />
                                     </Routes>
                                 </Router>
                             </td>
@@ -64,6 +83,6 @@ function App() {
             </div>
         </>
     );
-}
+};
 
 export default App;

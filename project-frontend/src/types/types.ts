@@ -32,6 +32,19 @@ export interface LoggedUser {
     admin: boolean;
 }
 
+export interface LoginResponse {
+    success: boolean;
+    message: string;
+}
+
+export interface Notification {
+    tone: 'Positive' | 'Neutral' | 'Negative';
+    message: string;
+    renders: number;
+}
+
+export type NewNotification = Omit<Notification, 'renders'>;
+
 export interface User {
     id: number;
     username: string;
