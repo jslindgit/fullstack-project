@@ -12,12 +12,6 @@ export enum LoginError {
     SomethingWentWrong,
 }
 
-export interface LoginResult {
-    token: string;
-    username: string;
-    admin: boolean;
-}
-
 export enum LogoutResult {
     Success,
     UserMatchingTokenNotFound,
@@ -26,7 +20,7 @@ export enum LogoutResult {
     SomethingWentWrong,
 }
 
-const login = async (credentials: Credentials): Promise<LoginResult | LoginError> => {
+const login = async (credentials: Credentials): Promise<User | LoginError> => {
     try {
         if (!credentials) {
             throw new Error('Invalid credentials');
@@ -42,9 +36,7 @@ const login = async (credentials: Credentials): Promise<LoginResult | LoginError
             return LoginError.InvalidPassword;
         }
 
-        if (
-            !('username' in user && isString(user.username) && 'id' in user && isNumber(user.id) && 'token' in user && 'admin' in user && isBoolean(user.admin))
-        ) {
+        if (!('username' in user && isString(user.username) && 'id' in user && isNumber(user.id) && 'token' in user && 'admin' in user && isBoolean(user.admin))) {
             return LoginError.SomethingWentWrong;
         }
 
@@ -58,11 +50,7 @@ const login = async (credentials: Credentials): Promise<LoginResult | LoginError
         user.token = token;
         await user.save();
 
-        return {
-            token: token,
-            username: user.username,
-            admin: user.admin,
-        };
+        return user;
     } catch (err) {
         handleError(err);
         return LoginError.SomethingWentWrong;

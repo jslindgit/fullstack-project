@@ -2,10 +2,11 @@
 import express from 'express';
 import { RequestHandler } from 'express';
 
+import { isNumber, isObject, isString, toNewItem } from '../types/type_functions';
+
 import { errorHandler } from '../middlewares/errors';
 import { tokenExtractor } from '../middlewares/token_extractor';
 import service from '../services/item_service';
-import { isNumber, isObject, isString, toNewItem } from '../types/type_functions';
 
 const router = express.Router();
 

@@ -1,4 +1,4 @@
-import { NewItem } from './types';
+import { NewItem, User } from './types';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
@@ -14,6 +14,10 @@ export const isObject = (variable: unknown): variable is object => {
 
 export const isString = (text: unknown): text is string => {
     return typeof text === 'string' || text instanceof String;
+};
+
+export const isUser = (user: unknown): user is User => {
+    return isObject(user) && 'id' in user && 'username' in user && 'name' in user && 'admin' in user && 'disabled' in user && 'token' in user;
 };
 
 const parseNumber = (value: unknown, fieldName: string): number => {

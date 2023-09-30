@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/root_reducer';
 
-import { isNumber } from '../types/type_functions';
 import format from '../util/format';
+import { isNumber } from '../types/type_functions';
 
 import AddItemForm from './AddItemForm';
 
@@ -47,7 +47,7 @@ const Items = () => {
                         ))}
                     </tbody>
                 </table>
-                {usersState.loggedUser?.admin ? <AddItemForm token={usersState.loggedUser?.token} selected_category_id={id} /> : <></>}
+                {usersState.loggedUser?.admin ? <AddItemForm user={usersState.loggedUser} selected_category_id={id} /> : <></>}
             </div>
         </>
     );

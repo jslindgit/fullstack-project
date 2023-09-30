@@ -2,27 +2,50 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Link } from './CustomLink';
 
-import { LoggedUser } from '../types/types';
+import { User } from '../types/types';
 import { RootState } from '../reducers/root_reducer';
 
 import loginService from '../services/loginService';
 
-import { setLoggedUser } from '../reducers/users_reducer';
+import { removeLoggedUser } from '../reducers/users_reducer';
 import { setNotification } from '../reducers/misc_reducer';
 import { setPreviousLocation } from '../reducers/misc_reducer';
 
 import '../App.css';
 
-const login = (loggedUser: LoggedUser | null, setLogged: (loggedUser: LoggedUser | null) => void, setLocation: () => void, setLogoutNotification: () => void) => {
+const login = (loggedUser: User | null, removeLogged: () => void, setLocation: () => void, setLogoutNotification: () => void) => {
     if (loggedUser) {
         return (
             <>
-                {loggedUser?.username}
-                {loggedUser.admin ? <> (Admin)</> : <></>}
-                <br />
-                <Link to='#' onClick={async () => await logout(loggedUser, setLogged, setLogoutNotification)}>
-                    Logout
-                </Link>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>
+                                    {loggedUser.username} {loggedUser.admin ? <> (Admin)</> : <></>}
+                                </b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table align='center'>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <Link to='/you'>Account</Link>
+                                            </td>
+                                            <td>
+                                                <Link to='#' onClick={async () => await logout(loggedUser, removeLogged, setLogoutNotification)}>
+                                                    Logout
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </>
         );
     } else {
@@ -34,9 +57,9 @@ const login = (loggedUser: LoggedUser | null, setLogged: (loggedUser: LoggedUser
     }
 };
 
-const logout = async (loggedUser: LoggedUser, setLogged: (loggedUser: LoggedUser | null) => void, setLogoutNotification: () => void) => {
-    await loginService.logout(loggedUser.token, setLogged);
+const logout = async (loggedUser: User, removeLogged: () => void, setLogoutNotification: () => void) => {
     setLogoutNotification();
+    await loginService.logout(loggedUser.token, removeLogged);
 };
 
 const Menu = () => {
@@ -46,8 +69,8 @@ const Menu = () => {
 
     const currentPath = useLocation().pathname;
 
-    const setLogged = (loggedUser: LoggedUser | null) => {
-        dispatch(setLoggedUser(loggedUser));
+    const removeLogged = () => {
+        dispatch(removeLoggedUser());
     };
 
     const setLocation = () => {
@@ -85,12 +108,12 @@ const Menu = () => {
                             </td>
                             {categoryState.map((c) => (
                                 <td key={c.id}>
-                                    <Link to={'/products/' + c.id}>
+                                    <Link to={'/shop/' + c.id}>
                                         <h3>{c.name}</h3>
                                     </Link>
                                 </td>
                             ))}
-                            <td>{login(usersState.loggedUser, setLogged, setLocation, setLogoutNotification)}</td>
+                            <td>{login(usersState.loggedUser, removeLogged, setLocation, setLogoutNotification)}</td>
                             {showAdminMenu()}
                         </tr>
                     </tbody>

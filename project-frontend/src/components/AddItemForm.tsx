@@ -4,6 +4,7 @@ import { ChangeEventHandler, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/root_reducer';
+import { User } from '../types/types';
 
 import useField from '../hooks/useField';
 import itemService from '../services/itemService';
@@ -11,11 +12,11 @@ import itemService from '../services/itemService';
 import { setNotification } from '../reducers/misc_reducer';
 
 interface Props {
-    token: string;
+    user: User;
     selected_category_id: number;
 }
 
-const AddItemForm = ({ token, selected_category_id }: Props) => {
+const AddItemForm = ({ user, selected_category_id }: Props) => {
     const name = useField('text');
     const description = useField('text');
     const price = useField('number');
@@ -48,7 +49,7 @@ const AddItemForm = ({ token, selected_category_id }: Props) => {
 
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const response = await itemService.add({ name: name.value, description: description.value, price: price.value, instock: instock.value }, Number(selectedCategory), token, configState);
+        const response = await itemService.add({ name: name.value, description: description.value, price: price.value, instock: instock.value }, Number(selectedCategory), user.token, configState);
 
         dispatch(setNotification({ tone: 'Neutral', message: response }));
 

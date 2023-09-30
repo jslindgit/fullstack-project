@@ -26,12 +26,6 @@ export interface Item {
 
 export type NewItem = Omit<Item, 'id'>;
 
-export interface LoggedUser {
-    token: string;
-    username: string;
-    admin: boolean;
-}
-
 export interface LoginResponse {
     success: boolean;
     message: string;
@@ -51,4 +45,7 @@ export interface User {
     name: string;
     admin: boolean;
     disabled: boolean;
+    token: string;
 }
+
+export type NewUser = Omit<User, 'id'>;

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { LoggedUser } from '../types/types';
+import { User } from '../types/types';
 
 export interface UsersState {
-    loggedUser: LoggedUser | null;
+    loggedUser: User | null;
 }
 
 const initialState: UsersState = {
@@ -14,11 +14,14 @@ const slice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        setLoggedUser(state: UsersState, action: PayloadAction<LoggedUser | null>) {
+        removeLoggedUser(state: UsersState, _action: PayloadAction) {
+            state.loggedUser = null;
+        },
+        setLoggedUser(state: UsersState, action: PayloadAction<User>) {
             state.loggedUser = action.payload;
         },
     },
 });
 
-export const { setLoggedUser } = slice.actions;
+export const { removeLoggedUser, setLoggedUser } = slice.actions;
 export default slice.reducer;

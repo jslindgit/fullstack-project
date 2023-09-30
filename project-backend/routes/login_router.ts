@@ -18,27 +18,26 @@ router.delete('/', tokenExtractor, (async (_req, res, next) => {
         } else {
             const response: LogoutResult = await service.logout(res.locals.token);
 
-            // prettier-ignore
             switch (response) {
-            case LogoutResult.InvalidToken:
-                res.status(401).json({ error: 'Invalid token' });
-                console.log('invalid token');
-                break;
-            //return;
-            case LogoutResult.SomethingWentWrong:
-                res.status(400).json({ error: 'Something went wrong' });
-                break;
-            //return;
-            case LogoutResult.TokenMismatch:
-                res.status(400).json({ error: 'Token mismatch' });
-                break;
-            //return;
-            case LogoutResult.UserMatchingTokenNotFound:
-                res.status(404).json({ error: 'User matching token not found' });
-                break;
-            //return;
-            case LogoutResult.Success:
-                res.status(200).end();
+                case LogoutResult.InvalidToken:
+                    res.status(401).json({ error: 'Invalid token' });
+                    console.log('invalid token');
+                    break;
+                //return;
+                case LogoutResult.SomethingWentWrong:
+                    res.status(400).json({ error: 'Something went wrong' });
+                    break;
+                //return;
+                case LogoutResult.TokenMismatch:
+                    res.status(400).json({ error: 'Token mismatch' });
+                    break;
+                //return;
+                case LogoutResult.UserMatchingTokenNotFound:
+                    res.status(404).json({ error: 'User matching token not found' });
+                    break;
+                //return;
+                case LogoutResult.Success:
+                    res.status(200).end();
             }
         }
     } catch (err) {
@@ -51,28 +50,19 @@ router.post('/', (async (req, res, next) => {
         const credentials = toCredentials(req.body);
         const response = await service.login(credentials);
 
-        // prettier-ignore
         switch (response) {
-        case LoginError.InvalidPassword:
-            res.status(401).send({ error: 'Invalid password' });
-            return;
-        case LoginError.InvalidUsername:
-            res.status(401).send({ error: 'Invalid username' });
-            return;
-        case LoginError.SomethingWentWrong:
-            res.status(400).send({ error: 'Something went wrong' });
-            return;
+            case LoginError.InvalidPassword:
+                res.status(401).send({ error: 'Invalid password' });
+                return;
+            case LoginError.InvalidUsername:
+                res.status(401).send({ error: 'Invalid username' });
+                return;
+            case LoginError.SomethingWentWrong:
+                res.status(400).send({ error: 'Something went wrong' });
+                return;
         }
 
-        if (
-            isObject(response) &&
-            'token' in response &&
-            isString(response.token) &&
-            'username' in response &&
-            isString(response.username) &&
-            'admin' in response &&
-            isBoolean(response.admin)
-        ) {
+        if (isObject(response) && 'token' in response && isString(response.token) && 'username' in response && isString(response.username) && 'admin' in response && isBoolean(response.admin)) {
             res.status(200).send({
                 response,
             });

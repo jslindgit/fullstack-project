@@ -2,13 +2,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { LoggedUser } from '../types/types';
+import { User } from '../types/types';
 import { RootState } from '../reducers/root_reducer';
 
 import loginService from '../services/loginService';
 
 import { setNotification } from '../reducers/misc_reducer';
-import { setLoggedUser } from '../reducers/users_reducer';
+import { removeLoggedUser, setLoggedUser } from '../reducers/users_reducer';
 
 const Login = () => {
     const [username, setUsername] = useState<string>('');
@@ -20,7 +20,11 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const setLogged = (loggedUser: LoggedUser | null) => {
+    const removeLogged = () => {
+        dispatch(removeLoggedUser());
+    };
+
+    const setLogged = (loggedUser: User) => {
         dispatch(setLoggedUser(loggedUser));
     };
 
@@ -61,7 +65,7 @@ const Login = () => {
                 <>
                     <h2>Logged in as {logged.username}</h2>
                     <br />
-                    <Link to='/login' onClick={async () => await loginService.logout(logged.token, setLogged)}>
+                    <Link to='/login' onClick={async () => await loginService.logout(logged.token, removeLogged)}>
                         <h2>Logout</h2>
                     </Link>
                 </>

@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
-import { LoggedUser, LoginResponse } from '../types/types';
+import { LoginResponse, User } from '../types/types';
+import { isUser } from '../types/type_functions';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/error_handler';
@@ -8,18 +9,13 @@ import localstorage_handler from '../util/localstorage_handler';
 
 const url = apiBaseUrl + '/login';
 
-const login = async (username: string, password: string, setLoggedUser: (loggedUser: LoggedUser | null) => void): Promise<LoginResponse> => {
+const login = async (username: string, password: string, setLoggedUser: (loggedUser: User) => void): Promise<LoginResponse> => {
     try {
         const res = await axios.post(url, { username: username, password: password });
 
-        if (res.status === 200 && 'token' in res.data.response && 'username' in res.data.response && 'admin' in res.data.response) {
-            const loggedUser: LoggedUser = {
-                token: res.data.response.token,
-                username: res.data.response.username,
-                admin: res.data.response.admin,
-            };
-            localstorage_handler.setLoggedUser(loggedUser);
-            setLoggedUser(loggedUser);
+        if (res.status === 200 && isUser(res.data.response)) {
+            localstorage_handler.setToken(res.data.response.token);
+            setLoggedUser(res.data.response);
             return { success: true, message: `Logged in as ${res.data.response.username}` };
         } else {
             return { success: false, message: 'Something went wrong, please try again later...' };
@@ -35,9 +31,9 @@ const login = async (username: string, password: string, setLoggedUser: (loggedU
     }
 };
 
-const logout = async (token: string, setLoggedUser: (loggedUser: LoggedUser | null) => void) => {
-    localstorage_handler.setLoggedUser(null);
-    setLoggedUser(null);
+const logout = async (token: string, removeLoggedUser: () => void) => {
+    localstorage_handler.removeToken();
+    removeLoggedUser();
 
     try {
         await axios.delete(url, {

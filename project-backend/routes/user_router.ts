@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 import { RequestHandler } from 'express';
 
+import { isNumber, isString, toNewUser } from '../types/type_functions';
+
 import { errorHandler } from '../middlewares/errors';
 import service from '../services/user_service';
-import { isString, toNewUser } from '../types/type_functions';
+import { tokenExtractor } from '../middlewares/token_extractor';
 
 const router = express.Router();
 
@@ -26,6 +29,23 @@ router.get('/', (async (req, res, next) => {
     try {
         const users = await service.getAll(isString(req.query.search) ? req.query.search : '');
         res.json(users);
+    } catch (err) {
+        next(err);
+    }
+}) as RequestHandler);
+
+router.get('/me', tokenExtractor, (async (req, res, next) => {
+    try {
+        if (res.locals.user_id && isNumber(res.locals.user_id)) {
+            const user = await service.getById(res.locals.user_id);
+            if (user) {
+                res.json(user);
+            } else {
+                res.status(404).json({
+                    error: `User with id ${req.params.id} not found`,
+                });
+            }
+        }
     } catch (err) {
         next(err);
     }
