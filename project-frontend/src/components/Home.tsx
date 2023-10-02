@@ -2,7 +2,7 @@ import '../App.css';
 
 import { useSelector } from 'react-redux';
 
-import { RootState } from '../reducers/root_reducer';
+import { RootState } from '../reducers/rootReducer';
 
 const MainPage = () => {
     const configState = useSelector((state: RootState) => state.config);

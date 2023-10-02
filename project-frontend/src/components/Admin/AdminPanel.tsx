@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { RootState } from '../../reducers/root_reducer';
+import { RootState } from '../../reducers/rootReducer';
 
 import AdminCategories from './AdminCategories';
 import AdminItems from './AdminItems';
@@ -30,11 +30,7 @@ const AdminPanel = () => {
     };
 
     if (!usersState.loggedUser?.admin) {
-        return (
-            <>
-                <h2>Forbidden</h2>
-            </>
-        );
+        return <>Error: 403</>;
     }
 
     return (

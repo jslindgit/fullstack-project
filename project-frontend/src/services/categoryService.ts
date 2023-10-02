@@ -6,11 +6,11 @@ import { apiBaseUrl } from '../constants';
 import { authConfig } from '../util/service_provider';
 import { handleError } from '../util/error_handler';
 
-const url = apiBaseUrl + '/categories';
-
 interface CategoryResponse extends Response {
     addedCategory: Category | null;
 }
+
+const url = apiBaseUrl + '/categories';
 
 const add = async (toAdd: NewCategory, token: string): Promise<CategoryResponse> => {
     try {
@@ -28,24 +28,41 @@ const add = async (toAdd: NewCategory, token: string): Promise<CategoryResponse>
     }
 };
 
-const deleteById = async (id: number, token: string) => {
-    const { data } = await axios.delete<Category>(`${url}/${id}`, authConfig(token));
-    return data;
+const deleteCategory = async (cateory: Category, token: string): Promise<Response> => {
+    try {
+        const res = await axios.delete<Category>(`${url}/${cateory.id}`, authConfig(token));
+        if (res.status === 204) {
+            return { success: true, message: `Category ${cateory.name} deleted` };
+        } else {
+            return { success: false, message: 'Something went wrong, try again later' };
+        }
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: 'Something went wrong' };
+    }
 };
 
 const getAll = async () => {
-    const { data } = await axios.get<Category[]>(url);
-    return data;
+    try {
+        const { data } = await axios.get<Category[]>(url);
+        return data;
+    } catch (err: unknown) {
+        handleError(err);
+    }
 };
 
 const getById = async (id: number) => {
-    const { data } = await axios.get<Category>(`${url}/${id}`);
-    return data;
+    try {
+        const { data } = await axios.get<Category>(`${url}/${id}`);
+        return data;
+    } catch (err: unknown) {
+        handleError(err);
+    }
 };
 
 export default {
     add,
-    deleteById,
+    deleteCategory,
     getAll,
     getById,
 };

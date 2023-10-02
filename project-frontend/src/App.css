@@ -56,10 +56,14 @@ td:last-child {
     }
 }
 
-.card {
-    padding: 2em;
+.bold {
+    font-weight: bold;
 }
 
-.read-the-docs {
-    color: #888;
+.link {
+    color: rgb(0, 41, 189);
+    transition: color 0.25s;
+}
+.link:hover {
+    color: rgb(115, 146, 255);
 }

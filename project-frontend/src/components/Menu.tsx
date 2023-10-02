@@ -3,13 +3,13 @@ import { useLocation } from 'react-router-dom';
 import { Link } from './CustomLink';
 
 import { User } from '../types/types';
-import { RootState } from '../reducers/root_reducer';
+import { RootState } from '../reducers/rootReducer';
 
 import loginService from '../services/loginService';
 
-import { removeLoggedUser } from '../reducers/users_reducer';
-import { setNotification } from '../reducers/misc_reducer';
-import { setPreviousLocation } from '../reducers/misc_reducer';
+import { removeLoggedUser } from '../reducers/usersReducer';
+import { setNotification } from '../reducers/miscReducer';
+import { setPreviousLocation } from '../reducers/miscReducer';
 
 import '../App.css';
 
@@ -64,7 +64,6 @@ const logout = async (loggedUser: User, removeLogged: () => void, setLogoutNotif
 
 const Menu = () => {
     const dispatch = useDispatch();
-    const categoryState = useSelector((state: RootState) => state.categories);
     const usersState = useSelector((state: RootState) => state.users);
 
     const currentPath = useLocation().pathname;
@@ -106,13 +105,11 @@ const Menu = () => {
                                     <h3>Home</h3>
                                 </Link>
                             </td>
-                            {categoryState.map((c) => (
-                                <td key={c.id}>
-                                    <Link to={'/shop/' + c.id}>
-                                        <h3>{c.name}</h3>
-                                    </Link>
-                                </td>
-                            ))}
+                            <td>
+                                <Link to='/shop'>
+                                    <h3>Products</h3>
+                                </Link>
+                            </td>
                             <td>{login(usersState.loggedUser, removeLogged, setLocation, setLogoutNotification)}</td>
                             {showAdminMenu()}
                         </tr>

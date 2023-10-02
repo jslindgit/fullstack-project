@@ -1,2 +1,2 @@
-DELETE http://localhost:3001/api/items/13
+DELETE http://localhost:3001/api/item_categories/8
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlcHBvQHRlc3RhYWphLmNvbSIsImlkIjoxLCJpYXQiOjE2OTYyODQ5ODl9.Wi7dZAuX5N1XXAe6HkPGI4KnBdpRf-VB9hh578-vqT8

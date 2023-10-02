@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-import { RootState } from '../reducers/root_reducer';
+import { RootState } from '../reducers/rootReducer';
 
 interface Props {
     fontSize?: number;

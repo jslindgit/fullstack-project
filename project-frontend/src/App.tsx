@@ -1,25 +1,26 @@
 // Libraries:
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Types:
-import { RootState } from './reducers/root_reducer';
+import { RootState } from './reducers/rootReducer';
 import { User } from './types/types';
 
 // Functions/values:
 import { apiBaseUrl } from './constants';
-import categoryService from './services/categoryService';
 import localstorage_handler from './util/localstorage_handler';
 import userService from './services/userService';
 
 // Reducers:
-import { setCategories } from './reducers/category_reducer';
-import { removeLoggedUser, setLoggedUser } from './reducers/users_reducer';
+import { setLoaded } from './reducers/miscReducer';
+import { removeLoggedUser, setLoggedUser } from './reducers/usersReducer';
+import { initializeCategories } from './reducers/categoryReducer';
 
 // Components:
 import AdminPanel from './components/Admin/AdminPanel';
+import Categories from './components/Categories';
 import Error404 from './components/Error404';
 import Home from './components/Home';
 import Items from './components/Items';
@@ -31,16 +32,17 @@ import UserPanel from './components/UserPanel';
 import './App.css';
 
 const App = () => {
-    const [loaded, setLoaded] = useState<boolean>(false);
-
     const dispatch = useDispatch();
+    const miscState = useSelector((state: RootState) => state.misc);
     const usersState = useSelector((state: RootState) => state.users);
 
     useEffect(() => {
+        dispatch(setLoaded(false));
+
         void axios.get(`${apiBaseUrl}/ping`);
 
         const fetchData = async () => {
-            dispatch(setCategories(await categoryService.getAll()));
+            await initializeCategories(dispatch);
         };
         void fetchData();
 
@@ -59,12 +61,12 @@ const App = () => {
         };
         setUser()
             .then(() => {
-                setLoaded(true);
+                dispatch(setLoaded(true));
             })
             .catch(() => {
                 dispatch(removeLoggedUser());
                 localstorage_handler.removeToken();
-                setLoaded(true);
+                dispatch(setLoaded(true));
             });
     }, [dispatch]);
 
@@ -76,7 +78,7 @@ const App = () => {
         }
     };
 
-    if (!loaded) {
+    if (!miscState.loaded) {
         return <div>Loading...</div>;
     }
     return (
@@ -94,8 +96,9 @@ const App = () => {
                                         <Route path='/admin' element={adminPage()} />
                                         <Route path='/admin/:page' element={adminPage()} />
                                         <Route path='/login' element={<Login />} />
+                                        <Route path='/shop' element={<Categories />} />
                                         <Route path='/shop/:id' element={<Items />} />
-                                        <Route path='/you' element={<UserPanel loaded={loaded} />} />
+                                        <Route path='/you' element={<UserPanel />} />
                                         <Route path='*' element={<Error404 />} />
                                     </Routes>
                                 </Router>

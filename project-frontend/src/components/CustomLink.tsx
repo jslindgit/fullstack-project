@@ -2,9 +2,9 @@ import React, { ReactNode, MouseEvent } from 'react';
 import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '../reducers/root_reducer';
+import { RootState } from '../reducers/rootReducer';
 
-import { tickNotification } from '../reducers/misc_reducer';
+import { tickNotification } from '../reducers/miscReducer';
 
 interface CustomLinkProps extends ReactRouterLinkProps {
     onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
@@ -27,7 +27,7 @@ const CustomLink: React.FC<CustomLinkProps> = ({ to, onClick, children, ...rest 
     };
 
     return (
-        <ReactRouterLink to={to} onClick={handleClick} {...rest}>
+        <ReactRouterLink to={to} onClick={handleClick} {...rest} className='link'>
             {children}
         </ReactRouterLink>
     );

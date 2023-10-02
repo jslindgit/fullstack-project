@@ -9,6 +9,27 @@ import { tokenExtractor } from '../middlewares/token_extractor';
 
 const router = express.Router();
 
+router.delete('/all_by_item_id/:id', tokenExtractor, (async (req, res, next) => {
+    try {
+        if (res.locals.admin === true) {
+            const all = await service.getAll();
+            if (all) {
+                const matching = all.filter((ic) => 'itemId' in ic && ic.itemId === req.params.id);
+                matching.forEach(async (toDel) => {
+                    if ('id' in toDel) {
+                        await service.deleteById(toDel.id);
+                    }
+                });
+            }
+            res.status(204).end();
+        } else {
+            res.status(403).json({ error: 'Access denied' });
+        }
+    } catch (err) {
+        next(err);
+    }
+}) as RequestHandler);
+
 router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
         if (res.locals.admin === true) {

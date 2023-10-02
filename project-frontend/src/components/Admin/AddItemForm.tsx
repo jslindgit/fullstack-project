@@ -1,15 +1,13 @@
-import '../App.css';
-
 import { ChangeEventHandler, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '../reducers/root_reducer';
-import { User } from '../types/types';
+import { RootState } from '../../reducers/rootReducer';
+import { User } from '../../types/types';
 
-import useField from '../hooks/useField';
-import itemService from '../services/itemService';
+import useField from '../../hooks/useField';
+import itemService from '../../services/itemService';
 
-import { setNotification } from '../reducers/misc_reducer';
+import { setNotification } from '../../reducers/miscReducer';
 
 interface Props {
     user: User;
@@ -49,9 +47,9 @@ const AddItemForm = ({ user, selected_category_id }: Props) => {
 
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const response = await itemService.add({ name: name.value, description: description.value, price: price.value, instock: instock.value }, Number(selectedCategory), user.token, configState);
+        const res = await itemService.add({ name: name.value, description: description.value, price: price.value, instock: instock.value }, Number(selectedCategory), user.token, configState);
 
-        dispatch(setNotification({ tone: 'Neutral', message: response }));
+        dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
         name.reset();
         description.reset();

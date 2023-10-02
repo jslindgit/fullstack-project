@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import categoryReducer, { CategoryState } from './category_reducer';
-import configReducer, { ConfigState } from './config_reducer';
-import miscReducer, { MiscState } from './misc_reducer';
-import usersReducer, { UsersState } from './users_reducer';
+import categoryReducer, { CategoryState } from './categoryReducer';
+import configReducer, { ConfigState } from './configReducer';
+import miscReducer, { MiscState } from './miscReducer';
+import usersReducer, { UsersState } from './usersReducer';
 
 export interface RootState {
     categories: CategoryState;

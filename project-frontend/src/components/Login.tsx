@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { User } from '../types/types';
-import { RootState } from '../reducers/root_reducer';
+import { RootState } from '../reducers/rootReducer';
 
 import loginService from '../services/loginService';
 
-import { setNotification } from '../reducers/misc_reducer';
-import { removeLoggedUser, setLoggedUser } from '../reducers/users_reducer';
+import { setNotification } from '../reducers/miscReducer';
+import { removeLoggedUser, setLoggedUser } from '../reducers/usersReducer';
 
 const Login = () => {
     const [username, setUsername] = useState<string>('');

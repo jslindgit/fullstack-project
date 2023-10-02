@@ -4,11 +4,11 @@ import cors from 'cors';
 import { PORT } from './util/config';
 import { connectToDatabase } from './util/db';
 
-import categoryRouter from './routes/category_router';
-import item_categoryRouter from './routes/item_category_router';
-import itemRouter from './routes/item_router';
-import loginRouter from './routes/login_router';
-import userRouter from './routes/user_router';
+import categoryRouter from './routes/categoryRouter';
+import item_categoryRouter from './routes/item_categoryRouter';
+import itemRouter from './routes/itemRouter';
+import loginRouter from './routes/loginRouter';
+import userRouter from './routes/userRouter';
 
 const app = express();
 app.use(express.json());

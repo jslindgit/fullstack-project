@@ -2,15 +2,12 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import { RootState } from '../reducers/root_reducer';
+import { RootState } from '../reducers/rootReducer';
 
 import '../App.css';
 
-interface Props {
-    loaded: boolean;
-}
-
-const UserPanel = ({ loaded }: Props) => {
+const UserPanel = () => {
+    const miscState = useSelector((state: RootState) => state.misc);
     const usersState = useSelector((state: RootState) => state.users);
 
     const navigate = useNavigate();
@@ -18,10 +15,10 @@ const UserPanel = ({ loaded }: Props) => {
     const user = usersState.loggedUser;
 
     useEffect(() => {
-        if (loaded && (!user || user === null)) {
+        if (miscState.loaded && (!user || user === null)) {
             navigate('/login');
         }
-    }, [user, navigate, loaded]);
+    }, [user, navigate, miscState.loaded]);
 
     if (user) {
         return (

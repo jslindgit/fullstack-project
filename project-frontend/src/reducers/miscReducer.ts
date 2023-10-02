@@ -3,11 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Notification, NewNotification } from '../types/types';
 
 export interface MiscState {
+    loaded: boolean;
     notification: Notification | null;
     previousLocation: string;
 }
 
 const initialState: MiscState = {
+    loaded: false,
     notification: null,
     previousLocation: '/',
 };
@@ -16,6 +18,9 @@ const slice = createSlice({
     name: 'misc',
     initialState,
     reducers: {
+        setLoaded(state: MiscState, action: PayloadAction<boolean>) {
+            state.loaded = action.payload;
+        },
         setNotification(state: MiscState, action: PayloadAction<NewNotification>) {
             state.notification = { ...action.payload, renders: 1 };
         },
@@ -34,5 +39,5 @@ const slice = createSlice({
     },
 });
 
-export const { setNotification, setPreviousLocation, tickNotification } = slice.actions;
+export const { setLoaded, setNotification, setPreviousLocation, tickNotification } = slice.actions;
 export default slice.reducer;

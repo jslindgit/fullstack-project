@@ -7,8 +7,8 @@ import useField from '../../hooks/useField';
 import categoryService from '../../services/categoryService';
 import { toNewCategory } from '../../types/type_functions';
 
-import { addCategory } from '../../reducers/category_reducer';
-import { setNotification } from '../../reducers/misc_reducer';
+import { addCategory } from '../../reducers/categoryReducer';
+import { setNotification } from '../../reducers/miscReducer';
 
 import ShowNotification from '../ShowNotification';
 
@@ -55,7 +55,7 @@ const AddCategoryForm = ({ user }: Props) => {
     return (
         <>
             <h2>Add new category</h2>
-            <ShowNotification fontSize={12} />
+            <ShowNotification fontSize={14} />
             <form onSubmit={submit}>
                 <table>
                     <tbody>
