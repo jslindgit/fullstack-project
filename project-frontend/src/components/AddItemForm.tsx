@@ -65,12 +65,7 @@ const AddItemForm = ({ user, selected_category_id }: Props) => {
             <form onSubmit={submit}>
                 <table>
                     <tbody>
-                        <tr>
-                            <td width='10'>Name:</td>
-                            <td>
-                                <input type={name.type} value={name.value} onChange={name.onChange} />
-                            </td>
-                        </tr>
+                        {inputField('Name', name.type, name.value, name.onChange)}
                         {inputField('Description', description.type, description.value, description.onChange)}
                         {inputField('Price', price.type, price.value, price.onChange)}
                         {inputField('In stock', instock.type, instock.value, instock.onChange)}

@@ -5,6 +5,8 @@ export interface Category {
     items: Item[];
 }
 
+export type NewCategory = Omit<Omit<Category, 'id'>, 'items'>;
+
 export interface Config {
     storeName: string;
     currency: Currency;
@@ -38,6 +40,11 @@ export interface Notification {
 }
 
 export type NewNotification = Omit<Notification, 'renders'>;
+
+export interface Response {
+    success: boolean;
+    message: string;
+}
 
 export interface User {
     id: number;

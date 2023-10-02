@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { RootState } from '../../reducers/root_reducer';
 
+import AdminCategories from './AdminCategories';
 import AdminItems from './AdminItems';
 import AdminMenu from './AdminMenu';
 import AdminSettings from './AdminSettings';
@@ -15,6 +16,8 @@ const AdminPanel = () => {
 
     const showPage = (): JSX.Element => {
         switch (page) {
+            case 'categories':
+                return <AdminCategories />;
             case 'items':
                 return <AdminItems />;
             case 'settings':
@@ -22,7 +25,7 @@ const AdminPanel = () => {
             case 'users':
                 return <AdminUsers />;
             default:
-                return <h1>Admin Panel</h1>;
+                return <h2>Admin Panel</h2>;
         }
     };
 

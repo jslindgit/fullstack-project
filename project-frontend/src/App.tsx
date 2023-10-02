@@ -54,11 +54,18 @@ const App = () => {
                 dispatch(setLoggedUser(loggedUser));
             } else {
                 dispatch(removeLoggedUser());
+                localstorage_handler.removeToken();
             }
         };
-        setUser().then(() => {
-            setLoaded(true);
-        });
+        setUser()
+            .then(() => {
+                setLoaded(true);
+            })
+            .catch(() => {
+                dispatch(removeLoggedUser());
+                localstorage_handler.removeToken();
+                setLoaded(true);
+            });
     }, [dispatch]);
 
     const adminPage = (): JSX.Element => {

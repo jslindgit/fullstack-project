@@ -10,15 +10,19 @@ import { tokenExtractor } from '../middlewares/token_extractor';
 
 const router = express.Router();
 
-router.delete('/:id', (async (req, res, next) => {
+router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const deletedUser = await service.deleteById(req.params.id);
-        if (deletedUser) {
-            res.status(204).end();
+        if (res.locals.admin === true) {
+            const deletedUser = await service.deleteById(req.params.id);
+            if (deletedUser) {
+                res.status(204).end();
+            } else {
+                res.status(404).json({
+                    error: `User with id ${req.params.id} not found`,
+                });
+            }
         } else {
-            res.status(404).json({
-                error: `User with id ${req.params.id} not found`,
-            });
+            res.status(403).json({ error: 'Access denied' });
         }
     } catch (err) {
         next(err);
@@ -51,7 +55,7 @@ router.get('/me', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.get('/:id', (async (req, res, next) => {
+router.get('/:id', tokenExtractor, (async (req, res, next) => {
     try {
         const user = await service.getById(req.params.id);
         if (user) {
@@ -68,24 +72,32 @@ router.get('/:id', (async (req, res, next) => {
 
 router.post('/', (async (req, res, next) => {
     try {
-        const newUser = toNewUser(req.body);
-        const addedUser = await service.addNew(newUser);
+        if (res.locals.admin === true) {
+            const newUser = toNewUser(req.body);
+            const addedUser = await service.addNew(newUser);
 
-        res.status(201).json(addedUser);
+            res.status(201).json(addedUser);
+        } else {
+            res.status(403).json({ error: 'Access denied' });
+        }
     } catch (err) {
         next(err);
     }
 }) as RequestHandler);
 
-router.put('/:id', (async (req, res, next) => {
+router.put('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const user = await service.update(req.params.id, req.body);
-        if (user) {
-            res.json(user);
+        if (res.locals.admin === true) {
+            const user = await service.update(req.params.id, req.body);
+            if (user) {
+                res.json(user);
+            } else {
+                res.status(404).json({
+                    error: `User with id ${req.params.id} not found`,
+                });
+            }
         } else {
-            res.status(404).json({
-                error: `User with id ${req.params.id} not found`,
-            });
+            res.status(403).json({ error: 'Access denied' });
         }
     } catch (err) {
         next(err);

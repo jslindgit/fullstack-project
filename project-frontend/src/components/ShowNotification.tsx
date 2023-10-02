@@ -2,7 +2,11 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/root_reducer';
 
-const ShowNotification = () => {
+interface Props {
+    fontSize?: number;
+}
+
+const ShowNotification = ({ fontSize = 20 }: Props) => {
     const miscState = useSelector((state: RootState) => state.misc);
     const notification = miscState.notification;
 
@@ -17,16 +21,15 @@ const ShowNotification = () => {
     if (!notification || notification === null) {
         return <></>;
     } else {
+        const style = { fontSize: fontSize + 'pt' };
         return (
             <>
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td>
-                                <h2>
-                                    {notification.message}
-                                    {tone()}
-                                </h2>
+                            <td style={style}>
+                                {notification.message}
+                                {tone()}
                             </td>
                         </tr>
                     </tbody>

@@ -67,15 +67,19 @@ router.post('/', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.put('/:id', (async (req, res, next) => {
+router.put('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const item = await service.update(req.params.id, req.body);
-        if (item) {
-            res.json(item);
+        if (res.locals.admin === true) {
+            const item = await service.update(req.params.id, req.body);
+            if (item) {
+                res.status(201).json(item);
+            } else {
+                res.status(404).json({
+                    error: `Item with id ${req.params.id} not found`,
+                });
+            }
         } else {
-            res.status(404).json({
-                error: `Item with id ${req.params.id} not found`,
-            });
+            res.status(403).json({ error: 'Access denied' });
         }
     } catch (err) {
         next(err);

@@ -1,7 +1,7 @@
 const AdminSettings = () => {
     return (
         <div>
-            <h1>Settings</h1>
+            <h2>Admin Panel - Settings</h2>
         </div>
     );
 };

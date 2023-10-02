@@ -9,15 +9,19 @@ import { tokenExtractor } from '../middlewares/token_extractor';
 
 const router = express.Router();
 
-router.delete('/:id', (async (req, res, next) => {
+router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const deletedItem = await service.deleteById(req.params.id);
-        if (deletedItem) {
-            res.status(204).end();
+        if (res.locals.admin === true) {
+            const deletedItem = await service.deleteById(req.params.id);
+            if (deletedItem) {
+                res.status(204).end();
+            } else {
+                res.status(404).json({
+                    error: `Item_Category with id ${req.params.id} not found`,
+                });
+            }
         } else {
-            res.status(404).json({
-                error: `Item_Category with id ${req.params.id} not found`,
-            });
+            res.status(403).json({ error: 'Access denied' });
         }
     } catch (err) {
         next(err);

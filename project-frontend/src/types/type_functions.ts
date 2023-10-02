@@ -1,4 +1,4 @@
-import { NewItem, User } from './types';
+import { NewCategory, NewItem, Response, User } from './types';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
@@ -10,6 +10,10 @@ export const isNumber = (text: unknown): text is number => {
 
 export const isObject = (variable: unknown): variable is object => {
     return typeof variable === 'object' || variable instanceof Object;
+};
+
+export const isResponse = (v: unknown): v is Response => {
+    return isObject(v) && 'success' in v && isBoolean(v.success) && 'message' in v && isString(v.message);
 };
 
 export const isString = (text: unknown): text is string => {
@@ -32,6 +36,14 @@ const parseString = (value: unknown, fieldName: string): string => {
         throw new Error(`Incorrect or missing value for ${fieldName}: "${value}"`);
     }
     return value;
+};
+
+export const toNewCategory = (obj: unknown): NewCategory => {
+    if (isObject(obj) && 'name' in obj && isString(obj.name) && 'description' in obj && isString(obj.description)) {
+        return { name: obj.name, description: obj.description };
+    }
+
+    throw new Error('Incorrect data: some fields ("name" or "description") are missing for toNewCategory');
 };
 
 export const toNewItem = (object: unknown): NewItem => {
