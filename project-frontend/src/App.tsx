@@ -82,32 +82,28 @@ const App = () => {
         return <div>Loading...</div>;
     }
     return (
-        <>
-            <div>
-                <table align='center'>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <Router>
-                                    <Menu />
-                                    <ShowNotification />
-                                    <Routes>
-                                        <Route path='/' element={<Home />} />
-                                        <Route path='/admin' element={adminPage()} />
-                                        <Route path='/admin/:page' element={adminPage()} />
-                                        <Route path='/login' element={<Login />} />
-                                        <Route path='/shop' element={<Categories />} />
-                                        <Route path='/shop/:id' element={<Items />} />
-                                        <Route path='/you' element={<UserPanel />} />
-                                        <Route path='*' element={<Error404 />} />
-                                    </Routes>
-                                </Router>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </>
+        <table align='center' width='100%'>
+            <tbody>
+                <tr>
+                    <td>
+                        <Router>
+                            <Menu />
+                            <ShowNotification />
+                            <Routes>
+                                <Route path='/' element={<Home />} />
+                                <Route path='/admin' element={adminPage()} />
+                                <Route path='/admin/:page' element={adminPage()} />
+                                <Route path='/login' element={<Login />} />
+                                <Route path='/shop' element={<Categories />} />
+                                <Route path='/shop/:id' element={<Items />} />
+                                <Route path='/you' element={<UserPanel />} />
+                                <Route path='*' element={<Error404 />} />
+                            </Routes>
+                        </Router>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     );
 };
 

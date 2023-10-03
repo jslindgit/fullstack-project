@@ -4,8 +4,6 @@ import { useEffect } from 'react';
 
 import { RootState } from '../reducers/rootReducer';
 
-import '../App.css';
-
 const UserPanel = () => {
     const miscState = useSelector((state: RootState) => state.misc);
     const usersState = useSelector((state: RootState) => state.users);

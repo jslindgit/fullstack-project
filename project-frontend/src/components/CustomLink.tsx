@@ -9,9 +9,10 @@ import { tickNotification } from '../reducers/miscReducer';
 interface CustomLinkProps extends ReactRouterLinkProps {
     onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
     children: ReactNode;
+    className?: 'link' | 'menuLink';
 }
 
-const CustomLink: React.FC<CustomLinkProps> = ({ to, onClick, children, ...rest }) => {
+const CustomLink: React.FC<CustomLinkProps> = ({ to, onClick, children, className = 'link', ...rest }) => {
     const dispatch = useDispatch();
     const miscState = useSelector((state: RootState) => state.misc);
     const notification = miscState.notification;
@@ -27,7 +28,7 @@ const CustomLink: React.FC<CustomLinkProps> = ({ to, onClick, children, ...rest 
     };
 
     return (
-        <ReactRouterLink to={to} onClick={handleClick} {...rest} className='link'>
+        <ReactRouterLink to={to} onClick={handleClick} {...rest} className={className}>
             {children}
         </ReactRouterLink>
     );

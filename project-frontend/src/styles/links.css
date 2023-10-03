@@ -1,0 +1,18 @@
+a {
+    font-weight: 500;
+    color: #00b91f;
+    text-decoration: inherit;
+}
+a:hover {
+    color: #ff0000;
+}
+
+.link {
+    color: rgb(0, 41, 189);
+}
+.link:hover {
+    color: rgb(72, 112, 255);
+}
+.link:active {
+    color: rgb(0, 55, 255);
+}

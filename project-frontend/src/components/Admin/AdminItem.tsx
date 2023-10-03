@@ -1,55 +1,49 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { ChangeEventHandler } from 'react';
 
 import { Item } from '../../types/types';
+import { ItemInputs } from './AdminItems';
 import { RootState } from '../../reducers/rootReducer';
+import { UseField } from '../../hooks/useField';
 
 import format from '../../util/format';
-import useField from '../../hooks/useField';
+import { isString } from '../../types/type_functions';
 
 interface Props {
     item: Item;
     isEdited: boolean;
+    inputs: ItemInputs;
     deleteItem: (item: Item) => void;
     editItem: (item: Item) => void;
+    editItemCancel: () => void;
 }
 
-const AdminItem = ({ item, isEdited, deleteItem, editItem }: Props) => {
+const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCancel }: Props) => {
     const configState = useSelector((state: RootState) => state.config);
 
-    const name = useField('text');
-    const description = useField('text');
-    const price = useField('number');
-    const instock = useField('number');
-
-    const inputField = (type: string, value: string | number, onChange: ChangeEventHandler<HTMLInputElement>) => (
-        <>
-            <input type={type} value={value} onChange={onChange} />
-        </>
-    );
-
-    useEffect(() => {
-        name.setNewValue(item.name);
-        description.setNewValue(item.description);
-        price.setNewValue(Number(item.price));
-        instock.setNewValue(item.instock);
-    }, []);
+    const inputField = (input: UseField) => {
+        const width = input.value.toString().length * (isString(input.value) ? 9 : 18);
+        return (
+            <>
+                <input type={input.type} value={input.value} onChange={input.onChange} style={{ width }} />
+            </>
+        );
+    };
 
     if (isEdited) {
         return (
             <tr>
-                <td>{inputField(name.type, name.value, name.onChange)}</td>
-                <td>{inputField(description.type, description.value, description.onChange)}</td>
-                <td>{inputField(price.type, price.value, price.onChange)}</td>
-                <td>{inputField(instock.type, instock.value, instock.onChange)}</td>
+                <td>{inputField(inputs.name)}</td>
+                <td>{inputField(inputs.description)}</td>
+                <td>{inputField(inputs.price)}</td>
+                <td>{inputField(inputs.instock)}</td>
                 <td>{item.id}</td>
                 <td>
-                    <button>Save</button>
+                    <button type='submit'>Save</button>
                 </td>
                 <td>
-                    <button className='red' onClick={() => deleteItem(item)}>
-                        Delete
+                    <button type='button' onClick={editItemCancel}>
+                        Cancel
                     </button>
                 </td>
             </tr>
@@ -63,10 +57,12 @@ const AdminItem = ({ item, isEdited, deleteItem, editItem }: Props) => {
                 <td>{item.instock}</td>
                 <td>{item.id}</td>
                 <td>
-                    <button onClick={() => editItem(item)}>Edit</button>
+                    <button type='button' onClick={() => editItem(item)}>
+                        Edit
+                    </button>
                 </td>
                 <td>
-                    <button className='red' onClick={() => deleteItem(item)}>
+                    <button type='button' className='red' onClick={() => deleteItem(item)}>
                         Delete
                     </button>
                 </td>

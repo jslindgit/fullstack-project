@@ -2,7 +2,17 @@ import { useState, ChangeEvent } from 'react';
 
 import { isNumber, isString } from '../types/type_functions';
 
-const useField = (type: 'text' | 'number') => {
+import { handleError } from '../util/error_handler';
+
+export interface UseField {
+    type: 'text' | 'number';
+    value: string | number;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    reset: () => void;
+    setNewValue: (newValue: unknown) => void;
+}
+
+const useField = (type: 'text' | 'number'): UseField => {
     const [value, setValue] = useState(type === 'text' ? '' : 0);
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +29,7 @@ const useField = (type: 'text' | 'number') => {
         } else if (type === 'number' && isNumber(newValue)) {
             setValue(newValue);
         } else {
-            console.log('isNumber (' + newValue + '):', isNumber(newValue) + ' typeof: ' + typeof newValue);
+            handleError(new Error('Invalid value type'));
         }
     };
 

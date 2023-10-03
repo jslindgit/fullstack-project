@@ -1,5 +1,3 @@
-import '../App.css';
-
 import { useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/rootReducer';
@@ -14,7 +12,7 @@ const MainPage = () => {
                     <tbody>
                         <tr>
                             <td>
-                                <h2>Welcome to {configState.storeName}</h2>
+                                <h1>Welcome to {configState.storeName}</h1>
                             </td>
                         </tr>
                     </tbody>

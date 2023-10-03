@@ -11,8 +11,6 @@ import { removeLoggedUser } from '../reducers/usersReducer';
 import { setNotification } from '../reducers/miscReducer';
 import { setPreviousLocation } from '../reducers/miscReducer';
 
-import '../App.css';
-
 const login = (loggedUser: User | null, removeLogged: () => void, setLocation: () => void, setLogoutNotification: () => void) => {
     if (loggedUser) {
         return (
@@ -32,10 +30,12 @@ const login = (loggedUser: User | null, removeLogged: () => void, setLocation: (
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <Link to='/you'>Account</Link>
+                                                <Link to='/you' className='menuLink'>
+                                                    Account
+                                                </Link>
                                             </td>
                                             <td>
-                                                <Link to='#' onClick={async () => await logout(loggedUser, removeLogged, setLogoutNotification)}>
+                                                <Link to='#' className='menuLink' onClick={async () => await logout(loggedUser, removeLogged, setLogoutNotification)}>
                                                     Logout
                                                 </Link>
                                             </td>
@@ -50,7 +50,7 @@ const login = (loggedUser: User | null, removeLogged: () => void, setLocation: (
         );
     } else {
         return (
-            <Link to='/login' onClick={() => setLocation()}>
+            <Link to='/login' className='menuLink' onClick={() => setLocation()}>
                 <h3>Login</h3>
             </Link>
         );
@@ -84,7 +84,7 @@ const Menu = () => {
         if (usersState.loggedUser?.admin) {
             return (
                 <td>
-                    <Link to='/admin/'>
+                    <Link to='/admin/' className='menuLink'>
                         <h3>Admin</h3>
                     </Link>
                 </td>
@@ -96,17 +96,17 @@ const Menu = () => {
 
     return (
         <>
-            <div>
+            <div className='menu'>
                 <table align='center'>
                     <tbody>
                         <tr>
                             <td>
-                                <Link to='/'>
+                                <Link to='/' className='menuLink'>
                                     <h3>Home</h3>
                                 </Link>
                             </td>
                             <td>
-                                <Link to='/shop'>
+                                <Link to='/shop' className='menuLink'>
                                     <h3>Products</h3>
                                 </Link>
                             </td>
