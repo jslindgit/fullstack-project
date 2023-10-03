@@ -14,9 +14,12 @@ router.delete('/all_by_item_id/:id', tokenExtractor, (async (req, res, next) => 
         if (res.locals.admin === true) {
             const all = await service.getAll();
             if (all) {
-                const matching = all.filter((ic) => 'itemId' in ic && ic.itemId === req.params.id);
+                console.log('all.length:', all.length);
+                const matching = all.filter((ic) => 'itemId' in ic && ic.itemId === Number(req.params.id));
+                console.log('matching.length:', matching.length);
                 matching.forEach(async (toDel) => {
                     if ('id' in toDel) {
+                        console.log('deleting item_category with id ' + toDel.id + '...');
                         await service.deleteById(toDel.id);
                     }
                 });

@@ -1,10 +1,10 @@
 import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Dispatch } from 'react';
 
 import { Category } from '../types/types';
 export type CategoryState = Category[];
 
 import categoryService from '../services/categoryService';
-import { Dispatch } from 'react';
 
 const slice = createSlice({
     name: 'categories',

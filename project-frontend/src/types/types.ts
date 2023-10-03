@@ -20,13 +20,14 @@ export enum Currency {
 
 export interface Item {
     id: number;
-    name: string;
+    categories: Category[];
     description: string;
-    price: number;
     instock: number;
+    name: string;
+    price: number;
 }
 
-export type NewItem = Omit<Item, 'id'>;
+export type NewItem = Omit<Omit<Item, 'id'>, 'categories'>;
 
 export interface LoginResponse {
     success: boolean;

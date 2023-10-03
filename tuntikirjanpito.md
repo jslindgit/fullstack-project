@@ -22,4 +22,5 @@
 |       | 2    | Parempi kirjautumisenhallinta, alustava "Oma tili" -sivu                                         |     |
 | 2.10. | 2    | Admin-sivustolle mahdollisuus lisätä kategorioita, backendiin lisää token-vaatimuksia            |     |
 |       | 2    | Parempi "Tuotteet"-sivu, Adminille mahdollisuus poistaa kategorioita, alustava tuotteiden poisto |     |
-|  yht  | 43   |                                                                                                  |     |
+| 3.10. | 2    | Admin-sivun tuotehallinnan työstöä                                                               | 45  |
+|  yht  | 45   |                                                                                                  |     |

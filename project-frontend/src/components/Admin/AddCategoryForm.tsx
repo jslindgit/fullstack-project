@@ -7,7 +7,6 @@ import useField from '../../hooks/useField';
 import categoryService from '../../services/categoryService';
 import { toNewCategory } from '../../types/type_functions';
 
-import { addCategory } from '../../reducers/categoryReducer';
 import { setNotification } from '../../reducers/miscReducer';
 
 import ShowNotification from '../ShowNotification';
@@ -41,10 +40,7 @@ const AddCategoryForm = ({ user }: Props) => {
         event.preventDefault();
 
         const newCategory = toNewCategory({ name: name.value, description: description.value });
-        const res = await categoryService.add(newCategory, user.token);
-        if (res.success && res.addedCategory) {
-            dispatch(addCategory(res.addedCategory));
-        }
+        const res = await categoryService.add(newCategory, user.token, dispatch);
 
         dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
