@@ -15,10 +15,26 @@ interface Props {
     deleteItem: (item: Item) => void;
     editItem: (item: Item) => void;
     editItemCancel: () => void;
+    setSelectedCategories: React.Dispatch<React.SetStateAction<number[]>>;
+    setCategoriesChanged: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCancel }: Props) => {
+const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCancel, setSelectedCategories, setCategoriesChanged }: Props) => {
+    const categoriesState = useSelector((state: RootState) => state.categories);
     const configState = useSelector((state: RootState) => state.config);
+
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setCategoriesChanged(true);
+
+        const options = event.target.options;
+        const selected: number[] = [];
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].selected) {
+                selected.push(Number(options[i].value));
+            }
+        }
+        setSelectedCategories(selected);
+    };
 
     const inputField = (input: UseField) => {
         const width = input.value.toString().length * (isString(input.value) ? 9 : 18);
@@ -38,6 +54,15 @@ const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCance
                 <td>{inputField(inputs.instock)}</td>
                 <td>{item.id}</td>
                 <td>
+                    <select multiple onChange={handleCategoryChange}>
+                        {categoriesState.map((c) => (
+                            <option key={c.id} value={c.id}>
+                                {c.name}
+                            </option>
+                        ))}
+                    </select>
+                </td>
+                <td>
                     <button type='submit'>Save</button>
                 </td>
                 <td>
@@ -55,6 +80,7 @@ const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCance
                 <td>{format.currency(item.price, configState)}</td>
                 <td>{item.instock}</td>
                 <td>{item.id}</td>
+                <td>{item.categories ? item.categories.length : 0}</td>
                 <td>
                     <button type='button' onClick={() => editItem(item)}>
                         Edit

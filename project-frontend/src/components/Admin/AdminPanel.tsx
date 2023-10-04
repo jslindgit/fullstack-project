@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 
 import { RootState } from '../../reducers/rootReducer';
 
+import { pageWidth } from '../../constants';
+
 import AdminCategories from './AdminCategories';
 import AdminItems from './AdminItems';
 import AdminMenu from './AdminMenu';
@@ -35,7 +37,7 @@ const AdminPanel = () => {
 
     return (
         <div>
-            <table align='center'>
+            <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
                         <td>

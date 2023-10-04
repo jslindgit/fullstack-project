@@ -2,7 +2,7 @@ import { ChangeEventHandler, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../reducers/rootReducer';
-import { NewItem, User } from '../../types/types';
+import { Item, NewItem, User } from '../../types/types';
 
 import useField from '../../hooks/useField';
 import itemService from '../../services/itemService';
@@ -15,9 +15,11 @@ import ShowNotification from '../ShowNotification';
 interface Props {
     user: User;
     selected_category_id: number;
+    items: Item[];
+    setItems: React.Dispatch<React.SetStateAction<Item[]>>;
 }
 
-const AddItemForm = ({ user, selected_category_id }: Props) => {
+const AddItemForm = ({ user, selected_category_id, items, setItems }: Props) => {
     const name = useField('text');
     const description = useField('text');
     const price = useField('number');
@@ -51,14 +53,18 @@ const AddItemForm = ({ user, selected_category_id }: Props) => {
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
         const newItem: NewItem = toNewItem({ name: name.value, description: description.value, price: price.value, instock: instock.value });
-        const res = await itemService.add(newItem, Number(selectedCategory), user.token, configState, dispatch);
+        const res = await itemService.add(newItem, selectedCategory && Number(selectedCategory) >= 0 ? Number(selectedCategory) : null, user.token, configState, dispatch);
 
         dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
-        name.reset();
-        description.reset();
-        price.reset();
-        instock.reset();
+        if (res.success && res.item) {
+            name.reset();
+            description.reset();
+            price.reset();
+            instock.reset();
+
+            setItems([...items, res.item]);
+        }
     };
 
     return (
@@ -81,6 +87,7 @@ const AddItemForm = ({ user, selected_category_id }: Props) => {
                                             {c.name}
                                         </option>
                                     ))}
+                                    <option value={-1}>NONE</option>
                                 </select>
                             </td>
                         </tr>

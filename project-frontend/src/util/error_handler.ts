@@ -1,6 +1,8 @@
 import { AxiosError } from 'axios';
 
-export const handleError = (err: unknown): void => {
+export const handleError = (err: unknown, additionalInfo: string = ''): void => {
+    console.trace();
+
     let errorMessage = 'Something went wrong.';
     if (err instanceof Error) {
         errorMessage = `${err.name}: ${err.message}`;
@@ -10,6 +12,6 @@ export const handleError = (err: unknown): void => {
         }
     }
 
-    console.log('error_handler.handleError:', errorMessage);
+    console.log(`error_handler.handleError [${additionalInfo}]: ${errorMessage}`);
     throw new Error(errorMessage);
 };

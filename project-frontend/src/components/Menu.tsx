@@ -48,11 +48,7 @@ const Menu = () => {
                 </table>
             );
         } else {
-            return (
-                <Link to='/login' className='menuLink' onClick={() => setLocation()}>
-                    <h3>Login</h3>
-                </Link>
-            );
+            return <div onClick={setLocation}>{menuLink('/login', 'Login', 'Big')}</div>;
         }
     };
 
@@ -79,6 +75,7 @@ const Menu = () => {
 
     const setLocation = () => {
         dispatch(setPreviousLocation(currentPath));
+        console.log(currentPath);
     };
 
     const setLogoutNotification = () => {

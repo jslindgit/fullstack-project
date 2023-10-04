@@ -39,7 +39,7 @@ const AdminCategories = () => {
     return (
         <div>
             <h2>Admin Panel - Categories</h2>
-            <table>
+            <table align='center'>
                 <tbody>
                     {categoryState.map((c) => (
                         <tr key={c.id}>

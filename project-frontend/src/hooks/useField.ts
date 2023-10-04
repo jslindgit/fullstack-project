@@ -10,13 +10,16 @@ export interface UseField {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     reset: () => void;
     setNewValue: (newValue: unknown) => void;
+    anyChanges: boolean;
 }
 
 const useField = (type: 'text' | 'number'): UseField => {
     const [value, setValue] = useState(type === 'text' ? '' : 0);
+    const [anyChanges, setAnyChanges] = useState<boolean>(false);
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
+        setAnyChanges(true);
     };
 
     const reset = () => {
@@ -41,6 +44,7 @@ const useField = (type: 'text' | 'number'): UseField => {
         onChange,
         reset,
         setNewValue,
+        anyChanges,
     };
 };
 

@@ -21,7 +21,8 @@ const url = apiBaseUrl + '/items';
 const add = async (toAdd: object, category_id: number | null, token: string, config: Config, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
     try {
         const newItem = toNewItem(toAdd);
-        const { data } = await axios.post(url, { ...newItem, category_id: category_id }, authConfig(token));
+        const body = category_id ? { ...newItem, category_id: category_id } : newItem;
+        const { data } = await axios.post(url, body, authConfig(token));
 
         if ('name' in data && 'price' in data) {
             await initializeCategories(dispatch);

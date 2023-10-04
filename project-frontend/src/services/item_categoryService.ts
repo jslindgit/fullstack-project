@@ -15,7 +15,7 @@ const addConnection = async (item: Item, category: Category, token: string): Pro
         return { success: true, message: `${item.name} added to category ${category.name}` };
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Something went wrong' };
+        return { success: false, message: 'Error occurred' };
     }
 };
 
@@ -26,11 +26,26 @@ const deleteAllConnectionsByItem = async (item: Item, token: string): Promise<Re
         return { success: true, message: `${item.name} removed from all categories` };
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Something went wrong' };
+        return { success: false, message: 'Error occurred' };
+    }
+};
+
+const deleteConnection = async (itemId: number, categoryId: number, token: string): Promise<Response> => {
+    try {
+        const res = await axios.delete(url + '/item_and_category_id', { ...authConfig(token), data: { item_id: itemId, category_id: categoryId } });
+        if (res.status === 204) {
+            return { success: true, message: 'Connection deleted' };
+        } else {
+            return { success: false, message: 'Request failed with status code ' + res.status };
+        }
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: 'Error occurred' };
     }
 };
 
 export default {
     addConnection,
     deleteAllConnectionsByItem,
+    deleteConnection,
 };

@@ -61,6 +61,7 @@ router.post('/', tokenExtractor, (async (req, res, next) => {
             if (isObject(req.body) && 'category_id' in req.body && isNumber(req.body.category_id)) {
                 category_id = req.body.category_id;
             }
+            console.log('category_id', category_id);
             const addedItem = await service.addNew(newItem, category_id);
 
             res.status(201).json(addedItem);

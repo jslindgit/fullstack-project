@@ -1,0 +1,7 @@
+GET http://localhost:3001/api/item_categories/item_and_category_id
+Content-Type: application/json
+
+{
+	"item_id": 2,
+	"category_id": 1
+}

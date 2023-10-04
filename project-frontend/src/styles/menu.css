@@ -9,6 +9,7 @@
 .menuLink:active {
     color: rgb(255, 225, 0);
 }
+
 .menuNoLink {
     background-color: rgb(36, 41, 46);
     color: rgb(200, 200, 200);

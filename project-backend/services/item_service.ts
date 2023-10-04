@@ -12,6 +12,7 @@ const addNew = async (newItem: NewItem, category_id: number | null): Promise<Ite
         await item.save();
 
         if (category_id && 'id' in item) {
+            console.log('category_id', category_id);
             const newItem_Category: NewItem_Category = toNewItem_Category({ item_id: item.id, category_id: category_id });
             await item_category_service.addNew(newItem_Category);
         }
