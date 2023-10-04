@@ -24,4 +24,5 @@
 |       | 2    | Parempi "Tuotteet"-sivu, Adminille mahdollisuus poistaa kategorioita, alustava tuotteiden poisto |     |
 | 3.10. | 2    | Admin-sivun tuotehallinnan työstöä                                                               | 45  |
 |       | 2    | Lisää tuotehallinnan työstöä, CSS-tyylien refactorointia                                         |     |
-|  yht  | 47   |                                                                                                  |     |
+| 4.10. | 2    | Admin-sivun tuotteen päivitys toimimaan, tyylikkäämpi ylävalikko                                 |     |
+|  yht  | 49   |                                                                                                  |     |

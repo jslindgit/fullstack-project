@@ -1,5 +1,5 @@
 table {
-    border-spacing: 0px;
+    border-spacing: 0;
 }
 
 th,
@@ -7,7 +7,6 @@ td {
     padding: 9px;
     padding-left: 27px;
     padding-right: 27px;
-    margin: 0px;
     text-align: left;
 }
 
@@ -19,4 +18,14 @@ td:first-child {
 td:last-child {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+.tight {
+    border-spacing: 0px !important;
+    border-collapse: collapse !important;
+    padding: 0;
+    border: none !important;
+}
+.tight td {
+    text-align: center !important;
 }

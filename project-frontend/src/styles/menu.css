@@ -1,15 +1,15 @@
-.menu {
-    background-color: rgb(70, 70, 70);
-    color: rgb(200, 200, 200);
-}
-
 .menuLink {
     color: rgb(255, 255, 255);
-    transition: color 0.1s;
 }
 .menuLink:hover {
+    background-color: rgb(49, 56, 63);
     color: rgb(255, 245, 170);
+    cursor: pointer;
 }
 .menuLink:active {
     color: rgb(255, 225, 0);
+}
+.menuNoLink {
+    background-color: rgb(36, 41, 46);
+    color: rgb(200, 200, 200);
 }

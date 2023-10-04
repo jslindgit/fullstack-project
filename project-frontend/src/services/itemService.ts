@@ -13,7 +13,7 @@ import { handleError } from '../util/error_handler';
 import { toNewItem } from '../types/type_functions';
 
 interface ItemResponse extends Response {
-    addedItem: Item | null;
+    item: Item | null;
 }
 
 const url = apiBaseUrl + '/items';
@@ -25,14 +25,14 @@ const add = async (toAdd: object, category_id: number | null, token: string, con
 
         if ('name' in data && 'price' in data) {
             await initializeCategories(dispatch);
-            return { success: true, message: `New item added: ${data.name} (${data.price} ${config.currency})`, addedItem: data };
+            return { success: true, message: `New item added: ${data.name} (${data.price} ${config.currency})`, item: data };
         } else {
             handleError('Server did not return an Item object');
-            return { success: false, message: 'Something went wrong, try again later', addedItem: null };
+            return { success: false, message: 'Something went wrong, try again later', item: null };
         }
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Something went wrong', addedItem: null };
+        return { success: false, message: 'Error occurred', item: null };
     }
 };
 
@@ -50,7 +50,7 @@ const deleteItem = async (item: Item, token: string, dispatch: Dispatch<AnyActio
         }
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Something went wrong' };
+        return { success: false, message: 'Error occurred' };
     }
 };
 
@@ -73,9 +73,27 @@ const getById = async (id: number) => {
     }
 };
 
+const update = async (item: Item, token: string, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
+    try {
+        const { data } = await axios.put<Item>(`${url}/${item.id}`, item, authConfig(token));
+
+        if ('name' in data && 'price' in data) {
+            await initializeCategories(dispatch);
+            return { success: true, message: `Item ${data.name} updated`, item: data };
+        } else {
+            handleError('Server did not return an Item object');
+            return { success: false, message: 'Something went wrong, try again later', item: null };
+        }
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: 'Error occurred', item: null };
+    }
+};
+
 export default {
     add,
     deleteItem,
     getAll,
     getById,
+    update,
 };

@@ -35,7 +35,7 @@ const AdminPanel = () => {
 
     return (
         <div>
-            <table>
+            <table align='center'>
                 <tbody>
                     <tr>
                         <td>

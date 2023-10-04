@@ -14,6 +14,7 @@ import { setNotification } from '../../reducers/miscReducer';
 
 import AdminItem from './AdminItem';
 import AddItemForm from '../Admin/AddItemForm';
+import { handleError } from '../../util/error_handler';
 
 export interface ItemInputs {
     name: UseField;
@@ -66,7 +67,7 @@ const AdminItems = () => {
         setEdited(null);
     };
 
-    const editItemSubmit = (event: React.FormEvent) => {
+    const editItemSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (
             edited &&
@@ -75,8 +76,17 @@ const AdminItems = () => {
                 edited.price.toString() !== inputs.price.value.toString() ||
                 edited.instock.toString() !== inputs.instock.value.toString())
         ) {
-            console.log('saving ' + edited.name);
-            console.log(edited.name + ' ' + inputs.name.value);
+            if (usersState.loggedUser?.token) {
+                edited.name = inputs.name.value.toString();
+                edited.description = inputs.description.value.toString();
+                edited.price = Number(inputs.price.value);
+                edited.instock = Number(inputs.price.value);
+
+                const res = await itemService.update(edited, usersState.loggedUser.token, dispatch);
+                dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+            } else {
+                handleError(new Error('Missing token'));
+            }
         }
     };
 

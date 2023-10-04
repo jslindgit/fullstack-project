@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { Link } from './CustomLink';
 
 import { User } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
@@ -11,33 +10,34 @@ import { removeLoggedUser } from '../reducers/usersReducer';
 import { setNotification } from '../reducers/miscReducer';
 import { setPreviousLocation } from '../reducers/miscReducer';
 
-const login = (loggedUser: User | null, removeLogged: () => void, setLocation: () => void, setLogoutNotification: () => void) => {
-    if (loggedUser) {
-        return (
-            <>
-                <table>
+import { Link } from './CustomLink';
+
+const Menu = () => {
+    const dispatch = useDispatch();
+    const usersState = useSelector((state: RootState) => state.users);
+
+    const currentPath = useLocation().pathname;
+
+    const login = (loggedUser: User | null, removeLogged: () => void, setLocation: () => void, setLogoutNotification: () => void) => {
+        if (loggedUser) {
+            return (
+                <table align='center'>
                     <tbody>
                         <tr>
-                            <td>
-                                <b>
-                                    {loggedUser.username} {loggedUser.admin ? <> (Admin)</> : <></>}
-                                </b>
+                            <td style={{ textAlign: 'center' }}>
+                                {loggedUser.username} {loggedUser.admin ? <> (Admin)</> : <></>}
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <table align='center'>
+                            <td className='tight'>
+                                <table align='center' width='100%'>
                                     <tbody>
                                         <tr>
-                                            <td>
-                                                <Link to='/you' className='menuLink'>
-                                                    Account
-                                                </Link>
+                                            <td width='50%' className='tight'>
+                                                {menuLink('/you', 'Account', 'Small')}
                                             </td>
-                                            <td>
-                                                <Link to='#' className='menuLink' onClick={async () => await logout(loggedUser, removeLogged, setLogoutNotification)}>
-                                                    Logout
-                                                </Link>
+                                            <td width='50%' className='tight' onClick={async () => await logout(loggedUser, removeLogged, setLogoutNotification)}>
+                                                {menuLink('#', 'Logout', 'Small')}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -46,27 +46,32 @@ const login = (loggedUser: User | null, removeLogged: () => void, setLocation: (
                         </tr>
                     </tbody>
                 </table>
-            </>
-        );
-    } else {
-        return (
-            <Link to='/login' className='menuLink' onClick={() => setLocation()}>
-                <h3>Login</h3>
-            </Link>
-        );
-    }
-};
+            );
+        } else {
+            return (
+                <Link to='/login' className='menuLink' onClick={() => setLocation()}>
+                    <h3>Login</h3>
+                </Link>
+            );
+        }
+    };
 
-const logout = async (loggedUser: User, removeLogged: () => void, setLogoutNotification: () => void) => {
-    setLogoutNotification();
-    await loginService.logout(loggedUser.token, removeLogged);
-};
+    const logout = async (loggedUser: User, removeLogged: () => void, setLogoutNotification: () => void) => {
+        setLogoutNotification();
+        await loginService.logout(loggedUser.token, removeLogged);
+    };
 
-const Menu = () => {
-    const dispatch = useDispatch();
-    const usersState = useSelector((state: RootState) => state.users);
-
-    const currentPath = useLocation().pathname;
+    const menuLink = (to: string, text: string, fontSize: 'Big' | 'Small' = 'Big') => (
+        <Link to={to}>
+            <table align='center' width='100%'>
+                <tbody>
+                    <tr>
+                        <td className='menuLink'>{fontSize === 'Big' ? <h3>{text}</h3> : <>{text}</>}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </Link>
+    );
 
     const removeLogged = () => {
         dispatch(removeLoggedUser());
@@ -82,13 +87,7 @@ const Menu = () => {
 
     const showAdminMenu = () => {
         if (usersState.loggedUser?.admin) {
-            return (
-                <td>
-                    <Link to='/admin/' className='menuLink'>
-                        <h3>Admin</h3>
-                    </Link>
-                </td>
-            );
+            return <td className='tight'>{menuLink('/admin', 'Admin')}</td>;
         } else {
             return <></>;
         }
@@ -96,21 +95,15 @@ const Menu = () => {
 
     return (
         <>
-            <div className='menu'>
+            <div className='menuNoLink'>
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td>
-                                <Link to='/' className='menuLink'>
-                                    <h3>Home</h3>
-                                </Link>
+                            <td className='tight'>{menuLink('/', 'Home')}</td>
+                            <td className='tight'>{menuLink('/shop', 'Products')}</td>
+                            <td className='tight' style={{ padding: 0 }}>
+                                {login(usersState.loggedUser, removeLogged, setLocation, setLogoutNotification)}
                             </td>
-                            <td>
-                                <Link to='/shop' className='menuLink'>
-                                    <h3>Products</h3>
-                                </Link>
-                            </td>
-                            <td>{login(usersState.loggedUser, removeLogged, setLocation, setLogoutNotification)}</td>
                             {showAdminMenu()}
                         </tr>
                     </tbody>
