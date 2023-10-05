@@ -24,7 +24,7 @@ const Menu = () => {
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td style={{ textAlign: 'center' }}>
+                            <td className='sizeNormal' style={{ textAlign: 'center' }}>
                                 {loggedUser.username} {loggedUser.admin ? <> (Admin)</> : <></>}
                             </td>
                         </tr>
@@ -62,7 +62,7 @@ const Menu = () => {
             <table align='center' width='100%'>
                 <tbody>
                     <tr>
-                        <td className='menuLink'>{fontSize === 'Big' ? <h3>{text}</h3> : <>{text}</>}</td>
+                        <td className={'menuLink ' + (fontSize === 'Big' ? 'sizeLarge' : 'sizeNormal')}>{text}</td>
                     </tr>
                 </tbody>
             </table>

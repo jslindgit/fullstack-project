@@ -150,11 +150,10 @@ const AdminItems = () => {
 
     return (
         <div>
-            <h2>Admin Panel - Items</h2>
-            <h2>{category ? category.name : 'Uncategorized'}</h2>
+            <h3>{category ? category.name : 'Uncategorized'}</h3>
             <p>{category ? category.description : 'Items that do not currently belong to any category'}</p>
-            <form onSubmit={editItemSubmit}>
-                <table align='center'>
+            <form onSubmit={editItemSubmit} className='adminFormItemEdit'>
+                <table align='center' className='sizeSmallish'>
                     <tbody>
                         <tr className='bold'>
                             <td>Product</td>

@@ -37,14 +37,17 @@ const AdminPanel = () => {
 
     return (
         <div>
-            <table align='center' width={pageWidth}>
+            <table align='center' width={pageWidth * 0.67} /* style={{ backgroundColor: '#dbdbdb' }}*/>
                 <tbody>
-                    <tr>
+                    <tr /*style={{ backgroundColor: '#b8b8b8' }}*/>
                         <td>
                             <AdminMenu />
                         </td>
                     </tr>
                     <tr>
+                        <td className='adminHeader'>Admin Panel{page && page.length > 0 ? ' - ' + page : ''}</td>
+                    </tr>
+                    <tr /*style={{ backgroundColor: '#8f8f8f' }}*/>
                         <td>{showPage()}</td>
                     </tr>
                 </tbody>

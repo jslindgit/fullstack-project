@@ -11,8 +11,19 @@ const CategoryItem = ({ category }: CategoryProps) => {
     return (
         <td>
             <Link to={'/shop/' + category.id}>
-                <h3>{category.name}</h3>
-                {category.description}
+                <table align='center' width='100%' className='categoryLink'>
+                    <tbody>
+                        <tr>
+                            <td className='menuLink'>
+                                <span className='sizeLarge' style={{ lineHeight: 1.5 }}>
+                                    {category.name}
+                                </span>
+                                <br />
+                                <span className='sizeSmall'>{category.description}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </Link>
         </td>
     );

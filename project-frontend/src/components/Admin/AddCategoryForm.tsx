@@ -50,10 +50,10 @@ const AddCategoryForm = ({ user }: Props) => {
 
     return (
         <>
-            <h2>Add new category</h2>
+            <h3>Add new category</h3>
             <ShowNotification fontSize={14} />
-            <form onSubmit={submit}>
-                <table>
+            <form onSubmit={submit} className='adminForm'>
+                <table className='paddingTopBottomOnly'>
                     <tbody>
                         {inputField('Name', name.type, name.value, name.onChange)}
                         {inputField('Description', description.type, description.value, description.onChange)}

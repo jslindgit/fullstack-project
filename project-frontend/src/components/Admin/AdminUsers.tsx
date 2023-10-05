@@ -1,9 +1,5 @@
 const AdminUsers = () => {
-    return (
-        <div>
-            <h2>Admin Panel - Users</h2>
-        </div>
-    );
+    return <div></div>;
 };
 
 export default AdminUsers;

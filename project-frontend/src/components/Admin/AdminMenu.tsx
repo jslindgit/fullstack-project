@@ -9,29 +9,19 @@ const AdminMenu = () => {
                 <tbody>
                     <tr>
                         <td>
-                            <Link to={baseUrl}>
-                                <h3>Panel</h3>
-                            </Link>
+                            <Link to={baseUrl}>Panel</Link>
                         </td>
                         <td>
-                            <Link to={baseUrl + 'categories'}>
-                                <h3>Categories</h3>
-                            </Link>
+                            <Link to={baseUrl + 'categories'}>Categories</Link>
                         </td>
                         <td>
-                            <Link to={baseUrl + 'items'}>
-                                <h3>Items</h3>
-                            </Link>
+                            <Link to={baseUrl + 'items'}>Items</Link>
                         </td>
                         <td>
-                            <Link to={baseUrl + 'users'}>
-                                <h3>Users</h3>
-                            </Link>
+                            <Link to={baseUrl + 'users'}>Users</Link>
                         </td>
                         <td>
-                            <Link to={baseUrl + 'settings'}>
-                                <h3>Settings</h3>
-                            </Link>
+                            <Link to={baseUrl + 'settings'}>Settings</Link>
                         </td>
                     </tr>
                 </tbody>

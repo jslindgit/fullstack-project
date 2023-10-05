@@ -26,4 +26,5 @@
 |       | 2    | Lisää tuotehallinnan työstöä, CSS-tyylien refactorointia                                             |     |
 | 4.10. | 2    | Admin-sivun tuotteen päivitys toimimaan, tyylikkäämpi ylävalikko                                     |     |
 |       | 3    | Virheenkäsittelyn parantelua, Admin-sivulle mahdollisuus siirtää tuotteita kategorioihin/pois niistä |     |
-|  yht  | 52   |                                                                                                      |     |
+| 5.10. | 2    | CSS-tyylien säätöä                                                                                   |     |
+|  yht  | 54   |                                                                                                      |     |

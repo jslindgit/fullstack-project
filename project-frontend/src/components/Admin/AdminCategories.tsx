@@ -38,18 +38,26 @@ const AdminCategories = () => {
 
     return (
         <div>
-            <h2>Admin Panel - Categories</h2>
-            <table align='center'>
+            <table align='center' /*style={{ backgroundColor: '#5f5f5f' }}*/>
                 <tbody>
-                    {categoryState.map((c) => (
-                        <tr key={c.id}>
-                            <td>
-                                <Link to={'/admin/items?category=' + c.id}>{c.name}</Link>
-                                &emsp;
-                                <button onClick={() => deleteCategory(c)}>Delete</button>
-                            </td>
-                        </tr>
-                    ))}
+                    <tr>
+                        <td>
+                            <table className='paddingTopBottomOnly'>
+                                <tbody>
+                                    {categoryState.map((c) => (
+                                        <tr key={c.id}>
+                                            <td>
+                                                <Link to={'/admin/items?category=' + c.id}>{c.name}</Link>
+                                            </td>
+                                            <td>
+                                                <button onClick={() => deleteCategory(c)}>Delete</button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <AddCategoryForm user={usersState.loggedUser} />
