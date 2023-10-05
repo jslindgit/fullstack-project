@@ -1,0 +1,15 @@
+:root {
+    --colorGold: rgb(134, 122, 111);
+    --colorGoldLight: rgb(178, 164, 151);
+    --colorGoldVeryLight: rgb(197, 185, 172);
+
+    --colorGrayDarkest: rgb(60, 61, 62);
+    --colorGrayDark: rgb(70, 71, 72);
+    --colorGraySemiDark: rgb(90, 91, 92);
+    --colorGrayLight: rgb(230, 231, 232);
+    --colorGrayVeryLight: rgb(240, 241, 242);
+
+    --colorYellowLight: rgb(255, 238, 170);
+    --colorYellow: rgb(255, 220, 82);
+    --colorWhite: rgb(255, 255, 255);
+}

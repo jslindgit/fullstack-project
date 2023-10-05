@@ -1,36 +1,37 @@
 h1 {
-    font-size: 2.75em;
+    font-size: 2.75rem;
     line-height: 1.1;
 }
 h2 {
-    font-size: 2em;
+    font-size: 2rem;
     line-height: 1.1;
 }
 h3 {
-    font-size: 1.3em;
+    font-size: 1.3rem;
     line-height: 1.1;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--colorGraySemiDark);
 }
 
 /* Size */
 .sizeVerySmall {
-    font-size: 0.5em;
+    font-size: 0.5rem;
 }
 .sizeSmall {
-    font-size: 0.75em;
+    font-size: 0.75rem;
 }
 .sizeSmallish {
-    font-size: 0.8em;
+    font-size: 0.8rem;
 }
 .sizeNormal {
-    font-size: 1em;
+    font-size: 1rem;
 }
 .sizeLarge {
-    font-size: 1.2em;
+    font-size: 1.2rem;
 }
 .sizeVeryLarge {
-    font-size: 1.5em;
+    font-size: 1.5rem;
 }
 
 /* Style */
@@ -40,11 +41,16 @@ h3 {
 
 /* Custom */
 .adminHeader {
-    font-size: 1.2em;
+    font-size: 1.2rem;
     font-weight: bold;
     line-height: 1;
     margin: 0px;
     margin-top: 0px;
     margin-bottom: 10px;
     text-transform: capitalize;
+}
+
+.pageHeader {
+    font-size: 1.5rem;
+    font-weight: bold;
 }

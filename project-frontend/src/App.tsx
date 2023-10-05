@@ -44,7 +44,6 @@ const App = () => {
         const fetchData = async () => {
             await initializeCategories(dispatch);
         };
-        void fetchData();
 
         const setUser = async () => {
             const token = localstorage_handler.getToken();
@@ -59,15 +58,18 @@ const App = () => {
                 localstorage_handler.removeToken();
             }
         };
-        setUser()
-            .then(() => {
-                dispatch(setLoaded(true));
-            })
-            .catch(() => {
-                dispatch(removeLoggedUser());
-                localstorage_handler.removeToken();
-                dispatch(setLoaded(true));
-            });
+
+        fetchData().then(() => {
+            setUser()
+                .then(() => {
+                    dispatch(setLoaded(true));
+                })
+                .catch(() => {
+                    dispatch(removeLoggedUser());
+                    localstorage_handler.removeToken();
+                    dispatch(setLoaded(true));
+                });
+        });
     }, [dispatch]);
 
     const adminPage = (): JSX.Element => {
@@ -82,28 +84,22 @@ const App = () => {
         return <div>Loading...</div>;
     }
     return (
-        <table align='center' width='100%'>
-            <tbody>
-                <tr>
-                    <td>
-                        <Router>
-                            <Menu />
-                            <ShowNotification />
-                            <Routes>
-                                <Route path='/' element={<Home />} />
-                                <Route path='/admin' element={adminPage()} />
-                                <Route path='/admin/:page' element={adminPage()} />
-                                <Route path='/login' element={<Login />} />
-                                <Route path='/shop' element={<Categories />} />
-                                <Route path='/shop/:id' element={<Items />} />
-                                <Route path='/you' element={<UserPanel />} />
-                                <Route path='*' element={<Error404 />} />
-                            </Routes>
-                        </Router>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <>
+            <Router>
+                <Menu />
+                <ShowNotification />
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/admin' element={adminPage()} />
+                    <Route path='/admin/:page' element={adminPage()} />
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/shop' element={<Categories />} />
+                    <Route path='/shop/:id' element={<Items />} />
+                    <Route path='/you' element={<UserPanel />} />
+                    <Route path='*' element={<Error404 />} />
+                </Routes>
+            </Router>
+        </>
     );
 };
 

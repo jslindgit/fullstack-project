@@ -4,7 +4,7 @@ form {
 
 input,
 select {
-    font-size: 1em;
+    font-size: 1rem;
     padding: 9px;
     border-style: solid;
     border-color: rgb(205, 200, 200);
@@ -22,7 +22,7 @@ option {
 
 .adminForm input,
 select {
-    font-size: 0.75em;
+    font-size: 0.75rem;
     padding: 5px;
     margin: 0;
 }

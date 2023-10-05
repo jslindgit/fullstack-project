@@ -92,15 +92,13 @@ const Menu = () => {
 
     return (
         <>
-            <div className='menuNoLink'>
+            <div className='menu'>
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td className='tight'>{menuLink('/', 'Home')}</td>
-                            <td className='tight'>{menuLink('/shop', 'Products')}</td>
-                            <td className='tight' style={{ padding: 0 }}>
-                                {login(usersState.loggedUser, removeLogged, setLocation, setLogoutNotification)}
-                            </td>
+                            <td>{menuLink('/', 'Home')}</td>
+                            <td>{menuLink('/shop', 'Products')}</td>
+                            <td>{login(usersState.loggedUser, removeLogged, setLocation, setLogoutNotification)}</td>
                             {showAdminMenu()}
                         </tr>
                     </tbody>

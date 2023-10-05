@@ -1,33 +1,43 @@
 /* Top menu ("navi bar") */
+.menu {
+    background-color: var(--colorGrayDarkest);
+    color: var(--colorGrayLight);
+}
+.menu td {
+    padding: 0px;
+}
+
 .menuLink {
-    color: rgb(255, 255, 255);
+    color: var(--colorWhite);
+    padding-top: 20px !important;
+    padding-bottom: 22px !important;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
 }
 .menuLink:hover {
-    background-color: rgb(49, 56, 63);
-    color: rgb(255, 245, 170);
+    background-color: var(--colorGrayDark);
+    color: var(--colorGoldVeryLight);
     cursor: pointer;
 }
 .menuLink:active {
-    color: rgb(255, 225, 0);
-}
-
-.menuNoLink {
-    background-color: rgb(36, 41, 46);
-    color: rgb(200, 200, 200);
+    color: var(--colorGoldLight);
 }
 
 /* Categories ("frontpage" of /shop/) */
 .categoryLink {
-    color: rgb(255, 255, 255);
-    background-color: rgb(36, 41, 46);
+    color: var(--colorWhite);
+    background-color: var(--colorGrayDarkest);
     border-radius: 15px;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .categoryLink:hover {
-    background-color: rgb(49, 56, 63);
-    color: rgb(255, 245, 170);
+    background-color: var(--colorGrayDark);
+    color: var(--colorGoldVeryLight);
     cursor: pointer;
 }
 .categoryLink:active {
-    color: rgb(255, 225, 0);
+    color: var(--colorGoldLight);
 }

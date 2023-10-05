@@ -8,11 +8,11 @@ a:hover {
 }
 
 .link {
-    color: rgb(0, 41, 189);
+    color: var(--colorGold);
 }
 .link:hover {
-    color: rgb(72, 112, 255);
+    color: var(--colorGoldLight);
 }
 .link:active {
-    color: rgb(0, 55, 255);
+    color: var(--colorGoldVeryLight);
 }
