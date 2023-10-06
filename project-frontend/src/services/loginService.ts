@@ -21,8 +21,7 @@ const login = async (username: string, password: string, setLoggedUser: (loggedU
             return { success: false, message: 'Something went wrong, please try again later...' };
         }
     } catch (err: unknown) {
-        console.log('err:', err);
-
+        handleError(err);
         if (err instanceof AxiosError && err.response?.status === 401) {
             return { success: false, message: 'Invalid username or password' };
         } else {

@@ -63,10 +63,12 @@ const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCance
                     </select>
                 </td>
                 <td>
-                    <button type='submit'>Save</button>
+                    <button type='submit' className='compactButton'>
+                        Save
+                    </button>
                 </td>
                 <td>
-                    <button type='button' onClick={editItemCancel}>
+                    <button type='button' className='compactButton' onClick={editItemCancel}>
                         Cancel
                     </button>
                 </td>
@@ -82,12 +84,12 @@ const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCance
                 <td>{item.id}</td>
                 <td>{item.categories ? item.categories.length : 0}</td>
                 <td>
-                    <button type='button' onClick={() => editItem(item)}>
+                    <button type='button' className='compactButton' onClick={() => editItem(item)}>
                         Edit
                     </button>
                 </td>
                 <td>
-                    <button type='button' className='red' onClick={() => deleteItem(item)}>
+                    <button type='button' className='red compactButton' onClick={() => deleteItem(item)}>
                         Delete
                     </button>
                 </td>

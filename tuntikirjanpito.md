@@ -29,4 +29,5 @@
 | 5.10. | 2    | CSS-tyylien säätöä                                                                                   |     |
 |       | 2    | Lisää ulkoasun parantelua                                                                            |     |
 | 6.10. | 1    | Ulkoasun parantelua                                                                                  |     |
-|  yht  | 57   |                                                                                                      |     |
+|       | 1    | Ulkoasun parantelua                                                                                  |     |
+|  yht  | 58   |                                                                                                      |     |

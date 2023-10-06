@@ -38,19 +38,30 @@ const AdminCategories = () => {
 
     return (
         <div>
-            <table align='center' /*style={{ backgroundColor: '#5f5f5f' }}*/>
+            <table align='center' className='paddingTopBottomOnly' width='100%'>
                 <tbody>
                     <tr>
                         <td>
-                            <table className='paddingTopBottomOnly'>
+                            <table className='paddingTopBottomOnly dotted' width='100%'>
                                 <tbody>
+                                    <tr className='bold'>
+                                        <td>Name</td>
+                                        <td>Description</td>
+                                    </tr>
                                     {categoryState.map((c) => (
                                         <tr key={c.id}>
-                                            <td>
+                                            <td className='widthByContent'>
                                                 <Link to={'/admin/items?category=' + c.id}>{c.name}</Link>
                                             </td>
+                                            <td>{c.description}</td>
+                                            <td style={{ width: '1rem' }}></td>
+                                            <td className='widthByContent'>
+                                                <button onClick={() => console.log('edit ' + c.name)}>Edit</button>
+                                            </td>
                                             <td>
-                                                <button onClick={() => deleteCategory(c)}>Delete</button>
+                                                <button className='red' onClick={() => deleteCategory(c)}>
+                                                    Delete
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}

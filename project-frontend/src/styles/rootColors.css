@@ -10,14 +10,15 @@
     --colorGrayLight: rgb(220, 221, 222);
     --colorGrayVeryLight: rgb(240, 241, 242);
 
-    --colorGreenVeryLight: rgb(215, 255, 200);
+    --colorGreenVeryLight: rgb(230, 255, 220);
     --colorGreenDark: rgb(0, 100, 0);
 
     --colorRedVeryLight: rgb(255, 209, 199);
     --colorRed: rgb(189, 45, 36);
     --colorRedDark: rgb(146, 33, 26);
+    --colorRedVeryDark: rgb(126, 28, 22);
 
-    --colorYellowVeryLight: rgb(253, 255, 235);
+    --colorYellowVeryLight: rgb(255, 253, 240);
     --colorYellowLight: rgb(255, 250, 170);
     --colorYellow: rgb(255, 220, 82);
     --colorWhite: rgb(255, 255, 255);

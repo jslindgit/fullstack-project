@@ -55,3 +55,11 @@
     transition: background-color 0s;
     transition: color 0s;
 }
+
+/* Misc */
+.currentPage {
+    text-decoration: underline solid;
+    text-underline-offset: 0.35rem;
+    text-decoration-color: var(--colorGoldVeryLight);
+    text-decoration-thickness: 0.2rem;
+}

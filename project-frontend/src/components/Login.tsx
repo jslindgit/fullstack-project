@@ -40,13 +40,13 @@ const Login = () => {
                         <tr>
                             <td width='10'>Username:</td>
                             <td>
-                                <input value={username} onChange={({ target }) => setUsername(target.value)} style={{ width: '20rem' }} />
+                                <input value={username} onChange={({ target }) => setUsername(target.value)} style={{ width: '100%' }} />
                             </td>
                         </tr>
                         <tr>
                             <td>Password:</td>
                             <td>
-                                <input type='password' value={password} onChange={({ target }) => setPassword(target.value)} style={{ width: '20rem' }} />
+                                <input type='password' value={password} onChange={({ target }) => setPassword(target.value)} style={{ width: '100%' }} />
                             </td>
                         </tr>
                         <tr>

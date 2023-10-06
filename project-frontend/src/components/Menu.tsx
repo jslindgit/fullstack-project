@@ -62,6 +62,9 @@ const Menu = () => {
         if (fontSize === 'Small') {
             className += ' menuLinkSmall';
         }
+        if ((to !== '/' && currentPath.includes(to)) || (currentPath === '/' && to === '/')) {
+            className += ' currentPage';
+        }
 
         return (
             <Link to={to}>

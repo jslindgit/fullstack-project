@@ -28,7 +28,7 @@ const AddCategoryForm = ({ user }: Props) => {
     const inputField = (label: string, type: string, value: string | number, onChange: ChangeEventHandler<HTMLInputElement>) => (
         <>
             <tr>
-                <td width='10'>{label}:</td>
+                <td className='widthByContent'>{label}:</td>
                 <td>
                     <input type={type} value={value} onChange={onChange} />
                 </td>
@@ -51,9 +51,9 @@ const AddCategoryForm = ({ user }: Props) => {
     return (
         <>
             <h3>Add new category</h3>
-            <ShowNotification fontSize={14} />
+            <ShowNotification fontSize='Small' />
             <form onSubmit={submit} className='adminForm'>
-                <table className='paddingTopBottomOnly'>
+                <table className='paddingTopBottomOnly' width='100%'>
                     <tbody>
                         {inputField('Name', name.type, name.value, name.onChange)}
                         {inputField('Description', description.type, description.value, description.onChange)}

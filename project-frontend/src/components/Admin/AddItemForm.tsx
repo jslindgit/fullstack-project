@@ -42,7 +42,7 @@ const AddItemForm = ({ user, selected_category_id, items, setItems }: Props) => 
     const inputField = (label: string, type: string, value: string | number, onChange: ChangeEventHandler<HTMLInputElement>) => (
         <>
             <tr>
-                <td width='10'>{label}:</td>
+                <td className='widthByContent'>{label}:</td>
                 <td>
                     <input type={type} value={value} onChange={onChange} />
                 </td>
@@ -69,10 +69,10 @@ const AddItemForm = ({ user, selected_category_id, items, setItems }: Props) => 
 
     return (
         <>
-            <h2>Add item</h2>
-            <ShowNotification fontSize={14} />
+            <h3>Add new item</h3>
+            <ShowNotification fontSize='Small' />
             <form onSubmit={submit}>
-                <table>
+                <table className='paddingTopBottomOnly' width='100%'>
                     <tbody>
                         {inputField('Name', name.type, name.value, name.onChange)}
                         {inputField('Description', description.type, description.value, description.onChange)}

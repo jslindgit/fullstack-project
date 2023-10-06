@@ -9,6 +9,11 @@ select {
     border: 1px solid;
     border-color: var(--colorGray);
     border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input {
+    width: 100%;
 }
 
 input:focus {
@@ -22,12 +27,12 @@ input:focus {
 
 option {
     text-transform: capitalize;
-    font-size: 18px;
+    font-size: 1rem;
 }
 
 .adminForm input,
 select {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     padding: 5px;
     margin: 0;
 }

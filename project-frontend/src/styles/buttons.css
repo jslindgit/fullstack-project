@@ -12,10 +12,10 @@ button {
     transition: background-color 0.25s;
 }
 button:hover {
-    background-color: var(--colorGoldLight);
+    background-color: var(--colorGoldVeryLight);
 }
 button:active {
-    background-color: var(--colorGold);
+    background-color: var(--colorGoldLight);
     transition: background-color 0s;
 }
 button.red {
@@ -23,4 +23,14 @@ button.red {
 }
 button.red:hover {
     background-color: var(--colorRedDark);
+}
+button.red:active {
+    background-color: var(--colorRedVeryDark);
+}
+
+.compactButton {
+    font-size: 0.8rem;
+    border-radius: 3px;
+    padding-left: 0.4rem !important;
+    padding-right: 0.4rem !important;
 }

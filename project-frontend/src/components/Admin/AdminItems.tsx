@@ -153,7 +153,7 @@ const AdminItems = () => {
             <h3>{category ? category.name : 'Uncategorized'}</h3>
             <p>{category ? category.description : 'Items that do not currently belong to any category'}</p>
             <form onSubmit={editItemSubmit} className='adminFormItemEdit'>
-                <table align='center' className='sizeSmallish'>
+                <table align='center' width='100%' className='sizeSmallish paddingTopBottomOnly dotted'>
                     <tbody>
                         <tr className='bold'>
                             <td>Product</td>
@@ -181,6 +181,8 @@ const AdminItems = () => {
                     </tbody>
                 </table>
             </form>
+            <br />
+            <br />
             {usersState.loggedUser?.admin ? <AddItemForm user={usersState.loggedUser} selected_category_id={id} items={items} setItems={setItems} /> : <></>}
         </div>
     );

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/rootReducer';
@@ -10,33 +11,44 @@ const ShowNotification = ({ fontSize = 'Big' }: Props) => {
     const miscState = useSelector((state: RootState) => state.misc);
     const notification = miscState.notification;
 
+    const [isActive, setIsActive] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (notification && notification !== null) {
+            setIsActive(true);
+        } else {
+            setIsActive(false);
+        }
+    }, [notification]);
+
     if (!notification || notification === null) {
         return <></>;
     } else {
-        const classFont = fontSize === 'Big' ? 'notificationBig' : 'notificationSmall';
-        let classColor;
+        let classNames = 'notification' + (isActive ? '' : ' hidden');
+        classNames += fontSize === 'Big' ? ' notificationBig' : ' notificationSmall';
         switch (notification.tone) {
             case 'Positive':
-                classColor = 'notificationPositive';
+                classNames += ' notificationPositive';
                 break;
             case 'Negative':
-                classColor = 'notificationNegative';
+                classNames += ' notificationNegative';
                 break;
             default:
-                classColor = 'notificationNeutral';
+                classNames += ' notificationNeutral';
         }
+
         return (
-            <>
+            <div className={classNames}>
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td className={classColor}>
-                                <span className={classFont}>{notification.message}</span>
+                            <td>
+                                <span>{notification.message}</span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </>
+            </div>
         );
     }
 };

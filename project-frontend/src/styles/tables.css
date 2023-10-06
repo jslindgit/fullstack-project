@@ -39,9 +39,14 @@ td:last-child {
 }
 
 /* Misc */
-.widthByContent {
-    width: 10px !important;
-    text-wrap: nowrap;
+.dotted {
+    border-collapse: collapse;
+}
+.dotted tr {
+    border-bottom: 2px solid var(--colorGrayLight);
+}
+.dotted tr:first-child {
+    border-top: 2px solid var(--colorGrayLight);
 }
 
 .striped tr:nth-child(odd) {
@@ -56,4 +61,9 @@ td:last-child {
 }
 .tight td {
     text-align: center !important;
+}
+
+.widthByContent {
+    width: 10px !important;
+    text-wrap: nowrap;
 }
