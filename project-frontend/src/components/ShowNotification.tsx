@@ -3,33 +3,35 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../reducers/rootReducer';
 
 interface Props {
-    fontSize?: number;
+    fontSize?: 'Big' | 'Small';
 }
 
-const ShowNotification = ({ fontSize = 20 }: Props) => {
+const ShowNotification = ({ fontSize = 'Big' }: Props) => {
     const miscState = useSelector((state: RootState) => state.misc);
     const notification = miscState.notification;
-
-    const tone = () => {
-        if (!notification || notification.tone === 'Neutral') {
-            return '';
-        } else {
-            return notification.tone === 'Positive' ? ' :)' : ' :(';
-        }
-    };
 
     if (!notification || notification === null) {
         return <></>;
     } else {
-        const style = { fontSize: fontSize + 'pt' };
+        const classFont = fontSize === 'Big' ? 'notificationBig' : 'notificationSmall';
+        let classColor;
+        switch (notification.tone) {
+            case 'Positive':
+                classColor = 'notificationPositive';
+                break;
+            case 'Negative':
+                classColor = 'notificationNegative';
+                break;
+            default:
+                classColor = 'notificationNeutral';
+        }
         return (
             <>
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td style={style}>
-                                {notification.message}
-                                {tone()}
+                            <td className={classColor}>
+                                <span className={classFont}>{notification.message}</span>
                             </td>
                         </tr>
                     </tbody>

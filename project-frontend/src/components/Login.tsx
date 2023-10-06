@@ -29,21 +29,24 @@ const Login = () => {
     };
 
     const loginForm = () => (
-        <>
-            <h2>Login</h2>
+        <div>
             <form onSubmit={submit}>
-                <table>
+                <table align='center' width='1px' className='paddingTopBottomOnly'>
                     <tbody>
+                        <tr>
+                            <td className='pageHeader'>Login</td>
+                            <td></td>
+                        </tr>
                         <tr>
                             <td width='10'>Username:</td>
                             <td>
-                                <input value={username} onChange={({ target }) => setUsername(target.value)} />
+                                <input value={username} onChange={({ target }) => setUsername(target.value)} style={{ width: '20rem' }} />
                             </td>
                         </tr>
                         <tr>
                             <td>Password:</td>
                             <td>
-                                <input type='password' value={password} onChange={({ target }) => setPassword(target.value)} />
+                                <input type='password' value={password} onChange={({ target }) => setPassword(target.value)} style={{ width: '20rem' }} />
                             </td>
                         </tr>
                         <tr>
@@ -55,7 +58,7 @@ const Login = () => {
                     </tbody>
                 </table>
             </form>
-        </>
+        </div>
     );
 
     const userInfo = () => {

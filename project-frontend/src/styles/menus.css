@@ -15,12 +15,21 @@
     padding-right: 30px !important;
 }
 .menuLink:hover {
-    background-color: var(--colorGrayDark);
+    background-color: var(--colorGraySemiDark);
     color: var(--colorGoldVeryLight);
     cursor: pointer;
+    transition: background-color 0.25s;
+    transition: color 0.25s;
 }
 .menuLink:active {
+    background-color: var(--colorGrayDark);
     color: var(--colorGoldLight);
+    transition: background-color 0s;
+    transition: color 0s;
+}
+.menuLinkSmall {
+    padding-top: 10px !important;
+    padding-bottom: 11px !important;
 }
 
 /* Categories ("frontpage" of /shop/) */
@@ -34,10 +43,15 @@
     padding-right: 20px;
 }
 .categoryLink:hover {
-    background-color: var(--colorGrayDark);
+    background-color: var(--colorGraySemiDark);
     color: var(--colorGoldVeryLight);
     cursor: pointer;
+    transition: background-color 0.25s;
+    transition: color 0.25s;
 }
 .categoryLink:active {
+    background-color: var(--colorGrayDark);
     color: var(--colorGoldLight);
+    transition: background-color 0s;
+    transition: color 0s;
 }

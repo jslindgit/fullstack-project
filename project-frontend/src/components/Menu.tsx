@@ -24,7 +24,7 @@ const Menu = () => {
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td className='sizeNormal' style={{ textAlign: 'center' }}>
+                            <td className='sizeNormal' style={{ textAlign: 'center', paddingBottom: '5px', paddingTop: '4px' }}>
                                 {loggedUser.username} {loggedUser.admin ? <> (Admin)</> : <></>}
                             </td>
                         </tr>
@@ -57,17 +57,24 @@ const Menu = () => {
         await loginService.logout(loggedUser.token, removeLogged);
     };
 
-    const menuLink = (to: string, text: string, fontSize: 'Big' | 'Small' = 'Big') => (
-        <Link to={to}>
-            <table align='center' width='100%'>
-                <tbody>
-                    <tr>
-                        <td className={'menuLink ' + (fontSize === 'Big' ? 'sizeLarge' : 'sizeNormal')}>{text}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </Link>
-    );
+    const menuLink = (to: string, text: string, fontSize: 'Big' | 'Small' = 'Big') => {
+        let className = 'menuLink ' + (fontSize === 'Big' ? 'sizeLarge' : 'sizeNormal');
+        if (fontSize === 'Small') {
+            className += ' menuLinkSmall';
+        }
+
+        return (
+            <Link to={to}>
+                <table align='center' width='100%'>
+                    <tbody>
+                        <tr>
+                            <td className={className}>{text}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </Link>
+        );
+    };
 
     const removeLogged = () => {
         dispatch(removeLoggedUser());

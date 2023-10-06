@@ -1,0 +1,10 @@
+:root {
+    --fontSizeVerySmall: 0.5rem;
+    --fontSizeSmall: 0.75rem;
+    --fontSizeSmallish: 0.8rem;
+    --fontSizeNormal: 1rem;
+    --fontSizeLarge: 1.25rem;
+    --fontSizeVeryLarge: 1.5rem;
+    --fontSizeHuge: 2rem;
+    --fontSizeGigantic: 2.5rem;
+}

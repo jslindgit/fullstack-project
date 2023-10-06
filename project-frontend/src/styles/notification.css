@@ -1,0 +1,28 @@
+.notificationPositive {
+    background-color: var(--colorGreenVeryLight);
+    color: var(--colorGreenDark);
+    border: 1px solid var(--colorGreenDark);
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+.notificationNeutral {
+    background-color: var(--colorYellowLight);
+    color: var(--colorGrayDark);
+    border: 1px solid var(--colorYellow);
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+.notificationNegative {
+    background-color: var(--colorRedVeryLight);
+    color: var(--colorRedDark);
+    border: 1px solid var(--colorRedDark);
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.notificationBig {
+    font-size: var(--fontSizeLarge);
+}
+.notificationSmall {
+    font-size: var(--fontSizeSmall);
+}

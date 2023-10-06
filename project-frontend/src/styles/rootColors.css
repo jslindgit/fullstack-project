@@ -1,15 +1,24 @@
 :root {
-    --colorGold: rgb(134, 122, 111);
-    --colorGoldLight: rgb(178, 164, 151);
-    --colorGoldVeryLight: rgb(197, 185, 172);
+    --colorGold: rgb(134, 110, 80);
+    --colorGoldLight: rgb(169, 141, 103);
+    --colorGoldVeryLight: rgb(201, 175, 132);
 
-    --colorGrayDarkest: rgb(60, 61, 62);
-    --colorGrayDark: rgb(70, 71, 72);
-    --colorGraySemiDark: rgb(90, 91, 92);
-    --colorGrayLight: rgb(230, 231, 232);
+    --colorGrayDarkest: rgb(50, 51, 52);
+    --colorGrayDark: rgb(60, 61, 62);
+    --colorGraySemiDark: rgb(65, 66, 67);
+    --colorGray: rgb(160, 161, 162);
+    --colorGrayLight: rgb(220, 221, 222);
     --colorGrayVeryLight: rgb(240, 241, 242);
 
-    --colorYellowLight: rgb(255, 238, 170);
+    --colorGreenVeryLight: rgb(215, 255, 200);
+    --colorGreenDark: rgb(0, 100, 0);
+
+    --colorRedVeryLight: rgb(255, 209, 199);
+    --colorRed: rgb(189, 45, 36);
+    --colorRedDark: rgb(146, 33, 26);
+
+    --colorYellowVeryLight: rgb(253, 255, 235);
+    --colorYellowLight: rgb(255, 250, 170);
     --colorYellow: rgb(255, 220, 82);
     --colorWhite: rgb(255, 255, 255);
 }

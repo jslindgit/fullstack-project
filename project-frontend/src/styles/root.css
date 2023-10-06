@@ -12,7 +12,7 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
 
-    --default-padding: 20px; /* paddingBottom: 'calc(var(--default-padding) * 2)' */
+    --default-padding: 1rem; /* paddingBottom: 'calc(var(--default-padding) * 2 + 3px)' */
 }
 
 body {

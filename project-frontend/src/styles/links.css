@@ -11,8 +11,10 @@ a:hover {
     color: var(--colorGold);
 }
 .link:hover {
-    color: var(--colorGoldLight);
+    color: var(--colorGoldVeryLight);
+    transition: color 0.25s;
 }
 .link:active {
-    color: var(--colorGoldVeryLight);
+    color: var(--colorGoldLight);
+    transition: color 0s;
 }
