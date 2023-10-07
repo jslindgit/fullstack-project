@@ -30,6 +30,9 @@ td:last-child {
 .noOuterPadding td:last-child {
     padding-right: 0 !important;
 }
+.noPadding {
+    padding: 0 !important;
+}
 
 .paddingTopBottomOnly td:first-child {
     padding-left: 0 !important;

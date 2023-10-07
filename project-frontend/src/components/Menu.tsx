@@ -108,6 +108,7 @@ const Menu = () => {
                         <tr>
                             <td>{menuLink('/', 'Home')}</td>
                             <td>{menuLink('/shop', 'Products')}</td>
+                            <td>{menuLink('/info', 'Info')}</td>
                             <td>{login(usersState.loggedUser, removeLogged, setLocation, setLogoutNotification)}</td>
                             {showAdminMenu()}
                         </tr>

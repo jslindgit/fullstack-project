@@ -30,4 +30,5 @@
 |       | 2    | Lisää ulkoasun parantelua                                                                            |     |
 | 6.10. | 1    | Ulkoasun parantelua                                                                                  |     |
 |       | 1    | Ulkoasun parantelua                                                                                  |     |
+| 7.10. | 1    | Config-tyypin laajennusta ja Info-sivu                                                               |     |
 |  yht  | 58   |                                                                                                      |     |

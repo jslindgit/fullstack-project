@@ -23,6 +23,7 @@ import AdminPanel from './components/Admin/AdminPanel';
 import Categories from './components/Categories';
 import Error404 from './components/Error404';
 import Home from './components/Home';
+import Info from './components/Info';
 import Items from './components/Items';
 import Login from './components/Login';
 import Menu from './components/Menu';
@@ -92,6 +93,7 @@ const App = () => {
                     <Route path='/' element={<Home />} />
                     <Route path='/admin' element={adminPage()} />
                     <Route path='/admin/:page' element={adminPage()} />
+                    <Route path='/info' element={<Info />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/shop' element={<Categories />} />
                     <Route path='/shop/:id' element={<Items />} />

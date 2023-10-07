@@ -8,9 +8,22 @@ export interface Category {
 export type NewCategory = Omit<Omit<Category, 'id'>, 'items'>;
 
 export interface Config {
-    storeName: string;
     currency: Currency;
     currencyBeforeSum: boolean;
+    owner: ConfigOwner;
+    store: ConfigStore;
+}
+
+export interface ConfigOwner {
+    email: string;
+    name: string;
+    phone?: string | null;
+}
+
+export interface ConfigStore {
+    email: string;
+    name: string;
+    phone?: string | null;
 }
 
 export enum Currency {
