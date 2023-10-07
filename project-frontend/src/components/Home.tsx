@@ -12,7 +12,7 @@ const MainPage = () => {
                     <tbody>
                         <tr>
                             <td>
-                                <h1>Welcome to {configState.storeName}</h1>
+                                <h1>Welcome to {configState.store.name}</h1>
                             </td>
                         </tr>
                     </tbody>

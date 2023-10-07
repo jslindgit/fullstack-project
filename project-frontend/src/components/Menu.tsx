@@ -24,8 +24,8 @@ const Menu = () => {
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td className='sizeNormal' style={{ textAlign: 'center', paddingBottom: '5px', paddingTop: '4px' }}>
-                                {loggedUser.username} {loggedUser.admin ? <> (Admin)</> : <></>}
+                            <td className='sizeNormal' style={{ textAlign: 'center', paddingBottom: '3px', paddingTop: '6px' }}>
+                                {loggedUser.username} {loggedUser.admin ? <span className='colorYellowLight'> (Admin)</span> : <></>}
                             </td>
                         </tr>
                         <tr>

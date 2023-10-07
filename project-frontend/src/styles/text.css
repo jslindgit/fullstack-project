@@ -39,6 +39,11 @@ h3 {
     font-weight: bold;
 }
 
+/* Color */
+.colorYellowLight {
+    color: var(--colorYellowLight);
+}
+
 /* Custom */
 .adminHeader {
     font-size: var(--fontSizeLarge);

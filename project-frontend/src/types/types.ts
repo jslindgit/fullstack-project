@@ -15,15 +15,16 @@ export interface Config {
 }
 
 export interface ConfigOwner {
+    businessIdentifier: string;
     email: string;
     name: string;
-    phone?: string | null;
+    phone: string;
 }
 
 export interface ConfigStore {
     email: string;
     name: string;
-    phone?: string | null;
+    phone: string;
 }
 
 export enum Currency {

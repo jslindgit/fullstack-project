@@ -1,16 +1,25 @@
 import { useSelector } from 'react-redux';
-import { Link } from './CustomLink';
 
 import { RootState } from '../reducers/rootReducer';
 
-import { isString } from '../types/type_functions';
 import { pageWidth } from '../constants';
 
 const Info = () => {
     const configState = useSelector((state: RootState) => state.config);
 
-    const phone = (phoneNumber: unknown) => {
-        if (isString(phoneNumber)) {
+    const businessId = (bid: string) => {
+        if (bid.length > 0) {
+            return (
+                <tr>
+                    <td className='widthByContent'>Business ID:</td>
+                    <td>{bid}</td>
+                </tr>
+            );
+        }
+    };
+
+    const phone = (phoneNumber: string) => {
+        if (phoneNumber.length > 0) {
             return (
                 <tr>
                     <td>Phone:</td>
@@ -31,7 +40,7 @@ const Info = () => {
                             <table align='left' className='paddingTopBottomOnly'>
                                 <tbody>
                                     <tr>
-                                        <td>
+                                        <td className='currentPage'>
                                             <h3>{configState.store.name}</h3>
                                         </td>
                                     </tr>
@@ -57,7 +66,7 @@ const Info = () => {
                             <table align='right' className='paddingTopBottomOnly'>
                                 <tbody>
                                     <tr>
-                                        <td>
+                                        <td className='currentPage'>
                                             <h3>Store Owner</h3>
                                         </td>
                                     </tr>
@@ -70,10 +79,11 @@ const Info = () => {
                                         <td className='noPadding'>
                                             <table align='center' width='100%' className='paddingTopBottomOnly'>
                                                 <tbody>
+                                                    {businessId(configState.owner.businessIdentifier)}
                                                     <tr>
                                                         <td className='widthByContent'>Email:</td>
                                                         <td>
-                                                            <a href={'mailto:' + configState.store.email}>{configState.store.email}</a>
+                                                            <a href={'mailto:' + configState.owner.email}>{configState.owner.email}</a>
                                                         </td>
                                                     </tr>
                                                     {phone(configState.owner.phone)}

@@ -7,8 +7,9 @@ export const defaultConfig: Config = {
     currency: Currency.EUR,
     currencyBeforeSum: false,
     owner: {
+        businessIdentifier: '1234567-8',
         email: 'owner@unnamedwebstore123.com',
-        name: 'Unnamed Owner',
+        name: 'Unnamed Owner Oy',
         phone: '+358 40 123 45678',
     },
     store: {
