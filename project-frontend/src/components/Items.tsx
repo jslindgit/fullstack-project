@@ -30,12 +30,10 @@ const ItemCol = ({ item, config }: ItemColProps) => {
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <br />
-                                {format.currency(item.price, config)}
-                                <br />
-                                {item.instock > 0 ? 'In stock' : 'Sold out'}
-                            </td>
+                            <td>{format.currency(item.price, config)}</td>
+                        </tr>
+                        <tr>
+                            <td className={item.instock > 0 ? 'categoryInStock' : 'categorySoldOut'}>{item.instock > 0 ? `In stock (${item.instock})` : 'Sold out'}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -106,8 +104,8 @@ const Items = () => {
                             </td>
                         </tr>
                         <tr>
-                            <td className='pageHeader' style={{ paddingTop: 'calc(var(--default-padding) * 0.5)', paddingBottom: 'var(--default-padding)' }}>
-                                {category.name}
+                            <td className='tight pageHeader'>
+                                <h3>{category.name}</h3>
                             </td>
                         </tr>
                     </tbody>

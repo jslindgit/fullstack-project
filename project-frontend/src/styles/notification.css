@@ -5,12 +5,12 @@
     height: 3.45rem;
     will-change: height;
     overflow: hidden !important;
-    transition: height 1s ease-in-out !important;
+    transition: height 0.75s ease-in-out !important;
 }
 
 .notification.hidden {
     height: 1px !important;
-    transition: height 1s ease-in-out !important;
+    transition: height 0.75s ease-in-out !important;
 }
 
 .notificationPositive {
@@ -33,5 +33,5 @@
     font-size: var(--fontSizeLarge);
 }
 .notificationSmall {
-    font-size: var(--fontSizeSmall);
+    font-size: var(--fontSizeLarge);
 }

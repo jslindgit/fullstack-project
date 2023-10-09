@@ -44,7 +44,7 @@
 }
 .categoryLink:hover {
     background-color: var(--colorGraySemiDark);
-    color: var(--colorGoldVeryLight);
+    color: var(--colorGoldVeryLight) !important;
     cursor: pointer;
     transition: color 0.25s, background-color 0.25s;
 }
@@ -52,6 +52,26 @@
     background-color: var(--colorGrayDark);
     color: var(--colorGoldLight);
     transition: color 0s, background-color 0s;
+}
+.categoryInStock {
+    font-size: var(--fontSizeSmall);
+    color: var(--colorGreenVeryLight);
+}
+.categoryInStock:hover {
+    color: var(--colorGoldVeryLight) !important;
+}
+.categoryInStock:active {
+    color: var(--colorGoldLight);
+}
+.categorySoldOut {
+    font-size: var(--fontSizeSmall);
+    color: var(--colorRed);
+}
+.categorySoldOut:hover {
+    color: var(--colorGoldVeryLight) !important;
+}
+.categorySoldOut:active {
+    color: var(--colorGoldLight);
 }
 
 /* Misc */

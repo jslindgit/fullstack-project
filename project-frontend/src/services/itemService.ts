@@ -76,7 +76,10 @@ const getById = async (id: number) => {
 
 const update = async (item: Item, token: string, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
     try {
-        const { data } = await axios.put<Item>(`${url}/${item.id}`, item, authConfig(token));
+        const toUpdate = { name: item.name, description: item.description, price: item.price, instock: item.instock };
+
+        const res = await axios.put<Item>(`${url}/${item.id}`, toUpdate, authConfig(token));
+        const data = res.data;
 
         if ('name' in data && 'price' in data) {
             await initializeCategories(dispatch);

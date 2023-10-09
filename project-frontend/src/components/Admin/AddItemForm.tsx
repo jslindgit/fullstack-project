@@ -2,7 +2,7 @@ import { ChangeEventHandler, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../reducers/rootReducer';
-import { Item, NewItem, User } from '../../types/types';
+import { Category, Item, NewItem, User } from '../../types/types';
 
 import useField from '../../hooks/useField';
 import itemService from '../../services/itemService';
@@ -14,17 +14,17 @@ import ShowNotification from '../ShowNotification';
 
 interface Props {
     user: User;
-    selected_category_id: number;
+    category: Category | undefined;
     items: Item[];
     setItems: React.Dispatch<React.SetStateAction<Item[]>>;
 }
 
-const AddItemForm = ({ user, selected_category_id, items, setItems }: Props) => {
+const AddItemForm = ({ user, category, items, setItems }: Props) => {
     const name = useField('text');
     const description = useField('text');
     const price = useField('number');
     const instock = useField('number');
-    const [selectedCategory, setSelectedCategory] = useState<string>(selected_category_id.toString());
+    const [selectedCategory, setSelectedCategory] = useState<string>(category ? category.id.toString() : '-1');
 
     const dispatch = useDispatch();
 
@@ -32,8 +32,8 @@ const AddItemForm = ({ user, selected_category_id, items, setItems }: Props) => 
     const configState = useSelector((state: RootState) => state.config);
 
     useEffect(() => {
-        setSelectedCategory(selected_category_id.toString());
-    }, [selected_category_id]);
+        setSelectedCategory(category ? category.id.toString() : '-1');
+    }, [category]);
 
     const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedCategory(event.target.value);
@@ -87,7 +87,7 @@ const AddItemForm = ({ user, selected_category_id, items, setItems }: Props) => 
                                             {c.name}
                                         </option>
                                     ))}
-                                    <option value={-1}>NONE</option>
+                                    <option value={-1}>UNCATEGORIZED</option>
                                 </select>
                             </td>
                         </tr>

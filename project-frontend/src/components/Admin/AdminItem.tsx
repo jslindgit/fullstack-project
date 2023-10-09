@@ -37,7 +37,7 @@ const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCance
     };
 
     const inputField = (input: UseField) => {
-        const width = input.value.toString().length * (isString(input.value) ? 9 : 18);
+        const width = (input.value.toString().length * (isString(input.value) ? 0.7 : 1) + (isString(input.value) ? 0 : 3)).toString() + 'em';
         return (
             <>
                 <input type={input.type} value={input.value} onChange={input.onChange} style={{ width }} />
@@ -82,7 +82,7 @@ const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCance
                 <td>{format.currency(item.price, configState)}</td>
                 <td>{item.instock}</td>
                 <td>{item.id}</td>
-                <td>{item.categories ? item.categories.length : 0}</td>
+                <td>{item.categories ? item.categories.length.toString() : 0}</td>
                 <td>
                     <button type='button' className='compactButton' onClick={() => editItem(item)}>
                         Edit

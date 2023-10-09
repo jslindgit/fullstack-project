@@ -6,7 +6,7 @@ th,
 td {
     padding: var(--default-padding);
     text-align: left;
-    /*border: 1px solid red;*/
+    /*border: 1px solid red !important;*/
 }
 td:first-child {
     border-top-left-radius: 5px;
@@ -30,6 +30,7 @@ td:last-child {
 .noOuterPadding td:last-child {
     padding-right: 0 !important;
 }
+
 .noPadding {
     padding: 0 !important;
 }
@@ -60,10 +61,6 @@ td:last-child {
     border-spacing: 0px !important;
     border-collapse: collapse !important;
     padding: 0;
-    border: none !important;
-}
-.tight td {
-    text-align: center !important;
 }
 
 .widthByContent {

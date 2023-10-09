@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Item } from '../../types/types';
+import { Category, Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 import { UseField } from '../../hooks/useField';
 
+import { handleError } from '../../util/error_handler';
 import itemService from '../../services/itemService';
 import item_categoryService from '../../services/item_categoryService';
 import useField from '../../hooks/useField';
@@ -15,7 +16,7 @@ import { setNotification } from '../../reducers/miscReducer';
 
 import AdminItem from './AdminItem';
 import AddItemForm from '../Admin/AddItemForm';
-import { handleError } from '../../util/error_handler';
+import { Link } from '../CustomLink';
 
 export interface ItemInputs {
     name: UseField;
@@ -29,6 +30,14 @@ const AdminItems = () => {
     const categoryState = useSelector((state: RootState) => state.categories);
     const usersState = useSelector((state: RootState) => state.users);
 
+    const [searchParams] = useSearchParams();
+
+    const getCategoryFromParams = (): Category | undefined => {
+        const id = Number(searchParams.get('category'));
+        return id && isNumber(id) ? categoryState.find((c) => c.id === id) : undefined;
+    };
+
+    const [category, setCategory] = useState<Category | undefined>(getCategoryFromParams());
     const [items, setItems] = useState<Item[]>([]);
     const [categoriesChanged, setCategoriesChanged] = useState<boolean>(false);
     const [editedItem, setEditedItem] = useState<Item | null>(null);
@@ -41,10 +50,10 @@ const AdminItems = () => {
         instock: useField('number'),
     };
 
-    const [searchParams] = useSearchParams();
-
-    const id = Number(searchParams.get('category'));
-    const category = id && isNumber(id) ? categoryState.find((c) => c.id === id) : undefined;
+    useEffect(() => {
+        const id = Number(searchParams.get('category'));
+        setCategory(id && isNumber(id) ? categoryState.find((c) => c.id === id) : undefined);
+    }, [searchParams, categoryState]);
 
     const refreshItems = () => {
         if (category) {
@@ -63,7 +72,7 @@ const AdminItems = () => {
 
     useEffect(() => {
         refreshItems();
-    }, []);
+    }, [category]);
 
     const deleteItem = async (item: Item) => {
         if (!usersState.loggedUser) {
@@ -104,10 +113,13 @@ const AdminItems = () => {
             if (usersState.loggedUser && usersState.loggedUser.token) {
                 const token = usersState.loggedUser.token;
 
-                editedItem.name = inputs.name.value.toString();
-                editedItem.description = inputs.description.value.toString();
-                editedItem.price = Number(inputs.price.value);
-                editedItem.instock = Number(inputs.price.value);
+                const updatedItem = {
+                    ...editedItem,
+                    name: inputs.name.value.toString(),
+                    description: inputs.description.value.toString(),
+                    price: Number(inputs.price.value),
+                    instock: Number(inputs.instock.value),
+                };
 
                 // Add connections between the edited Item and the selected Categories that are not yet connected to the Item:
                 selectedCategories.forEach(async (selected) => {
@@ -116,7 +128,6 @@ const AdminItems = () => {
                     });
                     if (category && editedItem.categories.includes(category) === false) {
                         const res = await item_categoryService.addConnection(editedItem, category, token);
-                        console.log('res:', res.success + ' ' + res.message);
                         if (!res.success) {
                             handleError(new Error(res.message));
                         }
@@ -135,7 +146,7 @@ const AdminItems = () => {
                 });
 
                 // Update the other info (name, description, etc):
-                const res = await itemService.update(editedItem, usersState.loggedUser.token, dispatch);
+                const res = await itemService.update(updatedItem, usersState.loggedUser.token, dispatch);
 
                 dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
@@ -150,7 +161,21 @@ const AdminItems = () => {
 
     return (
         <div>
-            <h3>{category ? category.name : 'Uncategorized'}</h3>
+            <table style={{ paddingBottom: 'calc(var(--default-padding) * 1)' }}>
+                <tbody>
+                    <tr>
+                        {categoryState.map((c) => (
+                            <td key={c.id}>
+                                <Link to={'/admin/items?category=' + c.id}>{c.name}</Link>
+                            </td>
+                        ))}
+                        <td>
+                            <Link to='/admin/items/'>Uncategorized</Link>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4>{category ? category.name : 'Uncategorized'}</h4>
             <p>{category ? category.description : 'Items that do not currently belong to any category'}</p>
             <form onSubmit={editItemSubmit} className='adminFormItemEdit'>
                 <table align='center' width='100%' className='sizeSmallish paddingTopBottomOnly dotted'>
@@ -182,8 +207,7 @@ const AdminItems = () => {
                 </table>
             </form>
             <br />
-            <br />
-            {usersState.loggedUser?.admin ? <AddItemForm user={usersState.loggedUser} selected_category_id={id} items={items} setItems={setItems} /> : <></>}
+            {usersState.loggedUser?.admin ? <AddItemForm user={usersState.loggedUser} category={category} items={items} setItems={setItems} /> : <></>}
         </div>
     );
 };

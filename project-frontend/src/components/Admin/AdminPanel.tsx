@@ -37,18 +37,20 @@ const AdminPanel = () => {
 
     return (
         <div>
-            <table align='center' width={pageWidth * 1}>
+            <table align='center' width={pageWidth * 1.2} className='paddingTopBottomOnly'>
                 <tbody>
                     <tr>
-                        <td>
+                        <td className='tight'>
                             <AdminMenu />
                         </td>
                     </tr>
                     <tr>
-                        <td className='adminHeader'>Admin Panel{page && page.length > 0 ? ' - ' + page : ''}</td>
+                        <td className='adminHeader tight'>
+                            <h3>Admin Panel{page && page.length > 0 ? ' - ' + page : ''}</h3>
+                        </td>
                     </tr>
-                    <tr /*style={{ backgroundColor: '#8f8f8f' }}*/>
-                        <td>{showPage()}</td>
+                    <tr>
+                        <td className='tight'>{showPage()}</td>
                     </tr>
                 </tbody>
             </table>

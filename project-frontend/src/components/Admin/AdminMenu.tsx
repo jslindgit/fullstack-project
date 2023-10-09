@@ -5,7 +5,7 @@ const AdminMenu = () => {
 
     return (
         <div>
-            <table align='center'>
+            <table align='center' className='sizeLarge'>
                 <tbody>
                     <tr>
                         <td>

@@ -32,4 +32,5 @@
 |       | 1    | Ulkoasun parantelua                                                                                  |     |
 | 7.10. | 1    | Config-tyypin laajennusta ja Info-sivu                                                               |     |
 | 9.10. | 1    | Uusi Tuotteet-sivu                                                                                   |     |
-|  yht  | 59   |                                                                                                      |     |
+|       | 2    | Bugien korjausta ja ulkoasun parantelua                                                              | 61  |
+|  yht  | 61   |                                                                                                      |     |

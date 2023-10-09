@@ -71,7 +71,9 @@ const Categories = () => {
                 <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
                     <tbody>
                         <tr>
-                            <td className='pageHeader'>Products</td>
+                            <td>
+                                <h3>Products</h3>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

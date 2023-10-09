@@ -38,11 +38,11 @@ const AdminCategories = () => {
 
     return (
         <div>
-            <table align='center' className='paddingTopBottomOnly' width='100%'>
+            <table align='center' width='100%'>
                 <tbody>
                     <tr>
                         <td>
-                            <table className='paddingTopBottomOnly dotted' width='100%'>
+                            <table className='dotted' width='100%'>
                                 <tbody>
                                     <tr className='bold'>
                                         <td>Name</td>
@@ -70,7 +70,7 @@ const AdminCategories = () => {
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td className='tight'>
                             <AddCategoryForm user={usersState.loggedUser} />
                         </td>
                     </tr>

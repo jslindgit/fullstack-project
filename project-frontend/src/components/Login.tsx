@@ -36,7 +36,9 @@ const Login = () => {
                 <table align='center' width='1px' className='paddingTopBottomOnly'>
                     <tbody>
                         <tr>
-                            <td className='pageHeader'>Login</td>
+                            <td className='pageHeader tight'>
+                                <h3>Login</h3>
+                            </td>
                             <td></td>
                         </tr>
                         <tr>

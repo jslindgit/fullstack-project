@@ -7,11 +7,20 @@ h2 {
     line-height: 1.1;
 }
 h3 {
-    font-size: var(--fontSizeLarge);
+    font-size: var(--fontSizeVeryLarge);
     line-height: 1.1;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
     color: var(--colorGraySemiDark);
+    text-decoration: underline solid;
+    text-underline-offset: 0.25rem;
+    text-decoration-color: var(--colorGoldVeryLight);
+    text-decoration-thickness: 0.3rem;
+}
+h4 {
+    font-size: var(--fontSizeLarge);
+    font-weight: bold;
+    margin: 0;
 }
 
 /* Size */
@@ -40,22 +49,18 @@ h3 {
 }
 
 /* Color */
+.colorGreenVeryLight {
+    color: var(--colorGreenVeryLight);
+}
+.colorRed {
+    color: var(--colorRed);
+}
 .colorYellowLight {
     color: var(--colorYellowLight);
 }
 
 /* Custom */
 .adminHeader {
-    font-size: var(--fontSizeLarge);
     font-weight: bold;
-    line-height: 1;
-    margin: 0px;
-    margin-top: 0px;
-    margin-bottom: 10px;
     text-transform: capitalize;
-}
-
-.pageHeader {
-    font-size: var(--fontSizeVeryLarge);
-    font-weight: bold;
 }
