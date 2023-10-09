@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
-import { Link } from './CustomLink';
 
 import { Category } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
 import { pageWidth } from '../constants';
+
+import { Link } from './CustomLink';
 
 interface CategoryProps {
     category: Category;
@@ -70,9 +71,7 @@ const Categories = () => {
                 <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
                     <tbody>
                         <tr>
-                            <td>
-                                <h3>Products</h3>
-                            </td>
+                            <td className='pageHeader'>Products</td>
                         </tr>
                     </tbody>
                 </table>

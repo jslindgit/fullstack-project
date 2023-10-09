@@ -5,7 +5,7 @@ import { isNumber, isString } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
 
 export interface UseField {
-    type: 'text' | 'number';
+    type: 'text' | 'number' | 'password';
     value: string | number;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     reset: () => void;
@@ -13,7 +13,7 @@ export interface UseField {
     anyChanges: boolean;
 }
 
-const useField = (type: 'text' | 'number'): UseField => {
+const useField = (type: 'text' | 'number' | 'password'): UseField => {
     const [value, setValue] = useState(type === 'text' ? '' : 0);
     const [anyChanges, setAnyChanges] = useState<boolean>(false);
 

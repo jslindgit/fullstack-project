@@ -1,18 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { User } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
 import loginService from '../services/loginService';
+import useField from '../hooks/useField';
 
 import { setNotification } from '../reducers/miscReducer';
 import { removeLoggedUser, setLoggedUser } from '../reducers/usersReducer';
 
+import InputField from './InputField';
+
 const Login = () => {
-    const [username, setUsername] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const username = useField('text');
+    const password = useField('password');
 
     const dispatch = useDispatch();
     const miscState = useSelector((state: RootState) => state.misc);
@@ -38,15 +40,15 @@ const Login = () => {
                             <td></td>
                         </tr>
                         <tr>
-                            <td width='10'>Username:</td>
+                            <td className='widthByContent'>Username:</td>
                             <td>
-                                <input value={username} onChange={({ target }) => setUsername(target.value)} style={{ width: '100%' }} />
+                                <InputField useField={username} width='15rem' />
                             </td>
                         </tr>
                         <tr>
                             <td>Password:</td>
                             <td>
-                                <input type='password' value={password} onChange={({ target }) => setPassword(target.value)} style={{ width: '100%' }} />
+                                <InputField useField={password} width='15rem' />
                             </td>
                         </tr>
                         <tr>
@@ -78,10 +80,10 @@ const Login = () => {
 
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const response = await loginService.login(username, password, setLogged);
-        setPassword('');
+        const response = await loginService.login(username.value.toString(), password.value.toString(), setLogged);
+        password.reset();
         if (response.success) {
-            setUsername('');
+            username.reset();
             navigate(miscState.previousLocation);
             dispatch(setNotification({ tone: 'Positive', message: response.message }));
         } else {
