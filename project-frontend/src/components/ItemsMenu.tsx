@@ -1,12 +1,13 @@
-import { Category } from '../types/types';
+import { useSelector } from 'react-redux';
+
+import { RootState } from '../reducers/rootReducer';
 
 import { Link } from './CustomLink';
 
-interface Props {
-    categories: Category[];
-}
-const ItemsMenu = ({ categories }: Props) => {
+const ItemsMenu = () => {
     const baseUrl = '/shop/';
+
+    const categoryState = useSelector((state: RootState) => state.categories);
 
     return (
         <div>
@@ -16,7 +17,7 @@ const ItemsMenu = ({ categories }: Props) => {
                         <td>
                             <Link to={baseUrl}>Categories</Link>
                         </td>
-                        {categories.map((c) => (
+                        {categoryState.map((c) => (
                             <td key={c.id}>
                                 <Link to={baseUrl + c.id}>{c.name}</Link>
                             </td>

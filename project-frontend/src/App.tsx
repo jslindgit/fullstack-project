@@ -24,6 +24,7 @@ import Categories from './components/Categories';
 import Error404 from './components/Error404';
 import Home from './components/Home';
 import Info from './components/Info';
+import ItemDetails from './components/ItemDetails';
 import Items from './components/Items';
 import Login from './components/Login';
 import Menu from './components/Menu';
@@ -96,6 +97,7 @@ const App = () => {
                     <Route path='/info' element={<Info />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/shop' element={<Categories />} />
+                    <Route path='/shop/item/:id' element={<ItemDetails />} />
                     <Route path='/shop/:id' element={<Items />} />
                     <Route path='/you' element={<UserPanel />} />
                     <Route path='*' element={<Error404 />} />

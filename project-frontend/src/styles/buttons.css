@@ -28,6 +28,11 @@ button.red:active {
     background-color: var(--colorRedVeryDark);
 }
 
+button:disabled {
+    background-color: var(--colorGrayLight) !important;
+    cursor: default;
+}
+
 .compactButton {
     font-size: 0.8rem;
     border-radius: 3px;

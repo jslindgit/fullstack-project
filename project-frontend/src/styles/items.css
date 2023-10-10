@@ -1,0 +1,30 @@
+.item {
+    color: black;
+    background-color: white;
+    border: 0;
+    border-radius: 5px;
+    outline: 1px solid var(--colorGray);
+    padding-top: 10px;
+    padding-bottom: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+    transition: all 0.15s;
+}
+.item:hover {
+    outline: 7px solid var(--colorGoldVeryLight);
+}
+.item:active {
+    outline: 7px solid var(--colorGoldLight);
+    transition: all 0s;
+}
+
+.itemDetails {
+    border: 1px solid var(--colorGrayLight);
+}
+
+.itemInStock {
+    color: var(--colorGreenDark);
+}
+.itemSoldOut {
+    color: var(--colorRed);
+}

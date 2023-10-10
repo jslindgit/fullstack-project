@@ -65,12 +65,13 @@ const getAll = async (): Promise<Item[]> => {
     }
 };
 
-const getById = async (id: number) => {
+const getById = async (id: number): Promise<Item | null> => {
     try {
         const { data } = await axios.get<Item>(`${url}/${id}`);
         return data;
     } catch (err: unknown) {
         handleError(err);
+        return null;
     }
 };
 

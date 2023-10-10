@@ -20,7 +20,7 @@ const ItemCol = ({ item, config }: ItemColProps) => {
     return (
         <td width='33.33%'>
             <Link to={'/shop/item/' + item.id}>
-                <table align='center' width='100%' className='categoryLink'>
+                <table align='center' width='100%' className='item'>
                     <tbody>
                         <tr>
                             <td>
@@ -33,7 +33,7 @@ const ItemCol = ({ item, config }: ItemColProps) => {
                             <td>{format.currency(item.price, config)}</td>
                         </tr>
                         <tr>
-                            <td className={item.instock > 0 ? 'categoryInStock' : 'categorySoldOut'}>{item.instock > 0 ? `In stock (${item.instock})` : 'Sold out'}</td>
+                            <td className={item.instock > 0 ? 'itemInStock' : 'itemSoldOut'}>{item.instock > 0 ? `In stock (${item.instock})` : 'Sold out'}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -100,7 +100,7 @@ const Items = () => {
                     <tbody>
                         <tr>
                             <td style={{ padding: 0 }}>
-                                <ItemsMenu categories={categoryState} />
+                                <ItemsMenu />
                             </td>
                         </tr>
                         <tr>
