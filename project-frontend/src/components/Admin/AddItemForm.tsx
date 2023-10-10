@@ -69,7 +69,7 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
 
     return (
         <>
-            <h3>Add new item</h3>
+            <h3 className='underlined'>Add new item</h3>
             <ShowNotification fontSize='Small' />
             <form onSubmit={submit}>
                 <table className='paddingTopBottomOnly' width='100%'>

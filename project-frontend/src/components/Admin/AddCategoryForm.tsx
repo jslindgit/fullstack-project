@@ -50,7 +50,7 @@ const AddCategoryForm = ({ user }: Props) => {
 
     return (
         <>
-            <h3>Add new category</h3>
+            <h3 className='underlined'>Add new category</h3>
             <ShowNotification fontSize='Small' />
             <form onSubmit={submit} className='adminForm'>
                 <table className='paddingTopBottomOnly' width='100%'>

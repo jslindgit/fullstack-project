@@ -6,7 +6,7 @@ import { Category, Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 import { UseField } from '../../hooks/useField';
 
-import { handleError } from '../../util/error_handler';
+import { handleError } from '../../util/handleError';
 import itemService from '../../services/itemService';
 import item_categoryService from '../../services/item_categoryService';
 import useField from '../../hooks/useField';

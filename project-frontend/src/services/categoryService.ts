@@ -5,8 +5,8 @@ import { AnyAction } from 'redux';
 import { Category, NewCategory, Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
-import { authConfig } from '../util/service_provider';
-import { handleError } from '../util/error_handler';
+import { authConfig } from '../util/serviceProvider';
+import { handleError } from '../util/handleError';
 
 import { addCategory } from '../reducers/categoryReducer';
 

@@ -10,7 +10,7 @@ import { User } from './types/types';
 
 // Functions/values:
 import { apiBaseUrl } from './constants';
-import localstorage_handler from './util/localstorage_handler';
+import localstorage_handler from './util/localstorageHandler';
 import userService from './services/userService';
 
 // Reducers:

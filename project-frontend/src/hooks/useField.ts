@@ -2,7 +2,7 @@ import { useState, ChangeEvent } from 'react';
 
 import { isNumber, isString } from '../types/type_functions';
 
-import { handleError } from '../util/error_handler';
+import { handleError } from '../util/handleError';
 
 export interface UseField {
     type: 'text' | 'number' | 'password';

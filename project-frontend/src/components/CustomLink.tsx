@@ -1,8 +1,11 @@
 import React, { ReactNode, MouseEvent } from 'react';
 import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/rootReducer';
+
+import localstorageHandler from '../util/localstorageHandler';
 
 import { tickNotification } from '../reducers/miscReducer';
 
@@ -17,9 +20,15 @@ const CustomLink: React.FC<CustomLinkProps> = ({ to, onClick, children, classNam
     const miscState = useSelector((state: RootState) => state.misc);
     const notification = miscState.notification;
 
+    const currentPath = useLocation().pathname;
+
     const handleClick = (event: MouseEvent<HTMLAnchorElement>): void => {
         if (onClick) {
             onClick(event);
+        }
+
+        if (currentPath !== to) {
+            localstorageHandler.setPreviousLocation(currentPath);
         }
 
         if (notification) {

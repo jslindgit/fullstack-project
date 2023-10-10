@@ -72,7 +72,7 @@ const Categories = () => {
                     <tbody>
                         <tr>
                             <td>
-                                <h3>Products</h3>
+                                <h3 className='underlined'>Products</h3>
                             </td>
                         </tr>
                     </tbody>

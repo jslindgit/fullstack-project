@@ -8,8 +8,8 @@ import { initializeCategories } from '../reducers/categoryReducer';
 
 import item_categoryService from './item_categoryService';
 import { apiBaseUrl } from '../constants';
-import { authConfig } from '../util/service_provider';
-import { handleError } from '../util/error_handler';
+import { authConfig } from '../util/serviceProvider';
+import { handleError } from '../util/handleError';
 import { toNewItem } from '../types/type_functions';
 
 interface ItemResponse extends Response {

@@ -85,7 +85,6 @@ const Menu = () => {
 
     const setLocation = () => {
         dispatch(setPreviousLocation(currentPath));
-        console.log(currentPath);
     };
 
     const setLogoutNotification = () => {

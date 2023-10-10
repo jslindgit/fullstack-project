@@ -6,10 +6,12 @@ import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
 import format from '../util/format';
-import { handleError } from '../util/error_handler';
+import localstorageHandler from '../util/localstorageHandler';
+import { handleError } from '../util/handleError';
 import itemService from '../services/itemService';
 import { pageWidth } from '../constants';
 
+import { Link } from './CustomLink';
 import ItemsMenu from './ItemsMenu';
 
 const ItemDetails = () => {
@@ -54,27 +56,47 @@ const ItemDetails = () => {
                     </tr>
                 </tbody>
             </table>
-            <table align='center' className='itemDetails' width={pageWidth / 2}>
+            <table align='center' width={(pageWidth / 3) * 2} className='itemDetails'>
                 <tbody>
                     <tr>
                         <td>
-                            <h4>{item.name}</h4>
+                            <table align='center' width='100%' className='padding150'>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h4>{item.name}</h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>{item.description}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className='bold'>{format.currency(item.price, configState)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={item.instock > 0 ? 'itemInStock' : 'itemSoldOut'}>{item.instock > 0 ? `In stock (${item.instock})` : 'Sold out'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button type='button' disabled={item.instock <= 0}>
+                                                {item.instock > 0 ? 'Add to shopping cart' : 'Sold out'}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
+                </tbody>
+            </table>
+            <table align='center' width={(pageWidth / 3) * 2}>
+                <tbody>
                     <tr>
-                        <td>{item.description}</td>
-                    </tr>
-                    <tr>
-                        <td>{format.currency(item.price, configState)}</td>
-                    </tr>
-                    <tr>
-                        <td className={item.instock > 0 ? 'itemInStock' : 'itemSoldOut'}>{item.instock > 0 ? `In stock (${item.instock})` : 'Sold out'}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>
-                            <button type='button' disabled={item.instock <= 0}>
-                                Add to shopping cart
-                            </button>
+                            <Link to={localstorageHandler.getPreviousLocation()}>Go back</Link>
                         </td>
                     </tr>
                 </tbody>

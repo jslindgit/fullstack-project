@@ -45,7 +45,7 @@ const AdminPanel = () => {
                         </td>
                     </tr>
                     <tr>
-                        <td className='adminHeader tight'>
+                        <td className='adminHeader tight underlined'>
                             <h3>Admin Panel{page && page.length > 0 ? ' - ' + page : ''}</h3>
                         </td>
                     </tr>

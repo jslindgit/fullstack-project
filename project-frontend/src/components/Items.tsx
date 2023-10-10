@@ -23,17 +23,13 @@ const ItemCol = ({ item, config }: ItemColProps) => {
                 <table align='center' width='100%' className='item'>
                     <tbody>
                         <tr>
-                            <td>
-                                <span className='sizeLarge' style={{ lineHeight: 1.5 }}>
-                                    {item.name}
-                                </span>
-                            </td>
+                            <td className='sizeVeryLarge'>{item.name}</td>
                         </tr>
                         <tr>
-                            <td>{format.currency(item.price, config)}</td>
+                            <td className='sizeNormal'>{format.currency(item.price, config)}</td>
                         </tr>
                         <tr>
-                            <td className={item.instock > 0 ? 'itemInStock' : 'itemSoldOut'}>{item.instock > 0 ? `In stock (${item.instock})` : 'Sold out'}</td>
+                            <td className={'sizeSmallish ' + (item.instock > 0 ? 'itemInStock' : 'itemSoldOut')}>{item.instock > 0 ? 'In stock' : 'Sold out'}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -104,19 +100,23 @@ const Items = () => {
                             </td>
                         </tr>
                         <tr>
-                            <td className='tight pageHeader'>
+                            <td className='tight pageHeader underlined'>
                                 <h3>{category.name}</h3>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <table align='center' width={pageWidth} className='noOuterPadding'>
-                    <tbody>
-                        {rows.map((row, index) => (
-                            <ItemRow key={index} items={row} colsPerRow={cols} config={configState} />
-                        ))}
-                    </tbody>
-                </table>
+                {category.items.length <= 0 ? (
+                    <div>No items in this category</div>
+                ) : (
+                    <table align='center' width={pageWidth} className='noOuterPadding'>
+                        <tbody>
+                            {rows.map((row, index) => (
+                                <ItemRow key={index} items={row} colsPerRow={cols} config={configState} />
+                            ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
         </>
     );

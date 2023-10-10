@@ -4,8 +4,8 @@ import { LoginResponse, User } from '../types/types';
 import { isUser } from '../types/type_functions';
 
 import { apiBaseUrl } from '../constants';
-import { handleError } from '../util/error_handler';
-import localstorage_handler from '../util/localstorage_handler';
+import { handleError } from '../util/handleError';
+import localstorage_handler from '../util/localstorageHandler';
 
 const url = apiBaseUrl + '/login';
 

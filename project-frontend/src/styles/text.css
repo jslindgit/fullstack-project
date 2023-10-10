@@ -1,10 +1,12 @@
 h1 {
     font-size: var(--fontSizeGigantic);
     line-height: 1.1;
+    color: var(--colorGraySemiDark);
 }
 h2 {
     font-size: var(--fontSizeHuge);
     line-height: 1.1;
+    color: var(--colorGraySemiDark);
 }
 h3 {
     font-size: var(--fontSizeVeryLarge);
@@ -12,15 +14,12 @@ h3 {
     margin-top: 1rem;
     margin-bottom: 1.5rem;
     color: var(--colorGraySemiDark);
-    text-decoration: underline solid;
-    text-underline-offset: 0.25rem;
-    text-decoration-color: var(--colorGoldVeryLight);
-    text-decoration-thickness: 0.3rem;
 }
 h4 {
     font-size: var(--fontSizeLarge);
     font-weight: bold;
     margin: 0;
+    color: var(--colorGraySemiDark);
 }
 
 /* Size */
@@ -46,6 +45,13 @@ h4 {
 /* Style */
 .bold {
     font-weight: bold;
+}
+
+.underlined {
+    text-decoration: underline solid;
+    text-underline-offset: 0.3rem;
+    text-decoration-color: var(--colorGoldVeryLight);
+    text-decoration-thickness: 0.3rem;
 }
 
 /* Color */

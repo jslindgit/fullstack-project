@@ -3,8 +3,8 @@ import axios from 'axios';
 import { User } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
-import { authConfig } from '../util/service_provider';
-import { handleError } from '../util/error_handler';
+import { authConfig } from '../util/serviceProvider';
+import { handleError } from '../util/handleError';
 
 const url = apiBaseUrl + '/users';
 

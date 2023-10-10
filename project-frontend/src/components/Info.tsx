@@ -41,7 +41,7 @@ const Info = () => {
                                 <table align='left' className='paddingTopBottomOnly'>
                                     <tbody>
                                         <tr>
-                                            <td className='currentPage'>
+                                            <td className='underlined'>
                                                 <h3>{configState.store.name}</h3>
                                             </td>
                                         </tr>
@@ -67,7 +67,7 @@ const Info = () => {
                                 <table align='right' className='paddingTopBottomOnly'>
                                     <tbody>
                                         <tr>
-                                            <td className='currentPage'>
+                                            <td className='underlined'>
                                                 <h3>Store Owner</h3>
                                             </td>
                                         </tr>

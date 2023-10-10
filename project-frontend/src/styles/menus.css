@@ -34,24 +34,26 @@
 /* Categories ("frontpage" of /shop/) */
 .categoryLink {
     color: var(--colorWhite);
-    background-color: var(--colorGrayDarkest);
+    background-color: var(--colorGraySemiDark);
     border-radius: 15px;
-    padding-top: 10px;
-    padding-bottom: 18px;
-    padding-left: 20px;
-    padding-right: 20px;
-    transition: color 0.25s, background-color 0.25s;
+    padding-top: 1rem;
+    padding-bottom: 1.3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    transition: all 0.25s;
 }
 .categoryLink:hover {
     background-color: var(--colorGraySemiDark);
     color: var(--colorGoldVeryLight) !important;
     cursor: pointer;
-    transition: color 0.25s, background-color 0.25s;
+    outline: 6px solid var(--colorGoldVeryLight);
+    transition: color 0.25s, outline 0.15s;
 }
 .categoryLink:active {
-    background-color: var(--colorGrayDark);
+    background-color: var(--colorGrayDarkest);
     color: var(--colorGoldLight);
-    transition: color 0s, background-color 0s;
+    outline: 6px solid var(--colorGoldLight);
+    transition: all 0s;
 }
 
 /* Misc */

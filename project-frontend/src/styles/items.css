@@ -1,29 +1,30 @@
 .item {
-    color: black;
+    color: var(--colorGrayDark);
     background-color: white;
-    border: 0;
-    border-radius: 5px;
-    outline: 1px solid var(--colorGray);
-    padding-top: 10px;
-    padding-bottom: 18px;
-    padding-left: 20px;
-    padding-right: 20px;
+    outline: 2px solid var(--colorGrayLight);
+    border-radius: 15px;
+    padding-top: 1rem;
+    padding-bottom: 1.25rem;
+    padding-left: 1.3rem;
+    padding-right: 1.3rem;
     transition: all 0.15s;
 }
 .item:hover {
-    outline: 7px solid var(--colorGoldVeryLight);
+    outline: 6px solid var(--colorGrayLight);
+    transition: border 0s, outline 0.15s;
 }
 .item:active {
-    outline: 7px solid var(--colorGoldLight);
+    outline: 6px solid var(--colorGray);
     transition: all 0s;
 }
 
 .itemDetails {
-    border: 1px solid var(--colorGrayLight);
+    border: 2px solid var(--colorGrayLight);
+    border-radius: 15px;
 }
 
 .itemInStock {
-    color: var(--colorGreenDark);
+    color: var(--colorGreen);
 }
 .itemSoldOut {
     color: var(--colorRed);

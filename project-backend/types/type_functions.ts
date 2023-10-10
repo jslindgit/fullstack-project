@@ -1,7 +1,11 @@
-import { NewCategory, Credentials, NewItem, NewItem_Category, NewUser } from './types';
+import { NewCategory, Credentials, NewItem, NewItem_Category, NewUser, NewImage } from './types';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
+};
+
+export const isBuffer = (data: unknown): data is Buffer => {
+    return Buffer.isBuffer(data);
 };
 
 export const isNumber = (text: unknown): text is number => {
@@ -69,6 +73,23 @@ export const toNewCategory = (object: unknown): NewCategory => {
     }
 
     throw new Error('Incorrect data: "name" field is missing for toNewCategory');
+};
+
+export const toNewImage = (object: unknown): NewImage => {
+    if (!isObject(object)) {
+        throw new Error('Incorrect or missing data for toNewImage');
+    }
+
+    if ('data' in object && 'filename' in object && isBuffer(object.data) && isString(object.filename)) {
+        const newImage: NewImage = {
+            data: object.data,
+            filename: parseString(object.filename, 'filename'),
+        };
+
+        return newImage;
+    }
+
+    throw new Error('Incorrect data: some fields ("data" or "filename") are missing for toNewImage');
 };
 
 export const toNewItem = (object: unknown): NewItem => {

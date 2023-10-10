@@ -33,5 +33,6 @@
 | 7.10.  | 1    | Config-tyypin laajennusta ja Info-sivu                                                               |     |
 | 9.10.  | 1    | Uusi Tuotteet-sivu                                                                                   |     |
 |        | 2    | Bugien korjausta ja ulkoasun parantelua                                                              | 61  |
-| 10.10. | 2    | Tuotesivu yksittäiselle tuotteelle                                                                   | 63  |
-|  yht   | 61   |                                                                                                      |     |
+| 10.10. | 2    | Tuotesivu yksittäiselle tuotteelle                                                                   |     |
+|        | 2    | Backend valmiiksi kuvatiedostoja varten, ulkoasun parantelua                                         |     |
+|  yht   | 65   |                                                                                                      |     |
