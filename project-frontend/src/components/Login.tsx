@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { User } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
+import localstorageHandler from '../util/localstorageHandler';
 import loginService from '../services/loginService';
 import useField from '../hooks/useField';
 
@@ -17,7 +18,6 @@ const Login = () => {
     const password = useField('password');
 
     const dispatch = useDispatch();
-    const miscState = useSelector((state: RootState) => state.misc);
     const usersState = useSelector((state: RootState) => state.users);
 
     const navigate = useNavigate();
@@ -86,7 +86,7 @@ const Login = () => {
         password.reset();
         if (response.success) {
             username.reset();
-            navigate(miscState.previousLocation);
+            navigate(localstorageHandler.getPreviousLocation());
             dispatch(setNotification({ tone: 'Positive', message: response.message }));
         } else {
             dispatch(setNotification({ tone: 'Negative', message: response.message }));

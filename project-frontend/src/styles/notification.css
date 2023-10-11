@@ -6,6 +6,8 @@
     will-change: height;
     overflow: hidden !important;
     transition: height 0.75s ease-in-out !important;
+    padding-top: calc(var(--default-padding) * 0.4);
+    padding-bottom: calc(var(--default-padding) * 0.4);
 }
 
 .notification.hidden {

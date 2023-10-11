@@ -5,43 +5,19 @@ import { useSelector } from 'react-redux';
 import { Config, Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
-import format from '../util/format';
 import { isNumber } from '../types/type_functions';
 import { pageWidth } from '../constants';
 
-import { Link } from './CustomLink';
+import ItemColumn from './ItemColumn';
 import ItemsMenu from './ItemsMenu';
 
-interface ItemColProps {
-    item: Item;
-    config: Config;
-}
-const ItemCol = ({ item, config }: ItemColProps) => {
-    return (
-        <td width='33.33%'>
-            <Link to={'/shop/item/' + item.id}>
-                <table align='center' width='100%' className='item'>
-                    <tbody>
-                        <tr>
-                            <td className='sizeVeryLarge'>{item.name}</td>
-                        </tr>
-                        <tr>
-                            <td className='sizeNormal'>{format.currency(item.price, config)}</td>
-                        </tr>
-                        <tr>
-                            <td className={'sizeSmallish ' + (item.instock > 0 ? 'itemInStock' : 'itemSoldOut')}>{item.instock > 0 ? 'In stock' : 'Sold out'}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </Link>
-        </td>
-    );
-};
+const itemsPerRow = 3;
+const columnWidth = (100.0 / itemsPerRow).toString() + '%';
 
 const addRemainingCols = (colstoAdd: number) => {
     const result: JSX.Element[] = [];
     for (let i = 0; i < colstoAdd; i++) {
-        result.push(<td key={'col' + i} width='33.33%'></td>);
+        result.push(<td key={'col' + i} width={columnWidth}></td>);
     }
     return result;
 };
@@ -56,7 +32,9 @@ const ItemRow = ({ items, colsPerRow, config }: ItemRowProps) => {
     return (
         <tr>
             {items.map((item) => (
-                <ItemCol key={item.id} item={item} config={config} />
+                <td key={item.id} width={columnWidth}>
+                    <ItemColumn item={item} config={config} />
+                </td>
             ))}
             {extraCols}
         </tr>
