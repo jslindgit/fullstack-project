@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Category, Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 import { UseField } from '../../hooks/useField';
+import { UseTextArea } from '../../hooks/useTextArea';
 
 import { handleError } from '../../util/handleError';
 import itemService from '../../services/itemService';
 import item_categoryService from '../../services/item_categoryService';
 import useField from '../../hooks/useField';
+import useTextArea from '../../hooks/useTextArea';
 import { isNumber } from '../../types/type_functions';
 
 import { setNotification } from '../../reducers/miscReducer';
@@ -20,7 +22,7 @@ import { Link } from '../CustomLink';
 
 export interface ItemInputs {
     name: UseField;
-    description: UseField;
+    description: UseTextArea;
     price: UseField;
     instock: UseField;
 }
@@ -45,9 +47,9 @@ const AdminItems = () => {
 
     const inputs: ItemInputs = {
         name: useField('text'),
-        description: useField('text'),
-        price: useField('number'),
-        instock: useField('number'),
+        description: useTextArea(),
+        price: useField('decimal'),
+        instock: useField('integer'),
     };
 
     useEffect(() => {
@@ -92,8 +94,8 @@ const AdminItems = () => {
 
         inputs.name.setNewValue(item.name);
         inputs.description.setNewValue(item.description);
-        inputs.price.setNewValue(Number(item.price));
-        inputs.instock.setNewValue(item.instock);
+        inputs.price.setNewValue(item.price.toString());
+        inputs.instock.setNewValue(item.instock.toString());
     };
 
     const editItemCancel = () => {
@@ -178,17 +180,22 @@ const AdminItems = () => {
             <h4>{category ? category.name : 'Uncategorized'}</h4>
             <p>{category ? category.description : 'Items that do not currently belong to any category'}</p>
             <form onSubmit={editItemSubmit} className='adminFormItemEdit'>
-                <table align='center' width='100%' className='sizeSmallish paddingTopBottomOnly dotted'>
+                <table align='center' width='100%' className='sizeSmallish paddingTopBottomOnly dotted adminItems'>
                     <tbody>
                         <tr className='bold'>
-                            <td>Product</td>
+                            <td width='12%' style={{ maxWidth: '25%' }}>
+                                Product
+                            </td>
                             <td>Description</td>
                             <td>Price</td>
-                            <td>In stock</td>
-                            <td>ID</td>
-                            <td>Categories</td>
-                            <td></td>
-                            <td></td>
+                            <td width='1px' className='noWrap'>
+                                In stock
+                            </td>
+                            <td width='1px'>ID</td>
+                            <td width='1px'>Categ.</td>
+                            <td width='1px'>Images</td>
+                            <td width='1px' style={{ paddingRight: 0 }}></td>
+                            <td width='1px'></td>
                         </tr>
                         {items.map((item) => (
                             <AdminItem

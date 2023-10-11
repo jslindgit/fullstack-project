@@ -6,7 +6,6 @@ import { RootState } from '../../reducers/rootReducer';
 import { UseField } from '../../hooks/useField';
 
 import format from '../../util/format';
-import { isString } from '../../types/type_functions';
 
 interface Props {
     item: Item;
@@ -37,10 +36,9 @@ const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCance
     };
 
     const inputField = (input: UseField) => {
-        const width = (input.value.toString().length * (isString(input.value) ? 0.7 : 1) + (isString(input.value) ? 0 : 3)).toString() + 'em';
         return (
             <>
-                <input type={input.type} value={input.value} onChange={input.onChange} style={{ width }} />
+                <input type={input.type} value={input.value} onChange={input.onChange} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }} />
             </>
         );
     };
@@ -49,7 +47,9 @@ const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCance
         return (
             <tr>
                 <td>{inputField(inputs.name)}</td>
-                <td>{inputField(inputs.description)}</td>
+                <td>
+                    <textarea value={inputs.description.value} onChange={inputs.description.onChange} style={{ width: '100%', height: '10rem' }}></textarea>
+                </td>
                 <td>{inputField(inputs.price)}</td>
                 <td>{inputField(inputs.instock)}</td>
                 <td>{item.id}</td>
@@ -62,6 +62,7 @@ const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCance
                         ))}
                     </select>
                 </td>
+                <td style={{ paddingRight: '0.75rem' }}>TODO</td>
                 <td>
                     <button type='submit' className='compactButton'>
                         Save
@@ -75,15 +76,17 @@ const AdminItem = ({ item, isEdited, inputs, deleteItem, editItem, editItemCance
             </tr>
         );
     } else {
+        const descriptionMaxLengthToShow = 300;
         return (
             <tr>
                 <td>{item.name}</td>
-                <td>{item.description}</td>
-                <td>{format.currency(item.price, configState)}</td>
-                <td>{item.instock}</td>
+                <td>{item.description.length > descriptionMaxLengthToShow ? item.description.substring(0, descriptionMaxLengthToShow - 1) + '...' : item.description}</td>
+                <td className='noWrap'>{format.currency(item.price, configState)}</td>
+                <td className='noWrap'>{item.instock} pcs</td>
                 <td>{item.id}</td>
                 <td>{item.categories ? item.categories.length.toString() : 0}</td>
-                <td>
+                <td style={{ paddingRight: '0.75rem' }}>TODO</td>
+                <td style={{ paddingRight: 0 }}>
                     <button type='button' className='compactButton' onClick={() => editItem(item)}>
                         Edit
                     </button>

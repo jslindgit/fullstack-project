@@ -36,4 +36,5 @@
 | 10.10. | 2    | Tuotesivu yksittäiselle tuotteelle                                                                   |     |
 |        | 2    | Backend valmiiksi kuvatiedostoja varten, ulkoasun parantelua                                         |     |
 | 11.10. | 1    | Backend valmiiksi kuva-tuote-liitostauluja varten                                                    |     |
-|  yht   | 66   |                                                                                                      |     |
+|        | 2    | Tuotteiden lisäyksen/muokkauksen parantelua                                                          |     |
+|  yht   | 68   |                                                                                                      |     |

@@ -5,13 +5,11 @@ import { Notification, NewNotification } from '../types/types';
 export interface MiscState {
     loaded: boolean;
     notification: Notification | null;
-    previousLocation: string;
 }
 
 const initialState: MiscState = {
     loaded: false,
     notification: null,
-    previousLocation: '/',
 };
 
 const slice = createSlice({
@@ -23,9 +21,6 @@ const slice = createSlice({
         },
         setNotification(state: MiscState, action: PayloadAction<NewNotification>) {
             state.notification = { ...action.payload, renders: 1 };
-        },
-        setPreviousLocation(state: MiscState, action: PayloadAction<string>) {
-            state.previousLocation = action.payload;
         },
         tickNotification(state: MiscState, _action: PayloadAction) {
             if (state.notification) {
@@ -39,5 +34,5 @@ const slice = createSlice({
     },
 });
 
-export const { setLoaded, setNotification, setPreviousLocation, tickNotification } = slice.actions;
+export const { setLoaded, setNotification, tickNotification } = slice.actions;
 export default slice.reducer;

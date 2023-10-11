@@ -51,11 +51,17 @@ td:last-child {
     border-collapse: collapse;
 }
 .dotted tr {
-    border-bottom: 2px solid var(--colorGrayLight);
+    border-bottom: 3px solid var(--colorGrayLight);
 }
 .dotted tr:first-child {
-    border-top: 2px solid var(--colorGrayLight);
+    border-top: 3px solid var(--colorGrayLight);
 }
+/*.dotted td {
+    border-right: 1px solid var(--colorGrayVeryLight);
+}
+.dotted td:last-child {
+    border-right: 0;
+}*/
 
 .striped tr:nth-child(odd) {
     background-color: var(--colorGrayVeryLight);
@@ -70,4 +76,13 @@ td:last-child {
 .widthByContent {
     width: 10px !important;
     text-wrap: nowrap;
+}
+
+.noWrap {
+    text-wrap: nowrap;
+}
+
+/* Specific uses */
+.adminItems td {
+    padding-right: calc(var(--default-padding) * 3);
 }

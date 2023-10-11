@@ -8,7 +8,6 @@ import loginService from '../services/loginService';
 
 import { removeLoggedUser } from '../reducers/usersReducer';
 import { setNotification } from '../reducers/miscReducer';
-import { setPreviousLocation } from '../reducers/miscReducer';
 
 import { Link } from './CustomLink';
 
@@ -18,7 +17,7 @@ const Menu = () => {
 
     const currentPath = useLocation().pathname;
 
-    const login = (loggedUser: User | null, removeLogged: () => void, setLocation: () => void, setLogoutNotification: () => void) => {
+    const login = (loggedUser: User | null, removeLogged: () => void, setLogoutNotification: () => void) => {
         if (loggedUser) {
             return (
                 <table align='center'>
@@ -48,7 +47,7 @@ const Menu = () => {
                 </table>
             );
         } else {
-            return <div onClick={setLocation}>{menuLink('/login', 'Login', 'Big')}</div>;
+            return <div>{menuLink('/login', 'Login', 'Big')}</div>;
         }
     };
 
@@ -83,10 +82,6 @@ const Menu = () => {
         dispatch(removeLoggedUser());
     };
 
-    const setLocation = () => {
-        dispatch(setPreviousLocation(currentPath));
-    };
-
     const setLogoutNotification = () => {
         dispatch(setNotification({ tone: 'Neutral', message: 'Logged out' }));
     };
@@ -108,7 +103,7 @@ const Menu = () => {
                             <td>{menuLink('/', 'Home')}</td>
                             <td>{menuLink('/shop', 'Products')}</td>
                             <td>{menuLink('/info', 'Info')}</td>
-                            <td>{login(usersState.loggedUser, removeLogged, setLocation, setLogoutNotification)}</td>
+                            <td>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</td>
                             {showAdminMenu()}
                         </tr>
                     </tbody>
