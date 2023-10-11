@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-import { Image } from '../models';
+import { Image, Item } from '../models';
 import { NewImage } from '../types/types';
 
 import { isNumber, isObject } from '../types/type_functions';
@@ -47,8 +47,15 @@ const getAll = async (searchQuery: string = ''): Promise<Array<Image> | null> =>
         }
 
         const images = await Image.findAll({
+            include: [
+                {
+                    model: Item,
+                    attributes: ['id', 'name'],
+                    through: { attributes: [] },
+                },
+            ],
             where,
-            order: [['name', 'ASC']],
+            order: [['filename', 'ASC']],
         });
 
         return images;
@@ -62,7 +69,14 @@ const getAll = async (searchQuery: string = ''): Promise<Array<Image> | null> =>
 const getById = async (id: unknown): Promise<Image | null> => {
     try {
         const image = isNumber(Number(id))
-            ? await Image.findByPk(Number(id))
+            ? await Image.findByPk(Number(id), {
+                include: [
+                    {
+                        model: Item,
+                        through: { attributes: [] },
+                    }
+                ],
+            })
             : null;
         return image;
     } catch (err: unknown) {

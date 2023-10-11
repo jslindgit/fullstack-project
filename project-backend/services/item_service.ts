@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-import { Category, Item } from '../models';
+import { Category, Image, Item } from '../models';
 import { NewItem, NewItem_Category } from '../types/types';
 import { isNumber, isObject, toNewItem_Category } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
@@ -58,6 +58,11 @@ const getAll = async (searchQuery: string = ''): Promise<Array<Item> | null> => 
                     attributes: ['id', 'name'],
                     through: { attributes: [] },
                 },
+                {
+                    model: Image,
+                    attributes: ['id', 'filename', 'data'],
+                    through: { attributes: [] },
+                },
             ],
             where,
             order: [['name', 'ASC']],
@@ -79,6 +84,10 @@ const getById = async (id: unknown): Promise<Item | null> => {
                     {
                         model: Category,
                         through: { attributes: [] },
+                    },
+                    {
+                        model: Image,
+                        through: { attributes: [] }
                     }
                 ],
             })

@@ -35,4 +35,5 @@
 |        | 2    | Bugien korjausta ja ulkoasun parantelua                                                              | 61  |
 | 10.10. | 2    | Tuotesivu yksittäiselle tuotteelle                                                                   |     |
 |        | 2    | Backend valmiiksi kuvatiedostoja varten, ulkoasun parantelua                                         |     |
-|  yht   | 65   |                                                                                                      |     |
+| 11.10. | 1    | Backend valmiiksi kuva-tuote-liitostauluja varten                                                    |     |
+|  yht   | 66   |                                                                                                      |     |

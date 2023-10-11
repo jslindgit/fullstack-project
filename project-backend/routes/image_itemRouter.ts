@@ -3,8 +3,8 @@ import express from 'express';
 import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
-import service from '../services/item_category_service';
-import { isObject, toNewItem_Category } from '../types/type_functions';
+import service from '../services/image_itemService';
+import { isObject, toNewImage_Item } from '../types/type_functions';
 import { tokenExtractor } from '../middlewares/token_extractor';
 
 const router = express.Router();
@@ -30,18 +30,18 @@ router.delete('/all_by_item_id/:id', tokenExtractor, (async (req, res, next) => 
     }
 }) as RequestHandler);
 
-router.delete('/item_and_category_id', tokenExtractor, (async (req, res, next) => {
+router.delete('/image_and_item_id', tokenExtractor, (async (req, res, next) => {
     try {
         if (res.locals.admin === true) {
-            if (isObject(req.body) && 'item_id' in req.body && 'category_id' in req.body) {
-                const item_category = await service.deleteByItemAndCategoryId(req.body.item_id, req.body.category_id);
-                if (item_category) {
+            if (isObject(req.body) && 'image_id' in req.body && 'item_id' in req.body) {
+                const image_item = await service.deleteByImageAndItemId(req.body.image_id, req.body.item_id);
+                if (image_item) {
                     res.status(204).end();
                 } else {
-                    res.status(404).json({ error: 'Matching Item_Category not found' });
+                    res.status(404).json({ error: 'Matching Image_Item not found' });
                 }
             } else {
-                res.status(400).json({ error: 'itemId or categoryId missing from req.body' });
+                res.status(400).json({ error: 'imageId or itemId missing from req.body' });
             }
         } else {
             res.status(403).json({ error: 'Access denied' });
@@ -54,12 +54,12 @@ router.delete('/item_and_category_id', tokenExtractor, (async (req, res, next) =
 router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
         if (res.locals.admin === true) {
-            const deletedItem_Category = await service.deleteById(req.params.id);
-            if (deletedItem_Category) {
+            const deletedImage_Item = await service.deleteById(req.params.id);
+            if (deletedImage_Item) {
                 res.status(204).end();
             } else {
                 res.status(404).json({
-                    error: `Item_Category with id ${req.params.id} not found`,
+                    error: `Image_item with id ${req.params.id} not found`,
                 });
             }
         } else {
@@ -72,24 +72,24 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
 
 router.get('/', (async (_req, res, next) => {
     try {
-        const item_categories = await service.getAll();
-        res.json(item_categories);
+        const image_items = await service.getAll();
+        res.json(image_items);
     } catch (err) {
         next(err);
     }
 }) as RequestHandler);
 
-router.get('/item_and_category_id', (async (req, res, next) => {
+router.get('/image_item_id', (async (req, res, next) => {
     try {
-        if (isObject(req.body) && 'item_id' in req.body && 'category_id' in req.body) {
-            const item_category = await service.getByItemAndCategoryId(req.body.item_id, req.body.category_id);
-            if (item_category) {
-                res.json(item_category);
+        if (isObject(req.body) && 'image_id' in req.body && 'item_id' in req.body) {
+            const image_item = await service.getByImageAndItemId(req.body.image_id, req.body.item_id);
+            if (image_item) {
+                res.json(image_item);
             } else {
                 res.status(404).json({ error: 'Not found' });
             }
         } else {
-            res.status(400).json({ error: 'itemId or categoryId missing from req.body' });
+            res.status(400).json({ error: 'mageId or itemId missing from req.body' });
         }
     } catch (err) {
         next(err);
@@ -98,12 +98,12 @@ router.get('/item_and_category_id', (async (req, res, next) => {
 
 router.get('/:id', (async (req, res, next) => {
     try {
-        const item_category = await service.getById(req.params.id);
-        if (item_category) {
-            res.json(item_category);
+        const image_item = await service.getById(req.params.id);
+        if (image_item) {
+            res.json(image_item);
         } else {
             res.status(404).json({
-                error: `Item_Category with id ${req.params.id} not found`,
+                error: `Image_Item with id ${req.params.id} not found`,
             });
         }
     } catch (err) {
@@ -114,10 +114,10 @@ router.get('/:id', (async (req, res, next) => {
 router.post('/', tokenExtractor, (async (req, res, next) => {
     try {
         if (res.locals.admin === true) {
-            const newItem_Category = toNewItem_Category(req.body);
-            const addedItem_Category = await service.addNew(newItem_Category);
+            const newImage_Item = toNewImage_Item(req.body);
+            const addedImage_Item = await service.addNew(newImage_Item);
 
-            res.status(201).json(addedItem_Category);
+            res.status(201).json(addedImage_Item);
         } else {
             res.status(403).json({ error: 'Access denied' });
         }
