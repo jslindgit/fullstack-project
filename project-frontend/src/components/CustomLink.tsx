@@ -20,7 +20,7 @@ const CustomLink: React.FC<CustomLinkProps> = ({ to, onClick, children, classNam
     const miscState = useSelector((state: RootState) => state.misc);
     const notification = miscState.notification;
 
-    const currentPath = useLocation().pathname;
+    const currentPath = useLocation().pathname + useLocation().search;
 
     const handleClick = (event: MouseEvent<HTMLAnchorElement>): void => {
         if (onClick) {

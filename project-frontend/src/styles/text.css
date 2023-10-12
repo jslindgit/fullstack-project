@@ -55,6 +55,12 @@ h4 {
 }
 
 /* Color */
+.colorGray {
+    color: var(--colorGray);
+}
+.colorGreen {
+    color: var(--colorGreen);
+}
 .colorGreenVeryLight {
     color: var(--colorGreenVeryLight);
 }

@@ -35,7 +35,7 @@ const AdminItemEdit = () => {
 
     const id = Number(useParams().id);
 
-    useEffect(() => {
+    const setItemById = () => {
         try {
             itemService.getById(id).then((res) => {
                 setItem(res as Item);
@@ -44,6 +44,10 @@ const AdminItemEdit = () => {
             handleError(err);
             setLoading('Something went wrong :(');
         }
+    };
+
+    useEffect(() => {
+        setItemById();
     }, [id]);
 
     useEffect(() => {
@@ -52,30 +56,15 @@ const AdminItemEdit = () => {
             description.setNewValue(item.description);
             price.setNewValue(item.price.toString());
             instock.setNewValue(item.instock.toString());
+
+            setSelectedCategories(
+                item.categories.map((i) => {
+                    return i.id;
+                })
+            );
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [item]);
-
-    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setCategoriesChanged(true);
-
-        const options = event.target.options;
-        const selected: number[] = [];
-        for (let i = 0; i < options.length; i++) {
-            if (options[i].selected) {
-                selected.push(Number(options[i].value));
-            }
-        }
-        setSelectedCategories(selected);
-    };
-
-    const inputField = (input: UseField) => {
-        return (
-            <>
-                <input type={input.type} value={input.value} onChange={input.onChange} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }} />
-            </>
-        );
-    };
 
     const changesMade = () => {
         return (
@@ -85,6 +74,28 @@ const AdminItemEdit = () => {
                 item.price.toString() !== price.value.toString() ||
                 item.instock.toString() !== instock.value.toString() ||
                 categoriesChanged)
+        );
+    };
+
+    const handleCategoryChange = (categoryId: number) => {
+        setCategoriesChanged(true);
+
+        const updatedCategories = [...selectedCategories];
+
+        if (updatedCategories.includes(categoryId)) {
+            const index = updatedCategories.indexOf(categoryId);
+            updatedCategories.splice(index, 1);
+        } else {
+            updatedCategories.push(categoryId);
+        }
+        setSelectedCategories(updatedCategories);
+    };
+
+    const inputField = (input: UseField) => {
+        return (
+            <>
+                <input type={input.type} value={input.value} onChange={input.onChange} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }} />
+            </>
         );
     };
 
@@ -117,12 +128,16 @@ const AdminItemEdit = () => {
 
                 // Remove connections between the edited Item and Categories that are currently connected to the Item:
                 const toRemove = item.categories.filter((c) => {
-                    selectedCategories.includes(c.id) === false;
+                    if (selectedCategories.includes(c.id) === false) {
+                        return c;
+                    }
                 });
                 toRemove.forEach(async (c) => {
                     const res = await item_categoryService.deleteConnection(item.id, c.id, token);
                     if (!res.success) {
                         handleError(new Error(res.message));
+                    } else {
+                        console.log(res);
                     }
                 });
 
@@ -130,6 +145,8 @@ const AdminItemEdit = () => {
                 const res = await itemService.update(updatedItem, usersState.loggedUser.token, dispatch);
 
                 dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+
+                setItemById();
             } else {
                 handleError(new Error('Missing token'));
             }
@@ -163,7 +180,7 @@ const AdminItemEdit = () => {
                 <table align='center' width={pageWidth} className='itemDetails valignTop'>
                     <tbody>
                         <tr>
-                            <td width='50%'>
+                            <td>
                                 <table width='100%' className='padding150'>
                                     <tbody>
                                         <tr>
@@ -204,26 +221,34 @@ const AdminItemEdit = () => {
                                     </tbody>
                                 </table>
                             </td>
-                            <td></td>
-                            <td>
+                            <td width='10%'></td>
+                            <td width='40%' style={{ maxWidth: '40%' }}>
                                 <table width='100%' className='padding150'>
                                     <tbody>
                                         <tr>
-                                            <td className='adminItemEditLabel'>CATEGORIES (Hold Ctrl to select multiple):</td>
+                                            <td className='adminItemEditLabel'>CATEGORIES:</td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <select multiple onChange={handleCategoryChange}>
-                                                    {categoriesState.map((c) => (
-                                                        <option key={c.id} value={c.id} className='sizeLarge'>
-                                                            {c.name}
-                                                        </option>
-                                                    ))}
-                                                </select>
+                                                {categoriesState.map((c) => (
+                                                    <button
+                                                        key={c.id}
+                                                        type='button'
+                                                        className={'selectButton ' + (selectedCategories.includes(c.id) ? 'selectButtonTrue' : 'selectButtonFalse')}
+                                                        onClick={() => handleCategoryChange(c.id)}
+                                                    >
+                                                        {c.name}
+                                                    </button>
+                                                ))}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td className='adminItemEditLabel'>IMAGES:</td>
+                                        </tr>
+                                        <tr>
+                                            <td style={{ paddingBottom: 0 }}>
+                                                <button type='button'>Upload image</button>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>{item.images.length > 0 ? 'TODO' : 'No images'}</td>
