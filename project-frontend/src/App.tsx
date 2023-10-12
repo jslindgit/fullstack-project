@@ -19,6 +19,7 @@ import { removeLoggedUser, setLoggedUser } from './reducers/usersReducer';
 import { initializeCategories } from './reducers/categoryReducer';
 
 // Components:
+import AdminItemEdit from './components/Admin/AdminItemEdit';
 import AdminPanel from './components/Admin/AdminPanel';
 import Categories from './components/Categories';
 import Error404 from './components/Error404';
@@ -74,9 +75,9 @@ const App = () => {
         });
     }, [dispatch]);
 
-    const adminPage = (): JSX.Element => {
+    const adminPage = (page: JSX.Element): JSX.Element => {
         if (usersState.loggedUser?.admin) {
-            return <AdminPanel />;
+            return page;
         } else {
             return <Error404 />;
         }
@@ -92,8 +93,9 @@ const App = () => {
                 <ShowNotification />
                 <Routes>
                     <Route path='/' element={<Home />} />
-                    <Route path='/admin' element={adminPage()} />
-                    <Route path='/admin/:page' element={adminPage()} />
+                    <Route path='/admin' element={adminPage(<AdminPanel />)} />
+                    <Route path='/admin/edititem/:id' element={<AdminItemEdit />} />
+                    <Route path='/admin/:page' element={adminPage(<AdminPanel />)} />
                     <Route path='/info' element={<Info />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/shop' element={<Categories />} />

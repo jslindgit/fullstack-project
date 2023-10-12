@@ -37,4 +37,5 @@
 |        | 2    | Backend valmiiksi kuvatiedostoja varten, ulkoasun parantelua                                         |     |
 | 11.10. | 1    | Backend valmiiksi kuva-tuote-liitostauluja varten                                                    |     |
 |        | 2    | Tuotteiden lisäyksen/muokkauksen parantelua                                                          |     |
-|  yht   | 68   |                                                                                                      |     |
+| 12.10. | 3    | Uusi tuotteiden muokkaus -sivu                                                                       |     |
+|  yht   | 71   |                                                                                                      |     |

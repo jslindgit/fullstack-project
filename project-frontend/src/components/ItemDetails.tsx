@@ -6,12 +6,11 @@ import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
 import format from '../util/format';
-import localstorageHandler from '../util/localstorageHandler';
 import { handleError } from '../util/handleError';
 import itemService from '../services/itemService';
 import { pageWidth } from '../constants';
 
-import { Link } from './CustomLink';
+import BackButton from './BackButton';
 import ItemsMenu from './ItemsMenu';
 
 const ItemDetails = () => {
@@ -96,7 +95,7 @@ const ItemDetails = () => {
                     </tr>
                     <tr>
                         <td>
-                            <Link to={localstorageHandler.getPreviousLocation()}>Go back</Link>
+                            <BackButton type='text' />
                         </td>
                     </tr>
                 </tbody>

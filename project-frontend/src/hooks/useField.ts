@@ -25,8 +25,16 @@ const convertInput = (input: string, type: string): string => {
     }
 };
 
-const useField = (type: 'text' | 'integer' | 'decimal' | 'password'): UseField => {
-    const [value, setValue] = useState(type === 'text' || type === 'password' ? '' : 0);
+const useField = (type: 'text' | 'integer' | 'decimal' | 'password', initialValue: string | undefined = undefined): UseField => {
+    const initValue = (): string | number => {
+        if (initialValue) {
+            return convertInput(initialValue, type);
+        } else {
+            return type === 'text' || type === 'password' ? '' : 0;
+        }
+    };
+
+    const [value, setValue] = useState(initValue());
     const [anyChanges, setAnyChanges] = useState<boolean>(false);
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {

@@ -56,12 +56,10 @@ td:last-child {
 .dotted tr:first-child {
     border-top: 3px solid var(--colorGrayLight);
 }
-/*.dotted td {
-    border-right: 1px solid var(--colorGrayVeryLight);
+
+.noWrap {
+    text-wrap: nowrap;
 }
-.dotted td:last-child {
-    border-right: 0;
-}*/
 
 .striped tr:nth-child(odd) {
     background-color: var(--colorGrayVeryLight);
@@ -73,12 +71,15 @@ td:last-child {
     padding: 0;
 }
 
-.widthByContent {
-    width: 10px !important;
-    text-wrap: nowrap;
+.valignTop {
+    vertical-align: top;
+}
+.valignTop td {
+    vertical-align: top;
 }
 
-.noWrap {
+.widthByContent {
+    width: 10px !important;
     text-wrap: nowrap;
 }
 

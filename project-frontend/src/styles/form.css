@@ -22,14 +22,15 @@ input:focus {
 }
 
 option {
-    text-transform: capitalize;
     font-size: 1rem;
+    padding: 0.25rem;
+    padding-top: 0.5rem;
 }
 
 .adminForm input,
 select {
-    font-size: 0.9rem;
-    padding: 5px;
+    padding-left: 1rem;
+    padding-right: 1rem;
     margin: 0;
 }
 

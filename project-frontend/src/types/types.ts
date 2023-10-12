@@ -32,10 +32,17 @@ export enum Currency {
     USD = '$',
 }
 
+export interface Image {
+    id: number;
+    filename: string;
+    image: Buffer;
+}
+
 export interface Item {
     id: number;
     categories: Category[];
     description: string;
+    images: Image[];
     instock: number;
     name: string;
     price: number;
