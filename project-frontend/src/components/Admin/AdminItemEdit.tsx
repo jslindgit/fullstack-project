@@ -153,6 +153,15 @@ const AdminItemEdit = () => {
         }
     };
 
+    if (!usersState.loggedUser?.admin) {
+        return (
+            <div>
+                <br />
+                Error: 403
+            </div>
+        );
+    }
+
     if (!item) {
         return (
             <>

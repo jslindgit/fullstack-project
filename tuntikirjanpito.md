@@ -40,4 +40,5 @@
 | 12.10. | 3    | Uusi tuotteiden muokkaus -sivu                                                                       |     |
 |        | 2    | Lisää tuotteiden muokkauksen parantelua                                                              |     |
 | 16.10. | 2    | Frontendiin kuvatiedostojen lisääminen aluilleen                                                     | 75  |
-|  yht   | 75   |                                                                                                      |     |
+|        | 2    | Lisää kuvatiedostojen käsittelyä                                                                     |     |
+|  yht   | 77   |                                                                                                      |     |

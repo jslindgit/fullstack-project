@@ -16,6 +16,7 @@ const url = apiBaseUrl + '/images';
 const add = async (toAdd: object, token: string): Promise<ImageResponse> => {
     try {
         const newImage = toNewImage(toAdd);
+
         const body = newImage;
         const { data } = await axios.post(url, body, authConfig(token));
 

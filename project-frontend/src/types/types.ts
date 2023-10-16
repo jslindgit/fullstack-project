@@ -34,7 +34,7 @@ export enum Currency {
 export interface Image {
     id: number;
     filename: string;
-    data: Uint8Array;
+    data: string;
 }
 export type NewImage = Omit<Image, 'id'>;
 

@@ -2,7 +2,7 @@
 import express from 'express';
 import { RequestHandler } from 'express';
 
-import { isString, toNewImage } from '../types/type_functions';
+import { isBuffer, isNumber, isString, toNewImage } from '../types/type_functions';
 
 import { errorHandler } from '../middlewares/errors';
 import { tokenExtractor } from '../middlewares/token_extractor';
@@ -32,7 +32,18 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
 router.get('/', (async (req, res, next) => {
     try {
         const images = await service.getAll(isString(req.query.search) ? req.query.search : '');
-        res.json(images);
+
+        if (images) {
+            const imagesWithBase64 = images.map((image) => ({
+                id: 'id' in image && isNumber(image.id) ? image.id : 0,
+                filename: 'filename' in image && isString('filename') ? image.filename : 'invalid data',
+                data: 'data' in image && isBuffer(image.data) ? image.data.toString('base64') : 'invalid data',
+            }));
+
+            res.json(imagesWithBase64);
+        } else {
+            res.json(images);
+        }
     } catch (err) {
         next(err);
     }

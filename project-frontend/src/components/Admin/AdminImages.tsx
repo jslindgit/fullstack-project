@@ -23,32 +23,40 @@ const AdminImages = () => {
     const handleUpload = async () => {
         if (!imageFile || !usersState.loggedUser) return;
 
-        const newImage: NewImage = { filename: imageFile.name, data: await readFileAsBuffer(imageFile) };
-
-        console.log('newImage:', newImage);
+        const newImage: NewImage = { filename: imageFile.name, data: await readFileAsBase64(imageFile) };
 
         const res = await imageService.add(newImage, usersState.loggedUser.token);
 
-        console.log('res:', res);
+        console.log('AI res:', res);
     };
 
-    const readFileAsBuffer = (file: File): Promise<Uint8Array> => {
+    const readFileAsBase64 = (file: File): Promise<string> => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = (event) => {
-                if (event.target && event.target.result instanceof ArrayBuffer) {
-                    const arrayBuffer = event.target.result;
-                    const uint8Array = new Uint8Array(arrayBuffer);
-                    resolve(uint8Array);
+                if (event.target && event.target.result) {
+                    resolve(event.target.result.toString().split(',')[1]); // Extract Base64 data
                 } else {
-                    reject(new Error('Failed to read file as Uint8Array.'));
+                    reject(new Error('Failed to read file as Base64.'));
                 }
             };
             reader.onerror = (error) => {
                 reject(error);
             };
-            reader.readAsArrayBuffer(file);
+            reader.readAsDataURL(file);
         });
+    };
+
+    const renderImage = (image: Image): JSX.Element => {
+        if ('data' in image) {
+            return (
+                <>
+                    <img src={`data:image/png;base64,${image.data}`} />
+                </>
+            );
+        } else {
+            return <></>;
+        }
     };
 
     useEffect(() => {
@@ -68,6 +76,9 @@ const AdminImages = () => {
                 <tbody>
                     <tr>
                         <td>Total images: {images.length}</td>
+                    </tr>
+                    <tr>
+                        <td>{images.length > 0 ? renderImage(images[0]) : <></>}</td>
                     </tr>
                     <tr>
                         <td>

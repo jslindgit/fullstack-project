@@ -55,8 +55,7 @@ export const toNewImage = (object: unknown): NewImage => {
         throw new Error('Incorrect or missing data for toNewImage');
     }
 
-    if ('filename' in object && isString(object.filename) && 'data' in object && isUint8Array(object.data)) {
-        console.log('asd');
+    if ('filename' in object && isString(object.filename) && 'data' in object && isString(object.data)) {
         const newImage: NewImage = {
             filename: parseString(object.filename, 'filename'),
             data: object.data,

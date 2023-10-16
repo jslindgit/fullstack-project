@@ -80,10 +80,12 @@ export const toNewImage = (object: unknown): NewImage => {
         throw new Error('Incorrect or missing data for toNewImage');
     }
 
-    if ('data' in object && 'filename' in object && isBuffer(object.data) && isString(object.filename)) {
+    if ('filename' in object && isString(object.filename) && 'data' in object && isString(object.data)) {
+        const decodedData = Buffer.from(object.data, 'base64');
+
         const newImage: NewImage = {
-            data: object.data,
             filename: parseString(object.filename, 'filename'),
+            data: decodedData,
         };
 
         return newImage;
