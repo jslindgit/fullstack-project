@@ -6,6 +6,7 @@ import { RootState } from '../../reducers/rootReducer';
 import { pageWidth } from '../../constants';
 
 import AdminCategories from './AdminCategories';
+import AdminImages from './AdminImages';
 import AdminItems from './AdminItems';
 import AdminMenu from './AdminMenu';
 import AdminSettings from './AdminSettings';
@@ -22,6 +23,8 @@ const AdminPanel = () => {
                 return <AdminCategories />;
             case 'items':
                 return <AdminItems />;
+            case 'images':
+                return <AdminImages />;
             case 'settings':
                 return <AdminSettings />;
             case 'users':

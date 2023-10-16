@@ -4,7 +4,6 @@ export interface Category {
     description: string;
     items: Item[];
 }
-
 export type NewCategory = Omit<Omit<Category, 'id'>, 'items'>;
 
 export interface Config {
@@ -35,8 +34,9 @@ export enum Currency {
 export interface Image {
     id: number;
     filename: string;
-    image: Buffer;
+    data: Uint8Array;
 }
+export type NewImage = Omit<Image, 'id'>;
 
 export interface Item {
     id: number;
@@ -47,8 +47,7 @@ export interface Item {
     name: string;
     price: number;
 }
-
-export type NewItem = Omit<Omit<Item, 'id'>, 'categories'>;
+export type NewItem = Omit<Omit<Omit<Item, 'id'>, 'categories'>, 'images'>;
 
 export interface LoginResponse {
     success: boolean;
@@ -60,7 +59,6 @@ export interface Notification {
     message: string;
     renders: number;
 }
-
 export type NewNotification = Omit<Notification, 'renders'>;
 
 export interface Response {
@@ -76,5 +74,4 @@ export interface User {
     disabled: boolean;
     token: string;
 }
-
 export type NewUser = Omit<User, 'id'>;

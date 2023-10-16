@@ -39,4 +39,5 @@
 |        | 2    | Tuotteiden lisäyksen/muokkauksen parantelua                                                          |     |
 | 12.10. | 3    | Uusi tuotteiden muokkaus -sivu                                                                       |     |
 |        | 2    | Lisää tuotteiden muokkauksen parantelua                                                              |     |
-|  yht   | 73   |                                                                                                      |     |
+| 16.10. | 2    | Frontendiin kuvatiedostojen lisääminen aluilleen                                                     | 75  |
+|  yht   | 75   |                                                                                                      |     |

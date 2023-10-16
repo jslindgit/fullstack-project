@@ -18,6 +18,7 @@ Image.init(
         filename: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
         },
     },
     {

@@ -18,6 +18,9 @@ const AdminMenu = () => {
                             <Link to={baseUrl + 'items'}>Items</Link>
                         </td>
                         <td>
+                            <Link to={baseUrl + 'images'}>Images</Link>
+                        </td>
+                        <td>
                             <Link to={baseUrl + 'users'}>Users</Link>
                         </td>
                         <td>
