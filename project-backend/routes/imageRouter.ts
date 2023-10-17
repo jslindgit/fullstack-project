@@ -1,12 +1,24 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 import { RequestHandler } from 'express';
-
-import { isBuffer, isNumber, isString, toNewImage } from '../types/type_functions';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 import { errorHandler } from '../middlewares/errors';
 import { tokenExtractor } from '../middlewares/token_extractor';
 import service from '../services/imageService';
+
+const storage = multer.diskStorage({
+    destination: (_req, _file, cb) => {
+        cb(null, './images');
+    },
+    filename: (_req, file, cb) => {
+        cb(null, file.originalname);
+    },
+});
+
+const upload = multer({ storage: storage });
 
 const router = express.Router();
 
@@ -29,21 +41,20 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.get('/', (async (req, res, next) => {
+router.get('/', ((_req, res, next) => {
     try {
-        const images = await service.getAll(isString(req.query.search) ? req.query.search : '');
+        const imageDirectory = path.join(__dirname, '../images');
 
-        if (images) {
-            const imagesWithBase64 = images.map((image) => ({
-                id: 'id' in image && isNumber(image.id) ? image.id : 0,
-                filename: 'filename' in image && isString('filename') ? image.filename : 'invalid data',
-                data: 'data' in image && isBuffer(image.data) ? image.data.toString('base64') : 'invalid data',
-            }));
+        console.log('imgDir:', imageDirectory);
 
-            res.json(imagesWithBase64);
-        } else {
-            res.json(images);
-        }
+        fs.readdir(imageDirectory, (err, files) => {
+            if (err) {
+                res.status(500).json({ error: 'Error reading image directory' });
+                next(err);
+            } else {
+                res.json(files);
+            }
+        });
     } catch (err) {
         next(err);
     }
@@ -64,13 +75,14 @@ router.get('/:id', (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.post('/', tokenExtractor, (async (req, res, next) => {
+router.post('/', tokenExtractor, upload.single('image'), ((_req, res, next) => {
     try {
         if (res.locals.admin === true) {
-            const newImage = toNewImage(req.body);
-            const addedImage = await service.addNew(newImage);
+            //const newImage = toNewImage(req.body);
+            //const addedImage = await service.addNew(newImage);
 
-            res.status(201).json(addedImage);
+            //res.status(201).json(addedImage);
+            res.status(201).send('Image uploaded successfully');
         } else {
             res.status(403).json({ error: 'Access denied' });
         }

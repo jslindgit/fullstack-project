@@ -22,8 +22,8 @@ interface Props {
 const AddItemForm = ({ user, category, items, setItems }: Props) => {
     const name = useField('text');
     const description = useField('text');
-    const price = useField('number');
-    const instock = useField('number');
+    const price = useField('decimal');
+    const instock = useField('integer');
     const [selectedCategory, setSelectedCategory] = useState<string>(category ? category.id.toString() : '-1');
 
     const dispatch = useDispatch();

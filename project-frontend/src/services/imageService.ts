@@ -13,9 +13,21 @@ interface ImageResponse extends Response {
 
 const url = apiBaseUrl + '/images';
 
-const add = async (toAdd: object, token: string): Promise<ImageResponse> => {
+const add = async (imageFile: File, token: string): Promise<ImageResponse> => {
     try {
-        const newImage = toNewImage(toAdd);
+        const formData = new FormData();
+        formData.append('image', imageFile);
+
+        const headersObject = authConfig(token);
+        headersObject.headers = { ...headersObject.headers, 'Content-Type': 'multipart/form-data' };
+
+        const res = await axios.post(url, formData, headersObject);
+
+        console.log('res:', res);
+
+        return { success: res.status === 201, message: 'ok', image: null };
+
+        /*const newImage = toNewImage(toAdd);
 
         const body = newImage;
         const { data } = await axios.post(url, body, authConfig(token));
@@ -25,7 +37,7 @@ const add = async (toAdd: object, token: string): Promise<ImageResponse> => {
         } else {
             handleError('Server did not return an Image object');
             return { success: false, message: 'Something went wrong, try again later', image: null };
-        }
+        }*/
     } catch (err: unknown) {
         handleError(err);
         return { success: false, message: 'Error occurred', image: null };
@@ -49,9 +61,9 @@ const deleteImage = async (image: Image, token: string): Promise<Response> => {
     }
 };
 
-const getAll = async (): Promise<Image[]> => {
+const getAll = async (): Promise<string[]> => {
     try {
-        const { data } = await axios.get<Image[]>(url);
+        const { data } = await axios.get<string[]>(url);
         return data;
     } catch (err: unknown) {
         handleError(err);

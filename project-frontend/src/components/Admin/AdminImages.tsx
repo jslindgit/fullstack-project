@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Image, NewImage } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
@@ -8,10 +8,13 @@ import { handleError } from '../../util/handleError';
 import imageService from '../../services/imageService';
 import { pageWidth } from '../../constants';
 
+import { setNotification } from '../../reducers/miscReducer';
+
 const AdminImages = () => {
+    const dispatch = useDispatch();
     const usersState = useSelector((state: RootState) => state.users);
 
-    const [images, setImages] = useState<Image[]>([]);
+    const [images, setImages] = useState<string[]>([]);
     const [imageFile, setImageFile] = useState<File | null>(null);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,9 +28,9 @@ const AdminImages = () => {
 
         const newImage: NewImage = { filename: imageFile.name, data: await readFileAsBase64(imageFile) };
 
-        const res = await imageService.add(newImage, usersState.loggedUser.token);
+        const res = await imageService.add(imageFile, usersState.loggedUser.token);
 
-        console.log('AI res:', res);
+        dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
     };
 
     const readFileAsBase64 = (file: File): Promise<string> => {
@@ -51,13 +54,25 @@ const AdminImages = () => {
         if ('data' in image) {
             return (
                 <>
-                    <img src={`data:image/png;base64,${image.data}`} />
+                    <img src={`data:image/png;base64,${image.data}`} width='150px' height='150px' />
                 </>
             );
         } else {
             return <></>;
         }
     };
+
+    useEffect(() => {
+        imageService
+            .getAll()
+            .then((data) => {
+                setImages(data);
+                console.log(images);
+            })
+            .catch((error) => {
+                console.error('Error fetching image list:', error);
+            });
+    }, []);
 
     useEffect(() => {
         imageService
@@ -77,9 +92,9 @@ const AdminImages = () => {
                     <tr>
                         <td>Total images: {images.length}</td>
                     </tr>
-                    <tr>
+                    {/*<tr>
                         <td>{images.length > 0 ? renderImage(images[0]) : <></>}</td>
-                    </tr>
+    </tr>*/}
                     <tr>
                         <td>
                             <input type='file' onChange={handleImageChange} />

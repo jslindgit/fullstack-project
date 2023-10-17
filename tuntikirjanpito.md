@@ -41,4 +41,5 @@
 |        | 2    | Lisää tuotteiden muokkauksen parantelua                                                              |     |
 | 16.10. | 2    | Frontendiin kuvatiedostojen lisääminen aluilleen                                                     | 75  |
 |        | 2    | Lisää kuvatiedostojen käsittelyä                                                                     |     |
-|  yht   | 77   |                                                                                                      |     |
+| 17.10. | 2    | Backendiin Multer käyttöön kuvatiedostojen vastaanottamisessa/säilömisessä                           |     |
+|  yht   | 79   |                                                                                                      |     |

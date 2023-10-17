@@ -1,5 +1,6 @@
-import express from 'express';
 import cors from 'cors';
+import express from 'express';
+import path from 'path';
 
 import { PORT } from './util/config';
 import { connectToDatabase } from './util/db';
@@ -41,6 +42,8 @@ app.use('/api/login', loginRouter);
 app.use('/api/users', userRouter);
 
 app.use('/api/images', cors(corsOptions));
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 const start = async () => {
     await connectToDatabase();
