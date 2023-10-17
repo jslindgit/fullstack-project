@@ -1,4 +1,4 @@
-import { NewCategory, NewImage, NewItem, Response, User } from './types';
+import { NewCategory, NewItem, Response, User } from './types';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
@@ -48,23 +48,6 @@ export const toNewCategory = (obj: unknown): NewCategory => {
     }
 
     throw new Error('Incorrect data: some fields ("name" or "description") are missing for toNewCategory');
-};
-
-export const toNewImage = (object: unknown): NewImage => {
-    if (!isObject(object)) {
-        throw new Error('Incorrect or missing data for toNewImage');
-    }
-
-    if ('filename' in object && isString(object.filename) && 'data' in object && isString(object.data)) {
-        const newImage: NewImage = {
-            filename: parseString(object.filename, 'filename'),
-            data: object.data,
-        };
-
-        return newImage;
-    }
-
-    throw new Error('Incorrect data: some fields ("filename" or "data") are missing or invalid for toNewItem');
 };
 
 export const toNewItem = (object: unknown): NewItem => {

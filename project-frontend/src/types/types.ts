@@ -31,18 +31,10 @@ export enum Currency {
     USD = '$',
 }
 
-export interface Image {
-    id: number;
-    filename: string;
-    data: string;
-}
-export type NewImage = Omit<Image, 'id'>;
-
 export interface Item {
     id: number;
     categories: Category[];
     description: string;
-    images: Image[];
     instock: number;
     name: string;
     price: number;

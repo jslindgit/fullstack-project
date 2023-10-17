@@ -1,7 +1,6 @@
-import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Image, NewImage } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
 import { handleError } from '../../util/handleError';
@@ -24,64 +23,28 @@ const AdminImages = () => {
     };
 
     const handleUpload = async () => {
-        if (!imageFile || !usersState.loggedUser) return;
+        if (!imageFile) {
+            handleError('Provide image file');
+            return;
+        } else if (!usersState.loggedUser) {
+            handleError('Log in');
+            return;
+        }
 
-        const newImage: NewImage = { filename: imageFile.name, data: await readFileAsBase64(imageFile) };
-
-        const res = await imageService.add(imageFile, usersState.loggedUser.token);
+        const res = await imageService.add(imageFile, 'products', usersState.loggedUser.token);
 
         dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
-    };
-
-    const readFileAsBase64 = (file: File): Promise<string> => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                if (event.target && event.target.result) {
-                    resolve(event.target.result.toString().split(',')[1]); // Extract Base64 data
-                } else {
-                    reject(new Error('Failed to read file as Base64.'));
-                }
-            };
-            reader.onerror = (error) => {
-                reject(error);
-            };
-            reader.readAsDataURL(file);
-        });
-    };
-
-    const renderImage = (image: Image): JSX.Element => {
-        if ('data' in image) {
-            return (
-                <>
-                    <img src={`data:image/png;base64,${image.data}`} width='150px' height='150px' />
-                </>
-            );
-        } else {
-            return <></>;
-        }
     };
 
     useEffect(() => {
         imageService
             .getAll()
             .then((data) => {
-                setImages(data);
-                console.log(images);
+                console.log('data:', data);
+                setImages(data.images);
             })
             .catch((error) => {
-                console.error('Error fetching image list:', error);
-            });
-    }, []);
-
-    useEffect(() => {
-        imageService
-            .getAll()
-            .then((imgs) => {
-                setImages(imgs);
-            })
-            .catch((err: unknown) => {
-                handleError(err);
+                handleError('Error fetching image list:', error);
             });
     }, []);
 
@@ -92,9 +55,13 @@ const AdminImages = () => {
                     <tr>
                         <td>Total images: {images.length}</td>
                     </tr>
-                    {/*<tr>
-                        <td>{images.length > 0 ? renderImage(images[0]) : <></>}</td>
-    </tr>*/}
+                    <tr>
+                        <td>
+                            {images.map((filename) => (
+                                <img key={filename} src={'http://localhost:3001/images/' + filename} width='150px' height='150px' />
+                            ))}
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <input type='file' onChange={handleImageChange} />

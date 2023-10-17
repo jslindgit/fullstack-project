@@ -1,119 +1,63 @@
-import { Op } from 'sequelize';
+import fs from 'fs';
+import path from 'path';
 
-import { Image, Item } from '../models';
-import { NewImage } from '../types/types';
-
-import { isNumber, isObject } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
 
-const addNew = async (newImage: NewImage): Promise<Image | null> => {
-    try {
-        const image = await Image.create(newImage);
-        await image.save();
+interface ImageResponse {
+    success: boolean;
+    images: string[];
+    message: string;
+}
 
-        return image;
-    } catch (err: unknown) {
+const rootDir = path.join(__dirname, '../images');
+
+const deleteImage = (subDir: 'misc' | 'products', filename: string): ImageResponse => {
+    const directory = path.join(rootDir, subDir);
+
+    console.log(`Deleting ${filename} from ${directory}... (TODO)`);
+
+    return { success: false, images: [], message: 'TODO...' };
+};
+
+const getAll = async (): Promise<ImageResponse> => {
+    try {
+        const misc = await getBySubDir('misc');
+        const products = await getBySubDir('products');
+
+        const success = misc.success && products.success;
+
+        const images = success ? misc.images.concat(products.images) : [];
+
+        return { success: success, images: images, message: success ? 'ok' : 'Something went wrong' };
+    } catch (err) {
         handleError(err);
-        return null;
+        return { success: false, images: [], message: 'Error occurred' };
     }
 };
 
-const deleteById = async (id: unknown): Promise<Image | null> => {
+const getBySubDir = async (subDir: string): Promise<ImageResponse> => {
     try {
-        const image = await getById(id);
-        if (image) {
-            await image.destroy();
-        }
-        return image;
-    } catch (err: unknown) {
-        handleError(err);
-        return null;
-    }
-};
-
-const getAll = async (searchQuery: string = ''): Promise<Array<Image> | null> => {
-    try {
-        let where = {};
-        if (searchQuery && searchQuery.length > 0) {
-            where = {
-                [Op.or]: [
-                    {
-                        filename: {
-                            [Op.iLike]: `%${searchQuery}%`,
-                        },
-                    },
-                ],
-            };
-        }
-
-        const images = await Image.findAll({
-            include: [
-                {
-                    model: Item,
-                    attributes: ['id', 'name'],
-                    through: { attributes: [] },
-                },
-            ],
-            where,
-            order: [['filename', 'ASC']],
+        const directory = getPath(subDir);
+        const files = await new Promise((resolve, reject) => {
+            fs.readdir(directory, (err, files) => {
+                if (err) reject(err);
+                else resolve(files);
+            });
         });
-
-        return images;
-    } catch (err: unknown) {
+        return { success: true, images: files as string[], message: 'ok' };
+    } catch (err) {
         handleError(err);
-        return null;
+        return { success: false, images: [], message: 'Error occurred' };
     }
 };
 
-// prettier-ignore
-const getById = async (id: unknown): Promise<Image | null> => {
-    try {
-        const image = isNumber(Number(id))
-            ? await Image.findByPk(Number(id), {
-                include: [
-                    {
-                        model: Item,
-                        through: { attributes: [] },
-                    }
-                ],
-            })
-            : null;
-        return image;
-    } catch (err: unknown) {
-        handleError(err);
-        return null;
-    }
-};
-
-const update = async (id: unknown, props: unknown): Promise<Image | null> => {
-    try {
-        const image = await getById(id);
-        if (image) {
-            if (isObject(props)) {
-                Object.keys(props).forEach((key) => {
-                    if (key in image) {
-                        image.setDataValue(key, props[key as keyof typeof props]);
-                    } else {
-                        throw new Error(`Invalid property '${key}' for Image`);
-                    }
-                });
-
-                await image.save();
-            } else {
-                throw new Error('Invalid props value (not an object)');
-            }
-        }
-        return image;
-    } catch (err: unknown) {
-        handleError(err);
-        return null;
-    }
+const getPath = (subDir: string): string => {
+    return subDir.length > 0 ? path.join(rootDir, subDir) : rootDir;
 };
 
 export default {
-    addNew,
-    deleteById,
+    deleteImage,
     getAll,
-    getById,
-    update,
+    getBySubDir,
+    getPath,
 };

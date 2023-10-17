@@ -42,4 +42,5 @@
 | 16.10. | 2    | Frontendiin kuvatiedostojen lisääminen aluilleen                                                     | 75  |
 |        | 2    | Lisää kuvatiedostojen käsittelyä                                                                     |     |
 | 17.10. | 2    | Backendiin Multer käyttöön kuvatiedostojen vastaanottamisessa/säilömisessä                           |     |
-|  yht   | 79   |                                                                                                      |     |
+|        | 3    | Lisää kuvatiedostojen latauksen/käsittelyn työstöä                                                   |     |
+|  yht   | 82   |                                                                                                      |     |

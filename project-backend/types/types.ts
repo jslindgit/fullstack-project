@@ -10,20 +10,6 @@ export interface Credentials {
     password: string;
 }
 
-export interface Image {
-    id: number;
-    data: Buffer;
-    filename: string;
-}
-export type NewImage = Omit<Image, 'id'>;
-
-export interface Image_Item {
-    id: number;
-    imageId: number;
-    itemId: number;
-}
-export type NewImage_Item = Omit<Image_Item, 'id'>;
-
 export interface Item {
     id: number;
     name: string;
