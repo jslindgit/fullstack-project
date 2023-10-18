@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../reducers/rootReducer';
 
 import { handleError } from '../../util/handleError';
+import { imageFullPath } from '../../util/misc';
 import imageService from '../../services/imageService';
 import { pageWidth } from '../../constants';
 
@@ -57,8 +58,8 @@ const AdminImages = () => {
                     </tr>
                     <tr>
                         <td>
-                            {images.map((filename) => (
-                                <img key={filename} src={'http://localhost:3001/images/' + filename} width='150px' height='150px' />
+                            {images.map((filepath) => (
+                                <img key={filepath} src={imageFullPath(filepath)} width='150px' height='150px' />
                             ))}
                         </td>
                     </tr>

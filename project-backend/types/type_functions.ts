@@ -86,6 +86,7 @@ export const toNewItem = (object: unknown): NewItem => {
             description: 'description' in object ? parseString(object.description, 'description') : '',
             price: parseNumber(object.price, 'price'),
             instock: 'instock' in object ? parseNumber(object.instock, 'instock') : 0,
+            images: [],
         };
 
         return newItem;

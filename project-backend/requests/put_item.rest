@@ -1,6 +1,7 @@
 PUT http://localhost:3001/api/items/2
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlcHBvQHRlc3RhYWphLmNvbSIsImlkIjoxLCJpYXQiOjE2OTc2Mzk1NjN9.FRy3EqeY6BAymhLuPj2qQAJPhvTjAyqMrkYHO3aWskU
 Content-Type: application/json
 
 {
-	"instock": 40
+	"images": [ "products\\suomi_salkolippu.jpg" ]
 }

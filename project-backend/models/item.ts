@@ -28,6 +28,10 @@ Item.init(
             type: DataTypes.INTEGER,
             defaultValue: 0,
         },
+        images: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            defaultValue: [],
+        },
     },
     {
         sequelize,

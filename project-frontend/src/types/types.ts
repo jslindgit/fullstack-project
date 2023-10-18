@@ -35,6 +35,7 @@ export interface Item {
     id: number;
     categories: Category[];
     description: string;
+    images: string[];
     instock: number;
     name: string;
     price: number;

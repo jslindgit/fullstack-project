@@ -16,6 +16,7 @@ export interface Item {
     description: string;
     price: number;
     instock: number;
+    images: string[];
 }
 export type NewItem = Omit<Item, 'id'>;
 

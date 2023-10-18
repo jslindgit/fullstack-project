@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import util from 'util';
 
 import { handleError } from '../util/error_handler';
 
@@ -38,13 +39,11 @@ const getAll = async (): Promise<ImageResponse> => {
 const getBySubDir = async (subDir: string): Promise<ImageResponse> => {
     try {
         const directory = getPath(subDir);
-        const files = await new Promise((resolve, reject) => {
-            fs.readdir(directory, (err, files) => {
-                if (err) reject(err);
-                else resolve(files);
-            });
-        });
-        return { success: true, images: files as string[], message: 'ok' };
+        const readdirAsync = util.promisify(fs.readdir);
+        const files: string[] = await readdirAsync(directory);
+        const paths = files.map((filename) => path.join(subDir, filename));
+
+        return { success: true, images: paths, message: 'ok' };
     } catch (err) {
         handleError(err);
         return { success: false, images: [], message: 'Error occurred' };
