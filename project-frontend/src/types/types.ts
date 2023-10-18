@@ -31,6 +31,11 @@ export enum Currency {
     USD = '$',
 }
 
+export interface ImageCategory {
+    name: string;
+    imagePaths: string[];
+}
+
 export interface Item {
     id: number;
     categories: Category[];

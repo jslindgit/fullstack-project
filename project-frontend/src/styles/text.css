@@ -47,6 +47,10 @@ h4 {
     font-weight: bold;
 }
 
+.capitalize {
+    text-transform: capitalize;
+}
+
 .underlined {
     text-decoration: underline solid;
     text-underline-offset: 0.3rem;

@@ -7,6 +7,7 @@ import { RootState } from '../reducers/rootReducer';
 
 import format from '../util/format';
 import { handleError } from '../util/handleError';
+import { imageFullPath } from '../util/misc';
 import itemService from '../services/itemService';
 import { pageWidth } from '../constants';
 
@@ -41,6 +42,8 @@ const ItemDetails = () => {
         );
     }
 
+    const imagePath = item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
+
     return (
         <div>
             <table align='center'>
@@ -58,32 +61,43 @@ const ItemDetails = () => {
             <table align='center' width={(pageWidth / 3) * 2} className='itemDetails'>
                 <tbody>
                     <tr>
-                        <td>
-                            <table align='center' width='100%' className='padding150'>
+                        <td width='50%'>
+                            <table align='center' width='100%' className='noPadding'>
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>{item.name}</h4>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>{item.description}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className='bold'>{format.currency(item.price, configState)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className={item.instock > 0 ? 'itemInStock' : 'itemSoldOut'}>{item.instock > 0 ? `In stock (${item.instock})` : 'Sold out'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <button type='button' disabled={item.instock <= 0}>
-                                                {item.instock > 0 ? 'Add to shopping cart' : 'Sold out'}
-                                            </button>
+                                            <table align='center' width='100%' className='padding150'>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <h4>{item.name}</h4>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{item.description}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className='bold'>{format.currency(item.price, configState)}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className={item.instock > 0 ? 'itemInStock' : 'itemSoldOut'}>{item.instock > 0 ? `In stock (${item.instock})` : 'Sold out'}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <button type='button' disabled={item.instock <= 0}>
+                                                                {item.instock > 0 ? 'Add to shopping cart' : 'Sold out'}
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                        </td>
+                        <td width='50%'>
+                            <img style={{ display: 'block' }} width='100%' src={imageFullPath(imagePath)} className='imgItemDetails' />
                         </td>
                     </tr>
                 </tbody>

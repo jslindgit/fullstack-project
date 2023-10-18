@@ -19,29 +19,35 @@ td:last-child {
 
 /* Padding related */
 .noOuterPadding tr:first-child td {
-    padding-top: 0 !important;
+    padding-top: 0;
 }
 .noOuterPadding tr:last-child td {
-    padding-bottom: 0 !important;
+    padding-bottom: 0;
 }
 .noOuterPadding td:first-child {
-    padding-left: 0 !important;
+    padding-left: 0;
 }
 .noOuterPadding td:last-child {
-    padding-right: 0 !important;
+    padding-right: 0;
 }
 
 .noPadding {
-    padding: 0 !important;
+    padding: 0;
+}
+.noPadding td {
+    padding: 0;
 }
 
 .paddingTopBottomOnly td:first-child {
-    padding-left: 0 !important;
+    padding-left: 0;
 }
 .paddingTopBottomOnly td:last-child {
-    padding-right: 0 !important;
+    padding-right: 0;
 }
 
+.padding150 {
+    padding: calc(var(--default-padding) * 1.5);
+}
 .padding150 td {
     padding: calc(var(--default-padding) * 1.5);
 }
@@ -86,4 +92,9 @@ td:last-child {
 /* Specific uses */
 .adminItems td {
     padding-right: calc(var(--default-padding) * 3);
+}
+
+.itemPriceTd {
+    padding-top: var(--default-padding) !important;
+    padding-bottom: var(--default-padding) !important;
 }

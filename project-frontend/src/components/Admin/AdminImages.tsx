@@ -1,21 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { ImageCategory } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
 import { handleError } from '../../util/handleError';
-import { imageFullPath } from '../../util/misc';
+import { imageCategories } from '../../util/misc';
 import imageService from '../../services/imageService';
-import { pageWidth } from '../../constants';
 
 import { setNotification } from '../../reducers/miscReducer';
+
+import AdminImageCategory from './AdminImageCategory';
 
 const AdminImages = () => {
     const dispatch = useDispatch();
     const usersState = useSelector((state: RootState) => state.users);
 
-    const [images, setImages] = useState<string[]>([]);
+    const [imageCategory, setImageCategory] = useState<string>(imageCategories[0]);
+    const [images, setImages] = useState<ImageCategory[]>([]);
     const [imageFile, setImageFile] = useState<File | null>(null);
+    const [newUploads, setNewUploads] = useState<number>(0);
+
+    const fetchImages = () => {
+        const categories: ImageCategory[] = [];
+        imageCategories.forEach((imgCat) => {
+            imageService
+                .getBySubDir(imgCat)
+                .then((res) => {
+                    if (res.success) {
+                        categories.push({ name: imgCat, imagePaths: res.images });
+                    } else {
+                        handleError(res.message);
+                    }
+                })
+                .catch((err) => {
+                    handleError(err);
+                });
+        });
+
+        setImages(categories);
+    };
+
+    const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setImageCategory(e.target.value);
+    };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -32,41 +60,62 @@ const AdminImages = () => {
             return;
         }
 
-        const res = await imageService.add(imageFile, 'products', usersState.loggedUser.token);
+        const res = await imageService.add(imageFile, imageCategory, usersState.loggedUser.token);
+
+        setImageFile(null);
+        setNewUploads(newUploads + 1);
 
         dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
     };
 
     useEffect(() => {
-        imageService
-            .getAll()
-            .then((data) => {
-                console.log('data:', data);
-                setImages(data.images);
-            })
-            .catch((error) => {
-                handleError('Error fetching image list:', error);
-            });
+        fetchImages();
     }, []);
+
+    useEffect(() => {
+        fetchImages();
+    }, [newUploads]);
 
     return (
         <div>
-            <table align='center' width={pageWidth}>
+            <table align='center' width='100%'>
                 <tbody>
                     <tr>
                         <td>Total images: {images.length}</td>
                     </tr>
                     <tr>
-                        <td>
-                            {images.map((filepath) => (
-                                <img key={filepath} src={imageFullPath(filepath)} width='150px' height='150px' />
-                            ))}
+                        <td className='itemDetails' style={{ paddingLeft: '2rem', paddingRight: '2rem', paddingTop: 0 }}>
+                            <table width='100%' className='noPadding'>
+                                <tbody>
+                                    <tr>
+                                        <td width='1px' className='noWrap'>
+                                            <h3>Upload new image to category:</h3>
+                                        </td>
+                                        <td style={{ paddingLeft: '1rem' }}>
+                                            <select value={imageCategory} onChange={handleCategoryChange} className='capitalize'>
+                                                {imageCategories.map((cat) => (
+                                                    <option key={cat} value={cat}>
+                                                        {cat}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <input type='file' onChange={handleImageChange} className='fileUpload' />
+                            <br />
+                            <br />
+                            <button onClick={handleUpload} disabled={!imageFile}>
+                                Upload Image
+                            </button>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input type='file' onChange={handleImageChange} />
-                            <button onClick={handleUpload}>Upload Image</button>
+                            {images.map((imgCat) => (
+                                <AdminImageCategory key={imgCat.name} category={imgCat} />
+                            ))}
                         </td>
                     </tr>
                 </tbody>

@@ -44,4 +44,5 @@
 | 17.10. | 2    | Backendiin Multer käyttöön kuvatiedostojen vastaanottamisessa/säilömisessä                           |     |
 |        | 3    | Lisää kuvatiedostojen latauksen/käsittelyn työstöä                                                   |     |
 | 18.10. | 2    | Lisää kuvatiedostojen käsittelyä                                                                     |     |
-|  yht   | 84   |                                                                                                      |     |
+|        | 2    | Lisää kuvatiedostojen käsittelyä                                                                     |     |
+|  yht   | 86   |                                                                                                      |     |

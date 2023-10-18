@@ -1,4 +1,13 @@
+.imgAdminThumb {
+    width: 10rem;
+    height: 10rem;
+    margin-right: 1rem;
+}
 .imgItemColumn {
-    width: 5rem;
-    height: 5rem;
+    height: 6rem;
+    vertical-align: middle;
+}
+
+.imgItemDetails {
+    height: fit-content;
 }

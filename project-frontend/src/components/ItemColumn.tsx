@@ -24,8 +24,8 @@ const ItemColumn = ({ item, config }: ItemColumnProps) => {
                                         <tr>
                                             <td className='sizeVeryLarge'>{item.name}</td>
                                         </tr>
-                                        <tr>
-                                            <td className='sizeNormal'>{format.currency(item.price, config)}</td>
+                                        <tr className='itemPriceTd'>
+                                            <td className='sizeNormal itemPriceTd'>{format.currency(item.price, config)}</td>
                                         </tr>
                                         <tr>
                                             <td className={'sizeSmallish ' + (item.instock > 0 ? 'itemInStock' : 'itemSoldOut')}>{item.instock > 0 ? 'In stock' : 'Sold out'}</td>

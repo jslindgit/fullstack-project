@@ -12,26 +12,21 @@ interface ImageResponse extends Response {
 
 const url = apiBaseUrl + '/images';
 
-const add = async (imageFile: File, subDir: 'misc' | 'products', token: string): Promise<Response> => {
+const add = async (imageFile: File, subDir: string, token: string): Promise<Response> => {
     try {
         const formData = new FormData();
         formData.append('subdir', subDir);
         formData.append('image', imageFile);
 
         const headersObject = authConfig(token);
-        //headersObject.headers = { ...headersObject.headers, 'Content-Type': 'multipart/form-data' };
 
         const res = await axios.post(url, formData, headersObject);
-
-        console.log('res:', res);
 
         if (res.status === 201) {
             return { success: true, message: `"${imageFile.name}" uploaded to "${subDir}"` };
         } else {
             return { success: false, message: 'Something went wrong' };
         }
-
-        return { success: res.status === 201, message: 'ok' };
     } catch (err: unknown) {
         handleError(err);
         return { success: false, message: 'Error occurred' };
@@ -67,10 +62,14 @@ const getAll = async (): Promise<ImageResponse> => {
     }
 };
 
-const getBySubDir = async (subDir: 'misc' | 'products'): Promise<ImageResponse> => {
+const getBySubDir = async (subDir: string): Promise<ImageResponse> => {
     try {
-        const { data } = await axios.get<string[]>(url + '/' + subDir);
-        return { success: true, message: 'ok', images: data };
+        const res = await axios.get<string[]>(url + '/' + subDir);
+        if (res.status === 200) {
+            return { success: true, message: 'ok', images: res.data };
+        } else {
+            return { success: false, message: 'Something went wrong', images: [] };
+        }
     } catch (err: unknown) {
         handleError(err);
         return { success: false, message: 'Error occurred', images: [] };

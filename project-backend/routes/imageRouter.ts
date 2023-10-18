@@ -42,7 +42,7 @@ router.get('/:subdir', (async (req, res, next) => {
     try {
         const imageResponse = await service.getBySubDir(req.params.subdir);
         if (imageResponse.success) {
-            res.json(imageResponse.images);
+            res.status(200).json(imageResponse.images);
         } else {
             res.status(500).json({ error: imageResponse.message });
         }
