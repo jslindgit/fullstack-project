@@ -1,5 +1,7 @@
 .imgFlex {
     display: flex;
+    align-items: center !important;
+    align-content: center !important;
 }
 .imgFlex img {
     margin-right: 1rem;
@@ -12,7 +14,7 @@
     margin-right: 0.5rem;
 }
 .imgAdminThumb {
-    /*display: block;*/
+    display: block;
     width: 10rem;
     height: 10rem;
     margin-right: 1rem;

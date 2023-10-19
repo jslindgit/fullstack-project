@@ -56,12 +56,17 @@ const AdminImages = () => {
             return;
         }
 
-        const res = await imageService.add(imageFile, imageCategory, usersState.loggedUser.token);
+        const dupecheck = await imageService.getBySubdirAndFilename(imageCategory, imageFile.name);
+        const matchFound = dupecheck.success && dupecheck.images.length > 0;
 
-        setImageFile(null);
-        setNewUploads(newUploads + 1);
+        if (!matchFound || confirm(`Image "${imageFile.name}" already exist in "${imageCategory}" - Do you want to overwrite it?`)) {
+            const res = await imageService.add(imageFile, imageCategory, usersState.loggedUser.token);
 
-        dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+            setImageFile(null);
+            setNewUploads(newUploads + 1);
+
+            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+        }
     };
 
     useEffect(() => {

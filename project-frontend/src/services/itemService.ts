@@ -77,7 +77,7 @@ const getById = async (id: number): Promise<Item | null> => {
 
 const update = async (item: Item, token: string, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
     try {
-        const toUpdate = { name: item.name, description: item.description, price: item.price, instock: item.instock };
+        const toUpdate = { name: item.name, description: item.description, price: item.price, instock: item.instock, images: item.images };
 
         const res = await axios.put<Item>(`${url}/${item.id}`, toUpdate, authConfig(token));
         const data = res.data;

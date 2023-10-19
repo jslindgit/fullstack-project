@@ -17,7 +17,6 @@ import { pageWidth } from '../../constants';
 import useField from '../../hooks/useField';
 import useTextArea from '../../hooks/useTextArea';
 
-import AdminItemImageThumbs from './AdminItemImageThumbs';
 import BackButton from '../BackButton';
 
 const AdminItemEdit = () => {
@@ -29,6 +28,7 @@ const AdminItemEdit = () => {
     const [item, setItem] = useState<Item | undefined>();
     const [loading, setLoading] = useState<string>('Loading...');
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+    const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
     const [categoriesChanged, setCategoriesChanged] = useState<boolean>(false);
 
@@ -91,7 +91,8 @@ const AdminItemEdit = () => {
                 item.description !== description.value ||
                 item.price.toString() !== price.value.toString() ||
                 item.instock.toString() !== instock.value.toString() ||
-                categoriesChanged)
+                categoriesChanged ||
+                selectedImages.length > 0)
         );
     };
 
@@ -107,6 +108,14 @@ const AdminItemEdit = () => {
             updatedCategories.push(categoryId);
         }
         setSelectedCategories(updatedCategories);
+    };
+
+    const handleImageSelect = (image: string) => (_event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+        if (selectedImages.includes(image)) {
+            setSelectedImages(selectedImages.filter((img) => img !== image));
+        } else {
+            setSelectedImages(selectedImages.concat(image));
+        }
     };
 
     const inputField = (input: UseField) => {
@@ -129,6 +138,7 @@ const AdminItemEdit = () => {
                     description: description.value.toString(),
                     price: Number(price.value),
                     instock: Number(instock.value),
+                    images: item.images.concat(selectedImages),
                 };
 
                 // Add connections between the edited Item and the selected Categories that are not yet connected to the Item:
@@ -165,6 +175,7 @@ const AdminItemEdit = () => {
                 dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
                 setItemById();
+                setSelectedImages([]);
             } else {
                 handleError(new Error('Missing token'));
             }
@@ -273,7 +284,11 @@ const AdminItemEdit = () => {
                                             <td className='adminItemEditLabel'>IMAGES:</td>
                                         </tr>
                                         <tr>
-                                            <td>{item.images.length > 0 ? <AdminItemImageThumbs images={item.images} centralized={false} /> : 'No images'}</td>
+                                            <td className='imgFlex'>
+                                                {item.images.length > 0
+                                                    ? item.images.map((img) => <img key={img} src={imageFullPath(img)} className='imgAdminItems' alt={imageFilename(img)} title={imageFilename(img)} />)
+                                                    : 'No images'}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td className='adminItemEditLabel'>ADD MORE IMAGES:</td>
@@ -281,7 +296,26 @@ const AdminItemEdit = () => {
                                         <tr>
                                             <td className='imgFlex'>
                                                 {images.map((imgPath) => (
-                                                    <img key={imgPath} src={imageFullPath(imgPath)} className='imgAdminItems' alt={imageFilename(imgPath)} title={imageFilename(imgPath)} />
+                                                    <img
+                                                        key={imgPath}
+                                                        src={imageFullPath(imgPath)}
+                                                        onClick={handleImageSelect(imgPath)}
+                                                        className='imgAdminItems'
+                                                        alt={imageFilename(imgPath)}
+                                                        title={imageFilename(imgPath)}
+                                                    />
+                                                ))}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>Selected images:</b>
+                                                <br />
+                                                {selectedImages.map((img) => (
+                                                    <span key={img}>
+                                                        {img}
+                                                        <br />
+                                                    </span>
                                                 ))}
                                             </td>
                                         </tr>

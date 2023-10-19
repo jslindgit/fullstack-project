@@ -64,9 +64,24 @@ const getAll = async (): Promise<ImageResponse> => {
 
 const getBySubDir = async (subDir: string): Promise<ImageResponse> => {
     try {
-        const res = await axios.get<string[]>(url + '/' + subDir);
+        const res = await axios.get<string[]>(url + '/subdir/' + subDir);
         if (res.status === 200) {
             return { success: true, message: 'ok', images: res.data };
+        } else {
+            return { success: false, message: 'Something went wrong', images: [] };
+        }
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: 'Error occurred', images: [] };
+    }
+};
+
+const getBySubdirAndFilename = async (subdir: string, filename: string): Promise<ImageResponse> => {
+    try {
+        const body = { subdir: subdir, filename: filename };
+        const res = await axios.post(url + '/search', body);
+        if (res.status === 200) {
+            return { success: true, message: res.data.message, images: res.data.images };
         } else {
             return { success: false, message: 'Something went wrong', images: [] };
         }
@@ -81,4 +96,5 @@ export default {
     deleteImage,
     getAll,
     getBySubDir,
+    getBySubdirAndFilename,
 };

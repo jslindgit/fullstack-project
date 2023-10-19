@@ -5,7 +5,7 @@ import { RootState } from '../../reducers/rootReducer';
 
 import format from '../../util/format';
 
-import AdminItemImageThumbs from './AdminItemImageThumbs';
+import AdminItemImageThumbsSmall from './AdminItemImageThumbsSmall';
 import { Link } from '../CustomLink';
 
 interface Props {
@@ -26,8 +26,8 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
             <td className='noWrap'>{item.instock} pcs</td>
             <td>{item.id}</td>
             <td>{item.categories ? item.categories.length.toString() : 0}</td>
-            <td className='centered' style={{ padding: 0 }}>
-                {item.images && item.images.length > 0 ? <AdminItemImageThumbs images={item.images} centralized={true} /> : '-'}
+            <td className='centered imgFlex' style={{ padding: 0 }}>
+                {item.images && item.images.length > 0 ? <AdminItemImageThumbsSmall images={item.images} /> : '-'}
             </td>
             <td style={{ paddingRight: 0 }}>
                 <Link to={'/admin/edititem/' + item.id}>

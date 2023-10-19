@@ -38,7 +38,7 @@ router.get('/', (async (_req, res, next) => {
     }
 }) as RequestHandler);
 
-router.get('/:subdir', (async (req, res, next) => {
+router.get('/subdir/:subdir', (async (req, res, next) => {
     try {
         const imageResponse = await service.getBySubDir(req.params.subdir);
         if (imageResponse.success) {
@@ -57,6 +57,19 @@ router.post('/', tokenExtractor, upload.single('image'), ((_req, res, next) => {
             res.status(201).send('Image uploaded successfully');
         } else {
             res.status(403).json({ error: 'Access denied' });
+        }
+    } catch (err) {
+        next(err);
+    }
+}) as RequestHandler);
+
+router.post('/search', (async (req, res, next) => {
+    try {
+        const imageResponse = await service.getBySubdirAndFilename(req.body);
+        if (imageResponse.success) {
+            res.status(200).json({ images: imageResponse.images, message: imageResponse.message });
+        } else {
+            res.status(500).json({ error: imageResponse.message });
         }
     } catch (err) {
         next(err);

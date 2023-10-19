@@ -1,0 +1,7 @@
+POST http://localhost:3001/api/images/search
+Content-Type: application/json
+
+{
+    "subdir": "products",
+	"filename": "suomi_salkolippu.jpg"
+}

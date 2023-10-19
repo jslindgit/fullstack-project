@@ -81,6 +81,13 @@ h4 {
     text-transform: capitalize;
 }
 
+.adminImageCaption {
+    font-size: 1rem;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-all;
+}
+
 .adminItemEditLabel {
     font-size: 0.85rem;
     color: var(--colorGray);
