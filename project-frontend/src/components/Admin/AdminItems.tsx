@@ -11,7 +11,7 @@ import { isNumber } from '../../types/type_functions';
 
 import { setNotification } from '../../reducers/miscReducer';
 
-import AdminItem from './AdminItem';
+import AdminItemRow from './AdminItemRow';
 import AddItemForm from '../Admin/AddItemForm';
 import { Link } from '../CustomLink';
 
@@ -90,11 +90,9 @@ const AdminItems = () => {
             <table align='center' width='100%' className='sizeSmallish paddingTopBottomOnly dotted adminItems'>
                 <tbody>
                     <tr className='bold'>
-                        <td width='12%' style={{ maxWidth: '25%' }}>
-                            Product
-                        </td>
+                        <td width='1px'>Product</td>
                         <td>Description</td>
-                        <td>Price</td>
+                        <td width='1px'>Price</td>
                         <td width='1px' className='noWrap'>
                             In stock
                         </td>
@@ -105,7 +103,7 @@ const AdminItems = () => {
                         <td width='1px'></td>
                     </tr>
                     {items.map((item) => (
-                        <AdminItem key={item.id} item={item} deleteItem={deleteItem} />
+                        <AdminItemRow key={item.id} item={item} deleteItem={deleteItem} />
                     ))}
                 </tbody>
             </table>

@@ -9,12 +9,15 @@ import { UseField } from '../../hooks/useField';
 import { setNotification } from '../../reducers/miscReducer';
 
 import { handleError } from '../../util/handleError';
+import { imageFilename, imageFullPath } from '../../util/misc';
 import item_categoryService from '../../services/item_categoryService';
+import imageService from '../../services/imageService';
 import itemService from '../../services/itemService';
 import { pageWidth } from '../../constants';
 import useField from '../../hooks/useField';
 import useTextArea from '../../hooks/useTextArea';
 
+import AdminItemImageThumbs from './AdminItemImageThumbs';
 import BackButton from '../BackButton';
 
 const AdminItemEdit = () => {
@@ -22,6 +25,7 @@ const AdminItemEdit = () => {
     const categoriesState = useSelector((state: RootState) => state.categories);
     const usersState = useSelector((state: RootState) => state.users);
 
+    const [images, setImages] = useState<string[]>([]);
     const [item, setItem] = useState<Item | undefined>();
     const [loading, setLoading] = useState<string>('Loading...');
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
@@ -35,6 +39,15 @@ const AdminItemEdit = () => {
 
     const id = Number(useParams().id);
 
+    const fetchImages = async () => {
+        const res = await imageService.getBySubDir('products');
+        if (res.success) {
+            setImages(res.images);
+        } else {
+            handleError(res.message);
+        }
+    };
+
     const setItemById = () => {
         try {
             itemService.getById(id).then((res) => {
@@ -47,7 +60,12 @@ const AdminItemEdit = () => {
     };
 
     useEffect(() => {
+        fetchImages();
+    }, []);
+
+    useEffect(() => {
         setItemById();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     useEffect(() => {
@@ -255,12 +273,17 @@ const AdminItemEdit = () => {
                                             <td className='adminItemEditLabel'>IMAGES:</td>
                                         </tr>
                                         <tr>
-                                            <td style={{ paddingBottom: 0 }}>
-                                                <button type='button'>Upload image</button>
-                                            </td>
+                                            <td>{item.images.length > 0 ? <AdminItemImageThumbs images={item.images} centralized={false} /> : 'No images'}</td>
                                         </tr>
                                         <tr>
-                                            <td>{item.images.length > 0 ? 'TODO' : 'No images'}</td>
+                                            <td className='adminItemEditLabel'>ADD MORE IMAGES:</td>
+                                        </tr>
+                                        <tr>
+                                            <td className='imgFlex'>
+                                                {images.map((imgPath) => (
+                                                    <img key={imgPath} src={imageFullPath(imgPath)} className='imgAdminItems' alt={imageFilename(imgPath)} title={imageFilename(imgPath)} />
+                                                ))}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

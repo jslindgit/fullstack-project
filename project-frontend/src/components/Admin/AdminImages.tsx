@@ -21,23 +21,19 @@ const AdminImages = () => {
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [newUploads, setNewUploads] = useState<number>(0);
 
-    const fetchImages = () => {
+    const fetchImages = async () => {
         const categories: ImageCategory[] = [];
-        imageCategories.forEach((imgCat) => {
-            imageService
-                .getBySubDir(imgCat)
-                .then((res) => {
-                    if (res.success) {
-                        categories.push({ name: imgCat, imagePaths: res.images });
-                    } else {
-                        handleError(res.message);
-                    }
-                })
-                .catch((err) => {
-                    handleError(err);
-                });
-        });
 
+        await Promise.all(
+            imageCategories.map(async (imgCat) => {
+                const res = await imageService.getBySubDir(imgCat);
+                if (res.success) {
+                    categories.push({ name: imgCat, imagePaths: res.images });
+                } else {
+                    handleError(res.message);
+                }
+            })
+        );
         setImages(categories);
     };
 

@@ -27,6 +27,10 @@ option {
     padding-top: 0.5rem;
 }
 
+textarea {
+    resize: none;
+}
+
 .adminForm input,
 select {
     padding-left: 1rem;

@@ -5,6 +5,7 @@ import { RootState } from '../../reducers/rootReducer';
 
 import format from '../../util/format';
 
+import AdminItemImageThumbs from './AdminItemImageThumbs';
 import { Link } from '../CustomLink';
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
     deleteItem: (item: Item) => void;
 }
 
-const AdminItem = ({ item, deleteItem }: Props) => {
+const AdminItemRow = ({ item, deleteItem }: Props) => {
     const configState = useSelector((state: RootState) => state.config);
 
     const descriptionMaxLengthToShow = 300;
@@ -25,7 +26,9 @@ const AdminItem = ({ item, deleteItem }: Props) => {
             <td className='noWrap'>{item.instock} pcs</td>
             <td>{item.id}</td>
             <td>{item.categories ? item.categories.length.toString() : 0}</td>
-            <td style={{ paddingRight: '0.75rem' }}>{item.images && item.images.length > 0 ? 'TODO' : 'No images'}</td>
+            <td className='centered' style={{ padding: 0 }}>
+                {item.images && item.images.length > 0 ? <AdminItemImageThumbs images={item.images} centralized={true} /> : '-'}
+            </td>
             <td style={{ paddingRight: 0 }}>
                 <Link to={'/admin/edititem/' + item.id}>
                     <button type='button' className='compactButton'>
@@ -42,4 +45,4 @@ const AdminItem = ({ item, deleteItem }: Props) => {
     );
 };
 
-export default AdminItem;
+export default AdminItemRow;

@@ -97,7 +97,7 @@ const ItemDetails = () => {
                             </table>
                         </td>
                         <td width='50%'>
-                            <img style={{ display: 'block' }} width='100%' src={imageFullPath(imagePath)} className='imgItemDetails' />
+                            <img src={imageFullPath(imagePath)} className='imgItemDetails' />
                         </td>
                     </tr>
                 </tbody>

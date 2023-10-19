@@ -45,4 +45,5 @@
 |        | 3    | Lisää kuvatiedostojen latauksen/käsittelyn työstöä                                                   |     |
 | 18.10. | 2    | Lisää kuvatiedostojen käsittelyä                                                                     |     |
 |        | 2    | Lisää kuvatiedostojen käsittelyä                                                                     |     |
-|  yht   | 86   |                                                                                                      |     |
+| 19.10. | 2    | Adminille näkymään tuotekuvat                                                                        |     |
+|  yht   | 88   |                                                                                                      |     |
