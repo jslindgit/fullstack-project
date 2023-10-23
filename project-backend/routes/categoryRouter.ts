@@ -70,12 +70,12 @@ router.post('/', tokenExtractor, (async (req, res, next) => {
 router.put('/:id', tokenExtractor, (async (req, res, next) => {
     try {
         if (res.locals.admin === true) {
-            const item = await service.update(req.params.id, req.body);
-            if (item) {
-                res.status(201).json(item);
+            const category = await service.update(req.params.id, req.body);
+            if (category) {
+                res.status(201).json(category);
             } else {
                 res.status(404).json({
-                    error: `Item with id ${req.params.id} not found`,
+                    error: `Category with id ${req.params.id} not found`,
                 });
             }
         } else {

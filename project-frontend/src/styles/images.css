@@ -13,12 +13,19 @@
     height: 3rem;
     margin-right: 0.5rem;
 }
+
 .imgAdminThumb {
     display: block;
     width: 10rem;
     height: 10rem;
     margin-right: 1rem;
 }
+
+.imgSelected {
+    outline: 0.25rem solid var(--colorGreenLight);
+    opacity: 0.75;
+}
+
 .imgItemColumn {
     display: block;
     height: 6rem;

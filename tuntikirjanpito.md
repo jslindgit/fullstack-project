@@ -47,4 +47,5 @@
 |        | 2    | Lisää kuvatiedostojen käsittelyä                                                                                     |     |
 | 19.10. | 2    | Adminille näkymään tuotekuvat                                                                                        |     |
 |        | 2    | Kuvia ladatessa tarkistus, onko saman niminen tiedosto jo olemassa. Adminille mahdollisuus liittää kuvia tuotteisiin | 90  |
-|  yht   | 90   |                                                                                                                      |     |
+| 23.10. | 1    | Adminille mahdollisuus muokata kategorioita                                                                          |     |
+|  yht   | 91   |                                                                                                                      |     |

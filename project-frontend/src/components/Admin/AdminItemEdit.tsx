@@ -129,10 +129,10 @@ const AdminItemEdit = () => {
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (item && changesMade()) {
-            if (usersState.loggedUser && usersState.loggedUser.token) {
+            if (usersState.loggedUser && usersState.loggedUser.admin && usersState.loggedUser.token) {
                 const token = usersState.loggedUser.token;
 
-                const updatedItem = {
+                const updatedItem: Item = {
                     ...item,
                     name: name.value.toString(),
                     description: description.value.toString(),
@@ -300,7 +300,7 @@ const AdminItemEdit = () => {
                                                         key={imgPath}
                                                         src={imageFullPath(imgPath)}
                                                         onClick={handleImageSelect(imgPath)}
-                                                        className='imgAdminItems'
+                                                        className={selectedImages.includes(imgPath) ? 'imgAdminItems imgSelected' : 'imgAdminItems'}
                                                         alt={imageFilename(imgPath)}
                                                         title={imageFilename(imgPath)}
                                                     />
@@ -313,7 +313,7 @@ const AdminItemEdit = () => {
                                                 <br />
                                                 {selectedImages.map((img) => (
                                                     <span key={img}>
-                                                        {img}
+                                                        {imageFilename(img)}
                                                         <br />
                                                     </span>
                                                 ))}

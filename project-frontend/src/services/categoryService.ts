@@ -4,6 +4,8 @@ import { AnyAction } from 'redux';
 
 import { Category, NewCategory, Response } from '../types/types';
 
+import { initializeCategories } from '../reducers/categoryReducer';
+
 import { apiBaseUrl } from '../constants';
 import { authConfig } from '../util/serviceProvider';
 import { handleError } from '../util/handleError';
@@ -65,9 +67,30 @@ const getById = async (id: number) => {
     }
 };
 
+const update = async (category: Category, token: string, dispatch: Dispatch<AnyAction>): Promise<CategoryResponse> => {
+    try {
+        const toUpdate = { name: category.name, description: category.description };
+
+        const res = await axios.put<Category>(`${url}/${category.id}`, toUpdate, authConfig(token));
+        const data = res.data;
+
+        if ('name' in data && 'description' in data) {
+            await initializeCategories(dispatch);
+            return { success: true, message: `Category "${data.name}" updated`, addedCategory: data };
+        } else {
+            handleError('Server did not return a Category object');
+            return { success: false, message: 'Something went wrong, try again later', addedCategory: null };
+        }
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: 'Error occurred', addedCategory: null };
+    }
+};
+
 export default {
     add,
     deleteCategory,
     getAll,
     getById,
+    update,
 };

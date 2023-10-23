@@ -56,7 +56,9 @@ const AdminCategories = () => {
                                             <td>{c.description}</td>
                                             <td style={{ width: '1rem' }}></td>
                                             <td className='widthByContent'>
-                                                <button onClick={() => console.log('edit ' + c.name)}>Edit</button>
+                                                <Link to={'/admin/editcategory/' + c.id}>
+                                                    <button type='button'>Edit</button>
+                                                </Link>
                                             </td>
                                             <td>
                                                 <button className='red' onClick={() => deleteCategory(c)}>

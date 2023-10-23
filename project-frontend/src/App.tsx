@@ -19,6 +19,7 @@ import { removeLoggedUser, setLoggedUser } from './reducers/usersReducer';
 import { initializeCategories } from './reducers/categoryReducer';
 
 // Components:
+import AdminCategoryEdit from './components/Admin/AdminCategoryEdit';
 import AdminItemEdit from './components/Admin/AdminItemEdit';
 import AdminPanel from './components/Admin/AdminPanel';
 import Categories from './components/Categories';
@@ -94,6 +95,7 @@ const App = () => {
                 <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='/admin' element={adminPage(<AdminPanel />)} />
+                    <Route path='/admin/editcategory/:id' element={<AdminCategoryEdit />} />
                     <Route path='/admin/edititem/:id' element={<AdminItemEdit />} />
                     <Route path='/admin/:page' element={adminPage(<AdminPanel />)} />
                     <Route path='/info' element={<Info />} />
