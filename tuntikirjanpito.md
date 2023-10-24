@@ -48,4 +48,5 @@
 | 19.10. | 2    | Adminille näkymään tuotekuvat                                                                                        |     |
 |        | 2    | Kuvia ladatessa tarkistus, onko saman niminen tiedosto jo olemassa. Adminille mahdollisuus liittää kuvia tuotteisiin | 90  |
 | 23.10. | 1    | Adminille mahdollisuus muokata kategorioita                                                                          |     |
-|  yht   | 91   |                                                                                                                      |     |
+| 24.10. | 1    | Ostoskori aluilleen                                                                                                  |     |
+|  yht   | 92   |                                                                                                                      |     |

@@ -9,6 +9,7 @@ import format from '../util/format';
 import { handleError } from '../util/handleError';
 import { imageFullPath } from '../util/misc';
 import itemService from '../services/itemService';
+import localstorageHandler from '../util/localstorageHandler';
 import { pageWidth } from '../constants';
 
 import BackButton from './BackButton';
@@ -41,6 +42,12 @@ const ItemDetails = () => {
             </>
         );
     }
+
+    const handleAddToShoppingCart = (item: Item) => {
+        localstorageHandler.addToShoppingCart(item, 1);
+
+        console.log('shopping cart:', localstorageHandler.getShoppingCart());
+    };
 
     const imagePath = item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
 
@@ -84,7 +91,7 @@ const ItemDetails = () => {
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <button type='button' disabled={item.instock <= 0}>
+                                                            <button type='button' onClick={() => handleAddToShoppingCart(item)} disabled={item.instock <= 0}>
                                                                 {item.instock > 0 ? 'Add to shopping cart' : 'Sold out'}
                                                             </button>
                                                         </td>
