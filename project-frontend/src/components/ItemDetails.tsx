@@ -9,9 +9,9 @@ import format from '../util/format';
 import { handleError } from '../util/handleError';
 import { imageFullPath } from '../util/misc';
 import itemService from '../services/itemService';
-import localstorageHandler from '../util/localstorageHandler';
 import { pageWidth } from '../constants';
 
+import AddToCart from './AddToCart';
 import BackButton from './BackButton';
 import ItemsMenu from './ItemsMenu';
 
@@ -43,12 +43,6 @@ const ItemDetails = () => {
         );
     }
 
-    const handleAddToShoppingCart = (item: Item) => {
-        localstorageHandler.addToShoppingCart(item, 1);
-
-        console.log('shopping cart:', localstorageHandler.getShoppingCart());
-    };
-
     const imagePath = item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
 
     return (
@@ -69,35 +63,23 @@ const ItemDetails = () => {
                 <tbody>
                     <tr>
                         <td width='50%'>
-                            <table align='center' width='100%' className='noPadding'>
+                            <table align='center' width='100%'>
                                 <tbody>
                                     <tr>
+                                        <td className='itemDetailsName'>{item.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{item.description}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className='itemDetailsPrice'>{format.currency(item.price, configState)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={item.instock > 0 ? 'itemInStock' : 'itemSoldOut'}>{item.instock > 0 ? `In stock (${item.instock})` : 'Sold out'}</td>
+                                    </tr>
+                                    <tr>
                                         <td>
-                                            <table align='center' width='100%' className='padding150'>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <h4>{item.name}</h4>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{item.description}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className='bold'>{format.currency(item.price, configState)}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className={item.instock > 0 ? 'itemInStock' : 'itemSoldOut'}>{item.instock > 0 ? `In stock (${item.instock})` : 'Sold out'}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <button type='button' onClick={() => handleAddToShoppingCart(item)} disabled={item.instock <= 0}>
-                                                                {item.instock > 0 ? 'Add to shopping cart' : 'Sold out'}
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            <AddToCart item={item} />
                                         </td>
                                     </tr>
                                 </tbody>

@@ -36,3 +36,9 @@
     width: 100%;
     height: auto;
 }
+
+.imgShoppingCart {
+    display: block;
+    width: 3rem;
+    height: auto;
+}

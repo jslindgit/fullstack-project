@@ -14,9 +14,9 @@ import localstorage_handler from './util/localstorageHandler';
 import userService from './services/userService';
 
 // Reducers:
-import { setLoaded } from './reducers/miscReducer';
-import { removeLoggedUser, setLoggedUser } from './reducers/usersReducer';
 import { initializeCategories } from './reducers/categoryReducer';
+import { refreshShoppingCartItemCount, setLoaded } from './reducers/miscReducer';
+import { removeLoggedUser, setLoggedUser } from './reducers/usersReducer';
 
 // Components:
 import AdminCategoryEdit from './components/Admin/AdminCategoryEdit';
@@ -30,6 +30,7 @@ import ItemDetails from './components/ItemDetails';
 import Items from './components/Items';
 import Login from './components/Login';
 import Menu from './components/Menu';
+import ShoppingCart from './components/ShoppinCart';
 import ShowNotification from './components/ShowNotification';
 import UserPanel from './components/UserPanel';
 
@@ -74,6 +75,8 @@ const App = () => {
                     dispatch(setLoaded(true));
                 });
         });
+
+        dispatch(refreshShoppingCartItemCount());
     }, [dispatch]);
 
     const adminPage = (page: JSX.Element): JSX.Element => {
@@ -98,6 +101,7 @@ const App = () => {
                     <Route path='/admin/editcategory/:id' element={<AdminCategoryEdit />} />
                     <Route path='/admin/edititem/:id' element={<AdminItemEdit />} />
                     <Route path='/admin/:page' element={adminPage(<AdminPanel />)} />
+                    <Route path='/cart' element={<ShoppingCart />} />
                     <Route path='/info' element={<Info />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/shop' element={<Categories />} />

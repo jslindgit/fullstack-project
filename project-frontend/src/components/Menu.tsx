@@ -13,6 +13,7 @@ import { Link } from './CustomLink';
 
 const Menu = () => {
     const dispatch = useDispatch();
+    const miscState = useSelector((state: RootState) => state.misc);
     const usersState = useSelector((state: RootState) => state.users);
 
     const currentPath = useLocation().pathname;
@@ -103,6 +104,7 @@ const Menu = () => {
                             <td>{menuLink('/', 'Home')}</td>
                             <td>{menuLink('/shop', 'Products')}</td>
                             <td>{menuLink('/info', 'Info')}</td>
+                            <td>{menuLink('/cart', 'Shopping Cart (' + miscState.shoppingCartItemCount + ')')}</td>
                             <td>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</td>
                             {showAdminMenu()}
                         </tr>
