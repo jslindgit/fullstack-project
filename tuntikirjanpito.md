@@ -51,4 +51,5 @@
 | 24.10. | 1    | Ostoskori aluilleen                                                                                                  |     |
 |        | 2    | Lisää ostoskorin työstöä                                                                                             |     |
 | 25.10. | 3    | Ostoskorin viimeistely ja alustava Checkout-sivu                                                                     |     |
-|  yht   | 97   |                                                                                                                      |     |
+|        | 1    | Tilauksen luominen aluilleen                                                                                         |     |
+|  yht   | 98   |                                                                                                                      |     |

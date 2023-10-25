@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Item, ShoppingItem } from '../types/types';
+import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
+import { ShoppingItem } from '../types/orderTypes';
 
 import { refreshShoppingCartItemCount } from '../reducers/miscReducer';
 
@@ -126,8 +127,16 @@ const ShoppingCart = () => {
                         <td>
                             <BackButton type='text' />
                         </td>
-                        <td className='sizeVeryLarge' style={{ textAlign: 'right' }}>
-                            {items.length > 0 ? <Link to='/checkout'>Check out →</Link> : <></>}
+                        <td style={{ textAlign: 'right' }}>
+                            {items.length > 0 ? (
+                                <Link to='/checkout'>
+                                    <button type='button' className='sizeVeryLarge'>
+                                        Check out →
+                                    </button>
+                                </Link>
+                            ) : (
+                                <></>
+                            )}
                         </td>
                     </tr>
                 </tbody>

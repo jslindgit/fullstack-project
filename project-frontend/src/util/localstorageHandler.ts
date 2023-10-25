@@ -1,4 +1,5 @@
-import { Item, ShoppingCartStatus, ShoppingItem } from '../types/types';
+import { Item } from '../types/types';
+import { ShoppingCartStatus, ShoppingItem } from '../types/orderTypes';
 
 // Previous location:
 const getPreviousLocation = (): string => {

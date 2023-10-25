@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Item, ShoppingItem } from '../types/types';
+import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
+import { ShoppingItem } from '../types/orderTypes';
 
 import { refreshShoppingCartItemCount } from '../reducers/miscReducer';
 

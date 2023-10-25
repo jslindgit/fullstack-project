@@ -64,17 +64,6 @@ export interface Response {
     message: string;
 }
 
-export interface ShoppingCartStatus {
-    items: number;
-    totalAmount: number;
-}
-
-export interface ShoppingItem {
-    itemId: number;
-    price: number;
-    quantity: number;
-}
-
 export interface User {
     id: number;
     username: string;

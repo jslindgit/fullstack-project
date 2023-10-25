@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Item, ShoppingItem } from '../types/types';
+import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
+import { ShoppingItem } from '../types/orderTypes';
 
 import format from '../util/format';
 import { handleError } from '../util/handleError';
 import itemService from '../services/itemService';
 import localstorageHandler from '../util/localstorageHandler';
 import { pageWidth } from '../constants';
-import useField, { UseField } from '../hooks/useField';
 
 import BackButton from './BackButton';
+import CheckOutContactInfo from './CheckOutContactInfo';
+import CheckOutDelivery from './CheckOutDelivery';
 import { Link } from './CustomLink';
 import ShoppingCartRow from './ShoppinCartRow';
 
@@ -24,14 +26,6 @@ const CheckOut = () => {
     const configState = useSelector((state: RootState) => state.config);
 
     const [items, setItems] = useState<ItemPair[]>([]);
-
-    const name = useField('text', '');
-    const organization = useField('text', '');
-    const address = useField('text', '');
-    const zipcode = useField('text', '');
-    const city = useField('text', '');
-    const email = useField('text', '');
-    const phone = useField('text', '');
 
     const fetchItems = async () => {
         const shoppingItems = localstorageHandler.getShoppingCart();
@@ -55,17 +49,6 @@ const CheckOut = () => {
     useEffect(() => {
         fetchItems();
     }, []);
-
-    const inputField = (label: string, field: UseField) => (
-        <>
-            <tr>
-                <td className='widthByContent'>{label}:</td>
-                <td>
-                    <input type={field.type} value={field.value} onChange={field.onChange} />
-                </td>
-            </tr>
-        </>
-    );
 
     return (
         <div>
@@ -127,26 +110,10 @@ const CheckOut = () => {
                     )}
                 </tbody>
             </table>
-            <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h3>Customer Contact Information</h3>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={pageWidth}>
-                <tbody>
-                    {inputField('Name', name)}
-                    {inputField('Organization (optional)', organization)}
-                    {inputField('Street adress', address)}
-                    {inputField('Zipcode', zipcode)}
-                    {inputField('City', city)}
-                    {inputField('E-mail', email)}
-                    {inputField('Phone', phone)}
-                </tbody>
-            </table>
+
+            <CheckOutDelivery width={pageWidth} />
+            <CheckOutContactInfo width={pageWidth} />
+
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
