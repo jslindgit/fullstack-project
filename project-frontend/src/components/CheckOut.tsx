@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Item, ShoppingItem } from '../types/types';
@@ -9,6 +9,7 @@ import { handleError } from '../util/handleError';
 import itemService from '../services/itemService';
 import localstorageHandler from '../util/localstorageHandler';
 import { pageWidth } from '../constants';
+import useField, { UseField } from '../hooks/useField';
 
 import BackButton from './BackButton';
 import { Link } from './CustomLink';
@@ -23,6 +24,14 @@ const CheckOut = () => {
     const configState = useSelector((state: RootState) => state.config);
 
     const [items, setItems] = useState<ItemPair[]>([]);
+
+    const name = useField('text', '');
+    const organization = useField('text', '');
+    const address = useField('text', '');
+    const zipcode = useField('text', '');
+    const city = useField('text', '');
+    const email = useField('text', '');
+    const phone = useField('text', '');
 
     const fetchItems = async () => {
         const shoppingItems = localstorageHandler.getShoppingCart();
@@ -39,6 +48,7 @@ const CheckOut = () => {
 
         const resolvedItemPairs = await Promise.all(itemPromises);
         const filteredItemPairs = resolvedItemPairs.filter((pair) => pair !== null) as ItemPair[];
+
         setItems(filteredItemPairs);
     };
 
@@ -46,14 +56,15 @@ const CheckOut = () => {
         fetchItems();
     }, []);
 
-    const removeItem = useCallback(
-        (index: number) => {
-            if (window.confirm(`Remove ${items[index].item.name} from shopping cart?`)) {
-                localstorageHandler.removeItemFromShoppingCart(index);
-                fetchItems();
-            }
-        },
-        [items]
+    const inputField = (label: string, field: UseField) => (
+        <>
+            <tr>
+                <td className='widthByContent'>{label}:</td>
+                <td>
+                    <input type={field.type} value={field.value} onChange={field.onChange} />
+                </td>
+            </tr>
+        </>
     );
 
     return (
@@ -92,8 +103,9 @@ const CheckOut = () => {
                                     item={itemPair.item}
                                     shoppingItem={itemPair.shoppingItem}
                                     indexOf={items.indexOf(itemPair)}
-                                    removeItem={removeItem}
+                                    removeItem={null}
                                     allowEdit={false}
+                                    fetchItems={fetchItems}
                                 />
                             ))}
                             <tr>
@@ -115,14 +127,24 @@ const CheckOut = () => {
                     )}
                 </tbody>
             </table>
-            <table align='center' width={pageWidth}>
+            <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
                 <tbody>
                     <tr>
                         <td>
-                            <h3>Customer/Recipient Contact Information</h3>
+                            <h3>Customer Contact Information</h3>
                         </td>
-                        <td></td>
                     </tr>
+                </tbody>
+            </table>
+            <table align='center' width={pageWidth}>
+                <tbody>
+                    {inputField('Name', name)}
+                    {inputField('Organization (optional)', organization)}
+                    {inputField('Street adress', address)}
+                    {inputField('Zipcode', zipcode)}
+                    {inputField('City', city)}
+                    {inputField('E-mail', email)}
+                    {inputField('Phone', phone)}
                 </tbody>
             </table>
             <table align='center' width={pageWidth}>

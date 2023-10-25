@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Item, ShoppingItem } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
+
+import { refreshShoppingCartItemCount } from '../reducers/miscReducer';
 
 import format from '../util/format';
 import { handleError } from '../util/handleError';
@@ -20,6 +22,7 @@ interface ItemPair {
 }
 
 const ShoppingCart = () => {
+    const dispatch = useDispatch();
     const configState = useSelector((state: RootState) => state.config);
 
     const [items, setItems] = useState<ItemPair[]>([]);
@@ -51,9 +54,10 @@ const ShoppingCart = () => {
             if (window.confirm(`Remove ${items[index].item.name} from shopping cart?`)) {
                 localstorageHandler.removeItemFromShoppingCart(index);
                 fetchItems();
+                dispatch(refreshShoppingCartItemCount());
             }
         },
-        [items]
+        [items, dispatch]
     );
 
     return (
@@ -94,6 +98,7 @@ const ShoppingCart = () => {
                                     indexOf={items.indexOf(itemPair)}
                                     removeItem={removeItem}
                                     allowEdit={true}
+                                    fetchItems={fetchItems}
                                 />
                             ))}
                             <tr>
@@ -122,7 +127,7 @@ const ShoppingCart = () => {
                             <BackButton type='text' />
                         </td>
                         <td className='sizeVeryLarge' style={{ textAlign: 'right' }}>
-                            <Link to='/checkout'>Check out →</Link>
+                            {items.length > 0 ? <Link to='/checkout'>Check out →</Link> : <></>}
                         </td>
                     </tr>
                 </tbody>

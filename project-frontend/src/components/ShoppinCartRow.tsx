@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Item, ShoppingItem } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
+
+import { refreshShoppingCartItemCount } from '../reducers/miscReducer';
 
 import format from '../util/format';
 import { imageFullPath } from '../util/misc';
@@ -13,19 +15,24 @@ interface Props {
     item: Item;
     shoppingItem: ShoppingItem;
     indexOf: number;
-    removeItem: (index: number) => void;
+    removeItem: ((shoppingItem: number) => void) | null;
     allowEdit: boolean;
+    fetchItems: () => Promise<void>;
 }
 
-const ShoppingCartRow = ({ item, shoppingItem, indexOf, removeItem, allowEdit }: Props) => {
-    console.log('shoppingItem:', shoppingItem);
+const ShoppingCartRow = ({ item, shoppingItem, indexOf, removeItem, allowEdit, fetchItems }: Props) => {
+    const dispatch = useDispatch();
     const configState = useSelector((state: RootState) => state.config);
 
     const quantity = useField('integer', shoppingItem.quantity.toString());
 
     useEffect(() => {
-        //localstorageHandler.updateShoppingCartItemQuantity(indexOf, Number(quantity));
-    }, [quantity, indexOf]);
+        if (shoppingItem && shoppingItem.quantity && shoppingItem.quantity !== Number(quantity.value)) {
+            localstorageHandler.updateShoppingCartItemQuantity(indexOf, Number(quantity.value));
+            fetchItems();
+            dispatch(refreshShoppingCartItemCount());
+        }
+    }, [quantity, fetchItems, indexOf, shoppingItem, dispatch]);
 
     const imagePath = item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
 
@@ -36,13 +43,11 @@ const ShoppingCartRow = ({ item, shoppingItem, indexOf, removeItem, allowEdit }:
             </td>
             <td>{item.name}</td>
             <td>{format.currency(item.price, configState)}</td>
-            <td>
-                <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
-            </td>
+            <td>{allowEdit ? <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} /> : shoppingItem.quantity}</td>
             <td>{format.currency(item.price * shoppingItem.quantity, configState)}</td>
             <td width='1px'>
                 {allowEdit ? (
-                    <button type='button' className='compactButton red' onClick={() => removeItem(indexOf)} disabled={!allowEdit}>
+                    <button type='button' className='compactButton red' onClick={() => (removeItem ? removeItem(indexOf) : () => {})} disabled={!allowEdit}>
                         Remove
                     </button>
                 ) : (

@@ -50,4 +50,5 @@
 | 23.10. | 1    | Adminille mahdollisuus muokata kategorioita                                                                          |     |
 | 24.10. | 1    | Ostoskori aluilleen                                                                                                  |     |
 |        | 2    | Lisää ostoskorin työstöä                                                                                             |     |
-|  yht   | 94   |                                                                                                                      |     |
+| 25.10. | 3    | Ostoskorin viimeistely ja alustava Checkout-sivu                                                                     |     |
+|  yht   | 97   |                                                                                                                      |     |
