@@ -13,7 +13,7 @@ const BackButton = ({ type }: Props) => (
                 <button type='button'>Go back</button>
             </>
         ) : (
-            <>Go back</>
+            <span className='sizeLarge'>← Go back</span>
         )}
     </Link>
 );

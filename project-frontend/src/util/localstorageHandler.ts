@@ -47,6 +47,18 @@ const getShoppingCartStatus = (): ShoppingCartStatus => {
     return { items: items, totalAmount: totalAmount };
 };
 
+const removeItemFromShoppingCart = (index: number) => {
+    const cart = getShoppingCart();
+    cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+};
+
+const updateShoppingCartItemQuantity = (index: number, newQuantity: number) => {
+    const cart = getShoppingCart();
+    cart[index].quantity = newQuantity;
+    localStorage.setItem('cart', JSON.stringify(cart));
+};
+
 // Token:
 const getToken = (): string | null => {
     const token = localStorage.getItem('token');
@@ -67,6 +79,8 @@ export default {
     clearShoppingCart,
     getShoppingCart,
     getShoppingCartStatus,
+    removeItemFromShoppingCart,
+    updateShoppingCartItemQuantity,
     getToken,
     removeToken,
     setToken,

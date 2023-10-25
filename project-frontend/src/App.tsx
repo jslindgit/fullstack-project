@@ -23,6 +23,7 @@ import AdminCategoryEdit from './components/Admin/AdminCategoryEdit';
 import AdminItemEdit from './components/Admin/AdminItemEdit';
 import AdminPanel from './components/Admin/AdminPanel';
 import Categories from './components/Categories';
+import CheckOut from './components/CheckOut';
 import Error404 from './components/Error404';
 import Home from './components/Home';
 import Info from './components/Info';
@@ -88,7 +89,12 @@ const App = () => {
     };
 
     if (!miscState.loaded) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <br />
+                Loading...
+            </div>
+        );
     }
     return (
         <>
@@ -102,6 +108,7 @@ const App = () => {
                     <Route path='/admin/edititem/:id' element={<AdminItemEdit />} />
                     <Route path='/admin/:page' element={adminPage(<AdminPanel />)} />
                     <Route path='/cart' element={<ShoppingCart />} />
+                    <Route path='/checkout' element={<CheckOut />} />
                     <Route path='/info' element={<Info />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/shop' element={<Categories />} />

@@ -19,7 +19,7 @@ interface ItemPair {
     item: Item;
 }
 
-const ShoppingCart = () => {
+const CheckOut = () => {
     const configState = useSelector((state: RootState) => state.config);
 
     const [items, setItems] = useState<ItemPair[]>([]);
@@ -62,7 +62,7 @@ const ShoppingCart = () => {
                 <tbody>
                     <tr>
                         <td>
-                            <h3 className='underlined'>Shopping cart</h3>
+                            <h3 className='underlined'>Check out</h3>
                         </td>
                     </tr>
                     {items.length <= 0 ? (
@@ -93,7 +93,7 @@ const ShoppingCart = () => {
                                     shoppingItem={itemPair.shoppingItem}
                                     indexOf={items.indexOf(itemPair)}
                                     removeItem={removeItem}
-                                    allowEdit={true}
+                                    allowEdit={false}
                                 />
                             ))}
                             <tr>
@@ -119,10 +119,20 @@ const ShoppingCart = () => {
                 <tbody>
                     <tr>
                         <td>
+                            <h3>Customer/Recipient Contact Information</h3>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table align='center' width={pageWidth}>
+                <tbody>
+                    <tr>
+                        <td>
                             <BackButton type='text' />
                         </td>
                         <td className='sizeVeryLarge' style={{ textAlign: 'right' }}>
-                            <Link to='/checkout'>Check out →</Link>
+                            <Link to='/checkout'>Payment →</Link>
                         </td>
                     </tr>
                 </tbody>
@@ -131,4 +141,4 @@ const ShoppingCart = () => {
     );
 };
 
-export default ShoppingCart;
+export default CheckOut;
