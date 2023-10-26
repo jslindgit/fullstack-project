@@ -1,18 +1,33 @@
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { DeliveryMethod } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
 import deliveryService from '../services/deliveryService';
 import format from '../util/format';
 
 interface Props {
+    currentMethod: DeliveryMethod | null;
+    setDeliveryMethod: (deliveryMethod: DeliveryMethod) => void;
     width: string;
 }
 
-const CheckOutDelivery = ({ width }: Props) => {
+const CheckOutDelivery = ({ currentMethod, setDeliveryMethod, width }: Props) => {
     const configState = useSelector((state: RootState) => state.config);
 
-    const methods = deliveryService.getAll();
+    const [methods, setMethods] = useState<DeliveryMethod[]>([]);
+    const [selectedMethod, setSelectedMethod] = useState<DeliveryMethod | null>(currentMethod);
+
+    useEffect(() => {
+        setMethods(deliveryService.getAll());
+    }, []);
+
+    useEffect(() => {
+        if (selectedMethod) {
+            setDeliveryMethod(selectedMethod);
+        }
+    }, [selectedMethod]);
 
     return (
         <>
@@ -30,7 +45,7 @@ const CheckOutDelivery = ({ width }: Props) => {
                     <tr>
                         <td>
                             {methods.map((m) => (
-                                <div key={m.id}>
+                                <div key={m.id} className={'deliveryMethod' + (selectedMethod && selectedMethod.id === m.id ? ' bold' : '')} onClick={() => setSelectedMethod(m)}>
                                     {m.name}
                                     <br />
                                     {m.description}

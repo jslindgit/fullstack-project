@@ -28,7 +28,7 @@ export interface Order {
 export type NewOrder = Omit<Order, 'id'>;
 
 export enum OrderStatus {
-    PENDING = 'Pending payment',
+    PENDING = 'Pending',
     PROCESSING = 'Processing',
     SHIPPED = 'Shipped',
     DELIVERED = 'Delivered',

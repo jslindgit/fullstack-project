@@ -1,6 +1,6 @@
-import { Order } from '../types/orderTypes';
+import { NewOrder, Order } from '../types/orderTypes';
 
-const getOrder = (): Order | null => {
+const getOrder = (): Order | NewOrder | null => {
     const order = localStorage.getItem('order');
     if (order) {
         return JSON.parse(order);
@@ -8,7 +8,7 @@ const getOrder = (): Order | null => {
     return null;
 };
 
-const setOrder = (order: Order) => {
+const setOrder = (order: Order | NewOrder) => {
     localStorage.setItem('order', JSON.stringify(order));
 };
 

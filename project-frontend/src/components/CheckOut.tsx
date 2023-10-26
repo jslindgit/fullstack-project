@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { ItemPair } from './ShoppinCart';
-import { NewOrder, OrderStatus } from '../types/orderTypes';
+import { Contact, DeliveryMethod, NewOrder, Order, OrderStatus } from '../types/orderTypes';
 
 import { fetchItems } from '../util/checkoutProvider';
+import orderHandler from '../util/orderHandler';
 import { pageWidth } from '../constants';
 
 import BackButton from './BackButton';
@@ -11,21 +12,42 @@ import CheckOutContactInfo from './CheckOutContactInfo';
 import CheckOutDelivery from './CheckOutDelivery';
 import { Link } from './CustomLink';
 import OrderInfo from './OrderInfo';
-{
-    /*import ShoppingCartContent from './ShoppingCartContent';*/
-}
 
 const CheckOut = () => {
+    const fetchOrder = (): Order | NewOrder => {
+        const storedOrder = orderHandler.getOrder();
+        if (storedOrder) {
+            return storedOrder;
+        }
+        return { customer: null, recipient: null, items: [], deliveryMethod: null, paymentMethod: null, status: OrderStatus.PENDING };
+    };
+
     const [items, setItems] = useState<ItemPair[]>([]);
-    const [order, setOrder] = useState<NewOrder>({ customer: null, recipient: null, items: [], deliveryMethod: null, paymentMethod: null, status: OrderStatus.PENDING });
+    const [order, setOrder] = useState<NewOrder | Order>(fetchOrder());
 
     const fetch = async () => {
         setItems(await fetchItems());
     };
 
+    const setCustomerInfo = useCallback((info: Contact) => {
+        setOrder({ ...order, customer: info });
+    }, []);
+
+    const setDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
+        setOrder({ ...order, deliveryMethod: deliveryMethod });
+    };
+
     useEffect(() => {
         fetch();
     }, []);
+
+    useEffect(() => {
+        setOrder({ ...order, items: items.map((item) => item.shoppingItem) });
+    }, [items]);
+
+    useEffect(() => {
+        orderHandler.setOrder(order);
+    }, [order]);
 
     return (
         <div>
@@ -38,14 +60,14 @@ const CheckOut = () => {
                     </tr>
                 </tbody>
             </table>
-            {/*<ShoppingCartContent allowEdit={false} fetchItems={fetch} items={items} removeItem={null} width={pageWidth} />*/}
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
-                        <td width='50%'>
-                            <CheckOutDelivery width='100%' />
-                            <CheckOutContactInfo width='100%' />
+                        <td width='55%'>
+                            <CheckOutDelivery currentMethod={order.deliveryMethod} setDeliveryMethod={setDeliveryMethod} width='100%' />
+                            <CheckOutContactInfo currentInfo={order.customer} setCustomerInfo={setCustomerInfo} width='100%' />
                         </td>
+                        <td width='3rem'></td>
                         <td style={{ verticalAlign: 'top' }}>
                             <OrderInfo order={order} />
                         </td>

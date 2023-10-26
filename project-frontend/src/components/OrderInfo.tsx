@@ -14,11 +14,11 @@ const OrderInfo = ({ order }: Props) => {
     const configState = useSelector((state: RootState) => state.config);
 
     return (
-        <table align='center' width='100%' style={{ backgroundColor: 'var(--colorGrayVeryLight)', paddingLeft: '1rem', paddingRight: '1rem' }}>
+        <table align='center' width='100%' style={{ backgroundColor: 'var(--colorGrayExtremelyLight)', paddingLeft: '1rem', paddingRight: '1rem', position: 'sticky', top: '1rem' }}>
             <tbody>
                 <tr>
                     <td>
-                        <h3>Order Info</h3>
+                        <h3 style={{ marginBottom: 0 }}>Order Info</h3>
                     </td>
                 </tr>
                 <tr>
@@ -27,7 +27,7 @@ const OrderInfo = ({ order }: Props) => {
                             <tbody>
                                 {'id' in order ? (
                                     <tr>
-                                        <td className='adminItemEditLabel'>Order ID</td>
+                                        <td className='adminItemEditLabel'>Order ID:</td>
                                     </tr>
                                 ) : (
                                     ''
@@ -40,13 +40,13 @@ const OrderInfo = ({ order }: Props) => {
                                     ''
                                 )}
                                 <tr>
-                                    <td className='adminItemEditLabel'>Status</td>
+                                    <td className='adminItemEditLabel'>Status:</td>
                                 </tr>
                                 <tr>
                                     <td>{order.status}</td>
                                 </tr>
                                 <tr>
-                                    <td className='adminItemEditLabel'>Customer</td>
+                                    <td className='adminItemEditLabel'>Customer:</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -88,43 +88,53 @@ const OrderInfo = ({ order }: Props) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className='adminItemEditLabel'>Delivery Method</td>
+                                    <td className='adminItemEditLabel'>Delivery Method:</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         {order.deliveryMethod ? (
                                             <>
-                                                {order.deliveryMethod.name} ({format.currency(order.deliveryMethod.cost, configState)})
+                                                {order.deliveryMethod.name} <b>({format.currency(order.deliveryMethod.cost, configState)})</b>
                                             </>
                                         ) : (
                                             <>-</>
                                         )}
                                     </td>
                                 </tr>
+                                {order.paymentMethod ? (
+                                    <tr>
+                                        <td className='adminItemEditLabel'>Payment Method:</td>
+                                    </tr>
+                                ) : (
+                                    ''
+                                )}
+                                {order.paymentMethod ? (
+                                    <tr>
+                                        <td>{order.paymentMethod ? <>{order.paymentMethod.name}</> : <>-</>}</td>
+                                    </tr>
+                                ) : (
+                                    ''
+                                )}
                                 <tr>
-                                    <td className='adminItemEditLabel'>Payment Method</td>
-                                </tr>
-                                <tr>
-                                    <td>{order.paymentMethod ? <>{order.paymentMethod.name}</> : <>-</>}</td>
-                                </tr>
-                                <tr>
-                                    <td className='adminItemEditLabel'>Items</td>
+                                    <td className='adminItemEditLabel'>Items:</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         {order.items.map((si) => (
                                             <div key={si.itemId}>
-                                                - {si.quantity} x {si.name} - {format.currency(si.price * si.quantity, configState)}
+                                                {si.name} &nbsp; ({si.quantity} pcs) &nbsp; <b>{format.currency(si.price * si.quantity, configState)}</b>
                                             </div>
                                         ))}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className='adminItemEditLabel'>TOTAL SUM</td>
+                                    <td className='adminItemEditLabel' style={{ fontSize: '1rem' }}>
+                                        Total Amount:
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <h4>{format.currency(itemsTotalSum(order.items), configState)}</h4>
+                                        <h4>{format.currency(itemsTotalSum(order.items) + (order.deliveryMethod ? order.deliveryMethod.cost : 0), configState)}</h4>
                                     </td>
                                 </tr>
                             </tbody>

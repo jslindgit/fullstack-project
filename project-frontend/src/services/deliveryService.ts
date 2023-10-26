@@ -1,6 +1,6 @@
-import { Delivery } from '../types/types';
+import { DeliveryMethod } from '../types/orderTypes';
 
-const getAll = (): Delivery[] => {
+const getAll = (): DeliveryMethod[] => {
     return [
         { id: 1, name: 'Postipaketti', description: 'Toimitetaan Postin noutopisteeseen.', cost: 9 },
         { id: 2, name: 'Posti Express', description: 'Toimitetaan suoraan toimitusosoitteeseen.', cost: 15 },

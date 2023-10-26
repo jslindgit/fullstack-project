@@ -1,18 +1,38 @@
+import { useEffect } from 'react';
 import useField, { UseField } from '../hooks/useField';
 
+import { Contact } from '../types/orderTypes';
+
 interface Props {
+    currentInfo: Contact | null;
+    setCustomerInfo: (info: Contact) => void;
     width: string;
 }
 
-const CheckOutContactInfo = ({ width }: Props) => {
-    const name = useField('text', '');
-    const organization = useField('text', '');
-    const address = useField('text', '');
-    const zipcode = useField('text', '');
-    const city = useField('text', '');
-    const country = useField('text', '');
-    const email = useField('text', '');
-    const phone = useField('text', '');
+const CheckOutContactInfo = ({ currentInfo, setCustomerInfo, width }: Props) => {
+    const name = useField('text', currentInfo?.name ? currentInfo.name : '');
+    const organization = useField('text', currentInfo?.organization ? currentInfo.organization : '');
+    const address = useField('text', currentInfo?.address ? currentInfo.address : '');
+    const zipcode = useField('text', currentInfo?.zipcode ? currentInfo.zipcode : '');
+    const city = useField('text', currentInfo?.city ? currentInfo.city : '');
+    const country = useField('text', currentInfo?.country ? currentInfo.country : '');
+    const email = useField('text', currentInfo?.email ? currentInfo.email : '');
+    const phone = useField('text', currentInfo?.phone ? currentInfo.phone : '');
+
+    useEffect(() => {
+        const contact: Contact = {
+            name: name.value.toString(),
+            organization: organization.value.toString(),
+            address: address.value.toString(),
+            zipcode: zipcode.value.toString(),
+            city: city.value.toString(),
+            country: country.value.toString(),
+            email: email.value.toString(),
+            phone: phone.value.toString(),
+        };
+
+        setCustomerInfo(contact);
+    }, [name.value, organization.value, address.value, zipcode.value, city.value, country.value, email.value, phone.value]);
 
     const inputField = (label: string, field: UseField) => (
         <>

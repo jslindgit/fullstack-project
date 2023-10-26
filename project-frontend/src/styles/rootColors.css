@@ -6,9 +6,10 @@
     --colorGrayDarkest: rgb(50, 51, 52);
     --colorGrayDark: rgb(60, 61, 62);
     --colorGraySemiDark: rgb(65, 66, 67);
-    --colorGray: rgb(160, 161, 162);
+    --colorGray: rgb(140, 141, 142);
     --colorGrayLight: rgb(220, 221, 222);
     --colorGrayVeryLight: rgb(240, 241, 242);
+    --colorGrayExtremelyLight: rgb(245, 247, 249);
 
     --colorGreenDark: rgb(0, 100, 0);
     --colorGreen: rgb(0, 135, 0);

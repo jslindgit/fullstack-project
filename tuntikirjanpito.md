@@ -53,4 +53,5 @@
 | 25.10. | 3    | Ostoskorin viimeistely ja alustava Checkout-sivu                                                                     |     |
 |        | 1    | Tilauksen luominen aluilleen                                                                                         |     |
 | 26.10. | 3    | Ostoskorin refactorointia ja Checkoutin työstöä                                                                      | 101 |
-|  yht   | 101  |                                                                                                                      |     |
+|        | 2    | Lisää Checkoutin työstöä                                                                                             |     |
+|  yht   | 103  |                                                                                                                      |     |
