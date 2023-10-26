@@ -1,53 +1,30 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import { Item } from '../types/types';
-import { RootState } from '../reducers/rootReducer';
-import { ShoppingItem } from '../types/orderTypes';
+import { ItemPair } from './ShoppinCart';
+import { NewOrder, OrderStatus } from '../types/orderTypes';
 
-import format from '../util/format';
-import { handleError } from '../util/handleError';
-import itemService from '../services/itemService';
-import localstorageHandler from '../util/localstorageHandler';
+import { fetchItems } from '../util/checkoutProvider';
 import { pageWidth } from '../constants';
 
 import BackButton from './BackButton';
 import CheckOutContactInfo from './CheckOutContactInfo';
 import CheckOutDelivery from './CheckOutDelivery';
 import { Link } from './CustomLink';
-import ShoppingCartRow from './ShoppinCartRow';
-
-interface ItemPair {
-    shoppingItem: ShoppingItem;
-    item: Item;
+import OrderInfo from './OrderInfo';
+{
+    /*import ShoppingCartContent from './ShoppingCartContent';*/
 }
 
 const CheckOut = () => {
-    const configState = useSelector((state: RootState) => state.config);
-
     const [items, setItems] = useState<ItemPair[]>([]);
+    const [order, setOrder] = useState<NewOrder>({ customer: null, recipient: null, items: [], deliveryMethod: null, paymentMethod: null, status: OrderStatus.PENDING });
 
-    const fetchItems = async () => {
-        const shoppingItems = localstorageHandler.getShoppingCart();
-
-        const itemPromises = shoppingItems.map(async (si) => {
-            const item = await itemService.getById(si.itemId);
-            if (item) {
-                return { shoppingItem: si, item: item };
-            } else {
-                handleError(new Error(`Failed to fetch an Item with id ${si.itemId}!`));
-                return null;
-            }
-        });
-
-        const resolvedItemPairs = await Promise.all(itemPromises);
-        const filteredItemPairs = resolvedItemPairs.filter((pair) => pair !== null) as ItemPair[];
-
-        setItems(filteredItemPairs);
+    const fetch = async () => {
+        setItems(await fetchItems());
     };
 
     useEffect(() => {
-        fetchItems();
+        fetch();
     }, []);
 
     return (
@@ -59,61 +36,22 @@ const CheckOut = () => {
                             <h3 className='underlined'>Check out</h3>
                         </td>
                     </tr>
-                    {items.length <= 0 ? (
-                        <tr>
-                            <td>Shopping cart is empty</td>
-                        </tr>
-                    ) : (
-                        ''
-                    )}
                 </tbody>
             </table>
-            <table align='center' width={pageWidth} className='dotted'>
+            {/*<ShoppingCartContent allowEdit={false} fetchItems={fetch} items={items} removeItem={null} width={pageWidth} />*/}
+            <table align='center' width={pageWidth}>
                 <tbody>
-                    {items.length > 0 ? (
-                        <>
-                            <tr>
-                                <td>Product</td>
-                                <td></td>
-                                <td>Unit price</td>
-                                <td>Quantity</td>
-                                <td>Total price</td>
-                                <td></td>
-                            </tr>
-                            {items.map((itemPair) => (
-                                <ShoppingCartRow
-                                    key={itemPair.shoppingItem.itemId}
-                                    item={itemPair.item}
-                                    shoppingItem={itemPair.shoppingItem}
-                                    indexOf={items.indexOf(itemPair)}
-                                    removeItem={null}
-                                    allowEdit={false}
-                                    fetchItems={fetchItems}
-                                />
-                            ))}
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td className='bold'>Total:</td>
-                                <td className='bold'>
-                                    {format.currency(
-                                        items.reduce((total, itemPair) => total + itemPair.item.price * itemPair.shoppingItem.quantity, 0),
-                                        configState
-                                    )}
-                                </td>
-                                <td></td>
-                            </tr>
-                        </>
-                    ) : (
-                        <></>
-                    )}
+                    <tr>
+                        <td width='50%'>
+                            <CheckOutDelivery width='100%' />
+                            <CheckOutContactInfo width='100%' />
+                        </td>
+                        <td style={{ verticalAlign: 'top' }}>
+                            <OrderInfo order={order} />
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-
-            <CheckOutDelivery width={pageWidth} />
-            <CheckOutContactInfo width={pageWidth} />
-
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>

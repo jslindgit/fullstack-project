@@ -1,0 +1,29 @@
+import { ItemPair } from '../components/ShoppinCart';
+import { ShoppingItem } from '../types/orderTypes';
+
+import { handleError } from './handleError';
+import itemService from '../services/itemService';
+import localstorageHandler from './localstorageHandler';
+
+export const fetchItems = async (): Promise<ItemPair[]> => {
+    const shoppingItems = localstorageHandler.getShoppingCart();
+
+    const itemPromises = shoppingItems.map(async (si) => {
+        const item = await itemService.getById(si.itemId);
+        if (item) {
+            return { shoppingItem: si, item: item };
+        } else {
+            handleError(new Error(`Failed to fetch an Item with id ${si.itemId}!`));
+            return null;
+        }
+    });
+
+    const resolvedItemPairs = await Promise.all(itemPromises);
+    const filteredItemPairs = resolvedItemPairs.filter((pair) => pair !== null) as ItemPair[];
+
+    return filteredItemPairs;
+};
+
+export const itemsTotalSum = (items: ShoppingItem[]) => {
+    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+};

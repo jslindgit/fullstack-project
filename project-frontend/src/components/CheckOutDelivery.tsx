@@ -6,7 +6,7 @@ import deliveryService from '../services/deliveryService';
 import format from '../util/format';
 
 interface Props {
-    width: number;
+    width: string;
 }
 
 const CheckOutDelivery = ({ width }: Props) => {

@@ -1,7 +1,7 @@
 import useField, { UseField } from '../hooks/useField';
 
 interface Props {
-    width: number;
+    width: string;
 }
 
 const CheckOutContactInfo = ({ width }: Props) => {

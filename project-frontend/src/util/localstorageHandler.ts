@@ -20,7 +20,7 @@ const addToShoppingCart = (item: Item, quantity: number) => {
     if (existingIndex !== -1) {
         cart[existingIndex].quantity += quantity;
     } else {
-        cart.push({ itemId: item.id, price: item.price, quantity: quantity });
+        cart.push({ itemId: item.id, name: item.name, price: item.price, quantity: quantity });
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));

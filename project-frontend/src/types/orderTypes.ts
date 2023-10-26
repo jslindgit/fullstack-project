@@ -1,6 +1,6 @@
 export interface Contact {
     name: string;
-    organization: string;
+    organization: string | null;
     address: string;
     zipcode: string;
     city: string;
@@ -18,22 +18,23 @@ export interface DeliveryMethod {
 
 export interface Order {
     id: number;
-    customer: Contact;
-    recipient: Contact;
+    customer: Contact | null;
+    recipient: Contact | null;
     items: ShoppingItem[];
-    deliveryMethod: DeliveryMethod;
-    paymentMethod: PaymentMethod;
+    deliveryMethod: DeliveryMethod | null;
+    paymentMethod: PaymentMethod | null;
     status: OrderStatus;
 }
+export type NewOrder = Omit<Order, 'id'>;
 
 export enum OrderStatus {
-    PENDING = 'Pending Payment',
+    PENDING = 'Pending payment',
     PROCESSING = 'Processing',
     SHIPPED = 'Shipped',
     DELIVERED = 'Delivered',
     CANCELLED = 'Cancelled',
     REFUNDED = 'Refunded',
-    ON_HOLD = 'On Hold',
+    ON_HOLD = 'On hold',
     COMPLETED = 'Completed',
 }
 
@@ -50,6 +51,7 @@ export interface ShoppingCartStatus {
 
 export interface ShoppingItem {
     itemId: number;
+    name: string;
     price: number;
     quantity: number;
 }
