@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Item } from '../types/types';
@@ -32,16 +32,13 @@ const ShoppingCart = () => {
         fetch();
     }, []);
 
-    const removeItem = useCallback(
-        (index: number) => {
-            if (window.confirm(`Remove ${items[index].item.name} from shopping cart?`)) {
-                localstorageHandler.removeItemFromShoppingCart(index);
-                fetchItems();
-                dispatch(refreshShoppingCartItemCount());
-            }
-        },
-        [items, dispatch]
-    );
+    const removeItem = (index: number) => {
+        if (window.confirm(`Remove ${items[index].item.name} from shopping cart?`)) {
+            localstorageHandler.removeItemFromShoppingCart(index);
+            fetch();
+            dispatch(refreshShoppingCartItemCount());
+        }
+    };
 
     return (
         <div>

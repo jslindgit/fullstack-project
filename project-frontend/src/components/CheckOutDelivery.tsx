@@ -14,6 +14,25 @@ interface Props {
 }
 
 const CheckOutDelivery = ({ currentMethod, setDeliveryMethod, width }: Props) => {
+    interface MethodProps {
+        m: DeliveryMethod;
+    }
+    const Method = ({ m }: MethodProps) => (
+        <table width='100%' className={'deliveryMethod' + (selectedMethod && selectedMethod.id === m.id ? ' deliveryMethodSelected' : '')} onClick={() => setSelectedMethod(m)}>
+            <tbody>
+                <tr>
+                    <td>
+                        {m.name}
+                        <br />
+                        {m.description}
+                        <br />
+                        {format.currency(m.cost, configState)}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    );
+
     const configState = useSelector((state: RootState) => state.config);
 
     const [methods, setMethods] = useState<DeliveryMethod[]>([]);
@@ -45,13 +64,7 @@ const CheckOutDelivery = ({ currentMethod, setDeliveryMethod, width }: Props) =>
                     <tr>
                         <td>
                             {methods.map((m) => (
-                                <div key={m.id} className={'deliveryMethod' + (selectedMethod && selectedMethod.id === m.id ? ' bold' : '')} onClick={() => setSelectedMethod(m)}>
-                                    {m.name}
-                                    <br />
-                                    {m.description}
-                                    <br />
-                                    {format.currency(m.cost, configState)}
-                                </div>
+                                <Method key={m.id} m={m} />
                             ))}
                         </td>
                     </tr>

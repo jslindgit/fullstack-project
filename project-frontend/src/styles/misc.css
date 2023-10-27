@@ -3,5 +3,12 @@
 }
 
 .deliveryMethod {
+    border-radius: 1rem;
     cursor: pointer;
+    margin-bottom: 1rem;
+    outline: solid 2px var(--colorGray);
+    padding: 0.5rem;
+}
+.deliveryMethodSelected {
+    outline: 4px solid black;
 }
