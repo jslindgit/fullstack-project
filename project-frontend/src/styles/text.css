@@ -24,22 +24,22 @@ h4 {
 
 /* Size */
 .sizeVerySmall {
-    font-size: var(--fontSizeVerySmall);
+    font-size: 0.5rem;
 }
 .sizeSmall {
-    font-size: var(--fontSizeSmall);
+    font-size: 0.75rem;
 }
 .sizeSmallish {
-    font-size: var(--fontSizeSmallish);
+    font-size: 0.85rem;
 }
 .sizeNormal {
-    font-size: var(--fontSizeNormal);
+    font-size: 1rem;
 }
 .sizeLarge {
-    font-size: var(--fontSizeLarge);
+    font-size: 1.25rem;
 }
 .sizeVeryLarge {
-    font-size: var(--fontSizeVeryLarge);
+    font-size: 1.5rem;
 }
 
 /* Style */

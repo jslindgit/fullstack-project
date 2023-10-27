@@ -54,4 +54,5 @@
 |        | 1    | Tilauksen luominen aluilleen                                                                                         |     |
 | 26.10. | 3    | Ostoskorin refactorointia ja Checkoutin työstöä                                                                      | 101 |
 |        | 2    | Lisää Checkoutin työstöä                                                                                             |     |
-|  yht   | 103  |                                                                                                                      |     |
+| 27.10. | 1    | Lisää Checkoutin työstöä                                                                                             |     |
+|  yht   | 104  |                                                                                                                      |     |

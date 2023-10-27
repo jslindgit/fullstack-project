@@ -3,12 +3,26 @@
 }
 
 .deliveryMethod {
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     cursor: pointer;
+    line-height: 1.25rem;
     margin-bottom: 1rem;
     outline: solid 2px var(--colorGray);
-    padding: 0.5rem;
+    padding: 0.9rem;
+}
+.deliveryMethod td {
+    padding: 0 !important;
+}
+.deliveryMethod:hover {
+    outline: solid 4px var(--colorGray);
+}
+.deliveryMethod:active {
+    outline: 4px solid black;
 }
 .deliveryMethodSelected {
+    background-color: var(--colorYellowVeryLight);
+    outline: 4px solid black;
+}
+.deliveryMethodSelected:hover {
     outline: 4px solid black;
 }

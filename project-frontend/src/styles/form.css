@@ -1,7 +1,8 @@
 input,
 select {
-    font-size: 1rem;
+    font-size: 0.9rem;
     padding: 0.5rem;
+    padding-left: 0.6rem;
     border: 1px solid;
     border-color: var(--colorGray);
     border-radius: 5px;

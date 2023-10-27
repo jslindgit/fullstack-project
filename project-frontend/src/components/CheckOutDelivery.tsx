@@ -22,9 +22,9 @@ const CheckOutDelivery = ({ currentMethod, setDeliveryMethod, width }: Props) =>
             <tbody>
                 <tr>
                     <td>
-                        {m.name}
+                        <span className='sizeNormal bold'>{m.name}</span>
                         <br />
-                        {m.description}
+                        <span className='sizeSmallish'>{m.description}</span>
                         <br />
                         {format.currency(m.cost, configState)}
                     </td>
@@ -53,7 +53,7 @@ const CheckOutDelivery = ({ currentMethod, setDeliveryMethod, width }: Props) =>
             <table align='center' width={width} className='paddingTopBottomOnly'>
                 <tbody>
                     <tr>
-                        <td>
+                        <td style={{ paddingTop: 0, paddingBottom: 0 }}>
                             <h3>Choose Delivery Method</h3>
                         </td>
                     </tr>

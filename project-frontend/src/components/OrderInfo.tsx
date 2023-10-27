@@ -17,7 +17,7 @@ const OrderInfo = ({ order }: Props) => {
         <table align='center' width='100%' style={{ backgroundColor: 'var(--colorGrayExtremelyLight)', paddingLeft: '1rem', paddingRight: '1rem', position: 'sticky', top: '1rem' }}>
             <tbody>
                 <tr>
-                    <td>
+                    <td style={{ paddingTop: 0 }}>
                         <h3 style={{ marginBottom: 0 }}>Order Info</h3>
                     </td>
                 </tr>

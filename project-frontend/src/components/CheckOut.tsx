@@ -63,12 +63,12 @@ const CheckOut = () => {
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
-                        <td width='55%'>
+                        <td width='55%' style={{ paddingTop: 0 }}>
                             <CheckOutDelivery currentMethod={order.deliveryMethod} setDeliveryMethod={setDeliveryMethod} width='100%' />
                             <CheckOutContactInfo currentInfo={order.customer} setCustomerInfo={setCustomerInfo} width='100%' />
                         </td>
                         <td width='3rem'></td>
-                        <td style={{ verticalAlign: 'top' }}>
+                        <td style={{ verticalAlign: 'top', paddingTop: 0 }}>
                             <OrderInfo order={order} />
                         </td>
                     </tr>

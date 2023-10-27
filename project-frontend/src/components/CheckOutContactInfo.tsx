@@ -34,16 +34,30 @@ const CheckOutContactInfo = ({ currentInfo, setCustomerInfo, width }: Props) => 
         setCustomerInfo(contact);
     }, [name.value, organization.value, address.value, zipcode.value, city.value, country.value, email.value, phone.value]);
 
-    const inputField = (label: string, field: UseField) => (
-        <>
-            <tr>
-                <td className='widthByContent'>{label}:</td>
-                <td>
-                    <input type={field.type} value={field.value} onChange={field.onChange} />
-                </td>
-            </tr>
-        </>
-    );
+    const inputField = (label: string, field: UseField) => {
+        const labelParts: string[] = label.includes('\n') ? label.split('\n') : [label];
+
+        return (
+            <>
+                <tr>
+                    <td className='widthByContent'>
+                        {labelParts.length > 1 ? (
+                            <>
+                                {labelParts[0]}
+                                <br />
+                                <i>{labelParts[1]}</i>
+                            </>
+                        ) : (
+                            <>{labelParts[0]}</>
+                        )}
+                    </td>
+                    <td style={{ paddingTop: '0.6rem', paddingBottom: '0.6rem' }}>
+                        <input type={field.type} value={field.value} onChange={field.onChange} />
+                    </td>
+                </tr>
+            </>
+        );
+    };
 
     return (
         <>
@@ -59,8 +73,8 @@ const CheckOutContactInfo = ({ currentInfo, setCustomerInfo, width }: Props) => 
             <table align='center' width={width}>
                 <tbody>
                     {inputField('Name', name)}
-                    {inputField('Organization (optional)', organization)}
-                    {inputField('Street adress', address)}
+                    {inputField('Organization\n(optional)', organization)}
+                    {inputField('Street address', address)}
                     {inputField('Zipcode', zipcode)}
                     {inputField('City', city)}
                     {inputField('Country', country)}
