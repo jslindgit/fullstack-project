@@ -8,3 +8,8 @@ export const imageFilename = (path: string): string => {
 export const imageFullPath = (subdirAndFilename: string) => {
     return 'http://localhost:3001/images/' + subdirAndFilename;
 };
+
+export const isValidEmailAddress = (email: string): boolean => {
+    const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};

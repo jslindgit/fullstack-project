@@ -1,5 +1,6 @@
 export interface Contact {
-    name: string;
+    firstname: string;
+    lastname: string;
     organization: string | null;
     address: string;
     zipcode: string;
@@ -36,6 +37,11 @@ export enum OrderStatus {
     REFUNDED = 'Refunded',
     ON_HOLD = 'On hold',
     COMPLETED = 'Completed',
+}
+
+export enum OrderValidationError {
+    LackingRequiredCustomerInfo = 'Required customer information missing',
+    InvalidEmailAddress = 'Invalid e-mail address',
 }
 
 export interface PaymentMethod {

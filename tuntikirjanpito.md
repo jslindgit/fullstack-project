@@ -55,4 +55,5 @@
 | 26.10. | 3    | Ostoskorin refactorointia ja Checkoutin työstöä                                                                      | 101 |
 |        | 2    | Lisää Checkoutin työstöä                                                                                             |     |
 | 27.10. | 1    | Lisää Checkoutin työstöä                                                                                             |     |
-|  yht   | 104  |                                                                                                                      |     |
+| 30.10. | 2    | Validointia tilaajan tiedoille Checkout-vaiheessa                                                                    |     |
+|  yht   | 106  |                                                                                                                      |     |

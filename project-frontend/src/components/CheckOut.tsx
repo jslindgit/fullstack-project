@@ -6,6 +6,7 @@ import { Contact, DeliveryMethod, NewOrder, Order, OrderStatus } from '../types/
 import { fetchItems } from '../util/checkoutProvider';
 import orderHandler from '../util/orderHandler';
 import { pageWidth } from '../constants';
+import { validateOrder } from '../types/orderTypeFunctions';
 
 import BackButton from './BackButton';
 import CheckOutContactInfo from './CheckOutContactInfo';
@@ -24,9 +25,24 @@ const CheckOut = () => {
 
     const [items, setItems] = useState<ItemPair[]>([]);
     const [order, setOrder] = useState<NewOrder | Order>(fetchOrder());
+    const [validate, setValidate] = useState<boolean>(false);
+    const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
     const fetch = async () => {
         setItems(await fetchItems());
+    };
+
+    const handlePaymentClick = () => {
+        setValidate(true);
+
+        const errors = validateOrder(order);
+
+        if (errors.length <= 0) {
+            console.log('TODO: Proceed to payment...'); // TODO
+            setValidationErrors([]);
+        } else {
+            setValidationErrors(errors.map((e) => e.toString()));
+        }
     };
 
     const setCustomerInfo = useCallback((info: Contact) => {
@@ -65,11 +81,11 @@ const CheckOut = () => {
                     <tr>
                         <td width='55%' style={{ paddingTop: 0 }}>
                             <CheckOutDelivery currentMethod={order.deliveryMethod} setDeliveryMethod={setDeliveryMethod} width='100%' />
-                            <CheckOutContactInfo currentInfo={order.customer} setCustomerInfo={setCustomerInfo} width='100%' />
+                            <CheckOutContactInfo currentInfo={order.customer} setCustomerInfo={setCustomerInfo} validate={validate} width='100%' />
                         </td>
                         <td width='3rem'></td>
                         <td style={{ verticalAlign: 'top', paddingTop: 0 }}>
-                            <OrderInfo order={order} />
+                            <OrderInfo order={order} validationErrors={validationErrors} />
                         </td>
                     </tr>
                 </tbody>
@@ -80,8 +96,8 @@ const CheckOut = () => {
                         <td>
                             <BackButton type='text' />
                         </td>
-                        <td className='sizeVeryLarge' style={{ textAlign: 'right' }}>
-                            <Link to='/checkout'>Payment →</Link>
+                        <td className='sizeVeryLarge' style={{ textAlign: 'right' }} onClick={handlePaymentClick}>
+                            <Link to='#'>Payment →</Link>
                         </td>
                     </tr>
                 </tbody>

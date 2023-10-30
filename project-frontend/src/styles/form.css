@@ -1,12 +1,12 @@
 input,
 select {
-    font-size: 0.9rem;
-    padding: 0.5rem;
-    padding-left: 0.6rem;
-    border: 1px solid;
-    border-color: var(--colorGray);
+    border: 0;
     border-radius: 5px;
     box-sizing: border-box;
+    font-size: 0.9rem;
+    outline: 1px solid var(--colorGray);
+    padding: 0.5rem;
+    padding-left: 0.6rem;
 }
 
 input {
@@ -15,11 +15,15 @@ input {
 
 input:focus {
     background-color: var(--colorYellowVeryLight);
-    border: 1px solid;
-    border-color: var(--colorGrayDark);
-    outline: 2px solid;
-    outline-color: var(--colorGrayDark);
+    outline: 3px solid var(--colorGrayDark);
     transition: background-color 0.25s;
+}
+
+input.error {
+    outline: 3px solid var(--colorRedLight);
+}
+input:focus.error {
+    outline: 3px solid var(--colorGrayDark);
 }
 
 option {
@@ -47,4 +51,11 @@ select {
 
 .fileUpload {
     padding: 1rem;
+}
+
+.validationError {
+    color: var(--colorRedLight);
+    font-size: 1rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
 }

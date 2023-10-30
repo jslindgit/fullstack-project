@@ -8,9 +8,10 @@ import { itemsTotalSum } from '../util/checkoutProvider';
 
 interface Props {
     order: Order | NewOrder;
+    validationErrors: string[];
 }
 
-const OrderInfo = ({ order }: Props) => {
+const OrderInfo = ({ order, validationErrors }: Props) => {
     const configState = useSelector((state: RootState) => state.config);
 
     return (
@@ -54,7 +55,9 @@ const OrderInfo = ({ order }: Props) => {
                                             <table align='center' width='100%' className='noPadding'>
                                                 <tbody>
                                                     <tr>
-                                                        <td>{order.customer.name}</td>
+                                                        <td>
+                                                            {order.customer.firstname} {order.customer.lastname}
+                                                        </td>
                                                     </tr>
                                                     {order.customer.organization ? (
                                                         <tr>
@@ -137,6 +140,19 @@ const OrderInfo = ({ order }: Props) => {
                                         <h4>{format.currency(itemsTotalSum(order.items) + (order.deliveryMethod ? order.deliveryMethod.cost : 0), configState)}</h4>
                                     </td>
                                 </tr>
+                                {validationErrors.length > 0 ? (
+                                    <tr>
+                                        <td>
+                                            {validationErrors.map((e) => (
+                                                <div key={e} className='validationError'>
+                                                    {e}
+                                                </div>
+                                            ))}
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    ''
+                                )}
                             </tbody>
                         </table>
                     </td>
