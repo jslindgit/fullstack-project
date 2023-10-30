@@ -5,7 +5,7 @@ import { User } from '../../types/types';
 
 import useField from '../../hooks/useField';
 import categoryService from '../../services/categoryService';
-import { toNewCategory } from '../../types/type_functions';
+import { toNewCategory } from '../../types/typeFunctions';
 
 import { setNotification } from '../../reducers/miscReducer';
 

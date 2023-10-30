@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Config, Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
-import { isNumber } from '../types/type_functions';
+import { isNumber } from '../types/typeFunctions';
 import { pageWidth } from '../constants';
 
 import ItemColumn from './ItemColumn';

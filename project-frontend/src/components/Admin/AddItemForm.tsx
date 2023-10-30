@@ -6,7 +6,7 @@ import { Category, Item, NewItem, User } from '../../types/types';
 
 import useField from '../../hooks/useField';
 import itemService from '../../services/itemService';
-import { toNewItem } from '../../types/type_functions';
+import { toNewItem } from '../../types/typeFunctions';
 
 import { setNotification } from '../../reducers/miscReducer';
 

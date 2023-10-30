@@ -56,4 +56,5 @@
 |        | 2    | Lisää Checkoutin työstöä                                                                                             |     |
 | 27.10. | 1    | Lisää Checkoutin työstöä                                                                                             |     |
 | 30.10. | 2    | Validointia tilaajan tiedoille Checkout-vaiheessa                                                                    |     |
-|  yht   | 106  |                                                                                                                      |     |
+|        | 2    | Lisää validointia ja maksutavanvalintasivun pohja                                                                    |     |
+|  yht   | 108  |                                                                                                                      |     |

@@ -7,7 +7,7 @@ import { RootState } from '../../reducers/rootReducer';
 
 import { handleError } from '../../util/handleError';
 import itemService from '../../services/itemService';
-import { isNumber } from '../../types/type_functions';
+import { isNumber } from '../../types/typeFunctions';
 
 import { setNotification } from '../../reducers/miscReducer';
 

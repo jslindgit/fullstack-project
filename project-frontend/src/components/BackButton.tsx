@@ -3,11 +3,12 @@ import localstorageHandler from '../util/localstorageHandler';
 import { Link } from './CustomLink';
 
 interface Props {
+    to?: string;
     type: 'button' | 'text';
 }
 
-const BackButton = ({ type }: Props) => (
-    <Link to={localstorageHandler.getPreviousLocation()}>
+const BackButton = ({ to = localstorageHandler.getPreviousLocation(), type }: Props) => (
+    <Link to={to}>
         {type === 'button' ? (
             <>
                 <button type='button'>Go back</button>

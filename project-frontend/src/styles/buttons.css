@@ -1,10 +1,12 @@
 button {
     background-color: var(--colorGold);
     color: rgba(255, 255, 255, 1);
-    border-radius: 5px;
+    border-radius: 0.3rem;
     border: 0;
-    padding: 0.15rem 1.2rem;
+    padding-top: 0.15rem;
     padding-bottom: 0.3rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
     font-size: 0.9rem;
     font-weight: 500;
     font-family: inherit;
@@ -18,6 +20,19 @@ button:active {
     background-color: var(--colorGoldLight);
     transition: background-color 0s;
 }
+button:disabled {
+    background-color: var(--colorGrayLight) !important;
+    cursor: default;
+}
+
+button.large {
+    font-size: 1.6rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.75rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
 button.red {
     background-color: var(--colorRed);
 }
@@ -26,11 +41,6 @@ button.red:hover {
 }
 button.red:active {
     background-color: var(--colorRedVeryDark);
-}
-
-button:disabled {
-    background-color: var(--colorGrayLight) !important;
-    cursor: default;
 }
 
 .compactButton {

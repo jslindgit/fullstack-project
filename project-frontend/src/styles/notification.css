@@ -1,5 +1,5 @@
 .notification {
-    border: 0;
+    border: 2px solid;
     border-top: 2px solid;
     border-bottom: 2px solid;
     height: 3.45rem;

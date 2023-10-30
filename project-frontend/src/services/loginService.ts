@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 import { LoginResponse, User } from '../types/types';
-import { isUser } from '../types/type_functions';
+import { isUser } from '../types/typeFunctions';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';

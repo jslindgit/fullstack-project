@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ItemPair } from './ShoppinCart';
 import { Contact, DeliveryMethod, NewOrder, Order, OrderStatus } from '../types/orderTypes';
@@ -11,7 +12,6 @@ import { validateOrder } from '../types/orderTypeFunctions';
 import BackButton from './BackButton';
 import CheckOutContactInfo from './CheckOutContactInfo';
 import CheckOutDelivery from './CheckOutDelivery';
-import { Link } from './CustomLink';
 import OrderInfo from './OrderInfo';
 
 const CheckOut = () => {
@@ -28,6 +28,8 @@ const CheckOut = () => {
     const [validate, setValidate] = useState<boolean>(false);
     const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
+    const navigate = useNavigate();
+
     const fetch = async () => {
         setItems(await fetchItems());
     };
@@ -35,21 +37,18 @@ const CheckOut = () => {
     const handlePaymentClick = () => {
         setValidate(true);
 
-        const errors = validateOrder(order);
+        setValidationErrors(validateOrder(order));
 
-        if (errors.length <= 0) {
-            console.log('TODO: Proceed to payment...'); // TODO
-            setValidationErrors([]);
-        } else {
-            setValidationErrors(errors.map((e) => e.toString()));
+        if (validationErrors.length <= 0) {
+            navigate('/payment');
         }
     };
 
-    const setCustomerInfo = useCallback((info: Contact) => {
+    const setCustomerInfo = (info: Contact) => {
         setOrder({ ...order, customer: info });
-    }, []);
+    };
 
-    const setDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
+    const setDeliveryMethod = (deliveryMethod: DeliveryMethod | null) => {
         setOrder({ ...order, deliveryMethod: deliveryMethod });
     };
 
@@ -64,6 +63,12 @@ const CheckOut = () => {
     useEffect(() => {
         orderHandler.setOrder(order);
     }, [order]);
+
+    useEffect(() => {
+        if (validate) {
+            setValidationErrors(validateOrder(order));
+        }
+    }, [order, validate]);
 
     return (
         <div>
@@ -80,12 +85,37 @@ const CheckOut = () => {
                 <tbody>
                     <tr>
                         <td width='55%' style={{ paddingTop: 0 }}>
-                            <CheckOutDelivery currentMethod={order.deliveryMethod} setDeliveryMethod={setDeliveryMethod} width='100%' />
+                            <CheckOutDelivery currentMethod={order.deliveryMethod} setDeliveryMethod={setDeliveryMethod} validate={validate} width='100%' />
                             <CheckOutContactInfo currentInfo={order.customer} setCustomerInfo={setCustomerInfo} validate={validate} width='100%' />
                         </td>
                         <td width='3rem'></td>
                         <td style={{ verticalAlign: 'top', paddingTop: 0 }}>
-                            <OrderInfo order={order} validationErrors={validationErrors} />
+                            <div style={{ position: 'sticky', top: '1rem' }}>
+                                <OrderInfo order={order} />
+                                {validationErrors.length > 0 ? (
+                                    <table align='center' width='100%' className='notification notificationNegative' style={{ borderRadius: '0.5rem', marginTop: '1rem' }}>
+                                        <tbody>
+                                            <tr>
+                                                <td style={{ fontWeight: '500' }}>
+                                                    Please check the following:
+                                                    <div style={{ paddingTop: '1rem', paddingBottom: '0', paddingLeft: '1rem', paddingRight: '1rem' }}>
+                                                        {validationErrors.map((e) => (
+                                                            <div key={e} style={{ fontStyle: 'italic', lineHeight: '2rem', fontWeight: '500' }}>
+                                                                • {e}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    ''
+                                )}
+                                <button type='button' className='large' onClick={handlePaymentClick} disabled={validationErrors.length > 0} style={{ width: '100%', marginTop: '1rem' }}>
+                                    Choose payment method →
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -94,10 +124,7 @@ const CheckOut = () => {
                 <tbody>
                     <tr>
                         <td>
-                            <BackButton type='text' />
-                        </td>
-                        <td className='sizeVeryLarge' style={{ textAlign: 'right' }} onClick={handlePaymentClick}>
-                            <Link to='#'>Payment →</Link>
+                            <BackButton type='text' to='/cart' />
                         </td>
                     </tr>
                 </tbody>

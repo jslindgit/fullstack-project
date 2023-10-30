@@ -61,7 +61,7 @@ const ShoppingCart = () => {
                         <td style={{ textAlign: 'right' }}>
                             {items.length > 0 ? (
                                 <Link to='/checkout'>
-                                    <button type='button' className='sizeVeryLarge'>
+                                    <button type='button' className='large'>
                                         Check out →
                                     </button>
                                 </Link>

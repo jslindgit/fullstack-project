@@ -10,7 +10,7 @@ import item_categoryService from './item_categoryService';
 import { apiBaseUrl } from '../constants';
 import { authConfig } from '../util/serviceProvider';
 import { handleError } from '../util/handleError';
-import { toNewItem } from '../types/type_functions';
+import { toNewItem } from '../types/typeFunctions';
 
 interface ItemResponse extends Response {
     item: Item | null;

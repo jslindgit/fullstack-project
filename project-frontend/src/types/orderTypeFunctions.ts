@@ -23,5 +23,9 @@ export const validateOrder = (order: NewOrder | Order): OrderValidationError[] =
         }
     }
 
+    if (!order.deliveryMethod) {
+        errors.push(OrderValidationError.DeliveryMethodMissing);
+    }
+
     return errors;
 };

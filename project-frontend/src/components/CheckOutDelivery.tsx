@@ -9,11 +9,12 @@ import format from '../util/format';
 
 interface Props {
     currentMethod: DeliveryMethod | null;
-    setDeliveryMethod: (deliveryMethod: DeliveryMethod) => void;
+    setDeliveryMethod: (deliveryMethod: DeliveryMethod | null) => void;
+    validate: boolean;
     width: string;
 }
 
-const CheckOutDelivery = ({ currentMethod, setDeliveryMethod, width }: Props) => {
+const CheckOutDelivery = ({ currentMethod, setDeliveryMethod, validate, width }: Props) => {
     interface MethodProps {
         m: DeliveryMethod;
     }
@@ -59,13 +60,22 @@ const CheckOutDelivery = ({ currentMethod, setDeliveryMethod, width }: Props) =>
                     </tr>
                 </tbody>
             </table>
-            <table align='center' width={width}>
+            <table align='center' width={width} style={{ outline: validate && !selectedMethod ? '3px solid red' : '0' }}>
                 <tbody>
                     <tr>
                         <td>
                             {methods.map((m) => (
                                 <Method key={m.id} m={m} />
                             ))}
+                            <a
+                                onClick={() => {
+                                    setSelectedMethod(null);
+                                    setDeliveryMethod(null);
+                                }}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                Clear selection
+                            </a>
                         </td>
                     </tr>
                 </tbody>

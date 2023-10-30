@@ -40,8 +40,9 @@ export enum OrderStatus {
 }
 
 export enum OrderValidationError {
-    LackingRequiredCustomerInfo = 'Required customer information missing',
+    DeliveryMethodMissing = 'Choose a delivery method',
     InvalidEmailAddress = 'Invalid e-mail address',
+    LackingRequiredCustomerInfo = 'Required customer information missing',
 }
 
 export interface PaymentMethod {
