@@ -12,6 +12,10 @@ export const defaultConfig: Config = {
         name: 'Unnamed Owner Oy',
         phone: '+358 40 123 45678',
     },
+    paytrail: {
+        merchantId: '375917',
+        secretKey: 'SAIPPUAKAUPPIAS',
+    },
     store: {
         email: 'info@unnamedwebstore123.com',
         name: 'Unnamed Webstore',

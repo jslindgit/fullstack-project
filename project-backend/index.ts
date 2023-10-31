@@ -1,6 +1,5 @@
 import cors from 'cors';
 import express from 'express';
-import path from 'path';
 
 import { PORT } from './util/config';
 import { connectToDatabase } from './util/db';
@@ -10,6 +9,7 @@ import imageRouter from './routes/imageRouter';
 import item_categoryRouter from './routes/item_categoryRouter';
 import itemRouter from './routes/itemRouter';
 import loginRouter from './routes/loginRouter';
+import paytrailRouter from './routes/paytrailRouter';
 import userRouter from './routes/userRouter';
 
 const app = express();
@@ -17,11 +17,11 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 app.use(cors());
 
-const corsOptions = {
+/*const corsOptions = {
     origin: 'http://localhost:3000', // or your frontend URL
     credentials: true,
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+};*/
 
 app.get('/', (_req, res) => {
     res.status(200).send('Full Stack open project');
@@ -37,11 +37,10 @@ app.use('/api/images', imageRouter);
 app.use('/api/items', itemRouter);
 app.use('/api/item_categories', item_categoryRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/paytrail', paytrailRouter);
 app.use('/api/users', userRouter);
 
-app.use('/api/images', cors(corsOptions));
-
-app.use('/images', express.static(path.join(__dirname, 'images')));
+//app.use('/api/images', cors(corsOptions));
 
 const start = async () => {
     await connectToDatabase();

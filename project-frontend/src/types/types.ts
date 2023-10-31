@@ -10,6 +10,7 @@ export interface Config {
     currency: Currency;
     currencyBeforeSum: boolean;
     owner: ConfigOwner;
+    paytrail: ConfigPaytrail | null;
     store: ConfigStore;
 }
 
@@ -18,6 +19,11 @@ export interface ConfigOwner {
     email: string;
     name: string;
     phone: string;
+}
+
+export interface ConfigPaytrail {
+    merchantId: string;
+    secretKey: string;
 }
 
 export interface ConfigStore {

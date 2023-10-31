@@ -57,4 +57,5 @@
 | 27.10. | 1    | Lisää Checkoutin työstöä                                                                                             |     |
 | 30.10. | 2    | Validointia tilaajan tiedoille Checkout-vaiheessa                                                                    |     |
 |        | 2    | Lisää validointia ja maksutavanvalintasivun pohja                                                                    |     |
-|  yht   | 108  |                                                                                                                      |     |
+| 31.10. | 2    | Paytrail-integraatio aluilleen                                                                                       | 110 |
+|  yht   | 110  |                                                                                                                      |     |
