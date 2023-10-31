@@ -5,6 +5,7 @@ import { NewOrder, Order } from '../types/orderTypes';
 
 import orderHandler from '../util/orderHandler';
 import { pageWidth } from '../constants';
+import paytrailService from '../services/paytrailService';
 import { validateOrder } from '../types/orderTypeFunctions';
 
 import BackButton from './BackButton';
@@ -12,6 +13,7 @@ import OrderInfo from './OrderInfo';
 
 const CheckOutPayment = () => {
     const [order, setOrder] = useState<NewOrder | Order | null>(null);
+    const [paytrailData, setPaytrailData] = useState<object | null>(null);
 
     const navigate = useNavigate();
 
@@ -23,6 +25,15 @@ const CheckOutPayment = () => {
             navigate('/checkout');
         }
     }, [navigate]);
+
+    useEffect(() => {
+        const createPayment = async () => {
+            const data = await paytrailService.createTestPayment();
+            console.log('data:', data);
+            setPaytrailData(data.data);
+        };
+        createPayment();
+    }, []);
 
     if (!order) {
         return (
@@ -54,6 +65,9 @@ const CheckOutPayment = () => {
                                         <td style={{ paddingTop: 0, paddingBottom: 0 }}>
                                             <h3>Choose Payment Method</h3>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td>{paytrailData && 'href' in paytrailData ? (paytrailData.href as string) : ''}</td>
                                     </tr>
                                 </tbody>
                             </table>
