@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { NewOrder, Order } from '../types/orderTypes';
+import { NewOrder, Order, PaytrailData, PaytrailProvider } from '../types/orderTypes';
 
 import orderHandler from '../util/orderHandler';
 import { pageWidth } from '../constants';
@@ -13,7 +13,7 @@ import OrderInfo from './OrderInfo';
 
 const CheckOutPayment = () => {
     const [order, setOrder] = useState<NewOrder | Order | null>(null);
-    const [paytrailData, setPaytrailData] = useState<object | null>(null);
+    const [paytrailData, setPaytrailData] = useState<PaytrailData | null>(null);
 
     const navigate = useNavigate();
 
@@ -29,7 +29,6 @@ const CheckOutPayment = () => {
     useEffect(() => {
         const createPayment = async () => {
             const data = await paytrailService.createTestPayment();
-            console.log('data:', data);
             setPaytrailData(data.data);
         };
         createPayment();
@@ -43,6 +42,29 @@ const CheckOutPayment = () => {
             </div>
         );
     }
+    const parameterToInput = (param: { name: string; value: string }) => <input type='hidden' name={param.name} value={param.value} />;
+
+    const responseToHtml = (response: { providers: PaytrailProvider[] }) => {
+        return (
+            <div>
+                {response.providers.map((provider) => (
+                    <div key={provider.name}>
+                        <form method='POST' action={provider.url}>
+                            {provider.parameters.map((param) => (
+                                <div key={param.name}>{parameterToInput(param)}</div>
+                            ))}
+                            <button>
+                                <img src={provider.svg} style={{ height: '3rem', width: 'auto' }} />
+                            </button>
+                        </form>
+                        <br />
+                    </div>
+                ))}
+            </div>
+        );
+    };
+
+    const htmlForm = paytrailData ? responseToHtml(paytrailData) : <></>;
 
     return (
         <div>
@@ -67,7 +89,7 @@ const CheckOutPayment = () => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>{paytrailData && 'href' in paytrailData ? (paytrailData.href as string) : ''}</td>
+                                        <td>{htmlForm}</td>
                                     </tr>
                                 </tbody>
                             </table>

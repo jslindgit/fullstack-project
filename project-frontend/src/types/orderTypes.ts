@@ -51,6 +51,17 @@ export interface PaymentMethod {
     description: string;
 }
 
+export interface PaytrailData {
+    providers: PaytrailProvider[];
+}
+
+export interface PaytrailProvider {
+    name: string;
+    url: string;
+    svg: string;
+    parameters: Array<{ name: string; value: string }>;
+}
+
 export interface ShoppingCartStatus {
     items: number;
     totalAmount: number;

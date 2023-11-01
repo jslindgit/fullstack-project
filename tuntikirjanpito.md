@@ -59,4 +59,5 @@
 |        | 2    | Lisää validointia ja maksutavanvalintasivun pohja                                                                    |     |
 | 31.10. | 2    | Paytrail-integraatio aluilleen                                                                                       | 110 |
 |        | 3    | Paytrail-integraation työstöä                                                                                        |     |
-|  yht   | 113  |                                                                                                                      |     |
+| 1.11.  | 1    | Paytrail-integraation työstöä                                                                                        |     |
+|  yht   | 114  |                                                                                                                      |     |
