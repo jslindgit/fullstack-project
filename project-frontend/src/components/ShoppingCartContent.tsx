@@ -59,7 +59,7 @@ const ShoppingCartContent = ({ allowEdit, fetchItems, items, removeItem, width }
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td className='bold'>Total:</td>
+                            <td className='bold'>Subtotal:</td>
                             <td className='bold'>{format.currency(itemsTotalSum(items.map((itemPair) => itemPair.shoppingItem)), configState)}</td>
                             <td></td>
                         </tr>

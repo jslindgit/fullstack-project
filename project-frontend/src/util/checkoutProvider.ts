@@ -1,5 +1,5 @@
 import { ItemPair } from '../components/ShoppinCart';
-import { ShoppingItem } from '../types/orderTypes';
+import { NewOrder, Order, ShoppingItem } from '../types/orderTypes';
 
 import { handleError } from './handleError';
 import itemService from '../services/itemService';
@@ -24,6 +24,10 @@ export const fetchItems = async (): Promise<ItemPair[]> => {
     return filteredItemPairs;
 };
 
-export const itemsTotalSum = (items: ShoppingItem[]) => {
+export const itemsTotalSum = (items: ShoppingItem[]): number => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
+};
+
+export const orderTotalSum = (order: NewOrder | Order): number => {
+    return itemsTotalSum(order.items) + (order.deliveryMethod ? order.deliveryMethod.cost : 0);
 };

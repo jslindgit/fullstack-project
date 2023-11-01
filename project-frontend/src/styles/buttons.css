@@ -49,6 +49,22 @@ button.red:active {
     padding-right: 0.4rem !important;
 }
 
+button.paymentMethod {
+    background-color: white;
+    outline: 1px solid var(--colorGray);
+    padding: 0.5rem;
+    padding-top: 0.8rem;
+    transition: outline 0.1s;
+}
+button.paymentMethod:hover {
+    outline: 3px solid var(--colorGray);
+    transition: outline 0.1s;
+}
+button.paymentMethod:active {
+    outline: 3px solid black;
+    transition: all 0;
+}
+
 .selectButton {
     color: white;
     padding: 1rem;

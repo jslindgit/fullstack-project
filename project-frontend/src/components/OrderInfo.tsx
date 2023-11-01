@@ -4,7 +4,7 @@ import { Order, NewOrder } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
 import format from '../util/format';
-import { itemsTotalSum } from '../util/checkoutProvider';
+import { orderTotalSum } from '../util/checkoutProvider';
 
 interface Props {
     order: Order | NewOrder;
@@ -137,7 +137,7 @@ const OrderInfo = ({ order }: Props) => {
                                     </tr>
                                     <tr>
                                         <td>
-                                            <h4>{format.currency(itemsTotalSum(order.items) + (order.deliveryMethod ? order.deliveryMethod.cost : 0), configState)}</h4>
+                                            <h4>{format.currency(orderTotalSum(order), configState)}</h4>
                                         </td>
                                     </tr>
                                 </tbody>

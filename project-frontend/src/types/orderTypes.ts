@@ -53,6 +53,7 @@ export interface PaymentMethod {
 
 export interface PaytrailData {
     providers: PaytrailProvider[];
+    terms: string;
 }
 
 export interface PaytrailProvider {

@@ -84,12 +84,12 @@ const CheckOut = () => {
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
-                        <td width='55%' style={{ paddingTop: 0 }}>
+                        <td style={{ paddingTop: 0 }}>
                             <CheckOutDelivery currentMethod={order.deliveryMethod} setDeliveryMethod={setDeliveryMethod} validate={validate} width='100%' />
                             <CheckOutContactInfo currentInfo={order.customer} setCustomerInfo={setCustomerInfo} validate={validate} width='100%' />
                         </td>
                         <td width='3rem'></td>
-                        <td style={{ verticalAlign: 'top', paddingTop: 0 }}>
+                        <td width='40%' style={{ verticalAlign: 'top', paddingTop: 0 }}>
                             <div style={{ position: 'sticky', top: '1rem' }}>
                                 <OrderInfo order={order} />
                                 {validationErrors.length > 0 ? (

@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import path from 'path';
 
 import { PORT } from './util/config';
 import { connectToDatabase } from './util/db';
@@ -17,11 +18,11 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 app.use(cors());
 
-/*const corsOptions = {
+const corsOptions = {
     origin: 'http://localhost:3000', // or your frontend URL
     credentials: true,
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};*/
+};
 
 app.get('/', (_req, res) => {
     res.status(200).send('Full Stack open project');
@@ -40,7 +41,9 @@ app.use('/api/login', loginRouter);
 app.use('/api/paytrail', paytrailRouter);
 app.use('/api/users', userRouter);
 
-//app.use('/api/images', cors(corsOptions));
+app.use('/api/images', cors(corsOptions));
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 const start = async () => {
     await connectToDatabase();

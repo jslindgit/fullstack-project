@@ -44,7 +44,14 @@ h4 {
 
 /* Style */
 .bold {
-    font-weight: bold;
+    font-weight: 700;
+}
+.semiBold {
+    font-weight: 500;
+}
+
+.italic {
+    font-style: italic;
 }
 
 .capitalize {
@@ -58,9 +65,19 @@ h4 {
     text-decoration-thickness: 0.3rem;
 }
 
+.upperCase {
+    text-transform: uppercase;
+}
+
 /* Color */
+.colorGoldLight {
+    color: var(--colorGoldLight);
+}
 .colorGray {
     color: var(--colorGray);
+}
+.colorGraySemiDark {
+    color: var(--colorGraySemiDark);
 }
 .colorGreen {
     color: var(--colorGreen);
@@ -93,6 +110,11 @@ h4 {
     color: var(--colorGray);
     padding: 0 !important;
     padding-top: 1rem !important;
+}
+
+.infoText {
+    padding-bottom: 0.75rem !important;
+    padding-right: 1rem !important;
 }
 
 .itemDetailsName {

@@ -5,15 +5,6 @@ import paytrailService from '../services/paytrailService';
 
 const router = express.Router();
 
-/*router.get('/test_hmac', ((_req, res, next) => {
-    try {
-        const hmac = paytrailService.testHmacCalculation();
-        res.json(hmac);
-    } catch (err) {
-        next(err);
-    }
-}) as RequestHandler);*/
-
 router.get('/test_payment', (async (_req, res, next) => {
     try {
         const paytrailResponse = await paytrailService.testPaymentRequest();

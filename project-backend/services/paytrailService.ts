@@ -86,8 +86,12 @@ const testPaymentRequest = async (): Promise<PaytrailResponse> => {
                 email: 'test.customer@example.com',
             },
             redirectUrls: {
-                success: 'https://ecom.example.com/cart/success',
-                cancel: 'https://ecom.example.com/cart/cancel',
+                success: 'https://tempurlfullstack.com/success',
+                cancel: 'https://tempurlfullstack.com/payment',
+            },
+            callbackUrls: {
+                success: 'https://tempurlfullstack.com/success',
+                cancel: 'https://tempurlfullstack.com/payment',
             },
         };
 

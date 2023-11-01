@@ -60,4 +60,5 @@
 | 31.10. | 2    | Paytrail-integraatio aluilleen                                                                                       | 110 |
 |        | 3    | Paytrail-integraation työstöä                                                                                        |     |
 | 1.11.  | 1    | Paytrail-integraation työstöä                                                                                        |     |
-|  yht   | 114  |                                                                                                                      |     |
+|        | 2    | Paytrail-integraation työstöä                                                                                        |     |
+|  yht   | 116  |                                                                                                                      |     |
