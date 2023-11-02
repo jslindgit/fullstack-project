@@ -1,12 +1,14 @@
 import axios from 'axios';
 import crypto from 'crypto';
 
-//import { handleError } from '../util/error_handler';
+import Order, { NewOrder, OrderInstance } from '../models/order';
+
+import { handleError } from '../util/error_handler';
 import { isObject } from '../types/type_functions';
 
 const API_ENDPOINT = 'https://services.paytrail.com';
-const ACCOUNT = process.env.PAYTRAIL_TEST_ACCOUNT as string;
-const SECRET = process.env.PAYTRAIL_TEST_SECRET as string;
+const TEST_ACCOUNT = process.env.PAYTRAIL_TEST_ACCOUNT as string;
+const TEST_SECRET = process.env.PAYTRAIL_TEST_SECRET as string;
 
 const guidv4 = (data?: Uint8Array): string => {
     // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
@@ -54,13 +56,106 @@ const calculateHmac = (secret: string, params: Params, body: object | undefined)
     return crypto.createHmac('sha256', secret).update(hmacPayload).digest('hex');
 };
 
+const addNew = async (newOrder: NewOrder): Promise<OrderInstance | null> => {
+    try {
+        const order = await Order.create(newOrder);
+        await order.save();
+        return order;
+    } catch (err: unknown) {
+        handleError(err);
+        return null;
+    }
+};
+
+const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => {
+    try {
+        const order = await addNew(newOrder);
+
+        if (!order) {
+            return { success: false, message: 'Failed to create a new Order to the database.', data: {} };
+        }
+
+        const timeStamp = new Date().toISOString();
+
+        const headersForHmac = {
+            'checkout-account': TEST_ACCOUNT,
+            'checkout-algorithm': 'sha256',
+            'checkout-method': 'POST',
+            'checkout-nonce': order.id.toString(),
+            'checkout-timestamp': timeStamp,
+        };
+
+        const body = {
+            stamp: guidv4(),
+            reference: order.id.toString(),
+            amount: order.totalAmount,
+            currency: 'EUR',
+            language: 'FI',
+            items: [
+                {
+                    unitPrice: 1525,
+                    units: 1,
+                    vatPercentage: 24,
+                    productCode: '#1234',
+                    deliveryDate: '2018-09-01',
+                },
+            ],
+            customer: {
+                email: 'test.customer@example.com',
+            },
+            redirectUrls: {
+                success: 'https://tempurlfullstack.com/success',
+                cancel: 'https://tempurlfullstack.com/payment',
+            },
+            callbackUrls: {
+                success: 'https://tempurlfullstack.com/success',
+                cancel: 'https://tempurlfullstack.com/payment',
+            },
+        };
+
+        const hmac = calculateHmac(TEST_SECRET, headersForHmac, body);
+        const headers = { ...headersForHmac, 'content-type': 'application/json; charset=utf-8', signature: hmac };
+
+        const res = await axios.post(API_ENDPOINT + '/payments', body, { headers });
+
+        if ('data' in res && res.data && isObject(res.data)) {
+            return { success: true, data: res.data, message: 'Ok' };
+        } else {
+            return { success: false, data: {}, message: 'Something went wrong' };
+        }
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+            if (error.response) {
+                console.error('error.response.data:', error.response.data);
+                console.error('error.response.status:', error.response.status);
+                console.error('error.response.headers:', error.response.headers);
+            } else if (error.request) {
+                console.error('error.request:', error.request);
+            } else {
+                console.error('error.message:', error.message);
+            }
+        } else {
+            console.error('Non-Axios Error:', error);
+        }
+        return {
+            success: false,
+            data: {},
+            message:
+                'Error occurred' +
+                (error instanceof Error
+                    ? ': ' + (axios.isAxiosError(error) && error.response && isObject(error.response.data) && 'message' in error.response.data ? error.response.data.message : error.message)
+                    : ''),
+        };
+    }
+};
+
 const testPaymentRequest = async (): Promise<PaytrailResponse> => {
     try {
         const orderNumber: string = new Date().toISOString() + 'nonce';
         const timeStamp = new Date().toISOString();
 
         const headersForHmac = {
-            'checkout-account': ACCOUNT,
+            'checkout-account': TEST_ACCOUNT,
             'checkout-algorithm': 'sha256',
             'checkout-method': 'POST',
             'checkout-nonce': orderNumber,
@@ -95,7 +190,7 @@ const testPaymentRequest = async (): Promise<PaytrailResponse> => {
             },
         };
 
-        const hmac = calculateHmac(SECRET, headersForHmac, body);
+        const hmac = calculateHmac(TEST_SECRET, headersForHmac, body);
         const headers = { ...headersForHmac, 'content-type': 'application/json; charset=utf-8', signature: hmac };
 
         const res = await axios.post(API_ENDPOINT + '/payments', body, { headers });
@@ -132,5 +227,7 @@ const testPaymentRequest = async (): Promise<PaytrailResponse> => {
 };
 
 export default {
+    addNew,
+    paymentRequest,
     testPaymentRequest,
 };
