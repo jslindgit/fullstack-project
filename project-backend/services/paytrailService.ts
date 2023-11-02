@@ -1,79 +1,83 @@
 import axios from 'axios';
-import crypto from 'crypto';
+import { Op } from 'sequelize';
 
 import Order, { NewOrder, OrderInstance } from '../models/order';
 
+import { calculateHmac, guidv4, TEST_ACCOUNT, TEST_SECRET } from '../util/paytrailProvider';
 import { handleError } from '../util/error_handler';
 import { isObject } from '../types/type_functions';
 
 const API_ENDPOINT = 'https://services.paytrail.com';
-const TEST_ACCOUNT = process.env.PAYTRAIL_TEST_ACCOUNT as string;
-const TEST_SECRET = process.env.PAYTRAIL_TEST_SECRET as string;
-
-const guidv4 = (data?: Uint8Array): string => {
-    // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
-    data = data || crypto.getRandomValues(new Uint8Array(16));
-
-    // Set version to 0100
-    data[6] = (data[6] & 0x0f) | 0x40;
-    // Set bits 6-7 to 10
-    data[8] = (data[8] & 0x3f) | 0x80;
-
-    // Output the 36 character UUID.
-    return `${toHex(data.subarray(0, 4))}-${toHex(data.subarray(4, 6))}-${toHex(data.subarray(6, 8))}-${toHex(data.subarray(8, 10))}-${toHex(data.subarray(10, 16))}`;
-};
-
-const toHex = (buffer: Uint8Array): string => {
-    return Array.from(buffer)
-        .map((b) => b.toString(16).padStart(2, '0'))
-        .join('');
-};
 
 interface PaytrailResponse {
     success: boolean;
-    data: object;
     message: string;
+    data: object;
 }
 
-/**
- * Calculate HMAC
- *
- * @param {string} secret Merchant shared secret
- * @param {object} params Headers or query string parameters
- * @param {object|undefined} body Request body or empty string for GET requests
- */
-type Params = {
-    [key: string]: string;
-};
+interface OrderResponse {
+    success: boolean;
+    message: string;
+    order: OrderInstance | null;
+}
 
-const calculateHmac = (secret: string, params: Params, body: object | undefined) => {
-    const hmacPayload = Object.keys(params)
-        .sort()
-        .map((key) => [key, params[key]].join(':'))
-        .concat(body ? JSON.stringify(body) : '')
-        .join('\n');
-
-    return crypto.createHmac('sha256', secret).update(hmacPayload).digest('hex');
-};
-
-const addNew = async (newOrder: NewOrder): Promise<OrderInstance | null> => {
+const addNew = async (newOrder: NewOrder): Promise<OrderResponse> => {
     try {
         const order = await Order.create(newOrder);
         await order.save();
-        return order;
+        return { success: true, message: 'Ok', order: order };
     } catch (err: unknown) {
         handleError(err);
-        return null;
+        return { success: false, message: 'Error occurred' + (err instanceof Error ? ': ' + err.message : ''), order: null };
+    }
+};
+
+const getAll = async (searchQuery: string = ''): Promise<OrderInstance[]> => {
+    try {
+        let where = {};
+        if (searchQuery && searchQuery.length > 0) {
+            where = {
+                [Op.or]: [
+                    {
+                        id: {
+                            [Op.iLike]: `%${searchQuery}%`,
+                        },
+                    },
+                    {
+                        customerFirstName: {
+                            [Op.iLike]: `%${searchQuery}%`,
+                        },
+                    },
+                    {
+                        customerLastName: {
+                            [Op.iLike]: `%${searchQuery}%`,
+                        },
+                    },
+                ],
+            };
+        }
+
+        const orders = await Order.findAll({
+            where,
+            order: [['created_at', 'DESC']],
+        });
+
+        return orders;
+    } catch (err: unknown) {
+        handleError(err);
+        return [];
     }
 };
 
 const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => {
     try {
-        const order = await addNew(newOrder);
+        const orderResponse = await addNew(newOrder);
 
-        if (!order) {
-            return { success: false, message: 'Failed to create a new Order to the database.', data: {} };
+        if (!orderResponse.success || !orderResponse.order) {
+            return { success: false, message: orderResponse.message, data: {} };
         }
+
+        const order = orderResponse.order;
 
         const timeStamp = new Date().toISOString();
 
@@ -88,9 +92,10 @@ const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => 
         const body = {
             stamp: guidv4(),
             reference: order.id.toString(),
-            amount: order.totalAmount,
-            currency: 'EUR',
-            language: 'FI',
+            amount: order.totalAmount * 100, // in currency's minor units, e.g. for Euros in cents
+            currency: order.currency,
+            language: order.language,
+            orderId: order.id.toString(),
             items: [
                 {
                     unitPrice: 1525,
@@ -101,7 +106,17 @@ const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => 
                 },
             ],
             customer: {
-                email: 'test.customer@example.com',
+                email: order.customerEmail,
+                firstName: order.customerFirstName,
+                lastName: order.customerLastName,
+                phone: order.customerPhone,
+                companyName: order.customerOrganization ? order.customerOrganization : '',
+            },
+            invoicingAddress: {
+                streetAddress: order.customerAddress,
+                postalCode: order.customerZipCode,
+                city: order.customerCity,
+                country: order.customerCountry,
             },
             redirectUrls: {
                 success: 'https://tempurlfullstack.com/success',
@@ -228,6 +243,7 @@ const testPaymentRequest = async (): Promise<PaytrailResponse> => {
 
 export default {
     addNew,
+    getAll,
     paymentRequest,
     testPaymentRequest,
 };

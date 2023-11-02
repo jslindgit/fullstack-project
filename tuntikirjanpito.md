@@ -62,4 +62,5 @@
 | 1.11.  | 1    | Paytrail-integraation työstöä                                                                                        |     |
 |        | 2    | Paytrail-integraation työstöä                                                                                        |     |
 | 2.11.  | 2    | Tilausten tallennus tietokantaan aluilleen                                                                           |     |
-|  yht   | 118  |                                                                                                                      |     |
+|        | 2    | Paytrail-integraation työstöä                                                                                        | 120 |
+|  yht   | 120  |                                                                                                                      |     |

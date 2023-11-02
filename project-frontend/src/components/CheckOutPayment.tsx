@@ -6,10 +6,11 @@ import { RootState } from '../reducers/rootReducer';
 import { NewOrder, Order, PaytrailData, PaytrailProvider } from '../types/orderTypes';
 
 import format from '../util/format';
+
 import orderHandler from '../util/orderHandler';
+import { orderTotalSum } from '../util/checkoutProvider';
 import { pageWidth } from '../constants';
 import paytrailService from '../services/paytrailService';
-import { orderTotalSum } from '../util/checkoutProvider';
 import { validateOrder } from '../types/orderTypeFunctions';
 
 import BackButton from './BackButton';
@@ -34,11 +35,15 @@ const CheckOutPayment = () => {
     }, [navigate]);
 
     useEffect(() => {
-        const createPayment = async () => {
-            const data = await paytrailService.createTestPayment();
-            setPaytrailData(data.data);
-        };
-        createPayment();
+        console.log('order:', order);
+        if (order) {
+            const createPayment = async () => {
+                const data = await paytrailService.createPayment(order);
+                console.log('data:', data);
+                setPaytrailData(data.data);
+            };
+            createPayment();
+        }
     }, []);
 
     if (!order) {

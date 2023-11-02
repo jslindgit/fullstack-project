@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { PaytrailData } from '../types/orderTypes';
+import { NewOrder, Order, PaytrailData } from '../types/orderTypes';
 import { Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
@@ -11,6 +11,21 @@ interface PaytrailResponse extends Response {
 }
 
 const url = apiBaseUrl + '/paytrail';
+
+const createPayment = async (order: NewOrder | Order): Promise<PaytrailResponse> => {
+    try {
+        const res = await axios.post<PaytrailData>(url + '/payment', order);
+
+        if (res.status === 200) {
+            return { success: true, message: 'Ok', data: res.data };
+        } else {
+            return { success: false, message: `Something went wrong (${res.status})`, data: null };
+        }
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: 'Error occurred', data: null };
+    }
+};
 
 const createTestPayment = async (): Promise<PaytrailResponse> => {
     try {
@@ -28,5 +43,6 @@ const createTestPayment = async (): Promise<PaytrailResponse> => {
 };
 
 export default {
+    createPayment,
     createTestPayment,
 };

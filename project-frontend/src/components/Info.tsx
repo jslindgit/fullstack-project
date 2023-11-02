@@ -2,8 +2,6 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/rootReducer';
 
-import { pageWidth } from '../constants';
-
 const Info = () => {
     const configState = useSelector((state: RootState) => state.config);
 
@@ -34,20 +32,20 @@ const Info = () => {
     return (
         <>
             <div>
-                <table align='center' width={pageWidth}>
+                <table align='center'>
                     <tbody>
                         <tr>
-                            <td width='50%' className='noPadding' style={{ verticalAlign: 'top' }}>
+                            <td className='noPadding' style={{ verticalAlign: 'top' }}>
                                 <table align='left'>
                                     <tbody>
                                         <tr>
-                                            <td className='underlined'>
-                                                <h3>{configState.store.name}</h3>
+                                            <td>
+                                                <h3 className='underlined'>{configState.store.name}</h3>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <table align='center' width='100%' className='noOuterPadding'>
+                                                <table width='100%' className='noOuterPadding'>
                                                     <tbody>
                                                         <tr>
                                                             <td className='widthByContent infoText'>Email:</td>
@@ -63,12 +61,13 @@ const Info = () => {
                                     </tbody>
                                 </table>
                             </td>
-                            <td width='50%' className='noPadding' style={{ verticalAlign: 'top' }}>
+                            <td width='150rem'></td>
+                            <td className='noPadding' style={{ verticalAlign: 'top' }}>
                                 <table align='right' className='paddingTopBottomOnly'>
                                     <tbody>
                                         <tr>
-                                            <td className='underlined'>
-                                                <h3>Store Owner</h3>
+                                            <td>
+                                                <h3 className='underlined'>Store Owner</h3>
                                             </td>
                                         </tr>
                                         <tr>

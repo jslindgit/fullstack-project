@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Currency } from '../types/types';
 import { ItemPair } from './ShoppinCart';
 import { Contact, DeliveryMethod, NewOrder, Order, OrderStatus } from '../types/orderTypes';
 
@@ -20,7 +21,7 @@ const CheckOut = () => {
         if (storedOrder) {
             return storedOrder;
         }
-        return { customer: null, recipient: null, items: [], deliveryMethod: null, paymentMethod: null, status: OrderStatus.PENDING };
+        return { customer: null, recipient: null, items: [], deliveryMethod: null, paymentMethod: null, status: OrderStatus.PENDING, currency: Currency.EUR };
     };
 
     const [items, setItems] = useState<ItemPair[]>([]);
@@ -37,9 +38,11 @@ const CheckOut = () => {
     const handlePaymentClick = () => {
         setValidate(true);
 
-        setValidationErrors(validateOrder(order));
+        const errors = validateOrder(order);
 
-        if (validationErrors.length <= 0) {
+        setValidationErrors(errors);
+
+        if (errors.length <= 0) {
             navigate('/payment');
         }
     };

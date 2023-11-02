@@ -1,3 +1,5 @@
+import { Currency } from './types';
+
 export interface Contact {
     firstname: string;
     lastname: string;
@@ -19,12 +21,13 @@ export interface DeliveryMethod {
 
 export interface Order {
     id: number;
+    status: OrderStatus;
+    items: ShoppingItem[];
     customer: Contact | null;
     recipient: Contact | null;
-    items: ShoppingItem[];
     deliveryMethod: DeliveryMethod | null;
     paymentMethod: PaymentMethod | null;
-    status: OrderStatus;
+    currency: Currency;
 }
 export type NewOrder = Omit<Order, 'id'>;
 
