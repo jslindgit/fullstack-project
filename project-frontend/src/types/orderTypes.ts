@@ -21,15 +21,34 @@ export interface DeliveryMethod {
 
 export interface Order {
     id: number;
-    status: OrderStatus;
-    items: ShoppingItem[];
-    customer: Contact | null;
-    recipient: Contact | null;
-    deliveryMethod: DeliveryMethod | null;
-    paymentMethod: PaymentMethod | null;
     currency: Currency;
+    customer: Contact;
+    deliveryMethod: DeliveryMethod | null;
+    items: ShoppingItem[];
+    paymentMethod: PaymentMethod | null;
+    recipient: Contact | null;
+    status: OrderStatus;
 }
 export type NewOrder = Omit<Order, 'id'>;
+
+// For server calls:
+export interface NewOrderAttributes {
+    currency: 'EUR' | 'USD';
+    customerAddress: string;
+    customerCity: string;
+    customerCountry: string;
+    customerEmail: string;
+    customerFirstName: string;
+    customerLastName: string;
+    customerOrganization?: string;
+    customerPhone: string;
+    customerZipCode: string;
+    deliveryMethod: number;
+    language: 'FI' | 'EN' | 'SE';
+    paymentMethod: number;
+    status: string;
+    totalAmount: number;
+}
 
 export enum OrderStatus {
     PENDING = 'Pending',
