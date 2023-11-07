@@ -1,29 +1,29 @@
 import { useEffect } from 'react';
 import useField, { UseField } from '../hooks/useField';
 
-import { Contact } from '../types/orderTypes';
+import { NewOrder, Order } from '../types/orderTypes';
 
 import { isValidEmailAddress } from '../util/misc';
 
 interface Props {
-    currentInfo: Contact | null;
-    setCustomerInfo: (info: Contact) => void;
+    currentOrder: NewOrder | Order;
+    setCustomerInfo: (address: string, city: string, country: string, email: string, firstName: string, lastName: string, organization: string, phone: string, zipCode: string) => void;
     validate: boolean;
     width: string;
 }
 
-const CheckOutContactInfo = ({ currentInfo, setCustomerInfo, validate, width }: Props) => {
-    const firstname = useField('text', currentInfo?.firstname ? currentInfo.firstname : '');
-    const lastname = useField('text', currentInfo?.lastname ? currentInfo.lastname : '');
-    const organization = useField('text', currentInfo?.organization ? currentInfo.organization : '');
-    const address = useField('text', currentInfo?.address ? currentInfo.address : '');
-    const zipcode = useField('text', currentInfo?.zipcode ? currentInfo.zipcode : '');
-    const city = useField('text', currentInfo?.city ? currentInfo.city : '');
-    const country = useField('text', currentInfo?.country ? currentInfo.country : '');
-    const email = useField('text', currentInfo?.email ? currentInfo.email : '');
-    const phone = useField('text', currentInfo?.phone ? currentInfo.phone : '');
+const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }: Props) => {
+    const address = useField('text', currentOrder.customerAddress);
+    const city = useField('text', currentOrder.customerCity);
+    const country = useField('text', currentOrder.customerCountry);
+    const email = useField('text', currentOrder.customerEmail);
+    const firstName = useField('text', currentOrder.customerFirstName);
+    const lastName = useField('text', currentOrder.customerLastName);
+    const organization = useField('text', currentOrder.customerOrganization);
+    const phone = useField('text', currentOrder.customerPhone);
+    const zipCode = useField('text', currentOrder.customerZipCode);
 
-    const required: UseField[] = [firstname, lastname, address, zipcode, city, country, email, phone];
+    const required: UseField[] = [address, city, country, email, firstName, lastName, phone, zipCode];
 
     const validateField = (field: UseField, label: string): string | null => {
         if (required.includes(field) && field.value.toString().trim().length < 1) {
@@ -35,20 +35,18 @@ const CheckOutContactInfo = ({ currentInfo, setCustomerInfo, validate, width }: 
     };
 
     useEffect(() => {
-        const contact: Contact = {
-            firstname: firstname.value.toString().trim(),
-            lastname: lastname.value.toString().trim(),
-            organization: organization.value.toString().trim(),
-            address: address.value.toString().trim(),
-            zipcode: zipcode.value.toString().trim(),
-            city: city.value.toString().trim(),
-            country: country.value.toString().trim(),
-            email: email.value.toString().trim(),
-            phone: phone.value.toString().trim(),
-        };
-
-        setCustomerInfo(contact);
-    }, [firstname.value, lastname.value, organization.value, address.value, zipcode.value, city.value, country.value, email.value, phone.value]);
+        setCustomerInfo(
+            address.value.toString().trim(),
+            city.value.toString().trim(),
+            country.value.toString().trim(),
+            email.value.toString().trim(),
+            firstName.value.toString().trim(),
+            lastName.value.toString().trim(),
+            organization.value.toString().trim(),
+            phone.value.toString().trim(),
+            zipCode.value.toString().trim()
+        );
+    }, [address.value, city.value, country.value, email.value, firstName.value, lastName.value, organization.value, phone.value, zipCode.value]);
 
     const inputField = (label: string, field: UseField) => {
         const labelParts: string[] = label.includes('\n') ? label.split('\n') : [label];
@@ -95,11 +93,11 @@ const CheckOutContactInfo = ({ currentInfo, setCustomerInfo, validate, width }: 
             </table>
             <table align='center' width={width}>
                 <tbody>
-                    {inputField('First name', firstname)}
-                    {inputField('Last name', lastname)}
+                    {inputField('First name', firstName)}
+                    {inputField('Last name', lastName)}
                     {inputField('Organization\n(optional)', organization)}
                     {inputField('Street address', address)}
-                    {inputField('Zipcode', zipcode)}
+                    {inputField('Zipcode', zipCode)}
                     {inputField('City', city)}
                     {inputField('Country', country)}
                     {inputField('E-mail', email)}

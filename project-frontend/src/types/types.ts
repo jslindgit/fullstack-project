@@ -33,8 +33,8 @@ export interface ConfigStore {
 }
 
 export enum Currency {
-    EUR = '€',
-    USD = '$',
+    EUR = 'EUR',
+    USD = 'USD',
 }
 
 export interface ImageCategory {

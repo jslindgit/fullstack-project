@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Currency } from '../types/types';
+import { DeliveryMethod, NewOrder, Order } from '../types/orderTypes';
+import { RootState } from '../reducers/rootReducer';
 import { ItemPair } from './ShoppinCart';
-import { Contact, DeliveryMethod, NewOrder, Order, OrderStatus } from '../types/orderTypes';
 
 import { fetchItems } from '../util/checkoutProvider';
-import orderHandler from '../util/orderHandler';
 import { pageWidth } from '../constants';
-import { validateOrder } from '../types/orderTypeFunctions';
+import orderHandler from '../util/orderHandler';
+import { getEmptyOrder, validateOrder } from '../types/orderTypeFunctions';
 
 import BackButton from './BackButton';
 import CheckOutContactInfo from './CheckOutContactInfo';
@@ -16,12 +17,14 @@ import CheckOutDelivery from './CheckOutDelivery';
 import OrderInfo from './OrderInfo';
 
 const CheckOut = () => {
+    const configState = useSelector((state: RootState) => state.config);
+
     const fetchOrder = (): Order | NewOrder => {
         const storedOrder = orderHandler.getOrder();
         if (storedOrder) {
             return storedOrder;
         }
-        return { customer: null, recipient: null, items: [], deliveryMethod: null, paymentMethod: null, status: OrderStatus.PENDING, currency: Currency.EUR };
+        return getEmptyOrder(configState);
     };
 
     const [items, setItems] = useState<ItemPair[]>([]);
@@ -47,8 +50,19 @@ const CheckOut = () => {
         }
     };
 
-    const setCustomerInfo = (info: Contact) => {
-        setOrder({ ...order, customer: info });
+    const setCustomerInfo = (address: string, city: string, country: string, email: string, firstName: string, lastName: string, organization: string, phone: string, zipCode: string) => {
+        setOrder({
+            ...order,
+            customerAddress: address,
+            customerCity: city,
+            customerCountry: country,
+            customerEmail: email,
+            customerFirstName: firstName,
+            customerLastName: lastName,
+            customerPhone: phone,
+            customerZipCode: zipCode,
+            customerOrganization: organization,
+        });
     };
 
     const setDeliveryMethod = (deliveryMethod: DeliveryMethod | null) => {
@@ -89,7 +103,7 @@ const CheckOut = () => {
                     <tr>
                         <td style={{ paddingTop: 0 }}>
                             <CheckOutDelivery currentMethod={order.deliveryMethod} setDeliveryMethod={setDeliveryMethod} validate={validate} width='100%' />
-                            <CheckOutContactInfo currentInfo={order.customer} setCustomerInfo={setCustomerInfo} validate={validate} width='100%' />
+                            <CheckOutContactInfo currentOrder={order} setCustomerInfo={setCustomerInfo} validate={validate} width='100%' />
                         </td>
                         <td width='3rem'></td>
                         <td width='40%' style={{ verticalAlign: 'top', paddingTop: 0 }}>

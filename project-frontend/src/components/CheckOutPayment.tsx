@@ -44,7 +44,7 @@ const CheckOutPayment = () => {
             };
             createPayment();
         }
-    }, []);
+    }, [order]);
 
     if (!order) {
         return (

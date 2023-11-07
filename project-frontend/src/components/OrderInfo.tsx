@@ -51,43 +51,39 @@ const OrderInfo = ({ order }: Props) => {
                                     </tr>
                                     <tr>
                                         <td>
-                                            {order.customer ? (
-                                                <table align='center' width='100%' className='noPadding'>
-                                                    <tbody>
+                                            <table align='center' width='100%' className='noPadding'>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            {order.customerFirstName} {order.customerLastName}
+                                                        </td>
+                                                    </tr>
+                                                    {order.customerOrganization ? (
                                                         <tr>
-                                                            <td>
-                                                                {order.customer.firstname} {order.customer.lastname}
-                                                            </td>
+                                                            <td>{order.customerOrganization}</td>
                                                         </tr>
-                                                        {order.customer.organization ? (
-                                                            <tr>
-                                                                <td>{order.customer.organization}</td>
-                                                            </tr>
-                                                        ) : (
-                                                            ''
-                                                        )}
-                                                        <tr>
-                                                            <td>{order.customer.address}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                {order.customer.zipcode} {order.customer.city}
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>{order.customer.country}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>{order.customer.email}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>{order.customer.phone}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            ) : (
-                                                <>-</>
-                                            )}
+                                                    ) : (
+                                                        ''
+                                                    )}
+                                                    <tr>
+                                                        <td>{order.customerAddress}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            {order.customerZipCode} {order.customerCity}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{order.customerCountry}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{order.customerEmail}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{order.customerPhone}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </td>
                                     </tr>
                                     <tr>

@@ -1,10 +1,11 @@
 import { Model, DataTypes, Optional } from 'sequelize';
 
+import { isNumber, isString } from '../types/type_functions';
 import { sequelize } from '../util/db';
 
 interface OrderAttributes {
     id: number;
-    currency: 'EUR' | 'USD';
+    currency: string;
     customerAddress: string;
     customerCity: string;
     customerCountry: string;
@@ -14,17 +15,18 @@ interface OrderAttributes {
     customerOrganization?: string;
     customerPhone: string;
     customerZipCode: string;
-    deliveryMethod: number;
-    language: 'FI' | 'EN' | 'SE';
-    paymentMethod: number;
+    deliveryMethod: string;
+    language: string;
+    paymentMethod?: string;
     status: string;
     totalAmount: number;
 }
 
-export type NewOrder = Omit<OrderAttributes, 'id'>;
+export type NewOrder = Omit<Omit<OrderAttributes, 'id'>, 'paymentMethod'>;
 
 interface OrderCreationAttributes extends Optional<OrderAttributes, 'id'> {
     customerOrganization?: string;
+    paymentMethod?: string;
 }
 
 export interface OrderInstance extends Model<OrderAttributes, OrderCreationAttributes>, OrderAttributes {}
@@ -81,7 +83,7 @@ const Order = sequelize.define<OrderInstance>(
             allowNull: false,
         },
         deliveryMethod: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         language: {
@@ -89,8 +91,8 @@ const Order = sequelize.define<OrderInstance>(
             allowNull: false,
         },
         paymentMethod: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
+            type: DataTypes.STRING,
+            allowNull: true,
         },
         status: {
             type: DataTypes.STRING,
@@ -107,22 +109,43 @@ const Order = sequelize.define<OrderInstance>(
     }
 );
 
-type NewOrderKeys = keyof NewOrder;
-
-export const isNewOrder = (objToValidate: unknown): objToValidate is NewOrder => {
-    if (typeof objToValidate !== 'object' || objToValidate === null) {
+export const isNewOrder = (obj: unknown): obj is NewOrder => {
+    if (typeof obj !== 'object' || obj === null) {
         return false;
     }
 
-    const keys: NewOrderKeys[] = Object.keys(objToValidate) as NewOrderKeys[];
-
-    for (const key of keys) {
-        if (typeof (objToValidate as NewOrder)[key] === 'undefined') {
-            return false;
-        }
+    if (
+        'currency' in obj &&
+        isString(obj.currency) &&
+        'customerAddress' in obj &&
+        isString(obj.customerAddress) &&
+        'customerCity' in obj &&
+        isString(obj.customerCity) &&
+        'customerCountry' in obj &&
+        isString(obj.customerCountry) &&
+        'customerEmail' in obj &&
+        isString(obj.customerEmail) &&
+        'customerFirstName' in obj &&
+        isString(obj.customerFirstName) &&
+        'customerLastName' in obj &&
+        isString(obj.customerLastName) &&
+        'customerPhone' in obj &&
+        isString(obj.customerPhone) &&
+        'customerZipCode' in obj &&
+        isString(obj.customerZipCode) &&
+        'deliveryMethod' in obj &&
+        isString(obj.deliveryMethod) &&
+        'language' in obj &&
+        isString(obj.language) &&
+        'status' in obj &&
+        isString(obj.status) &&
+        'totalAmount' in obj &&
+        isNumber(obj.totalAmount)
+    ) {
+        return true;
     }
 
-    return true;
+    return false;
 };
 
 export default Order;

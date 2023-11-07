@@ -1,17 +1,5 @@
 import { Currency } from './types';
 
-export interface Contact {
-    firstname: string;
-    lastname: string;
-    organization: string | null;
-    address: string;
-    zipcode: string;
-    city: string;
-    country: string;
-    email: string;
-    phone: string;
-}
-
 export interface DeliveryMethod {
     id: number;
     name: string;
@@ -22,11 +10,19 @@ export interface DeliveryMethod {
 export interface Order {
     id: number;
     currency: Currency;
-    customer: Contact;
+    customerAddress: string;
+    customerCity: string;
+    customerCountry: string;
+    customerEmail: string;
+    customerFirstName: string;
+    customerLastName: string;
+    customerOrganization?: string;
+    customerPhone: string;
+    customerZipCode: string;
     deliveryMethod: DeliveryMethod | null;
     items: ShoppingItem[];
+    language: 'FI' | 'EN' | 'SE';
     paymentMethod: PaymentMethod | null;
-    recipient: Contact | null;
     status: OrderStatus;
 }
 export type NewOrder = Omit<Order, 'id'>;
