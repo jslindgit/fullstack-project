@@ -6,6 +6,11 @@ export const pageWidth = 1024;
 export const defaultConfig: Config = {
     currency: Currency.EUR,
     currencyBeforeSum: false,
+    language: {
+        name: 'Suomi',
+        short: 'FI',
+        paytrailValue: 'FI',
+    },
     owner: {
         businessIdentifier: '1234567-8',
         email: 'owner@unnamedwebstore123.com',

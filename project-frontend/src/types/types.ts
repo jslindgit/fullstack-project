@@ -1,3 +1,5 @@
+import { Language } from './language';
+
 export interface Category {
     id: number;
     name: string;
@@ -9,6 +11,7 @@ export type NewCategory = Omit<Omit<Category, 'id'>, 'items'>;
 export interface Config {
     currency: Currency;
     currencyBeforeSum: boolean;
+    language: Language;
     owner: ConfigOwner;
     paytrail: ConfigPaytrail | null;
     store: ConfigStore;

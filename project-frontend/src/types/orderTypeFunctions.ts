@@ -2,10 +2,10 @@ import { Config } from './types';
 import { NewOrder, Order, OrderStatus, OrderValidationError } from './orderTypes';
 
 import { isValidEmailAddress } from '../util/misc';
+import { orderTotalSum } from '../util/checkoutProvider';
 
-export const getEmptyOrder = (config: Config): NewOrder => {
+export const getEmptyOrder = (): NewOrder => {
     const order: NewOrder = {
-        currency: config.currency,
         customerAddress: '',
         customerCity: '',
         customerCountry: '',
@@ -15,6 +15,7 @@ export const getEmptyOrder = (config: Config): NewOrder => {
         customerOrganization: '',
         customerPhone: '',
         customerZipCode: '',
+        deliveryCost: 0,
         deliveryMethod: null,
         items: [],
         language: 'FI',
@@ -25,8 +26,15 @@ export const getEmptyOrder = (config: Config): NewOrder => {
     return order;
 };
 
-export const orderToRequestBody = (order: NewOrder | Order): object => {
-    return { ...order, deliveryMethdod: order.deliveryMethod?.name };
+export const orderToRequestBody = (order: NewOrder | Order, config: Config): object => {
+    return {
+        ...order,
+        currency: 'EUR',
+        deliveryMethod: order.deliveryMethod?.name,
+        items: JSON.stringify([...order.items, { itemId: 0, name: order.deliveryMethod?.name, price: order.deliveryCost, quantity: 1 }]),
+        language: config.language.paytrailValue,
+        totalAmount: orderTotalSum(order),
+    };
 };
 
 export const validateOrder = (order: NewOrder | Order): OrderValidationError[] => {

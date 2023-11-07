@@ -38,7 +38,7 @@ const CheckOutPayment = () => {
         console.log('order:', order);
         if (order) {
             const createPayment = async () => {
-                const data = await paytrailService.createPayment(order);
+                const data = await paytrailService.createPayment(order, configState);
                 console.log('data:', data);
                 setPaytrailData(data.data);
             };

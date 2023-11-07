@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { DeliveryMethod, NewOrder, Order } from '../types/orderTypes';
-import { RootState } from '../reducers/rootReducer';
 import { ItemPair } from './ShoppinCart';
 
 import { fetchItems } from '../util/checkoutProvider';
@@ -17,14 +15,12 @@ import CheckOutDelivery from './CheckOutDelivery';
 import OrderInfo from './OrderInfo';
 
 const CheckOut = () => {
-    const configState = useSelector((state: RootState) => state.config);
-
     const fetchOrder = (): Order | NewOrder => {
         const storedOrder = orderHandler.getOrder();
         if (storedOrder) {
             return storedOrder;
         }
-        return getEmptyOrder(configState);
+        return getEmptyOrder();
     };
 
     const [items, setItems] = useState<ItemPair[]>([]);
@@ -72,6 +68,10 @@ const CheckOut = () => {
     useEffect(() => {
         fetch();
     }, []);
+
+    useEffect(() => {
+        setOrder({ ...order, deliveryCost: order.deliveryMethod ? order.deliveryMethod.cost : 0 });
+    }, [order.deliveryMethod]);
 
     useEffect(() => {
         setOrder({ ...order, items: items.map((item) => item.shoppingItem) });

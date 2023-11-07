@@ -93,7 +93,7 @@ const OrderInfo = ({ order }: Props) => {
                                         <td>
                                             {order.deliveryMethod ? (
                                                 <>
-                                                    {order.deliveryMethod.name} <b>({format.currency(order.deliveryMethod.cost, configState)})</b>
+                                                    {order.deliveryMethod.name} <b>({format.currency(order.deliveryCost, configState)})</b>
                                                 </>
                                             ) : (
                                                 <>-</>

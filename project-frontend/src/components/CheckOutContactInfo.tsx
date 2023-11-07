@@ -54,7 +54,7 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
 
         return (
             <tr>
-                <td className='widthByContent'>
+                <td className={'widthByContent' + (required.includes(field) ? ' semiBold' : '')}>
                     {labelParts.length > 1 ? (
                         <>
                             {labelParts[0]}

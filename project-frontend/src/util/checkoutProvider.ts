@@ -29,5 +29,5 @@ export const itemsTotalSum = (items: ShoppingItem[]): number => {
 };
 
 export const orderTotalSum = (order: NewOrder | Order): number => {
-    return itemsTotalSum(order.items) + (order.deliveryMethod ? order.deliveryMethod.cost : 0);
+    return itemsTotalSum(order.items) + order.deliveryCost;
 };

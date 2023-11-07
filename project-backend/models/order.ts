@@ -15,7 +15,9 @@ interface OrderAttributes {
     customerOrganization?: string;
     customerPhone: string;
     customerZipCode: string;
+    deliveryCost: number;
     deliveryMethod: string;
+    items: string;
     language: string;
     paymentMethod?: string;
     status: string;
@@ -82,7 +84,15 @@ const Order = sequelize.define<OrderInstance>(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        deliveryCost: {
+            type: DataTypes.DECIMAL,
+            allowNull: false,
+        },
         deliveryMethod: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
+        items: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -133,8 +143,12 @@ export const isNewOrder = (obj: unknown): obj is NewOrder => {
         isString(obj.customerPhone) &&
         'customerZipCode' in obj &&
         isString(obj.customerZipCode) &&
+        'deliveryCost' in obj &&
+        isNumber(obj.deliveryCost) &&
         'deliveryMethod' in obj &&
         isString(obj.deliveryMethod) &&
+        'items' in obj &&
+        isString(obj.items) &&
         'language' in obj &&
         isString(obj.language) &&
         'status' in obj &&

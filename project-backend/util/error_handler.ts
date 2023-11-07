@@ -16,6 +16,6 @@ export const handleError = (err: unknown, calledFrom: string = ''): void => {
         }
     }
 
-    console.log(`error_handler.handleError [${calledFrom}]: errorMessage`);
+    console.error(`error_handler.handleError [${calledFrom}]: errorMessage`);
     throw new Error(errorMessage);
 };

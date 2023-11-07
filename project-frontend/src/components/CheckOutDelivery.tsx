@@ -24,6 +24,7 @@ const CheckOutDelivery = ({ currentMethod, setDeliveryMethod, validate, width }:
                 <tr>
                     <td>
                         <span className='sizeNormal bold'>{m.name}</span>
+                        {selectedMethod?.id === m.id ? <span className='sizeNormal extraBold colorGreen'>&ensp;✔</span> : <></>}
                         <br />
                         <span className='sizeSmallish'>{m.description}</span>
                         <br />

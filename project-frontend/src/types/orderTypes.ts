@@ -1,5 +1,3 @@
-import { Currency } from './types';
-
 export interface DeliveryMethod {
     id: number;
     name: string;
@@ -9,7 +7,6 @@ export interface DeliveryMethod {
 
 export interface Order {
     id: number;
-    currency: Currency;
     customerAddress: string;
     customerCity: string;
     customerCountry: string;
@@ -19,6 +16,7 @@ export interface Order {
     customerOrganization?: string;
     customerPhone: string;
     customerZipCode: string;
+    deliveryCost: number;
     deliveryMethod: DeliveryMethod | null;
     items: ShoppingItem[];
     language: 'FI' | 'EN' | 'SE';
@@ -27,27 +25,8 @@ export interface Order {
 }
 export type NewOrder = Omit<Order, 'id'>;
 
-// For server calls:
-export interface NewOrderAttributes {
-    currency: 'EUR' | 'USD';
-    customerAddress: string;
-    customerCity: string;
-    customerCountry: string;
-    customerEmail: string;
-    customerFirstName: string;
-    customerLastName: string;
-    customerOrganization?: string;
-    customerPhone: string;
-    customerZipCode: string;
-    deliveryMethod: number;
-    language: 'FI' | 'EN' | 'SE';
-    paymentMethod: number;
-    status: string;
-    totalAmount: number;
-}
-
 export enum OrderStatus {
-    PENDING = 'Pending',
+    PENDING = 'Pending payment',
     PROCESSING = 'Processing',
     SHIPPED = 'Shipped',
     DELIVERED = 'Delivered',

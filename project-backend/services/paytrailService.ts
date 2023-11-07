@@ -23,6 +23,7 @@ interface OrderResponse {
 
 const addNew = async (newOrder: NewOrder): Promise<OrderResponse> => {
     try {
+        console.log('newOrder:', newOrder);
         const order = await Order.create(newOrder);
         await order.save();
         return { success: true, message: 'Ok', order: order };
@@ -89,6 +90,15 @@ const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => 
             'checkout-timestamp': timeStamp,
         };
 
+        interface ItemAttributes {
+            itemId: number;
+            name: string;
+            price: number;
+            quantity: number;
+        }
+
+        const items: ItemAttributes[] = JSON.parse(order.items) as ItemAttributes[];
+
         const body = {
             stamp: guidv4(),
             reference: order.id.toString(),
@@ -96,15 +106,12 @@ const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => 
             currency: order.currency,
             language: order.language,
             orderId: order.id.toString(),
-            items: [
-                {
-                    unitPrice: 1525,
-                    units: 1,
-                    vatPercentage: 24,
-                    productCode: '#1234',
-                    deliveryDate: '2018-09-01',
-                },
-            ],
+            items: items.map((item) => ({
+                unitPrice: item.price * 100,
+                units: item.quantity,
+                vatPercentage: 24,
+                productCode: item.itemId.toString(),
+            })),
             customer: {
                 email: order.customerEmail,
                 firstName: order.customerFirstName,
@@ -242,7 +249,6 @@ const testPaymentRequest = async (): Promise<PaytrailResponse> => {
 };
 
 export default {
-    addNew,
     getAll,
     paymentRequest,
     testPaymentRequest,

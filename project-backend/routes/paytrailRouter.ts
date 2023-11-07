@@ -2,6 +2,7 @@ import express, { RequestHandler } from 'express';
 
 import { NewOrder } from '../models/order';
 
+import { handleError } from '../util/error_handler';
 import { errorHandler } from '../middlewares/errors';
 import { isNewOrder } from '../models/order';
 import paytrailService from '../services/paytrailService';
@@ -44,6 +45,7 @@ router.post('/payment', (async (req, res, next) => {
                 res.status(500).json({ error: paytrailResponse.message });
             }
         } else {
+            handleError(new Error('req.body is not a valid NewOrder'));
             res.status(400).end();
         }
     } catch (err) {
