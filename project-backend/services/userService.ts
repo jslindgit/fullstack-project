@@ -77,7 +77,7 @@ const update = async (id: unknown, props: unknown): Promise<User | null> => {
         if (user) {
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
-                    if (key in user) {
+                    if (key in user && key !== 'id') {
                         user.setDataValue(key, props[key as keyof typeof props]);
                     } else {
                         throw new Error(`Invalid property '${key}' for User`);

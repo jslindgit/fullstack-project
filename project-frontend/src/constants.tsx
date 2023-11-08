@@ -1,5 +1,6 @@
 import { Currency, Config } from './types/types';
 
+export const API_KEY = process.env.REACT_APP_API_KEY as string;
 export const apiBaseUrl = 'http://localhost:3001/api';
 export const pageWidth = 1024;
 

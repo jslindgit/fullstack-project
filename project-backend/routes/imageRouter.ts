@@ -6,7 +6,7 @@ import multer from 'multer';
 import { errorHandler } from '../middlewares/errors';
 import { isObject, isString } from '../types/type_functions';
 import service from '../services/imageService';
-import { tokenExtractor } from '../middlewares/token_extractor';
+import { tokenExtractor } from '../middlewares/tokenExtractor';
 
 const storage = multer.diskStorage({
     destination: (req, _file, cb) => {

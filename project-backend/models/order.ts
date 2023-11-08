@@ -3,7 +3,7 @@ import { Model, DataTypes, Optional } from 'sequelize';
 import { isNumber, isString } from '../types/type_functions';
 import { sequelize } from '../util/db';
 
-interface OrderAttributes {
+export interface OrderAttributes {
     id: number;
     currency: string;
     customerAddress: string;

@@ -4,7 +4,7 @@ import { Category, Item } from '../models';
 import { NewItem, NewItem_Category } from '../types/types';
 import { isNumber, isObject, toNewItem_Category } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
-import item_category_service from './item_category_service';
+import item_category_service from './item_categoryService';
 
 const addNew = async (newItem: NewItem, category_id: number | null): Promise<Item | null> => {
     try {
@@ -96,7 +96,7 @@ const update = async (id: unknown, props: unknown): Promise<Item | null> => {
         if (item) {
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
-                    if (key in item) {
+                    if (key in item && key !== 'id') {
                         item.setDataValue(key, props[key as keyof typeof props]);
                     } else {
                         throw new Error(`Invalid property '${key}' for Item`);

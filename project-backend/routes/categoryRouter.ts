@@ -3,9 +3,9 @@ import express from 'express';
 import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
-import service from '../services/category_service';
+import service from '../services/categoryService';
 import { isString, toNewCategory } from '../types/type_functions';
-import { tokenExtractor } from '../middlewares/token_extractor';
+import { tokenExtractor } from '../middlewares/tokenExtractor';
 
 const router = express.Router();
 
@@ -72,7 +72,7 @@ router.put('/:id', tokenExtractor, (async (req, res, next) => {
         if (res.locals.admin === true) {
             const category = await service.update(req.params.id, req.body);
             if (category) {
-                res.status(201).json(category);
+                res.status(200).json(category);
             } else {
                 res.status(404).json({
                     error: `Category with id ${req.params.id} not found`,

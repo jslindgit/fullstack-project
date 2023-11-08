@@ -5,8 +5,8 @@ import { RequestHandler } from 'express';
 import { isNumber, isObject, isString, toNewItem } from '../types/type_functions';
 
 import { errorHandler } from '../middlewares/errors';
-import { tokenExtractor } from '../middlewares/token_extractor';
-import service from '../services/item_service';
+import { tokenExtractor } from '../middlewares/tokenExtractor';
+import service from '../services/itemService';
 
 const router = express.Router();
 
@@ -78,7 +78,7 @@ router.put('/:id', tokenExtractor, (async (req, res, next) => {
         if (res.locals.admin === true) {
             const item = await service.update(req.params.id, req.body);
             if (item) {
-                res.status(201).json(item);
+                res.status(200).json(item);
                 return;
             } else {
                 res.status(404).json({

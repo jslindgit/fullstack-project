@@ -86,7 +86,7 @@ const update = async (item: Item, token: string, dispatch: Dispatch<AnyAction>):
             await initializeCategories(dispatch);
             return { success: true, message: `Item ${data.name} updated`, item: data };
         } else {
-            handleError('Server did not return an Item object');
+            handleError(new Error('Server did not return an Item object'));
             return { success: false, message: 'Something went wrong, try again later', item: null };
         }
     } catch (err: unknown) {

@@ -1,17 +1,28 @@
-import { AxiosError } from 'axios';
+import axios from 'axios';
 
-export const handleError = (err: unknown, additionalInfo: string = ''): void => {
+export const handleError = (error: unknown): void => {
     console.trace();
 
-    let errorMessage = 'Something went wrong.';
-    if (err instanceof Error) {
-        errorMessage = `${err.name}: ${err.message}`;
-
-        if (err instanceof AxiosError) {
-            errorMessage += ` (AxiosError.Status: ${err.response?.status}: "${err.response?.data.error}")`;
+    if (axios.isAxiosError(error)) {
+        console.error('Axios error.');
+        if (error.response) {
+            console.error('error.response.data:', error.response.data);
+            console.error('error.response.status:', error.response.status);
+            console.error('error.response.headers:', error.response.headers);
+        } else if (error.request) {
+            console.error('error.request:', error.request);
+        } else {
+            console.error('error.message:', error.message);
         }
+    } else {
+        console.error('Non-Axios Error:', error);
     }
 
-    console.error(`error_handler.handleError [${additionalInfo}]: ${errorMessage}`);
-    //throw new Error(errorMessage);
+    let errorMessage = 'Something went wrong.';
+    if (error instanceof Error) {
+        errorMessage = error.name + ': ' + error.message;
+    }
+
+    console.error(`error_handler.handleError: ${errorMessage}`);
+    throw new Error(errorMessage);
 };

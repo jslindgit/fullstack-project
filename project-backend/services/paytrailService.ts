@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { Op } from 'sequelize';
 
-import Order, { NewOrder, OrderInstance } from '../models/order';
+import { NewOrder } from '../models/order';
 
 import { calculateHmac, guidv4, TEST_ACCOUNT, TEST_SECRET } from '../util/paytrailProvider';
 import { handleError } from '../util/error_handler';
 import { isObject } from '../types/type_functions';
+import orderService from './orderService';
 
 const API_ENDPOINT = 'https://services.paytrail.com';
 
@@ -15,64 +15,9 @@ interface PaytrailResponse {
     data: object;
 }
 
-interface OrderResponse {
-    success: boolean;
-    message: string;
-    order: OrderInstance | null;
-}
-
-const addNew = async (newOrder: NewOrder): Promise<OrderResponse> => {
-    try {
-        console.log('newOrder:', newOrder);
-        const order = await Order.create(newOrder);
-        await order.save();
-        return { success: true, message: 'Ok', order: order };
-    } catch (err: unknown) {
-        handleError(err);
-        return { success: false, message: 'Error occurred' + (err instanceof Error ? ': ' + err.message : ''), order: null };
-    }
-};
-
-const getAll = async (searchQuery: string = ''): Promise<OrderInstance[]> => {
-    try {
-        let where = {};
-        if (searchQuery && searchQuery.length > 0) {
-            where = {
-                [Op.or]: [
-                    {
-                        id: {
-                            [Op.iLike]: `%${searchQuery}%`,
-                        },
-                    },
-                    {
-                        customerFirstName: {
-                            [Op.iLike]: `%${searchQuery}%`,
-                        },
-                    },
-                    {
-                        customerLastName: {
-                            [Op.iLike]: `%${searchQuery}%`,
-                        },
-                    },
-                ],
-            };
-        }
-
-        const orders = await Order.findAll({
-            where,
-            order: [['created_at', 'DESC']],
-        });
-
-        return orders;
-    } catch (err: unknown) {
-        handleError(err);
-        return [];
-    }
-};
-
 const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => {
     try {
-        const orderResponse = await addNew(newOrder);
+        const orderResponse = await orderService.addNew(newOrder);
 
         if (!orderResponse.success || !orderResponse.order) {
             return { success: false, message: orderResponse.message, data: {} };
@@ -146,19 +91,8 @@ const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => 
             return { success: false, data: {}, message: 'Something went wrong' };
         }
     } catch (error: unknown) {
-        if (axios.isAxiosError(error)) {
-            if (error.response) {
-                console.error('error.response.data:', error.response.data);
-                console.error('error.response.status:', error.response.status);
-                console.error('error.response.headers:', error.response.headers);
-            } else if (error.request) {
-                console.error('error.request:', error.request);
-            } else {
-                console.error('error.message:', error.message);
-            }
-        } else {
-            console.error('Non-Axios Error:', error);
-        }
+        handleError(error);
+
         return {
             success: false,
             data: {},
@@ -249,7 +183,6 @@ const testPaymentRequest = async (): Promise<PaytrailResponse> => {
 };
 
 export default {
-    getAll,
     paymentRequest,
     testPaymentRequest,
 };

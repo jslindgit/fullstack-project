@@ -10,6 +10,7 @@ import imageRouter from './routes/imageRouter';
 import item_categoryRouter from './routes/item_categoryRouter';
 import itemRouter from './routes/itemRouter';
 import loginRouter from './routes/loginRouter';
+import orderRouter from './routes/orderRouter';
 import paytrailRouter from './routes/paytrailRouter';
 import userRouter from './routes/userRouter';
 
@@ -38,6 +39,7 @@ app.use('/api/images', imageRouter);
 app.use('/api/items', itemRouter);
 app.use('/api/item_categories', item_categoryRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/orders', orderRouter);
 app.use('/api/paytrail', paytrailRouter);
 app.use('/api/users', userRouter);
 

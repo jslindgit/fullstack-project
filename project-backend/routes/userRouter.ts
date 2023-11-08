@@ -5,8 +5,8 @@ import { RequestHandler } from 'express';
 import { isNumber, isString, toNewUser } from '../types/type_functions';
 
 import { errorHandler } from '../middlewares/errors';
-import service from '../services/user_service';
-import { tokenExtractor } from '../middlewares/token_extractor';
+import service from '../services/userService';
+import { tokenExtractor } from '../middlewares/tokenExtractor';
 
 const router = express.Router();
 
@@ -59,7 +59,7 @@ router.get('/:id', tokenExtractor, (async (req, res, next) => {
     try {
         const user = await service.getById(req.params.id);
         if (user) {
-            res.json(user);
+            res.status(200).json(user);
         } else {
             res.status(404).json({
                 error: `User with id ${req.params.id} not found`,
@@ -90,7 +90,7 @@ router.put('/:id', tokenExtractor, (async (req, res, next) => {
         if (res.locals.admin === true) {
             const user = await service.update(req.params.id, req.body);
             if (user) {
-                res.json(user);
+                res.status(200).json(user);
             } else {
                 res.status(404).json({
                     error: `User with id ${req.params.id} not found`,

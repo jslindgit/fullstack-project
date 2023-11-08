@@ -2,10 +2,10 @@ import express from 'express';
 import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
-import { tokenExtractor } from '../middlewares/token_extractor';
+import { tokenExtractor } from '../middlewares/tokenExtractor';
 import { isBoolean, isObject, isString, toCredentials } from '../types/type_functions';
-import { LoginError, LogoutResult } from '../services/login_service';
-import service from '../services/login_service';
+import { LoginError, LogoutResult } from '../services/loginService';
+import service from '../services/loginService';
 
 const router = express.Router();
 

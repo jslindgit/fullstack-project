@@ -78,7 +78,7 @@ const update = async (category: Category, token: string, dispatch: Dispatch<AnyA
             await initializeCategories(dispatch);
             return { success: true, message: `Category "${data.name}" updated`, addedCategory: data };
         } else {
-            handleError('Server did not return a Category object');
+            handleError(new Error('Server did not return a Category object'));
             return { success: false, message: 'Something went wrong, try again later', addedCategory: null };
         }
     } catch (err: unknown) {

@@ -3,9 +3,9 @@ import express from 'express';
 import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
-import service from '../services/item_category_service';
+import service from '../services/item_categoryService';
 import { isObject, toNewItem_Category } from '../types/type_functions';
-import { tokenExtractor } from '../middlewares/token_extractor';
+import { tokenExtractor } from '../middlewares/tokenExtractor';
 
 const router = express.Router();
 
