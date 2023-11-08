@@ -65,5 +65,6 @@
 |        | 2    | Paytrail-integraation työstöä                                                                                        | 120 |
 | 7.11.  | 2    | Paytrail-integraation työstöä                                                                                        |     |
 |        | 3    | Paytrail-integraation työstöä                                                                                        |     |
-| 8.11.  | 2    | Parempi virheenkäsittely, lisää servicejä/routeja tilaustenkäsittelyyn                                               |     |
-|  yht   | 127  |                                                                                                                      |     |
+| 8.11.  | 2    | Parempi virheenkäsittely, lisää servicejä/routeja tilauskäsittelyyn                                                  |     |
+|        | 3    | Tilauskäsittelyn työstöä                                                                                             | 130 |
+|  yht   | 130  |                                                                                                                      |     |

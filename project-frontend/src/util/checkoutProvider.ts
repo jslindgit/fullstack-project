@@ -6,22 +6,29 @@ import itemService from '../services/itemService';
 import localstorageHandler from './localstorageHandler';
 
 export const fetchItems = async (): Promise<ItemPair[]> => {
-    const shoppingItems = localstorageHandler.getShoppingCart();
+    try {
+        const shoppingItems = localstorageHandler.getShoppingCart();
 
-    const itemPromises = shoppingItems.map(async (si) => {
-        const item = await itemService.getById(si.itemId);
-        if (item) {
-            return { shoppingItem: si, item: item };
-        } else {
-            handleError(new Error(`Failed to fetch an Item with id ${si.itemId}!`));
-            return null;
-        }
-    });
+        const itemPromises = shoppingItems.map(async (si) => {
+            const item = await itemService.getById(si.id);
+            if (item) {
+                return { shoppingItem: si, item: item };
+            } else {
+                handleError(new Error(`Failed to fetch an Item with id ${si.id}!`));
+                return null;
+            }
+        });
 
-    const resolvedItemPairs = await Promise.all(itemPromises);
-    const filteredItemPairs = resolvedItemPairs.filter((pair) => pair !== null) as ItemPair[];
+        const resolvedItemPairs = await Promise.all(itemPromises);
+        const filteredItemPairs = resolvedItemPairs.filter((pair) => pair !== null) as ItemPair[];
 
-    return filteredItemPairs;
+        return filteredItemPairs;
+    } catch (err) {
+        console.log('Clearing shoppingcart...');
+        localstorageHandler.clearShoppingCart();
+        handleError(err);
+        return [];
+    }
 };
 
 export const itemsTotalSum = (items: ShoppingItem[]): number => {
@@ -29,5 +36,5 @@ export const itemsTotalSum = (items: ShoppingItem[]): number => {
 };
 
 export const orderTotalSum = (order: NewOrder | Order): number => {
-    return itemsTotalSum(order.items) + order.deliveryCost;
+    return itemsTotalSum(order.items) + Number(order.deliveryCost);
 };

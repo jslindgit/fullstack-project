@@ -46,7 +46,7 @@ const ShoppingCartContent = ({ allowEdit, fetchItems, items, removeItem, width }
                         </tr>
                         {items.map((itemPair) => (
                             <ShoppingCartRow
-                                key={itemPair.shoppingItem.itemId}
+                                key={itemPair.shoppingItem.id}
                                 item={itemPair.item}
                                 shoppingItem={itemPair.shoppingItem}
                                 indexOf={items.indexOf(itemPair)}

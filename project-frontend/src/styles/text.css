@@ -117,6 +117,7 @@ h4 {
     color: var(--colorGray);
     padding: 0 !important;
     padding-top: 1rem !important;
+    text-transform: uppercase;
 }
 
 .infoText {

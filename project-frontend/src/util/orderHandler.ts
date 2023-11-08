@@ -8,8 +8,12 @@ const getOrder = (): Order | NewOrder | null => {
     return null;
 };
 
-const setOrder = (order: Order | NewOrder) => {
-    localStorage.setItem('order', JSON.stringify(order));
+const setOrder = (order: Order | NewOrder | null) => {
+    if (order) {
+        localStorage.setItem('order', JSON.stringify(order));
+    } else {
+        localStorage.removeItem('order');
+    }
 };
 
 export default {

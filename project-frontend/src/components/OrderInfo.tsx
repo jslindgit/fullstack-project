@@ -109,7 +109,7 @@ const OrderInfo = ({ order }: Props) => {
                                     )}
                                     {order.paymentMethod ? (
                                         <tr>
-                                            <td>{order.paymentMethod ? <>{order.paymentMethod.name}</> : <>-</>}</td>
+                                            <td className='capitalize'>{order.paymentMethod}</td>
                                         </tr>
                                     ) : (
                                         ''
@@ -120,7 +120,7 @@ const OrderInfo = ({ order }: Props) => {
                                     <tr>
                                         <td>
                                             {order.items.map((si) => (
-                                                <div key={si.itemId}>
+                                                <div key={si.id}>
                                                     {si.name} &nbsp; ({si.quantity} pcs) &nbsp; <b>{format.currency(si.price * si.quantity, configState)}</b>
                                                 </div>
                                             ))}

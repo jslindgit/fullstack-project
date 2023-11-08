@@ -35,7 +35,6 @@ const CheckOutPayment = () => {
     }, [navigate]);
 
     useEffect(() => {
-        console.log('order:', order);
         if (order) {
             const createPayment = async () => {
                 const data = await paytrailService.createPayment(order, configState);

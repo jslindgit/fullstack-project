@@ -93,7 +93,7 @@ const CheckOut = () => {
                 <tbody>
                     <tr>
                         <td>
-                            <h3 className='underlined'>Check out</h3>
+                            <h3 className='underlined'>Check Out</h3>
                         </td>
                     </tr>
                 </tbody>

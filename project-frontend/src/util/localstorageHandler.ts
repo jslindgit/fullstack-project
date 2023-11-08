@@ -15,12 +15,12 @@ const setPreviousLocation = (location: string): void => {
 const addToShoppingCart = (item: Item, quantity: number) => {
     const cart = getShoppingCart();
 
-    const existingIndex = cart.findIndex((existing) => existing.itemId === item.id);
+    const existingIndex = cart.findIndex((existing) => existing.id === item.id);
 
     if (existingIndex !== -1) {
         cart[existingIndex].quantity += quantity;
     } else {
-        cart.push({ itemId: item.id, name: item.name, price: item.price, quantity: quantity });
+        cart.push({ id: item.id, name: item.name, price: item.price, quantity: quantity });
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));

@@ -35,7 +35,7 @@ const Info = () => {
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td className='noPadding' style={{ verticalAlign: 'top' }}>
+                            <td className='noPadding'>
                                 <table align='left'>
                                     <tbody>
                                         <tr>

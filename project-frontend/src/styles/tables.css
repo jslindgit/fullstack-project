@@ -6,6 +6,7 @@ th,
 td {
     padding: var(--default-padding);
     text-align: left;
+    vertical-align: top;
     /*border: 1px solid red !important;*/
 }
 td:first-child {

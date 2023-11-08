@@ -35,14 +35,14 @@ const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => 
             'checkout-timestamp': timeStamp,
         };
 
-        interface ItemAttributes {
-            itemId: number;
+        interface ShoppingItem {
+            id: number;
             name: string;
             price: number;
             quantity: number;
         }
 
-        const items: ItemAttributes[] = JSON.parse(order.items) as ItemAttributes[];
+        const items: ShoppingItem[] = JSON.parse(order.items) as ShoppingItem[];
 
         const body = {
             stamp: guidv4(),
@@ -55,7 +55,7 @@ const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => 
                 unitPrice: item.price * 100,
                 units: item.quantity,
                 vatPercentage: 24,
-                productCode: item.itemId.toString(),
+                productCode: item.id.toString(),
             })),
             customer: {
                 email: order.customerEmail,

@@ -20,7 +20,7 @@ export interface Order {
     deliveryMethod: DeliveryMethod | null;
     items: ShoppingItem[];
     language: 'FI' | 'EN' | 'SE';
-    paymentMethod: PaymentMethod | null;
+    paymentMethod: string | null;
     status: OrderStatus;
 }
 export type NewOrder = Omit<Order, 'id'>;
@@ -42,12 +42,6 @@ export enum OrderValidationError {
     LackingRequiredCustomerInfo = 'Required customer information missing',
 }
 
-export interface PaymentMethod {
-    id: number;
-    name: string;
-    description: string;
-}
-
 export interface PaytrailData {
     providers: PaytrailProvider[];
     terms: string;
@@ -66,7 +60,7 @@ export interface ShoppingCartStatus {
 }
 
 export interface ShoppingItem {
-    itemId: number;
+    id: number;
     name: string;
     price: number;
     quantity: number;
