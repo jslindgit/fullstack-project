@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 
 import { isValidEmailAddress } from '../util/misc';
 import { orderTotalSum } from '../util/checkoutProvider';
-import { isString } from './typeFunctions';
+import { isObject, isString } from './typeFunctions';
 
 export const getEmptyOrder = (): NewOrder => {
     const order: NewOrder = {
@@ -26,6 +26,26 @@ export const getEmptyOrder = (): NewOrder => {
     };
 
     return order;
+};
+
+export const isOrderOrNewOrder = (obj: unknown): obj is Order | NewOrder => {
+    return (
+        isObject(obj) &&
+        'customerAddress' in obj &&
+        'customerCity' in obj &&
+        'customerCountry' in obj &&
+        'customerEmail' in obj &&
+        'customerFirstName' in obj &&
+        'customerLastName' in obj &&
+        'customerPhone' in obj &&
+        'customerZipCode' in obj &&
+        'deliveryCost' in obj &&
+        'deliveryMethod' in obj &&
+        'items' in obj &&
+        'language' in obj &&
+        'paymentMethod' in obj &&
+        'status' in obj
+    );
 };
 
 export const orderToRequestBody = (order: NewOrder | Order, config: Config): object => {

@@ -10,11 +10,11 @@ import crypto from 'crypto';
  * @param {object} params Headers or query string parameters
  * @param {object|undefined} body Request body or empty string for GET requests
  */
-type Params = {
+export type CheckoutParams = {
     [key: string]: string;
 };
 
-export const calculateHmac = (secret: string, params: Params, body: object | undefined) => {
+export const calculateHmac = (secret: string, params: CheckoutParams, body: object | undefined) => {
     const hmacPayload = Object.keys(params)
         .sort()
         .map((key) => [key, params[key]].join(':'))

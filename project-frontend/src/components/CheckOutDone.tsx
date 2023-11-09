@@ -1,14 +1,3 @@
-/* https://tempurlfullstack.com/success
-?checkout-account=375917
-&checkout-algorithm=sha256
-&checkout-amount=10900
-&checkout-stamp=0370de79-12c1-44b1-96b0-8d3956b7e5ed
-&checkout-reference=3
-&checkout-status=ok
-&checkout-provider=nordea
-&checkout-transaction-id=b329c092-7dbc-11ee-a9ea-33ade29af196
-&signature=af7796712d74488a5f593e91c931a9c1cb321ecb8f2c15e68555ac6c3d99f568
-*/
 import { useSearchParams } from 'react-router-dom';
 
 import { useEffect, useState } from 'react';
@@ -18,12 +7,20 @@ import { Order, OrderStatus } from '../types/orderTypes';
 import { pageWidth } from '../constants';
 //import orderHandler from '../util/orderHandler';
 import orderService from '../services/orderService';
+import paytrailService from '../services/paytrailService';
 
 import BackButton from './BackButton';
 import OrderInfo from './OrderInfo';
 
+enum SignatureStatus {
+    INVALID,
+    PENDING,
+    VALID,
+}
+
 const CheckOutDone = () => {
     const [order, setOrder] = useState<Order | null>(null);
+    const [signatureStatus, setSignatureStatus] = useState<SignatureStatus>(SignatureStatus.PENDING);
 
     const [searchparams] = useSearchParams();
 
@@ -43,18 +40,41 @@ const CheckOutDone = () => {
     }, [searchparams]);
 
     useEffect(() => {
-        if (order && order.status === OrderStatus.PENDING) {
-            const updateOrderStatus = async () => {
-                const paymentMethod = searchparams.get('checkout-provider') as string;
-                const orderResponse = await orderService.update(order.id, { paymentMethod: paymentMethod, status: OrderStatus.PROCESSING });
-                if (orderResponse.success && orderResponse.order) {
-                    setOrder(orderResponse.order);
-                }
+        if (order && signatureStatus === SignatureStatus.PENDING) {
+            // Check that the returned 'signature' is valid:
+            const isValidSignature = async () => {
+                const res = await paytrailService.validateSignatureFromUrl(window.location.href);
+                setSignatureStatus(res.success ? SignatureStatus.VALID : SignatureStatus.INVALID);
             };
-
-            updateOrderStatus();
+            isValidSignature();
         }
-    });
+    }, [order]);
+
+    useEffect(() => {
+        if (order && order.status === OrderStatus.PENDING) {
+            if (signatureStatus === SignatureStatus.VALID) {
+                const updateOrderStatus = async () => {
+                    const paymentMethod = searchparams.get('checkout-provider') as string;
+                    const orderResponse = await orderService.update(order.id, { paymentMethod: paymentMethod, status: OrderStatus.PROCESSING });
+                    if (orderResponse.success && orderResponse.order) {
+                        setOrder(orderResponse.order);
+                    }
+                };
+
+                updateOrderStatus();
+            } else {
+                // TODO: signature mismatch - do something?
+            }
+        }
+    }, [order, searchparams, signatureStatus]);
+
+    const signatureNotValid = (): JSX.Element => {
+        if (signatureStatus === SignatureStatus.INVALID) {
+            return <>Error: Signature mismatch. Please contact support.</>;
+        } else {
+            return <>Loading...</>;
+        }
+    };
 
     return (
         <div>
@@ -75,8 +95,14 @@ const CheckOutDone = () => {
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h2>Thank you!</h2>
-                                            Your order has been received and is being processed for delivery.
+                                            {signatureStatus === SignatureStatus.VALID ? (
+                                                <>
+                                                    <h2>Thank you!</h2>
+                                                    Your order has been received and is being processed for delivery.
+                                                </>
+                                            ) : (
+                                                <>{signatureNotValid()}</>
+                                            )}
                                         </td>
                                     </tr>
                                     <tr>

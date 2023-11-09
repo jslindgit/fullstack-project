@@ -1,0 +1,6 @@
+POST http://localhost:3001/api/paytrail/validate
+Content-Type: application/json
+
+{
+	"url": "https://tempurlfullstack.com/success?checkout-account=375917&checkout-algorithm=sha256&checkout-amount=10900&checkout-stamp=0370de79-12c1-44b1-96b0-8d3956b7e5ed&checkout-reference=3&checkout-status=ok&checkout-provider=nordea&checkout-transaction-id=b329c092-7dbc-11ee-a9ea-33ade29af196&signature=af7796712d74488a5f593e91c931a9c1cb321ecb8f2c15e68555ac6c3d99f568"
+}

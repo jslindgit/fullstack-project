@@ -1,9 +1,16 @@
 import { NewOrder, Order } from '../types/orderTypes';
 
+import { isOrderOrNewOrder } from '../types/orderTypeFunctions';
+
 const getOrder = (): Order | NewOrder | null => {
     const order = localStorage.getItem('order');
     if (order) {
-        return JSON.parse(order);
+        const orderObj = JSON.parse(order);
+        if (isOrderOrNewOrder(orderObj)) {
+            return orderObj;
+        } else {
+            localStorage.removeItem('order');
+        }
     }
     return null;
 };

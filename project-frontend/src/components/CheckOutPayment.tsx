@@ -22,6 +22,7 @@ const CheckOutPayment = () => {
 
     const [order, setOrder] = useState<NewOrder | Order | null>(null);
     const [paytrailData, setPaytrailData] = useState<PaytrailData | null>(null);
+    const [attemptedToFetchPaytrailData, setAttemptedToFetchPaytrailData] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -38,8 +39,8 @@ const CheckOutPayment = () => {
         if (order) {
             const createPayment = async () => {
                 const data = await paytrailService.createPayment(order, configState);
-                console.log('data:', data);
                 setPaytrailData(data.data);
+                setAttemptedToFetchPaytrailData(true);
             };
             createPayment();
         }
@@ -76,10 +77,16 @@ const CheckOutPayment = () => {
         responseToHtml(paytrailData)
     ) : (
         <div className='semiBold sizeLarge'>
-            Something went wrong.
-            <br />
-            <br />
-            Please <Link to='/info'>contact us</Link> or try again later.
+            {attemptedToFetchPaytrailData ? (
+                <>
+                    Something went wrong.
+                    <br />
+                    <br />
+                    Please <Link to='/info'>contact us</Link> or try again later.
+                </>
+            ) : (
+                <>Loading...</>
+            )}
         </div>
     );
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { CheckoutParams } from '../util/paytrailProvider';
 import { NewOrder } from '../models/order';
 
 import { calculateHmac, guidv4, TEST_ACCOUNT, TEST_SECRET } from '../util/paytrailProvider';
@@ -27,7 +28,7 @@ const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => 
 
         const timeStamp = new Date().toISOString();
 
-        const headersForHmac = {
+        const headersForHmac: CheckoutParams = {
             'checkout-account': TEST_ACCOUNT,
             'checkout-algorithm': 'sha256',
             'checkout-method': 'POST',
@@ -103,6 +104,25 @@ const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => 
                     : ''),
         };
     }
+};
+
+const validateSignatureFromUrl = (url: string) => {
+    const urlObject = new URL(url);
+    const params = new URLSearchParams(urlObject.search);
+    const checkoutParams: CheckoutParams = {};
+
+    params.forEach((value, key) => {
+        if (key.startsWith('checkout-')) {
+            checkoutParams[key] = value;
+        }
+    });
+
+    const hmac = calculateHmac(TEST_SECRET, checkoutParams, undefined);
+
+    console.log('hmac:', hmac);
+    console.log('usig:', params.get('signature'));
+
+    return hmac === params.get('signature');
 };
 
 const testPaymentRequest = async (): Promise<PaytrailResponse> => {
@@ -185,4 +205,5 @@ const testPaymentRequest = async (): Promise<PaytrailResponse> => {
 export default {
     paymentRequest,
     testPaymentRequest,
+    validateSignatureFromUrl,
 };

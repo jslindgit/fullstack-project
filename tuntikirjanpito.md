@@ -67,4 +67,5 @@
 |        | 3    | Paytrail-integraation työstöä                                                                                        |     |
 | 8.11.  | 2    | Parempi virheenkäsittely, lisää servicejä/routeja tilauskäsittelyyn                                                  |     |
 |        | 3    | Tilauskäsittelyn työstöä                                                                                             | 130 |
-|  yht   | 130  |                                                                                                                      |     |
+| 9.11.  | 2    | Onnistuneen Paytrail-maksun validointi                                                                               |     |
+|  yht   | 132  |                                                                                                                      |     |

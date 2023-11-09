@@ -4,6 +4,7 @@ import { NewOrder, Order, PaytrailData } from '../types/orderTypes';
 import { Config, Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
+import { apiKeyConfig } from '../util/serviceProvider';
 import { handleError } from '../util/handleError';
 import { orderToRequestBody } from '../types/orderTypeFunctions';
 
@@ -43,7 +44,19 @@ const createTestPayment = async (): Promise<PaytrailResponse> => {
     }
 };
 
+const validateSignatureFromUrl = async (returnUrl: string): Promise<Response> => {
+    try {
+        const res = await axios.post(url + '/validate', { url: returnUrl }, apiKeyConfig());
+
+        return { success: res.status === 200, message: res.data.message };
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: 'Error occurred' };
+    }
+};
+
 export default {
     createPayment,
     createTestPayment,
+    validateSignatureFromUrl,
 };
