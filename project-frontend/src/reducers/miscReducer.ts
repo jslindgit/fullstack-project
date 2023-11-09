@@ -26,8 +26,8 @@ const slice = createSlice({
         setLoaded(state: MiscState, action: PayloadAction<boolean>) {
             state.loaded = action.payload;
         },
-        setNotification(state: MiscState, action: PayloadAction<NewNotification>) {
-            state.notification = { ...action.payload, renders: 1 };
+        setNotification(state: MiscState, action: PayloadAction<NewNotification | null>) {
+            state.notification = action.payload ? { ...action.payload, renders: 1 } : null;
         },
         tickNotification(state: MiscState, _action: PayloadAction) {
             if (state.notification) {

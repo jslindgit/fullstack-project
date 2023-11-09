@@ -12,6 +12,9 @@ const AdminMenu = () => {
                             <Link to={baseUrl}>Panel</Link>
                         </td>
                         <td>
+                            <Link to={baseUrl + 'orders'}>Orders</Link>
+                        </td>
+                        <td>
                             <Link to={baseUrl + 'categories'}>Categories</Link>
                         </td>
                         <td>

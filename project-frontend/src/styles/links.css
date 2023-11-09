@@ -1,6 +1,7 @@
 a {
     font-weight: 500;
     color: var(--colorGold);
+    cursor: pointer;
     text-decoration: inherit;
 }
 a:hover {

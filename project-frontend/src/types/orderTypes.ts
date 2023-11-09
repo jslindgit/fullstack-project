@@ -7,6 +7,7 @@ export interface DeliveryMethod {
 
 export interface Order {
     id: number;
+    createdAt: string;
     customerAddress: string;
     customerCity: string;
     customerCountry: string;
@@ -22,8 +23,9 @@ export interface Order {
     language: 'FI' | 'EN' | 'SE';
     paymentMethod: string | null;
     status: OrderStatus;
+    totalAmount: number;
 }
-export type NewOrder = Omit<Order, 'id'>;
+export type NewOrder = Omit<Omit<Omit<Order, 'id'>, 'createdAt'>, 'totalAmount'>;
 
 export enum OrderStatus {
     PENDING = 'Pending payment',

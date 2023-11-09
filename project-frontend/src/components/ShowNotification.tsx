@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/rootReducer';
+
+import { setNotification } from '../reducers/miscReducer';
 
 interface Props {
     fontSize?: 'Big' | 'Small';
@@ -12,6 +14,12 @@ const ShowNotification = ({ fontSize = 'Big' }: Props) => {
     const notification = miscState.notification;
 
     const [isActive, setIsActive] = useState<boolean>(false);
+
+    const dispatch = useDispatch();
+
+    const close = () => {
+        dispatch(setNotification(null));
+    };
 
     useEffect(() => {
         if (notification && notification !== null) {
@@ -39,11 +47,17 @@ const ShowNotification = ({ fontSize = 'Big' }: Props) => {
 
         return (
             <div className={classNames}>
-                <table align='center'>
+                <table align='center' width='100%'>
                     <tbody>
                         <tr>
-                            <td>
+                            <td width='40px'></td>
+                            <td className='centered'>
                                 <span>{notification.message}</span>
+                            </td>
+                            <td width='40px' className='bold centered'>
+                                <a onClick={() => close()} style={{ textDecorationLine: 'none' }}>
+                                    x
+                                </a>
                             </td>
                         </tr>
                     </tbody>

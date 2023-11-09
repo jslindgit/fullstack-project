@@ -14,12 +14,13 @@ interface OrderResponse extends Response {
     order: Order | null;
 }
 
-const getAll = async () => {
+const getAll = async (): Promise<Order[]> => {
     try {
         const { data } = await axios.get<Order[]>(url);
         return data;
     } catch (err: unknown) {
         handleError(err);
+        return [];
     }
 };
 

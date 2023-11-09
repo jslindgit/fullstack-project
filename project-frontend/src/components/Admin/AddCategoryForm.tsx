@@ -42,7 +42,7 @@ const AddCategoryForm = ({ user }: Props) => {
         const newCategory = toNewCategory({ name: name.value, description: description.value });
         const res = await categoryService.add(newCategory, user.token, dispatch);
 
-        dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+        dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: <>{res.message}</> }));
 
         name.reset();
         description.reset();

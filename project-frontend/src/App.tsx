@@ -106,8 +106,8 @@ const App = () => {
                 <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='/admin' element={adminPage(<AdminPanel />)} />
-                    <Route path='/admin/editcategory/:id' element={<AdminCategoryEdit />} />
-                    <Route path='/admin/edititem/:id' element={<AdminItemEdit />} />
+                    <Route path='/admin/editcategory/:id' element={adminPage(<AdminCategoryEdit />)} />
+                    <Route path='/admin/edititem/:id' element={adminPage(<AdminItemEdit />)} />
                     <Route path='/admin/:page' element={adminPage(<AdminPanel />)} />
                     <Route path='/cart' element={<ShoppingCart />} />
                     <Route path='/checkout' element={<CheckOut />} />

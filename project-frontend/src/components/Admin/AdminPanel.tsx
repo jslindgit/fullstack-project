@@ -9,6 +9,7 @@ import AdminCategories from './AdminCategories';
 import AdminImages from './AdminImages';
 import AdminItems from './AdminItems';
 import AdminMenu from './AdminMenu';
+import AdminOrders from './AdminOrders';
 import AdminSettings from './AdminSettings';
 import AdminUsers from './AdminUsers';
 
@@ -25,6 +26,8 @@ const AdminPanel = () => {
                 return <AdminItems />;
             case 'images':
                 return <AdminImages />;
+            case 'orders':
+                return <AdminOrders />;
             case 'settings':
                 return <AdminSettings />;
             case 'users':

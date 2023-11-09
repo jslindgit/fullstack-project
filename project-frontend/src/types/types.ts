@@ -63,7 +63,7 @@ export interface LoginResponse {
 
 export interface Notification {
     tone: 'Positive' | 'Neutral' | 'Negative';
-    message: string;
+    message: JSX.Element;
     renders: number;
 }
 export type NewNotification = Omit<Notification, 'renders'>;

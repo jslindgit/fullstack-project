@@ -34,6 +34,12 @@
     justify-content: center;
 }
 
+.orderItem {
+    background-color: var(--colorGrayVeryLight);
+    outline: 2px solid black;
+    padding-left: 2rem;
+}
+
 .paymentMethodSelection {
     border-radius: 0 !important;
     border: 0.5rem solid var(--colorGrayLight);

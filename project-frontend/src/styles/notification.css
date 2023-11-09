@@ -1,18 +1,17 @@
 .notification {
     border: 2px solid;
-    border-top: 2px solid;
-    border-bottom: 2px solid;
-    height: 3.45rem;
-    will-change: height;
+    display: flex;
+    align-items: center;
+    height: 4rem;
     overflow: hidden !important;
-    transition: height 0.75s ease-in-out !important;
-    padding-top: calc(var(--default-padding) * 0.4);
-    padding-bottom: calc(var(--default-padding) * 0.4);
+    padding: 0;
+    transition: height 0.5s ease-in-out !important;
+    will-change: height;
 }
 
 .notification.hidden {
     height: 1px !important;
-    transition: height 0.75s ease-in-out !important;
+    transition: height 0.5s ease-in-out !important;
 }
 
 .notificationPositive {
@@ -36,4 +35,17 @@
 }
 .notificationSmall {
     font-size: var(--fontSizeLarge);
+}
+
+.notification a {
+    color: inherit;
+    text-decoration: underline;
+}
+.notification a:hover {
+    color: inherit;
+    opacity: 0.5;
+}
+.notification a:active {
+    color: inherit;
+    opacity: 0.75;
 }

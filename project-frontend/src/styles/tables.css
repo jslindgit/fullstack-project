@@ -6,7 +6,7 @@ th,
 td {
     padding: var(--default-padding);
     text-align: left;
-    vertical-align: top;
+    vertical-align: middle;
     /*border: 1px solid red !important;*/
 }
 td:first-child {
@@ -16,6 +16,13 @@ td:first-child {
 td:last-child {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+table.alignMiddle td {
+    vertical-align: middle;
+}
+table.alignTop td {
+    vertical-align: top;
 }
 
 /* Padding related */
