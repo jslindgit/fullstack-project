@@ -15,18 +15,17 @@ const AdminOrderRow = ({ order, openedOrder, setOpenedOrder }: Props) => {
     const configState = useSelector((state: RootState) => state.config);
 
     const date = new Date(order.createdAt);
-    const dateString = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
 
     const isOpened = openedOrder === order;
 
     return (
         <tr className={isOpened ? 'adminOrdersOpened' : ''}>
-            <td>{dateString}</td>
+            <td>{format.dateFormat(date)}</td>
             <td>
                 {order.customerFirstName} {order.customerLastName}
             </td>
-            <td>{order.deliveryMethod?.name}</td>
             <td>{format.currency(order.totalAmount, configState)}</td>
+            <td>{order.deliveryMethod?.name}</td>
             <td>{order.status}</td>
             <td>
                 {isOpened ? (

@@ -45,7 +45,7 @@ const deleteCategory = async (cateory: Category, token: string): Promise<Respons
         }
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Something went wrong' };
+        return { success: false, message: 'Error occurred' };
     }
 };
 

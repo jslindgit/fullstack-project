@@ -42,17 +42,21 @@ h4 {
     font-size: 1.5rem;
 }
 
-/* Style */
-.extraBold {
-    font-weight: 900;
-}
-.bold {
-    font-weight: 700;
+/* Font weight */
+.normalWeight {
+    font-weight: normal;
 }
 .semiBold {
     font-weight: 600;
 }
+.bold {
+    font-weight: 700;
+}
+.extraBold {
+    font-weight: 900;
+}
 
+/* Style */
 .italic {
     font-style: italic;
 }

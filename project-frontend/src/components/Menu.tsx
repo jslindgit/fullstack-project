@@ -24,7 +24,7 @@ const Menu = () => {
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td className='sizeNormal' style={{ textAlign: 'center', paddingBottom: '3px', paddingTop: '6px' }}>
+                            <td className='sizeNormal semiBold' style={{ textAlign: 'center', paddingBottom: '3px', paddingTop: '6px' }}>
                                 {loggedUser.username} {loggedUser.admin ? <span className='colorYellowLight'> (Admin)</span> : <></>}
                             </td>
                         </tr>
@@ -84,7 +84,7 @@ const Menu = () => {
     };
 
     const setLogoutNotification = () => {
-        dispatch(setNotification({ tone: 'Neutral', message: 'Logged out' }));
+        dispatch(setNotification({ tone: 'Neutral', message: <>Logged out</> }));
     };
 
     const showAdminMenu = () => {

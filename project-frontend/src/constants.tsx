@@ -27,4 +27,5 @@ export const defaultConfig: Config = {
         name: 'Unnamed Webstore',
         phone: '+358 9 123 45678',
     },
+    vat: 24,
 };

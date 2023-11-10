@@ -46,6 +46,13 @@ table.alignTop td {
     padding: 0;
 }
 
+.noPaddingImportant {
+    padding: 0 !important;
+}
+.noPaddingImportant td {
+    padding: 0 !important;
+}
+
 .paddingTopBottomOnly td:first-child {
     padding-left: 0;
 }
@@ -85,6 +92,13 @@ table.alignTop td {
     padding: 0;
 }
 
+.valignMiddle {
+    vertical-align: middle;
+}
+.valignMiddle td {
+    vertical-align: middle;
+}
+
 .valignTop {
     vertical-align: top;
 }
@@ -102,13 +116,32 @@ table.alignTop td {
     padding-right: calc(var(--default-padding) * 3);
 }
 
+.adminOrderDetails {
+    background-color: white !important;
+    border-radius: 1.25rem;
+    margin: 2px;
+    margin-bottom: 3px;
+    outline: 3px solid var(--colorGray);
+}
+.adminOrderDetails td {
+    background-color: white !important;
+    color: black;
+    padding: 1.25rem;
+}
+
+.adminOrderDetailsRow {
+    background-color: white !important;
+    padding: 0;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
+
 .adminOrders {
     border-collapse: collapse;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .adminOrders td {
     padding-bottom: 0.6rem;
-    padding-left: 1rem !important;
     padding-top: 0.6rem;
 }
 .adminOrders tr {

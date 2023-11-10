@@ -1,6 +1,6 @@
 import { Config, Currency } from '../types/types';
 
-export const currency = (amount: number, config: Config): string => {
+const currency = (amount: number, config: Config): string => {
     const sum: string = (Math.round(amount * 100) / 100).toFixed(2).toString();
 
     const symbol = (): string => {
@@ -15,6 +15,11 @@ export const currency = (amount: number, config: Config): string => {
     return (config.currencyBeforeSum ? symbol() : '') + sum + (config.currencyBeforeSum ? '' : ' ' + symbol());
 };
 
+const dateFormat = (date: Date) => {
+    return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear() + ' ' + date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
+};
+
 export default {
     currency,
+    dateFormat,
 };

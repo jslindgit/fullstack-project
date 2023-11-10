@@ -15,6 +15,7 @@ export interface Config {
     owner: ConfigOwner;
     paytrail: ConfigPaytrail | null;
     store: ConfigStore;
+    vat: number;
 }
 
 export interface ConfigOwner {
@@ -63,7 +64,7 @@ export interface LoginResponse {
 
 export interface Notification {
     tone: 'Positive' | 'Neutral' | 'Negative';
-    message: JSX.Element;
+    message: JSX.Element | string;
     renders: number;
 }
 export type NewNotification = Omit<Notification, 'renders'>;

@@ -32,7 +32,8 @@ const Info = () => {
     return (
         <>
             <div>
-                <table align='center'>
+                <br />
+                <table align='center' className='valignTop'>
                     <tbody>
                         <tr>
                             <td className='noPadding'>

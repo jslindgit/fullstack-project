@@ -1,7 +1,11 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Order } from '../../types/orderTypes';
+import { RootState } from '../../reducers/rootReducer';
+
+import { setNotification } from '../../reducers/miscReducer';
 
 import orderService from '../../services/orderService';
 
@@ -12,19 +16,32 @@ const AdminOrders = () => {
     const [orders, setOrders] = useState<Order[]>([]);
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
 
+    const dispatch = useDispatch();
+    const usersState = useSelector((state: RootState) => state.users);
+
+    const fetch = async () => {
+        const data = await orderService.getAll();
+        setOrders(data.sort((a, b) => a.createdAt.localeCompare(b.createdAt)));
+    };
+
     useEffect(() => {
-        const fetch = async () => {
-            const data = await orderService.getAll();
-            setOrders(data);
-        };
         fetch();
     }, []);
+
+    const deleteOrder = async (order: Order) => {
+        if (usersState.loggedUser?.admin && confirm(`Delete order number ${order.id} (${order.customerFirstName} ${order.customerLastName})?`)) {
+            setOpenedOrder(null);
+            const res = await orderService.deleteOrder(order, usersState.loggedUser?.token);
+            await fetch();
+            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+        }
+    };
 
     const orderRow = (order: Order) => {
         return openedOrder === order ? (
             <React.Fragment key={order.id}>
                 <AdminOrderRow key={order.id} order={order} openedOrder={openedOrder} setOpenedOrder={setOpenedOrder} />
-                <AdminOrderDetails order={order} />
+                <AdminOrderDetails order={order} deleteOrder={deleteOrder} />
             </React.Fragment>
         ) : (
             <AdminOrderRow key={order.id} order={order} openedOrder={openedOrder} setOpenedOrder={setOpenedOrder} />
@@ -41,6 +58,8 @@ const AdminOrders = () => {
                         <td>Recently delivered</td>
                         <td width='1px'>|</td>
                         <td>Archived</td>
+                        <td width='1px'>|</td>
+                        <td>Recycle bin</td>
                     </tr>
                 </tbody>
             </table>
@@ -49,10 +68,10 @@ const AdminOrders = () => {
                     <tr>
                         <td>Date</td>
                         <td>Customer</td>
+                        <td>Total Sum</td>
                         <td>Delivery</td>
-                        <td>Sum</td>
                         <td>Status</td>
-                        <td></td>
+                        <td width='1px'></td>
                     </tr>
                     {orders.map((order) => orderRow(order))}
                 </tbody>

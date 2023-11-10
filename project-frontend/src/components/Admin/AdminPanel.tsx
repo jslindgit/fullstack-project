@@ -43,7 +43,7 @@ const AdminPanel = () => {
 
     return (
         <div>
-            <table align='center' width={pageWidth * 1.2} className='paddingTopBottomOnly'>
+            <table align='center' width={pageWidth * 1.2}>
                 <tbody>
                     <tr>
                         <td className='tight'>
