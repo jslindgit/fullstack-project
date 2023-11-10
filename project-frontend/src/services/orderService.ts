@@ -17,7 +17,7 @@ interface OrderResponse extends Response {
 const getAll = async (): Promise<Order[]> => {
     try {
         const { data } = await axios.get<Order[]>(url);
-        return data;
+        return data.map((order) => orderFromResponseBody(order));
     } catch (err: unknown) {
         handleError(err);
         return [];
@@ -28,7 +28,7 @@ const getById = async (id: number): Promise<OrderResponse> => {
     try {
         const res = await axios.get(`${url}/${id}`);
         if (res.status >= 200 && res.status <= 299) {
-            return { success: true, message: 'Ok', order: orderFromResponseBody(res) };
+            return { success: true, message: 'Ok', order: orderFromResponseBody(res.data) };
         } else {
             return { success: false, message: `Something went wrong (${res.status})`, order: null };
         }

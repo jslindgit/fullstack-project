@@ -1,6 +1,5 @@
-import { Config, Item } from './types';
+import { Config } from './types';
 import { NewOrder, Order, OrderStatus, OrderValidationError, ShoppingItem } from './orderTypes';
-import { AxiosResponse } from 'axios';
 
 import { isValidEmailAddress } from '../util/misc';
 import { orderTotalSum } from '../util/checkoutProvider';
@@ -62,16 +61,20 @@ export const orderToRequestBody = (order: NewOrder | Order, config: Config): obj
     };
 };
 
-export const orderFromResponseBody = (res: AxiosResponse): Order => {
-    const delivery = 'deliveryMethod' in res.data ? res.data.deliveryMethod : null;
-    const payment = 'paymentMethod' in res.data ? res.data.paymentMethod : null;
-    const items: Item[] = JSON.parse(res.data.items) as Item[];
+export const orderFromResponseBody = (responseBody: unknown): Order => {
+    if (!isObject(responseBody)) {
+        throw new Error('responseBody is not an object');
+    }
+
+    const delivery = 'deliveryMethod' in responseBody ? responseBody.deliveryMethod : null;
+    const payment = 'paymentMethod' in responseBody ? responseBody.paymentMethod : null;
+    const items: ShoppingItem[] = 'items' in responseBody && isString(responseBody.items) ? (JSON.parse(responseBody.items) as ShoppingItem[]) : [];
 
     // Remove the delivery method from the 'items' array (which was added there for Paytrail):
     const filteredItems = items.filter((item) => item.id > 0);
 
     return {
-        ...res.data,
+        ...(responseBody as Order),
         deliveryMethod: delivery && isString(delivery) && delivery.length > 0 ? JSON.parse(delivery) : null,
         items: filteredItems,
         paymentMethod: payment && isString(payment) && payment.length > 0 ? payment : null,

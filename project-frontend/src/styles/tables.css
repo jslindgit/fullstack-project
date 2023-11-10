@@ -102,6 +102,40 @@ table.alignTop td {
     padding-right: calc(var(--default-padding) * 3);
 }
 
+.adminOrders {
+    border-collapse: collapse;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.adminOrders td {
+    padding-bottom: 0.6rem;
+    padding-left: 1rem !important;
+    padding-top: 0.6rem;
+}
+.adminOrders tr {
+    border-bottom: 1px dashed var(--colorGray);
+}
+.adminOrders tr:first-child {
+    background-color: var(--colorGraySemiDark);
+    border-bottom: 0;
+    border-top: 0;
+    color: white;
+    font-weight: 600;
+}
+.adminOrdersOpened {
+    background-color: var(--colorYellowVeryLight) !important;
+}
+
+.adminOrdersMenu {
+    border: 3px solid var(--colorGrayLight);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+.adminOrdersMenu td {
+    padding: 0.5rem !important;
+    text-align: center;
+}
+
 .itemPriceTd {
     padding-top: var(--default-padding) !important;
     padding-bottom: var(--default-padding) !important;

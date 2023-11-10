@@ -69,4 +69,5 @@
 |        | 3    | Tilauskäsittelyn työstöä                                                                                             | 130 |
 | 9.11.  | 2    | Onnistuneen Paytrail-maksun validointi                                                                               |     |
 |        | 2    | Notifikaation parantelua, alustava tilaushallintasivu Admin-osioon                                                   |     |
-|  yht   | 134  |                                                                                                                      |     |
+| 10.11. | 2    | Lisää tilauskäsittelyn työstöä                                                                                       |     |
+|  yht   | 136  |                                                                                                                      |     |
