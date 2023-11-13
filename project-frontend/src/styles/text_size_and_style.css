@@ -1,0 +1,54 @@
+/* Casing */
+.capitalize {
+    text-transform: capitalize;
+}
+
+.upperCase {
+    text-transform: uppercase;
+}
+
+/* Font size */
+.sizeVerySmall {
+    font-size: 0.5rem;
+}
+.sizeSmall {
+    font-size: 0.75rem;
+}
+.sizeSmallish {
+    font-size: 0.85rem;
+}
+.sizeNormal {
+    font-size: 1rem;
+}
+.sizeLarge {
+    font-size: 1.25rem;
+}
+.sizeVeryLarge {
+    font-size: 1.5rem;
+}
+
+/* Font weight */
+.normalWeight {
+    font-weight: normal;
+}
+.semiBold {
+    font-weight: 600;
+}
+.bold {
+    font-weight: 700;
+}
+.extraBold {
+    font-weight: 900;
+}
+
+/* Style */
+.italic {
+    font-style: italic;
+}
+
+.underlined {
+    text-decoration: underline solid;
+    text-underline-offset: 0.3rem;
+    text-decoration-color: var(--colorGoldVeryLight);
+    text-decoration-thickness: 0.3rem;
+}

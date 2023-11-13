@@ -16,11 +16,11 @@
     outline: 4px solid black;
 }
 .deliveryMethodSelected {
-    background-color: var(--colorYellowVeryLight);
-    outline: 4px solid black;
+    background-color: var(--colorGreenVeryLight);
+    outline: 4px solid var(--colorGreenDark);
 }
 .deliveryMethodSelected:hover {
-    outline: 4px solid black;
+    outline: 4px solid var(--colorGreenDark);
 }
 
 .flexWrap {

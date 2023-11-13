@@ -71,4 +71,5 @@
 |        | 2    | Notifikaation parantelua, alustava tilaushallintasivu Admin-osioon                                                   |     |
 | 10.11. | 2    | Lisää tilauskäsittelyn työstöä                                                                                       |     |
 |        | 2    | Lisää tilauskäsittelyn työstöä                                                                                       |     |
-|  yht   | 138  |                                                                                                                      |     |
+| 14.11. | 3    | Asiakkaalle mahdollisuus valita Postipaketin noutopiste                                                              |     |
+|  yht   | 141  |                                                                                                                      |     |

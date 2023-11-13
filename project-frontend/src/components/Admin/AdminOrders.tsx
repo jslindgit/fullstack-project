@@ -73,7 +73,18 @@ const AdminOrders = () => {
                         <td>Status</td>
                         <td width='1px'></td>
                     </tr>
-                    {orders.map((order) => orderRow(order))}
+                    {orders.length > 0 ? (
+                        orders.map((order) => orderRow(order))
+                    ) : (
+                        <tr>
+                            <td colSpan={6} className='centered sizeLarge'>
+                                <br />
+                                No orders
+                                <br />
+                                <br />
+                            </td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
         </div>

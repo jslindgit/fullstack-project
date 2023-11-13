@@ -1,3 +1,4 @@
+@import 'styles/alignment.css';
 @import 'styles/buttons.css';
 @import 'styles/form.css';
 @import 'styles/images.css';
@@ -12,3 +13,4 @@
 @import 'styles/scrollbar.css';
 @import 'styles/tables.css';
 @import 'styles/text.css';
+@import 'styles/text_size_and_style.css';

@@ -1,8 +1,16 @@
+export enum DeliveryName {
+    NOUTO = 'Nouto',
+    POSTI_EXPRESS = 'Posti Express-paketti',
+    POSTI_KOTIPAKETTI = 'Posti Kotipaketti',
+    POSTI_PAKETTI = 'Postipaketti',
+    POSTI_PIKKUPAKETTI = 'Posti Pikkupaketti (Kirje)',
+}
+
 export interface DeliveryMethod {
-    id: number;
-    name: string;
-    description: string;
     cost: number;
+    description: string;
+    name: string;
+    notes: string;
 }
 
 export interface Order {
@@ -54,6 +62,12 @@ export interface PaytrailProvider {
     url: string;
     svg: string;
     parameters: Array<{ name: string; value: string }>;
+}
+
+export interface PostiLocation {
+    id: string;
+    name: string;
+    address: string;
 }
 
 export interface ShoppingCartStatus {
