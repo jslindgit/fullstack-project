@@ -173,3 +173,8 @@ table.alignTop td {
     padding-top: var(--default-padding) !important;
     padding-bottom: var(--default-padding) !important;
 }
+
+.validationErrors td {
+    border: 3px solid var(--colorRed);
+    color: var(--colorRed);
+}

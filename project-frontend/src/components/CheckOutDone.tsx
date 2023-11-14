@@ -87,7 +87,7 @@ const CheckOutDone = () => {
                     </tr>
                 </tbody>
             </table>
-            <table align='center' width={pageWidth}>
+            <table align='center' width={pageWidth} className='valignTop'>
                 <tbody>
                     <tr>
                         <td style={{ paddingTop: 0 }}>

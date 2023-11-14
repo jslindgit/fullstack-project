@@ -21,6 +21,7 @@ export interface OrderAttributes {
     language: string;
     paymentMethod?: string;
     status: string;
+    statusForAdmin: string;
     totalAmount: number;
 }
 
@@ -108,6 +109,10 @@ const Order = sequelize.define<OrderInstance>(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        statusForAdmin: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         totalAmount: {
             type: DataTypes.DECIMAL,
             allowNull: false,
@@ -153,6 +158,8 @@ export const isNewOrder = (obj: unknown): obj is NewOrder => {
         isString(obj.language) &&
         'status' in obj &&
         isString(obj.status) &&
+        'statusForAdmin' in obj &&
+        isString(obj.statusForAdmin) &&
         'totalAmount' in obj &&
         isNumber(obj.totalAmount)
     ) {

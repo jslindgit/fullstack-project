@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { Response } from '../types/types';
-import { Order, OrderStatus } from '../types/orderTypes';
+import { Order, OrderStatus, OrderStatusForAdmin } from '../types/orderTypes';
 
 import { apiBaseUrl } from '../constants';
 import { apiKeyConfig, authConfig } from '../util/serviceProvider';
@@ -82,10 +82,26 @@ const updateStatus = async (orderId: number, newStatus: OrderStatus): Promise<Or
     }
 };
 
+const updateStatusForAdmin = async (orderId: number, newStatus: OrderStatusForAdmin): Promise<OrderResponse> => {
+    try {
+        const res = await axios.put<Order>(`${url}/${orderId}`, { status_for_admin: newStatus }, apiKeyConfig());
+
+        if (res.status === 200) {
+            return { success: true, message: `Order ${orderId} updated`, order: orderFromResponseBody(res) };
+        } else {
+            return { success: false, message: 'Something went wrong, try again later', order: null };
+        }
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: 'Error occurred', order: null };
+    }
+};
+
 export default {
     deleteOrder,
     getAll,
     getById,
     update,
     updateStatus,
+    updateStatusForAdmin,
 };

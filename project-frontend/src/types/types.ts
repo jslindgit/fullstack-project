@@ -64,7 +64,9 @@ export interface LoginResponse {
 
 export interface Notification {
     tone: 'Positive' | 'Neutral' | 'Negative';
-    message: JSX.Element | string;
+    message: string;
+    linkText?: string;
+    linkTo?: string;
     renders: number;
 }
 export type NewNotification = Omit<Notification, 'renders'>;

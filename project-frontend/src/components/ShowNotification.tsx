@@ -5,6 +5,8 @@ import { RootState } from '../reducers/rootReducer';
 
 import { setNotification } from '../reducers/miscReducer';
 
+import { Link } from './CustomLink';
+
 interface Props {
     fontSize?: 'Big' | 'Small';
 }
@@ -45,15 +47,27 @@ const ShowNotification = ({ fontSize = 'Big' }: Props) => {
                 classNames += ' notificationNeutral';
         }
 
+        let finalMessage: JSX.Element;
+        if (notification.linkText && notification.linkTo) {
+            const parts = notification.message.split(notification.linkText);
+            finalMessage = (
+                <span>
+                    {parts[0]}
+                    <Link to={notification.linkTo}>{notification.linkText}</Link>
+                    {parts[1]}
+                </span>
+            );
+        } else {
+            finalMessage = <span>{notification.message}</span>;
+        }
+
         return (
             <div className={classNames}>
                 <table align='center' width='100%'>
                     <tbody>
                         <tr>
                             <td width='40px'></td>
-                            <td className='centered'>
-                                <span>{notification.message}</span>
-                            </td>
+                            <td className='centered'>{finalMessage}</td>
                             <td width='40px' className='bold centered'>
                                 <a onClick={() => close()} style={{ textDecorationLine: 'none' }}>
                                     x

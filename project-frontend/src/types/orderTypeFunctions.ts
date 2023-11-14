@@ -1,5 +1,5 @@
 import { Config } from './types';
-import { NewOrder, Order, OrderStatus, OrderValidationError, ShoppingItem } from './orderTypes';
+import { NewOrder, Order, OrderStatus, OrderStatusForAdmin, OrderValidationError, ShoppingItem } from './orderTypes';
 
 import { isValidEmailAddress } from '../util/misc';
 import { orderTotalSum } from '../util/checkoutProvider';
@@ -22,6 +22,7 @@ export const getEmptyOrder = (): NewOrder => {
         language: 'FI',
         paymentMethod: null,
         status: OrderStatus.PENDING,
+        statusForAdmin: OrderStatusForAdmin.NEW,
     };
 
     return order;
@@ -48,6 +49,7 @@ export const isOrderOrNewOrder = (obj: unknown): obj is Order | NewOrder => {
 };
 
 export const orderToRequestBody = (order: NewOrder | Order, config: Config): object => {
+    console.log('order:', order);
     // The delivery method needs to be added to the 'items' array for Paytrail, as the sum of the prices of items in the order must match the total sum of the order:
     const deliveryItem: ShoppingItem = { id: 0, name: order.deliveryMethod ? order.deliveryMethod.name : 'Delivery', price: order.deliveryCost, quantity: 1 };
 

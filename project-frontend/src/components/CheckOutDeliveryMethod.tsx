@@ -91,7 +91,7 @@ interface MethodProps {
 }
 
 const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDeliveryMethod }: MethodProps) => {
-    const [selectedLocation, setSelectedLocation] = useState<string>(currentMethod && currentMethod.notes.length > 0 ? currentMethod.notes : '');
+    const [selectedLocation, setSelectedLocation] = useState<string>(currentMethod && currentMethod.notes && currentMethod.notes.length > 0 ? currentMethod.notes : '');
 
     const configState = useSelector((state: RootState) => state.config);
 

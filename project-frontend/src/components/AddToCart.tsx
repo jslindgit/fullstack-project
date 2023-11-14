@@ -7,8 +7,6 @@ import { refreshShoppingCartItemCount, setNotification } from '../reducers/miscR
 import localstorageHandler from '../util/localstorageHandler';
 import useField from '../hooks/useField';
 
-import { Link } from './CustomLink';
-
 interface Props {
     item: Item;
 }
@@ -29,11 +27,9 @@ const AddToCart = ({ item }: Props) => {
         dispatch(
             setNotification({
                 tone: 'Positive',
-                message: (
-                    <>
-                        {amount.value} x {item.name} added to <Link to='/cart'>shopping cart.</Link>
-                    </>
-                ),
+                message: `${amount.value} x ${item.name} added to shopping cart.`,
+                linkText: 'shopping cart',
+                linkTo: '/cart',
             })
         );
 

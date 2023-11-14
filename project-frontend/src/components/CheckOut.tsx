@@ -110,7 +110,7 @@ const CheckOut = () => {
                             <div style={{ position: 'sticky', top: '1rem' }}>
                                 <OrderInfo order={order} />
                                 {validationErrors.length > 0 ? (
-                                    <table align='center' width='100%' className='notification notificationNegative' style={{ borderRadius: '0.5rem', marginTop: '1rem' }}>
+                                    <table align='center' width='100%' className='validationErrors' style={{ borderRadius: '0.5rem', marginTop: '1rem' }}>
                                         <tbody>
                                             <tr>
                                                 <td style={{ fontWeight: '500' }}>

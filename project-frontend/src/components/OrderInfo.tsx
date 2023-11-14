@@ -94,7 +94,7 @@ const OrderInfo = ({ order }: Props) => {
                                             {order.deliveryMethod ? (
                                                 <>
                                                     {order.deliveryMethod.name} <b>({format.currency(order.deliveryCost, configState)})</b>
-                                                    {order.deliveryMethod.notes.length > 0 ? (
+                                                    {order.deliveryMethod.notes && order.deliveryMethod.notes.length > 0 ? (
                                                         <>
                                                             <br />
                                                             <br />

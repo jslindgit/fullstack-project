@@ -31,9 +31,16 @@ export interface Order {
     language: 'FI' | 'EN' | 'SE';
     paymentMethod: string | null;
     status: OrderStatus;
+    statusForAdmin: OrderStatusForAdmin;
     totalAmount: number;
 }
 export type NewOrder = Omit<Omit<Omit<Order, 'id'>, 'createdAt'>, 'totalAmount'>;
+
+export enum OrderStatusForAdmin {
+    NEW = 'New',
+    READ = 'Read',
+    SHIPPED = 'Shipped',
+}
 
 export enum OrderStatus {
     PENDING = 'Pending payment',
