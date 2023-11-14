@@ -4,6 +4,7 @@ import { Order, NewOrder } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
 import format from '../util/format';
+import { langTextsToText } from '../types/languageFunctions';
 import { orderTotalSum } from '../util/checkoutProvider';
 
 interface Props {
@@ -93,7 +94,7 @@ const OrderInfo = ({ order }: Props) => {
                                         <td>
                                             {order.deliveryMethod ? (
                                                 <>
-                                                    {order.deliveryMethod.name} <b>({format.currency(order.deliveryCost, configState)})</b>
+                                                    {langTextsToText(order.deliveryMethod.names, configState)} <b>({format.currency(order.deliveryCost, configState)})</b>
                                                     {order.deliveryMethod.notes && order.deliveryMethod.notes.length > 0 ? (
                                                         <>
                                                             <br />

@@ -37,7 +37,7 @@ const CheckOutDelivery = ({ currentMethod, customerZipCode, setDeliveryMethod, v
                     <tr>
                         <td>
                             {methods.map((m) => (
-                                <CheckOutDeliveryMethod key={m.name} currentMethod={currentMethod} customerZipCode={customerZipCode} method={m} setDeliveryMethod={setDeliveryMethod} />
+                                <CheckOutDeliveryMethod key={m.code} currentMethod={currentMethod} customerZipCode={customerZipCode} method={m} setDeliveryMethod={setDeliveryMethod} />
                             ))}
                             <a
                                 onClick={() => {

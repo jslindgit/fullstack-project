@@ -1,5 +1,4 @@
-input,
-select {
+input {
     border: 0;
     border-radius: 5px;
     box-sizing: border-box;
@@ -26,10 +25,10 @@ input:focus.error {
     outline: 3px solid var(--colorGrayDark);
 }
 
+select,
 option {
-    font-size: 1rem;
-    padding: 0.25rem;
-    padding-top: 0.5rem;
+    font-size: 0.9rem;
+    padding: 0.5rem;
 }
 
 textarea {
@@ -38,15 +37,15 @@ textarea {
 }
 
 .adminForm input,
-select {
+.adminForm select {
     padding-left: 1rem;
     padding-right: 1rem;
     margin: 0;
 }
 
 .adminFormItemEdit input,
-select {
-    font-size: inherit !important;
+adminFormItemEdit select {
+    font-size: inherit;
 }
 
 .fileUpload {

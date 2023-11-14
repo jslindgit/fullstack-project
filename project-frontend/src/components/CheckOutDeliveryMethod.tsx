@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { DeliveryMethod, DeliveryName, PostiLocation } from '../types/orderTypes';
+import { DeliveryMethod, DeliveryCode, PostiLocation } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
 import format from '../util/format';
+import { langTextsToText } from '../types/languageFunctions';
 import postiService from '../services/postiService';
 import useField from '../hooks/useField';
 
@@ -42,7 +43,7 @@ const PickupLocationSelection = ({ currentMethod, customerZipCode, thisMethod, s
     }, [locations]);
 
     useEffect(() => {
-        if (currentMethod?.name === thisMethod.name && selectedLocation.length > 0) {
+        if (currentMethod?.code === thisMethod.code && selectedLocation.length > 0) {
             setDeliveryMethod({ ...thisMethod, notes: selectedLocation });
         }
     }, [currentMethod, selectedLocation]);
@@ -66,7 +67,7 @@ const PickupLocationSelection = ({ currentMethod, customerZipCode, thisMethod, s
             <br />
             {locations.length > 0 ? (
                 <>
-                    <select value={selectedLocation} onChange={handleChange} style={{ marginTop: '1rem' }}>
+                    <select value={selectedLocation} onChange={handleChange} style={{ marginTop: '1rem', width: '100%' }}>
                         {locations.map((loc) => (
                             <option key={loc.id} value={loc.name + ' (' + loc.address + ')'}>
                                 {loc.name}
@@ -96,21 +97,21 @@ const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDel
     const configState = useSelector((state: RootState) => state.config);
 
     const handleClick = () => {
-        method.name === DeliveryName.POSTI_PAKETTI ? setDeliveryMethod({ ...method, notes: selectedLocation }) : setDeliveryMethod(method);
+        method.code === DeliveryCode.POSTI_PAKETTI ? setDeliveryMethod({ ...method, notes: selectedLocation }) : setDeliveryMethod(method);
     };
 
     return (
-        <table width='100%' className={'deliveryMethod' + (currentMethod && currentMethod.name === method.name ? ' deliveryMethodSelected' : '')} onClick={() => handleClick()}>
+        <table width='100%' className={'deliveryMethod' + (currentMethod && currentMethod.code === method.code ? ' deliveryMethodSelected' : '')} onClick={() => handleClick()}>
             <tbody>
                 <tr>
                     <td>
-                        <span className='sizeNormal bold'>{method.name}</span>
-                        {currentMethod?.name === method.name ? <span className='sizeNormal extraBold colorGreen'>&ensp;✔</span> : <></>}
+                        <span className='sizeNormal bold'>{langTextsToText(method.names, configState)}</span>
+                        {currentMethod?.code === method.code ? <span className='sizeNormal extraBold colorGreen'>&ensp;✔</span> : <></>}
                         <div className='sizeSmallish' style={{ paddingBottom: '0.5rem', paddingTop: '0.5rem' }}>
-                            {method.description}
+                            {langTextsToText(method.descriptions, configState)}
                         </div>
                         <span className='semiBold'>{format.currency(method.cost, configState)}</span>
-                        {method.name === DeliveryName.POSTI_PAKETTI ? (
+                        {method.code === DeliveryCode.POSTI_PAKETTI ? (
                             <div style={{ marginTop: '1rem' }}>
                                 <PickupLocationSelection
                                     currentMethod={currentMethod}

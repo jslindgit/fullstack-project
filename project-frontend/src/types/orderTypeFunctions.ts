@@ -4,6 +4,7 @@ import { NewOrder, Order, OrderStatus, OrderStatusForAdmin, OrderValidationError
 import { isValidEmailAddress } from '../util/misc';
 import { orderTotalSum } from '../util/checkoutProvider';
 import { isObject, isString } from './typeFunctions';
+import { langTextsToText } from './languageFunctions';
 
 export const getEmptyOrder = (): NewOrder => {
     const order: NewOrder = {
@@ -51,7 +52,7 @@ export const isOrderOrNewOrder = (obj: unknown): obj is Order | NewOrder => {
 export const orderToRequestBody = (order: NewOrder | Order, config: Config): object => {
     console.log('order:', order);
     // The delivery method needs to be added to the 'items' array for Paytrail, as the sum of the prices of items in the order must match the total sum of the order:
-    const deliveryItem: ShoppingItem = { id: 0, name: order.deliveryMethod ? order.deliveryMethod.name : 'Delivery', price: order.deliveryCost, quantity: 1 };
+    const deliveryItem: ShoppingItem = { id: 0, name: order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : 'Delivery', price: order.deliveryCost, quantity: 1 };
 
     return {
         ...order,

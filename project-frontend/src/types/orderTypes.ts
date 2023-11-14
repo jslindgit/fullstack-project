@@ -1,15 +1,18 @@
-export enum DeliveryName {
-    NOUTO = 'Nouto',
-    POSTI_EXPRESS = 'Posti Express-paketti',
-    POSTI_KOTIPAKETTI = 'Posti Kotipaketti',
-    POSTI_PAKETTI = 'Postipaketti',
-    POSTI_PIKKUPAKETTI = 'Posti Pikkupaketti (Kirje)',
+import { LangText } from './language';
+
+export enum DeliveryCode {
+    PICKUP,
+    POSTI_EXPRESS,
+    POSTI_KOTIPAKETTI,
+    POSTI_PAKETTI,
+    POSTI_PIKKUPAKETTI,
 }
 
 export interface DeliveryMethod {
+    code: DeliveryCode;
     cost: number;
-    description: string;
-    name: string;
+    descriptions: LangText[];
+    names: LangText[];
     notes: string;
 }
 

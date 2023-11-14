@@ -1,3 +1,4 @@
+import { LangCode } from './types/language';
 import { Currency, Config } from './types/types';
 
 export const API_KEY = import.meta.env.VITE_API_KEY as string;
@@ -8,8 +9,8 @@ export const defaultConfig: Config = {
     currency: Currency.EUR,
     currencyBeforeSum: false,
     language: {
+        code: LangCode.FI,
         name: 'Suomi',
-        short: 'FI',
         paytrailValue: 'FI',
     },
     owner: {
@@ -23,9 +24,53 @@ export const defaultConfig: Config = {
         secretKey: 'SAIPPUAKAUPPIAS',
     },
     store: {
-        email: 'info@unnamedwebstore123.com',
-        name: 'Unnamed Webstore',
-        phone: '+358 9 123 45678',
+        contactEmail: 'info@unnamedwebstore123.com',
+        contactName: 'Unnamed Webstore',
+        contactPhone: '+358 9 123 45678',
+        deliveryCountries: [
+            {
+                names: [
+                    { lang: LangCode.EN, text: 'Denmark' },
+                    { lang: LangCode.FI, text: 'Tanska' },
+                ],
+            },
+            {
+                names: [
+                    { lang: LangCode.EN, text: 'Estonia' },
+                    { lang: LangCode.FI, text: 'Viro' },
+                ],
+            },
+            {
+                names: [
+                    { lang: LangCode.EN, text: 'Finland' },
+                    { lang: LangCode.FI, text: 'Suomi' },
+                ],
+            },
+            {
+                names: [
+                    { lang: LangCode.EN, text: 'Latvia' },
+                    { lang: LangCode.FI, text: 'Latvia' },
+                ],
+            },
+            {
+                names: [
+                    { lang: LangCode.EN, text: 'Lithuania' },
+                    { lang: LangCode.FI, text: 'Liettua' },
+                ],
+            },
+            {
+                names: [
+                    { lang: LangCode.EN, text: 'Norway' },
+                    { lang: LangCode.FI, text: 'Norja' },
+                ],
+            },
+            {
+                names: [
+                    { lang: LangCode.EN, text: 'Sweden' },
+                    { lang: LangCode.FI, text: 'Ruotsi' },
+                ],
+            },
+        ],
     },
     vat: 24,
 };

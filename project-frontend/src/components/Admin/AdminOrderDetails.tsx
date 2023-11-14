@@ -5,6 +5,7 @@ import { Order } from '../../types/orderTypes';
 import { RootState } from '../../reducers/rootReducer';
 
 import format from '../../util/format';
+import { langTextsToText } from '../../types/languageFunctions';
 
 interface Props {
     order: Order;
@@ -95,9 +96,11 @@ const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
                                         <br />
                                         <span style={{ color: 'transparent' }}>*</span> {format.currency(item.price, configState)}/pcs &emsp; {item.quantity} pcs &emsp; Total:{' '}
                                         {format.currency(item.price * item.quantity, configState)}
+                                        <br />
+                                        <br />
                                     </div>
                                 ))}
-                                <br />* Delivery cost: {format.currency(Number(order.deliveryCost), configState)}
+                                * Delivery cost: {format.currency(Number(order.deliveryCost), configState)}
                                 <br />
                                 <br />
                                 Net: {format.currency((order.totalAmount / 100) * (100 - configState.vat), configState)}
@@ -125,7 +128,7 @@ const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
                                 <br />
                                 {contactInfo('Phone', order.customerPhone)}
                                 <br />
-                                {contactInfo('Delivery method', order.deliveryMethod ? order.deliveryMethod.name : '-')}
+                                {contactInfo('Delivery method', order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, configState) : '-')}
                                 <br />
                                 <br />
                                 <hr />

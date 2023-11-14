@@ -41,7 +41,7 @@ const Info = () => {
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <h3 className='underlined'>{configState.store.name}</h3>
+                                                <h3 className='underlined'>{configState.store.contactName}</h3>
                                             </td>
                                         </tr>
                                         <tr>
@@ -51,10 +51,10 @@ const Info = () => {
                                                         <tr>
                                                             <td className='widthByContent infoText'>Email:</td>
                                                             <td className='infoText'>
-                                                                <a href={'mailto:' + configState.store.email}>{configState.store.email}</a>
+                                                                <a href={'mailto:' + configState.store.contactEmail}>{configState.store.contactEmail}</a>
                                                             </td>
                                                         </tr>
-                                                        {phone(configState.store.phone)}
+                                                        {phone(configState.store.contactPhone)}
                                                     </tbody>
                                                 </table>
                                             </td>

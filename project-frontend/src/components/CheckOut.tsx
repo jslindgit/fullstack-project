@@ -103,6 +103,7 @@ const CheckOut = () => {
                     <tr>
                         <td style={{ paddingTop: 0 }}>
                             <CheckOutContactInfo currentOrder={order} setCustomerInfo={setCustomerInfo} validate={validate} width='100%' />
+                            <br />
                             <CheckOutDelivery currentMethod={order.deliveryMethod} customerZipCode={order.customerZipCode} setDeliveryMethod={setDeliveryMethod} validate={validate} width='100%' />
                         </td>
                         <td width='3rem'></td>

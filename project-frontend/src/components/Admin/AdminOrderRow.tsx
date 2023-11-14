@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
 
-import { Order } from '../../types/orderTypes';
+import { Order, OrderStatusForAdmin } from '../../types/orderTypes';
 import { RootState } from '../../reducers/rootReducer';
 
 import format from '../../util/format';
+import { langTextsToText } from '../../types/languageFunctions';
 
 interface Props {
     order: Order;
@@ -19,14 +20,14 @@ const AdminOrderRow = ({ order, openedOrder, setOpenedOrder }: Props) => {
     const isOpened = openedOrder === order;
 
     return (
-        <tr className={isOpened ? 'adminOrdersOpened' : ''}>
+        <tr className={(isOpened ? 'adminOrdersOpened' : '') + (order.statusForAdmin === OrderStatusForAdmin.NEW ? ' semiBold' : '')}>
             <td>{format.dateFormat(date)}</td>
             <td>
                 {order.customerFirstName} {order.customerLastName}
             </td>
             <td>{format.currency(order.totalAmount, configState)}</td>
-            <td>{order.deliveryMethod?.name}</td>
-            <td>{order.status}</td>
+            <td>{order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, configState) : ''}</td>
+            <td>{order.statusForAdmin}</td>
             <td>
                 {isOpened ? (
                     <button type='button' onClick={() => setOpenedOrder(null)}>

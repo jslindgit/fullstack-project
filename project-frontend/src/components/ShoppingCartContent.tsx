@@ -36,7 +36,7 @@ const ShoppingCartContent = ({ allowEdit, fetchItems, items, removeItem, width }
             <tbody>
                 {items.length > 0 ? (
                     <>
-                        <tr>
+                        <tr className='semiBold' style={{ backgroundColor: 'var(--colorGrayVeryLight)' }}>
                             <td>Product</td>
                             <td></td>
                             <td>Unit price</td>

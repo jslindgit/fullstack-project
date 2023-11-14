@@ -1,9 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import useField, { UseField } from '../hooks/useField';
 
 import { NewOrder, Order } from '../types/orderTypes';
+import { RootState } from '../reducers/rootReducer';
 
 import { isValidEmailAddress } from '../util/misc';
+import { langTextsToText } from '../types/languageFunctions';
 
 interface Props {
     currentOrder: NewOrder | Order;
@@ -13,9 +16,17 @@ interface Props {
 }
 
 const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }: Props) => {
+    const configState = useSelector((state: RootState) => state.config);
+
+    const [availableCountries, setAvailableCountries] = useState<string[]>([]);
+    const [country, setCountry] = useState<string | null>(currentOrder.customerCountry.length > 0 ? currentOrder.customerCountry : null);
+
+    const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setCountry(event.target.value);
+    };
+
     const address = useField('text', currentOrder.customerAddress);
     const city = useField('text', currentOrder.customerCity);
-    const country = useField('text', currentOrder.customerCountry);
     const email = useField('text', currentOrder.customerEmail);
     const firstName = useField('text', currentOrder.customerFirstName);
     const lastName = useField('text', currentOrder.customerLastName);
@@ -23,7 +34,7 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
     const phone = useField('text', currentOrder.customerPhone);
     const zipCode = useField('text', currentOrder.customerZipCode);
 
-    const required: UseField[] = [address, city, country, email, firstName, lastName, phone, zipCode];
+    const required: UseField[] = [address, city, email, firstName, lastName, phone, zipCode];
 
     const validateField = (field: UseField, label: string): string | null => {
         if (required.includes(field) && field.value.toString().trim().length < 1) {
@@ -35,10 +46,18 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
     };
 
     useEffect(() => {
+        const countries: string[] = [];
+        configState.store.deliveryCountries.forEach((c) => {
+            countries.push(langTextsToText(c.names, configState));
+        });
+        setAvailableCountries(countries);
+    }, [configState]);
+
+    useEffect(() => {
         setCustomerInfo(
             address.value.toString().trim(),
             city.value.toString().trim(),
-            country.value.toString().trim(),
+            country ? country : '',
             email.value.toString().trim(),
             firstName.value.toString().trim(),
             lastName.value.toString().trim(),
@@ -46,7 +65,7 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
             phone.value.toString().trim(),
             zipCode.value.toString().trim()
         );
-    }, [address.value, city.value, country.value, email.value, firstName.value, lastName.value, organization.value, phone.value, zipCode.value]);
+    }, [address.value, city.value, country, email.value, firstName.value, lastName.value, organization.value, phone.value, zipCode.value]);
 
     const inputField = (label: string, field: UseField) => {
         const labelParts: string[] = label.includes('\n') ? label.split('\n') : [label];
@@ -99,7 +118,31 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
                     {inputField('Street address', address)}
                     {inputField('Zipcode', zipCode)}
                     {inputField('City', city)}
-                    {inputField('Country', country)}
+
+                    <tr>
+                        <td className='widthByContent semiBold'>Country</td>
+                        <td style={{ paddingTop: '0.6rem', paddingBottom: '0.6rem' }}>
+                            {validate && !country ? (
+                                <div className='validationError'>
+                                    Country is required
+                                    <br />
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+                            <select value={country || ''} onChange={handleCountryChange}>
+                                <option value='' disabled>
+                                    Select a country
+                                </option>
+                                {availableCountries.map((c) => (
+                                    <option key={c} value={c}>
+                                        {c}
+                                    </option>
+                                ))}
+                            </select>
+                        </td>
+                    </tr>
+
                     {inputField('E-mail', email)}
                     {inputField('Phone', phone)}
                 </tbody>

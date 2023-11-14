@@ -1,4 +1,4 @@
-import { Language } from './language';
+import { LangText, Language } from './language';
 
 export interface Category {
     id: number;
@@ -31,9 +31,14 @@ export interface ConfigPaytrail {
 }
 
 export interface ConfigStore {
-    email: string;
-    name: string;
-    phone: string;
+    contactEmail: string;
+    contactName: string;
+    contactPhone: string;
+    deliveryCountries: Country[];
+}
+
+export interface Country {
+    names: LangText[];
 }
 
 export enum Currency {
