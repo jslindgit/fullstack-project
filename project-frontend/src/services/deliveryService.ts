@@ -1,7 +1,7 @@
 import { LangCode } from '../types/language';
 import { DeliveryCode, DeliveryMethod } from '../types/orderTypes';
 
-const getAll = (): DeliveryMethod[] => {
+const getAllDomestic = (): DeliveryMethod[] => {
     return [
         {
             code: DeliveryCode.POSTI_PIKKUPAKETTI,
@@ -71,6 +71,38 @@ const getAll = (): DeliveryMethod[] => {
     ];
 };
 
+const getAllInternational = (): DeliveryMethod[] => {
+    return [
+        {
+            code: DeliveryCode.INTERNATIONAL_POSTI_PRIORITY_PARCEL,
+            names: [
+                { lang: LangCode.EN, text: 'Posti Priority parcel' },
+                { lang: LangCode.FI, text: 'Posti Priority-postipaketti' },
+            ],
+            descriptions: [
+                { lang: LangCode.EN, text: 'Deliveries to the Nordic countries within 3–5 days, elsewhere in Europe within 2–7 days and elsewhere in the world within 6–14 working days.' },
+                { lang: LangCode.FI, text: 'Kuljetukset Pohjoismaihin 3–5, muualle Eurooppaan 2–7 ja muualle maailmaan 6–14 arkipäivässä.' },
+            ],
+            cost: 25,
+            notes: '',
+        },
+        {
+            code: DeliveryCode.INTERNATIONAL_POSTI_EXPRESS_BUSINESS_DAY,
+            names: [
+                { lang: LangCode.EN, text: 'Posti Express Business Day' },
+                { lang: LangCode.FI, text: 'Posti Express Business Day' },
+            ],
+            descriptions: [
+                { lang: LangCode.EN, text: 'This service is intended for dispatches between companies. The delivery time varies from two to eight working days, depending on the country.' },
+                { lang: LangCode.FI, text: 'Palvelu on tarkoitettu yritysten välisiin toimituksiin. Toimitusaika on maasta riippuen 2–8 arkipäivää.' },
+            ],
+            cost: 9,
+            notes: '',
+        },
+    ];
+};
+
 export default {
-    getAll,
+    getAllDomestic,
+    getAllInternational,
 };

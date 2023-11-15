@@ -31,6 +31,7 @@ export interface ConfigPaytrail {
 }
 
 export interface ConfigStore {
+    contactCountry: Country;
     contactEmail: string;
     contactName: string;
     contactPhone: string;

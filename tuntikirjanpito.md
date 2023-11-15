@@ -71,7 +71,8 @@
 |        | 2    | Notifikaation parantelua, alustava tilaushallintasivu Admin-osioon                                                   |     |
 | 10.11. | 2    | Lisää tilauskäsittelyn työstöä                                                                                       |     |
 |        | 2    | Lisää tilauskäsittelyn työstöä                                                                                       |     |
-| 14.11. | 3    | Asiakkaalle mahdollisuus valita Postipaketin noutopiste                                                              |     |
-| 15.11. | 1    | Notifikaatio-systeemin parantelua, tilauskäsittelyn työstöä                                                          |     |
+| 13.11. | 3    | Asiakkaalle mahdollisuus valita Postipaketin noutopiste                                                              |     |
+| 14.11. | 1    | Notifikaatio-systeemin parantelua, tilauskäsittelyn työstöä                                                          |     |
 |        | 2    | Parempi Toimitusmaa-valinta ja pohjustusta kieli-sivustoasetusta varten                                              |     |
-|  yht   | 144  |                                                                                                                      |     |
+| 15.11. | 2    | Kieli-asetuksen työstöä, apufunktio satunnaisten tilausten luomiseen testaamista varten                              |     |
+|  yht   | 146  |                                                                                                                      |     |

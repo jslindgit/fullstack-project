@@ -104,7 +104,14 @@ const CheckOut = () => {
                         <td style={{ paddingTop: 0 }}>
                             <CheckOutContactInfo currentOrder={order} setCustomerInfo={setCustomerInfo} validate={validate} width='100%' />
                             <br />
-                            <CheckOutDelivery currentMethod={order.deliveryMethod} customerZipCode={order.customerZipCode} setDeliveryMethod={setDeliveryMethod} validate={validate} width='100%' />
+                            <CheckOutDelivery
+                                currentMethod={order.deliveryMethod}
+                                customerCountry={order.customerCountry}
+                                customerZipCode={order.customerZipCode}
+                                setDeliveryMethod={setDeliveryMethod}
+                                validate={validate}
+                                width='100%'
+                            />
                         </td>
                         <td width='3rem'></td>
                         <td width='40%' style={{ verticalAlign: 'top', paddingTop: 0 }}>

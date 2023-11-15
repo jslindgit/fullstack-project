@@ -7,10 +7,9 @@ button {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 0.9rem;
     font-weight: 500;
-    padding-top: 0.1rem;
-    padding-bottom: 0.3rem;
-    padding-left: 1.2rem;
-    padding-right: 1.2rem;
+    padding: 1rem;
+    padding-bottom: 0.4rem;
+    padding-top: 0.4rem;
     transition: background-color 0.25s;
 }
 button:hover {
@@ -33,22 +32,6 @@ button.large {
     padding-right: 2rem;
 }
 
-button.red {
-    background-color: var(--colorRed);
-}
-button.red:hover {
-    background-color: var(--colorRedDark);
-}
-button.red:active {
-    background-color: var(--colorRedVeryDark);
-}
-
-.compactButton {
-    border-radius: 3px;
-    padding-left: 0.4rem !important;
-    padding-right: 0.4rem !important;
-}
-
 button.paymentMethod {
     background-color: white;
     outline: 1px solid var(--colorGray);
@@ -63,6 +46,16 @@ button.paymentMethod:hover {
 button.paymentMethod:active {
     outline: 3px solid black;
     transition: all 0;
+}
+
+button.red {
+    background-color: var(--colorRed);
+}
+button.red:hover {
+    background-color: var(--colorRedDark);
+}
+button.red:active {
+    background-color: var(--colorRedVeryDark);
 }
 
 .selectButton {

@@ -5,6 +5,7 @@ import useField, { UseField } from '../hooks/useField';
 import { NewOrder, Order } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
+import dev from '../util/dev';
 import { isValidEmailAddress } from '../util/misc';
 import { langTextsToText } from '../types/languageFunctions';
 
@@ -35,6 +36,20 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
     const zipCode = useField('text', currentOrder.customerZipCode);
 
     const required: UseField[] = [address, city, email, firstName, lastName, phone, zipCode];
+
+    const fillRandomly = () => {
+        const zipCity = dev.randomZipCodeAndCity();
+
+        address.setNewValue(dev.randomStreetAddress());
+        city.setNewValue(zipCity.city);
+        setCountry('Suomi');
+        email.setNewValue(dev.randomEmail());
+        firstName.setNewValue(dev.randomFirstName());
+        lastName.setNewValue(dev.randomLastName());
+        organization.setNewValue(dev.randomOrganization());
+        phone.setNewValue(dev.randomPhone());
+        zipCode.setNewValue(zipCity.zip);
+    };
 
     const validateField = (field: UseField, label: string): string | null => {
         if (required.includes(field) && field.value.toString().trim().length < 1) {
@@ -106,6 +121,7 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
                     <tr>
                         <td>
                             <h3>Customer Contact Information</h3>
+                            <a onClick={fillRandomly}>Fill randomly</a>
                         </td>
                     </tr>
                 </tbody>

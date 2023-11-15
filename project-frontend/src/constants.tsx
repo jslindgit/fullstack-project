@@ -24,6 +24,12 @@ export const defaultConfig: Config = {
         secretKey: 'SAIPPUAKAUPPIAS',
     },
     store: {
+        contactCountry: {
+            names: [
+                { lang: LangCode.EN, text: 'Finland' },
+                { lang: LangCode.FI, text: 'Suomi' },
+            ],
+        },
         contactEmail: 'info@unnamedwebstore123.com',
         contactName: 'Unnamed Webstore',
         contactPhone: '+358 9 123 45678',

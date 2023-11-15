@@ -48,7 +48,7 @@ const ShoppingCartRow = ({ item, shoppingItem, indexOf, removeItem, allowEdit, f
             <td>{format.currency(item.price * shoppingItem.quantity, configState)}</td>
             <td width='1px'>
                 {allowEdit ? (
-                    <button type='button' className='compactButton red' onClick={() => (removeItem ? removeItem(indexOf) : () => {})} disabled={!allowEdit}>
+                    <button type='button' className='red' onClick={() => (removeItem ? removeItem(indexOf) : () => {})} disabled={!allowEdit}>
                         Remove
                     </button>
                 ) : (

@@ -9,6 +9,7 @@ import loginService from '../services/loginService';
 import { removeLoggedUser } from '../reducers/usersReducer';
 import { setNotification } from '../reducers/miscReducer';
 
+import LanguageSelection from './LanguageSelection';
 import { Link } from './CustomLink';
 
 const Menu = () => {
@@ -84,7 +85,7 @@ const Menu = () => {
     };
 
     const setLogoutNotification = () => {
-        dispatch(setNotification({ tone: 'Neutral', message: <>Logged out</> }));
+        dispatch(setNotification({ tone: 'Neutral', message: 'Logged out' }));
     };
 
     const showAdminMenu = () => {
@@ -105,6 +106,9 @@ const Menu = () => {
                             <td>{menuLink('/shop', 'Products')}</td>
                             <td>{menuLink('/info', 'Info')}</td>
                             <td>{menuLink('/cart', 'Shopping Cart (' + miscState.shoppingCartItemCount + ')')}</td>
+                            <td>
+                                <LanguageSelection />
+                            </td>
                             <td>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</td>
                             {showAdminMenu()}
                         </tr>

@@ -1,6 +1,8 @@
 import { LangText } from './language';
 
 export enum DeliveryCode {
+    INTERNATIONAL_POSTI_EXPRESS_BUSINESS_DAY,
+    INTERNATIONAL_POSTI_PRIORITY_PARCEL,
     PICKUP,
     POSTI_EXPRESS,
     POSTI_KOTIPAKETTI,
