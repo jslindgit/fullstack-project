@@ -34,6 +34,34 @@
     justify-content: center;
 }
 
+.languageSelection {
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    padding: 0.5rem !important;
+    transition: color 0.25s;
+}
+.languageSelection:hover {
+    color: var(--colorGoldVeryLight);
+    transition: color 0.25s;
+}
+.languageSelection:active {
+    color: var(--colorGoldLight);
+    transition: color 0s;
+}
+.languageSelected {
+    cursor: default;
+    text-decoration: underline solid;
+    text-underline-offset: 0.2rem;
+    text-decoration-color: var(--colorGoldVeryLight);
+    text-decoration-thickness: 0.15rem;
+}
+.languageSelected:hover {
+    color: white;
+}
+
 .orderItem {
     background-color: var(--colorGrayVeryLight);
     outline: 2px solid black;

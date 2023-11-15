@@ -1,6 +1,9 @@
 import { useSelector } from 'react-redux';
 
+import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
+
+import { contentToText } from '../types/languageFunctions';
 
 const MainPage = () => {
     const configState = useSelector((state: RootState) => state.config);
@@ -12,7 +15,7 @@ const MainPage = () => {
                     <tbody>
                         <tr>
                             <td>
-                                <h1>Welcome to {configState.store.contactName}</h1>
+                                <h2>{contentToText(ContentID.homeWelcome, configState)}</h2>
                             </td>
                         </tr>
                     </tbody>

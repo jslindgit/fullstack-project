@@ -3,9 +3,11 @@ import { useSelector } from 'react-redux';
 import { Category } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
+import { contentToText } from '../types/languageFunctions';
 import { pageWidth } from '../constants';
 
 import { Link } from './CustomLink';
+import { ContentID } from '../content';
 
 interface CategoryProps {
     category: Category;
@@ -58,6 +60,7 @@ const CategoryRow = ({ categories, colsPerRow }: CategoryRowProps) => {
 
 const Categories = () => {
     const categoryState = useSelector((state: RootState) => state.categories);
+    const configState = useSelector((state: RootState) => state.config);
 
     const cols = 3;
     const rows: Array<Category[]> = [];
@@ -72,7 +75,7 @@ const Categories = () => {
                     <tbody>
                         <tr>
                             <td>
-                                <h3 className='underlined'>Products</h3>
+                                <h3 className='underlined'>{contentToText(ContentID.menuProducts, configState)}</h3>
                             </td>
                         </tr>
                     </tbody>

@@ -1,4 +1,5 @@
 import { Config, Currency } from '../types/types';
+import { LangCode } from '../types/language';
 
 const currency = (amount: number, config: Config): string => {
     const sum: string = (Math.round(amount * 100) / 100).toFixed(2).toString();
@@ -12,7 +13,9 @@ const currency = (amount: number, config: Config): string => {
         return config.currency;
     };
 
-    return (config.currencyBeforeSum ? symbol() : '') + sum + (config.currencyBeforeSum ? '' : ' ' + symbol());
+    const currencyBeforeSum = [LangCode.ES, LangCode.EN].includes(config.language.code);
+
+    return (currencyBeforeSum ? symbol() : '') + sum + (currencyBeforeSum ? '' : ' ' + symbol());
 };
 
 const dateFormat = (date: Date) => {

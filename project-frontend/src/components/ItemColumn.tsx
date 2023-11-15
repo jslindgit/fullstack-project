@@ -1,5 +1,7 @@
+import { ContentID } from '../content';
 import { Config, Item } from '../types/types';
 
+import { contentToText } from '../types/languageFunctions';
 import format from '../util/format';
 import { imageFullPath } from '../util/misc';
 
@@ -28,7 +30,9 @@ const ItemColumn = ({ item, config }: ItemColumnProps) => {
                                             <td className='sizeNormal itemPriceTd'>{format.currency(item.price, config)}</td>
                                         </tr>
                                         <tr>
-                                            <td className={'sizeSmallish ' + (item.instock > 0 ? 'itemInStock' : 'itemSoldOut')}>{item.instock > 0 ? 'In stock' : 'Sold out'}</td>
+                                            <td className={'sizeSmallish ' + (item.instock > 0 ? 'itemInStock' : 'itemSoldOut')}>
+                                                {contentToText(item.instock > 0 ? ContentID.itemsInStock : ContentID.itemsSoldOut, config)}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

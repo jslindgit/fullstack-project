@@ -74,5 +74,6 @@
 | 13.11. | 3    | Asiakkaalle mahdollisuus valita Postipaketin noutopiste                                                              |     |
 | 14.11. | 1    | Notifikaatio-systeemin parantelua, tilauskäsittelyn työstöä                                                          |     |
 |        | 2    | Parempi Toimitusmaa-valinta ja pohjustusta kieli-sivustoasetusta varten                                              |     |
-| 15.11. | 2    | Kieli-asetuksen työstöä, apufunktio satunnaisten tilausten luomiseen testaamista varten                              |     |
-|  yht   | 146  |                                                                                                                      |     |
+| 15.11. | 2    | Kielivalinnan työstöä, apufunktio satunnaisten tilausten luomiseen testaamista varten                                |     |
+|        | 2    | Kielivalinnan työstöä                                                                                                |     |
+|  yht   | 148  |                                                                                                                      |     |

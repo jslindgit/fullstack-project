@@ -1,4 +1,4 @@
-import { LangText, Language } from './language';
+import { LangContent, LangText, Language } from './language';
 
 export interface Category {
     id: number;
@@ -10,7 +10,7 @@ export type NewCategory = Omit<Omit<Category, 'id'>, 'items'>;
 
 export interface Config {
     currency: Currency;
-    currencyBeforeSum: boolean;
+    langContent: LangContent[];
     language: Language;
     owner: ConfigOwner;
     paytrail: ConfigPaytrail | null;

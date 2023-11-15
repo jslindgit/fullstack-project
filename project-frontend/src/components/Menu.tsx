@@ -6,14 +6,17 @@ import { RootState } from '../reducers/rootReducer';
 
 import loginService from '../services/loginService';
 
+import { contentToText } from '../types/languageFunctions';
 import { removeLoggedUser } from '../reducers/usersReducer';
 import { setNotification } from '../reducers/miscReducer';
 
 import LanguageSelection from './LanguageSelection';
 import { Link } from './CustomLink';
+import { ContentID } from '../content';
 
 const Menu = () => {
     const dispatch = useDispatch();
+    const configState = useSelector((state: RootState) => state.config);
     const miscState = useSelector((state: RootState) => state.misc);
     const usersState = useSelector((state: RootState) => state.users);
 
@@ -26,7 +29,7 @@ const Menu = () => {
                     <tbody>
                         <tr>
                             <td className='sizeNormal semiBold' style={{ textAlign: 'center', paddingBottom: '3px', paddingTop: '6px' }}>
-                                {loggedUser.username} {loggedUser.admin ? <span className='colorYellowLight'> (Admin)</span> : <></>}
+                                {loggedUser.username} {loggedUser.admin ? <span className='colorYellowLight'> ({contentToText(ContentID.menuAdmin, configState)})</span> : <></>}
                             </td>
                         </tr>
                         <tr>
@@ -34,11 +37,11 @@ const Menu = () => {
                                 <table align='center' width='100%'>
                                     <tbody>
                                         <tr>
-                                            <td width='50%' className='tight'>
-                                                {menuLink('/you', 'Account', 'Small')}
+                                            <td width='1px' className='tight'>
+                                                {menuLink('/you', contentToText(ContentID.menuAccount, configState), 'Small')}
                                             </td>
-                                            <td width='50%' className='tight' onClick={async () => await logout(loggedUser, removeLogged, setLogoutNotification)}>
-                                                {menuLink('#', 'Logout', 'Small')}
+                                            <td className='tight' onClick={async () => await logout(loggedUser, removeLogged, setLogoutNotification)}>
+                                                {menuLink('#', contentToText(ContentID.menuLogout, configState), 'Small')}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -85,12 +88,12 @@ const Menu = () => {
     };
 
     const setLogoutNotification = () => {
-        dispatch(setNotification({ tone: 'Neutral', message: 'Logged out' }));
+        dispatch(setNotification({ tone: 'Neutral', message: contentToText(ContentID.notificationLoggedOut, configState) }));
     };
 
     const showAdminMenu = () => {
         if (usersState.loggedUser?.admin) {
-            return <td className='tight'>{menuLink('/admin', 'Admin')}</td>;
+            return <td className='tight'>{menuLink('/admin', contentToText(ContentID.menuAdminSection, configState))}</td>;
         } else {
             return <></>;
         }
@@ -102,14 +105,14 @@ const Menu = () => {
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td>{menuLink('/', 'Home')}</td>
-                            <td>{menuLink('/shop', 'Products')}</td>
-                            <td>{menuLink('/info', 'Info')}</td>
-                            <td>{menuLink('/cart', 'Shopping Cart (' + miscState.shoppingCartItemCount + ')')}</td>
+                            <td>{menuLink('/', contentToText(ContentID.menuHome, configState))}</td>
+                            <td>{menuLink('/shop', contentToText(ContentID.menuProducts, configState))}</td>
+                            <td>{menuLink('/info', contentToText(ContentID.menuInfo, configState))}</td>
+                            <td>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, configState) + ' (' + miscState.shoppingCartItemCount + ')')}</td>
+                            <td style={{ paddingLeft: '0.5rem', paddingRight: '2rem' }}>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</td>
                             <td>
                                 <LanguageSelection />
                             </td>
-                            <td>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</td>
                             {showAdminMenu()}
                         </tr>
                     </tbody>

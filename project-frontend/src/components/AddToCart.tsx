@@ -1,17 +1,20 @@
 import { useDispatch } from 'react-redux';
 
-import { Item } from '../types/types';
+import { Config, Item } from '../types/types';
+import { ContentID } from '../content';
 
 import { refreshShoppingCartItemCount, setNotification } from '../reducers/miscReducer';
 
+import { contentToText } from '../types/languageFunctions';
 import localstorageHandler from '../util/localstorageHandler';
 import useField from '../hooks/useField';
 
 interface Props {
+    config: Config;
     item: Item;
 }
 
-const AddToCart = ({ item }: Props) => {
+const AddToCart = ({ config, item }: Props) => {
     const dispatch = useDispatch();
 
     const amount = useField('integer', '1');
@@ -38,8 +41,7 @@ const AddToCart = ({ item }: Props) => {
 
     return (
         <div>
-            <b>Amount:</b>
-            <br />
+            <b>{contentToText(ContentID.itemsAmount, config)}:</b>
             <br />
             <table className='noPadding'>
                 <tbody>
@@ -61,7 +63,7 @@ const AddToCart = ({ item }: Props) => {
             </table>
             <br />
             <button type='button' onClick={() => handleAddToShoppingCart(item)} disabled={item.instock <= 0 || Number(amount.value) <= 0}>
-                {item.instock > 0 ? 'Add to shopping cart' : 'Sold out'}
+                {contentToText(item.instock > 0 ? ContentID.itemsAddToShoppingCart : ContentID.itemsSoldOut, config)}
             </button>
         </div>
     );

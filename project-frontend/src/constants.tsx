@@ -1,18 +1,23 @@
-import { LangCode } from './types/language';
+import { LangCode, Language } from './types/language';
 import { Currency, Config } from './types/types';
+
+import { defaultLangContent } from './content';
+import localstorageHandler from './util/localstorageHandler';
 
 export const API_KEY = import.meta.env.VITE_API_KEY as string;
 export const apiBaseUrl = 'http://localhost:3001/api';
 export const pageWidth = 1024;
 
+export const defaultLanguage: Language = {
+    code: LangCode.FI,
+    name: 'Suomi',
+    paytrailValue: 'FI',
+};
+
 export const defaultConfig: Config = {
     currency: Currency.EUR,
-    currencyBeforeSum: false,
-    language: {
-        code: LangCode.FI,
-        name: 'Suomi',
-        paytrailValue: 'FI',
-    },
+    langContent: defaultLangContent,
+    language: localstorageHandler.getLang(),
     owner: {
         businessIdentifier: '1234567-8',
         email: 'owner@unnamedwebstore123.com',

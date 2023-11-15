@@ -23,6 +23,26 @@
     border-radius: 15px;
 }
 
+.itemDetailsName {
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+.itemDetailsPrice {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.itemDetailsAdjustAmount {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--colorGraySemiDark);
+    margin-left: 0.5rem !important;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+    user-select: none;
+}
+
 .itemInStock {
     color: var(--colorGreen);
 }

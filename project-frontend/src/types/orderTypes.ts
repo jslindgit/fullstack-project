@@ -61,7 +61,7 @@ export enum OrderStatus {
 export enum OrderValidationError {
     DeliveryMethodMissing = 'Choose a delivery method',
     InvalidEmailAddress = 'Invalid e-mail address',
-    LackingRequiredCustomerInfo = 'Required customer information missing',
+    LackingRequiredCustomerInfo = 'Required contact information missing',
 }
 
 export interface PaytrailData {

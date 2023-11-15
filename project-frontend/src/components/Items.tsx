@@ -78,8 +78,8 @@ const Items = () => {
                             </td>
                         </tr>
                         <tr>
-                            <td className='tight pageHeader underlined'>
-                                <h3>{category.name}</h3>
+                            <td className='tight underlined'>
+                                <h3 style={{ marginBottom: '2rem' }}>{category.name}</h3>
                             </td>
                         </tr>
                     </tbody>

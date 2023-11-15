@@ -13,6 +13,7 @@
     padding-bottom: 22px !important;
     padding-left: 30px !important;
     padding-right: 30px !important;
+    text-wrap: nowrap;
     transition: color 0.25s, background-color 0.25s;
 }
 .menuLink:hover {

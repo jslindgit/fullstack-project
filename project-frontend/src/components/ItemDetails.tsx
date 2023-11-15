@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
+import { contentToText } from '../types/languageFunctions';
 import format from '../util/format';
 import { handleError } from '../util/handleError';
 import { imageFullPath } from '../util/misc';
@@ -14,6 +15,7 @@ import { pageWidth } from '../constants';
 import AddToCart from './AddToCart';
 import BackButton from './BackButton';
 import ItemsMenu from './ItemsMenu';
+import { ContentID } from '../content';
 
 const ItemDetails = () => {
     const configState = useSelector((state: RootState) => state.config);
@@ -75,18 +77,28 @@ const ItemDetails = () => {
                                         <td className='itemDetailsPrice'>{format.currency(item.price, configState)}</td>
                                     </tr>
                                     <tr>
-                                        <td className={item.instock > 0 ? 'itemInStock' : 'itemSoldOut'}>{item.instock > 0 ? `In stock (${item.instock})` : 'Sold out'}</td>
+                                        <td className={'semiBold ' + (item.instock > 0 ? 'itemInStock' : 'itemSoldOut')}>
+                                            {item.instock > 0 ? `${contentToText(ContentID.itemsInStock, configState)} (${item.instock})` : contentToText(ContentID.itemsSoldOut, configState)}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <AddToCart item={item} />
+                                            <AddToCart config={configState} item={item} />
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </td>
-                        <td width='50%'>
-                            <img src={imageFullPath(imagePath)} className='imgItemDetails' />
+                        <td width='50%' className='valignTop'>
+                            <table align='center'>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src={imageFullPath(imagePath)} className='imgItemDetails' />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
                 </tbody>
