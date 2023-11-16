@@ -48,14 +48,13 @@ export enum OrderStatusForAdmin {
 }
 
 export enum OrderStatus {
-    PENDING = 'Pending payment',
-    PROCESSING = 'Processing',
-    SHIPPED = 'Shipped',
-    DELIVERED = 'Delivered',
-    CANCELLED = 'Cancelled',
-    REFUNDED = 'Refunded',
-    ON_HOLD = 'On hold',
-    COMPLETED = 'Completed',
+    PENDING = 'PENDING',
+    PROCESSING = 'PROCESSING',
+    SHIPPED = 'SHIPPED',
+    DELIVERED = 'DELIVERED',
+    CANCELLED = 'CANCELLED',
+    REFUNDED = 'REFUNDED',
+    COMPLETED = 'COMPLETED',
 }
 
 export enum OrderValidationError {

@@ -74,9 +74,7 @@ const Categories = () => {
                 <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
                     <tbody>
                         <tr>
-                            <td>
-                                <h3 className='underlined'>{contentToText(ContentID.menuProducts, configState)}</h3>
-                            </td>
+                            <td className='pageHeader'>{contentToText(ContentID.menuProducts, configState)}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -77,4 +77,5 @@
 | 15.11. | 2    | Kielivalinnan työstöä, apufunktio satunnaisten tilausten luomiseen testaamista varten                                |     |
 |        | 2    | Kielivalinnan työstöä                                                                                                |     |
 | 16.11. | 1    | Kielivalinnan työstöä                                                                                                |     |
-|  yht   | 149  |                                                                                                                      |     |
+|        | 2    | Kielivalinnan työstöä, tyylien muokkausta                                                                            | 151 |
+|  yht   | 151  |                                                                                                                      |     |

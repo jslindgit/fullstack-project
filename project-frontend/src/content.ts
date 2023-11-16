@@ -9,6 +9,19 @@ export enum ContentID {
     cartSubtotal = 'SHOPPING CART: Subtotal',
     cartTotalPrice = 'SHOPPING CART: Total price',
     cartUnitPrice = 'SHOPPING CART: Unit price',
+    checkOutChooseDeliveryMethod = 'CHECK OUT: Choose Delivery Method (header)',
+    checkOutChoosePaymentMethod = 'CHECK OUT: Choose Payment Methdod (button)',
+    checkOutCity = 'CHECK OUT: City',
+    checkOutCountry = 'CHECK OUT: Country',
+    checkOutCustomerContactInformation = 'CHECK OUT: Customer Contact Information (header)',
+    checkOutFirstName = 'CHECK OUT: First name',
+    checkOutHeader = 'CHECK OUT: Header',
+    checkOutLastName = 'CHECK OUT: Last name',
+    checkOutOrderInfo = 'CHECK OUT: Order Info (header)',
+    checkOutOrganization = 'CHECK OUT: Organization',
+    checkOutSelectCountry = 'CHECK OUT: Select a country',
+    checkOutStreetAddress = 'CHECK OUT: Street address',
+    checkOutZipCode = 'CHECK OUT: Zipcode',
     contactBusinessID = 'CONTACT: Business ID',
     contactEmail = 'CONTACT: E-mail',
     contactPhone = 'CONTACT: Phone',
@@ -17,6 +30,10 @@ export enum ContentID {
     itemsAmount = 'ITEMS: Amount (to add to shopping cart)',
     itemsInStock = 'ITEMS: In stock',
     itemsSoldOut = 'ITEMS: Sold out',
+    loginNoAccount = 'LOGIN: No account yet?',
+    loginPassword = 'LOGIN: Password:',
+    loginRegisterHere = 'LOGIN: Register here (link)',
+    loginUsername = 'LOGIN: Username:',
     menuAccount = 'MENU: Account',
     menuAdmin = 'MENU: Admin (shown next to username if the user is an admin)',
     menuAdminSection = 'MENU: Admin (section)',
@@ -28,6 +45,21 @@ export enum ContentID {
     menuShoppingCart = 'MENU: Shopping Cart',
     miscMerchant = 'MISC: Merchant',
     notificationLoggedOut = 'NOTIFICATION: Logged out',
+    orderCustomer = 'ORDER: Customer',
+    orderDeliveryMethod = 'ORDER: Delivery Method',
+    orderId = 'ORDER: Order ID',
+    orderItems = 'ORDER: Items',
+    orderPaymentMethod = 'ORDER: Payment method',
+    orderStatus = 'ORDER: Status',
+    orderTotalAmount = 'ORDER: Total Amount',
+    statusCancelled = 'ORDER STATUS: Cancelled',
+    statusCompleted = 'ORDER STATUS: Completed',
+    statusDelivered = 'ORDER STATUS: Delivered',
+    statusOnHold = 'ORDER STATUS: On hold',
+    statusPending = 'ORDER STATUS: Pending',
+    statusProcessing = 'ORDER STATUS: Processing',
+    statusRefunded = 'ORDER STATUS: Refunded',
+    statusShipped = 'ORDER STATUS: Shipped',
 }
 
 /*
@@ -98,6 +130,97 @@ export const defaultLangContent = [
         ],
     },
     {
+        id: ContentID.checkOutChooseDeliveryMethod,
+        content: [
+            { lang: LangCode.EN, text: 'Choose Delivery Method' },
+            { lang: LangCode.FI, text: 'Valitse toimitustapa' },
+        ],
+    },
+    {
+        id: ContentID.checkOutChoosePaymentMethod,
+        content: [
+            { lang: LangCode.EN, text: 'Choose Payment Method' },
+            { lang: LangCode.FI, text: 'Valitse maksutapa' },
+        ],
+    },
+    {
+        id: ContentID.checkOutCity,
+        content: [
+            { lang: LangCode.EN, text: 'City' },
+            { lang: LangCode.FI, text: 'Kaupunki' },
+        ],
+    },
+    {
+        id: ContentID.checkOutCountry,
+        content: [
+            { lang: LangCode.EN, text: 'Country' },
+            { lang: LangCode.FI, text: 'Maa' },
+        ],
+    },
+    {
+        id: ContentID.checkOutCustomerContactInformation,
+        content: [
+            { lang: LangCode.EN, text: 'Customer Contact Information' },
+            { lang: LangCode.FI, text: 'Tilaajan yhteystiedot' },
+        ],
+    },
+    {
+        id: ContentID.checkOutFirstName,
+        content: [
+            { lang: LangCode.EN, text: 'First name' },
+            { lang: LangCode.FI, text: 'Etunimi' },
+        ],
+    },
+    {
+        id: ContentID.checkOutHeader,
+        content: [
+            { lang: LangCode.EN, text: 'Check Out' },
+            { lang: LangCode.FI, text: 'Kassa' },
+        ],
+    },
+    {
+        id: ContentID.checkOutLastName,
+        content: [
+            { lang: LangCode.EN, text: 'Last name' },
+            { lang: LangCode.FI, text: 'Sukunimi' },
+        ],
+    },
+    {
+        id: ContentID.checkOutOrderInfo,
+        content: [
+            { lang: LangCode.EN, text: 'Order Info' },
+            { lang: LangCode.FI, text: 'Tilaus' },
+        ],
+    },
+    {
+        id: ContentID.checkOutOrganization,
+        content: [
+            { lang: LangCode.EN, text: 'Organization' },
+            { lang: LangCode.FI, text: 'Organisaatio' },
+        ],
+    },
+    {
+        id: ContentID.checkOutSelectCountry,
+        content: [
+            { lang: LangCode.EN, text: 'Select a country...' },
+            { lang: LangCode.FI, text: 'Valitse maa...' },
+        ],
+    },
+    {
+        id: ContentID.checkOutStreetAddress,
+        content: [
+            { lang: LangCode.EN, text: 'Street address' },
+            { lang: LangCode.FI, text: 'Katuosoite' },
+        ],
+    },
+    {
+        id: ContentID.checkOutZipCode,
+        content: [
+            { lang: LangCode.EN, text: 'Postal code' },
+            { lang: LangCode.FI, text: 'Postinumero' },
+        ],
+    },
+    {
         id: ContentID.contactBusinessID,
         content: [
             { lang: LangCode.EN, text: 'Business ID' },
@@ -151,6 +274,34 @@ export const defaultLangContent = [
         content: [
             { lang: LangCode.EN, text: 'Sold out' },
             { lang: LangCode.FI, text: 'Loppu' },
+        ],
+    },
+    {
+        id: ContentID.loginNoAccount,
+        content: [
+            { lang: LangCode.EN, text: 'No account yet?' },
+            { lang: LangCode.FI, text: 'Ei vielä käyttäjätiliä?' },
+        ],
+    },
+    {
+        id: ContentID.loginPassword,
+        content: [
+            { lang: LangCode.EN, text: 'Password' },
+            { lang: LangCode.FI, text: 'Salasana' },
+        ],
+    },
+    {
+        id: ContentID.loginRegisterHere,
+        content: [
+            { lang: LangCode.EN, text: 'Register here.' },
+            { lang: LangCode.FI, text: 'Rekisteröidy täällä.' },
+        ],
+    },
+    {
+        id: ContentID.loginUsername,
+        content: [
+            { lang: LangCode.EN, text: 'Username' },
+            { lang: LangCode.FI, text: 'Käyttäjätunnus' },
         ],
     },
     {
@@ -228,6 +379,104 @@ export const defaultLangContent = [
         content: [
             { lang: LangCode.EN, text: 'Logged out' },
             { lang: LangCode.FI, text: 'Kirjauduit ulos' },
+        ],
+    },
+    {
+        id: ContentID.orderCustomer,
+        content: [
+            { lang: LangCode.EN, text: 'Customer' },
+            { lang: LangCode.FI, text: 'Tilaaja' },
+        ],
+    },
+    {
+        id: ContentID.orderDeliveryMethod,
+        content: [
+            { lang: LangCode.EN, text: 'Delivery method' },
+            { lang: LangCode.FI, text: 'Toimitustapa' },
+        ],
+    },
+    {
+        id: ContentID.orderId,
+        content: [
+            { lang: LangCode.EN, text: 'Order ID' },
+            { lang: LangCode.FI, text: 'Tilausnumero' },
+        ],
+    },
+    {
+        id: ContentID.orderItems,
+        content: [
+            { lang: LangCode.EN, text: 'Items' },
+            { lang: LangCode.FI, text: 'Tuotteet' },
+        ],
+    },
+    {
+        id: ContentID.orderPaymentMethod,
+        content: [
+            { lang: LangCode.EN, text: 'Payment method' },
+            { lang: LangCode.FI, text: 'Maksutapa' },
+        ],
+    },
+    {
+        id: ContentID.orderStatus,
+        content: [
+            { lang: LangCode.EN, text: 'Status' },
+            { lang: LangCode.FI, text: 'Tila' },
+        ],
+    },
+    {
+        id: ContentID.orderTotalAmount,
+        content: [
+            { lang: LangCode.EN, text: 'Total amount' },
+            { lang: LangCode.FI, text: 'Loppusumma' },
+        ],
+    },
+    {
+        id: ContentID.statusCancelled,
+        content: [
+            { lang: LangCode.EN, text: 'Cancelled' },
+            { lang: LangCode.FI, text: 'Peruttu' },
+        ],
+    },
+    {
+        id: ContentID.statusCompleted,
+        content: [
+            { lang: LangCode.EN, text: 'Completed' },
+            { lang: LangCode.FI, text: 'Valmis' },
+        ],
+    },
+    {
+        id: ContentID.statusDelivered,
+        content: [
+            { lang: LangCode.EN, text: 'Delivered' },
+            { lang: LangCode.FI, text: 'Toimitettu' },
+        ],
+    },
+    {
+        id: ContentID.statusPending,
+        content: [
+            { lang: LangCode.EN, text: 'Pending payment' },
+            { lang: LangCode.FI, text: 'Odottaa maksua' },
+        ],
+    },
+    {
+        id: ContentID.statusProcessing,
+        content: [
+            { lang: LangCode.EN, text: 'Processing' },
+            { lang: LangCode.FI, text: 'Käsittelyssä' },
+        ],
+    },
+    {
+        id: ContentID.statusRefunded,
+        content: [
+            { lang: LangCode.EN, text: 'Refunded' },
+            { lang: LangCode.FI, text: 'Hyvitetty' },
+        ],
+    },
+    {
+        id: ContentID.statusShipped,
+        content: [
+            { lang: LangCode.EN, text: 'Shipped' },
+            { lang: LangCode.FI, text: 'Lähetetty' },
         ],
     },
 ];

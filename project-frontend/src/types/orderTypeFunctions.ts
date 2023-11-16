@@ -1,10 +1,12 @@
+import { ContentID } from '../content';
 import { Config } from './types';
 import { NewOrder, Order, OrderStatus, OrderStatusForAdmin, OrderValidationError, ShoppingItem } from './orderTypes';
 
+import { contentToText } from './languageFunctions';
 import { isValidEmailAddress } from '../util/misc';
-import { orderTotalSum } from '../util/checkoutProvider';
 import { isObject, isString } from './typeFunctions';
 import { langTextsToText } from './languageFunctions';
+import { orderTotalSum } from '../util/checkoutProvider';
 
 export const getEmptyOrder = (): NewOrder => {
     const order: NewOrder = {
@@ -81,6 +83,27 @@ export const orderFromResponseBody = (responseBody: unknown): Order => {
         items: filteredItems,
         paymentMethod: payment && isString(payment) && payment.length > 0 ? payment : null,
     };
+};
+
+export const printOrderStatus = (status: OrderStatus, config: Config): string => {
+    switch (status) {
+        case OrderStatus.CANCELLED:
+            return contentToText(ContentID.statusCancelled, config);
+        case OrderStatus.COMPLETED:
+            return contentToText(ContentID.statusCompleted, config);
+        case OrderStatus.DELIVERED:
+            return contentToText(ContentID.statusDelivered, config);
+        case OrderStatus.PENDING:
+            return contentToText(ContentID.statusPending, config);
+        case OrderStatus.PROCESSING:
+            return contentToText(ContentID.statusProcessing, config);
+        case OrderStatus.REFUNDED:
+            return contentToText(ContentID.statusRefunded, config);
+        case OrderStatus.SHIPPED:
+            return contentToText(ContentID.statusShipped, config);
+        default:
+            return 'N/A';
+    }
 };
 
 export const validateOrder = (order: NewOrder | Order): OrderValidationError[] => {

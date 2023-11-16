@@ -49,9 +49,7 @@ const ShoppingCart = () => {
             <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
                 <tbody>
                     <tr>
-                        <td>
-                            <h3 className='underlined'>{contentToText(ContentID.menuShoppingCart, config)}</h3>
-                        </td>
+                        <td className='pageHeader'>{contentToText(ContentID.menuShoppingCart, config)}</td>
                     </tr>
                 </tbody>
             </table>

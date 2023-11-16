@@ -1,9 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { ContentID } from '../content';
 import { User } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
+import { contentToText } from '../types/languageFunctions';
 import localstorageHandler from '../util/localstorageHandler';
 import loginService from '../services/loginService';
 import useField from '../hooks/useField';
@@ -14,11 +16,12 @@ import { removeLoggedUser, setLoggedUser } from '../reducers/usersReducer';
 import InputField from './InputField';
 
 const Login = () => {
+    const dispatch = useDispatch();
+    const config = useSelector((state: RootState) => state.config);
+    const usersState = useSelector((state: RootState) => state.users);
+
     const username = useField('text');
     const password = useField('password');
-
-    const dispatch = useDispatch();
-    const usersState = useSelector((state: RootState) => state.users);
 
     const navigate = useNavigate();
 
@@ -36,27 +39,32 @@ const Login = () => {
                 <table align='center' width='1px' className='paddingTopBottomOnly'>
                     <tbody>
                         <tr>
-                            <td className='pageHeader tight'>
-                                <h3>Login</h3>
+                            <td colSpan={2} className='pageHeader'>
+                                {contentToText(ContentID.menuLogin, config)}
                             </td>
+                        </tr>
+                        <tr>
+                            <td className='semiBold widthByContent'>{contentToText(ContentID.loginUsername, config)}:</td>
+                            <td>
+                                <InputField useField={username} width='20rem' />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className='semiBold'>{contentToText(ContentID.loginPassword, config)}:</td>
+                            <td>
+                                <InputField useField={password} width='20rem' />
+                            </td>
+                        </tr>
+                        <tr>
                             <td></td>
-                        </tr>
-                        <tr>
-                            <td className='widthByContent'>Username:</td>
                             <td>
-                                <InputField useField={username} width='15rem' />
+                                <button type='submit'>{contentToText(ContentID.menuLogin, config)}</button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Password:</td>
-                            <td>
-                                <InputField useField={password} width='15rem' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <button type='submit'>Login</button>
+                            <td colSpan={2}>
+                                <br />
+                                {contentToText(ContentID.loginNoAccount, config)} <a>{contentToText(ContentID.loginRegisterHere, config)}</a>
                             </td>
                         </tr>
                     </tbody>

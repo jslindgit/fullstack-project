@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { ContentID } from '../content';
 import { DeliveryMethod } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
+import { contentToText } from '../types/languageFunctions';
 import deliveryService from '../services/deliveryService';
 
 import CheckOutDeliveryMethod from './CheckOutDeliveryMethod';
@@ -18,19 +20,19 @@ interface Props {
 }
 
 const CheckOutDelivery = ({ currentMethod, customerCountry, customerZipCode, setDeliveryMethod, validate, width }: Props) => {
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
 
     const [methods, setMethods] = useState<DeliveryMethod[]>([]);
 
     useEffect(() => {
         const isDomestic = () => {
-            return configState.store.contactCountry.names.find((name) => name.text === customerCountry);
+            return config.store.contactCountry.names.find((name) => name.text === customerCountry);
         };
 
         if (customerCountry && customerCountry.length > 0) {
             setMethods(isDomestic() ? deliveryService.getAllDomestic() : deliveryService.getAllInternational());
         }
-    }, [configState.store.contactCountry, customerCountry]);
+    }, [config.store.contactCountry, customerCountry]);
 
     return (
         <>
@@ -38,7 +40,7 @@ const CheckOutDelivery = ({ currentMethod, customerCountry, customerZipCode, set
                 <tbody>
                     <tr>
                         <td style={{ paddingTop: 0, paddingBottom: 0 }}>
-                            <h3>Choose Delivery Method</h3>
+                            <h3>{contentToText(ContentID.checkOutChooseDeliveryMethod, config)}</h3>
                         </td>
                     </tr>
                 </tbody>

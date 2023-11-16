@@ -38,9 +38,13 @@ const Info = () => {
     return (
         <>
             <div>
-                <br />
                 <table align='center' width={pageWidth} className='valignTop'>
                     <tbody>
+                        <tr>
+                            <td colSpan={3} className='pageHeader'>
+                                {contentToText(ContentID.menuInfo, configState)}
+                            </td>
+                        </tr>
                         <tr>
                             <td width='47%' className='infoBox'>
                                 <table width='100%' className='noPadding'>

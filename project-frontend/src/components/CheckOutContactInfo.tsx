@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useField, { UseField } from '../hooks/useField';
 
+import { ContentID } from '../content';
 import { NewOrder, Order } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
+import { contentToText } from '../types/languageFunctions';
 import dev from '../util/dev';
 import { isValidEmailAddress } from '../util/misc';
 import { langTextsToText } from '../types/languageFunctions';
@@ -17,10 +19,23 @@ interface Props {
 }
 
 const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }: Props) => {
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
 
     const [availableCountries, setAvailableCountries] = useState<string[]>([]);
     const [country, setCountry] = useState<string | null>(currentOrder.customerCountry.length > 0 ? currentOrder.customerCountry : null);
+
+    useEffect(() => {
+        // In case the current country in the Order is set with a different language that is in use at the moment:
+        const getCountryFromOrder = () => {
+            config.store.deliveryCountries.forEach((c) => {
+                if (c.names.find((langText) => langText.text === currentOrder.customerCountry)) {
+                    setCountry(langTextsToText(c.names, config));
+                }
+            });
+        };
+
+        getCountryFromOrder();
+    }, [config, config.language, currentOrder.customerCountry]);
 
     const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setCountry(event.target.value);
@@ -62,11 +77,11 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
 
     useEffect(() => {
         const countries: string[] = [];
-        configState.store.deliveryCountries.forEach((c) => {
-            countries.push(langTextsToText(c.names, configState));
+        config.store.deliveryCountries.forEach((c) => {
+            countries.push(langTextsToText(c.names, config));
         });
         setAvailableCountries(countries);
-    }, [configState]);
+    }, [config]);
 
     useEffect(() => {
         setCustomerInfo(
@@ -120,7 +135,7 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
                 <tbody>
                     <tr>
                         <td>
-                            <h3>Customer Contact Information</h3>
+                            <h3>{contentToText(ContentID.checkOutCustomerContactInformation, config)}</h3>
                             <a onClick={fillRandomly}>Fill randomly</a>
                         </td>
                     </tr>
@@ -128,15 +143,15 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
             </table>
             <table align='center' width={width}>
                 <tbody>
-                    {inputField('First name', firstName)}
-                    {inputField('Last name', lastName)}
-                    {inputField('Organization\n(optional)', organization)}
-                    {inputField('Street address', address)}
-                    {inputField('Zipcode', zipCode)}
-                    {inputField('City', city)}
+                    {inputField(contentToText(ContentID.checkOutFirstName, config), firstName)}
+                    {inputField(contentToText(ContentID.checkOutLastName, config), lastName)}
+                    {inputField(contentToText(ContentID.checkOutOrganization, config) + '\n(optional)', organization)}
+                    {inputField(contentToText(ContentID.checkOutStreetAddress, config), address)}
+                    {inputField(contentToText(ContentID.checkOutZipCode, config), zipCode)}
+                    {inputField(contentToText(ContentID.checkOutCity, config), city)}
 
                     <tr>
-                        <td className='widthByContent semiBold'>Country</td>
+                        <td className='widthByContent semiBold'>{contentToText(ContentID.checkOutCountry, config)}</td>
                         <td style={{ paddingTop: '0.6rem', paddingBottom: '0.6rem' }}>
                             {validate && !country ? (
                                 <div className='validationError'>
@@ -148,7 +163,7 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
                             )}
                             <select value={country || ''} onChange={handleCountryChange}>
                                 <option value='' disabled>
-                                    Select a country
+                                    {contentToText(ContentID.checkOutSelectCountry, config)}
                                 </option>
                                 {availableCountries.map((c) => (
                                     <option key={c} value={c}>
@@ -159,8 +174,8 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
                         </td>
                     </tr>
 
-                    {inputField('E-mail', email)}
-                    {inputField('Phone', phone)}
+                    {inputField(contentToText(ContentID.contactEmail, config), email)}
+                    {inputField(contentToText(ContentID.contactPhone, config), phone)}
                 </tbody>
             </table>
         </>

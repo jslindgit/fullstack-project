@@ -1,9 +1,13 @@
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { ContentID } from '../content';
 import { DeliveryMethod, NewOrder, Order } from '../types/orderTypes';
 import { ItemPair } from './ShoppinCart';
+import { RootState } from '../reducers/rootReducer';
 
+import { contentToText } from '../types/languageFunctions';
 import { fetchItems } from '../util/checkoutProvider';
 import { pageWidth } from '../constants';
 import orderHandler from '../util/orderHandler';
@@ -15,6 +19,8 @@ import CheckOutDelivery from './CheckOutDelivery';
 import OrderInfo from './OrderInfo';
 
 const CheckOut = () => {
+    const config = useSelector((state: RootState) => state.config);
+
     const fetchOrder = (): Order | NewOrder => {
         const storedOrder = orderHandler.getOrder();
         if (storedOrder) {
@@ -92,9 +98,7 @@ const CheckOut = () => {
             <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
                 <tbody>
                     <tr>
-                        <td>
-                            <h3 className='underlined'>Check Out</h3>
-                        </td>
+                        <td className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</td>
                     </tr>
                 </tbody>
             </table>
@@ -138,7 +142,7 @@ const CheckOut = () => {
                                     ''
                                 )}
                                 <button type='button' className='large' onClick={handlePaymentClick} disabled={validationErrors.length > 0} style={{ width: '100%', marginTop: '1rem' }}>
-                                    Choose payment method →
+                                    {contentToText(ContentID.checkOutChoosePaymentMethod, config)} →
                                 </button>
                             </div>
                         </td>

@@ -65,3 +65,15 @@ h4 {
     padding-top: 1rem !important;
     text-transform: uppercase;
 }
+
+.pageHeader {
+    /* Applied for the <td> that the header is in */
+    font-size: var(--fontSizeVeryLarge);
+    font-weight: bold;
+    padding-bottom: 2rem;
+    padding-left: 0;
+    padding-top: 1rem;
+    text-decoration: underline solid var(--colorGoldVeryLight);
+    text-underline-offset: 0.3rem;
+    text-decoration-thickness: 0.3rem;
+}
