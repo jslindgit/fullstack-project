@@ -1,6 +1,10 @@
 import { useSelector } from 'react-redux';
 
+import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
+
+import { contentToText } from '../types/languageFunctions';
+import { pageWidth } from '../constants';
 
 const Info = () => {
     const configState = useSelector((state: RootState) => state.config);
@@ -9,7 +13,7 @@ const Info = () => {
         if (bid.length > 0) {
             return (
                 <tr>
-                    <td className='widthByContent infoText'>Business ID:</td>
+                    <td className='widthByContent infoText'>{contentToText(ContentID.contactBusinessID, configState)}:&emsp;</td>
                     <td className='infoText'>{bid}</td>
                 </tr>
             );
@@ -20,8 +24,10 @@ const Info = () => {
         if (phoneNumber.length > 0) {
             return (
                 <tr>
-                    <td className='infoText'>Phone:</td>
-                    <td className='infoText'>{phoneNumber}</td>
+                    <td className='infoText'>{contentToText(ContentID.contactPhone, configState)}:&emsp;</td>
+                    <td className='infoText'>
+                        <a href={'tel:' + phoneNumber}>{phoneNumber}</a>
+                    </td>
                 </tr>
             );
         } else {
@@ -33,65 +39,49 @@ const Info = () => {
         <>
             <div>
                 <br />
-                <table align='center' className='valignTop'>
+                <table align='center' width={pageWidth} className='valignTop'>
                     <tbody>
                         <tr>
-                            <td className='noPadding'>
-                                <table align='left'>
+                            <td width='47%' className='infoBox'>
+                                <table width='100%' className='noPadding'>
                                     <tbody>
                                         <tr>
-                                            <td>
-                                                <h3 className='underlined'>{configState.store.contactName}</h3>
+                                            <td colSpan={2}>
+                                                <div className='infoHeader underlined'>{configState.store.contactName}</div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
-                                                <table width='100%' className='noOuterPadding'>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td className='widthByContent infoText'>Email:</td>
-                                                            <td className='infoText'>
-                                                                <a href={'mailto:' + configState.store.contactEmail}>{configState.store.contactEmail}</a>
-                                                            </td>
-                                                        </tr>
-                                                        {phone(configState.store.contactPhone)}
-                                                    </tbody>
-                                                </table>
+                                            <td className='widthByContent infoText'>{contentToText(ContentID.contactEmail, configState)}:&emsp;</td>
+                                            <td className='infoText'>
+                                                <a href={'mailto:' + configState.store.contactEmail}>{configState.store.contactEmail}</a>
                                             </td>
                                         </tr>
+                                        {phone(configState.store.contactPhone)}
                                     </tbody>
                                 </table>
                             </td>
-                            <td width='150rem'></td>
-                            <td className='noPadding' style={{ verticalAlign: 'top' }}>
-                                <table align='right' className='paddingTopBottomOnly'>
+                            <td></td>
+                            <td width='47%' className='infoBox' style={{ verticalAlign: 'top' }}>
+                                <table width='100%' className='noPadding'>
                                     <tbody>
                                         <tr>
-                                            <td>
-                                                <h3 className='underlined'>Store Owner</h3>
+                                            <td colSpan={2}>
+                                                <div className='infoHeader underlined'>{contentToText(ContentID.miscMerchant, configState)}</div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className='semiBold infoText' style={{ paddingTop: 0 }}>
+                                            <td colSpan={2} className='semiBold infoText' style={{ paddingTop: 0 }}>
                                                 {configState.owner.name}
                                             </td>
                                         </tr>
+                                        {businessId(configState.owner.businessIdentifier)}
                                         <tr>
-                                            <td className='noPadding'>
-                                                <table align='center' width='100%'>
-                                                    <tbody>
-                                                        {businessId(configState.owner.businessIdentifier)}
-                                                        <tr>
-                                                            <td className='widthByContent infoText'>Email:</td>
-                                                            <td className='infoText'>
-                                                                <a href={'mailto:' + configState.owner.email}>{configState.owner.email}</a>
-                                                            </td>
-                                                        </tr>
-                                                        {phone(configState.owner.phone)}
-                                                    </tbody>
-                                                </table>
+                                            <td className='widthByContent infoText'>{contentToText(ContentID.contactEmail, configState)}:&emsp;</td>
+                                            <td className='infoText'>
+                                                <a href={'mailto:' + configState.owner.email}>{configState.owner.email}</a>
                                             </td>
                                         </tr>
+                                        {phone(configState.owner.phone)}
                                     </tbody>
                                 </table>
                             </td>

@@ -2,6 +2,16 @@ import { LangCode } from './types/language';
 
 export enum ContentID {
     backButtonDefault = 'BACK BUTTON: Default label',
+    buttonCheckOut = 'BUTTON: Check out',
+    buttonRemove = 'BUTTON: Remove',
+    cartProduct = 'SHOPPING CART: Product',
+    cartQuantity = 'SHOPPING CART: Quantity',
+    cartSubtotal = 'SHOPPING CART: Subtotal',
+    cartTotalPrice = 'SHOPPING CART: Total price',
+    cartUnitPrice = 'SHOPPING CART: Unit price',
+    contactBusinessID = 'CONTACT: Business ID',
+    contactEmail = 'CONTACT: E-mail',
+    contactPhone = 'CONTACT: Phone',
     homeWelcome = 'HOME: Welcome text',
     itemsAddToShoppingCart = 'ITEMS: "Add to shopping cart" button',
     itemsAmount = 'ITEMS: Amount (to add to shopping cart)',
@@ -16,6 +26,7 @@ export enum ContentID {
     menuLogout = 'MENU: Log out',
     menuProducts = 'MENU: Products',
     menuShoppingCart = 'MENU: Shopping Cart',
+    miscMerchant = 'MISC: Merchant',
     notificationLoggedOut = 'NOTIFICATION: Logged out',
 }
 
@@ -35,6 +46,76 @@ export const defaultLangContent = [
         content: [
             { lang: LangCode.EN, text: 'Go back' },
             { lang: LangCode.FI, text: 'Takaisin' },
+        ],
+    },
+    {
+        id: ContentID.buttonCheckOut,
+        content: [
+            { lang: LangCode.EN, text: 'Check out' },
+            { lang: LangCode.FI, text: 'Kassalle' },
+        ],
+    },
+    {
+        id: ContentID.buttonRemove,
+        content: [
+            { lang: LangCode.EN, text: 'Remove' },
+            { lang: LangCode.FI, text: 'Poista' },
+        ],
+    },
+    {
+        id: ContentID.cartProduct,
+        content: [
+            { lang: LangCode.EN, text: 'Product' },
+            { lang: LangCode.FI, text: 'Tuote' },
+        ],
+    },
+    {
+        id: ContentID.cartQuantity,
+        content: [
+            { lang: LangCode.EN, text: 'Quantity' },
+            { lang: LangCode.FI, text: 'Määrä' },
+        ],
+    },
+    {
+        id: ContentID.cartSubtotal,
+        content: [
+            { lang: LangCode.EN, text: 'Subtotal' },
+            { lang: LangCode.FI, text: 'Välisumma' },
+        ],
+    },
+    {
+        id: ContentID.cartTotalPrice,
+        content: [
+            { lang: LangCode.EN, text: 'Total price' },
+            { lang: LangCode.FI, text: 'Yhteensä' },
+        ],
+    },
+    {
+        id: ContentID.cartUnitPrice,
+        content: [
+            { lang: LangCode.EN, text: 'Unit price' },
+            { lang: LangCode.FI, text: 'Hinta/kpl' },
+        ],
+    },
+    {
+        id: ContentID.contactBusinessID,
+        content: [
+            { lang: LangCode.EN, text: 'Business ID' },
+            { lang: LangCode.FI, text: 'Y-tunnus' },
+        ],
+    },
+    {
+        id: ContentID.contactEmail,
+        content: [
+            { lang: LangCode.EN, text: 'E-mail' },
+            { lang: LangCode.FI, text: 'Sähköposti' },
+        ],
+    },
+    {
+        id: ContentID.contactPhone,
+        content: [
+            { lang: LangCode.EN, text: 'Phone' },
+            { lang: LangCode.FI, text: 'Puhelin' },
         ],
     },
     {
@@ -133,6 +214,13 @@ export const defaultLangContent = [
         content: [
             { lang: LangCode.EN, text: 'Shopping Cart' },
             { lang: LangCode.FI, text: 'Ostoskori' },
+        ],
+    },
+    {
+        id: ContentID.miscMerchant,
+        content: [
+            { lang: LangCode.EN, text: 'Merchant' },
+            { lang: LangCode.FI, text: 'Kauppias' },
         ],
     },
     {

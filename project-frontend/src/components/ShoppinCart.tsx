@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { ContentID } from '../content';
 import { Item } from '../types/types';
 import { ShoppingItem } from '../types/orderTypes';
+import { RootState } from '../reducers/rootReducer';
 
 import { refreshShoppingCartItemCount } from '../reducers/miscReducer';
 
+import { contentToText } from '../types/languageFunctions';
 import { fetchItems } from '../util/checkoutProvider';
 import localstorageHandler from '../util/localstorageHandler';
 import { pageWidth } from '../constants';
@@ -21,6 +24,7 @@ export interface ItemPair {
 
 const ShoppingCart = () => {
     const dispatch = useDispatch();
+    const config = useSelector((state: RootState) => state.config);
 
     const [items, setItems] = useState<ItemPair[]>([]);
 
@@ -46,7 +50,7 @@ const ShoppingCart = () => {
                 <tbody>
                     <tr>
                         <td>
-                            <h3 className='underlined'>Shopping cart</h3>
+                            <h3 className='underlined'>{contentToText(ContentID.menuShoppingCart, config)}</h3>
                         </td>
                     </tr>
                 </tbody>
@@ -62,7 +66,7 @@ const ShoppingCart = () => {
                             {items.length > 0 ? (
                                 <Link to='/checkout'>
                                     <button type='button' className='large'>
-                                        Check out →
+                                        {contentToText(ContentID.buttonCheckOut, config)} →
                                     </button>
                                 </Link>
                             ) : (

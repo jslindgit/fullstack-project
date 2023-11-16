@@ -34,6 +34,24 @@
     justify-content: center;
 }
 
+.infoBox {
+    border: solid 0.4rem var(--colorGrayLight) !important;
+    border-radius: 0 !important;
+    padding: 1.5rem;
+}
+.infoBox tr:last-child td {
+    padding-bottom: 0 !important;
+}
+.infoBox td {
+    padding-bottom: 0.5rem !important;
+}
+.infoHeader {
+    color: var(--colorGrayDark);
+    font-size: var(--fontSizeVeryLarge);
+    font-weight: bold;
+    margin-bottom: 1rem !important;
+}
+
 .languageSelection {
     color: white;
     cursor: pointer;

@@ -1,8 +1,10 @@
 import { useSelector } from 'react-redux';
 
+import { ContentID } from '../content';
 import { ItemPair } from './ShoppinCart';
 import { RootState } from '../reducers/rootReducer';
 
+import { contentToText } from '../types/languageFunctions';
 import format from '../util/format';
 import { itemsTotalSum } from '../util/checkoutProvider';
 
@@ -17,7 +19,7 @@ interface Props {
 }
 
 const ShoppingCartContent = ({ allowEdit, fetchItems, items, removeItem, width }: Props) => {
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
 
     if (items.length <= 0) {
         return (
@@ -37,11 +39,10 @@ const ShoppingCartContent = ({ allowEdit, fetchItems, items, removeItem, width }
                 {items.length > 0 ? (
                     <>
                         <tr className='semiBold' style={{ backgroundColor: 'var(--colorGrayVeryLight)' }}>
-                            <td>Product</td>
-                            <td></td>
-                            <td>Unit price</td>
-                            <td>Quantity</td>
-                            <td>Total price</td>
+                            <td colSpan={2}>{contentToText(ContentID.cartProduct, config)}</td>
+                            <td>{contentToText(ContentID.cartUnitPrice, config)}</td>
+                            <td>{contentToText(ContentID.cartQuantity, config)}</td>
+                            <td>{contentToText(ContentID.cartTotalPrice, config)}</td>
                             <td></td>
                         </tr>
                         {items.map((itemPair) => (
@@ -59,8 +60,8 @@ const ShoppingCartContent = ({ allowEdit, fetchItems, items, removeItem, width }
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td className='bold'>Subtotal:</td>
-                            <td className='bold'>{format.currency(itemsTotalSum(items.map((itemPair) => itemPair.shoppingItem)), configState)}</td>
+                            <td className='semiBold'>{contentToText(ContentID.cartSubtotal, config)}:</td>
+                            <td className='semiBold'>{format.currency(itemsTotalSum(items.map((itemPair) => itemPair.shoppingItem)), config)}</td>
                             <td></td>
                         </tr>
                     </>

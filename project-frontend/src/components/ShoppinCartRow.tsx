@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { ContentID } from '../content';
 import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 import { ShoppingItem } from '../types/orderTypes';
 
 import { refreshShoppingCartItemCount } from '../reducers/miscReducer';
 
+import { contentToText } from '../types/languageFunctions';
 import format from '../util/format';
 import { imageFullPath } from '../util/misc';
 import localstorageHandler from '../util/localstorageHandler';
@@ -23,7 +25,7 @@ interface Props {
 
 const ShoppingCartRow = ({ item, shoppingItem, indexOf, removeItem, allowEdit, fetchItems }: Props) => {
     const dispatch = useDispatch();
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
 
     const quantity = useField('integer', shoppingItem.quantity.toString());
 
@@ -43,13 +45,13 @@ const ShoppingCartRow = ({ item, shoppingItem, indexOf, removeItem, allowEdit, f
                 <img src={imageFullPath(imagePath)} className='imgShoppingCart' />
             </td>
             <td>{item.name}</td>
-            <td>{format.currency(item.price, configState)}</td>
+            <td>{format.currency(item.price, config)}</td>
             <td>{allowEdit ? <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} /> : shoppingItem.quantity}</td>
-            <td>{format.currency(item.price * shoppingItem.quantity, configState)}</td>
+            <td>{format.currency(item.price * shoppingItem.quantity, config)}</td>
             <td width='1px'>
                 {allowEdit ? (
                     <button type='button' className='red' onClick={() => (removeItem ? removeItem(indexOf) : () => {})} disabled={!allowEdit}>
-                        Remove
+                        {contentToText(ContentID.buttonRemove, config)}
                     </button>
                 ) : (
                     <></>

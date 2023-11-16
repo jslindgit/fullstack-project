@@ -4,7 +4,11 @@ import { RootState } from '../reducers/rootReducer';
 
 import { Link } from './CustomLink';
 
-const ItemsMenu = () => {
+interface Props {
+    currentId: number;
+}
+
+const ItemsMenu = ({ currentId }: Props) => {
     const baseUrl = '/shop/';
 
     const categoryState = useSelector((state: RootState) => state.categories);
@@ -14,12 +18,9 @@ const ItemsMenu = () => {
             <table align='center' className='sizeLarge'>
                 <tbody>
                     <tr>
-                        <td>
-                            <Link to={baseUrl}>Categories</Link>
-                        </td>
                         {categoryState.map((c) => (
-                            <td key={c.id}>
-                                <Link to={baseUrl + c.id}>{c.name}</Link>
+                            <td key={c.id} className={currentId === c.id ? 'currentPage semiBold' : ''}>
+                                {currentId === c.id ? c.name : <Link to={baseUrl + c.id}>{c.name}</Link>}
                             </td>
                         ))}
                     </tr>

@@ -76,4 +76,5 @@
 |        | 2    | Parempi Toimitusmaa-valinta ja pohjustusta kieli-sivustoasetusta varten                                              |     |
 | 15.11. | 2    | Kielivalinnan työstöä, apufunktio satunnaisten tilausten luomiseen testaamista varten                                |     |
 |        | 2    | Kielivalinnan työstöä                                                                                                |     |
-|  yht   | 148  |                                                                                                                      |     |
+| 16.11. | 1    | Kielivalinnan työstöä                                                                                                |     |
+|  yht   | 149  |                                                                                                                      |     |

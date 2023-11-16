@@ -52,7 +52,7 @@ const Menu = () => {
                 </table>
             );
         } else {
-            return <div>{menuLink('/login', 'Login', 'Big')}</div>;
+            return <div>{menuLink('/login', contentToText(ContentID.menuLogin, configState), 'Big')}</div>;
         }
     };
 

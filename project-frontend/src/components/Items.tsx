@@ -2,44 +2,14 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Config, Item } from '../types/types';
+import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
 import { isNumber } from '../types/typeFunctions';
 import { pageWidth } from '../constants';
 
-import ItemColumn from './ItemColumn';
 import ItemsMenu from './ItemsMenu';
-
-const itemsPerRow = 3;
-const columnWidth = (100.0 / itemsPerRow).toString() + '%';
-
-const addRemainingCols = (colstoAdd: number) => {
-    const result: JSX.Element[] = [];
-    for (let i = 0; i < colstoAdd; i++) {
-        result.push(<td key={'col' + i} width={columnWidth}></td>);
-    }
-    return result;
-};
-
-interface ItemRowProps {
-    items: Item[];
-    colsPerRow: number;
-    config: Config;
-}
-const ItemRow = ({ items, colsPerRow, config }: ItemRowProps) => {
-    const extraCols = addRemainingCols(colsPerRow - items.length);
-    return (
-        <tr>
-            {items.map((item) => (
-                <td key={item.id} width={columnWidth}>
-                    <ItemColumn item={item} config={config} />
-                </td>
-            ))}
-            {extraCols}
-        </tr>
-    );
-};
+import ItemsRow from './ItemsRow';
 
 const Items = () => {
     const categoryState = useSelector((state: RootState) => state.categories);
@@ -74,7 +44,7 @@ const Items = () => {
                     <tbody>
                         <tr>
                             <td style={{ padding: 0 }}>
-                                <ItemsMenu />
+                                <ItemsMenu currentId={category.id} />
                             </td>
                         </tr>
                         <tr>
@@ -90,7 +60,7 @@ const Items = () => {
                     <table align='center' width={pageWidth} className='noOuterPadding'>
                         <tbody>
                             {rows.map((row, index) => (
-                                <ItemRow key={index} items={row} colsPerRow={cols} config={configState} />
+                                <ItemsRow key={index} items={row} colsPerRow={cols} config={configState} />
                             ))}
                         </tbody>
                     </table>
