@@ -26,8 +26,8 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
             <td className='noWrap'>{item.instock} pcs</td>
             <td>{item.id}</td>
             <td>{item.categories ? item.categories.length.toString() : 0}</td>
-            <td className='centered imgFlex' style={{ padding: 0 }}>
-                {item.images && item.images.length > 0 ? <AdminItemImageThumbsSmall images={item.images} /> : '-'}
+            <td style={{ padding: 0 }}>
+                <div className='imgFlex'>{item.images && item.images.length > 0 ? <AdminItemImageThumbsSmall images={item.images} /> : '-'}</div>
             </td>
             <td style={{ paddingRight: 0 }}>
                 <Link to={'/admin/edititem/' + item.id}>

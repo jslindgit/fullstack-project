@@ -172,7 +172,7 @@ const AdminItemEdit = () => {
                 // Update the other info (name, description, etc):
                 const res = await itemService.update(updatedItem, usersState.loggedUser.token, dispatch);
 
-                dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: <>res.message</> }));
+                dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
                 setItemById();
                 setSelectedImages([]);

@@ -109,11 +109,11 @@ const Menu = () => {
                             <td>{menuLink('/shop', contentToText(ContentID.menuProducts, configState))}</td>
                             <td>{menuLink('/info', contentToText(ContentID.menuInfo, configState))}</td>
                             <td>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, configState) + ' (' + miscState.shoppingCartItemCount + ')')}</td>
-                            <td style={{ paddingLeft: '0.5rem', paddingRight: '2rem' }}>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</td>
+                            <td style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</td>
+                            {showAdminMenu()}
                             <td>
                                 <LanguageSelection />
                             </td>
-                            {showAdminMenu()}
                         </tr>
                     </tbody>
                 </table>

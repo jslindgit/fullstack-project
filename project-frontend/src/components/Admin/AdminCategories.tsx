@@ -28,7 +28,7 @@ const AdminCategories = () => {
         if (confirm(`Delete category ${category.name}?`)) {
             const res = await categoryService.deleteCategory(category, usersState.loggedUser.token);
 
-            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: <>res.message</> }));
+            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
             if (res.success) {
                 dispatch(removeCategory(category));
@@ -41,7 +41,7 @@ const AdminCategories = () => {
             <table align='center' width='100%'>
                 <tbody>
                     <tr>
-                        <td>
+                        <td style={{ paddingTop: 0 }}>
                             <table className='dotted' width='100%'>
                                 <tbody>
                                     <tr className='bold'>

@@ -1,9 +1,12 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 
+import { contentToText } from '../../types/languageFunctions';
 import { pageWidth } from '../../constants';
+import { printAdminPanelHeader } from '../../contentFunctions';
 
 import AdminCategories from './AdminCategories';
 import AdminImages from './AdminImages';
@@ -14,6 +17,7 @@ import AdminSettings from './AdminSettings';
 import AdminUsers from './AdminUsers';
 
 const AdminPanel = () => {
+    const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.users);
 
     const page = useParams().page;
@@ -33,7 +37,7 @@ const AdminPanel = () => {
             case 'users':
                 return <AdminUsers />;
             default:
-                return <h2>Admin Panel</h2>;
+                return <>Admin Panel</>;
         }
     };
 
@@ -47,12 +51,13 @@ const AdminPanel = () => {
                 <tbody>
                     <tr>
                         <td className='tight'>
-                            <AdminMenu />
+                            <AdminMenu config={config} />
                         </td>
                     </tr>
                     <tr>
-                        <td className='adminHeader tight underlined'>
-                            <h3>Admin Panel{page && page.length > 0 ? ' - ' + page : ''}</h3>
+                        <td className='adminHeader pageHeader tight'>
+                            {contentToText(ContentID.adminPanelHeader, config)}
+                            {page && page.length > 0 ? ' - ' + printAdminPanelHeader(page, config) : ''}
                         </td>
                     </tr>
                     <tr>

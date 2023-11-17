@@ -1,6 +1,13 @@
 import { LangCode } from './types/language';
 
 export enum ContentID {
+    adminPanelCategories = 'ADMIN: Categories',
+    adminPanelHeader = 'ADMIN: Admin Panel header',
+    adminPanelImages = 'ADMIN: Images',
+    adminPanelItems = 'ADMIN: Items',
+    adminPanelOrders = 'ADMIN: Orders',
+    adminPanelSettings = 'ADMIN: Settings',
+    adminPanelUsers = 'ADMIN: Users',
     backButtonDefault = 'BACK BUTTON: Default label',
     buttonCheckOut = 'BUTTON: Check out',
     buttonRemove = 'BUTTON: Remove',
@@ -73,6 +80,55 @@ export enum ContentID {
 */
 
 export const defaultLangContent = [
+    {
+        id: ContentID.adminPanelCategories,
+        content: [
+            { lang: LangCode.EN, text: 'Categories' },
+            { lang: LangCode.FI, text: 'Kategoriat' },
+        ],
+    },
+    {
+        id: ContentID.adminPanelHeader,
+        content: [
+            { lang: LangCode.EN, text: 'Admin Panel' },
+            { lang: LangCode.FI, text: 'Hallintapaneeli' },
+        ],
+    },
+    {
+        id: ContentID.adminPanelImages,
+        content: [
+            { lang: LangCode.EN, text: 'Images' },
+            { lang: LangCode.FI, text: 'Kuvat' },
+        ],
+    },
+    {
+        id: ContentID.adminPanelItems,
+        content: [
+            { lang: LangCode.EN, text: 'Products' },
+            { lang: LangCode.FI, text: 'Tuotteet' },
+        ],
+    },
+    {
+        id: ContentID.adminPanelOrders,
+        content: [
+            { lang: LangCode.EN, text: 'Orders' },
+            { lang: LangCode.FI, text: 'Tilaukset' },
+        ],
+    },
+    {
+        id: ContentID.adminPanelSettings,
+        content: [
+            { lang: LangCode.EN, text: 'Settings' },
+            { lang: LangCode.FI, text: 'Asetukset' },
+        ],
+    },
+    {
+        id: ContentID.adminPanelUsers,
+        content: [
+            { lang: LangCode.EN, text: 'Users' },
+            { lang: LangCode.FI, text: 'Käyttäjät' },
+        ],
+    },
     {
         id: ContentID.backButtonDefault,
         content: [
@@ -322,7 +378,7 @@ export const defaultLangContent = [
         id: ContentID.menuAdminSection,
         content: [
             { lang: LangCode.EN, text: 'Admin' },
-            { lang: LangCode.FI, text: 'Ylläpito' },
+            { lang: LangCode.FI, text: 'Hallintapaneeli' },
         ],
     },
     {
