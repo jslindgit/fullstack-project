@@ -1,8 +1,11 @@
 import { Config } from './types';
-import { LangCode, LangText } from './language';
+import { LangCode, LangField, LangText, LangTextArea } from './language';
 import { ContentID } from '../content';
 
+import { availableLangs } from './language';
 import { isObject, isString } from './typeFunctions';
+import useField from '../hooks/useField';
+import useTextArea from '../hooks/useTextArea';
 
 export const contentToText = (contentId: ContentID, config: Config) => {
     const langContent = config.langContent.find((lc) => lc.id === contentId);
@@ -37,4 +40,16 @@ export const langTextsToText = (langTexts: LangText[], config: Config): string =
             return langTexts[0].text;
         }
     }
+};
+
+export const useLangFields = (): LangField[] => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const langFields: LangField[] = availableLangs.map((lang) => ({ langCode: lang.code, field: useField('text') }));
+    return langFields;
+};
+
+export const useLangTextAreas = (): LangTextArea[] => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const langTextAreas: LangTextArea[] = availableLangs.map((lang) => ({ langCode: lang.code, textArea: useTextArea() }));
+    return langTextAreas;
 };

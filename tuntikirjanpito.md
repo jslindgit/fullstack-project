@@ -80,4 +80,5 @@
 |        | 2    | Kielivalinnan työstöä, tyylien muokkausta                                                                            | 151 |
 | 17.11. | 1    | Kielivalinnan työstöä                                                                                                |     |
 | 20.11. | 2    | Paranneltu valikko Hallintapaneeliin, kielivalinnan toteuttamista tuotekategorioiden nimissä/kuvauksissa             |     |
-|  yht   | 154  |                                                                                                                      |     |
+|        | 2    | Kielivalinnan työstöä kategorioiden lisäämisen ja muokkaamisen yhteydessä                                            |     |
+|  yht   | 156  |                                                                                                                      |     |

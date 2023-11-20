@@ -1,21 +1,24 @@
-import { ChangeEventHandler } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { User } from '../../types/types';
+import { ContentID } from '../../content';
+import { NewCategory, User } from '../../types/types';
+import { RootState } from '../../reducers/rootReducer';
 
-import useField from '../../hooks/useField';
+import { contentToText, useLangFields, useLangTextAreas } from '../../types/languageFunctions';
 import categoryService from '../../services/categoryService';
-import { toNewCategory } from '../../types/typeFunctions';
+import { UseField } from '../../hooks/useField';
+import { UseTextArea } from '../../hooks/useTextArea';
 
 import { setNotification } from '../../reducers/miscReducer';
 
 interface Props {
     user: User | null;
 }
-
 const AddCategoryForm = ({ user }: Props) => {
-    const name = useField('text');
-    const description = useField('text');
+    const config = useSelector((state: RootState) => state.config);
+
+    const nameFields = useLangFields();
+    const descriptionFields = useLangTextAreas();
 
     const dispatch = useDispatch();
 
@@ -23,46 +26,72 @@ const AddCategoryForm = ({ user }: Props) => {
         return <>Error: Invalid User</>;
     }
 
-    const inputField = (label: string, type: string, value: string | number, onChange: ChangeEventHandler<HTMLInputElement>) => (
-        <>
-            <tr>
-                <td className='widthByContent'>{label}:</td>
-                <td>
-                    <input type={type} value={value} onChange={onChange} />
-                </td>
-            </tr>
-        </>
+    const getInputField = (label: string, field: UseField) => (
+        <tr key={label}>
+            <td width='1px' className='semiBold' style={{ paddingLeft: '2.5rem', paddingRight: 0 }}>
+                {label}
+            </td>
+            <td>
+                <input type={field.type} value={field.value} onChange={field.onChange} />
+            </td>
+        </tr>
     );
 
-    const submit = async (event: React.FormEvent) => {
-        event.preventDefault();
+    const getTextArea = (label: string, textArea: UseTextArea) => (
+        <tr key={label}>
+            <td width='1px' className='semiBold' style={{ paddingLeft: '2.5rem', paddingRight: 0 }}>
+                {label}
+            </td>
+            <td>
+                <textarea value={textArea.value} onChange={textArea.onChange} style={{ width: '100%', height: '10rem' }} />
+            </td>
+        </tr>
+    );
 
-        const newCategory = toNewCategory({ name: name.value, description: description.value });
+    const submit = async () => {
+        const newCategory: NewCategory = {
+            name: nameFields.map((nf) => ({ lang: nf.langCode, text: nf.field.value.toString() })),
+            description: descriptionFields.map((df) => ({ lang: df.langCode, text: df.textArea.value.toString() })),
+        };
+
         const res = await categoryService.add(newCategory, user.token, dispatch);
 
         dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
-        name.reset();
-        description.reset();
+        nameFields.forEach((nf) => {
+            nf.field.reset();
+        });
+        descriptionFields.forEach((df) => {
+            df.textArea.reset();
+        });
     };
 
     return (
         <>
-            <h3 className='underlined'>Add new category</h3>
-            <form onSubmit={submit} className='adminForm'>
-                <table className='paddingTopBottomOnly' width='100%'>
-                    <tbody>
-                        {inputField('Name', name.type, name.value, name.onChange)}
-                        {inputField('Description', description.type, description.value, description.onChange)}
-                        <tr>
-                            <td></td>
-                            <td>
-                                <button type='submit'>Add</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
+            <div className='pageHeader'>{contentToText(ContentID.adminAddNewCategory, config)}</div>
+            <table width='100%'>
+                <tbody>
+                    <tr>
+                        <td colSpan={2} className='sizeLarge bold' style={{ paddingTop: 0 }}>
+                            {contentToText(ContentID.miscName, config)}
+                        </td>
+                    </tr>
+                    {nameFields.map((nf) => getInputField(nf.langCode.toString(), nf.field))}
+                    <tr>
+                        <td colSpan={2} className='sizeLarge bold'>
+                            {contentToText(ContentID.miscDescription, config)}
+                        </td>
+                    </tr>
+                    {descriptionFields.map((nf) => getTextArea(nf.langCode.toString(), nf.textArea))}
+                    <tr>
+                        <td colSpan={2}>
+                            <button type='button' onClick={submit}>
+                                {contentToText(ContentID.buttonAdd, config)}
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </>
     );
 };

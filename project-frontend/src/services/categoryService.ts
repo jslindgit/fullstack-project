@@ -24,14 +24,14 @@ const add = async (toAdd: NewCategory, token: string, dispatch: Dispatch<AnyActi
         if ('id' in data && 'name' in data && 'description' in data) {
             const addedCategory = categoryFromResBody(data);
             dispatch(addCategory(addedCategory));
-            return { success: true, message: 'New category added', addedCategory: addedCategory };
+            return { success: true, message: 'New category added.', addedCategory: addedCategory };
         } else {
             handleError('Server did not return a Category object');
-            return { success: false, message: 'Something went wrong, try again later', addedCategory: null };
+            return { success: false, message: 'Something went wrong, try again later.', addedCategory: null };
         }
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Something went wrong', addedCategory: null };
+        return { success: false, message: 'Something went wrong.', addedCategory: null };
     }
 };
 
@@ -39,20 +39,20 @@ const deleteCategory = async (category: Category, token: string): Promise<Respon
     try {
         const res = await axios.delete<Category>(`${url}/${category.id}`, authConfig(token));
         if (res.status === 204) {
-            return { success: true, message: `Category ${category.name} deleted` };
+            return { success: true, message: `Category ${category.name} deleted.` };
         } else {
-            return { success: false, message: 'Something went wrong, try again later' };
+            return { success: false, message: 'Something went wrong, try again later.' };
         }
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Error occurred' };
+        return { success: false, message: 'Error occurred.' };
     }
 };
 
 const getAll = async () => {
     try {
         const { data } = await axios.get<Category[]>(url);
-        return data;
+        return data.map((cateory) => categoryFromResBody(cateory));
     } catch (err: unknown) {
         handleError(err);
     }
@@ -61,7 +61,7 @@ const getAll = async () => {
 const getById = async (id: number) => {
     try {
         const { data } = await axios.get<Category>(`${url}/${id}`);
-        return data;
+        return categoryFromResBody(data);
     } catch (err: unknown) {
         handleError(err);
     }
@@ -74,16 +74,16 @@ const update = async (category: Category, token: string, dispatch: Dispatch<AnyA
         const res = await axios.put<Category>(`${url}/${category.id}`, toUpdate, authConfig(token));
         const data = res.data;
 
-        if ('name' in data && 'description' in data) {
+        if ('id' in data && 'name' in data && 'description' in data) {
             await initializeCategories(dispatch);
-            return { success: true, message: `Category "${data.name}" updated`, addedCategory: data };
+            return { success: true, message: 'Category updated.', addedCategory: categoryFromResBody(data) };
         } else {
-            handleError(new Error('Server did not return a Category object'));
-            return { success: false, message: 'Something went wrong, try again later', addedCategory: null };
+            handleError(new Error('Server did not return a Category object.'));
+            return { success: false, message: 'Something went wrong, try again later.', addedCategory: null };
         }
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Error occurred', addedCategory: null };
+        return { success: false, message: 'Error occurred.', addedCategory: null };
     }
 };
 

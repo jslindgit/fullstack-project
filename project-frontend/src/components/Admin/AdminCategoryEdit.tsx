@@ -12,6 +12,7 @@ import categoryService from '../../services/categoryService';
 import { handleError } from '../../util/handleError';
 import { pageWidth } from '../../constants';
 import useField from '../../hooks/useField';
+import { useLangFields, useLangTextAreas } from '../../types/languageFunctions';
 import useTextArea from '../../hooks/useTextArea';
 
 import BackButton from '../BackButton';
@@ -23,8 +24,8 @@ const AdminCategoryEdit = () => {
     const [category, setCategory] = useState<Category | undefined>();
     const [loading, setLoading] = useState<string>('Loading...');
 
-    const name = useField('text');
-    const description = useTextArea();
+    const nameFields = useLangFields();
+    const descriptionFields = useLangTextAreas();
 
     const id = Number(useParams().id);
 

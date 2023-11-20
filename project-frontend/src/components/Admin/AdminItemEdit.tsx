@@ -8,6 +8,7 @@ import { UseField } from '../../hooks/useField';
 
 import { setNotification } from '../../reducers/miscReducer';
 
+import { langTextsToText } from '../../types/languageFunctions';
 import { handleError } from '../../util/handleError';
 import { imageFilename, imageFullPath } from '../../util/misc';
 import item_categoryService from '../../services/item_categoryService';
@@ -22,6 +23,7 @@ import BackButton from '../BackButton';
 const AdminItemEdit = () => {
     const dispatch = useDispatch();
     const categoriesState = useSelector((state: RootState) => state.categories);
+    const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.users);
 
     const [images, setImages] = useState<string[]>([]);
@@ -275,7 +277,7 @@ const AdminItemEdit = () => {
                                                         className={'selectButton ' + (selectedCategories.includes(c.id) ? 'selectButtonTrue' : 'selectButtonFalse')}
                                                         onClick={() => handleCategoryChange(c.id)}
                                                     >
-                                                        {c.name}
+                                                        {langTextsToText(c.name, config)}
                                                     </button>
                                                 ))}
                                             </td>

@@ -1,6 +1,7 @@
 import { LangCode } from './types/language';
 
 export enum ContentID {
+    adminAddNewCategory = 'ADMIN: Add New Category',
     adminPanelCategories = 'ADMIN: Categories',
     adminPanelHeader = 'ADMIN: Admin Panel header',
     adminPanelImages = 'ADMIN: Images',
@@ -9,6 +10,7 @@ export enum ContentID {
     adminPanelSettings = 'ADMIN: Settings',
     adminPanelUsers = 'ADMIN: Users',
     backButtonDefault = 'BACK BUTTON: Default label',
+    buttonAdd = 'BUTTON: Add',
     buttonCheckOut = 'BUTTON: Check out',
     buttonRemove = 'BUTTON: Remove',
     cartProduct = 'SHOPPING CART: Product',
@@ -50,7 +52,9 @@ export enum ContentID {
     menuLogout = 'MENU: Log out',
     menuProducts = 'MENU: Products',
     menuShoppingCart = 'MENU: Shopping Cart',
+    miscDescription = 'MISC: Description',
     miscMerchant = 'MISC: Merchant',
+    miscName = 'MISC: Name',
     notificationLoggedOut = 'NOTIFICATION: Logged out',
     orderCustomer = 'ORDER: Customer',
     orderDeliveryMethod = 'ORDER: Delivery Method',
@@ -80,6 +84,13 @@ export enum ContentID {
 */
 
 export const defaultLangContent = [
+    {
+        id: ContentID.adminAddNewCategory,
+        content: [
+            { lang: LangCode.EN, text: 'Add New Category' },
+            { lang: LangCode.FI, text: 'Lisää uusi kategoria' },
+        ],
+    },
     {
         id: ContentID.adminPanelCategories,
         content: [
@@ -134,6 +145,13 @@ export const defaultLangContent = [
         content: [
             { lang: LangCode.EN, text: 'Go back' },
             { lang: LangCode.FI, text: 'Takaisin' },
+        ],
+    },
+    {
+        id: ContentID.buttonAdd,
+        content: [
+            { lang: LangCode.EN, text: 'Add' },
+            { lang: LangCode.FI, text: 'Lisää' },
         ],
     },
     {
@@ -424,10 +442,24 @@ export const defaultLangContent = [
         ],
     },
     {
+        id: ContentID.miscDescription,
+        content: [
+            { lang: LangCode.EN, text: 'Description' },
+            { lang: LangCode.FI, text: 'Kuvaus' },
+        ],
+    },
+    {
         id: ContentID.miscMerchant,
         content: [
             { lang: LangCode.EN, text: 'Merchant' },
             { lang: LangCode.FI, text: 'Kauppias' },
+        ],
+    },
+    {
+        id: ContentID.miscName,
+        content: [
+            { lang: LangCode.EN, text: 'Name' },
+            { lang: LangCode.FI, text: 'Nimi' },
         ],
     },
     {

@@ -65,7 +65,7 @@ const AdminImages = () => {
             setImageFile(null);
             setNewUploads(newUploads + 1);
 
-            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: <>res.message</> }));
+            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
         }
     };
 

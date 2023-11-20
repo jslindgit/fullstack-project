@@ -1,5 +1,8 @@
 import { ContentID } from '../content';
 
+import { UseField } from '../hooks/useField';
+import { UseTextArea } from '../hooks/useTextArea';
+
 export enum LangCode {
     DE = 'DE',
     EN = 'EN',
@@ -12,6 +15,16 @@ export enum LangCode {
 export interface LangContent {
     id: ContentID;
     content: LangText[];
+}
+
+export interface LangField {
+    langCode: LangCode;
+    field: UseField;
+}
+
+export interface LangTextArea {
+    langCode: LangCode;
+    textArea: UseTextArea;
 }
 
 export interface LangText {
