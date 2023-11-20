@@ -1,5 +1,7 @@
 import { NewCategory, NewItem, Response, User } from './types';
 
+import { isLangText } from './languageFunctions';
+
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
 };
@@ -43,11 +45,11 @@ const parseString = (value: unknown, fieldName: string): string => {
 };
 
 export const toNewCategory = (obj: unknown): NewCategory => {
-    if (isObject(obj) && 'name' in obj && isString(obj.name) && 'description' in obj && isString(obj.description)) {
+    if (isObject(obj) && 'name' in obj && Array.isArray(obj.name) && obj.name.every(isLangText) && 'description' in obj && Array.isArray(obj.description) && obj.description.every(isLangText)) {
         return { name: obj.name, description: obj.description };
     }
 
-    throw new Error('Incorrect data: some fields ("name" or "description") are missing for toNewCategory');
+    throw new Error('Incorrect data: some fields ("name" or "description") are missing or invalid for toNewCategory');
 };
 
 export const toNewItem = (object: unknown): NewItem => {

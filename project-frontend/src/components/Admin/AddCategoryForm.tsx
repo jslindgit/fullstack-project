@@ -9,8 +9,6 @@ import { toNewCategory } from '../../types/typeFunctions';
 
 import { setNotification } from '../../reducers/miscReducer';
 
-import ShowNotification from '../ShowNotification';
-
 interface Props {
     user: User | null;
 }
@@ -42,7 +40,7 @@ const AddCategoryForm = ({ user }: Props) => {
         const newCategory = toNewCategory({ name: name.value, description: description.value });
         const res = await categoryService.add(newCategory, user.token, dispatch);
 
-        dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: <>{res.message}</> }));
+        dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
         name.reset();
         description.reset();
@@ -51,7 +49,6 @@ const AddCategoryForm = ({ user }: Props) => {
     return (
         <>
             <h3 className='underlined'>Add new category</h3>
-            <ShowNotification fontSize='Small' />
             <form onSubmit={submit} className='adminForm'>
                 <table className='paddingTopBottomOnly' width='100%'>
                     <tbody>

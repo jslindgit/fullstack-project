@@ -1,3 +1,5 @@
+import { useLocation } from 'react-router-dom';
+
 import { Config } from '../../types/types';
 import { ContentID } from '../../content';
 
@@ -12,32 +14,26 @@ interface Props {
 const AdminMenu = ({ config }: Props) => {
     const baseUrl = '/admin/';
 
+    const currentPath = useLocation().pathname;
+
+    const linkTd = (page: string, contentId: ContentID) => (
+        <td className={(page !== '' && currentPath.includes(page)) || (page === '' && currentPath === baseUrl) ? 'currentPage' : ''}>
+            <Link to={baseUrl + page}>{contentToText(contentId, config)}</Link>
+        </td>
+    );
+
     return (
         <div>
             <table align='center' className='sizeLarge'>
                 <tbody>
                     <tr>
-                        <td>
-                            <Link to={baseUrl}>{contentToText(ContentID.menuHome, config)}</Link>
-                        </td>
-                        <td>
-                            <Link to={baseUrl + 'orders'}>{contentToText(ContentID.adminPanelOrders, config)}</Link>
-                        </td>
-                        <td>
-                            <Link to={baseUrl + 'categories'}>{contentToText(ContentID.adminPanelCategories, config)}</Link>
-                        </td>
-                        <td>
-                            <Link to={baseUrl + 'items'}>{contentToText(ContentID.adminPanelItems, config)}</Link>
-                        </td>
-                        <td>
-                            <Link to={baseUrl + 'images'}>{contentToText(ContentID.adminPanelImages, config)}</Link>
-                        </td>
-                        <td>
-                            <Link to={baseUrl + 'users'}>{contentToText(ContentID.adminPanelUsers, config)}</Link>
-                        </td>
-                        <td>
-                            <Link to={baseUrl + 'settings'}>{contentToText(ContentID.adminPanelSettings, config)}</Link>
-                        </td>
+                        {linkTd('', ContentID.menuHome)}
+                        {linkTd('orders', ContentID.adminPanelOrders)}
+                        {linkTd('categories', ContentID.adminPanelCategories)}
+                        {linkTd('items', ContentID.adminPanelItems)}
+                        {linkTd('images', ContentID.adminPanelImages)}
+                        {linkTd('users', ContentID.adminPanelUsers)}
+                        {linkTd('settings', ContentID.adminPanelSettings)}
                     </tr>
                 </tbody>
             </table>

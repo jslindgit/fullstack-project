@@ -2,8 +2,8 @@ import { LangContent, LangText, Language } from './language';
 
 export interface Category {
     id: number;
-    name: string;
-    description: string;
+    name: LangText[];
+    description: LangText[];
     items: Item[];
 }
 export type NewCategory = Omit<Omit<Category, 'id'>, 'items'>;

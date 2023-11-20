@@ -62,6 +62,15 @@ const Categories = () => {
     const categoryState = useSelector((state: RootState) => state.categories);
     const configState = useSelector((state: RootState) => state.config);
 
+    if (categoryState.length < 1) {
+        return (
+            <div>
+                <br />
+                Looks like there are no products available yet.
+            </div>
+        );
+    }
+
     const cols = 3;
     const rows: Array<Category[]> = [];
     for (let i = 0; i < categoryState.length; i += cols) {

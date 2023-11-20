@@ -14,6 +14,17 @@ const addNew = async (newItem_Category: NewItem_Category): Promise<Item_Category
     }
 };
 
+const deleteByCategoryId = async (categoryId: number) => {
+    try {
+        const item_categories = await Item_Category.findAll({ where: { category_id: categoryId } });
+
+        const promises = item_categories.map(async (ic) => await ic.destroy());
+        await Promise.all(promises);
+    } catch (err: unknown) {
+        handleError(err);
+    }
+};
+
 const deleteById = async (id: unknown): Promise<Item_Category | null> => {
     try {
         const item_category = await getById(id);
@@ -69,6 +80,7 @@ const getByItemAndCategoryId = async (itemId: unknown, categoryId: unknown): Pro
 
 export default {
     addNew,
+    deleteByCategoryId,
     deleteById,
     deleteByItemAndCategoryId,
     getAll,

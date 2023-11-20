@@ -1,12 +1,14 @@
 import { Op } from 'sequelize';
 
-import { Category } from '../models';
-import { NewCategory } from '../types/types';
-import { isNumber, isObject } from '../types/type_functions';
-import { handleError } from '../util/error_handler';
+import Category, { CategoryAttributes, CategoryInstance } from '../models/category';
 import { Item } from '../models/item';
+import { NewCategory } from '../models/category';
 
-const addNew = async (newCategory: NewCategory): Promise<Category | null> => {
+import { handleError } from '../util/error_handler';
+import { isNumber, isObject } from '../types/type_functions';
+import item_categoryService from './item_categoryService';
+
+const addNew = async (newCategory: NewCategory): Promise<CategoryInstance | null> => {
     try {
         const category = await Category.create(newCategory);
         await category.save();
@@ -17,10 +19,13 @@ const addNew = async (newCategory: NewCategory): Promise<Category | null> => {
     }
 };
 
-const deleteById = async (id: unknown): Promise<Category | null> => {
+const deleteById = async (id: unknown): Promise<CategoryInstance | null> => {
     try {
         const category = await getById(id);
         if (category) {
+            // First delete the connection tables involving this Category:
+            await item_categoryService.deleteByCategoryId(category.id);
+
             await category.destroy();
         }
         return category;
@@ -30,7 +35,7 @@ const deleteById = async (id: unknown): Promise<Category | null> => {
     }
 };
 
-const getAll = async (searchQuery: string = ''): Promise<Array<Category> | null> => {
+const getAll = async (searchQuery: string = ''): Promise<Array<CategoryInstance> | null> => {
     try {
         let where = {};
         if (searchQuery && searchQuery.length > 0) {
@@ -74,7 +79,7 @@ const getAll = async (searchQuery: string = ''): Promise<Array<Category> | null>
 };
 
 // prettier-ignore
-const getById = async (id: unknown): Promise<Category | null> => {
+const getById = async (id: unknown): Promise<CategoryInstance | null> => {
     try {
         const category = isNumber(Number(id))
             ? await Category.findByPk(Number(id), {
@@ -100,14 +105,14 @@ const getById = async (id: unknown): Promise<Category | null> => {
     }
 };
 
-const update = async (id: unknown, props: unknown): Promise<Category | null> => {
+const update = async (id: unknown, props: unknown): Promise<CategoryInstance | null> => {
     try {
         const category = await getById(id);
         if (category) {
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
                     if (key in category && key !== 'id') {
-                        category.setDataValue(key, props[key as keyof typeof props]);
+                        category.setDataValue(key as keyof CategoryAttributes, props[key as keyof typeof props]);
                     } else {
                         throw new Error(`Invalid property '${key}' for Category`);
                     }

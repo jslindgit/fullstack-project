@@ -1,4 +1,5 @@
-import { NewCategory, Credentials, NewItem, NewItem_Category, NewUser } from './types';
+import { Credentials, NewItem, NewItem_Category, NewUser } from './types';
+import { NewCategory } from '../models/category';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;

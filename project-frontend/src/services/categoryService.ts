@@ -4,13 +4,12 @@ import { AnyAction } from 'redux';
 
 import { Category, NewCategory, Response } from '../types/types';
 
-import { initializeCategories } from '../reducers/categoryReducer';
+import { addCategory, initializeCategories } from '../reducers/categoryReducer';
 
 import { apiBaseUrl } from '../constants';
 import { authConfig } from '../util/serviceProvider';
+import { categoryFromResBody, categoryToReqBody } from '../util/serviceProvider';
 import { handleError } from '../util/handleError';
-
-import { addCategory } from '../reducers/categoryReducer';
 
 interface CategoryResponse extends Response {
     addedCategory: Category | null;
@@ -20,11 +19,12 @@ const url = apiBaseUrl + '/categories';
 
 const add = async (toAdd: NewCategory, token: string, dispatch: Dispatch<AnyAction>): Promise<CategoryResponse> => {
     try {
-        const { data } = await axios.post(url, toAdd, authConfig(token));
+        const { data } = await axios.post(url, categoryToReqBody(toAdd), authConfig(token));
 
-        if ('name' in data) {
-            dispatch(addCategory(data));
-            return { success: true, message: 'New category added: ' + data.name, addedCategory: data };
+        if ('id' in data && 'name' in data && 'description' in data) {
+            const addedCategory = categoryFromResBody(data);
+            dispatch(addCategory(addedCategory));
+            return { success: true, message: 'New category added', addedCategory: addedCategory };
         } else {
             handleError('Server did not return a Category object');
             return { success: false, message: 'Something went wrong, try again later', addedCategory: null };
@@ -35,11 +35,11 @@ const add = async (toAdd: NewCategory, token: string, dispatch: Dispatch<AnyActi
     }
 };
 
-const deleteCategory = async (cateory: Category, token: string): Promise<Response> => {
+const deleteCategory = async (category: Category, token: string): Promise<Response> => {
     try {
-        const res = await axios.delete<Category>(`${url}/${cateory.id}`, authConfig(token));
+        const res = await axios.delete<Category>(`${url}/${category.id}`, authConfig(token));
         if (res.status === 204) {
-            return { success: true, message: `Category ${cateory.name} deleted` };
+            return { success: true, message: `Category ${category.name} deleted` };
         } else {
             return { success: false, message: 'Something went wrong, try again later' };
         }

@@ -2,6 +2,8 @@ import { Config } from './types';
 import { LangCode, LangText } from './language';
 import { ContentID } from '../content';
 
+import { isObject, isString } from './typeFunctions';
+
 export const contentToText = (contentId: ContentID, config: Config) => {
     const langContent = config.langContent.find((lc) => lc.id === contentId);
     if (langContent) {
@@ -9,6 +11,14 @@ export const contentToText = (contentId: ContentID, config: Config) => {
     } else {
         return `Error: ContentID ${contentId} undefined.`;
     }
+};
+
+export const isLangCode = (variable: unknown) => {
+    return isString(variable) && (Object.values(LangCode) as string[]).includes(variable);
+};
+
+export const isLangText = (obj: unknown): obj is LangText => {
+    return isObject(obj) && obj !== null && 'text' in obj && isString(obj.text) && 'lang' in obj && isLangCode(obj.lang);
 };
 
 export const langTextsToText = (langTexts: LangText[], config: Config): string => {
