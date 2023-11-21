@@ -1,5 +1,5 @@
 import Category from './category';
-import { Item } from './item';
+import Item from './item';
 import { Item_Category } from './item_category';
 import { User } from './user';
 

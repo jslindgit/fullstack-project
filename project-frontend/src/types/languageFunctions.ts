@@ -1,8 +1,8 @@
-import { Config } from './types';
-import { LangCode, LangField, LangText, LangTextArea } from './language';
+import { Config } from './configTypes';
+import { LangCode, LangField, LangText, LangTextArea } from './languageTypes';
 import { ContentID } from '../content';
 
-import { availableLangs } from './language';
+import { availableLangs } from './languageTypes';
 import { isObject, isString } from './typeFunctions';
 import useField from '../hooks/useField';
 import useTextArea from '../hooks/useTextArea';
@@ -29,11 +29,11 @@ export const langTextsToText = (langTexts: LangText[], config: Config): string =
         return '';
     }
 
-    const matching = langTexts.find((langText) => langText.lang === config.language.code);
+    const matching = langTexts.find((langText) => langText.langCode === config.language.code);
     if (matching) {
         return matching.text;
     } else {
-        const english = langTexts.find((langText) => langText.lang === LangCode.EN);
+        const english = langTexts.find((langText) => langText.langCode === LangCode.EN);
         if (english) {
             return english.text;
         } else {

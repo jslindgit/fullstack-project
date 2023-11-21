@@ -41,7 +41,7 @@ const Category = sequelize.define<CategoryInstance>(
     }
 );
 
-export const isNewCategory = (obj: unknown) => {
+export const isNewCategory = (obj: unknown): obj is NewCategory => {
     if (obj === null || !isObject(obj)) {
         return false;
     } else {

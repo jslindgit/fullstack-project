@@ -1,7 +1,8 @@
 import { ContentID } from '../content';
-import { Config, Item } from '../types/types';
+import { Config } from '../types/configTypes';
+import { Item } from '../types/types';
 
-import { contentToText } from '../types/languageFunctions';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
 import format from '../util/format';
 import { imageFullPath } from '../util/misc';
 
@@ -24,7 +25,7 @@ const ItemColumn = ({ item, config }: ItemColumnProps) => {
                                 <table width='100%'>
                                     <tbody>
                                         <tr>
-                                            <td className='sizeVeryLarge'>{item.name}</td>
+                                            <td className='sizeVeryLarge'>{langTextsToText(item.name, config)}</td>
                                         </tr>
                                         <tr className='itemPriceTd'>
                                             <td className='sizeNormal itemPriceTd'>{format.currency(item.price, config)}</td>

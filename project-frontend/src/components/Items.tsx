@@ -5,15 +5,16 @@ import { useSelector } from 'react-redux';
 import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
-import { isNumber } from '../types/typeFunctions';
 import { pageWidth } from '../constants';
+import { langTextsToText } from '../types/languageFunctions';
+import { isNumber } from '../types/typeFunctions';
 
 import ItemsMenu from './ItemsMenu';
 import ItemsRow from './ItemsRow';
 
 const Items = () => {
     const categoryState = useSelector((state: RootState) => state.categories);
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
     const miscState = useSelector((state: RootState) => state.misc);
 
     const navigate = useNavigate();
@@ -44,12 +45,12 @@ const Items = () => {
                     <tbody>
                         <tr>
                             <td style={{ padding: 0 }}>
-                                <ItemsMenu currentId={category.id} />
+                                <ItemsMenu config={config} currentId={category.id} />
                             </td>
                         </tr>
                         <tr>
                             <td className='tight underlined'>
-                                <h3 style={{ marginBottom: '2rem' }}>{category.name}</h3>
+                                <h3 style={{ marginBottom: '2rem' }}>{langTextsToText(category.name, config)}</h3>
                             </td>
                         </tr>
                     </tbody>
@@ -60,7 +61,7 @@ const Items = () => {
                     <table align='center' width={pageWidth} className='noOuterPadding'>
                         <tbody>
                             {rows.map((row, index) => (
-                                <ItemsRow key={index} items={row} colsPerRow={cols} config={configState} />
+                                <ItemsRow key={index} items={row} colsPerRow={cols} config={config} />
                             ))}
                         </tbody>
                     </table>

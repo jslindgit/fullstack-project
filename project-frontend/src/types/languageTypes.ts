@@ -28,7 +28,7 @@ export interface LangTextArea {
 }
 
 export interface LangText {
-    lang: LangCode;
+    langCode: LangCode;
     text: string;
 }
 

@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Language } from '../types/language';
+import { Language } from '../types/languageTypes';
 import { RootState } from '../reducers/rootReducer';
 
-import { availableLangs } from '../types/language';
+import { availableLangs } from '../types/languageTypes';
 import localstorageHandler from '../util/localstorageHandler';
 import { setConfig } from '../reducers/configReducer';
 

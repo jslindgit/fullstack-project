@@ -1,4 +1,4 @@
-import { LangText } from './language';
+import { LangText } from './languageTypes';
 
 export enum DeliveryCode {
     INTERNATIONAL_POSTI_EXPRESS_BUSINESS_DAY,

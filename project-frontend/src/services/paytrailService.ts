@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+import { Config } from '../types/configTypes';
 import { NewOrder, Order, PaytrailData } from '../types/orderTypes';
-import { Config, Response } from '../types/types';
+import { Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
 import { apiKeyConfig } from '../util/serviceProvider';

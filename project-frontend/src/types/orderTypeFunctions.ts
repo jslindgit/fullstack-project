@@ -1,5 +1,5 @@
 import { ContentID } from '../content';
-import { Config } from './types';
+import { Config } from './configTypes';
 import { NewOrder, Order, OrderStatus, OrderStatusForAdmin, OrderValidationError, ShoppingItem } from './orderTypes';
 
 import { contentToText } from './languageFunctions';

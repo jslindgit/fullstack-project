@@ -1,5 +1,9 @@
-import { Credentials, NewItem, NewItem_Category, NewUser } from './types';
+import { Credentials, NewItem_Category, NewUser } from './types';
 import { NewCategory } from '../models/category';
+import { NewItem } from '../models/item';
+
+import { isNewCategory } from '../models/category';
+import { isNewItem } from '../models/item';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
@@ -60,40 +64,19 @@ export const toCredentials = (object: unknown): Credentials => {
 };
 
 export const toNewCategory = (object: unknown): NewCategory => {
-    if (!isObject(object)) {
+    if (!isNewCategory(object)) {
         throw new Error('Incorrect or missing data for toNewCategory');
+    } else {
+        return object;
     }
-
-    if ('name' in object) {
-        const newCategory: NewCategory = {
-            name: parseString(object.name, 'name'),
-            description: 'description' in object ? parseString(object.description, 'description') : '',
-        };
-
-        return newCategory;
-    }
-
-    throw new Error('Incorrect data: "name" field is missing for toNewCategory');
 };
 
 export const toNewItem = (object: unknown): NewItem => {
-    if (!isObject(object)) {
+    if (!isNewItem(object)) {
         throw new Error('Incorrect or missing data for toNewItem');
+    } else {
+        return object;
     }
-
-    if ('name' in object && 'price' in object) {
-        const newItem: NewItem = {
-            name: parseString(object.name, 'name'),
-            description: 'description' in object ? parseString(object.description, 'description') : '',
-            price: parseNumber(object.price, 'price'),
-            instock: 'instock' in object ? parseNumber(object.instock, 'instock') : 0,
-            images: [],
-        };
-
-        return newItem;
-    }
-
-    throw new Error('Incorrect data: some fields ("name" or "price") are missing for toNewItem');
 };
 
 export const toNewItem_Category = (object: unknown): NewItem_Category => {

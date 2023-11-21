@@ -1,12 +1,13 @@
 import { Op } from 'sequelize';
 
 import { Category, Item } from '../models';
-import { NewItem, NewItem_Category } from '../types/types';
+import { NewItem, ItemAttributes, ItemInstance } from '../models/item';
+import { NewItem_Category } from '../types/types';
 import { isNumber, isObject, toNewItem_Category } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
 import item_category_service from './item_categoryService';
 
-const addNew = async (newItem: NewItem, category_id: number | null): Promise<Item | null> => {
+const addNew = async (newItem: NewItem, category_id: number | null): Promise<ItemInstance | null> => {
     try {
         const item = await Item.create(newItem);
         await item.save();
@@ -23,7 +24,7 @@ const addNew = async (newItem: NewItem, category_id: number | null): Promise<Ite
     }
 };
 
-const deleteById = async (id: unknown): Promise<Item | null> => {
+const deleteById = async (id: unknown): Promise<ItemInstance | null> => {
     try {
         const item = await getById(id);
         if (item) {
@@ -36,7 +37,7 @@ const deleteById = async (id: unknown): Promise<Item | null> => {
     }
 };
 
-const getAll = async (searchQuery: string = ''): Promise<Array<Item> | null> => {
+const getAll = async (searchQuery: string = ''): Promise<Array<ItemInstance> | null> => {
     try {
         let where = {};
         if (searchQuery && searchQuery.length > 0) {
@@ -71,7 +72,7 @@ const getAll = async (searchQuery: string = ''): Promise<Array<Item> | null> => 
 };
 
 // prettier-ignore
-const getById = async (id: unknown): Promise<Item | null> => {
+const getById = async (id: unknown): Promise<ItemInstance | null> => {
     try {
         const item = isNumber(Number(id))
             ? await Item.findByPk(Number(id), {
@@ -90,14 +91,14 @@ const getById = async (id: unknown): Promise<Item | null> => {
     }
 };
 
-const update = async (id: unknown, props: unknown): Promise<Item | null> => {
+const update = async (id: unknown, props: unknown): Promise<ItemInstance | null> => {
     try {
         const item = await getById(id);
         if (item) {
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
                     if (key in item && key !== 'id') {
-                        item.setDataValue(key, props[key as keyof typeof props]);
+                        item.setDataValue(key as keyof ItemAttributes, props[key as keyof typeof props]);
                     } else {
                         throw new Error(`Invalid property '${key}' for Item`);
                     }

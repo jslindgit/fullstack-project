@@ -50,8 +50,8 @@ const AddCategoryForm = ({ user }: Props) => {
 
     const submit = async () => {
         const newCategory: NewCategory = {
-            name: nameFields.map((nf) => ({ lang: nf.langCode, text: nf.field.value.toString() })),
-            description: descriptionFields.map((df) => ({ lang: df.langCode, text: df.textArea.value.toString() })),
+            name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
+            description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
         };
 
         const res = await categoryService.add(newCategory, user.token, dispatch);

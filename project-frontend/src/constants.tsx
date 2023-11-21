@@ -1,5 +1,6 @@
-import { LangCode, Language } from './types/language';
-import { Currency, Config } from './types/types';
+import { LangCode, Language } from './types/languageTypes';
+import { Config } from './types/configTypes';
+import { Currency } from './types/types';
 
 import { defaultLangContent } from './content';
 import localstorageHandler from './util/localstorageHandler';
@@ -31,8 +32,8 @@ export const defaultConfig: Config = {
     store: {
         contactCountry: {
             names: [
-                { lang: LangCode.EN, text: 'Finland' },
-                { lang: LangCode.FI, text: 'Suomi' },
+                { langCode: LangCode.EN, text: 'Finland' },
+                { langCode: LangCode.FI, text: 'Suomi' },
             ],
         },
         contactEmail: 'info@unnamedwebstore123.com',
@@ -41,44 +42,44 @@ export const defaultConfig: Config = {
         deliveryCountries: [
             {
                 names: [
-                    { lang: LangCode.EN, text: 'Denmark' },
-                    { lang: LangCode.FI, text: 'Tanska' },
+                    { langCode: LangCode.EN, text: 'Denmark' },
+                    { langCode: LangCode.FI, text: 'Tanska' },
                 ],
             },
             {
                 names: [
-                    { lang: LangCode.EN, text: 'Estonia' },
-                    { lang: LangCode.FI, text: 'Viro' },
+                    { langCode: LangCode.EN, text: 'Estonia' },
+                    { langCode: LangCode.FI, text: 'Viro' },
                 ],
             },
             {
                 names: [
-                    { lang: LangCode.EN, text: 'Finland' },
-                    { lang: LangCode.FI, text: 'Suomi' },
+                    { langCode: LangCode.EN, text: 'Finland' },
+                    { langCode: LangCode.FI, text: 'Suomi' },
                 ],
             },
             {
                 names: [
-                    { lang: LangCode.EN, text: 'Latvia' },
-                    { lang: LangCode.FI, text: 'Latvia' },
+                    { langCode: LangCode.EN, text: 'Latvia' },
+                    { langCode: LangCode.FI, text: 'Latvia' },
                 ],
             },
             {
                 names: [
-                    { lang: LangCode.EN, text: 'Lithuania' },
-                    { lang: LangCode.FI, text: 'Liettua' },
+                    { langCode: LangCode.EN, text: 'Lithuania' },
+                    { langCode: LangCode.FI, text: 'Liettua' },
                 ],
             },
             {
                 names: [
-                    { lang: LangCode.EN, text: 'Norway' },
-                    { lang: LangCode.FI, text: 'Norja' },
+                    { langCode: LangCode.EN, text: 'Norway' },
+                    { langCode: LangCode.FI, text: 'Norja' },
                 ],
             },
             {
                 names: [
-                    { lang: LangCode.EN, text: 'Sweden' },
-                    { lang: LangCode.FI, text: 'Ruotsi' },
+                    { langCode: LangCode.EN, text: 'Sweden' },
+                    { langCode: LangCode.FI, text: 'Ruotsi' },
                 ],
             },
         ],

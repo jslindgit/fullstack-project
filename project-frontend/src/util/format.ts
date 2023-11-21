@@ -1,5 +1,6 @@
-import { Config, Currency } from '../types/types';
-import { LangCode } from '../types/language';
+import { Config } from '../types/configTypes';
+import { LangCode } from '../types/languageTypes';
+import { Currency } from '../types/types';
 
 const currency = (amount: number, config: Config): string => {
     const sum: string = (Math.round(amount * 100) / 100).toFixed(2).toString();

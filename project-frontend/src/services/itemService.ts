@@ -2,7 +2,8 @@ import axios from 'axios';
 import { Dispatch } from 'react';
 import { AnyAction } from 'redux';
 
-import { Config, Item, Response } from '../types/types';
+import { Config } from '../types/configTypes';
+import { Item, Response } from '../types/types';
 
 import { initializeCategories } from '../reducers/categoryReducer';
 

@@ -30,39 +30,44 @@ export const isUser = (user: unknown): user is User => {
     return isObject(user) && 'id' in user && 'username' in user && 'name' in user && 'admin' in user && 'disabled' in user && 'token' in user;
 };
 
-const parseNumber = (value: unknown, fieldName: string): number => {
-    if (!value || !isNumber(value)) {
-        throw new Error(`Incorrect or missing value for ${fieldName}: "${value}"`);
-    }
-    return value;
-};
-
-const parseString = (value: unknown, fieldName: string): string => {
-    if (!value || !isString(value)) {
-        throw new Error(`Incorrect or missing value for ${fieldName}: "${value}"`);
-    }
-    return value;
-};
-
 export const toNewCategory = (obj: unknown): NewCategory => {
-    if (isObject(obj) && 'name' in obj && Array.isArray(obj.name) && obj.name.every(isLangText) && 'description' in obj && Array.isArray(obj.description) && obj.description.every(isLangText)) {
+    if (
+        isObject(obj) &&
+        'name' in obj &&
+        Array.isArray(obj.name) &&
+        obj.name.every(isLangText) &&
+        'description' in obj &&
+        Array.isArray(obj.description) &&
+        obj.description.every(isLangText)
+    ) {
         return { name: obj.name, description: obj.description };
     }
 
     throw new Error('Incorrect data: some fields ("name" or "description") are missing or invalid for toNewCategory');
 };
 
-export const toNewItem = (object: unknown): NewItem => {
-    if (!isObject(object)) {
+export const toNewItem = (obj: unknown): NewItem => {
+    if (!isObject(obj)) {
         throw new Error('Incorrect or missing data for toNewItem');
     }
 
-    if ('name' in object && 'price' in object) {
+    if (
+        'description' in obj &&
+        Array.isArray(obj.description) &&
+        obj.description.every(isLangText) &&
+        'instock' in obj &&
+        isNumber(obj.instock) &&
+        'name' in obj &&
+        Array.isArray(obj.name) &&
+        obj.name.every(isLangText) &&
+        'price' in obj &&
+        isNumber(obj.price)
+    ) {
         const newItem: NewItem = {
-            name: parseString(object.name, 'name'),
-            description: 'description' in object ? parseString(object.description, 'description') : '',
-            price: parseNumber(object.price, 'price'),
-            instock: 'instock' in object ? parseNumber(object.instock, 'instock') : 0,
+            name: obj.name,
+            description: obj.description,
+            price: obj.price,
+            instock: obj.instock,
         };
 
         return newItem;

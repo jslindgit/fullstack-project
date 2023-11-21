@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Config } from '../types/types';
+import { Config } from '../types/configTypes';
 import { defaultConfig } from '../constants';
 
 export type ConfigState = Config;

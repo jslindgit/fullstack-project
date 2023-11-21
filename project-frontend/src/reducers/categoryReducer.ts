@@ -15,7 +15,7 @@ const slice = createSlice({
         },
         removeCategory(state: CategoryState, action: PayloadAction<Category>) {
             const index = state.indexOf(action.payload);
-            state.splice(index);
+            state.splice(index - 1);
             return state;
         },
         setCategories(_state: CategoryState, action: PayloadAction<Category[]>) {

@@ -28,7 +28,7 @@ const AdminCategories = () => {
             return;
         }
         if (confirm(`Delete category ${category.name}?`)) {
-            const res = await categoryService.deleteCategory(category, usersState.loggedUser.token);
+            const res = await categoryService.deleteCategory(category, usersState.loggedUser.token, config);
 
             dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 

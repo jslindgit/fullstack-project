@@ -3,16 +3,6 @@ export interface Credentials {
     password: string;
 }
 
-export interface Item {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    instock: number;
-    images: string[];
-}
-export type NewItem = Omit<Item, 'id'>;
-
 export interface Item_Category {
     id: number;
     itemId: number;

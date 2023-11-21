@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 
-import { Config, Item } from '../types/types';
+import { Config } from '../types/configTypes';
+import { Item } from '../types/types';
 import { ContentID } from '../content';
 
 import { refreshShoppingCartItemCount, setNotification } from '../reducers/miscReducer';

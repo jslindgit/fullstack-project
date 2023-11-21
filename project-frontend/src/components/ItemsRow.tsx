@@ -1,4 +1,5 @@
-import { Config, Item } from '../types/types';
+import { Config } from '../types/configTypes';
+import { Item } from '../types/types';
 
 import ItemColumn from './ItemColumn';
 

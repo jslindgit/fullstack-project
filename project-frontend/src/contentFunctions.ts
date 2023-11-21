@@ -1,4 +1,4 @@
-import { Config } from './types/types';
+import { Config } from './types/configTypes';
 import { ContentID } from './content';
 
 import { contentToText } from './types/languageFunctions';

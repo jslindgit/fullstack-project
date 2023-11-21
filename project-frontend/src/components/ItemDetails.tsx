@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
-import { contentToText } from '../types/languageFunctions';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
 import format from '../util/format';
 import { handleError } from '../util/handleError';
 import { imageFullPath } from '../util/misc';
@@ -18,7 +18,7 @@ import ItemsMenu from './ItemsMenu';
 import { ContentID } from '../content';
 
 const ItemDetails = () => {
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
 
     const [item, setItem] = useState<Item | undefined>();
     const [loading, setLoading] = useState<string>('Loading...');
@@ -53,7 +53,7 @@ const ItemDetails = () => {
                 <tbody>
                     <tr>
                         <td style={{ padding: 0 }}>
-                            <ItemsMenu />
+                            <ItemsMenu config={config} currentId={id} />
                         </td>
                     </tr>
                     <tr>
@@ -68,22 +68,24 @@ const ItemDetails = () => {
                             <table align='center' width='100%'>
                                 <tbody>
                                     <tr>
-                                        <td className='itemDetailsName'>{item.name}</td>
+                                        <td className='itemDetailsName'>{langTextsToText(item.name, config)}</td>
                                     </tr>
                                     <tr>
-                                        <td>{item.description}</td>
+                                        <td>{langTextsToText(item.description, config)}</td>
                                     </tr>
                                     <tr>
-                                        <td className='itemDetailsPrice'>{format.currency(item.price, configState)}</td>
+                                        <td className='itemDetailsPrice'>{format.currency(item.price, config)}</td>
                                     </tr>
                                     <tr>
                                         <td className={'semiBold ' + (item.instock > 0 ? 'itemInStock' : 'itemSoldOut')}>
-                                            {item.instock > 0 ? `${contentToText(ContentID.itemsInStock, configState)} (${item.instock})` : contentToText(ContentID.itemsSoldOut, configState)}
+                                            {item.instock > 0
+                                                ? `${contentToText(ContentID.itemsInStock, config)} (${item.instock})`
+                                                : contentToText(ContentID.itemsSoldOut, config)}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <AddToCart config={configState} item={item} />
+                                            <AddToCart config={config} item={item} />
                                         </td>
                                     </tr>
                                 </tbody>

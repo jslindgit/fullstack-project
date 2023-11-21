@@ -1,4 +1,4 @@
-import { LangCode } from '../types/language';
+import { LangCode } from '../types/languageTypes';
 import { DeliveryCode, DeliveryMethod } from '../types/orderTypes';
 
 const getAllDomestic = (): DeliveryMethod[] => {

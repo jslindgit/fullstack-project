@@ -1,10 +1,27 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, Optional } from 'sequelize';
 
 import { sequelize } from '../util/db';
+import { isNumber, isObject, isString } from '../types/type_functions';
 
-export class Item extends Model {}
+export interface ItemAttributes {
+    id: number;
+    name: string;
+    description?: string;
+    price: number;
+    instock: number;
+    images: string[];
+}
 
-Item.init(
+export type NewItem = Omit<ItemAttributes, 'id'>;
+
+interface ItemCreationAttributes extends Optional<ItemAttributes, 'id'> {
+    description?: string;
+}
+
+export interface ItemInstance extends Model<ItemAttributes, ItemCreationAttributes>, ItemAttributes {}
+
+const Item = sequelize.define<ItemInstance>(
+    'item',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -34,9 +51,27 @@ Item.init(
         },
     },
     {
-        sequelize,
         underscored: true,
         timestamps: true,
-        modelName: 'item',
     }
 );
+
+export const isNewItem = (obj: unknown): obj is NewItem => {
+    if (obj === null || !isObject(obj)) {
+        return false;
+    } else {
+        return (
+            'name' in obj &&
+            isString(obj.name) &&
+            'price' in obj &&
+            isNumber(obj.price) &&
+            'instock' in obj &&
+            isNumber(obj.instock) &&
+            'images' in obj &&
+            Array.isArray(obj.images) &&
+            obj.images.every(isString)
+        );
+    }
+};
+
+export default Item;

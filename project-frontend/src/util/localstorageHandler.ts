@@ -1,5 +1,5 @@
 import { Item } from '../types/types';
-import { Language } from '../types/language';
+import { Language } from '../types/languageTypes';
 import { ShoppingCartStatus, ShoppingItem } from '../types/orderTypes';
 
 import { defaultLanguage } from '../constants';

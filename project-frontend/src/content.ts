@@ -1,7 +1,8 @@
-import { LangCode } from './types/language';
+import { LangCode, LangContent } from './types/languageTypes';
 
 export enum ContentID {
     adminAddNewCategory = 'ADMIN: Add New Category',
+    adminEditcategory = 'ADMIN: Edit Category',
     adminPanelCategories = 'ADMIN: Categories',
     adminPanelHeader = 'ADMIN: Admin Panel header',
     adminPanelImages = 'ADMIN: Images',
@@ -77,494 +78,501 @@ export enum ContentID {
     {
         id: ContentID,
         content: [
-            { lang: LangCode.EN, text: '' },
-            { lang: LangCode.FI, text: '' },
+            { langCode: LangCode.EN, text: '' },
+            { langCode: LangCode.FI, text: '' },
         ],
     },
 */
 
-export const defaultLangContent = [
+export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.adminAddNewCategory,
         content: [
-            { lang: LangCode.EN, text: 'Add New Category' },
-            { lang: LangCode.FI, text: 'Lisää uusi kategoria' },
+            { langCode: LangCode.EN, text: 'Add New Category' },
+            { langCode: LangCode.FI, text: 'Lisää uusi kategoria' },
+        ],
+    },
+    {
+        id: ContentID.adminEditcategory,
+        content: [
+            { langCode: LangCode.EN, text: 'Edit Category' },
+            { langCode: LangCode.FI, text: 'Muokkaa kategoriaa' },
         ],
     },
     {
         id: ContentID.adminPanelCategories,
         content: [
-            { lang: LangCode.EN, text: 'Categories' },
-            { lang: LangCode.FI, text: 'Kategoriat' },
+            { langCode: LangCode.EN, text: 'Categories' },
+            { langCode: LangCode.FI, text: 'Kategoriat' },
         ],
     },
     {
         id: ContentID.adminPanelHeader,
         content: [
-            { lang: LangCode.EN, text: 'Admin Panel' },
-            { lang: LangCode.FI, text: 'Hallintapaneeli' },
+            { langCode: LangCode.EN, text: 'Admin Panel' },
+            { langCode: LangCode.FI, text: 'Hallintapaneeli' },
         ],
     },
     {
         id: ContentID.adminPanelImages,
         content: [
-            { lang: LangCode.EN, text: 'Images' },
-            { lang: LangCode.FI, text: 'Kuvat' },
+            { langCode: LangCode.EN, text: 'Images' },
+            { langCode: LangCode.FI, text: 'Kuvat' },
         ],
     },
     {
         id: ContentID.adminPanelItems,
         content: [
-            { lang: LangCode.EN, text: 'Products' },
-            { lang: LangCode.FI, text: 'Tuotteet' },
+            { langCode: LangCode.EN, text: 'Products' },
+            { langCode: LangCode.FI, text: 'Tuotteet' },
         ],
     },
     {
         id: ContentID.adminPanelOrders,
         content: [
-            { lang: LangCode.EN, text: 'Orders' },
-            { lang: LangCode.FI, text: 'Tilaukset' },
+            { langCode: LangCode.EN, text: 'Orders' },
+            { langCode: LangCode.FI, text: 'Tilaukset' },
         ],
     },
     {
         id: ContentID.adminPanelSettings,
         content: [
-            { lang: LangCode.EN, text: 'Settings' },
-            { lang: LangCode.FI, text: 'Asetukset' },
+            { langCode: LangCode.EN, text: 'Settings' },
+            { langCode: LangCode.FI, text: 'Asetukset' },
         ],
     },
     {
         id: ContentID.adminPanelUsers,
         content: [
-            { lang: LangCode.EN, text: 'Users' },
-            { lang: LangCode.FI, text: 'Käyttäjät' },
+            { langCode: LangCode.EN, text: 'Users' },
+            { langCode: LangCode.FI, text: 'Käyttäjät' },
         ],
     },
     {
         id: ContentID.backButtonDefault,
         content: [
-            { lang: LangCode.EN, text: 'Go back' },
-            { lang: LangCode.FI, text: 'Takaisin' },
+            { langCode: LangCode.EN, text: 'Go back' },
+            { langCode: LangCode.FI, text: 'Takaisin' },
         ],
     },
     {
         id: ContentID.buttonAdd,
         content: [
-            { lang: LangCode.EN, text: 'Add' },
-            { lang: LangCode.FI, text: 'Lisää' },
+            { langCode: LangCode.EN, text: 'Add' },
+            { langCode: LangCode.FI, text: 'Lisää' },
         ],
     },
     {
         id: ContentID.buttonCheckOut,
         content: [
-            { lang: LangCode.EN, text: 'Check out' },
-            { lang: LangCode.FI, text: 'Kassalle' },
+            { langCode: LangCode.EN, text: 'Check out' },
+            { langCode: LangCode.FI, text: 'Kassalle' },
         ],
     },
     {
         id: ContentID.buttonRemove,
         content: [
-            { lang: LangCode.EN, text: 'Remove' },
-            { lang: LangCode.FI, text: 'Poista' },
+            { langCode: LangCode.EN, text: 'Remove' },
+            { langCode: LangCode.FI, text: 'Poista' },
         ],
     },
     {
         id: ContentID.cartProduct,
         content: [
-            { lang: LangCode.EN, text: 'Product' },
-            { lang: LangCode.FI, text: 'Tuote' },
+            { langCode: LangCode.EN, text: 'Product' },
+            { langCode: LangCode.FI, text: 'Tuote' },
         ],
     },
     {
         id: ContentID.cartQuantity,
         content: [
-            { lang: LangCode.EN, text: 'Quantity' },
-            { lang: LangCode.FI, text: 'Määrä' },
+            { langCode: LangCode.EN, text: 'Quantity' },
+            { langCode: LangCode.FI, text: 'Määrä' },
         ],
     },
     {
         id: ContentID.cartSubtotal,
         content: [
-            { lang: LangCode.EN, text: 'Subtotal' },
-            { lang: LangCode.FI, text: 'Välisumma' },
+            { langCode: LangCode.EN, text: 'Subtotal' },
+            { langCode: LangCode.FI, text: 'Välisumma' },
         ],
     },
     {
         id: ContentID.cartTotalPrice,
         content: [
-            { lang: LangCode.EN, text: 'Total price' },
-            { lang: LangCode.FI, text: 'Yhteensä' },
+            { langCode: LangCode.EN, text: 'Total price' },
+            { langCode: LangCode.FI, text: 'Yhteensä' },
         ],
     },
     {
         id: ContentID.cartUnitPrice,
         content: [
-            { lang: LangCode.EN, text: 'Unit price' },
-            { lang: LangCode.FI, text: 'Hinta/kpl' },
+            { langCode: LangCode.EN, text: 'Unit price' },
+            { langCode: LangCode.FI, text: 'Hinta/kpl' },
         ],
     },
     {
         id: ContentID.checkOutChooseDeliveryMethod,
         content: [
-            { lang: LangCode.EN, text: 'Choose Delivery Method' },
-            { lang: LangCode.FI, text: 'Valitse toimitustapa' },
+            { langCode: LangCode.EN, text: 'Choose Delivery Method' },
+            { langCode: LangCode.FI, text: 'Valitse toimitustapa' },
         ],
     },
     {
         id: ContentID.checkOutChoosePaymentMethod,
         content: [
-            { lang: LangCode.EN, text: 'Choose Payment Method' },
-            { lang: LangCode.FI, text: 'Valitse maksutapa' },
+            { langCode: LangCode.EN, text: 'Choose Payment Method' },
+            { langCode: LangCode.FI, text: 'Valitse maksutapa' },
         ],
     },
     {
         id: ContentID.checkOutCity,
         content: [
-            { lang: LangCode.EN, text: 'City' },
-            { lang: LangCode.FI, text: 'Kaupunki' },
+            { langCode: LangCode.EN, text: 'City' },
+            { langCode: LangCode.FI, text: 'Kaupunki' },
         ],
     },
     {
         id: ContentID.checkOutCountry,
         content: [
-            { lang: LangCode.EN, text: 'Country' },
-            { lang: LangCode.FI, text: 'Maa' },
+            { langCode: LangCode.EN, text: 'Country' },
+            { langCode: LangCode.FI, text: 'Maa' },
         ],
     },
     {
         id: ContentID.checkOutCustomerContactInformation,
         content: [
-            { lang: LangCode.EN, text: 'Customer Contact Information' },
-            { lang: LangCode.FI, text: 'Tilaajan yhteystiedot' },
+            { langCode: LangCode.EN, text: 'Customer Contact Information' },
+            { langCode: LangCode.FI, text: 'Tilaajan yhteystiedot' },
         ],
     },
     {
         id: ContentID.checkOutFirstName,
         content: [
-            { lang: LangCode.EN, text: 'First name' },
-            { lang: LangCode.FI, text: 'Etunimi' },
+            { langCode: LangCode.EN, text: 'First name' },
+            { langCode: LangCode.FI, text: 'Etunimi' },
         ],
     },
     {
         id: ContentID.checkOutHeader,
         content: [
-            { lang: LangCode.EN, text: 'Check Out' },
-            { lang: LangCode.FI, text: 'Kassa' },
+            { langCode: LangCode.EN, text: 'Check Out' },
+            { langCode: LangCode.FI, text: 'Kassa' },
         ],
     },
     {
         id: ContentID.checkOutLastName,
         content: [
-            { lang: LangCode.EN, text: 'Last name' },
-            { lang: LangCode.FI, text: 'Sukunimi' },
+            { langCode: LangCode.EN, text: 'Last name' },
+            { langCode: LangCode.FI, text: 'Sukunimi' },
         ],
     },
     {
         id: ContentID.checkOutOrderInfo,
         content: [
-            { lang: LangCode.EN, text: 'Order Info' },
-            { lang: LangCode.FI, text: 'Tilaus' },
+            { langCode: LangCode.EN, text: 'Order Info' },
+            { langCode: LangCode.FI, text: 'Tilaus' },
         ],
     },
     {
         id: ContentID.checkOutOrganization,
         content: [
-            { lang: LangCode.EN, text: 'Organization' },
-            { lang: LangCode.FI, text: 'Organisaatio' },
+            { langCode: LangCode.EN, text: 'Organization' },
+            { langCode: LangCode.FI, text: 'Organisaatio' },
         ],
     },
     {
         id: ContentID.checkOutSelectCountry,
         content: [
-            { lang: LangCode.EN, text: 'Select a country...' },
-            { lang: LangCode.FI, text: 'Valitse maa...' },
+            { langCode: LangCode.EN, text: 'Select a country...' },
+            { langCode: LangCode.FI, text: 'Valitse maa...' },
         ],
     },
     {
         id: ContentID.checkOutStreetAddress,
         content: [
-            { lang: LangCode.EN, text: 'Street address' },
-            { lang: LangCode.FI, text: 'Katuosoite' },
+            { langCode: LangCode.EN, text: 'Street address' },
+            { langCode: LangCode.FI, text: 'Katuosoite' },
         ],
     },
     {
         id: ContentID.checkOutZipCode,
         content: [
-            { lang: LangCode.EN, text: 'Postal code' },
-            { lang: LangCode.FI, text: 'Postinumero' },
+            { langCode: LangCode.EN, text: 'Postal code' },
+            { langCode: LangCode.FI, text: 'Postinumero' },
         ],
     },
     {
         id: ContentID.contactBusinessID,
         content: [
-            { lang: LangCode.EN, text: 'Business ID' },
-            { lang: LangCode.FI, text: 'Y-tunnus' },
+            { langCode: LangCode.EN, text: 'Business ID' },
+            { langCode: LangCode.FI, text: 'Y-tunnus' },
         ],
     },
     {
         id: ContentID.contactEmail,
         content: [
-            { lang: LangCode.EN, text: 'E-mail' },
-            { lang: LangCode.FI, text: 'Sähköposti' },
+            { langCode: LangCode.EN, text: 'E-mail' },
+            { langCode: LangCode.FI, text: 'Sähköposti' },
         ],
     },
     {
         id: ContentID.contactPhone,
         content: [
-            { lang: LangCode.EN, text: 'Phone' },
-            { lang: LangCode.FI, text: 'Puhelin' },
+            { langCode: LangCode.EN, text: 'Phone' },
+            { langCode: LangCode.FI, text: 'Puhelin' },
         ],
     },
     {
         id: ContentID.homeWelcome,
         content: [
-            { lang: LangCode.EN, text: 'Welcome to Webstore' },
-            { lang: LangCode.FI, text: 'Tervetuloa Verkkokauppaan' },
+            { langCode: LangCode.EN, text: 'Welcome to Webstore' },
+            { langCode: LangCode.FI, text: 'Tervetuloa Verkkokauppaan' },
         ],
     },
     {
         id: ContentID.itemsAddToShoppingCart,
         content: [
-            { lang: LangCode.EN, text: 'Add to shopping cart' },
-            { lang: LangCode.FI, text: 'Lisää ostoskoriin' },
+            { langCode: LangCode.EN, text: 'Add to shopping cart' },
+            { langCode: LangCode.FI, text: 'Lisää ostoskoriin' },
         ],
     },
     {
         id: ContentID.itemsAmount,
         content: [
-            { lang: LangCode.EN, text: 'Amount' },
-            { lang: LangCode.FI, text: 'Määrä' },
+            { langCode: LangCode.EN, text: 'Amount' },
+            { langCode: LangCode.FI, text: 'Määrä' },
         ],
     },
     {
         id: ContentID.itemsInStock,
         content: [
-            { lang: LangCode.EN, text: 'In stock' },
-            { lang: LangCode.FI, text: 'Varastossa' },
+            { langCode: LangCode.EN, text: 'In stock' },
+            { langCode: LangCode.FI, text: 'Varastossa' },
         ],
     },
     {
         id: ContentID.itemsSoldOut,
         content: [
-            { lang: LangCode.EN, text: 'Sold out' },
-            { lang: LangCode.FI, text: 'Loppu' },
+            { langCode: LangCode.EN, text: 'Sold out' },
+            { langCode: LangCode.FI, text: 'Loppu' },
         ],
     },
     {
         id: ContentID.loginNoAccount,
         content: [
-            { lang: LangCode.EN, text: 'No account yet?' },
-            { lang: LangCode.FI, text: 'Ei vielä käyttäjätiliä?' },
+            { langCode: LangCode.EN, text: 'No account yet?' },
+            { langCode: LangCode.FI, text: 'Ei vielä käyttäjätiliä?' },
         ],
     },
     {
         id: ContentID.loginPassword,
         content: [
-            { lang: LangCode.EN, text: 'Password' },
-            { lang: LangCode.FI, text: 'Salasana' },
+            { langCode: LangCode.EN, text: 'Password' },
+            { langCode: LangCode.FI, text: 'Salasana' },
         ],
     },
     {
         id: ContentID.loginRegisterHere,
         content: [
-            { lang: LangCode.EN, text: 'Register here.' },
-            { lang: LangCode.FI, text: 'Rekisteröidy täällä.' },
+            { langCode: LangCode.EN, text: 'Register here.' },
+            { langCode: LangCode.FI, text: 'Rekisteröidy täällä.' },
         ],
     },
     {
         id: ContentID.loginUsername,
         content: [
-            { lang: LangCode.EN, text: 'Username' },
-            { lang: LangCode.FI, text: 'Käyttäjätunnus' },
+            { langCode: LangCode.EN, text: 'Username' },
+            { langCode: LangCode.FI, text: 'Käyttäjätunnus' },
         ],
     },
     {
         id: ContentID.menuAccount,
         content: [
-            { lang: LangCode.EN, text: 'Account' },
-            { lang: LangCode.FI, text: 'Tili' },
+            { langCode: LangCode.EN, text: 'Account' },
+            { langCode: LangCode.FI, text: 'Tili' },
         ],
     },
     {
         id: ContentID.menuAdmin,
         content: [
-            { lang: LangCode.EN, text: 'Admin' },
-            { lang: LangCode.FI, text: 'Ylläpitäjä' },
+            { langCode: LangCode.EN, text: 'Admin' },
+            { langCode: LangCode.FI, text: 'Ylläpitäjä' },
         ],
     },
     {
         id: ContentID.menuAdminSection,
         content: [
-            { lang: LangCode.EN, text: 'Admin' },
-            { lang: LangCode.FI, text: 'Hallintapaneeli' },
+            { langCode: LangCode.EN, text: 'Admin' },
+            { langCode: LangCode.FI, text: 'Hallintapaneeli' },
         ],
     },
     {
         id: ContentID.menuHome,
         content: [
-            { lang: LangCode.EN, text: 'Home' },
-            { lang: LangCode.FI, text: 'Etusivu' },
+            { langCode: LangCode.EN, text: 'Home' },
+            { langCode: LangCode.FI, text: 'Etusivu' },
         ],
     },
     {
         id: ContentID.menuInfo,
         content: [
-            { lang: LangCode.EN, text: 'Info' },
-            { lang: LangCode.FI, text: 'Info' },
+            { langCode: LangCode.EN, text: 'Info' },
+            { langCode: LangCode.FI, text: 'Info' },
         ],
     },
     {
         id: ContentID.menuLogin,
         content: [
-            { lang: LangCode.EN, text: 'Login' },
-            { lang: LangCode.FI, text: 'Kirjaudu' },
+            { langCode: LangCode.EN, text: 'Login' },
+            { langCode: LangCode.FI, text: 'Kirjaudu' },
         ],
     },
     {
         id: ContentID.menuLogout,
         content: [
-            { lang: LangCode.EN, text: 'Logout' },
-            { lang: LangCode.FI, text: 'Kirjaudu ulos' },
+            { langCode: LangCode.EN, text: 'Logout' },
+            { langCode: LangCode.FI, text: 'Kirjaudu ulos' },
         ],
     },
     {
         id: ContentID.menuProducts,
         content: [
-            { lang: LangCode.EN, text: 'Products' },
-            { lang: LangCode.FI, text: 'Tuotteet' },
+            { langCode: LangCode.EN, text: 'Products' },
+            { langCode: LangCode.FI, text: 'Tuotteet' },
         ],
     },
     {
         id: ContentID.menuShoppingCart,
         content: [
-            { lang: LangCode.EN, text: 'Shopping Cart' },
-            { lang: LangCode.FI, text: 'Ostoskori' },
+            { langCode: LangCode.EN, text: 'Shopping Cart' },
+            { langCode: LangCode.FI, text: 'Ostoskori' },
         ],
     },
     {
         id: ContentID.miscDescription,
         content: [
-            { lang: LangCode.EN, text: 'Description' },
-            { lang: LangCode.FI, text: 'Kuvaus' },
+            { langCode: LangCode.EN, text: 'Description' },
+            { langCode: LangCode.FI, text: 'Kuvaus' },
         ],
     },
     {
         id: ContentID.miscMerchant,
         content: [
-            { lang: LangCode.EN, text: 'Merchant' },
-            { lang: LangCode.FI, text: 'Kauppias' },
+            { langCode: LangCode.EN, text: 'Merchant' },
+            { langCode: LangCode.FI, text: 'Kauppias' },
         ],
     },
     {
         id: ContentID.miscName,
         content: [
-            { lang: LangCode.EN, text: 'Name' },
-            { lang: LangCode.FI, text: 'Nimi' },
+            { langCode: LangCode.EN, text: 'Name' },
+            { langCode: LangCode.FI, text: 'Nimi' },
         ],
     },
     {
         id: ContentID.notificationLoggedOut,
         content: [
-            { lang: LangCode.EN, text: 'Logged out' },
-            { lang: LangCode.FI, text: 'Kirjauduit ulos' },
+            { langCode: LangCode.EN, text: 'Logged out' },
+            { langCode: LangCode.FI, text: 'Kirjauduit ulos' },
         ],
     },
     {
         id: ContentID.orderCustomer,
         content: [
-            { lang: LangCode.EN, text: 'Customer' },
-            { lang: LangCode.FI, text: 'Tilaaja' },
+            { langCode: LangCode.EN, text: 'Customer' },
+            { langCode: LangCode.FI, text: 'Tilaaja' },
         ],
     },
     {
         id: ContentID.orderDeliveryMethod,
         content: [
-            { lang: LangCode.EN, text: 'Delivery method' },
-            { lang: LangCode.FI, text: 'Toimitustapa' },
+            { langCode: LangCode.EN, text: 'Delivery method' },
+            { langCode: LangCode.FI, text: 'Toimitustapa' },
         ],
     },
     {
         id: ContentID.orderId,
         content: [
-            { lang: LangCode.EN, text: 'Order ID' },
-            { lang: LangCode.FI, text: 'Tilausnumero' },
+            { langCode: LangCode.EN, text: 'Order ID' },
+            { langCode: LangCode.FI, text: 'Tilausnumero' },
         ],
     },
     {
         id: ContentID.orderItems,
         content: [
-            { lang: LangCode.EN, text: 'Items' },
-            { lang: LangCode.FI, text: 'Tuotteet' },
+            { langCode: LangCode.EN, text: 'Items' },
+            { langCode: LangCode.FI, text: 'Tuotteet' },
         ],
     },
     {
         id: ContentID.orderPaymentMethod,
         content: [
-            { lang: LangCode.EN, text: 'Payment method' },
-            { lang: LangCode.FI, text: 'Maksutapa' },
+            { langCode: LangCode.EN, text: 'Payment method' },
+            { langCode: LangCode.FI, text: 'Maksutapa' },
         ],
     },
     {
         id: ContentID.orderStatus,
         content: [
-            { lang: LangCode.EN, text: 'Status' },
-            { lang: LangCode.FI, text: 'Tila' },
+            { langCode: LangCode.EN, text: 'Status' },
+            { langCode: LangCode.FI, text: 'Tila' },
         ],
     },
     {
         id: ContentID.orderTotalAmount,
         content: [
-            { lang: LangCode.EN, text: 'Total amount' },
-            { lang: LangCode.FI, text: 'Loppusumma' },
+            { langCode: LangCode.EN, text: 'Total amount' },
+            { langCode: LangCode.FI, text: 'Loppusumma' },
         ],
     },
     {
         id: ContentID.statusCancelled,
         content: [
-            { lang: LangCode.EN, text: 'Cancelled' },
-            { lang: LangCode.FI, text: 'Peruttu' },
+            { langCode: LangCode.EN, text: 'Cancelled' },
+            { langCode: LangCode.FI, text: 'Peruttu' },
         ],
     },
     {
         id: ContentID.statusCompleted,
         content: [
-            { lang: LangCode.EN, text: 'Completed' },
-            { lang: LangCode.FI, text: 'Valmis' },
+            { langCode: LangCode.EN, text: 'Completed' },
+            { langCode: LangCode.FI, text: 'Valmis' },
         ],
     },
     {
         id: ContentID.statusDelivered,
         content: [
-            { lang: LangCode.EN, text: 'Delivered' },
-            { lang: LangCode.FI, text: 'Toimitettu' },
+            { langCode: LangCode.EN, text: 'Delivered' },
+            { langCode: LangCode.FI, text: 'Toimitettu' },
         ],
     },
     {
         id: ContentID.statusPending,
         content: [
-            { lang: LangCode.EN, text: 'Pending payment' },
-            { lang: LangCode.FI, text: 'Odottaa maksua' },
+            { langCode: LangCode.EN, text: 'Pending payment' },
+            { langCode: LangCode.FI, text: 'Odottaa maksua' },
         ],
     },
     {
         id: ContentID.statusProcessing,
         content: [
-            { lang: LangCode.EN, text: 'Processing' },
-            { lang: LangCode.FI, text: 'Käsittelyssä' },
+            { langCode: LangCode.EN, text: 'Processing' },
+            { langCode: LangCode.FI, text: 'Käsittelyssä' },
         ],
     },
     {
         id: ContentID.statusRefunded,
         content: [
-            { lang: LangCode.EN, text: 'Refunded' },
-            { lang: LangCode.FI, text: 'Hyvitetty' },
+            { langCode: LangCode.EN, text: 'Refunded' },
+            { langCode: LangCode.FI, text: 'Hyvitetty' },
         ],
     },
     {
         id: ContentID.statusShipped,
         content: [
-            { lang: LangCode.EN, text: 'Shipped' },
-            { lang: LangCode.FI, text: 'Lähetetty' },
+            { langCode: LangCode.EN, text: 'Shipped' },
+            { langCode: LangCode.FI, text: 'Lähetetty' },
         ],
     },
 ];
