@@ -9,7 +9,7 @@ button {
     font-weight: 500;
     padding: 1rem;
     padding-bottom: 0.4rem;
-    padding-top: 0.4rem;
+    padding-top: 0.3rem;
     transition: background-color 0.25s;
 }
 button:hover {

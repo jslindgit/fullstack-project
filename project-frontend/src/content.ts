@@ -2,7 +2,8 @@ import { LangCode, LangContent } from './types/languageTypes';
 
 export enum ContentID {
     adminAddNewCategory = 'ADMIN: Add New Category',
-    adminEditcategory = 'ADMIN: Edit Category',
+    adminAddNewItem = 'ADMIN: Add New Item',
+    adminEditCategory = 'ADMIN: Edit Category',
     adminPanelCategories = 'ADMIN: Categories',
     adminPanelHeader = 'ADMIN: Admin Panel header',
     adminPanelImages = 'ADMIN: Images',
@@ -13,7 +14,9 @@ export enum ContentID {
     backButtonDefault = 'BACK BUTTON: Default label',
     buttonAdd = 'BUTTON: Add',
     buttonCheckOut = 'BUTTON: Check out',
+    buttonEdit = 'BUTTON: Edit',
     buttonRemove = 'BUTTON: Remove',
+    buttonSave = 'BUTTON: Save',
     cartProduct = 'SHOPPING CART: Product',
     cartQuantity = 'SHOPPING CART: Quantity',
     cartSubtotal = 'SHOPPING CART: Subtotal',
@@ -39,6 +42,8 @@ export enum ContentID {
     itemsAddToShoppingCart = 'ITEMS: "Add to shopping cart" button',
     itemsAmount = 'ITEMS: Amount (to add to shopping cart)',
     itemsInStock = 'ITEMS: In stock',
+    itemsNoItemsInCategory = 'ITEMS: "No items in this category."',
+    itemsPrice = 'ITEMS: Price',
     itemsSoldOut = 'ITEMS: Sold out',
     loginNoAccount = 'LOGIN: No account yet?',
     loginPassword = 'LOGIN: Password:',
@@ -89,11 +94,18 @@ export const defaultLangContent: LangContent[] = [
         id: ContentID.adminAddNewCategory,
         content: [
             { langCode: LangCode.EN, text: 'Add New Category' },
-            { langCode: LangCode.FI, text: 'Lisää uusi kategoria' },
+            { langCode: LangCode.FI, text: 'Uusi kategoria' },
         ],
     },
     {
-        id: ContentID.adminEditcategory,
+        id: ContentID.adminAddNewItem,
+        content: [
+            { langCode: LangCode.EN, text: 'Add New Item' },
+            { langCode: LangCode.FI, text: 'Uusi tuote' },
+        ],
+    },
+    {
+        id: ContentID.adminEditCategory,
         content: [
             { langCode: LangCode.EN, text: 'Edit Category' },
             { langCode: LangCode.FI, text: 'Muokkaa kategoriaa' },
@@ -170,10 +182,24 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.buttonEdit,
+        content: [
+            { langCode: LangCode.EN, text: 'Edit' },
+            { langCode: LangCode.FI, text: 'Muokkaa' },
+        ],
+    },
+    {
         id: ContentID.buttonRemove,
         content: [
             { langCode: LangCode.EN, text: 'Remove' },
             { langCode: LangCode.FI, text: 'Poista' },
+        ],
+    },
+    {
+        id: ContentID.buttonSave,
+        content: [
+            { langCode: LangCode.EN, text: 'Save' },
+            { langCode: LangCode.FI, text: 'Tallenna' },
         ],
     },
     {
@@ -349,6 +375,20 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'In stock' },
             { langCode: LangCode.FI, text: 'Varastossa' },
+        ],
+    },
+    {
+        id: ContentID.itemsNoItemsInCategory,
+        content: [
+            { langCode: LangCode.EN, text: 'It seems there are no products in this category yet.' },
+            { langCode: LangCode.FI, text: 'Tässä kategoriassa ei näyttäisi vielä olevan tuotteita.' },
+        ],
+    },
+    {
+        id: ContentID.itemsPrice,
+        content: [
+            { langCode: LangCode.EN, text: 'Price' },
+            { langCode: LangCode.FI, text: 'Hinta' },
         ],
     },
     {

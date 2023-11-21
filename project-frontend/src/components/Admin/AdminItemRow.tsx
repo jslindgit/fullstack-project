@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
+import { langTextsToText } from '../../types/languageFunctions';
 import format from '../../util/format';
 
 import AdminItemImageThumbsSmall from './AdminItemImageThumbsSmall';
@@ -14,15 +15,16 @@ interface Props {
 }
 
 const AdminItemRow = ({ item, deleteItem }: Props) => {
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
 
     const descriptionMaxLengthToShow = 300;
+    const description = langTextsToText(item.description, config);
 
     return (
         <tr>
-            <td>{item.name}</td>
-            <td>{item.description.length > descriptionMaxLengthToShow ? item.description.substring(0, descriptionMaxLengthToShow - 1) + '...' : item.description}</td>
-            <td className='noWrap'>{format.currency(item.price, configState)}</td>
+            <td width='1px'>{langTextsToText(item.name, config)}</td>
+            <td>{description.length > descriptionMaxLengthToShow ? description.substring(0, descriptionMaxLengthToShow - 1) + '...' : description}</td>
+            <td className='noWrap'>{format.currency(item.price, config)}</td>
             <td className='noWrap'>{item.instock} pcs</td>
             <td>{item.id}</td>
             <td>{item.categories ? item.categories.length.toString() : 0}</td>

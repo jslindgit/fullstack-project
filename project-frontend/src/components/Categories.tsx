@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
 
+import { Config } from '../types/configTypes';
 import { Category } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
-import { contentToText } from '../types/languageFunctions';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { pageWidth } from '../constants';
 
 import { Link } from './CustomLink';
@@ -11,8 +12,9 @@ import { ContentID } from '../content';
 
 interface CategoryProps {
     category: Category;
+    config: Config;
 }
-const CategoryItem = ({ category }: CategoryProps) => {
+const CategoryItem = ({ category, config }: CategoryProps) => {
     return (
         <td width='33.33%'>
             <Link to={'/shop/' + category.id}>
@@ -21,10 +23,10 @@ const CategoryItem = ({ category }: CategoryProps) => {
                         <tr>
                             <td>
                                 <span className='sizeLarge' style={{ lineHeight: 1.5 }}>
-                                    {category.name}
+                                    {langTextsToText(category.name, config)}
                                 </span>
                                 <br />
-                                <span className='sizeSmall'>{category.description}</span>
+                                <span className='sizeSmall'>{langTextsToText(category.description, config)}</span>
                             </td>
                         </tr>
                     </tbody>
@@ -45,13 +47,14 @@ const addRemainingCols = (colstoAdd: number) => {
 interface CategoryRowProps {
     categories: Category[];
     colsPerRow: number;
+    config: Config;
 }
-const CategoryRow = ({ categories, colsPerRow }: CategoryRowProps) => {
+const CategoryRow = ({ categories, colsPerRow, config }: CategoryRowProps) => {
     const extraCols = addRemainingCols(colsPerRow - categories.length);
     return (
         <tr>
             {categories.map((c) => (
-                <CategoryItem key={c.id} category={c} />
+                <CategoryItem key={c.id} category={c} config={config} />
             ))}
             {extraCols}
         </tr>
@@ -60,7 +63,7 @@ const CategoryRow = ({ categories, colsPerRow }: CategoryRowProps) => {
 
 const Categories = () => {
     const categoryState = useSelector((state: RootState) => state.categories);
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
 
     if (categoryState.length < 1) {
         return (
@@ -83,14 +86,14 @@ const Categories = () => {
                 <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
                     <tbody>
                         <tr>
-                            <td className='pageHeader'>{contentToText(ContentID.menuProducts, configState)}</td>
+                            <td className='pageHeader'>{contentToText(ContentID.menuProducts, config)}</td>
                         </tr>
                     </tbody>
                 </table>
                 <table align='center' width={pageWidth} className='noOuterPadding'>
                     <tbody>
                         {rows.map((r, index) => (
-                            <CategoryRow key={index} categories={r} colsPerRow={cols} />
+                            <CategoryRow key={index} categories={r} colsPerRow={cols} config={config} />
                         ))}
                     </tbody>
                 </table>

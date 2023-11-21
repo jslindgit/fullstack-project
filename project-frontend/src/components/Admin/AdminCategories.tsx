@@ -2,16 +2,17 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../reducers/rootReducer';
 
+import { ContentID } from '../../content';
 import { Category } from '../../types/types';
-import { Link } from '../CustomLink';
 
 import categoryService from '../../services/categoryService';
-import { langTextsToText } from '../../types/languageFunctions';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
 import { removeCategory } from '../../reducers/categoryReducer';
 import { setNotification } from '../../reducers/miscReducer';
 
 import AddCategoryForm from './AddCategoryForm';
+import { Link } from '../CustomLink';
 
 const AdminCategories = () => {
     const dispatch = useDispatch();
@@ -43,28 +44,27 @@ const AdminCategories = () => {
             <table align='center' width='100%'>
                 <tbody>
                     <tr>
-                        <td style={{ paddingTop: 0 }}>
+                        <td style={{ padding: 0, paddingBottom: '1rem' }}>
                             <table className='dotted' width='100%'>
                                 <tbody>
                                     <tr className='bold'>
-                                        <td>Name</td>
-                                        <td>Description</td>
+                                        <td>{contentToText(ContentID.miscName, config)}</td>
+                                        <td colSpan={3}>{contentToText(ContentID.miscDescription, config)}</td>
                                     </tr>
                                     {categoryState.map((c) => (
                                         <tr key={c.id}>
-                                            <td className='widthByContent'>
+                                            <td width='1px'>
                                                 <Link to={'/admin/items?category=' + c.id}>{langTextsToText(c.name, config)}</Link>
                                             </td>
                                             <td>{langTextsToText(c.description, config)}</td>
-                                            <td style={{ width: '1rem' }}></td>
-                                            <td className='widthByContent'>
+                                            <td width='1px'>
                                                 <Link to={'/admin/editcategory/' + c.id}>
-                                                    <button type='button'>Edit</button>
+                                                    <button type='button'>{contentToText(ContentID.buttonEdit, config)}</button>
                                                 </Link>
                                             </td>
-                                            <td>
+                                            <td width='1px'>
                                                 <button className='red' onClick={() => deleteCategory(c)}>
-                                                    Delete
+                                                    {contentToText(ContentID.buttonRemove, config)}
                                                 </button>
                                             </td>
                                         </tr>

@@ -26,7 +26,7 @@ const AdminCategoryEdit = () => {
     const [category, setCategory] = useState<Category | undefined>();
     const [loading, setLoading] = useState<string>('Loading...');
 
-    const nameFields = useLangFields();
+    const nameFields = useLangFields('text');
     const descriptionFields = useLangTextAreas();
 
     const id = Number(useParams().id);
@@ -49,12 +49,8 @@ const AdminCategoryEdit = () => {
 
     useEffect(() => {
         if (category) {
-            console.log('setting values...');
             nameFields.forEach((nf) => {
-                console.log('category.name:', category.name);
-                console.log('nf:', nf);
                 const nameLangText = category.name.find((langText) => langText.langCode === nf.langCode);
-                console.log('nameLangText:', nameLangText);
                 nf.field.setNewValue(nameLangText ? nameLangText.text : '');
             });
             descriptionFields.forEach((df) => {
@@ -66,10 +62,12 @@ const AdminCategoryEdit = () => {
     }, [category]);
 
     const changesMade = (): boolean => {
+        let result = false;
+
         if (category) {
             nameFields.forEach((nf) => {
                 if (nf.field.value !== category.name.find((langText) => langText.langCode === nf.langCode)?.text) {
-                    return true;
+                    result = true;
                 }
             });
             descriptionFields.forEach((df) => {
@@ -79,7 +77,7 @@ const AdminCategoryEdit = () => {
             });
         }
 
-        return false;
+        return result;
     };
 
     const getInputField = (label: string, field: UseField) => (
@@ -112,8 +110,7 @@ const AdminCategoryEdit = () => {
         );
     };*/
 
-    const submit = async (event: React.FormEvent) => {
-        event.preventDefault();
+    const submit = async () => {
         if (category && changesMade()) {
             if (usersState.loggedUser && usersState.loggedUser.admin && usersState.loggedUser.token) {
                 const updatedCategory: Category = {
@@ -153,74 +150,71 @@ const AdminCategoryEdit = () => {
 
     return (
         <div>
-            <form onSubmit={submit} className='adminFormItemEdit'>
-                <table align='center' width={pageWidth}>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div className='pageHeader'>
-                                    {contentToText(ContentID.adminPanelHeader, config)}
-                                    {' - '}
-                                    {contentToText(ContentID.adminEditcategory, config)}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr style={{ padding: 0, height: '1rem' }}>
-                            <td style={{ padding: 0 }}></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table align='center' width={pageWidth} className='itemDetails valignTop'>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <table width='100%' className='padding150'>
-                                    <tbody>
-                                        <tr>
-                                            <td colSpan={2} className='sizeLarge bold' style={{ paddingTop: 0 }}>
-                                                {contentToText(ContentID.miscName, config)}
-                                            </td>
-                                        </tr>
-                                        {nameFields.map((nf) => getInputField(nf.langCode.toString(), nf.field))}
-                                        <tr>
-                                            <td colSpan={2} className='sizeLarge bold'>
-                                                {contentToText(ContentID.miscDescription, config)}
-                                            </td>
-                                        </tr>
-                                        {descriptionFields.map((nf) => getTextArea(nf.langCode.toString(), nf.textArea))}
-                                        <tr>
-                                            <td width='1px'>
-                                                <button type='submit' disabled={!changesMade()}>
-                                                    Save
-                                                </button>
-                                                &emsp;
-                                                <BackButton type='button' />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                            <td width='10%'></td>
-                            <td width='40%' style={{ maxWidth: '40%' }}>
-                                <table width='100%' className='padding150'>
-                                    <tbody>
-                                        <tr>
-                                            <td className='adminItemEditLabel'>ITEMS:</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                {category.items.map((item) => (
-                                                    <div key={item.id}>{langTextsToText(item.name, config)}</div>
-                                                ))}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
+            <table align='center' width={pageWidth}>
+                <tbody>
+                    <tr>
+                        <td className='pageHeader'>{contentToText(ContentID.adminEditCategory, config)}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table align='center' width={pageWidth} className='itemDetails'>
+                <tbody>
+                    <tr>
+                        <td className='alignCenter colorGray sizeLarge'>{langTextsToText(category.name, config)}</td>
+                    </tr>
+                    <tr>
+                        <td className='noPaddingTd'>
+                            <table width='100%'>
+                                <tbody>
+                                    <tr>
+                                        <td colSpan={2} className='sizeLarge bold' style={{ paddingTop: 0 }}>
+                                            {contentToText(ContentID.miscName, config)}
+                                        </td>
+                                    </tr>
+                                    {nameFields.map((nf) => getInputField(nf.langCode.toString(), nf.field))}
+                                    <tr>
+                                        <td colSpan={2} className='sizeLarge bold'>
+                                            {contentToText(ContentID.miscDescription, config)}
+                                        </td>
+                                    </tr>
+                                    {descriptionFields.map((nf) => getTextArea(nf.langCode.toString(), nf.textArea))}
+                                    <tr>
+                                        <td colSpan={2}>
+                                            <button type='button' onClick={submit} disabled={!changesMade()}>
+                                                {contentToText(ContentID.buttonSave, config)}
+                                            </button>
+                                            &emsp;
+                                            <BackButton type='button' />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table align='center' width={pageWidth} className='itemDetails valignTop'>
+                <tbody>
+                    <tr>
+                        <td>
+                            <table width='100%'>
+                                <tbody>
+                                    <tr>
+                                        <td className='adminItemEditLabel'>ITEMS:</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {category.items.map((item) => (
+                                                <div key={item.id}>{langTextsToText(item.name, config)}</div>
+                                            ))}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     );
 };

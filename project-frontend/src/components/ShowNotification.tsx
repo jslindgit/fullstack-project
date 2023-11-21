@@ -62,15 +62,21 @@ const ShowNotification = ({ fontSize = 'Big' }: Props) => {
         }
 
         return (
-            <div className={classNames}>
+            <div className={classNames} style={{ position: 'sticky', top: 0 }}>
                 <table align='center' width='100%'>
                     <tbody>
                         <tr>
                             <td width='40px'></td>
                             <td className='centered'>{finalMessage}</td>
-                            <td width='40px' className='bold centered'>
+                            <td width='40px' className='bold centered' style={{ fontSize: '1.5rem' }}>
                                 <a onClick={() => close()} style={{ textDecorationLine: 'none' }}>
-                                    x
+                                    <table width='100%' className='valignMiddle'>
+                                        <tbody>
+                                            <tr className='valignMiddle'>
+                                                <td className='valignMiddle'>x</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </a>
                             </td>
                         </tr>

@@ -45,6 +45,9 @@ table.alignTop td {
 .noPadding td {
     padding: 0;
 }
+.noPaddingTd {
+    padding: 0;
+}
 
 .noPaddingImportant {
     padding: 0 !important;
@@ -78,6 +81,16 @@ table.alignTop td {
     border-top: 3px solid var(--colorGrayLight);
 }
 
+table.headerRow tr:first-child td {
+    background-color: var(--colorGrayDark);
+    /*border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;*/
+}
+table.headerRow tr:first-child {
+    border: 0;
+    color: white;
+}
+
 .noWrap {
     text-wrap: nowrap;
 }
@@ -90,20 +103,6 @@ table.alignTop td {
     border-spacing: 0px !important;
     border-collapse: collapse !important;
     padding: 0;
-}
-
-.valignMiddle {
-    vertical-align: middle;
-}
-.valignMiddle td {
-    vertical-align: middle;
-}
-
-.valignTop {
-    vertical-align: top;
-}
-.valignTop td {
-    vertical-align: top;
 }
 
 .widthByContent {

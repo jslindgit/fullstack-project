@@ -29,6 +29,9 @@ h4 {
 .colorGray {
     color: var(--colorGray);
 }
+.colorGrayLight {
+    color: var(--colorGrayLight);
+}
 .colorGraySemiDark {
     color: var(--colorGraySemiDark);
 }

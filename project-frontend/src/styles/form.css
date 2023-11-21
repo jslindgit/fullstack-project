@@ -32,8 +32,9 @@ option {
 }
 
 textarea {
-    resize: none;
     font-size: 1rem;
+    padding: 0.5rem;
+    resize: none;
 }
 
 .adminForm input,

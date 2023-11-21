@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import { ContentID } from '../content';
 import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
 import { pageWidth } from '../constants';
-import { langTextsToText } from '../types/languageFunctions';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { isNumber } from '../types/typeFunctions';
 
 import ItemsMenu from './ItemsMenu';
@@ -56,7 +57,7 @@ const Items = () => {
                     </tbody>
                 </table>
                 {category.items.length <= 0 ? (
-                    <div>No items in this category</div>
+                    <div>{contentToText(ContentID.itemsNoItemsInCategory, config)}</div>
                 ) : (
                     <table align='center' width={pageWidth} className='noOuterPadding'>
                         <tbody>

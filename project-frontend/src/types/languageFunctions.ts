@@ -42,9 +42,9 @@ export const langTextsToText = (langTexts: LangText[], config: Config): string =
     }
 };
 
-export const useLangFields = (): LangField[] => {
+export const useLangFields = (type: 'text' | 'integer' | 'decimal'): LangField[] => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const langFields: LangField[] = availableLangs.map((lang) => ({ langCode: lang.code, field: useField('text') }));
+    const langFields: LangField[] = availableLangs.map((lang) => ({ langCode: lang.code, field: useField(type) }));
     return langFields;
 };
 

@@ -17,7 +17,7 @@ interface Props {
 const AddCategoryForm = ({ user }: Props) => {
     const config = useSelector((state: RootState) => state.config);
 
-    const nameFields = useLangFields();
+    const nameFields = useLangFields('text');
     const descriptionFields = useLangTextAreas();
 
     const dispatch = useDispatch();
@@ -50,8 +50,8 @@ const AddCategoryForm = ({ user }: Props) => {
 
     const submit = async () => {
         const newCategory: NewCategory = {
-            name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
             description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
+            name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
         };
 
         const res = await categoryService.add(newCategory, user.token, dispatch);
