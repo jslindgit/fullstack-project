@@ -57,19 +57,19 @@ const Item = sequelize.define<ItemInstance>(
 );
 
 export const isNewItem = (obj: unknown): obj is NewItem => {
+    console.log('obj:', obj);
     if (obj === null || !isObject(obj)) {
         return false;
     } else {
         return (
+            'description' in obj &&
+            isString(obj.description) &&
+            'instock' in obj &&
+            isNumber(obj.instock) &&
             'name' in obj &&
             isString(obj.name) &&
             'price' in obj &&
-            isNumber(obj.price) &&
-            'instock' in obj &&
-            isNumber(obj.instock) &&
-            'images' in obj &&
-            Array.isArray(obj.images) &&
-            obj.images.every(isString)
+            isNumber(obj.price)
         );
     }
 };

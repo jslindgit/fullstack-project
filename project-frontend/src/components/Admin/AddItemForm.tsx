@@ -21,17 +21,16 @@ interface Props {
 }
 
 const AddItemForm = ({ user, category, items, setItems }: Props) => {
-    const descriptionFields = useLangTextAreas();
-    const nameFields = useLangFields('text');
-    const instock = useField('integer');
-    const price = useField('decimal');
+    const dispatch = useDispatch();
+    const categoriesState = useSelector((state: RootState) => state.categories);
+    const config = useSelector((state: RootState) => state.config);
 
     const [selectedCategory, setSelectedCategory] = useState<string>(category ? category.id.toString() : '-1');
 
-    const dispatch = useDispatch();
-
-    const categoriesState = useSelector((state: RootState) => state.categories);
-    const config = useSelector((state: RootState) => state.config);
+    const descriptionFields = useLangTextAreas();
+    const instock = useField('integer');
+    const nameFields = useLangFields('text');
+    const price = useField('decimal');
 
     useEffect(() => {
         setSelectedCategory(category ? category.id.toString() : '-1');
@@ -67,26 +66,16 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
         setSelectedCategory(event.target.value);
     };
 
-    /*const inputField = (label: string, type: string, value: string | number, onChange: ChangeEventHandler<HTMLInputElement>) => (
-        <>
-            <tr>
-                <td className='widthByContent'>{label}:</td>
-                <td>
-                    <input type={type} value={value} onChange={onChange} />
-                </td>
-            </tr>
-        </>
-    );*/
-
     const submit = async () => {
         const newItem: NewItem = {
             description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
+            images: [],
             instock: Number(instock.value),
             name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
             price: Number(price.value),
         };
 
-        const res = await itemService.add(newItem, selectedCategory && Number(selectedCategory) >= 0 ? Number(selectedCategory) : null, user.token, config, dispatch);
+        const res = await itemService.add(newItem, selectedCategory && Number(selectedCategory) >= 0 ? Number(selectedCategory) : null, user.token, dispatch);
 
         dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 

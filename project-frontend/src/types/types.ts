@@ -31,7 +31,7 @@ export interface Item {
     name: LangText[];
     price: number;
 }
-export type NewItem = Omit<Omit<Omit<Item, 'id'>, 'categories'>, 'images'>;
+export type NewItem = Omit<Omit<Item, 'id'>, 'categories'>;
 
 export interface LoginResponse {
     success: boolean;

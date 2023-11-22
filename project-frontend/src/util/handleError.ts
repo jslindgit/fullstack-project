@@ -1,10 +1,14 @@
 import axios from 'axios';
 
+import { isString } from '../types/typeFunctions';
+
 export const handleError = (error: unknown): void => {
     console.trace();
 
+    let errorMessage: string = 'Error occurred';
+
     if (axios.isAxiosError(error)) {
-        console.error('Axios error.');
+        errorMessage = 'Axios error.';
         if (error.response) {
             console.error('error.response.data:', error.response.data);
             console.error('error.response.status:', error.response.status);
@@ -14,13 +18,10 @@ export const handleError = (error: unknown): void => {
         } else {
             console.error('error.message:', error.message);
         }
-    } else {
-        console.error('Non-Axios Error:', error);
-    }
-
-    let errorMessage = 'Something went wrong.';
-    if (error instanceof Error) {
+    } else if (error instanceof Error) {
         errorMessage = error.name + ': ' + error.message;
+    } else if (isString(error)) {
+        errorMessage = error;
     }
 
     console.error(`error_handler.handleError: ${errorMessage}`);

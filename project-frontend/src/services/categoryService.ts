@@ -23,8 +23,9 @@ const add = async (toAdd: NewCategory, token: string, dispatch: Dispatch<AnyActi
     try {
         const { data } = await axios.post(url, categoryToReqBody(toAdd), authConfig(token));
 
-        if ('id' in data && 'name' in data && 'description' in data) {
-            const addedCategory = categoryFromResBody(data);
+        const addedCategory = categoryFromResBody(data);
+
+        if (addedCategory) {
             dispatch(addCategory(addedCategory));
             return { success: true, message: 'New category added.', addedCategory: addedCategory };
         } else {
@@ -74,11 +75,11 @@ const update = async (category: Category, token: string, dispatch: Dispatch<AnyA
         const toUpdate = { name: category.name, description: category.description };
 
         const res = await axios.put<Category>(`${url}/${category.id}`, categoryToReqBody(toUpdate), authConfig(token));
-        const data = res.data;
+        const updatedCategory = categoryFromResBody(res.data);
 
-        if ('id' in data && 'name' in data && 'description' in data) {
+        if (updatedCategory) {
             await initializeCategories(dispatch);
-            return { success: true, message: 'Category updated.', addedCategory: categoryFromResBody(data) };
+            return { success: true, message: 'Category updated.', addedCategory: categoryFromResBody(updatedCategory) };
         } else {
             handleError(new Error('Server did not return a Category object.'));
             return { success: false, message: 'Something went wrong, try again later.', addedCategory: null };

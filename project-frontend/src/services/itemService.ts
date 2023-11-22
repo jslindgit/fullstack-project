@@ -2,16 +2,14 @@ import axios from 'axios';
 import { Dispatch } from 'react';
 import { AnyAction } from 'redux';
 
-import { Config } from '../types/configTypes';
-import { Item, Response } from '../types/types';
+import { Item, NewItem, Response } from '../types/types';
 
 import { initializeCategories } from '../reducers/categoryReducer';
 
 import item_categoryService from './item_categoryService';
 import { apiBaseUrl } from '../constants';
-import { authConfig } from '../util/serviceProvider';
+import { authConfig, itemFromResBody, itemToReqBody } from '../util/serviceProvider';
 import { handleError } from '../util/handleError';
-import { toNewItem } from '../types/typeFunctions';
 
 interface ItemResponse extends Response {
     item: Item | null;
@@ -19,15 +17,19 @@ interface ItemResponse extends Response {
 
 const url = apiBaseUrl + '/items';
 
-const add = async (toAdd: object, category_id: number | null, token: string, config: Config, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
+const add = async (toAdd: NewItem, category_id: number | null, token: string, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
+    console.log('toAdd:', toAdd);
+
     try {
-        const newItem = toNewItem(toAdd);
-        const body = category_id ? { ...newItem, category_id: category_id } : newItem;
+        const itemData = itemToReqBody(toAdd);
+        const body = category_id ? { ...itemData, category_id: category_id } : itemData;
         const { data } = await axios.post(url, body, authConfig(token));
 
-        if ('name' in data && 'price' in data) {
+        const item = itemFromResBody(data);
+
+        if (item) {
             await initializeCategories(dispatch);
-            return { success: true, message: `New item added: ${data.name} (${data.price} ${config.currency})`, item: data };
+            return { success: true, message: `New item added: ${item.name}`, item: item };
         } else {
             handleError('Server did not return an Item object');
             return { success: false, message: 'Something went wrong, try again later', item: null };
@@ -59,7 +61,14 @@ const deleteItem = async (item: Item, token: string, dispatch: Dispatch<AnyActio
 const getAll = async (): Promise<Item[]> => {
     try {
         const { data } = await axios.get<Item[]>(url);
-        return data;
+        const items: Item[] = [];
+        data.forEach((itemData) => {
+            const item = itemFromResBody(itemData);
+            if (item) {
+                items.push(item);
+            }
+        });
+        return items;
     } catch (err: unknown) {
         handleError(err);
         return [];
@@ -69,7 +78,7 @@ const getAll = async (): Promise<Item[]> => {
 const getById = async (id: number): Promise<Item | null> => {
     try {
         const { data } = await axios.get<Item>(`${url}/${id}`);
-        return data;
+        return itemFromResBody(data);
     } catch (err: unknown) {
         handleError(err);
         return null;
@@ -80,12 +89,12 @@ const update = async (item: Item, token: string, dispatch: Dispatch<AnyAction>):
     try {
         const toUpdate = { name: item.name, description: item.description, price: item.price, instock: item.instock, images: item.images };
 
-        const res = await axios.put<Item>(`${url}/${item.id}`, toUpdate, authConfig(token));
-        const data = res.data;
+        const res = await axios.put<Item>(`${url}/${item.id}`, itemToReqBody(toUpdate), authConfig(token));
+        const updatedItem = itemFromResBody(res.data);
 
-        if ('name' in data && 'price' in data) {
+        if (updatedItem) {
             await initializeCategories(dispatch);
-            return { success: true, message: `Item ${data.name} updated`, item: data };
+            return { success: true, message: `Item ${updatedItem.name} updated`, item: updatedItem };
         } else {
             handleError(new Error('Server did not return an Item object'));
             return { success: false, message: 'Something went wrong, try again later', item: null };

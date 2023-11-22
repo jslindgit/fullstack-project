@@ -83,4 +83,5 @@
 |        | 2    | Kielivalinnan työstöä kategorioiden lisäämisen ja muokkaamisen yhteydessä                                            |     |
 | 21.11. | 2    | Kielivalinnan työstöä kategorioihin ja tuotteisiin                                                                   |     |
 |        | 2    | Kielivalinnan työstöä                                                                                                | 160 |
-|  yht   | 160  |                                                                                                                      |     |
+| 22.11. | 2    | Kielivalinnan työstöä                                                                                                |     |
+|  yht   | 162  |                                                                                                                      |     |

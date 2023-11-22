@@ -115,8 +115,8 @@ const AdminCategoryEdit = () => {
             if (usersState.loggedUser && usersState.loggedUser.admin && usersState.loggedUser.token) {
                 const updatedCategory: Category = {
                     ...category,
-                    name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                     description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
+                    name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                 };
 
                 const res = await categoryService.update(updatedCategory, usersState.loggedUser.token, dispatch);

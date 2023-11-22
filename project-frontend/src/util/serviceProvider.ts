@@ -1,7 +1,9 @@
-import { NewCategory, Category } from '../types/types';
+import { Category, NewCategory } from '../types/types';
+import { Item, NewItem } from '../types/types';
 
 import { API_KEY } from '../constants';
-import { isObject, isString } from '../types/typeFunctions';
+import { handleError } from './handleError';
+import { isNumber, isObject, isString } from '../types/typeFunctions';
 
 interface AuthInterface {
     headers: object;
@@ -23,6 +25,33 @@ export const authConfig = (token: string): AuthInterface => {
     };
 };
 
+export const categoryFromResBody = (resBody: unknown): Category | null => {
+    if (
+        isObject(resBody) &&
+        'description' in resBody &&
+        isString(resBody.description) &&
+        'id' in resBody &&
+        isNumber(resBody.id) &&
+        'items' in resBody &&
+        Array.isArray(resBody.items) &&
+        'name' in resBody &&
+        isString(resBody.name)
+    ) {
+        const items: Item[] = [];
+        resBody.items.forEach((itemData) => {
+            const item = itemFromResBody(itemData);
+            if (item) {
+                items.push(item);
+            }
+        });
+
+        return { ...(resBody as Category), description: JSON.parse(resBody.description), items: items, name: JSON.parse(resBody.name) };
+    } else {
+        handleError(new Error('Invalid resBody'));
+        return null;
+    }
+};
+
 export const categoryToReqBody = (category: NewCategory | Category): object => {
     return {
         ...category,
@@ -31,14 +60,31 @@ export const categoryToReqBody = (category: NewCategory | Category): object => {
     };
 };
 
-export const categoryFromResBody = (resBody: unknown): Category => {
-    if (!isObject(resBody)) {
-        throw new Error('resBody is not an object');
-    }
-
-    if ('id' in resBody && 'name' in resBody && isString(resBody.name) && 'description' in resBody && isString(resBody.description)) {
-        return { ...(resBody as Category), name: JSON.parse(resBody.name), description: JSON.parse(resBody.description) };
+export const itemFromResBody = (resBody: unknown): Item | null => {
+    if (
+        isObject(resBody) &&
+        'description' in resBody &&
+        isString(resBody.description) &&
+        'id' in resBody &&
+        isNumber(resBody.id) &&
+        'instock' in resBody &&
+        isNumber(resBody.instock) &&
+        'name' in resBody &&
+        isString(resBody.name) &&
+        'price' in resBody &&
+        isString(resBody.price)
+    ) {
+        return { ...(resBody as Item), name: JSON.parse(resBody.name), description: JSON.parse(resBody.description) };
     } else {
-        throw new Error('Invalid resBody');
+        handleError(new Error('Invalid resBody'));
+        return null;
     }
+};
+
+export const itemToReqBody = (item: NewItem | Item): object => {
+    return {
+        ...item,
+        name: JSON.stringify(item.name),
+        description: JSON.stringify(item.description),
+    };
 };

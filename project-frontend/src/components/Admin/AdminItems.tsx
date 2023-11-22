@@ -44,7 +44,7 @@ const AdminItems = () => {
             itemService
                 .getAll()
                 .then((res) => {
-                    setItems(res?.filter((i) => i.categories.length === 0));
+                    setItems(res.filter((i) => i.categories.length === 0));
                 })
                 .catch((err: unknown) => {
                     handleError(err);
