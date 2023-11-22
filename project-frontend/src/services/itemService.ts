@@ -2,14 +2,16 @@ import axios from 'axios';
 import { Dispatch } from 'react';
 import { AnyAction } from 'redux';
 
+import { Config } from '../types/configTypes';
 import { Item, NewItem, Response } from '../types/types';
 
 import { initializeCategories } from '../reducers/categoryReducer';
 
-import item_categoryService from './item_categoryService';
 import { apiBaseUrl } from '../constants';
-import { authConfig, itemFromResBody, itemToReqBody } from '../util/serviceProvider';
 import { handleError } from '../util/handleError';
+import item_categoryService from './item_categoryService';
+import { langTextsToText } from '../types/languageFunctions';
+import { authConfig, itemFromResBody, itemToReqBody } from '../util/serviceProvider';
 
 interface ItemResponse extends Response {
     item: Item | null;
@@ -17,9 +19,7 @@ interface ItemResponse extends Response {
 
 const url = apiBaseUrl + '/items';
 
-const add = async (toAdd: NewItem, category_id: number | null, token: string, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
-    console.log('toAdd:', toAdd);
-
+const add = async (toAdd: NewItem, category_id: number | null, token: string, config: Config, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
     try {
         const itemData = itemToReqBody(toAdd);
         const body = category_id ? { ...itemData, category_id: category_id } : itemData;
@@ -29,7 +29,7 @@ const add = async (toAdd: NewItem, category_id: number | null, token: string, di
 
         if (item) {
             await initializeCategories(dispatch);
-            return { success: true, message: `New item added: ${item.name}`, item: item };
+            return { success: true, message: `New item added: ${langTextsToText(item.name, config)}`, item: item };
         } else {
             handleError('Server did not return an Item object');
             return { success: false, message: 'Something went wrong, try again later', item: null };
@@ -40,7 +40,7 @@ const add = async (toAdd: NewItem, category_id: number | null, token: string, di
     }
 };
 
-const deleteItem = async (item: Item, token: string, dispatch: Dispatch<AnyAction>): Promise<Response> => {
+const deleteItem = async (item: Item, token: string, config: Config, dispatch: Dispatch<AnyAction>): Promise<Response> => {
     try {
         // First delete the connection tables involving this Item:
         await item_categoryService.deleteAllConnectionsByItem(item, token);
@@ -48,7 +48,7 @@ const deleteItem = async (item: Item, token: string, dispatch: Dispatch<AnyActio
         const res = await axios.delete<Item>(`${url}/${item.id}`, authConfig(token));
         if (res.status === 204) {
             await initializeCategories(dispatch);
-            return { success: true, message: `Item ${item.name} deleted` };
+            return { success: true, message: `Item ${langTextsToText(item.name, config)} deleted` };
         } else {
             return { success: false, message: 'Something went wrong, try again later' };
         }
@@ -85,7 +85,7 @@ const getById = async (id: number): Promise<Item | null> => {
     }
 };
 
-const update = async (item: Item, token: string, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
+const update = async (item: Item, token: string, config: Config, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
     try {
         const toUpdate = { name: item.name, description: item.description, price: item.price, instock: item.instock, images: item.images };
 
@@ -94,7 +94,7 @@ const update = async (item: Item, token: string, dispatch: Dispatch<AnyAction>):
 
         if (updatedItem) {
             await initializeCategories(dispatch);
-            return { success: true, message: `Item ${updatedItem.name} updated`, item: updatedItem };
+            return { success: true, message: `Item ${langTextsToText(updatedItem.name, config)} updated`, item: updatedItem };
         } else {
             handleError(new Error('Server did not return an Item object'));
             return { success: false, message: 'Something went wrong, try again later', item: null };

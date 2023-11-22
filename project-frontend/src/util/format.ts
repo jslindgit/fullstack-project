@@ -16,11 +16,21 @@ const currency = (amount: number, config: Config): string => {
 
     const currencyBeforeSum = [LangCode.ES, LangCode.EN].includes(config.language.code);
 
-    return (currencyBeforeSum ? symbol() : '') + sum + (currencyBeforeSum ? '' : ' ' + symbol());
+    return ((currencyBeforeSum ? symbol() : '') + sum + (currencyBeforeSum ? '' : ' ' + symbol())).replace('.', config.language.decimalPoint);
 };
 
 const dateFormat = (date: Date) => {
-    return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear() + ' ' + date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
+    return (
+        date.getDate() +
+        '.' +
+        (date.getMonth() + 1) +
+        '.' +
+        date.getFullYear() +
+        ' ' +
+        date.getHours().toString().padStart(2, '0') +
+        ':' +
+        date.getMinutes().toString().padStart(2, '0')
+    );
 };
 
 export default {

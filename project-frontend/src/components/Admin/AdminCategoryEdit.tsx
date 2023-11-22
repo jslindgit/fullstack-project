@@ -72,7 +72,7 @@ const AdminCategoryEdit = () => {
             });
             descriptionFields.forEach((df) => {
                 if (df.textArea.value !== category.description.find((langText) => langText.langCode === df.langCode)?.text) {
-                    return true;
+                    result = true;
                 }
             });
         }
@@ -154,6 +154,13 @@ const AdminCategoryEdit = () => {
                 <tbody>
                     <tr>
                         <td className='pageHeader'>{contentToText(ContentID.adminEditCategory, config)}</td>
+                        <td className='alignRight'>
+                            <button type='button' onClick={submit} disabled={!changesMade()}>
+                                {contentToText(ContentID.buttonSave, config)}
+                            </button>
+                            &emsp;
+                            <BackButton type='button' />
+                        </td>
                     </tr>
                 </tbody>
             </table>

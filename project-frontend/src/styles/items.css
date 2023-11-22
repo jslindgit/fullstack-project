@@ -21,6 +21,8 @@
 .itemDetails {
     border: 2px solid var(--colorGrayLight);
     border-radius: 15px;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 .itemDetailsName {

@@ -64,7 +64,7 @@ const ItemDetails = () => {
             <table align='center' width={(pageWidth / 3) * 2} className='itemDetails'>
                 <tbody>
                     <tr>
-                        <td width='50%'>
+                        <td width='50%' style={{ paddingLeft: 0 }}>
                             <table align='center' width='100%'>
                                 <tbody>
                                     <tr>
@@ -91,7 +91,7 @@ const ItemDetails = () => {
                                 </tbody>
                             </table>
                         </td>
-                        <td width='50%' className='valignTop'>
+                        <td width='50%' className='valignTop' style={{ paddingRight: 0 }}>
                             <table align='center'>
                                 <tbody>
                                     <tr>

@@ -47,7 +47,7 @@ export const categoryFromResBody = (resBody: unknown): Category | null => {
 
         return { ...(resBody as Category), description: JSON.parse(resBody.description), items: items, name: JSON.parse(resBody.name) };
     } else {
-        handleError(new Error('Invalid resBody'));
+        handleError(new Error('Invalid resBody for Category'));
         return null;
     }
 };
@@ -60,7 +60,10 @@ export const categoryToReqBody = (category: NewCategory | Category): object => {
     };
 };
 
-export const itemFromResBody = (resBody: unknown): Item | null => {
+export const itemFromResBody = (resBody: unknown, debug: boolean = false): Item | null => {
+    if (debug) {
+        console.log('resBody:', resBody);
+    }
     if (
         isObject(resBody) &&
         'description' in resBody &&
@@ -72,11 +75,11 @@ export const itemFromResBody = (resBody: unknown): Item | null => {
         'name' in resBody &&
         isString(resBody.name) &&
         'price' in resBody &&
-        isString(resBody.price)
+        (isNumber(resBody.price) || isString(resBody.price))
     ) {
         return { ...(resBody as Item), name: JSON.parse(resBody.name), description: JSON.parse(resBody.description) };
     } else {
-        handleError(new Error('Invalid resBody'));
+        handleError(new Error('Invalid resBody for Item'));
         return null;
     }
 };

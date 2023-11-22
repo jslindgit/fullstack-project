@@ -6,9 +6,6 @@ input {
     outline: 1px solid var(--colorGray);
     padding: 0.5rem;
     padding-left: 0.6rem;
-}
-
-input {
     width: 100%;
 }
 
@@ -16,6 +13,12 @@ input:focus {
     background-color: var(--colorYellowVeryLight);
     outline: 3px solid var(--colorGrayDark);
     transition: background-color 0.25s;
+}
+
+::placeholder {
+    color: rgb(170, 171, 172);
+    font-size: 0.9em;
+    font-style: italic;
 }
 
 input.error {
@@ -32,6 +35,8 @@ option {
 }
 
 textarea {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1rem;
     padding: 0.5rem;
     resize: none;

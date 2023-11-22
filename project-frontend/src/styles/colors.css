@@ -1,0 +1,30 @@
+/* Background */
+.bgColorGrayVeryLight {
+    background-color: var(--colorGrayVeryLight);
+}
+
+/* Text */
+.colorGoldLight {
+    color: var(--colorGoldLight);
+}
+.colorGraySemiDark {
+    color: var(--colorGraySemiDark);
+}
+.colorGray {
+    color: var(--colorGray);
+}
+.colorGrayLight {
+    color: var(--colorGrayLight);
+}
+.colorGreen {
+    color: var(--colorGreen);
+}
+.colorGreenVeryLight {
+    color: var(--colorGreenVeryLight);
+}
+.colorRed {
+    color: var(--colorRed);
+}
+.colorYellowLight {
+    color: var(--colorYellowLight);
+}

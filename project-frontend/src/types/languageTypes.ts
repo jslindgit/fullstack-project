@@ -34,6 +34,7 @@ export interface LangText {
 
 export interface Language {
     code: LangCode;
+    decimalPoint: string;
     name: string;
     paytrailValue: 'FI' | 'SV' | 'EN';
 }
@@ -41,11 +42,13 @@ export interface Language {
 export const availableLangs: Language[] = [
     {
         code: LangCode.FI,
+        decimalPoint: ',',
         name: 'Suomi',
         paytrailValue: 'FI',
     },
     {
         code: LangCode.EN,
+        decimalPoint: '.',
         name: 'English',
         paytrailValue: 'EN',
     },

@@ -11,6 +11,7 @@ export const pageWidth = 1024;
 
 export const defaultLanguage: Language = {
     code: LangCode.FI,
+    decimalPoint: ',',
     name: 'Suomi',
     paytrailValue: 'FI',
 };

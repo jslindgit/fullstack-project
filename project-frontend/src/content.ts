@@ -41,6 +41,7 @@ export enum ContentID {
     homeWelcome = 'HOME: Welcome text',
     itemsAddToShoppingCart = 'ITEMS: "Add to shopping cart" button',
     itemsAmount = 'ITEMS: Amount (to add to shopping cart)',
+    itemsCategory = 'ITEMS: Category',
     itemsInStock = 'ITEMS: In stock',
     itemsNoItemsInCategory = 'ITEMS: "No items in this category."',
     itemsPrice = 'ITEMS: Price',
@@ -368,6 +369,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Amount' },
             { langCode: LangCode.FI, text: 'Määrä' },
+        ],
+    },
+    {
+        id: ContentID.itemsCategory,
+        content: [
+            { langCode: LangCode.EN, text: 'Category' },
+            { langCode: LangCode.FI, text: 'Kategoria' },
         ],
     },
     {

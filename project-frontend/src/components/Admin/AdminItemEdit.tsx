@@ -112,7 +112,7 @@ const AdminItemEdit = () => {
             });
             descriptionFields.forEach((df) => {
                 if (df.textArea.value !== item.description.find((langText) => langText.langCode === df.langCode)?.text) {
-                    return true;
+                    result = true;
                 }
             });
         }
@@ -207,7 +207,7 @@ const AdminItemEdit = () => {
                 });
 
                 // Update the other info (name, description, etc):
-                const res = await itemService.update(updatedItem, usersState.loggedUser.token, dispatch);
+                const res = await itemService.update(updatedItem, usersState.loggedUser.token, config, dispatch);
 
                 dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
@@ -243,39 +243,54 @@ const AdminItemEdit = () => {
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
-                        <td className='adminHeader tight underlined'>
-                            <h3>Admin Panel - Edit Item</h3>
+                        <td className='pageHeader'>Admin Panel - Edit Item</td>
+                        <td className='alignRight'>
+                            <button type='button' onClick={submit} disabled={!changesMade()}>
+                                {contentToText(ContentID.buttonSave, config)}
+                            </button>
+                            &emsp;
+                            <BackButton type='button' />
                         </td>
-                    </tr>
-                    <tr style={{ padding: 0, height: '1rem' }}>
-                        <td style={{ padding: 0 }}></td>
                     </tr>
                 </tbody>
             </table>
-            <table align='center' width={pageWidth} className='itemDetails valignTop'>
+            <table align='center' width={pageWidth} className='itemDetails'>
                 <tbody>
                     <tr>
-                        <td>
-                            <table width='100%' className='padding150'>
+                        <td colSpan={3} className='alignCenter colorGray sizeLarge'>
+                            {langTextsToText(item.name, config)}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ padding: 0 }}>
+                            <table width='100%'>
                                 <tbody>
                                     <tr>
-                                        <td className='adminItemEditLabel'>NAME:</td>
+                                        <td colSpan={2} className='adminItemEditLabel'>
+                                            NAME:
+                                        </td>
                                     </tr>
                                     {nameFields.map((nf) => getInputField(nf.langCode.toString(), nf.field))}
                                     <tr>
-                                        <td className='adminItemEditLabel'>DESCRIPTION:</td>
+                                        <td colSpan={2} className='adminItemEditLabel'>
+                                            DESCRIPTION:
+                                        </td>
                                     </tr>
                                     {descriptionFields.map((nf) => getTextArea(nf.langCode.toString(), nf.textArea))}
                                     <tr>
-                                        <td className='adminItemEditLabel'>PRICE:</td>
+                                        <td colSpan={2} className='adminItemEditLabel'>
+                                            PRICE:
+                                        </td>
                                     </tr>
                                     {getInputField(contentToText(ContentID.itemsPrice, config), price)}
                                     <tr>
-                                        <td className='adminItemEditLabel'>IN STOCK:</td>
+                                        <td colSpan={2} className='adminItemEditLabel'>
+                                            IN STOCK:
+                                        </td>
                                     </tr>
                                     {getInputField(contentToText(ContentID.itemsInStock, config), instock)}
                                     <tr>
-                                        <td width='1px'>
+                                        <td colSpan={2} width='1px'>
                                             <button type='button' onClick={submit} disabled={!changesMade()}>
                                                 {contentToText(ContentID.buttonSave, config)}
                                             </button>
@@ -287,8 +302,8 @@ const AdminItemEdit = () => {
                             </table>
                         </td>
                         <td width='10%'></td>
-                        <td width='40%' style={{ maxWidth: '40%' }}>
-                            <table width='100%' className='padding150'>
+                        <td width='40%' className='valignTop' style={{ maxWidth: '40%', padding: 0 }}>
+                            <table width='100%'>
                                 <tbody>
                                     <tr>
                                         <td className='adminItemEditLabel'>CATEGORIES:</td>
@@ -313,15 +328,16 @@ const AdminItemEdit = () => {
                                     <tr>
                                         <td className='imgFlex'>
                                             {item.images.length > 0
-                                                ? item.images.map((img) => (
-                                                    <img
+                                                ? item.images.map((img) =>
+                                                      // prettier-ignore
+                                                      <img
                                                         key={img}
                                                         src={imageFullPath(img)}
                                                         className='imgAdminItems'
                                                         alt={imageFilename(img)}
                                                         title={imageFilename(img)}
                                                     />
-                                                ))
+                                                  )
                                                 : 'No images'}
                                         </td>
                                     </tr>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -40,24 +41,26 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
         return <>Error: Invalid User</>;
     }
 
-    const getInputField = (label: string, field: UseField) => (
-        <tr key={label}>
-            <td width='1px' className='semiBold' style={{ paddingLeft: '2.5rem', paddingRight: 0 }}>
-                {label}
-            </td>
-            <td>
-                <input type={field.type} value={field.value} onChange={field.onChange} />
-            </td>
-        </tr>
+    const getInputField = (label: string, field: UseField, placeHolder: string = '') => (
+        <React.Fragment key={label}>
+            <tr key={label}>
+                <td width='1px' className='adminEditLangCode' style={{ paddingRight: 0 }}>
+                    {label}
+                </td>
+                <td>
+                    <input type={field.type} value={field.value} onChange={field.onChange} placeholder={placeHolder} style={{ width: '100%' }} />
+                </td>
+            </tr>
+        </React.Fragment>
     );
 
-    const getTextArea = (label: string, textArea: UseTextArea) => (
+    const getTextArea = (label: string, textArea: UseTextArea, placeHolder: string) => (
         <tr key={label}>
-            <td width='1px' className='semiBold' style={{ paddingLeft: '2.5rem', paddingRight: 0 }}>
+            <td width='1px' className='adminEditLangCode' style={{ paddingRight: 0 }}>
                 {label}
             </td>
             <td>
-                <textarea value={textArea.value} onChange={textArea.onChange} style={{ width: '100%', height: '10rem' }} />
+                <textarea value={textArea.value} onChange={textArea.onChange} placeholder={placeHolder} style={{ width: '100%', height: '5rem' }} />
             </td>
         </tr>
     );
@@ -75,7 +78,13 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
             price: Number(price.value),
         };
 
-        const res = await itemService.add(newItem, selectedCategory && Number(selectedCategory) >= 0 ? Number(selectedCategory) : null, user.token, dispatch);
+        const res = await itemService.add(
+            newItem,
+            selectedCategory && Number(selectedCategory) >= 0 ? Number(selectedCategory) : null,
+            user.token,
+            config,
+            dispatch
+        );
 
         dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
@@ -95,21 +104,63 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
             <table width='100%'>
                 <tbody>
                     <tr>
-                        <td colSpan={2} className='sizeLarge bold' style={{ paddingTop: 0 }}>
+                        <td className='adminEditSubHeader' style={{ paddingTop: 0 }}>
                             {contentToText(ContentID.miscName, config)}
                         </td>
                     </tr>
-                    {nameFields.map((nf) => getInputField(nf.langCode.toString(), nf.field))}
                     <tr>
-                        <td colSpan={2} className='sizeLarge bold'>
-                            {contentToText(ContentID.miscDescription, config)}
+                        <td>
+                            <table width='100%'>
+                                <tbody>
+                                    {nameFields.map((nf) =>
+                                        getInputField(nf.langCode, nf.field, `${contentToText(ContentID.miscName, config)} (${nf.langCode})`)
+                                    )}
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
-                    {descriptionFields.map((nf) => getTextArea(nf.langCode.toString(), nf.textArea))}
-                    {getInputField(contentToText(ContentID.itemsPrice, config), price)}
-                    {getInputField(contentToText(ContentID.itemsInStock, config), instock)}
                     <tr>
-                        <td>Category:</td>
+                        <td className='adminEditSubHeader'>{contentToText(ContentID.miscDescription, config)}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width='100%'>
+                                <tbody>
+                                    {descriptionFields.map((df) =>
+                                        getTextArea(df.langCode, df.textArea, `${contentToText(ContentID.miscDescription, config)} (${df.langCode})`)
+                                    )}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className='adminEditSubHeader' style={{ paddingTop: 0 }}>
+                            {contentToText(ContentID.itemsPrice, config)}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width='100%'>
+                                <tbody>{getInputField(config.currency, price)}</tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className='adminEditSubHeader' style={{ paddingTop: 0 }}>
+                            {contentToText(ContentID.itemsInStock, config)}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width='100%'>
+                                <tbody>{getInputField('Kpl', instock)}</tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className='adminEditSubHeader'>{contentToText(ContentID.itemsCategory, config)}</td>
+                    </tr>
+                    <tr>
                         <td>
                             <select id='categorySelect' name='category' value={selectedCategory} onChange={handleCategoryChange}>
                                 {categoriesState.map((c) => (
@@ -122,7 +173,6 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
                         </td>
                     </tr>
                     <tr>
-                        <td></td>
                         <td>
                             <button type='button' onClick={submit}>
                                 {contentToText(ContentID.buttonAdd, config)}
