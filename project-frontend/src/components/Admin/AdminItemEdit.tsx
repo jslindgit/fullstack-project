@@ -73,6 +73,16 @@ const AdminItemEdit = () => {
 
     useEffect(() => {
         if (item) {
+            setSelectedImages(item.images);
+        }
+    }, [item]);
+
+    useEffect(() => {
+        setImages(images.sort(sortImages));
+    }, [selectedImages]);
+
+    useEffect(() => {
+        if (item) {
             nameFields.forEach((nf) => {
                 const nameLangText = item.name.find((langText) => langText.langCode === nf.langCode);
                 nf.field.setNewValue(nameLangText ? nameLangText.text : '');
@@ -142,27 +152,39 @@ const AdminItemEdit = () => {
         }
     };
 
-    const getInputField = (label: string, field: UseField) => (
+    const getInputField = (label: string, field: UseField, width: string = '100%') => (
         <tr key={label}>
-            <td width='1px' className='semiBold' style={{ paddingLeft: '2.5rem', paddingRight: 0 }}>
+            <td width='1px' className='adminEditLangCode' style={{ paddingLeft: '1rem', paddingRight: 0 }}>
                 {label}
             </td>
             <td>
-                <input type={field.type} value={field.value} onChange={field.onChange} />
+                <input type={field.type} value={field.value} onChange={field.onChange} style={{ width: width }} />
             </td>
         </tr>
     );
 
     const getTextArea = (label: string, textArea: UseTextArea) => (
         <tr key={label}>
-            <td width='1px' className='semiBold' style={{ paddingLeft: '2.5rem', paddingRight: 0 }}>
+            <td width='1px' className='adminEditLangCode' style={{ paddingLeft: '1rem', paddingRight: 0 }}>
                 {label}
             </td>
             <td>
-                <textarea value={textArea.value} onChange={textArea.onChange} style={{ width: '100%', height: '10rem' }} />
+                <textarea value={textArea.value} onChange={textArea.onChange} style={{ width: '100%', height: '7rem' }} />
             </td>
         </tr>
     );
+
+    const sortImages = (a: string, b: string): number => {
+        if (selectedImages.includes(a) && selectedImages.includes(b)) {
+            return 0;
+        } else if (selectedImages.includes(a)) {
+            return -1;
+        } else if (selectedImages.includes(b)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    };
 
     const submit = async () => {
         if (item && changesMade()) {
@@ -173,7 +195,7 @@ const AdminItemEdit = () => {
                     ...item,
                     description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
                     instock: Number(instock.value),
-                    images: item.images.concat(selectedImages),
+                    images: selectedImages,
                     name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                     price: Number(price.value),
                 };
@@ -243,7 +265,9 @@ const AdminItemEdit = () => {
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
-                        <td className='pageHeader'>Admin Panel - Edit Item</td>
+                        <td className='pageHeader'>
+                            {contentToText(ContentID.adminPanelHeader, config)} - {contentToText(ContentID.adminEditItem, config)}
+                        </td>
                         <td className='alignRight'>
                             <button type='button' onClick={submit} disabled={!changesMade()}>
                                 {contentToText(ContentID.buttonSave, config)}
@@ -267,28 +291,28 @@ const AdminItemEdit = () => {
                                 <tbody>
                                     <tr>
                                         <td colSpan={2} className='adminItemEditLabel'>
-                                            NAME:
+                                            {contentToText(ContentID.miscName, config)}:
                                         </td>
                                     </tr>
                                     {nameFields.map((nf) => getInputField(nf.langCode.toString(), nf.field))}
                                     <tr>
                                         <td colSpan={2} className='adminItemEditLabel'>
-                                            DESCRIPTION:
+                                            {contentToText(ContentID.miscDescription, config)}:
                                         </td>
                                     </tr>
                                     {descriptionFields.map((nf) => getTextArea(nf.langCode.toString(), nf.textArea))}
                                     <tr>
                                         <td colSpan={2} className='adminItemEditLabel'>
-                                            PRICE:
+                                            {contentToText(ContentID.itemsPrice, config)}:
                                         </td>
                                     </tr>
-                                    {getInputField(contentToText(ContentID.itemsPrice, config), price)}
+                                    {getInputField(config.currency, price, '33%')}
                                     <tr>
                                         <td colSpan={2} className='adminItemEditLabel'>
-                                            IN STOCK:
+                                            {contentToText(ContentID.itemsInStock, config)}:
                                         </td>
                                     </tr>
-                                    {getInputField(contentToText(ContentID.itemsInStock, config), instock)}
+                                    {getInputField(contentToText(ContentID.itemsPcs, config), instock, '33%')}
                                     <tr>
                                         <td colSpan={2} width='1px'>
                                             <button type='button' onClick={submit} disabled={!changesMade()}>
@@ -306,7 +330,7 @@ const AdminItemEdit = () => {
                             <table width='100%'>
                                 <tbody>
                                     <tr>
-                                        <td className='adminItemEditLabel'>CATEGORIES:</td>
+                                        <td className='adminItemEditLabel'>{contentToText(ContentID.adminPanelCategories, config)}:</td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -323,35 +347,16 @@ const AdminItemEdit = () => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className='adminItemEditLabel'>IMAGES:</td>
+                                        <td className='adminItemEditLabel'>{contentToText(ContentID.adminPanelImages, config)}:</td>
                                     </tr>
                                     <tr>
                                         <td className='imgFlex'>
-                                            {item.images.length > 0
-                                                ? item.images.map((img) =>
-                                                      // prettier-ignore
-                                                      <img
-                                                        key={img}
-                                                        src={imageFullPath(img)}
-                                                        className='imgAdminItems'
-                                                        alt={imageFilename(img)}
-                                                        title={imageFilename(img)}
-                                                    />
-                                                  )
-                                                : 'No images'}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='adminItemEditLabel'>ADD MORE IMAGES:</td>
-                                    </tr>
-                                    <tr>
-                                        <td className='imgFlex'>
-                                            {images.map((imgPath) => (
+                                            {images.sort(sortImages).map((imgPath) => (
                                                 <img
                                                     key={imgPath}
                                                     src={imageFullPath(imgPath)}
                                                     onClick={handleImageSelect(imgPath)}
-                                                    className={selectedImages.includes(imgPath) ? 'imgAdminItems imgSelected' : 'imgAdminItems'}
+                                                    className={'imgAdminItems' + (selectedImages.includes(imgPath) ? ' imgSelected' : '')}
                                                     alt={imageFilename(imgPath)}
                                                     title={imageFilename(imgPath)}
                                                 />

@@ -8,10 +8,11 @@
 }
 
 .imgAdminItems {
+    cursor: grab;
     display: block;
-    width: 3rem;
-    height: 3rem;
+    height: 3em;
     margin-right: 0.5rem;
+    width: 3rem;
 }
 
 .imgAdminThumb {
@@ -22,8 +23,8 @@
 }
 
 .imgSelected {
-    outline: 0.25rem solid var(--colorGreenLight);
-    opacity: 0.75;
+    cursor: grabbing;
+    outline: 0.3rem solid var(--colorGreenLight);
 }
 
 .imgItemColumn {

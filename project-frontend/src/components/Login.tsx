@@ -62,7 +62,8 @@ const Login = () => {
                             </td>
                         </tr>
                         <tr>
-                            <td colSpan={2}>
+                            <td></td>
+                            <td>
                                 <br />
                                 {contentToText(ContentID.loginNoAccount, config)} <a>{contentToText(ContentID.loginRegisterHere, config)}</a>
                             </td>

@@ -85,4 +85,5 @@
 |        | 2    | Kielivalinnan työstöä                                                                                                | 160 |
 | 22.11. | 2    | Kielivalinnan työstöä                                                                                                |     |
 |        | 2    | Kielivalinnan työstöä                                                                                                |     |
-|  yht   | 164  |                                                                                                                      |     |
+| 23.11. | 1    | Tuotteiden lisäyksen/muokkauksen parantelua                                                                          |     |
+|  yht   | 165  |                                                                                                                      |     |

@@ -17,7 +17,7 @@ input:focus {
 
 ::placeholder {
     color: rgb(170, 171, 172);
-    font-size: 0.9em;
+    font-size: 1em;
     font-style: italic;
 }
 

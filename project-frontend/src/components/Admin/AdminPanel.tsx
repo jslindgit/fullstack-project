@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
@@ -15,12 +15,16 @@ import AdminMenu from './AdminMenu';
 import AdminOrders from './AdminOrders';
 import AdminSettings from './AdminSettings';
 import AdminUsers from './AdminUsers';
+import BackButton from '../BackButton';
 
 const AdminPanel = () => {
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.users);
 
     const page = useParams().page;
+
+    const [searchParams] = useSearchParams();
+    const back = searchParams.get('back');
 
     const showPage = (): JSX.Element => {
         switch (page) {
@@ -50,7 +54,7 @@ const AdminPanel = () => {
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
-                        <td className='tight'>
+                        <td colSpan={2} className='tight'>
                             <AdminMenu config={config} />
                         </td>
                     </tr>
@@ -59,9 +63,12 @@ const AdminPanel = () => {
                             {contentToText(ContentID.adminPanelHeader, config)}
                             {page && page.length > 0 ? ' - ' + printAdminPanelHeader(page, config) : ''}
                         </td>
+                        <td className='alignRight'>{back && back === '1' ? <BackButton type='button' /> : <></>}</td>
                     </tr>
                     <tr>
-                        <td className='tight'>{showPage()}</td>
+                        <td colSpan={2} className='tight'>
+                            {showPage()}
+                        </td>
                     </tr>
                 </tbody>
             </table>

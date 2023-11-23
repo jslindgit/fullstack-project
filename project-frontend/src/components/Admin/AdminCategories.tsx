@@ -49,17 +49,22 @@ const AdminCategories = () => {
                                 <tbody>
                                     <tr className='bold'>
                                         <td>{contentToText(ContentID.miscName, config)}</td>
-                                        <td colSpan={3}>{contentToText(ContentID.miscDescription, config)}</td>
+                                        <td colSpan={4}>{contentToText(ContentID.miscDescription, config)}</td>
                                     </tr>
                                     {categoryState.map((c) => (
                                         <tr key={c.id}>
-                                            <td width='1px'>
-                                                <Link to={'/admin/items?category=' + c.id}>{langTextsToText(c.name, config)}</Link>
+                                            <td width='1px' className='semiBold'>
+                                                {langTextsToText(c.name, config)}
                                             </td>
                                             <td>{langTextsToText(c.description, config)}</td>
                                             <td width='1px'>
                                                 <Link to={'/admin/editcategory/' + c.id}>
-                                                    <button type='button'>{contentToText(ContentID.buttonEdit, config)}</button>
+                                                    <button type='button'>{contentToText(ContentID.buttonEditCategoryDetails, config)}</button>
+                                                </Link>
+                                            </td>
+                                            <td width='1px'>
+                                                <Link to={`/admin/items?category=${c.id}&back=1`}>
+                                                    <button type='button'>{contentToText(ContentID.buttonEditCategoryProducts, config)}</button>
                                                 </Link>
                                             </td>
                                             <td width='1px'>

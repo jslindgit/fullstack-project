@@ -109,11 +109,11 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td style={{ paddingTop: 0 }}>
                             <table width='100%'>
                                 <tbody>
                                     {nameFields.map((nf) =>
-                                        getInputField(nf.langCode, nf.field, `${contentToText(ContentID.miscName, config)} (${nf.langCode})`)
+                                        getInputField(nf.langCode, nf.field, `${contentToText(ContentID.adminItemName, config)} (${nf.langCode})`)
                                     )}
                                 </tbody>
                             </table>
@@ -127,7 +127,7 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
                             <table width='100%'>
                                 <tbody>
                                     {descriptionFields.map((df) =>
-                                        getTextArea(df.langCode, df.textArea, `${contentToText(ContentID.miscDescription, config)} (${df.langCode})`)
+                                        getTextArea(df.langCode, df.textArea, `${contentToText(ContentID.adminItemDescription, config)} (${df.langCode})`)
                                     )}
                                 </tbody>
                             </table>
@@ -153,7 +153,7 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
                     <tr>
                         <td>
                             <table width='100%'>
-                                <tbody>{getInputField('Kpl', instock)}</tbody>
+                                <tbody>{getInputField(contentToText(ContentID.itemsPcs, config), instock)}</tbody>
                             </table>
                         </td>
                     </tr>
