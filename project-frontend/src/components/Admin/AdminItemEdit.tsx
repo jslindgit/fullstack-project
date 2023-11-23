@@ -27,9 +27,11 @@ const AdminItemEdit = () => {
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.users);
 
+    const [imageFile, setImageFile] = useState<File | null>(null);
     const [images, setImages] = useState<string[]>([]);
     const [item, setItem] = useState<Item | undefined>();
     const [loading, setLoading] = useState<string>('Loading...');
+    const [newUploads, setNewUploads] = useState<number>(0);
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
@@ -64,7 +66,7 @@ const AdminItemEdit = () => {
 
     useEffect(() => {
         fetchImages();
-    }, []);
+    }, [newUploads]);
 
     useEffect(() => {
         setItemById();
@@ -76,10 +78,6 @@ const AdminItemEdit = () => {
             setSelectedImages(item.images);
         }
     }, [item]);
-
-    useEffect(() => {
-        setImages(images.sort(sortImages));
-    }, [selectedImages]);
 
     useEffect(() => {
         if (item) {
@@ -111,7 +109,7 @@ const AdminItemEdit = () => {
                 item.price.toString() !== price.value.toString() ||
                 item.instock.toString() !== instock.value.toString() ||
                 categoriesChanged ||
-                selectedImages.length > 0
+                selectedImages !== item.images
             ) {
                 result = true;
             }
@@ -128,28 +126,6 @@ const AdminItemEdit = () => {
         }
 
         return result;
-    };
-
-    const handleCategoryChange = (categoryId: number) => {
-        setCategoriesChanged(true);
-
-        const updatedCategories = [...selectedCategories];
-
-        if (updatedCategories.includes(categoryId)) {
-            const index = updatedCategories.indexOf(categoryId);
-            updatedCategories.splice(index, 1);
-        } else {
-            updatedCategories.push(categoryId);
-        }
-        setSelectedCategories(updatedCategories);
-    };
-
-    const handleImageSelect = (image: string) => (_event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-        if (selectedImages.includes(image)) {
-            setSelectedImages(selectedImages.filter((img) => img !== image));
-        } else {
-            setSelectedImages(selectedImages.concat(image));
-        }
     };
 
     const getInputField = (label: string, field: UseField, width: string = '100%') => (
@@ -173,6 +149,58 @@ const AdminItemEdit = () => {
             </td>
         </tr>
     );
+
+    const handleCategoryChange = (categoryId: number) => {
+        setCategoriesChanged(true);
+
+        const updatedCategories = [...selectedCategories];
+
+        if (updatedCategories.includes(categoryId)) {
+            const index = updatedCategories.indexOf(categoryId);
+            updatedCategories.splice(index, 1);
+        } else {
+            updatedCategories.push(categoryId);
+        }
+        setSelectedCategories(updatedCategories);
+    };
+
+    const handleImageSelect = (image: string) => (_event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+        if (selectedImages.includes(image)) {
+            setSelectedImages(selectedImages.filter((img) => img !== image));
+        } else {
+            setSelectedImages(selectedImages.concat(image));
+        }
+    };
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setImageFile(e.target.files[0]);
+        }
+    };
+
+    const handleImageUpload = async () => {
+        if (!imageFile) {
+            handleError('Provide image file');
+            return;
+        } else if (!usersState.loggedUser) {
+            handleError('Log in');
+            return;
+        }
+
+        const imageCategory = 'products';
+
+        const dupecheck = await imageService.getBySubdirAndFilename(imageCategory, imageFile.name);
+        const matchFound = dupecheck.success && dupecheck.images.length > 0;
+
+        if (!matchFound || confirm(`Image "${imageFile.name}" already exist in "${imageCategory}" - Do you want to overwrite it?`)) {
+            const res = await imageService.add(imageFile, imageCategory, usersState.loggedUser.token);
+
+            setImageFile(null);
+            setNewUploads(newUploads + 1);
+
+            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+        }
+    };
 
     const sortImages = (a: string, b: string): number => {
         if (selectedImages.includes(a) && selectedImages.includes(b)) {
@@ -350,23 +378,38 @@ const AdminItemEdit = () => {
                                         <td className='adminItemEditLabel'>{contentToText(ContentID.adminPanelImages, config)}:</td>
                                     </tr>
                                     <tr>
-                                        <td className='imgFlex'>
-                                            {images.sort(sortImages).map((imgPath) => (
-                                                <img
-                                                    key={imgPath}
-                                                    src={imageFullPath(imgPath)}
-                                                    onClick={handleImageSelect(imgPath)}
-                                                    className={'imgAdminItems' + (selectedImages.includes(imgPath) ? ' imgSelected' : '')}
-                                                    alt={imageFilename(imgPath)}
-                                                    title={imageFilename(imgPath)}
-                                                />
-                                            ))}
+                                        <td>
+                                            <input type='file' onChange={handleImageChange} className='fileUpload' />
+                                            <br />
+                                            <button onClick={handleImageUpload} disabled={!imageFile} style={{ marginTop: '0.75em'}}>
+                                                Upload Image
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <b>Selected images:</b>
-                                            <br />
+                                        <td className='imgFlex'>
+                                            {images
+                                                .sort()
+                                                .sort(sortImages)
+                                                .map((imgPath) => (
+                                                    <img
+                                                        key={imgPath}
+                                                        src={imageFullPath(imgPath)}
+                                                        onClick={handleImageSelect(imgPath)}
+                                                        className={'imgAdminItems' + (selectedImages.includes(imgPath) ? ' imgSelected' : '')}
+                                                        alt={imageFilename(imgPath)}
+                                                        title={imageFilename(imgPath)}
+                                                    />
+                                                ))}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className='semiBold' style={{ paddingBottom: 0 }}>
+                                            Selected images:
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{ paddingTop: '0.5rem' }}>
                                             {selectedImages.map((img) => (
                                                 <span key={img}>
                                                     {imageFilename(img)}

@@ -1,7 +1,8 @@
 .notification {
+    align-items: center;
     border: 2px solid;
     display: flex;
-    align-items: center;
+    font-size: var(--fontSizeLarge);
     height: 4rem;
     overflow: hidden !important;
     padding: 0;
@@ -28,13 +29,6 @@
     background-color: var(--colorRedVeryLight);
     color: var(--colorRed);
     border-color: color;
-}
-
-.notificationBig {
-    font-size: var(--fontSizeLarge);
-}
-.notificationSmall {
-    font-size: var(--fontSizeLarge);
 }
 
 .notification a {

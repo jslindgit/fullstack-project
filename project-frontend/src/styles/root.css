@@ -12,7 +12,6 @@
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
-    white-space: pre-line;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
@@ -24,5 +23,5 @@ body {
     display: block;
     place-items: top;
     min-width: 320px;
-    min-height: 100vh;
+    min-height: 1;
 }

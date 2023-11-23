@@ -3,15 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/rootReducer';
 
+import { pageWidth } from '../constants';
 import { setNotification } from '../reducers/miscReducer';
 
 import { Link } from './CustomLink';
 
-interface Props {
-    fontSize?: 'Big' | 'Small';
-}
-
-const ShowNotification = ({ fontSize = 'Big' }: Props) => {
+const ShowNotification = () => {
     const miscState = useSelector((state: RootState) => state.misc);
     const notification = miscState.notification;
 
@@ -35,7 +32,6 @@ const ShowNotification = ({ fontSize = 'Big' }: Props) => {
         return <></>;
     } else {
         let classNames = 'notification' + (isActive ? '' : ' hidden');
-        classNames += fontSize === 'Big' ? ' notificationBig' : ' notificationSmall';
         switch (notification.tone) {
             case 'Positive':
                 classNames += ' notificationPositive';
@@ -63,17 +59,19 @@ const ShowNotification = ({ fontSize = 'Big' }: Props) => {
 
         return (
             <div className={classNames} style={{ position: 'sticky', top: 0 }}>
-                <table align='center' width='100%'>
+                <table align='center' width={pageWidth}>
                     <tbody>
                         <tr>
                             <td width='40px'></td>
-                            <td className='alignCenter'>{finalMessage}</td>
-                            <td width='40px' className='bold centered' style={{ fontSize: '1.5rem' }}>
+                            <td className='alignCenter' style={{ padding: 0 }}>
+                                {finalMessage}
+                            </td>
+                            <td width='40px'>
                                 <a onClick={() => close()} style={{ textDecorationLine: 'none' }}>
-                                    <table width='100%' className='valignMiddle'>
+                                    <table width='100%'>
                                         <tbody>
-                                            <tr className='valignMiddle'>
-                                                <td className='valignMiddle'>x</td>
+                                            <tr>
+                                                <td className='alignCenter bold noPadding sizeNormal valignMiddle'>✖</td>
                                             </tr>
                                         </tbody>
                                     </table>

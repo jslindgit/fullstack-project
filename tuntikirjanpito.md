@@ -86,4 +86,5 @@
 | 22.11. | 2    | Kielivalinnan työstöä                                                                                                |     |
 |        | 2    | Kielivalinnan työstöä                                                                                                |     |
 | 23.11. | 1    | Tuotteiden lisäyksen/muokkauksen parantelua                                                                          |     |
-|  yht   | 165  |                                                                                                                      |     |
+|        | 1    | Kuvien lisääminen tuotteiden muokkauksen yhteydessä                                                                  |     |
+|  yht   | 166  |                                                                                                                      |     |

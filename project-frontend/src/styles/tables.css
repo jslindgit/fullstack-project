@@ -7,6 +7,7 @@ td {
     padding: var(--default-padding);
     text-align: left;
     vertical-align: middle;
+    white-space: pre-line;
     /*border: 1px solid red !important;*/
 }
 td:first-child {

@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
 
-import { Item } from '../../types/types';
+import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
+import { Item } from '../../types/types';
 
-import { langTextsToText } from '../../types/languageFunctions';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import format from '../../util/format';
 
 import AdminItemImageThumbsSmall from './AdminItemImageThumbsSmall';
@@ -34,13 +35,13 @@ const AdminItemRow = ({ item, deleteItem }: RowProps) => {
             <td style={{ paddingRight: 0 }}>
                 <Link to={'/admin/edititem/' + item.id}>
                     <button type='button' className='compactButton'>
-                        Edit
+                        {contentToText(ContentID.buttonEdit, config)}
                     </button>
                 </Link>
             </td>
             <td style={{ paddingRight: '1rem' }}>
                 <button type='button' className='red compactButton' onClick={() => deleteItem(item)}>
-                    Delete
+                    {contentToText(ContentID.buttonRemove, config)}
                 </button>
             </td>
         </tr>

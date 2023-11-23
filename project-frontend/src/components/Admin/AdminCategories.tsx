@@ -57,12 +57,12 @@ const AdminCategories = () => {
                                                 {langTextsToText(c.name, config)}
                                             </td>
                                             <td>{langTextsToText(c.description, config)}</td>
-                                            <td width='1px'>
+                                            <td width='1px' style={{ paddingRight: 0 }}>
                                                 <Link to={'/admin/editcategory/' + c.id}>
                                                     <button type='button'>{contentToText(ContentID.buttonEditCategoryDetails, config)}</button>
                                                 </Link>
                                             </td>
-                                            <td width='1px'>
+                                            <td width='1px' style={{ paddingRight: 0 }}>
                                                 <Link to={`/admin/items?category=${c.id}&back=1`}>
                                                     <button type='button'>{contentToText(ContentID.buttonEditCategoryProducts, config)}</button>
                                                 </Link>

@@ -2,9 +2,11 @@
 .menu {
     background-color: var(--colorGrayDarkest);
     color: var(--colorGrayLight);
+    padding-top: 0;
 }
 .menu td {
     padding: 0px;
+    padding-top: 0;
 }
 
 .menuLink {

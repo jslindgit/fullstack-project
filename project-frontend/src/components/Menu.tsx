@@ -29,7 +29,8 @@ const Menu = () => {
                     <tbody>
                         <tr>
                             <td className='sizeNormal semiBold' style={{ textAlign: 'center', paddingBottom: '3px', paddingTop: '6px' }}>
-                                {loggedUser.username} {loggedUser.admin ? <span className='colorYellowLight'> ({contentToText(ContentID.menuAdmin, configState)})</span> : <></>}
+                                {loggedUser.username}{' '}
+                                {loggedUser.admin ? <span className='colorYellowLight'> ({contentToText(ContentID.menuAdmin, configState)})</span> : <></>}
                             </td>
                         </tr>
                         <tr>
@@ -109,7 +110,9 @@ const Menu = () => {
                             <td>{menuLink('/shop', contentToText(ContentID.menuProducts, configState))}</td>
                             <td>{menuLink('/info', contentToText(ContentID.menuInfo, configState))}</td>
                             <td>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, configState) + ' (' + miscState.shoppingCartItemCount + ')')}</td>
-                            <td style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</td>
+                            <td style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
+                                {login(usersState.loggedUser, removeLogged, setLogoutNotification)}
+                            </td>
                             {showAdminMenu()}
                             <td>
                                 <LanguageSelection />

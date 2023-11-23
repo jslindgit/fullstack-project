@@ -99,30 +99,28 @@ const App = () => {
         );
     }
     return (
-        <>
-            <Router>
-                <Menu />
-                <ShowNotification />
-                <Routes>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/admin' element={adminPage(<AdminPanel />)} />
-                    <Route path='/admin/editcategory/:id' element={adminPage(<AdminCategoryEdit />)} />
-                    <Route path='/admin/edititem/:id' element={adminPage(<AdminItemEdit />)} />
-                    <Route path='/admin/:page' element={adminPage(<AdminPanel />)} />
-                    <Route path='/cart' element={<ShoppingCart />} />
-                    <Route path='/checkout' element={<CheckOut />} />
-                    <Route path='/info' element={<Info />} />
-                    <Route path='/login' element={<Login />} />
-                    <Route path='/success' element={<CheckOutDone />} />
-                    <Route path='/payment' element={<CheckOutPayment />} />
-                    <Route path='/shop' element={<Categories />} />
-                    <Route path='/shop/item/:id' element={<ItemDetails />} />
-                    <Route path='/shop/:id' element={<Items />} />
-                    <Route path='/you' element={<UserPanel />} />
-                    <Route path='*' element={<Error404 />} />
-                </Routes>
-            </Router>
-        </>
+        <Router>
+            <Menu />
+            <ShowNotification />
+            <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/admin' element={adminPage(<AdminPanel />)} />
+                <Route path='/admin/editcategory/:id' element={adminPage(<AdminCategoryEdit />)} />
+                <Route path='/admin/edititem/:id' element={adminPage(<AdminItemEdit />)} />
+                <Route path='/admin/:page' element={adminPage(<AdminPanel />)} />
+                <Route path='/cart' element={<ShoppingCart />} />
+                <Route path='/checkout' element={<CheckOut />} />
+                <Route path='/info' element={<Info />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/success' element={<CheckOutDone />} />
+                <Route path='/payment' element={<CheckOutPayment />} />
+                <Route path='/shop' element={<Categories />} />
+                <Route path='/shop/item/:id' element={<ItemDetails />} />
+                <Route path='/shop/:id' element={<Items />} />
+                <Route path='/you' element={<UserPanel />} />
+                <Route path='*' element={<Error404 />} />
+            </Routes>
+        </Router>
     );
 };
 
