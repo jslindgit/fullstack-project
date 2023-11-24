@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 
+import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 import { Item } from '../../types/types';
@@ -49,27 +50,28 @@ const AdminItemRow = ({ item, deleteItem }: RowProps) => {
 };
 
 interface ListProps {
+    config: Config;
     deleteItem: (item: Item) => Promise<void>;
     items: Item[];
 }
-const AdminItemList = ({ deleteItem, items }: ListProps) => {
+const AdminItemList = ({ config, deleteItem, items }: ListProps) => {
     if (items.length < 1) {
-        return <div className='alignCenter colorGraySemiDark semiBold sizeLarge'>No products in this category.</div>;
+        return <div className='alignCenter colorGrayDark semiBold sizeLarge'>{contentToText(ContentID.adminItemsNoProducts, config)}</div>;
     }
 
     return (
         <table align='center' width='100%' className='headerRow sizeSmallish dotted adminItems'>
             <tbody>
                 <tr className='bold'>
-                    <td width='1px'>Product</td>
-                    <td>Description</td>
-                    <td width='1px'>Price</td>
+                    <td width='1px'>{contentToText(ContentID.itemsItem, config)}</td>
+                    <td>{contentToText(ContentID.miscDescription, config)}</td>
+                    <td width='1px'>{contentToText(ContentID.itemsPrice, config)}</td>
                     <td width='1px' className='noWrap'>
-                        In stock
+                        {contentToText(ContentID.itemsInStock, config)}
                     </td>
-                    <td width='1px'>ID</td>
+                    <td width='1px'>{contentToText(ContentID.itemsId, config)}</td>
                     <td width='1px' style={{ paddingLeft: 0 }}>
-                        Images
+                        {contentToText(ContentID.adminPanelImages, config)}
                     </td>
                     <td width='1px' style={{ paddingRight: 0 }}></td>
                     <td width='1px' style={{ paddingRight: 0 }}></td>

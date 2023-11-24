@@ -5,8 +5,20 @@ export enum ContentID {
     adminAddNewItem = 'ADMIN: Add New Item',
     adminEditCategory = 'ADMIN: Edit Category (header)',
     adminEditItem = 'ADMIN: Edit Item (header)',
+    adminImagesAlreadyContainsFile = 'ADMIN - IMAGES: "already contains" ("<category> already contains file <filename>" confirmation)',
+    adminImagesDoYouWantToOverwrite = 'ADMIN - IMAGES: Do you want to over it? (confirmation)',
+    adminImagesUploadNewImageToCategory = 'ADMIN - IMAGES: Upload new image to category',
     adminItemDescription = 'ADMIN: Item Description (when editing)',
     adminItemName = 'ADMIN: Item Name (when editing)',
+    adminItemSelectedImages = 'ADMIN: Selected Images (when editing)',
+    adminItemsDeleteItemConfirmation = 'ADMIN - ITEMS: Delete <item name>? (confirmation)',
+    adminItemsNoProducts = 'ADMIN - ITEMS: No products in this category',
+    adminItemsUncategorized = 'ADMIN - ITEMS: Uncategorized (category)',
+    adminItemsUncategorizedDescription = 'ADMIN - ITEMS: Uncategorized (category) description',
+    adminOrdersArchived = 'ADMIN - ORDERS: Archived',
+    adminOrdersNoOrders = 'ADMIN - ORDERS: No orders',
+    adminOrdersProcessing = 'ADMIN - ORDERS: Processing',
+    adminOrdersRecentlyDelivered = 'ADMIN - ORDERS: Recently Delivered',
     adminPanelCategories = 'ADMIN: Categories',
     adminPanelHeader = 'ADMIN: Admin Panel header',
     adminPanelImages = 'ADMIN: Images',
@@ -22,6 +34,7 @@ export enum ContentID {
     buttonEditCategoryProducts = 'BUTTON: Edit Category products',
     buttonRemove = 'BUTTON: Remove',
     buttonSave = 'BUTTON: Save',
+    buttonUpload = 'BUTTON: Upload',
     cartProduct = 'SHOPPING CART: Product',
     cartQuantity = 'SHOPPING CART: Quantity',
     cartSubtotal = 'SHOPPING CART: Subtotal',
@@ -47,7 +60,9 @@ export enum ContentID {
     itemsAddToShoppingCart = 'ITEMS: "Add to shopping cart" button',
     itemsAmount = 'ITEMS: Amount (to add to shopping cart)',
     itemsCategory = 'ITEMS: Category',
+    itemsId = 'ITEMS: Item ID',
     itemsInStock = 'ITEMS: In stock',
+    itemsItem = 'ITEMS: Item',
     itemsNoItemsInCategory = 'ITEMS: "No items in this category."',
     itemsPcs = 'ITEMS: pcs',
     itemsPrice = 'ITEMS: Price',
@@ -65,9 +80,11 @@ export enum ContentID {
     menuLogout = 'MENU: Log out',
     menuProducts = 'MENU: Products',
     menuShoppingCart = 'MENU: Shopping Cart',
+    miscDate = 'MISC: Date',
     miscDescription = 'MISC: Description',
     miscMerchant = 'MISC: Merchant',
     miscName = 'MISC: Name',
+    miscRecycleBin = 'MISC: Recycle Bin',
     notificationLoggedOut = 'NOTIFICATION: Logged out',
     orderCustomer = 'ORDER: Customer',
     orderDeliveryMethod = 'ORDER: Delivery Method',
@@ -126,6 +143,27 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.adminImagesAlreadyContainsFile,
+        content: [
+            { langCode: LangCode.EN, text: 'already contains file' },
+            { langCode: LangCode.FI, text: 'sisältää jo tiedoston' },
+        ],
+    },
+    {
+        id: ContentID.adminImagesDoYouWantToOverwrite,
+        content: [
+            { langCode: LangCode.EN, text: 'Do you want to overwrite it?' },
+            { langCode: LangCode.FI, text: 'Korvataanko se?' },
+        ],
+    },
+    {
+        id: ContentID.adminImagesUploadNewImageToCategory,
+        content: [
+            { langCode: LangCode.EN, text: 'Upload new image to category' },
+            { langCode: LangCode.FI, text: 'Lataa uusi kuva kategoriaan' },
+        ],
+    },
+    {
         id: ContentID.adminItemDescription,
         content: [
             { langCode: LangCode.EN, text: 'Item Description' },
@@ -137,6 +175,69 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Item Name' },
             { langCode: LangCode.FI, text: 'Tuotteen nimi' },
+        ],
+    },
+    {
+        id: ContentID.adminItemSelectedImages,
+        content: [
+            { langCode: LangCode.EN, text: 'Selected Images' },
+            { langCode: LangCode.FI, text: 'Valitut kuvat' },
+        ],
+    },
+    {
+        id: ContentID.adminItemsDeleteItemConfirmation,
+        content: [
+            { langCode: LangCode.EN, text: 'Delete' },
+            { langCode: LangCode.FI, text: 'Poistetaanko' },
+        ],
+    },
+    {
+        id: ContentID.adminItemsNoProducts,
+        content: [
+            { langCode: LangCode.EN, text: 'No items in this category.' },
+            { langCode: LangCode.FI, text: 'Tässä kategoriassa ei ole tuotteita.' },
+        ],
+    },
+    {
+        id: ContentID.adminItemsUncategorized,
+        content: [
+            { langCode: LangCode.EN, text: 'Uncategorized' },
+            { langCode: LangCode.FI, text: 'Kategorisoimattomat' },
+        ],
+    },
+    {
+        id: ContentID.adminItemsUncategorizedDescription,
+        content: [
+            { langCode: LangCode.EN, text: 'Items that do not currently belong to any category.' },
+            { langCode: LangCode.FI, text: 'Tuotteet jotka eivät tällä hetkellä kuulu mihinkään tuotekategoriaan.' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersArchived,
+        content: [
+            { langCode: LangCode.EN, text: 'Archived' },
+            { langCode: LangCode.FI, text: 'Arkistoidut' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersNoOrders,
+        content: [
+            { langCode: LangCode.EN, text: 'No orders' },
+            { langCode: LangCode.FI, text: 'Ei tilauksia' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersProcessing,
+        content: [
+            { langCode: LangCode.EN, text: 'Processing' },
+            { langCode: LangCode.FI, text: 'Käsittelyssä' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersRecentlyDelivered,
+        content: [
+            { langCode: LangCode.EN, text: 'Recently Delivered' },
+            { langCode: LangCode.FI, text: 'Hiljattain toimitetut' },
         ],
     },
     {
@@ -242,6 +343,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Save' },
             { langCode: LangCode.FI, text: 'Tallenna' },
+        ],
+    },
+    {
+        id: ContentID.buttonUpload,
+        content: [
+            { langCode: LangCode.EN, text: 'Upload' },
+            { langCode: LangCode.FI, text: 'Lataa' },
         ],
     },
     {
@@ -420,6 +528,20 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.itemsId,
+        content: [
+            { langCode: LangCode.EN, text: 'Item ID' },
+            { langCode: LangCode.FI, text: 'Tuotetunnus' },
+        ],
+    },
+    {
+        id: ContentID.itemsItem,
+        content: [
+            { langCode: LangCode.EN, text: 'Item' },
+            { langCode: LangCode.FI, text: 'Tuote' },
+        ],
+    },
+    {
         id: ContentID.itemsPcs,
         content: [
             { langCode: LangCode.EN, text: 'pcs' },
@@ -546,6 +668,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.miscDate,
+        content: [
+            { langCode: LangCode.EN, text: 'Date' },
+            { langCode: LangCode.FI, text: 'Pvm' },
+        ],
+    },
+    {
         id: ContentID.miscDescription,
         content: [
             { langCode: LangCode.EN, text: 'Description' },
@@ -564,6 +693,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Name' },
             { langCode: LangCode.FI, text: 'Nimi' },
+        ],
+    },
+    {
+        id: ContentID.miscRecycleBin,
+        content: [
+            { langCode: LangCode.EN, text: 'Recycle Bin' },
+            { langCode: LangCode.FI, text: 'Roskakori' },
         ],
     },
     {

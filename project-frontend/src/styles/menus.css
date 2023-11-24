@@ -37,7 +37,7 @@
 /* Categories ("frontpage" of /shop/) */
 .categoryLink {
     color: var(--colorWhite);
-    background-color: var(--colorGraySemiDark);
+    background-color: var(--colorGrayDark);
     border-radius: 15px;
     padding-top: 1rem;
     padding-bottom: 1.3rem;
@@ -46,7 +46,7 @@
     transition: all 0.25s;
 }
 .categoryLink:hover {
-    background-color: var(--colorGraySemiDark);
+    background-color: var(--colorGrayDark);
     color: var(--colorGoldVeryLight) !important;
     cursor: pointer;
     outline: 6px solid var(--colorGoldVeryLight);

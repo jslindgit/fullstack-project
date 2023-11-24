@@ -382,7 +382,7 @@ const AdminItemEdit = () => {
                                             <input type='file' onChange={handleImageChange} className='fileUpload' />
                                             <br />
                                             <button onClick={handleImageUpload} disabled={!imageFile} style={{ marginTop: '0.75em'}}>
-                                                Upload Image
+                                                {contentToText(ContentID.buttonUpload, config)}
                                             </button>
                                         </td>
                                     </tr>
@@ -405,7 +405,7 @@ const AdminItemEdit = () => {
                                     </tr>
                                     <tr>
                                         <td className='semiBold' style={{ paddingBottom: 0 }}>
-                                            Selected images:
+                                            {contentToText(ContentID.adminItemSelectedImages, config)}:
                                         </td>
                                     </tr>
                                     <tr>

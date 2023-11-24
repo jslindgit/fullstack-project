@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ImageCategory } from '../../types/types';
+import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
+import { ImageCategory } from '../../types/types';
 
 import { handleError } from '../../util/handleError';
-import { imageCategories } from '../../util/misc';
 import imageService from '../../services/imageService';
+import { contentToText } from '../../types/languageFunctions';
+import { imageCategories } from '../../util/misc';
 
 import { setNotification } from '../../reducers/miscReducer';
 
@@ -14,6 +16,7 @@ import AdminImageCategory from './AdminImageCategory';
 
 const AdminImages = () => {
     const dispatch = useDispatch();
+    const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.users);
 
     const [imageCategory, setImageCategory] = useState<string>(imageCategories[0]);
@@ -59,7 +62,15 @@ const AdminImages = () => {
         const dupecheck = await imageService.getBySubdirAndFilename(imageCategory, imageFile.name);
         const matchFound = dupecheck.success && dupecheck.images.length > 0;
 
-        if (!matchFound || confirm(`Image "${imageFile.name}" already exist in "${imageCategory}" - Do you want to overwrite it?`)) {
+        if (
+            !matchFound ||
+            confirm(
+                `"${imageCategory}" ${contentToText(ContentID.adminImagesAlreadyContainsFile, config)} "${imageFile.name}" - ${contentToText(
+                    ContentID.adminImagesDoYouWantToOverwrite,
+                    config
+                )}`
+            )
+        ) {
             const res = await imageService.add(imageFile, imageCategory, usersState.loggedUser.token);
 
             setImageFile(null);
@@ -83,13 +94,13 @@ const AdminImages = () => {
                 <tbody>
                     <tr>
                         <td className='itemDetails' style={{ paddingLeft: '2rem', paddingRight: '2rem', paddingTop: 0 }}>
-                            <table width='100%' className='noPadding'>
+                            <table width='100%'>
                                 <tbody>
                                     <tr>
-                                        <td width='1px' className='noWrap'>
-                                            <h3>Upload new image to category:</h3>
+                                        <td width='1px' className='noWrap semiBold sizeLarge' style={{ paddingLeft: 0 }}>
+                                            {contentToText(ContentID.adminImagesUploadNewImageToCategory, config)}:
                                         </td>
-                                        <td style={{ paddingLeft: '1rem' }}>
+                                        <td>
                                             <select value={imageCategory} onChange={handleCategoryChange} className='capitalize'>
                                                 {imageCategories.map((cat) => (
                                                     <option key={cat} value={cat}>
@@ -105,7 +116,7 @@ const AdminImages = () => {
                             <br />
                             <br />
                             <button onClick={handleUpload} disabled={!imageFile}>
-                                Upload Image
+                                {contentToText(ContentID.buttonUpload, config)}
                             </button>
                         </td>
                     </tr>

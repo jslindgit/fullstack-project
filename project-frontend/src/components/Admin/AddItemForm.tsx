@@ -168,7 +168,7 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
                                         {langTextsToText(c.name, config)}
                                     </option>
                                 ))}
-                                <option value={-1}>UNCATEGORIZED</option>
+                                <option value={-1}>{contentToText(ContentID.adminItemsUncategorized, config).toUpperCase()}</option>
                             </select>
                         </td>
                     </tr>

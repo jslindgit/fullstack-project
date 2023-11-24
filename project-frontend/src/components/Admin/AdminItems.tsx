@@ -6,7 +6,7 @@ import { Category, Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
 import itemService from '../../services/itemService';
-import { langTextsToText } from '../../types/languageFunctions';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { isNumber } from '../../types/typeFunctions';
 
 import { setNotification } from '../../reducers/miscReducer';
@@ -14,6 +14,7 @@ import { setNotification } from '../../reducers/miscReducer';
 import AdminItemList from './AdminItemList';
 import AddItemForm from '../Admin/AddItemForm';
 import { Link } from '../CustomLink';
+import { ContentID } from '../../content';
 
 const AdminItems = () => {
     const dispatch = useDispatch();
@@ -63,7 +64,7 @@ const AdminItems = () => {
         if (!usersState.loggedUser) {
             return;
         }
-        if (confirm(`Delete item ${item.name}?`)) {
+        if (confirm(`${contentToText(ContentID.adminItemsDeleteItemConfirmation, config)} ${item.name}?`)) {
             const res = await itemService.deleteItem(item, usersState.loggedUser.token, config, dispatch);
 
             dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
@@ -86,15 +87,17 @@ const AdminItems = () => {
                     </span>
                 ))}
                 <span className={category ? '' : 'underlined'}>
-                    <Link to='/admin/items/'>Uncategorized ({uncategorizedItems.length})</Link>
+                    <Link to='/admin/items/'>
+                        {contentToText(ContentID.adminItemsUncategorized, config)} ({uncategorizedItems.length})
+                    </Link>
                 </span>
             </div>
             <br />
             <br />
-            <h4>{category ? langTextsToText(category.name, config) : 'Uncategorized'}</h4>
-            <p>{category ? langTextsToText(category.description, config) : 'Items that do not currently belong to any category.'}</p>
+            <h4>{category ? langTextsToText(category.name, config) : contentToText(ContentID.adminItemsUncategorized, config)}</h4>
+            <p>{category ? langTextsToText(category.description, config) : contentToText(ContentID.adminItemsUncategorizedDescription, config)}</p>
             <br />
-            <AdminItemList deleteItem={deleteItem} items={items} />
+            <AdminItemList config={config} deleteItem={deleteItem} items={items} />
             <br />
             <br />
             <table width='100%'>

@@ -2,11 +2,13 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { ContentID } from '../../content';
 import { Order } from '../../types/orderTypes';
 import { RootState } from '../../reducers/rootReducer';
 
 import { setNotification } from '../../reducers/miscReducer';
 
+import { contentToText } from '../../types/languageFunctions';
 import orderService from '../../services/orderService';
 
 import AdminOrderDetails from './AdminOrderDetails';
@@ -17,6 +19,7 @@ const AdminOrders = () => {
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
 
     const dispatch = useDispatch();
+    const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.users);
 
     const fetch = async () => {
@@ -53,33 +56,33 @@ const AdminOrders = () => {
             <table align='center' width='100%' className='adminOrdersMenu'>
                 <tbody>
                     <tr>
-                        <td>In processing</td>
+                        <td>{contentToText(ContentID.adminOrdersProcessing, config)}</td>
                         <td width='1px'>|</td>
-                        <td>Recently delivered</td>
+                        <td>{contentToText(ContentID.adminOrdersRecentlyDelivered, config)}</td>
                         <td width='1px'>|</td>
-                        <td>Archived</td>
+                        <td>{contentToText(ContentID.adminOrdersArchived, config)}</td>
                         <td width='1px'>|</td>
-                        <td>Recycle bin</td>
+                        <td>{contentToText(ContentID.miscRecycleBin, config)}</td>
                     </tr>
                 </tbody>
             </table>
             <table align='center' width='100%' className='adminOrders striped'>
                 <tbody>
                     <tr>
-                        <td>Date</td>
-                        <td>Customer</td>
-                        <td>Total Sum</td>
-                        <td>Delivery</td>
-                        <td>Status</td>
+                        <td>{contentToText(ContentID.miscDate, config)}</td>
+                        <td>{contentToText(ContentID.orderCustomer, config)}</td>
+                        <td>{contentToText(ContentID.orderTotalAmount, config)}</td>
+                        <td>{contentToText(ContentID.orderDeliveryMethod, config)}</td>
+                        <td>{contentToText(ContentID.orderStatus, config)}</td>
                         <td width='1px'></td>
                     </tr>
                     {orders.length > 0 ? (
                         orders.map((order) => orderRow(order))
                     ) : (
                         <tr>
-                            <td colSpan={6} className='centered sizeLarge'>
+                            <td colSpan={6} className='alignCenter centered semiBold sizeLarge'>
                                 <br />
-                                No orders
+                                {contentToText(ContentID.adminOrdersNoOrders, config)}
                                 <br />
                                 <br />
                             </td>
