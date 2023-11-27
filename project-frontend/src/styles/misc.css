@@ -37,14 +37,11 @@
 .infoBox {
     border: solid 0.2rem var(--colorGrayLight) !important;
     border-radius: 0.75rem !important;
-    padding: 1.5rem;
-    padding-top: 1rem;
-}
-.infoBox tr:last-child td {
-    padding-bottom: 0 !important;
 }
 .infoBox td {
-    padding-bottom: 0.5rem !important;
+    padding-bottom: 0.3rem;
+    padding-right: 0;
+    padding-top: 0.3rem;
 }
 .infoHeader {
     color: var(--colorGrayDark);

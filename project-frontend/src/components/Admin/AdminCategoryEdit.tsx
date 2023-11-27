@@ -200,28 +200,6 @@ const AdminCategoryEdit = () => {
                     </tr>
                 </tbody>
             </table>
-            <table align='center' width={pageWidth} className='itemDetails valignTop'>
-                <tbody>
-                    <tr>
-                        <td>
-                            <table width='100%'>
-                                <tbody>
-                                    <tr>
-                                        <td className='adminItemEditLabel'>ITEMS:</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            {category.items.map((item) => (
-                                                <div key={item.id}>{langTextsToText(item.name, config)}</div>
-                                            ))}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     );
 };

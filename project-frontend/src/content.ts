@@ -1,6 +1,10 @@
 import { LangCode, LangContent } from './types/languageTypes';
 
 export enum ContentID {
+    accountAccountInfo = 'ACCOUNT: Account Information',
+    accountContactInfo = 'ACCOUNT: Contact Information',
+    accountOrderHistory = 'ACCOUNT: Order History',
+    accountUserId = 'ACCOUNT: Customer Number',
     adminAddNewCategory = 'ADMIN: Add New Category',
     adminAddNewItem = 'ADMIN: Add New Item',
     adminEditCategory = 'ADMIN: Edit Category (header)',
@@ -114,6 +118,34 @@ export enum ContentID {
 */
 
 export const defaultLangContent: LangContent[] = [
+    {
+        id: ContentID.accountAccountInfo,
+        content: [
+            { langCode: LangCode.EN, text: 'Basic Information' },
+            { langCode: LangCode.FI, text: 'Perustiedot' },
+        ],
+    },
+    {
+        id: ContentID.accountContactInfo,
+        content: [
+            { langCode: LangCode.EN, text: 'Contact Information' },
+            { langCode: LangCode.FI, text: 'Yhteystiedot' },
+        ],
+    },
+    {
+        id: ContentID.accountOrderHistory,
+        content: [
+            { langCode: LangCode.EN, text: 'Order History' },
+            { langCode: LangCode.FI, text: 'Tilaushistoria' },
+        ],
+    },
+    {
+        id: ContentID.accountUserId,
+        content: [
+            { langCode: LangCode.EN, text: 'Customer Number' },
+            { langCode: LangCode.FI, text: 'Asiakasnumero' },
+        ],
+    },
     {
         id: ContentID.adminAddNewCategory,
         content: [

@@ -13,8 +13,8 @@ const Info = () => {
         if (bid.length > 0) {
             return (
                 <tr>
-                    <td className='widthByContent infoText'>{contentToText(ContentID.contactBusinessID, configState)}:&emsp;</td>
-                    <td className='infoText'>{bid}</td>
+                    <td className='widthByContent'>{contentToText(ContentID.contactBusinessID, configState)}:&emsp;</td>
+                    <td>{bid}</td>
                 </tr>
             );
         }
@@ -24,8 +24,8 @@ const Info = () => {
         if (phoneNumber.length > 0) {
             return (
                 <tr>
-                    <td className='infoText'>{contentToText(ContentID.contactPhone, configState)}:&emsp;</td>
-                    <td className='infoText'>
+                    <td className='widthByContent'>{contentToText(ContentID.contactPhone, configState)}:&emsp;</td>
+                    <td>
                         <a href={'tel:' + phoneNumber}>{phoneNumber}</a>
                     </td>
                 </tr>
@@ -47,7 +47,7 @@ const Info = () => {
                         </tr>
                         <tr>
                             <td width='47%' className='infoBox'>
-                                <table width='100%' className='noPadding'>
+                                <table width='100%'>
                                     <tbody>
                                         <tr>
                                             <td colSpan={2}>
@@ -55,8 +55,8 @@ const Info = () => {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className='widthByContent infoText'>{contentToText(ContentID.contactEmail, configState)}:&emsp;</td>
-                                            <td className='infoText'>
+                                            <td className='widthByContent'>{contentToText(ContentID.contactEmail, configState)}:&emsp;</td>
+                                            <td>
                                                 <a href={'mailto:' + configState.store.contactEmail}>{configState.store.contactEmail}</a>
                                             </td>
                                         </tr>
@@ -66,7 +66,7 @@ const Info = () => {
                             </td>
                             <td></td>
                             <td width='47%' className='infoBox' style={{ verticalAlign: 'top' }}>
-                                <table width='100%' className='noPadding'>
+                                <table width='100%'>
                                     <tbody>
                                         <tr>
                                             <td colSpan={2}>
@@ -74,14 +74,14 @@ const Info = () => {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colSpan={2} className='semiBold infoText' style={{ paddingTop: 0 }}>
+                                            <td colSpan={2} className='semiBold' style={{ paddingTop: 0 }}>
                                                 {configState.owner.name}
                                             </td>
                                         </tr>
                                         {businessId(configState.owner.businessIdentifier)}
                                         <tr>
-                                            <td className='widthByContent infoText'>{contentToText(ContentID.contactEmail, configState)}:&emsp;</td>
-                                            <td className='infoText'>
+                                            <td className='widthByContent'>{contentToText(ContentID.contactEmail, configState)}:&emsp;</td>
+                                            <td>
                                                 <a href={'mailto:' + configState.owner.email}>{configState.owner.email}</a>
                                             </td>
                                         </tr>

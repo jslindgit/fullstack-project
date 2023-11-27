@@ -88,4 +88,5 @@
 | 23.11. | 1    | Tuotteiden lisäyksen/muokkauksen parantelua                                                                          |     |
 |        | 1    | Kuvien lisääminen tuotteiden muokkauksen yhteydessä                                                                  |     |
 | 24.11. | 1    | Kielivalinnan työstöä                                                                                                |     |
-|  yht   | 167  |                                                                                                                      |     |
+| 27.11. | 1    | Alustava Käyttäjätili-sivu                                                                                           |     |
+|  yht   | 168  |                                                                                                                      |     |
