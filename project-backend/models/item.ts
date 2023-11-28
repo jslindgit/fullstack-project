@@ -5,11 +5,11 @@ import { isNumber, isObject, isString } from '../types/type_functions';
 
 export interface ItemAttributes {
     id: number;
-    name: string;
     description?: string;
-    price: number;
-    instock: number;
     images: string[];
+    instock: number;
+    name: string;
+    price: number;
 }
 
 export type NewItem = Omit<ItemAttributes, 'id'>;
@@ -57,7 +57,6 @@ const Item = sequelize.define<ItemInstance>(
 );
 
 export const isNewItem = (obj: unknown): obj is NewItem => {
-    console.log('obj:', obj);
     if (obj === null || !isObject(obj)) {
         return false;
     } else {

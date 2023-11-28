@@ -1,13 +1,13 @@
 import { Op } from 'sequelize';
 
-import { User } from '../models';
-import { NewUser } from '../types/types';
+import User, { NewUser, UserAttributes, UserInstance } from '../models/user';
 import { isNumber, isObject } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
 
-const addNew = async (newUser: NewUser): Promise<User | null> => {
+const addNew = async (newUser: NewUser): Promise<UserInstance | null> => {
     try {
-        const user = await User.create(newUser);
+        const passwordHash = 'temp';
+        const user = await User.create({ ...newUser, passwordHash: passwordHash });
         await user.save();
         return user;
     } catch (err: unknown) {
@@ -16,7 +16,7 @@ const addNew = async (newUser: NewUser): Promise<User | null> => {
     }
 };
 
-const deleteById = async (id: unknown): Promise<User | null> => {
+const deleteById = async (id: unknown): Promise<UserInstance | null> => {
     try {
         const user = await getById(id);
         if (user) {
@@ -29,7 +29,7 @@ const deleteById = async (id: unknown): Promise<User | null> => {
     }
 };
 
-const getAll = async (searchQuery: string = ''): Promise<Array<User> | null> => {
+const getAll = async (searchQuery: string = ''): Promise<Array<UserInstance> | null> => {
     try {
         let where = {};
         if (searchQuery && searchQuery.length > 0) {
@@ -61,7 +61,7 @@ const getAll = async (searchQuery: string = ''): Promise<Array<User> | null> => 
     }
 };
 
-const getById = async (id: unknown): Promise<User | null> => {
+const getById = async (id: unknown): Promise<UserInstance | null> => {
     try {
         const user = isNumber(Number(id)) ? await User.findByPk(Number(id)) : null;
         return user;
@@ -71,14 +71,14 @@ const getById = async (id: unknown): Promise<User | null> => {
     }
 };
 
-const update = async (id: unknown, props: unknown): Promise<User | null> => {
+const update = async (id: unknown, props: unknown): Promise<UserInstance | null> => {
     try {
         const user = await getById(id);
         if (user) {
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
                     if (key in user && key !== 'id') {
-                        user.setDataValue(key, props[key as keyof typeof props]);
+                        user.setDataValue(key as keyof UserAttributes, props[key as keyof typeof props]);
                     } else {
                         throw new Error(`Invalid property '${key}' for User`);
                     }

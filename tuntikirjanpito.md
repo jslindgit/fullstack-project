@@ -89,4 +89,5 @@
 |        | 1    | Kuvien lisääminen tuotteiden muokkauksen yhteydessä                                                                  |     |
 | 24.11. | 1    | Kielivalinnan työstöä                                                                                                |     |
 | 27.11. | 1    | Alustava Käyttäjätili-sivu                                                                                           |     |
-|  yht   | 168  |                                                                                                                      |     |
+| 28.11. | 1    | User-modelin/tyypin refactorointia                                                                                   |     |
+|  yht   | 169  |                                                                                                                      |     |

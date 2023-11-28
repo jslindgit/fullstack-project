@@ -1,9 +1,11 @@
-import { Credentials, NewItem_Category, NewUser } from './types';
+import { Credentials, NewItem_Category } from './types';
 import { NewCategory } from '../models/category';
 import { NewItem } from '../models/item';
+import { NewUser } from '../models/user';
 
 import { isNewCategory } from '../models/category';
 import { isNewItem } from '../models/item';
+import { isNewUser } from '../models/user';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
@@ -23,13 +25,6 @@ export const isObject = (variable: unknown): variable is object => {
 
 export const isString = (text: unknown): text is string => {
     return typeof text === 'string' || text instanceof String;
-};
-
-const parseBoolean = (value: unknown, fieldName: string): boolean => {
-    if (!value || !isBoolean(value)) {
-        throw new Error(`Incorrect or missing value for ${fieldName}: "${value}"`);
-    }
-    return value;
 };
 
 const parseNumber = (value: unknown, fieldName: string): number => {
@@ -97,21 +92,9 @@ export const toNewItem_Category = (object: unknown): NewItem_Category => {
 };
 
 export const toNewUser = (object: unknown): NewUser => {
-    if (!isObject(object)) {
+    if (!isNewUser(object)) {
         throw new Error('Incorrect or missing data for toNewUser');
+    } else {
+        return object;
     }
-
-    if ('username' in object && 'name' in object) {
-        const newUser: NewUser = {
-            username: parseString(object.username, 'username'),
-            name: parseString(object.name, 'name'),
-            admin: 'admin' in object ? parseBoolean(object.admin, 'admin') : false,
-            disabled: 'disabled' in object ? parseBoolean(object.disabled, 'disabled') : false,
-            token: '',
-        };
-
-        return newUser;
-    }
-
-    throw new Error('Incorrect data: some fields ("username" or "name") are missing for toNewUser');
 };

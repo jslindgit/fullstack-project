@@ -4,7 +4,7 @@ import { Credentials, UserForToken } from '../types/types';
 import { handleError } from '../util/error_handler';
 import { isBoolean, isNumber, isObject, isString } from '../types/type_functions';
 import { SECRET } from '../util/config';
-import { User } from '../models';
+import User, { UserInstance } from '../models/user';
 
 export enum LoginError {
     InvalidUsername,
@@ -20,7 +20,7 @@ export enum LogoutResult {
     SomethingWentWrong,
 }
 
-const login = async (credentials: Credentials): Promise<User | LoginError> => {
+const login = async (credentials: Credentials): Promise<UserInstance | LoginError> => {
     try {
         if (!credentials) {
             throw new Error('Invalid credentials');
@@ -36,7 +36,9 @@ const login = async (credentials: Credentials): Promise<User | LoginError> => {
             return LoginError.InvalidPassword;
         }
 
-        if (!('username' in user && isString(user.username) && 'id' in user && isNumber(user.id) && 'token' in user && 'admin' in user && isBoolean(user.admin))) {
+        if (
+            !('username' in user && isString(user.username) && 'id' in user && isNumber(user.id) && 'token' in user && 'admin' in user && isBoolean(user.admin))
+        ) {
             return LoginError.SomethingWentWrong;
         }
 

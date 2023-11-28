@@ -1,8 +1,7 @@
 import { Op } from 'sequelize';
 
-import Category, { CategoryAttributes, CategoryInstance } from '../models/category';
+import Category, { CategoryAttributes, CategoryInstance, NewCategory } from '../models/category';
 import Item from '../models/item';
-import { NewCategory } from '../models/category';
 
 import { handleError } from '../util/error_handler';
 import { isNumber, isObject } from '../types/type_functions';

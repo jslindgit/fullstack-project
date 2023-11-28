@@ -93,23 +93,23 @@ const UserPanel = () => {
                                             {showPasswordFields ? (
                                                 <table width='100%' className='valignMiddleImportant'>
                                                     <tbody>
-                                                        {passwordField('Current Password', passwordCurrent)}
-                                                        {passwordField('New Password', passwordNew)}
-                                                        {passwordField('Confirm New Password', passwordNewConfirm)}
+                                                        {passwordField(contentToText(ContentID.accountPasswordCurrent, config), passwordCurrent)}
+                                                        {passwordField(contentToText(ContentID.accountPasswordNew, config), passwordNew)}
+                                                        {passwordField(contentToText(ContentID.accountPasswordNewConfirm, config), passwordNewConfirm)}
                                                         <tr>
                                                             <td></td>
                                                             <td style={{ paddingTop: '1rem' }}>
-                                                                <button type='button'>Change Password</button>
+                                                                <button type='button'>{contentToText(ContentID.accountButtonChangePassword, config)}</button>
                                                                 &emsp;&emsp;
                                                                 <button type='button' onClick={handleCancelButton}>
-                                                                    Cancel
+                                                                    {contentToText(ContentID.buttonCancel, config)}
                                                                 </button>
                                                             </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             ) : (
-                                                <a onClick={() => setShowPasswordFields(true)}>Change password</a>
+                                                <a onClick={() => setShowPasswordFields(true)}>{contentToText(ContentID.accountChangePassword, config)}</a>
                                             )}
                                         </td>
                                     </tr>
@@ -174,6 +174,7 @@ const UserPanel = () => {
                                                         <td>{contentToText(ContentID.orderId, config)}&emsp;&emsp;</td>
                                                         <td>{contentToText(ContentID.orderItems, config)}&emsp;&emsp;</td>
                                                         <td>{contentToText(ContentID.orderTotalAmount, config)}</td>
+                                                        <td>{contentToText(ContentID.orderStatus, config)}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

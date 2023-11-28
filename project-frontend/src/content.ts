@@ -2,8 +2,13 @@ import { LangCode, LangContent } from './types/languageTypes';
 
 export enum ContentID {
     accountAccountInfo = 'ACCOUNT: Account Information',
+    accountButtonChangePassword = 'ACCOUNT: Submit new password button',
+    accountChangePassword = 'ACCOUNT: Change Password',
     accountContactInfo = 'ACCOUNT: Contact Information',
     accountOrderHistory = 'ACCOUNT: Order History',
+    accountPasswordCurrent = 'ACCOUNT: Current Password',
+    accountPasswordNew = 'ACCOUNT: New Password',
+    accountPasswordNewConfirm = 'ACCOUNT: Confirm New Password',
     accountUserId = 'ACCOUNT: Customer Number',
     adminAddNewCategory = 'ADMIN: Add New Category',
     adminAddNewItem = 'ADMIN: Add New Item',
@@ -32,6 +37,7 @@ export enum ContentID {
     adminPanelUsers = 'ADMIN: Users',
     backButtonDefault = 'BACK BUTTON: Default label',
     buttonAdd = 'BUTTON: Add',
+    buttonCancel = 'BUTTON: Cancel',
     buttonCheckOut = 'BUTTON: Check out',
     buttonEdit = 'BUTTON: Edit',
     buttonEditCategoryDetails = 'BUTTON: Edit details of a Category (i.e. name and description)',
@@ -126,6 +132,20 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.accountButtonChangePassword,
+        content: [
+            { langCode: LangCode.EN, text: 'Submit' },
+            { langCode: LangCode.FI, text: 'Tallenna' },
+        ],
+    },
+    {
+        id: ContentID.accountChangePassword,
+        content: [
+            { langCode: LangCode.EN, text: 'Change password' },
+            { langCode: LangCode.FI, text: 'Vaihda salasana' },
+        ],
+    },
+    {
         id: ContentID.accountContactInfo,
         content: [
             { langCode: LangCode.EN, text: 'Contact Information' },
@@ -137,6 +157,27 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Order History' },
             { langCode: LangCode.FI, text: 'Tilaushistoria' },
+        ],
+    },
+    {
+        id: ContentID.accountPasswordCurrent,
+        content: [
+            { langCode: LangCode.EN, text: 'Current Password' },
+            { langCode: LangCode.FI, text: 'Nykyinen salasana' },
+        ],
+    },
+    {
+        id: ContentID.accountPasswordNew,
+        content: [
+            { langCode: LangCode.EN, text: 'New Password' },
+            { langCode: LangCode.FI, text: 'Uusi salasana' },
+        ],
+    },
+    {
+        id: ContentID.accountPasswordNewConfirm,
+        content: [
+            { langCode: LangCode.EN, text: 'Confirm New Password' },
+            { langCode: LangCode.FI, text: 'Vahvista uusi salasana' },
         ],
     },
     {
@@ -333,6 +374,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Add' },
             { langCode: LangCode.FI, text: 'Lisää' },
+        ],
+    },
+    {
+        id: ContentID.buttonCancel,
+        content: [
+            { langCode: LangCode.EN, text: 'Cancel' },
+            { langCode: LangCode.FI, text: 'Peruuta' },
         ],
     },
     {

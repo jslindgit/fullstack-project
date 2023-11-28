@@ -4,6 +4,7 @@ import { RequestHandler } from 'express';
 
 import { isNumber, isString, toNewUser } from '../types/type_functions';
 
+import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
 import { errorHandler } from '../middlewares/errors';
 import service from '../services/userService';
 import { tokenExtractor } from '../middlewares/tokenExtractor';
@@ -70,9 +71,9 @@ router.get('/:id', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.post('/', (async (req, res, next) => {
+router.post('/', apiKeyExtractor, (async (req, res, next) => {
     try {
-        if (res.locals.admin === true) {
+        if (res.locals.correct_api_key === true) {
             const newUser = toNewUser(req.body);
             const addedUser = await service.addNew(newUser);
 
