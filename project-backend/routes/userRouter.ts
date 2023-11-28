@@ -2,8 +2,8 @@
 import express from 'express';
 import { RequestHandler } from 'express';
 
-import { isNumber, isString, toNewUser } from '../types/type_functions';
-
+import { toNewUser } from '../models/user';
+import { isNumber, isString } from '../types/type_functions';
 import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
 import { errorHandler } from '../middlewares/errors';
 import service from '../services/userService';

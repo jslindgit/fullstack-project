@@ -8,6 +8,7 @@ import localstorageHandler from './util/localstorageHandler';
 export const API_KEY = import.meta.env.VITE_API_KEY as string;
 export const apiBaseUrl = 'http://localhost:3001/api';
 export const pageWidth = 1024;
+export const passwordMinLength = 10;
 
 export const defaultLanguage: Language = {
     code: LangCode.FI,

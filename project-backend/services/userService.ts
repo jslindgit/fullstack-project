@@ -1,35 +1,39 @@
 import { Op } from 'sequelize';
+import bcrypt from 'bcrypt';
 
-import User, { NewUser, UserAttributes, UserInstance } from '../models/user';
+import User, { NewUser, removePasswordHash, UserAttributes } from '../models/user';
 import { isNumber, isObject } from '../types/type_functions';
 import { handleError } from '../util/error_handler';
 
-const addNew = async (newUser: NewUser): Promise<UserInstance | null> => {
+const addNew = async (newUser: NewUser): Promise<UserAttributes | null> => {
     try {
-        const passwordHash = 'temp';
+        const saltRounds = 10;
+        const passwordHash = await bcrypt.hash(newUser.password, saltRounds);
+
         const user = await User.create({ ...newUser, passwordHash: passwordHash });
         await user.save();
-        return user;
+
+        return removePasswordHash(user);
     } catch (err: unknown) {
         handleError(err);
         return null;
     }
 };
 
-const deleteById = async (id: unknown): Promise<UserInstance | null> => {
+const deleteById = async (id: unknown): Promise<UserAttributes | null> => {
     try {
-        const user = await getById(id);
+        const user = isNumber(Number(id)) ? await User.findByPk(Number(id)) : null;
         if (user) {
             await user.destroy();
         }
-        return user;
+        return removePasswordHash(user);
     } catch (err: unknown) {
         handleError(err);
         return null;
     }
 };
 
-const getAll = async (searchQuery: string = ''): Promise<Array<UserInstance> | null> => {
+const getAll = async (searchQuery: string = ''): Promise<Array<UserAttributes | null>> => {
     try {
         let where = {};
         if (searchQuery && searchQuery.length > 0) {
@@ -54,26 +58,27 @@ const getAll = async (searchQuery: string = ''): Promise<Array<UserInstance> | n
             order: [['username', 'ASC']],
         });
 
-        return users;
+        return users.map((user) => removePasswordHash(user));
     } catch (err: unknown) {
         handleError(err);
-        return null;
+        return [];
     }
 };
 
-const getById = async (id: unknown): Promise<UserInstance | null> => {
+const getById = async (id: unknown): Promise<UserAttributes | null> => {
     try {
         const user = isNumber(Number(id)) ? await User.findByPk(Number(id)) : null;
-        return user;
+        return removePasswordHash(user);
     } catch (err: unknown) {
         handleError(err);
         return null;
     }
 };
 
-const update = async (id: unknown, props: unknown): Promise<UserInstance | null> => {
+const update = async (id: unknown, props: unknown): Promise<UserAttributes | null> => {
     try {
-        const user = await getById(id);
+        const user = isNumber(Number(id)) ? await User.findByPk(Number(id)) : null;
+
         if (user) {
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
@@ -89,7 +94,7 @@ const update = async (id: unknown, props: unknown): Promise<UserInstance | null>
                 throw new Error('Invalid props value (not an object)');
             }
         }
-        return user;
+        return removePasswordHash(user);
     } catch (err: unknown) {
         handleError(err);
         return null;

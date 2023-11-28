@@ -45,6 +45,7 @@ export enum ContentID {
     buttonRemove = 'BUTTON: Remove',
     buttonSave = 'BUTTON: Save',
     buttonUpload = 'BUTTON: Upload',
+    cartIsEmpty = 'SHOPPING CART: Shopping Cart is empty.',
     cartProduct = 'SHOPPING CART: Product',
     cartQuantity = 'SHOPPING CART: Quantity',
     cartSubtotal = 'SHOPPING CART: Subtotal',
@@ -66,6 +67,8 @@ export enum ContentID {
     contactBusinessID = 'CONTACT: Business ID',
     contactEmail = 'CONTACT: E-mail',
     contactPhone = 'CONTACT: Phone',
+    errorSomethingWentWrong = 'ERROR: Something went wrong',
+    errorSomethingWentWrongTryAgainlater = 'ERROR: Something went wrong, please try again later',
     homeWelcome = 'HOME: Welcome text',
     itemsAddToShoppingCart = 'ITEMS: "Add to shopping cart" button',
     itemsAmount = 'ITEMS: Amount (to add to shopping cart)',
@@ -77,8 +80,13 @@ export enum ContentID {
     itemsPcs = 'ITEMS: pcs',
     itemsPrice = 'ITEMS: Price',
     itemsSoldOut = 'ITEMS: Sold out',
+    loginInvalidUsernameOrPassword = 'LOGIN: Invalid username or password',
+    loginLoggedInAs = 'LOGIN: Logged in as...',
+    loginNewPasswordMisMatch = 'LOGIN: Please check the new password',
+    loginNewPasswordTooShort = 'LOGIN: Password should be atleast x characters long',
     loginNoAccount = 'LOGIN: No account yet?',
     loginPassword = 'LOGIN: Password:',
+    loginPasswordChangedSuccessfully = 'LOGIN: Password changed successfully.',
     loginRegisterHere = 'LOGIN: Register here (link)',
     loginUsername = 'LOGIN: Username:',
     menuAccount = 'MENU: Account',
@@ -433,6 +441,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.cartIsEmpty,
+        content: [
+            { langCode: LangCode.EN, text: 'Shopping Cart is empty.' },
+            { langCode: LangCode.FI, text: 'Ostoskorisi on tyhjä.' },
+        ],
+    },
+    {
         id: ContentID.cartProduct,
         content: [
             { langCode: LangCode.EN, text: 'Product' },
@@ -580,6 +595,20 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.errorSomethingWentWrong,
+        content: [
+            { langCode: LangCode.EN, text: 'Something went wrong' },
+            { langCode: LangCode.FI, text: 'Jotain meni vikaan' },
+        ],
+    },
+    {
+        id: ContentID.errorSomethingWentWrongTryAgainlater,
+        content: [
+            { langCode: LangCode.EN, text: 'Something went wrong, please try again later' },
+            { langCode: LangCode.FI, text: 'Jotain meni vikaan, yritä myöhemmin uudelleen' },
+        ],
+    },
+    {
         id: ContentID.homeWelcome,
         content: [
             { langCode: LangCode.EN, text: 'Welcome to Webstore' },
@@ -657,6 +686,34 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.loginInvalidUsernameOrPassword,
+        content: [
+            { langCode: LangCode.EN, text: 'Invalid username or password' },
+            { langCode: LangCode.FI, text: 'Virheellinen käyttäjätunnus tai salasana' },
+        ],
+    },
+    {
+        id: ContentID.loginLoggedInAs,
+        content: [
+            { langCode: LangCode.EN, text: 'Logged in as' },
+            { langCode: LangCode.FI, text: 'Kirjauduit sisään tunnuksella' },
+        ],
+    },
+    {
+        id: ContentID.loginNewPasswordMisMatch,
+        content: [
+            { langCode: LangCode.EN, text: 'New password does not match with the confirmation' },
+            { langCode: LangCode.FI, text: 'Uusi salasana ei täsmää varmenteen kanssa' },
+        ],
+    },
+    {
+        id: ContentID.loginNewPasswordTooShort,
+        content: [
+            { langCode: LangCode.EN, text: 'Password should be atleast 10 characters long' },
+            { langCode: LangCode.FI, text: 'Salasanen tulee olla vähintään 10 merkkiä pitkä' },
+        ],
+    },
+    {
         id: ContentID.loginNoAccount,
         content: [
             { langCode: LangCode.EN, text: 'No account yet?' },
@@ -668,6 +725,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Password' },
             { langCode: LangCode.FI, text: 'Salasana' },
+        ],
+    },
+    {
+        id: ContentID.loginPasswordChangedSuccessfully,
+        content: [
+            { langCode: LangCode.EN, text: 'Password changed successfully' },
+            { langCode: LangCode.FI, text: 'Salasanan vaihto onnistui' },
         ],
     },
     {

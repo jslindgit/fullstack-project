@@ -13,5 +13,6 @@ Content-Type: application/json
     "contactPhone": "040-1234567",    
     "contactZipcode": "01600",
     "disabled": false,
+    "password": "salainen123",
     "username": "teppo@testaaja.com"
 }

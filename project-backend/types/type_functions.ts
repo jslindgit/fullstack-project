@@ -1,11 +1,9 @@
 import { Credentials, NewItem_Category } from './types';
 import { NewCategory } from '../models/category';
 import { NewItem } from '../models/item';
-import { NewUser } from '../models/user';
 
 import { isNewCategory } from '../models/category';
 import { isNewItem } from '../models/item';
-import { isNewUser } from '../models/user';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
@@ -89,12 +87,4 @@ export const toNewItem_Category = (object: unknown): NewItem_Category => {
     }
 
     throw new Error('Incorrect data: some fields ("item_id" or "category_id") are missing for toNewItem_Category');
-};
-
-export const toNewUser = (object: unknown): NewUser => {
-    if (!isNewUser(object)) {
-        throw new Error('Incorrect or missing data for toNewUser');
-    } else {
-        return object;
-    }
 };

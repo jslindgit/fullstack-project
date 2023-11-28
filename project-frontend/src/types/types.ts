@@ -54,10 +54,17 @@ export interface Response {
 
 export interface User {
     id: number;
-    username: string;
-    name: string;
     admin: boolean;
+    contactAddress: string;
+    contactCity: string;
+    contactCountry: string;
+    contactFirstName: string;
+    contactLastName: string;
+    contactOrganization?: string;
+    contactPhone: string;
+    contactZipcode: string;
     disabled: boolean;
     token: string;
+    username: string;
 }
-export type NewUser = Omit<User, 'id'>;
+export type NewUser = Omit<Omit<User, 'id'>, 'token'>;

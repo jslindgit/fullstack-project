@@ -8,7 +8,7 @@ import { ShoppingItem } from '../types/orderTypes';
 
 import { refreshShoppingCartItemCount } from '../reducers/miscReducer';
 
-import { contentToText } from '../types/languageFunctions';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
 import format from '../util/format';
 import { imageFullPath } from '../util/misc';
 import localstorageHandler from '../util/localstorageHandler';
@@ -44,9 +44,15 @@ const ShoppingCartRow = ({ item, shoppingItem, indexOf, removeItem, allowEdit, f
             <td width='1px'>
                 <img src={imageFullPath(imagePath)} className='imgShoppingCart' />
             </td>
-            <td>{item.name}</td>
+            <td>{langTextsToText(item.name, config)}</td>
             <td>{format.currency(item.price, config)}</td>
-            <td>{allowEdit ? <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} /> : shoppingItem.quantity}</td>
+            <td>
+                {allowEdit ? (
+                    <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
+                ) : (
+                    shoppingItem.quantity
+                )}
+            </td>
             <td>{format.currency(item.price * shoppingItem.quantity, config)}</td>
             <td width='1px'>
                 {allowEdit ? (

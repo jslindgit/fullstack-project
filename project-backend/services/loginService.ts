@@ -1,10 +1,21 @@
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import { Credentials, UserForToken } from '../types/types';
 import { handleError } from '../util/error_handler';
-import { isBoolean, isNumber, isObject, isString } from '../types/type_functions';
+import { isNumber, isObject, isString } from '../types/type_functions';
+import { isValidPassword } from '../util/userProvider';
 import { SECRET } from '../util/config';
-import User, { UserInstance } from '../models/user';
+import User, { removePasswordHash, UserAttributes } from '../models/user';
+import userService from './userService';
+
+export enum ChangePasswordResult {
+    InvalidCurrentPassword,
+    InvalidNewPassword,
+    InvalidUserName,
+    SomethingWentWrong,
+    Success,
+}
 
 export enum LoginError {
     InvalidUsername,
@@ -20,26 +31,54 @@ export enum LogoutResult {
     SomethingWentWrong,
 }
 
-const login = async (credentials: Credentials): Promise<UserInstance | LoginError> => {
-    try {
-        if (!credentials) {
-            throw new Error('Invalid credentials');
-        }
+const changePassword = async (credentials: Credentials, newPassword: string): Promise<ChangePasswordResult> => {
+    const user = await User.findOne({ where: { username: credentials.username } });
+    if (!user) {
+        return ChangePasswordResult.InvalidUserName;
+    }
 
+    let passwordCorrect = false;
+    if ('passwordHash' in user && isString(user.passwordHash)) {
+        passwordCorrect = await bcrypt.compare(credentials.password, user.passwordHash);
+    } else {
+        return ChangePasswordResult.SomethingWentWrong;
+    }
+
+    if (!passwordCorrect) {
+        return ChangePasswordResult.InvalidCurrentPassword;
+    }
+
+    if (!isValidPassword(newPassword)) {
+        return ChangePasswordResult.InvalidNewPassword;
+    }
+
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(newPassword, saltRounds);
+
+    const updatedUser = await userService.update(user.id, { passwordHash: passwordHash });
+    if (updatedUser) {
+        return ChangePasswordResult.Success;
+    } else {
+        return ChangePasswordResult.SomethingWentWrong;
+    }
+};
+
+const login = async (credentials: Credentials): Promise<UserAttributes | LoginError> => {
+    try {
         const user = await User.findOne({ where: { username: credentials.username } });
         if (!user) {
             return LoginError.InvalidUsername;
         }
 
-        const passwordCorrect = credentials.password === 'salainen'; // temp
-        if (!passwordCorrect) {
-            return LoginError.InvalidPassword;
+        let passwordCorrect = false;
+        if ('passwordHash' in user && isString(user.passwordHash)) {
+            passwordCorrect = await bcrypt.compare(credentials.password, user.passwordHash);
+        } else {
+            return LoginError.SomethingWentWrong;
         }
 
-        if (
-            !('username' in user && isString(user.username) && 'id' in user && isNumber(user.id) && 'token' in user && 'admin' in user && isBoolean(user.admin))
-        ) {
-            return LoginError.SomethingWentWrong;
+        if (!passwordCorrect) {
+            return LoginError.InvalidPassword;
         }
 
         const userForToken: UserForToken = {
@@ -52,7 +91,12 @@ const login = async (credentials: Credentials): Promise<UserInstance | LoginErro
         user.token = token;
         await user.save();
 
-        return user;
+        const userWithoutPasswordHash = removePasswordHash(user);
+        if (userWithoutPasswordHash) {
+            return userWithoutPasswordHash;
+        } else {
+            return LoginError.SomethingWentWrong;
+        }
     } catch (err) {
         handleError(err);
         return LoginError.SomethingWentWrong;
@@ -95,6 +139,7 @@ const logout = async (token: string): Promise<LogoutResult> => {
 };
 
 export default {
+    changePassword,
     login,
     logout,
 };

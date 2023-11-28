@@ -27,8 +27,32 @@ export const isUint8Array = (data: unknown): data is Uint8Array => {
     return data instanceof Uint8Array;
 };
 
-export const isUser = (user: unknown): user is User => {
-    return isObject(user) && 'id' in user && 'username' in user && 'name' in user && 'admin' in user && 'disabled' in user && 'token' in user;
+export const isUser = (obj: unknown): obj is User => {
+    return (
+        isObject(obj) &&
+        'id' in obj &&
+        isNumber(obj.id) &&
+        'admin' in obj &&
+        isBoolean(obj.admin) &&
+        'contactAddress' in obj &&
+        isString(obj.contactAddress) &&
+        'contactCity' in obj &&
+        isString(obj.contactCity) &&
+        'contactCountry' in obj &&
+        isString(obj.contactCountry) &&
+        'contactFirstName' in obj &&
+        isString(obj.contactFirstName) &&
+        'contactLastName' in obj &&
+        isString(obj.contactLastName) &&
+        'contactPhone' in obj &&
+        isString(obj.contactPhone) &&
+        'contactZipcode' in obj &&
+        isString(obj.contactZipcode) &&
+        'disabled' in obj &&
+        isBoolean(obj.disabled) &&
+        'username' in obj &&
+        isString(obj.username)
+    );
 };
 
 export const toNewCategory = (obj: unknown): NewCategory => {

@@ -26,7 +26,9 @@ const ShoppingCartContent = ({ allowEdit, fetchItems, items, removeItem, width }
             <table align='center' width={width}>
                 <tbody>
                     <tr>
-                        <td>Shopping cart is empty.</td>
+                        <td className='sizeLarge' style={{ paddingBottom: '1em', paddingLeft: 0 }}>
+                            {contentToText(ContentID.cartIsEmpty, config)}
+                        </td>
                     </tr>
                 </tbody>
             </table>

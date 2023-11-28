@@ -2,7 +2,7 @@ import { Model, DataTypes, Optional } from 'sequelize';
 
 import { sequelize } from '../util/db';
 import { isBoolean, isObject, isString } from '../types/type_functions';
-import { MIN_PASSWORD_LENGTH } from '../util/config';
+import { isValidPassword } from '../util/userProvider';
 
 export interface UserAttributes {
     id: number;
@@ -16,7 +16,7 @@ export interface UserAttributes {
     contactPhone: string;
     contactZipcode: string;
     disabled: boolean;
-    passwordHash: string;
+    passwordHash?: string;
     token?: string;
     username: string;
 }
@@ -126,10 +126,27 @@ export const isNewUser = (obj: unknown): obj is NewUser => {
             isBoolean(obj.disabled) &&
             'password' in obj &&
             isString(obj.password) &&
-            obj.password.length >= MIN_PASSWORD_LENGTH &&
+            isValidPassword(obj.password) &&
             'username' in obj &&
             isString(obj.username)
         );
+    }
+};
+
+export const removePasswordHash = (user: UserInstance | null): UserAttributes | null => {
+    if (user) {
+        const userAttributes: UserAttributes = { ...user.toJSON() };
+        delete userAttributes.passwordHash;
+        return userAttributes;
+    }
+    return null;
+};
+
+export const toNewUser = (object: unknown): NewUser => {
+    if (!isNewUser(object)) {
+        throw new Error('Incorrect or missing data for toNewUser');
+    } else {
+        return object;
     }
 };
 

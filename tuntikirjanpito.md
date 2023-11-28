@@ -90,4 +90,5 @@
 | 24.11. | 1    | Kielivalinnan työstöä                                                                                                |     |
 | 27.11. | 1    | Alustava Käyttäjätili-sivu                                                                                           |     |
 | 28.11. | 1    | User-modelin/tyypin refactorointia                                                                                   |     |
-|  yht   | 169  |                                                                                                                      |     |
+|        | 2    | Käyttäjätili-sivun työstöä, mahdollisuus vaihtaa salasanaa                                                           | 171 |
+|  yht   | 171  |                                                                                                                      |     |

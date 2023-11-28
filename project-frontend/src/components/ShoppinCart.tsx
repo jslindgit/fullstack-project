@@ -57,10 +57,10 @@ const ShoppingCart = () => {
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
-                        <td>
+                        <td style={{ paddingLeft: 0 }}>
                             <BackButton type='text' />
                         </td>
-                        <td style={{ textAlign: 'right' }}>
+                        <td style={{ paddingRight: 0, textAlign: 'right' }}>
                             {items.length > 0 ? (
                                 <Link to='/checkout'>
                                     <button type='button' className='large'>
