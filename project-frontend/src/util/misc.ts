@@ -13,3 +13,7 @@ export const isValidEmailAddress = (email: string): boolean => {
     const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 };
+
+export const isValidPassword = (password: string) => {
+    return password.length >= 10;
+};

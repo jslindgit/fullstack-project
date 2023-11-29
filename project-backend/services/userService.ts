@@ -1,9 +1,10 @@
-import { Op } from 'sequelize';
 import bcrypt from 'bcrypt';
+import { Op } from 'sequelize';
 
 import User, { NewUser, removePasswordHash, UserAttributes } from '../models/user';
-import { isNumber, isObject } from '../types/type_functions';
+
 import { handleError } from '../util/error_handler';
+import { isNumber, isObject } from '../types/type_functions';
 
 const addNew = async (newUser: NewUser): Promise<UserAttributes | null> => {
     try {

@@ -1,12 +1,28 @@
 import axios from 'axios';
 
-import { User } from '../types/types';
+import { NewUser, User } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
-import { authConfig } from '../util/serviceProvider';
 import { handleError } from '../util/handleError';
+import { apiKeyConfig, authConfig } from '../util/serviceProvider';
+import { isUser } from '../types/typeFunctions';
 
 const url = apiBaseUrl + '/users';
+
+const addNew = async (newUser: NewUser): Promise<User | null> => {
+    try {
+        const { data } = await axios.post(url, newUser, apiKeyConfig());
+        if (isUser(data)) {
+            return data;
+        } else {
+            handleError('Server did not return an User');
+            return null;
+        }
+    } catch (err: unknown) {
+        handleError(err);
+        return null;
+    }
+};
 
 const getById = async (id: number) => {
     try {
@@ -27,6 +43,7 @@ const getByToken = async (token: string) => {
 };
 
 export default {
+    addNew,
     getById,
     getByToken,
 };

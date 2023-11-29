@@ -12,9 +12,10 @@ interface Props {
     labelContentID?: ContentID;
     to?: string;
     type: 'button' | 'text';
+    size?: 'sizeNormal' | 'sizeLarge' | 'sizeSmall';
 }
 
-const BackButton = ({ labelContentID = ContentID.backButtonDefault, to = localstorageHandler.getPreviousLocation(), type }: Props) => {
+const BackButton = ({ labelContentID = ContentID.backButtonDefault, to = localstorageHandler.getPreviousLocation(), type, size = 'sizeLarge' }: Props) => {
     const configState = useSelector((state: RootState) => state.config);
 
     return (
@@ -24,7 +25,7 @@ const BackButton = ({ labelContentID = ContentID.backButtonDefault, to = localst
                     <button type='button'>{contentToText(labelContentID, configState)}</button>
                 </>
             ) : (
-                <span className='sizeLarge e'>← {contentToText(labelContentID, configState)}</span>
+                <span className={size}>← {contentToText(labelContentID, configState)}</span>
             )}
         </Link>
     );

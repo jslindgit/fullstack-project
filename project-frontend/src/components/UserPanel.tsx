@@ -9,6 +9,7 @@ import { User } from '../types/types';
 import { pageWidth } from '../constants';
 import { contentToText } from '../types/languageFunctions';
 import loginService from '../services/loginService';
+import { isValidPassword } from '../util/misc';
 import useField, { UseField } from '../hooks/useField';
 
 import { setNotification } from '../reducers/miscReducer';
@@ -49,7 +50,7 @@ const UserPanel = () => {
     };
 
     const handleSubmitPasswordChange = async () => {
-        if (passwordNew.value.toString().length < 10) {
+        if (!isValidPassword(passwordNew.value.toString())) {
             setNewPasswordError(contentToText(ContentID.loginNewPasswordTooShort, config));
         } else if (passwordNew.value !== passwordNewConfirm.value) {
             setNewPasswordError(contentToText(ContentID.loginNewPasswordMisMatch, config));
@@ -147,7 +148,7 @@ const UserPanel = () => {
                                                             <td></td>
                                                             <td style={{ paddingTop: '1rem' }}>
                                                                 <button type='button' onClick={handleSubmitPasswordChange}>
-                                                                    {contentToText(ContentID.accountButtonChangePassword, config)}
+                                                                    {contentToText(ContentID.buttonSubmit, config)}
                                                                 </button>
                                                                 &emsp;&emsp;
                                                                 <button type='button' onClick={handleCancelButton}>

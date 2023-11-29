@@ -1,12 +1,16 @@
 import { useState, ChangeEvent } from 'react';
 
+import { ContentID } from '../content';
+
 export interface UseField {
-    type: 'text' | 'integer' | 'decimal' | 'password';
-    value: string | number;
+    anyChanges: boolean;
+    label: ContentID;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     reset: () => void;
     setNewValue: (newValue: string) => void;
-    anyChanges: boolean;
+    stringValue: () => string;
+    type: 'text' | 'integer' | 'decimal' | 'password';
+    value: string | number;
 }
 
 const convertInput = (input: string, type: string): string => {
@@ -25,7 +29,11 @@ const convertInput = (input: string, type: string): string => {
     }
 };
 
-const useField = (type: 'text' | 'integer' | 'decimal' | 'password', initialValue: string | undefined = undefined): UseField => {
+const useField = (
+    type: 'text' | 'integer' | 'decimal' | 'password',
+    label: ContentID = ContentID._NONE,
+    initialValue: string | undefined = undefined
+): UseField => {
     const initValue = (): string | number => {
         if (initialValue) {
             return convertInput(initialValue, type);
@@ -50,13 +58,19 @@ const useField = (type: 'text' | 'integer' | 'decimal' | 'password', initialValu
         setValue(convertInput(newValue, type));
     };
 
+    const stringValue = (): string => {
+        return value.toString().trim();
+    };
+
     return {
-        type,
-        value,
+        anyChanges,
+        label,
         onChange,
         reset,
         setNewValue,
-        anyChanges,
+        stringValue,
+        type,
+        value,
     };
 };
 

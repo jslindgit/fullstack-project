@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import express from 'express';
-import { RequestHandler } from 'express';
+import express, { RequestHandler } from 'express';
 
-import { toNewUser } from '../models/user';
-import { isNumber, isString } from '../types/type_functions';
 import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
 import { errorHandler } from '../middlewares/errors';
-import service from '../services/userService';
 import { tokenExtractor } from '../middlewares/tokenExtractor';
+import { isNumber, isString } from '../types/type_functions';
+import { toNewUser } from '../models/user';
+import { isValidPassword } from '../util/userProvider';
+import service from '../services/userService';
 
 const router = express.Router();
 
@@ -75,6 +75,11 @@ router.post('/', apiKeyExtractor, (async (req, res, next) => {
     try {
         if (res.locals.correct_api_key === true) {
             const newUser = toNewUser(req.body);
+
+            if (!isValidPassword(newUser.password)) {
+                res.status(400).json({ error: 'Password too short' });
+            }
+
             const addedUser = await service.addNew(newUser);
 
             res.status(201).json(addedUser);

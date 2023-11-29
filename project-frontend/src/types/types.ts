@@ -67,4 +67,4 @@ export interface User {
     token: string;
     username: string;
 }
-export type NewUser = Omit<Omit<User, 'id'>, 'token'>;
+export type NewUser = Omit<Omit<User, 'id'>, 'token'> & { password: string };

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
@@ -14,6 +14,7 @@ import { setNotification } from '../reducers/miscReducer';
 import { removeLoggedUser, setLoggedUser } from '../reducers/usersReducer';
 
 import InputField from './InputField';
+import { Link } from './CustomLink';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -65,7 +66,8 @@ const Login = () => {
                             <td></td>
                             <td>
                                 <br />
-                                {contentToText(ContentID.loginNoAccount, config)} <a>{contentToText(ContentID.loginRegisterHere, config)}</a>
+                                {contentToText(ContentID.loginNoAccount, config)}{' '}
+                                <Link to='/register'>{contentToText(ContentID.loginRegisterHere, config)}</Link>
                             </td>
                         </tr>
                     </tbody>

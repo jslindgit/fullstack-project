@@ -3,63 +3,39 @@ import { useSelector } from 'react-redux';
 import useField, { UseField } from '../hooks/useField';
 
 import { ContentID } from '../content';
-import { NewOrder, Order } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
+import { NewUser } from '../types/types';
 
+import { pageWidth } from '../constants';
 import dev from '../util/dev';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { isValidEmailAddress } from '../util/misc';
+import { isValidEmailAddress, isValidPassword } from '../util/misc';
+import userService from '../services/userService';
 
-interface Props {
-    currentOrder: NewOrder | Order;
-    setCustomerInfo: (
-        address: string,
-        city: string,
-        country: string,
-        email: string,
-        firstName: string,
-        lastName: string,
-        organization: string,
-        phone: string,
-        zipCode: string
-    ) => void;
-    validate: boolean;
-    width: string;
-}
+import BackButton from './BackButton';
 
-const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }: Props) => {
+const Register = () => {
     const config = useSelector((state: RootState) => state.config);
 
     const [availableCountries, setAvailableCountries] = useState<string[]>([]);
-    const [country, setCountry] = useState<string | null>(currentOrder.customerCountry.length > 0 ? currentOrder.customerCountry : null);
-
-    useEffect(() => {
-        // In case the current country in the Order is set with a different language that is in use at the moment:
-        const getCountryFromOrder = () => {
-            config.store.deliveryCountries.forEach((c) => {
-                if (c.names.find((langText) => langText.text === currentOrder.customerCountry)) {
-                    setCountry(langTextsToText(c.names, config));
-                }
-            });
-        };
-
-        getCountryFromOrder();
-    }, [config, config.language, currentOrder.customerCountry]);
+    const [country, setCountry] = useState<string | null>(null);
+    const [validate, setValidate] = useState<boolean>(false);
 
     const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setCountry(event.target.value);
     };
 
-    const address = useField('text', ContentID.checkOutStreetAddress, currentOrder.customerAddress);
-    const city = useField('text', ContentID.checkOutCity, currentOrder.customerCity);
-    const email = useField('text', ContentID.contactEmail, currentOrder.customerEmail);
-    const firstName = useField('text', ContentID.checkOutFirstName, currentOrder.customerFirstName);
-    const lastName = useField('text', ContentID.checkOutLastName, currentOrder.customerLastName);
-    const organization = useField('text', ContentID.checkOutOrganization, currentOrder.customerOrganization);
-    const phone = useField('text', ContentID.contactPhone, currentOrder.customerPhone);
-    const zipCode = useField('text', ContentID.checkOutZipCode, currentOrder.customerZipCode);
+    const address = useField('text', ContentID.checkOutStreetAddress);
+    const city = useField('text', ContentID.checkOutCity);
+    const email = useField('text', ContentID.contactEmail);
+    const firstName = useField('text', ContentID.checkOutFirstName);
+    const lastName = useField('text', ContentID.checkOutLastName);
+    const organization = useField('text', ContentID.checkOutOrganization);
+    const password = useField('password', ContentID.loginPassword);
+    const phone = useField('text', ContentID.contactPhone);
+    const zipCode = useField('text', ContentID.checkOutZipCode);
 
-    const required: UseField[] = [address, city, email, firstName, lastName, phone, zipCode];
+    const required: UseField[] = [address, city, email, firstName, lastName, password, phone, zipCode];
 
     const fillRandomly = () => {
         const zipCity = dev.randomZipCodeAndCity();
@@ -75,11 +51,49 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
         zipCode.setNewValue(zipCity.zip);
     };
 
+    const handleSubmit = async () => {
+        setValidate(true);
+
+        const errors: string[] = [];
+        required.forEach((field) => {
+            const error = validateField(field);
+            if (error) {
+                errors.push(error);
+            }
+        });
+
+        if (errors.length <= 0) {
+            const newUser: NewUser = {
+                admin: false,
+                contactAddress: address.stringValue(),
+                contactCity: city.stringValue(),
+                contactCountry: country ? country : '-',
+                contactFirstName: firstName.stringValue(),
+                contactLastName: lastName.stringValue(),
+                contactPhone: phone.stringValue(),
+                contactZipcode: zipCode.stringValue(),
+                contactOrganization: organization.stringValue(),
+                disabled: false,
+                username: email.stringValue(),
+                password: password.stringValue(),
+            };
+
+            const user = await userService.addNew(newUser);
+            if (user) {
+                console.log('Added:', user);
+            } else {
+                console.log('error');
+            }
+        }
+    };
+
     const validateField = (field: UseField): string | null => {
-        if (required.includes(field) && field.value.toString().trim().length < 1) {
+        if (required.includes(field) && field.stringValue().length < 1) {
             return `${contentToText(field.label, config)} ${contentToText(ContentID.checkOutIsRequired, config)}.`;
         } else if (field === email && !isValidEmailAddress(email.value.toString())) {
             return contentToText(ContentID.errorInvalidEmailAddress, config);
+        } else if (field === password && !isValidPassword(password.value.toString())) {
+            return contentToText(ContentID.loginNewPasswordTooShort, config);
         }
         return null;
     };
@@ -92,23 +106,9 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
         setAvailableCountries(countries);
     }, [config]);
 
-    useEffect(() => {
-        setCustomerInfo(
-            address.value.toString().trim(),
-            city.value.toString().trim(),
-            country ? country : '',
-            email.value.toString().trim(),
-            firstName.value.toString().trim(),
-            lastName.value.toString().trim(),
-            organization.value.toString().trim(),
-            phone.value.toString().trim(),
-            zipCode.value.toString().trim()
-        );
-    }, [address.value, city.value, country, email.value, firstName.value, lastName.value, organization.value, phone.value, zipCode.value]);
-
     const inputField = (field: UseField, optional: boolean = false) => {
         const label = contentToText(field.label, config);
-        const labelParts: string[] = optional ? [label, contentToText(ContentID.checkOutOptional, config)] : [label];
+        const labelParts: string[] = optional ? [label, '(' + contentToText(ContentID.checkOutOptional, config) + ')'] : [label];
         const error = validateField(field);
 
         return (
@@ -124,7 +124,7 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
                         <>{labelParts[0]}</>
                     )}
                 </td>
-                <td style={{ paddingTop: '0.6rem', paddingBottom: '0.6rem' }}>
+                <td style={{ paddingTop: '1em', paddingBottom: '1em' }}>
                     {validate && error ? (
                         <div className='validationError'>
                             {error}
@@ -141,18 +141,20 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
 
     return (
         <>
-            <table align='center' width={width} className='paddingTopBottomOnly'>
+            <table align='center' width={pageWidth * 0.66} className='paddingTopBottomOnly'>
                 <tbody>
                     <tr>
+                        <td className='pageHeader widthByContent'>{contentToText(ContentID.registerHeader, config)}</td>
                         <td>
-                            <h3>{contentToText(ContentID.checkOutCustomerContactInformation, config)}</h3>
                             <a onClick={fillRandomly}>Fill randomly</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <table align='center' width={width}>
+            <table align='center' width={pageWidth * 0.66}>
                 <tbody>
+                    {inputField(email)}
+                    {inputField(password)}
                     {inputField(firstName)}
                     {inputField(lastName)}
                     {inputField(organization, true)}
@@ -183,13 +185,20 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
                             </select>
                         </td>
                     </tr>
-
-                    {inputField(email)}
-                    {inputField(phone)}
+                    <tr>
+                        <td>
+                            <BackButton type='text' size='sizeNormal' />
+                        </td>
+                        <td>
+                            <button type='button' onClick={handleSubmit}>
+                                {contentToText(ContentID.buttonSubmit, config)}
+                            </button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </>
     );
 };
 
-export default CheckOutContactInfo;
+export default Register;

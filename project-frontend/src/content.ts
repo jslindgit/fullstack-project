@@ -1,8 +1,8 @@
 import { LangCode, LangContent } from './types/languageTypes';
 
 export enum ContentID {
+    _NONE = '',
     accountAccountInfo = 'ACCOUNT: Account Information',
-    accountButtonChangePassword = 'ACCOUNT: Submit new password button',
     accountChangePassword = 'ACCOUNT: Change Password',
     accountContactInfo = 'ACCOUNT: Contact Information',
     accountOrderHistory = 'ACCOUNT: Order History',
@@ -44,6 +44,7 @@ export enum ContentID {
     buttonEditCategoryProducts = 'BUTTON: Edit Category products',
     buttonRemove = 'BUTTON: Remove',
     buttonSave = 'BUTTON: Save',
+    buttonSubmit = 'BUTTON: Submit',
     buttonUpload = 'BUTTON: Upload',
     cartIsEmpty = 'SHOPPING CART: Shopping Cart is empty.',
     cartProduct = 'SHOPPING CART: Product',
@@ -55,10 +56,13 @@ export enum ContentID {
     checkOutChoosePaymentMethod = 'CHECK OUT: Choose Payment Methdod (button)',
     checkOutCity = 'CHECK OUT: City',
     checkOutCountry = 'CHECK OUT: Country',
+    checkOutCountryIsRequired = 'CHECK OUT: Country is required (validation error)',
     checkOutCustomerContactInformation = 'CHECK OUT: Customer Contact Information (header)',
     checkOutFirstName = 'CHECK OUT: First name',
     checkOutHeader = 'CHECK OUT: Header',
+    checkOutIsRequired = 'CHECK OUT: <some information> is required (validation error)',
     checkOutLastName = 'CHECK OUT: Last name',
+    checkOutOptional = 'CHECK OUT: optional (information field)',
     checkOutOrderInfo = 'CHECK OUT: Order Info (header)',
     checkOutOrganization = 'CHECK OUT: Organization',
     checkOutSelectCountry = 'CHECK OUT: Select a country',
@@ -67,6 +71,7 @@ export enum ContentID {
     contactBusinessID = 'CONTACT: Business ID',
     contactEmail = 'CONTACT: E-mail',
     contactPhone = 'CONTACT: Phone',
+    errorInvalidEmailAddress = 'ERROR: Invalid e-mail address',
     errorSomethingWentWrong = 'ERROR: Something went wrong',
     errorSomethingWentWrongTryAgainlater = 'ERROR: Something went wrong, please try again later',
     homeWelcome = 'HOME: Welcome text',
@@ -111,6 +116,7 @@ export enum ContentID {
     orderPaymentMethod = 'ORDER: Payment method',
     orderStatus = 'ORDER: Status',
     orderTotalAmount = 'ORDER: Total Amount',
+    registerHeader = 'REGISTER: header',
     statusCancelled = 'ORDER STATUS: Cancelled',
     statusCompleted = 'ORDER STATUS: Completed',
     statusDelivered = 'ORDER STATUS: Delivered',
@@ -137,13 +143,6 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Basic Information' },
             { langCode: LangCode.FI, text: 'Perustiedot' },
-        ],
-    },
-    {
-        id: ContentID.accountButtonChangePassword,
-        content: [
-            { langCode: LangCode.EN, text: 'Submit' },
-            { langCode: LangCode.FI, text: 'Tallenna' },
         ],
     },
     {
@@ -434,6 +433,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.buttonSubmit,
+        content: [
+            { langCode: LangCode.EN, text: 'Submit' },
+            { langCode: LangCode.FI, text: 'Lähetä' },
+        ],
+    },
+    {
         id: ContentID.buttonUpload,
         content: [
             { langCode: LangCode.EN, text: 'Upload' },
@@ -511,6 +517,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.checkOutCountryIsRequired,
+        content: [
+            { langCode: LangCode.EN, text: 'Country is required' },
+            { langCode: LangCode.FI, text: 'Maa tulee valita' },
+        ],
+    },
+    {
         id: ContentID.checkOutCustomerContactInformation,
         content: [
             { langCode: LangCode.EN, text: 'Customer Contact Information' },
@@ -532,10 +545,24 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.checkOutIsRequired,
+        content: [
+            { langCode: LangCode.EN, text: 'is required' },
+            { langCode: LangCode.FI, text: 'tulee täyttää' },
+        ],
+    },
+    {
         id: ContentID.checkOutLastName,
         content: [
             { langCode: LangCode.EN, text: 'Last name' },
             { langCode: LangCode.FI, text: 'Sukunimi' },
+        ],
+    },
+    {
+        id: ContentID.checkOutOptional,
+        content: [
+            { langCode: LangCode.EN, text: 'optional' },
+            { langCode: LangCode.FI, text: 'valinnainen' },
         ],
     },
     {
@@ -592,6 +619,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Phone' },
             { langCode: LangCode.FI, text: 'Puhelin' },
+        ],
+    },
+    {
+        id: ContentID.errorInvalidEmailAddress,
+        content: [
+            { langCode: LangCode.EN, text: 'Invalid e-mail address' },
+            { langCode: LangCode.FI, text: 'Virheellien sähköpostiosoite' },
         ],
     },
     {
@@ -900,6 +934,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Total amount' },
             { langCode: LangCode.FI, text: 'Loppusumma' },
+        ],
+    },
+    {
+        id: ContentID.registerHeader,
+        content: [
+            { langCode: LangCode.EN, text: 'Register' },
+            { langCode: LangCode.FI, text: 'Rekisteröidy' },
         ],
     },
     {
