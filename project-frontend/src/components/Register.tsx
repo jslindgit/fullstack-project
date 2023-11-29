@@ -1,29 +1,34 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import useField, { UseField } from '../hooks/useField';
 
 import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
-import { NewUser } from '../types/types';
+import { NewUser, User } from '../types/types';
 
 import { pageWidth } from '../constants';
 import dev from '../util/dev';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
+import loginService from '../services/loginService';
 import { isValidEmailAddress, isValidPassword } from '../util/misc';
 import userService from '../services/userService';
+
+import { setNotification } from '../reducers/miscReducer';
+import { setLoggedUser } from '../reducers/usersReducer';
 
 import BackButton from './BackButton';
 
 const Register = () => {
+    const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
+    const usersState = useSelector((state: RootState) => state.users);
 
     const [availableCountries, setAvailableCountries] = useState<string[]>([]);
     const [country, setCountry] = useState<string | null>(null);
     const [validate, setValidate] = useState<boolean>(false);
 
-    const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setCountry(event.target.value);
-    };
+    const navigate = useNavigate();
 
     const address = useField('text', ContentID.checkOutStreetAddress);
     const city = useField('text', ContentID.checkOutCity);
@@ -49,6 +54,10 @@ const Register = () => {
         organization.setNewValue(dev.randomOrganization());
         phone.setNewValue(dev.randomPhone());
         zipCode.setNewValue(zipCity.zip);
+    };
+
+    const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setCountry(event.target.value);
     };
 
     const handleSubmit = async () => {
@@ -78,12 +87,20 @@ const Register = () => {
                 password: password.stringValue(),
             };
 
-            const user = await userService.addNew(newUser);
-            if (user) {
-                console.log('Added:', user);
-            } else {
-                console.log('error');
+            const response = await userService.addNew(newUser, config);
+
+            // If the registration was successful, login with the registered user:
+            if (response.success && response.user) {
+                const setLogged = (loggedUser: User) => {
+                    dispatch(setLoggedUser(loggedUser));
+                };
+
+                await loginService.login(response.user.username, password.stringValue(), setLogged, config);
             }
+
+            //navigate('/you');
+
+            dispatch(setNotification({ message: response.message, tone: response.success ? 'Positive' : 'Negative' }));
         }
     };
 
@@ -97,6 +114,12 @@ const Register = () => {
         }
         return null;
     };
+
+    useEffect(() => {
+        if (usersState.loggedUser) {
+            navigate('/you');
+        }
+    }, [navigate, usersState.loggedUser]);
 
     useEffect(() => {
         const countries: string[] = [];

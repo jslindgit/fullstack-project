@@ -25,6 +25,9 @@
 .colorRed {
     color: var(--colorRed);
 }
+.colorTransparent {
+    color: rgba(0, 0, 0, 0);
+}
 .colorYellowLight {
     color: var(--colorYellowLight);
 }

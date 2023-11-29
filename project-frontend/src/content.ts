@@ -44,6 +44,7 @@ export enum ContentID {
     buttonEditCategoryProducts = 'BUTTON: Edit Category products',
     buttonRemove = 'BUTTON: Remove',
     buttonSave = 'BUTTON: Save',
+    buttonShowInfo = 'BUTTON: Show Info',
     buttonSubmit = 'BUTTON: Submit',
     buttonUpload = 'BUTTON: Upload',
     cartIsEmpty = 'SHOPPING CART: Shopping Cart is empty.',
@@ -117,6 +118,7 @@ export enum ContentID {
     orderStatus = 'ORDER: Status',
     orderTotalAmount = 'ORDER: Total Amount',
     registerHeader = 'REGISTER: header',
+    registerSuccess = 'REGISTER: Registration successful',
     statusCancelled = 'ORDER STATUS: Cancelled',
     statusCompleted = 'ORDER STATUS: Completed',
     statusDelivered = 'ORDER STATUS: Delivered',
@@ -125,6 +127,8 @@ export enum ContentID {
     statusProcessing = 'ORDER STATUS: Processing',
     statusRefunded = 'ORDER STATUS: Refunded',
     statusShipped = 'ORDER STATUS: Shipped',
+    userDisabled = 'USER: Disabled (banned)',
+    userStatusCustomer = 'USER - STATUS: Customer',
 }
 
 /*
@@ -430,6 +434,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Save' },
             { langCode: LangCode.FI, text: 'Tallenna' },
+        ],
+    },
+    {
+        id: ContentID.buttonShowInfo,
+        content: [
+            { langCode: LangCode.EN, text: 'Info' },
+            { langCode: LangCode.FI, text: 'Tiedot' },
         ],
     },
     {
@@ -944,6 +955,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.registerSuccess,
+        content: [
+            { langCode: LangCode.EN, text: 'Registered as' },
+            { langCode: LangCode.FI, text: 'Rekisteröidyit käyttäjätunnuksella' },
+        ],
+    },
+    {
         id: ContentID.statusCancelled,
         content: [
             { langCode: LangCode.EN, text: 'Cancelled' },
@@ -990,6 +1008,20 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Shipped' },
             { langCode: LangCode.FI, text: 'Lähetetty' },
+        ],
+    },
+    {
+        id: ContentID.userDisabled,
+        content: [
+            { langCode: LangCode.EN, text: 'Account suspended' },
+            { langCode: LangCode.FI, text: 'Tili jäädytetty' },
+        ],
+    },
+    {
+        id: ContentID.userStatusCustomer,
+        content: [
+            { langCode: LangCode.EN, text: 'Customer' },
+            { langCode: LangCode.FI, text: 'Asiakas' },
         ],
     },
 ];

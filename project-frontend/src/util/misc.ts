@@ -1,3 +1,9 @@
+import { Config } from '../types/configTypes';
+import { ContentID } from '../content';
+import { User } from '../types/types';
+
+import { contentToText } from '../types/languageFunctions';
+
 export const imageCategories: string[] = ['misc', 'products'];
 
 export const imageFilename = (path: string): string => {
@@ -16,4 +22,14 @@ export const isValidEmailAddress = (email: string): boolean => {
 
 export const isValidPassword = (password: string) => {
     return password.length >= 10;
+};
+
+export const userStatus = (user: User, config: Config): string => {
+    let status = user.admin ? contentToText(ContentID.menuAdmin, config) : contentToText(ContentID.userStatusCustomer, config);
+
+    if (user.disabled) {
+        status += ` (${contentToText(ContentID.userDisabled, config)})`;
+    }
+
+    return status;
 };

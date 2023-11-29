@@ -30,7 +30,7 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.get('/', (async (req, res, next) => {
+router.get('/', apiKeyExtractor, (async (req, res, next) => {
     try {
         const users = await service.getAll(isString(req.query.search) ? req.query.search : '');
         res.json(users);

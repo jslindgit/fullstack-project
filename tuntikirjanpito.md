@@ -92,4 +92,5 @@
 | 28.11. | 1    | User-modelin/tyypin refactorointia                                                                                   |     |
 |        | 2    | Käyttäjätili-sivun työstöä, mahdollisuus vaihtaa salasanaa                                                           | 171 |
 | 29.11. | 2    | Uuden käyttäjän rekisteröinti, refactorointia                                                                        |     |
-|  yht   | 173  |                                                                                                                      |     |
+|        | 1    | Käyttäjät-sivu Hallintapaneeliin                                                                                     |     |
+|  yht   | 174  |                                                                                                                      |     |

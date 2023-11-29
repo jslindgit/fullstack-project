@@ -1,3 +1,7 @@
+.clickable {
+    cursor: pointer;
+}
+
 .deliveryMethod {
     border-radius: 0.75rem;
     cursor: pointer;

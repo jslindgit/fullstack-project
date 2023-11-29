@@ -22,7 +22,7 @@ input:focus {
 }
 
 input.error {
-    outline: 3px solid var(--colorRedLight);
+    outline: 2px solid var(--colorRedLight);
 }
 input:focus.error {
     outline: 3px solid var(--colorGrayDark);

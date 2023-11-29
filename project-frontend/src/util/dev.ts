@@ -38,7 +38,7 @@ const randomFirstName = (): string => {
 
 const randomLastName = (): string => {
     const names = [
-        'Korohonen',
+        'Korhonen',
         'Mäkinen',
         'Mäkelä',
         'Hämäläinen',
