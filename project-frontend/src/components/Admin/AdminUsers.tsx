@@ -8,8 +8,8 @@ import { User } from '../../types/types';
 
 import { pageWidth } from '../../constants';
 import { contentToText } from '../../types/languageFunctions';
-import userService from '../../services/userService';
 import { userStatus } from '../../util/misc';
+import userService from '../../services/userService';
 
 import { Link } from '../CustomLink';
 

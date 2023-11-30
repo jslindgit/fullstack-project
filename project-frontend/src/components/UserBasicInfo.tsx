@@ -3,20 +3,24 @@ import { ContentID } from '../content';
 import { User } from '../types/types';
 
 import { contentToText } from '../types/languageFunctions';
+import { userStatus } from '../util/misc';
 
 interface Props {
+    addLinkToEmail?: boolean;
     config: Config;
+    showUserStatus?: boolean;
     user: User;
     width: number;
 }
-const UserBasicInfo = ({ config, user, width }: Props) => {
+const UserBasicInfo = ({ addLinkToEmail = false, config, showUserStatus = false, user, width }: Props) => {
     return (
         <table align='center' width={width} className='infoBox'>
             <tbody>
                 <tr>
-                    <td colSpan={2}>
+                    <td colSpan={user.disabled ? 1 : 2} className='widthByContent'>
                         <div className='infoHeader underlined'>{contentToText(ContentID.accountAccountInfo, config)}</div>
                     </td>
+                    {user.disabled ? <td className='alignRight bold colorRed sizeLarge upperCase'>{contentToText(ContentID.userDisabled, config)}</td> : <></>}
                 </tr>
                 <tr>
                     <td className='semiBold widthByContent'>{contentToText(ContentID.miscName, config)}:&emsp;</td>
@@ -35,12 +39,20 @@ const UserBasicInfo = ({ config, user, width }: Props) => {
                 )}
                 <tr>
                     <td className='semiBold widthByContent'>{contentToText(ContentID.contactEmail, config)}:&emsp;</td>
-                    <td>{user.username}</td>
+                    <td>{addLinkToEmail ? <a href={'mailto:' + user.username}>{user.username}</a> : <>{user.username}</>}</td>
                 </tr>
                 <tr>
                     <td className='semiBold widthByContent'>{contentToText(ContentID.accountUserId, config)}:&emsp;</td>
                     <td>{user.id}</td>
                 </tr>
+                {showUserStatus ? (
+                    <tr>
+                        <td className='semiBold widthByContent'>Status:&emsp;</td>
+                        <td>{userStatus(user, config)}</td>
+                    </tr>
+                ) : (
+                    <></>
+                )}
             </tbody>
         </table>
     );

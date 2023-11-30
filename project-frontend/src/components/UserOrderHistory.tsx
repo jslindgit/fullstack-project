@@ -20,14 +20,14 @@ const UserOrderHistory = ({ config, user, width }: Props) => {
                 </tr>
                 <tr>
                     <td>
-                        <table className='headerRow striped'>
+                        <table width='100%' className='headerRow striped'>
                             <tbody>
                                 <tr>
                                     <td>{contentToText(ContentID.miscDate, config)}&emsp;&emsp;</td>
                                     <td>{contentToText(ContentID.orderId, config)}&emsp;&emsp;</td>
                                     <td>{contentToText(ContentID.orderItems, config)}&emsp;&emsp;</td>
                                     <td>{contentToText(ContentID.orderTotalAmount, config)}</td>
-                                    <td>{contentToText(ContentID.orderStatus, config)}</td>
+                                    <td className='widthByContent'>{contentToText(ContentID.orderStatus, config)}</td>
                                 </tr>
                             </tbody>
                         </table>

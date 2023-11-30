@@ -97,7 +97,9 @@ const UserChangePassword = ({ config, user, width }: Props) => {
                                 </tbody>
                             </table>
                         ) : (
-                            <a onClick={() => setShowPasswordFields(true)}>{contentToText(ContentID.accountChangePassword, config)}</a>
+                            <a className='sizeLarge' onClick={() => setShowPasswordFields(true)}>
+                                {contentToText(ContentID.accountChangePassword, config)}
+                            </a>
                         )}
                     </td>
                 </tr>

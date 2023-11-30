@@ -35,7 +35,12 @@ export enum ContentID {
     adminPanelOrders = 'ADMIN: Orders',
     adminPanelSettings = 'ADMIN: Settings',
     adminPanelUsers = 'ADMIN: Users',
-    adminUserInfoHeader = 'ADMIN: User Info (header)',
+    adminUserInfoChangeStatus = 'ADMIN - USER INFO: Change Status (button)',
+    adminUserInfoDeleteAccount = 'ADMIN - USER INFO: Delete account? (confirmation)',
+    adminUserInfoDisableAccount = 'ADMIN - USER INFO: Disable account? (confirmation)',
+    adminUserInfoEnableAccount = 'ADMIN - USER INFO: Enable account? (confirmation)',
+    adminUserInfoHeader = 'ADMIN - USER INFO: header',
+    adminUserInfoSendMessage = 'ADMIN - USER INFO: Send Message (button)',
     backButtonDefault = 'BACK BUTTON: Default label',
     buttonAdd = 'BUTTON: Add',
     buttonCancel = 'BUTTON: Cancel',
@@ -132,6 +137,7 @@ export enum ContentID {
     statusShipped = 'ORDER STATUS: Shipped',
     userDisabled = 'USER: Disabled (banned)',
     userStatusCustomer = 'USER - STATUS: Customer',
+    userUpdated = 'USER: Account Updated (notification)',
 }
 
 /*
@@ -377,10 +383,45 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.adminUserInfoChangeStatus,
+        content: [
+            { langCode: LangCode.EN, text: 'Change Status' },
+            { langCode: LangCode.FI, text: 'Muuta statusta' },
+        ],
+    },
+    {
+        id: ContentID.adminUserInfoDeleteAccount,
+        content: [
+            { langCode: LangCode.EN, text: 'Are you sure you want to permanently delete this account?' },
+            { langCode: LangCode.FI, text: 'Haluatko varmasti poistaa tämän käyttäjätilin pysyvästi?' },
+        ],
+    },
+    {
+        id: ContentID.adminUserInfoDisableAccount,
+        content: [
+            { langCode: LangCode.EN, text: 'Disable this account?' },
+            { langCode: LangCode.FI, text: 'Jäädytetäänkö tämä käyttäjätili?' },
+        ],
+    },
+    {
+        id: ContentID.adminUserInfoEnableAccount,
+        content: [
+            { langCode: LangCode.EN, text: 'Enable this account?' },
+            { langCode: LangCode.FI, text: 'Palautetaanko tili käyttöön?' },
+        ],
+    },
+    {
         id: ContentID.adminUserInfoHeader,
         content: [
             { langCode: LangCode.EN, text: 'User Info' },
             { langCode: LangCode.FI, text: 'Käyttäjän tiedot' },
+        ],
+    },
+    {
+        id: ContentID.adminUserInfoSendMessage,
+        content: [
+            { langCode: LangCode.EN, text: 'Send Message' },
+            { langCode: LangCode.FI, text: 'Lähetä viesti' },
         ],
     },
     {
@@ -1046,6 +1087,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Customer' },
             { langCode: LangCode.FI, text: 'Asiakas' },
+        ],
+    },
+    {
+        id: ContentID.userUpdated,
+        content: [
+            { langCode: LangCode.EN, text: 'Account Updated.' },
+            { langCode: LangCode.FI, text: 'Käyttäjätili päivitettiin.' },
         ],
     },
 ];

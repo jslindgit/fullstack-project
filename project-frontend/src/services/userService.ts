@@ -57,9 +57,29 @@ const getByToken = async (token: string) => {
     }
 };
 
+const update = async (user: User, token: string, config: Config): Promise<UserResponse> => {
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...reqBody } = user;
+        const res = await axios.put<User>(`${url}/${user.id}`, reqBody, authConfig(token));
+        const updatedUser = res.data;
+
+        if (updatedUser) {
+            return { success: true, message: contentToText(ContentID.userUpdated, config), user: updatedUser };
+        } else {
+            handleError(new Error('Server did not return a User object'));
+            return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), user: null };
+        }
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config), user: null };
+    }
+};
+
 export default {
     addNew,
     getAll,
     getById,
     getByToken,
+    update,
 };

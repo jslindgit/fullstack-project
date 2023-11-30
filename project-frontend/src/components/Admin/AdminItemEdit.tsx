@@ -60,7 +60,7 @@ const AdminItemEdit = () => {
             });
         } catch (err: unknown) {
             handleError(err);
-            setLoading('Something went wrong :(');
+            setLoading(contentToText(ContentID.errorSomethingWentWrong, config) + ' :(');
         }
     };
 

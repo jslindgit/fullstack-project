@@ -3,6 +3,7 @@ import { Dispatch } from 'react';
 import { AnyAction } from 'redux';
 
 import { Config } from '../types/configTypes';
+import { ContentID } from '../content';
 import { Item, NewItem, Response } from '../types/types';
 
 import { initializeCategories } from '../reducers/categoryReducer';
@@ -10,7 +11,7 @@ import { initializeCategories } from '../reducers/categoryReducer';
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
 import item_categoryService from './item_categoryService';
-import { langTextsToText } from '../types/languageFunctions';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { authConfig, itemFromResBody, itemToReqBody } from '../util/serviceProvider';
 
 interface ItemResponse extends Response {
@@ -97,11 +98,11 @@ const update = async (item: Item, token: string, config: Config, dispatch: Dispa
             return { success: true, message: `Item ${langTextsToText(updatedItem.name, config)} updated`, item: updatedItem };
         } else {
             handleError(new Error('Server did not return an Item object'));
-            return { success: false, message: 'Something went wrong, try again later', item: null };
+            return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), item: null };
         }
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Error occurred', item: null };
+        return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config), item: null };
     }
 };
 

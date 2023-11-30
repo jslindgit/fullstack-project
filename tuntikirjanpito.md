@@ -94,4 +94,5 @@
 | 29.11. | 2    | Uuden käyttäjän rekisteröinti, refactorointia                                                                        |     |
 |        | 1    | Käyttäjät-sivu Hallintapaneeliin                                                                                     |     |
 | 30.11. | 1    | Käyttäjätili-sivun refactorointia, Hallintapaneeliin "Käyttäjän tiedot" -sivu,                                       |     |
-|  yht   | 175  |                                                                                                                      |     |
+|        | 1    | Käyttäjähallinnan työstöä                                                                                            |     |
+|  yht   | 176  |                                                                                                                      |     |
