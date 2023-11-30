@@ -35,13 +35,16 @@ export enum ContentID {
     adminPanelOrders = 'ADMIN: Orders',
     adminPanelSettings = 'ADMIN: Settings',
     adminPanelUsers = 'ADMIN: Users',
+    adminUserInfoHeader = 'ADMIN: User Info (header)',
     backButtonDefault = 'BACK BUTTON: Default label',
     buttonAdd = 'BUTTON: Add',
     buttonCancel = 'BUTTON: Cancel',
     buttonCheckOut = 'BUTTON: Check out',
+    buttonDisable = 'BUTTON: Disable (account)',
     buttonEdit = 'BUTTON: Edit',
     buttonEditCategoryDetails = 'BUTTON: Edit details of a Category (i.e. name and description)',
     buttonEditCategoryProducts = 'BUTTON: Edit Category products',
+    buttonEnable = 'BUTTON: Enable (account)',
     buttonRemove = 'BUTTON: Remove',
     buttonSave = 'BUTTON: Save',
     buttonShowInfo = 'BUTTON: Show Info',
@@ -374,6 +377,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.adminUserInfoHeader,
+        content: [
+            { langCode: LangCode.EN, text: 'User Info' },
+            { langCode: LangCode.FI, text: 'Käyttäjän tiedot' },
+        ],
+    },
+    {
         id: ContentID.backButtonDefault,
         content: [
             { langCode: LangCode.EN, text: 'Go back' },
@@ -402,6 +412,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.buttonDisable,
+        content: [
+            { langCode: LangCode.EN, text: 'Suspend' },
+            { langCode: LangCode.FI, text: 'Jäädytä' },
+        ],
+    },
+    {
         id: ContentID.buttonEdit,
         content: [
             { langCode: LangCode.EN, text: 'Edit' },
@@ -420,6 +437,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Edit\nProducts' },
             { langCode: LangCode.FI, text: 'Muokkaa\ntuotteita' },
+        ],
+    },
+    {
+        id: ContentID.buttonEnable,
+        content: [
+            { langCode: LangCode.EN, text: 'Enable' },
+            { langCode: LangCode.FI, text: 'Palauta' },
         ],
     },
     {

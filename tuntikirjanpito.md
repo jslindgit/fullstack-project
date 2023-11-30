@@ -93,4 +93,5 @@
 |        | 2    | Käyttäjätili-sivun työstöä, mahdollisuus vaihtaa salasanaa                                                           | 171 |
 | 29.11. | 2    | Uuden käyttäjän rekisteröinti, refactorointia                                                                        |     |
 |        | 1    | Käyttäjät-sivu Hallintapaneeliin                                                                                     |     |
-|  yht   | 174  |                                                                                                                      |     |
+| 30.11. | 1    | Käyttäjätili-sivun refactorointia, Hallintapaneeliin "Käyttäjän tiedot" -sivu,                                       |     |
+|  yht   | 175  |                                                                                                                      |     |

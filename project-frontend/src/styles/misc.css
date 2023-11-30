@@ -41,6 +41,7 @@
 .infoBox {
     border: solid 0.2rem var(--colorGrayLight) !important;
     border-radius: 0.75rem !important;
+    padding: 1.25rem;
 }
 .infoBox td {
     padding-bottom: 0.3rem;

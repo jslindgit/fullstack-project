@@ -22,6 +22,7 @@ import { removeLoggedUser, setLoggedUser } from './reducers/usersReducer';
 import AdminCategoryEdit from './components/Admin/AdminCategoryEdit';
 import AdminItemEdit from './components/Admin/AdminItemEdit';
 import AdminPanel from './components/Admin/AdminPanel';
+import AdminUserInfo from './components/Admin/AdminUserInfo';
 import Categories from './components/Categories';
 import CheckOut from './components/CheckOut';
 import CheckOutDone from './components/CheckOutDone';
@@ -108,6 +109,7 @@ const App = () => {
                 <Route path='/admin' element={adminPage(<AdminPanel />)} />
                 <Route path='/admin/editcategory/:id' element={adminPage(<AdminCategoryEdit />)} />
                 <Route path='/admin/edititem/:id' element={adminPage(<AdminItemEdit />)} />
+                <Route path='/admin/users/:id' element={adminPage(<AdminUserInfo />)} />
                 <Route path='/admin/:page' element={adminPage(<AdminPanel />)} />
                 <Route path='/cart' element={<ShoppingCart />} />
                 <Route path='/checkout' element={<CheckOut />} />

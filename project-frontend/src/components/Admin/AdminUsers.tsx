@@ -11,6 +11,8 @@ import { contentToText } from '../../types/languageFunctions';
 import userService from '../../services/userService';
 import { userStatus } from '../../util/misc';
 
+import { Link } from '../CustomLink';
+
 interface Props {
     config: Config;
     user: User;
@@ -24,7 +26,9 @@ const AdminUserRow = ({ config, user }: Props) => {
             <td>{user.id}&emsp;</td>
             <td>{userStatus(user, config)}&emsp;</td>
             <td className='alignRight'>
-                <button type='button'>{contentToText(ContentID.buttonShowInfo, config)}</button>
+                <Link to={'/admin/users/' + user.id}>
+                    <button type='button'>{contentToText(ContentID.buttonShowInfo, config)}</button>
+                </Link>
             </td>
         </tr>
     );
