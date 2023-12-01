@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Op } from 'sequelize';
 
+import { Order } from '../models';
 import User, { NewUser, removePasswordHash, UserAttributes } from '../models/user';
 
 import { handleError } from '../util/error_handler';
@@ -55,6 +56,12 @@ const getAll = async (searchQuery: string = ''): Promise<Array<UserAttributes | 
         }
 
         const users = await User.findAll({
+            include: [
+                {
+                    model: Order,
+                    attributes: ['id', 'status'],
+                },
+            ],
             where,
             order: [['username', 'ASC']],
         });

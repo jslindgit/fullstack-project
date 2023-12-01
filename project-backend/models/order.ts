@@ -1,4 +1,6 @@
-import { Model, DataTypes, Optional } from 'sequelize';
+import { BelongsToGetAssociationMixin, DataTypes, Model, Optional } from 'sequelize';
+
+import User, { UserInstance } from './user';
 
 import { isNumber, isString } from '../types/type_functions';
 import { sequelize } from '../util/db';
@@ -23,6 +25,7 @@ export interface OrderAttributes {
     status: string;
     statusForAdmin: string;
     totalAmount: number;
+    userId?: number;
 }
 
 export type NewOrder = Omit<Omit<OrderAttributes, 'id'>, 'paymentMethod'>;
@@ -30,9 +33,12 @@ export type NewOrder = Omit<Omit<OrderAttributes, 'id'>, 'paymentMethod'>;
 interface OrderCreationAttributes extends Optional<OrderAttributes, 'id'> {
     customerOrganization?: string;
     paymentMethod?: string;
+    userId?: number;
 }
 
-export interface OrderInstance extends Model<OrderAttributes, OrderCreationAttributes>, OrderAttributes {}
+export interface OrderInstance extends Model<OrderAttributes, OrderCreationAttributes>, OrderAttributes {
+    getUser: BelongsToGetAssociationMixin<UserInstance>;
+}
 
 const Order = sequelize.define<OrderInstance>(
     'order',
@@ -117,6 +123,10 @@ const Order = sequelize.define<OrderInstance>(
             type: DataTypes.DECIMAL,
             allowNull: false,
         },
+        userId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
     },
     {
         underscored: true,
@@ -170,3 +180,7 @@ export const isNewOrder = (obj: unknown): obj is NewOrder => {
 };
 
 export default Order;
+
+export const associate = () => {
+    Order.belongsTo(User);
+};

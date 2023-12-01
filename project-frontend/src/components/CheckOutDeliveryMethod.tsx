@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { ContentID } from '../content';
 import { DeliveryMethod, DeliveryCode, PostiLocation } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
@@ -20,7 +21,7 @@ interface SelectProps {
 const PickupLocationSelection = ({ currentMethod, customerZipCode, thisMethod, selectedLocation, setDeliveryMethod, setSelectedLocation }: SelectProps) => {
     const [locations, setLocations] = useState<PostiLocation[]>([]);
 
-    const zipCode = useField('text', customerZipCode);
+    const zipCode = useField('text', ContentID.checkOutZipCode, customerZipCode);
 
     useEffect(() => {
         if (zipCode.value.toString().length > 4) {
@@ -92,7 +93,9 @@ interface MethodProps {
 }
 
 const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDeliveryMethod }: MethodProps) => {
-    const [selectedLocation, setSelectedLocation] = useState<string>(currentMethod && currentMethod.notes && currentMethod.notes.length > 0 ? currentMethod.notes : '');
+    const [selectedLocation, setSelectedLocation] = useState<string>(
+        currentMethod && currentMethod.notes && currentMethod.notes.length > 0 ? currentMethod.notes : ''
+    );
 
     const configState = useSelector((state: RootState) => state.config);
 
@@ -101,7 +104,11 @@ const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDel
     };
 
     return (
-        <table width='100%' className={'deliveryMethod' + (currentMethod && currentMethod.code === method.code ? ' deliveryMethodSelected' : '')} onClick={() => handleClick()}>
+        <table
+            width='100%'
+            className={'deliveryMethod' + (currentMethod && currentMethod.code === method.code ? ' deliveryMethodSelected' : '')}
+            onClick={() => handleClick()}
+        >
             <tbody>
                 <tr>
                     <td>

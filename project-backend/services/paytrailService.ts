@@ -100,7 +100,10 @@ const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => 
             message:
                 'Error occurred' +
                 (error instanceof Error
-                    ? ': ' + (axios.isAxiosError(error) && error.response && isObject(error.response.data) && 'message' in error.response.data ? error.response.data.message : error.message)
+                    ? ': ' +
+                      (axios.isAxiosError(error) && error.response && isObject(error.response.data) && 'message' in error.response.data
+                          ? error.response.data.message
+                          : error.message)
                     : ''),
         };
     }
@@ -196,7 +199,10 @@ const testPaymentRequest = async (): Promise<PaytrailResponse> => {
             message:
                 'Error occurred' +
                 (error instanceof Error
-                    ? ': ' + (axios.isAxiosError(error) && error.response && isObject(error.response.data) && 'message' in error.response.data ? error.response.data.message : error.message)
+                    ? ': ' +
+                      (axios.isAxiosError(error) && error.response && isObject(error.response.data) && 'message' in error.response.data
+                          ? error.response.data.message
+                          : error.message)
                     : ''),
         };
     }

@@ -52,7 +52,17 @@ const CheckOut = () => {
         }
     };
 
-    const setCustomerInfo = (address: string, city: string, country: string, email: string, firstName: string, lastName: string, organization: string, phone: string, zipCode: string) => {
+    const setCustomerInfo = (
+        address: string,
+        city: string,
+        country: string,
+        email: string,
+        firstName: string,
+        lastName: string,
+        organization: string,
+        phone: string,
+        zipCode: string
+    ) => {
         setOrder({
             ...order,
             customerAddress: address,
@@ -141,7 +151,13 @@ const CheckOut = () => {
                                 ) : (
                                     ''
                                 )}
-                                <button type='button' className='large' onClick={handlePaymentClick} disabled={validationErrors.length > 0} style={{ width: '100%', marginTop: '1rem' }}>
+                                <button
+                                    type='button'
+                                    className='large'
+                                    onClick={handlePaymentClick}
+                                    disabled={validationErrors.length > 0}
+                                    style={{ width: '100%', marginTop: '1rem' }}
+                                >
                                     {contentToText(ContentID.checkOutChoosePaymentMethod, config)} →
                                 </button>
                             </div>

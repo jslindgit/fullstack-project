@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 import { NewOrder, Order, PaytrailData, PaytrailProvider } from '../types/orderTypes';
 
@@ -117,7 +118,10 @@ const CheckOutPayment = () => {
                                                                 <img src='https://www.helsinginlipputehdas.fi/verkkokauppa/paytrail-logo-70px.png' />
                                                             </a>
                                                         </td>
-                                                        <td className='upperCase sizeSmallish' style={{ lineHeight: '1.5rem', textAlign: 'right', verticalAlign: 'top' }}>
+                                                        <td
+                                                            className='upperCase sizeSmallish'
+                                                            style={{ lineHeight: '1.5rem', textAlign: 'right', verticalAlign: 'top' }}
+                                                        >
                                                             <a href='https://www.paytrail.com/turvallisuus' target='_blank'>
                                                                 Safety Information
                                                             </a>
@@ -196,7 +200,7 @@ const CheckOutPayment = () => {
                 <tbody>
                     <tr>
                         <td>
-                            <BackButton label='Abort payment' type='text' to='/checkout' />
+                            <BackButton labelContentID={ContentID.checkOutAbortPayment} type='text' to='/checkout' />
                         </td>
                     </tr>
                 </tbody>

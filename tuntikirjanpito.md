@@ -95,4 +95,5 @@
 |        | 1    | Käyttäjät-sivu Hallintapaneeliin                                                                                     |     |
 | 30.11. | 1    | Käyttäjätili-sivun refactorointia, Hallintapaneeliin "Käyttäjän tiedot" -sivu,                                       |     |
 |        | 1    | Käyttäjähallinnan työstöä                                                                                            |     |
-|  yht   | 176  |                                                                                                                      |     |
+| 1.12.  | 1    | One-to-many yhteys käyttäjien ja tilausten välille                                                                   |     |
+|  yht   | 177  |                                                                                                                      |     |

@@ -61,6 +61,7 @@ export enum ContentID {
     cartSubtotal = 'SHOPPING CART: Subtotal',
     cartTotalPrice = 'SHOPPING CART: Total price',
     cartUnitPrice = 'SHOPPING CART: Unit price',
+    checkOutAbortPayment = 'CHECK OUT: Abort Payment (button)',
     checkOutChooseDeliveryMethod = 'CHECK OUT: Choose Delivery Method (header)',
     checkOutChoosePaymentMethod = 'CHECK OUT: Choose Payment Methdod (button)',
     checkOutCity = 'CHECK OUT: City',
@@ -562,6 +563,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Unit price' },
             { langCode: LangCode.FI, text: 'Hinta/kpl' },
+        ],
+    },
+    {
+        id: ContentID.checkOutAbortPayment,
+        content: [
+            { langCode: LangCode.EN, text: 'Abort Payment' },
+            { langCode: LangCode.FI, text: 'Keskeytä maksaminen' },
         ],
     },
     {

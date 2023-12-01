@@ -38,6 +38,7 @@ export interface Order {
     status: OrderStatus;
     statusForAdmin: OrderStatusForAdmin;
     totalAmount: number;
+    userId?: number;
 }
 export type NewOrder = Omit<Omit<Omit<Order, 'id'>, 'createdAt'>, 'totalAmount'>;
 
