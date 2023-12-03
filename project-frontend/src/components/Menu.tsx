@@ -7,8 +7,8 @@ import { RootState } from '../reducers/rootReducer';
 import loginService from '../services/loginService';
 
 import { contentToText } from '../types/languageFunctions';
-import { removeLoggedUser } from '../reducers/usersReducer';
 import { setNotification } from '../reducers/miscReducer';
+import { removeLoggedUser } from '../reducers/userReducer';
 
 import LanguageSelection from './LanguageSelection';
 import { Link } from './CustomLink';
@@ -18,7 +18,7 @@ const Menu = () => {
     const dispatch = useDispatch();
     const configState = useSelector((state: RootState) => state.config);
     const shoppingCartState = useSelector((state: RootState) => state.shoppingCart);
-    const usersState = useSelector((state: RootState) => state.users);
+    const usersState = useSelector((state: RootState) => state.user);
 
     const currentPath = useLocation().pathname;
 

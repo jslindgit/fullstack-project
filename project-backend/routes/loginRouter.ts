@@ -4,7 +4,7 @@ import { RequestHandler } from 'express';
 import { errorHandler } from '../middlewares/errors';
 import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
 import { tokenExtractor } from '../middlewares/tokenExtractor';
-import { isBoolean, isObject, isString, toCredentials } from '../types/type_functions';
+import { isObject, isString, toCredentials } from '../types/type_functions';
 import loginService, { ChangePasswordResult, LoginError, LogoutResult } from '../services/loginService';
 import service from '../services/loginService';
 
@@ -59,22 +59,7 @@ router.post('/', apiKeyExtractor, (async (req, res, next) => {
                     return;
             }
 
-            if (
-                isObject(response) &&
-                'token' in response &&
-                isString(response.token) &&
-                'username' in response &&
-                isString(response.username) &&
-                'admin' in response &&
-                isBoolean(response.admin)
-            ) {
-                res.status(200).send({
-                    response,
-                });
-                return;
-            }
-
-            res.status(400).json({ error: 'Something went wrong' });
+            res.status(200).send({ response });
         } else {
             res.status(403).json({ error: 'Access denied' });
         }

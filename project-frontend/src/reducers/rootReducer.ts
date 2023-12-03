@@ -4,14 +4,14 @@ import categoryReducer, { CategoryState } from './categoryReducer';
 import configReducer, { ConfigState } from './configReducer';
 import miscReducer, { MiscState } from './miscReducer';
 import shoppingCartReducer, { ShoppingCartState } from './shoppingCartReducer';
-import usersReducer, { UsersState } from './usersReducer';
+import userReducer, { UserState } from './userReducer';
 
 export interface RootState {
     categories: CategoryState;
     config: ConfigState;
     misc: MiscState;
     shoppingCart: ShoppingCartState;
-    users: UsersState;
+    user: UserState;
 }
 
 const rootReducer = combineReducers({
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
     config: configReducer,
     misc: miscReducer,
     shoppingCart: shoppingCartReducer,
-    users: usersReducer,
+    user: userReducer,
 });
 
 export default rootReducer;

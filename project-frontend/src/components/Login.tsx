@@ -11,7 +11,7 @@ import loginService from '../services/loginService';
 import useField from '../hooks/useField';
 
 import { setNotification } from '../reducers/miscReducer';
-import { removeLoggedUser, setLoggedUser } from '../reducers/usersReducer';
+import { removeLoggedUser, setLoggedUser } from '../reducers/userReducer';
 
 import InputField from './InputField';
 import { Link } from './CustomLink';
@@ -19,10 +19,10 @@ import { Link } from './CustomLink';
 const Login = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
-    const usersState = useSelector((state: RootState) => state.users);
+    const usersState = useSelector((state: RootState) => state.user);
 
-    const username = useField('text');
-    const password = useField('password');
+    const username = useField('text', ContentID.loginUsername);
+    const password = useField('password', ContentID.loginPassword);
 
     const navigate = useNavigate();
 
@@ -45,13 +45,13 @@ const Login = () => {
                             </td>
                         </tr>
                         <tr>
-                            <td className='semiBold widthByContent'>{contentToText(ContentID.loginUsername, config)}:</td>
+                            <td className='semiBold widthByContent'>{contentToText(username.label, config)}:</td>
                             <td>
                                 <InputField useField={username} width='20rem' />
                             </td>
                         </tr>
                         <tr>
-                            <td className='semiBold'>{contentToText(ContentID.loginPassword, config)}:</td>
+                            <td className='semiBold'>{contentToText(password.label, config)}:</td>
                             <td>
                                 <InputField useField={password} width='20rem' />
                             </td>

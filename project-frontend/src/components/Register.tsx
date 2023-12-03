@@ -15,14 +15,14 @@ import { isValidEmailAddress, isValidPassword } from '../util/misc';
 import userService from '../services/userService';
 
 import { setNotification } from '../reducers/miscReducer';
-import { setLoggedUser } from '../reducers/usersReducer';
+import { setLoggedUser } from '../reducers/userReducer';
 
 import BackButton from './BackButton';
 
 const Register = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
-    const usersState = useSelector((state: RootState) => state.users);
+    const usersState = useSelector((state: RootState) => state.user);
 
     const [availableCountries, setAvailableCountries] = useState<string[]>([]);
     const [country, setCountry] = useState<string | null>(null);
@@ -84,6 +84,7 @@ const Register = () => {
                 contactOrganization: organization.stringValue(),
                 disabled: false,
                 username: email.stringValue(),
+                orders: [],
                 password: password.stringValue(),
             };
 

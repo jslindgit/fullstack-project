@@ -17,7 +17,7 @@ import UserOrderHistory from './UserOrderHistory';
 const UserPanel = () => {
     const config = useSelector((state: RootState) => state.config);
     const miscState = useSelector((state: RootState) => state.misc);
-    const usersState = useSelector((state: RootState) => state.users);
+    const usersState = useSelector((state: RootState) => state.user);
 
     const [user, setUser] = useState<User | null>(null);
 

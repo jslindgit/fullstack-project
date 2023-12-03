@@ -1,5 +1,5 @@
-import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Dispatch } from 'react';
+import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Category } from '../types/types';
 export type CategoryState = Category[];

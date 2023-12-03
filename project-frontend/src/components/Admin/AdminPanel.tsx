@@ -19,7 +19,7 @@ import BackButton from '../BackButton';
 
 const AdminPanel = () => {
     const config = useSelector((state: RootState) => state.config);
-    const usersState = useSelector((state: RootState) => state.users);
+    const usersState = useSelector((state: RootState) => state.user);
 
     const page = useParams().page;
 

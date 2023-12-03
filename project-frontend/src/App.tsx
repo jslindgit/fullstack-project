@@ -1,5 +1,4 @@
 // Libraries:
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -7,19 +6,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Types:
 import { ContentID } from './content';
 import { RootState } from './reducers/rootReducer';
-import { User } from './types/types';
 
 // Functions/values:
-import { apiBaseUrl } from './constants';
 import { contentToText } from './types/languageFunctions';
-import localstorage_handler from './util/localstorageHandler';
-import userService from './services/userService';
 
 // Reducers:
 import { initializeCategories } from './reducers/categoryReducer';
 import { setLoaded } from './reducers/miscReducer';
-import { loadShoppingCartFromLocalStorage } from './reducers/shoppingCartReducer';
-import { removeLoggedUser, setLoggedUser } from './reducers/usersReducer';
+import { initializeShoppingCart } from './reducers/shoppingCartReducer';
+import { initializeLoggedUser } from './reducers/userReducer';
 
 // Components:
 import AdminCategoryEdit from './components/Admin/AdminCategoryEdit';
@@ -48,48 +43,23 @@ const App = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const miscState = useSelector((state: RootState) => state.misc);
-    const usersState = useSelector((state: RootState) => state.users);
+    const userState = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
         dispatch(setLoaded(false));
 
-        dispatch(loadShoppingCartFromLocalStorage());
-
-        void axios.get(`${apiBaseUrl}/ping`);
-
         const fetchData = async () => {
-            await initializeCategories(dispatch);
+            initializeShoppingCart(dispatch);
+            Promise.all([initializeLoggedUser(dispatch), initializeCategories(dispatch)]);
+
+            dispatch(setLoaded(true));
         };
 
-        const setUser = async () => {
-            const token = localstorage_handler.getToken();
-            let loggedUser: User | undefined = undefined;
-            if (token) {
-                loggedUser = await userService.getByToken(token);
-            }
-            if (loggedUser) {
-                dispatch(setLoggedUser(loggedUser));
-            } else {
-                dispatch(removeLoggedUser());
-                localstorage_handler.removeToken();
-            }
-        };
-
-        fetchData().then(() => {
-            setUser()
-                .then(() => {
-                    dispatch(setLoaded(true));
-                })
-                .catch(() => {
-                    dispatch(removeLoggedUser());
-                    localstorage_handler.removeToken();
-                    dispatch(setLoaded(true));
-                });
-        });
+        fetchData();
     }, [dispatch]);
 
     const adminPage = (page: JSX.Element): JSX.Element => {
-        if (usersState.loggedUser?.admin) {
+        if (userState.loggedUser?.admin) {
             return page;
         } else {
             return <Error404 />;

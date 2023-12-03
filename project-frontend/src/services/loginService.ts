@@ -8,7 +8,6 @@ import { LoginResponse, Response, User } from '../types/types';
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
 import { contentToText } from '../types/languageFunctions';
-import localstorage_handler from '../util/localstorageHandler';
 import { apiKeyConfig } from '../util/serviceProvider';
 
 const url = apiBaseUrl + '/login';
@@ -36,7 +35,6 @@ const login = async (username: string, password: string, setLoggedUser: (loggedU
         const res = await axios.post(url, { username: username, password: password }, apiKeyConfig());
 
         if (res.status === 200 && isUser(res.data.response)) {
-            localstorage_handler.setToken(res.data.response.token);
             setLoggedUser(res.data.response);
             return { success: true, message: contentToText(ContentID.loginLoggedInAs, config) + res.data.response.username };
         } else {
@@ -52,7 +50,7 @@ const login = async (username: string, password: string, setLoggedUser: (loggedU
 };
 
 const logout = async (token: string, removeLoggedUser: () => void) => {
-    localstorage_handler.removeToken();
+    //localstorage_handler.removeToken();
     removeLoggedUser();
 
     try {

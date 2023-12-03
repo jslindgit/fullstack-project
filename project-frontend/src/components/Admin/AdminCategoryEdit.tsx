@@ -21,7 +21,7 @@ import BackButton from '../BackButton';
 const AdminCategoryEdit = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
-    const usersState = useSelector((state: RootState) => state.users);
+    const usersState = useSelector((state: RootState) => state.user);
 
     const [category, setCategory] = useState<Category | undefined>();
     const [loading, setLoading] = useState<string>('Loading...');

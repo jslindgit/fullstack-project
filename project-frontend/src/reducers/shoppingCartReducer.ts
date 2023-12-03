@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Dispatch } from 'react';
+import { AnyAction, createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 
 import { ShoppingItem } from '../types/orderTypes';
 
@@ -24,23 +25,16 @@ const slice = createSlice({
     initialState,
     reducers: {
         addItemToShoppingCart(state: ShoppingCartState, action: PayloadAction<ShoppingItem>) {
-            const existingItem = state.shoppingItems.find((si) => si.id === action.payload.id && si.price === action.payload.price);
+            const existingItem = current(state).shoppingItems.find((si) => si.id === action.payload.id);
             if (existingItem) {
-                existingItem.quantity += action.payload.quantity;
+                const updatedShoppingItems = current(state).shoppingItems.filter((item) => item !== existingItem);
+                updatedShoppingItems.push({ ...existingItem, quantity: existingItem.quantity + action.payload.quantity });
+                state.shoppingItems = updatedShoppingItems;
             } else {
                 state.shoppingItems.push(action.payload);
             }
 
             saveToLocalStorage(state);
-        },
-        loadShoppingCartFromLocalStorage(state: ShoppingCartState, _action: PayloadAction) {
-            const storedShoppingCartString = localStorage.getItem('shoppingCart');
-            if (storedShoppingCartString) {
-                const storedShoppingCart: Array<ShoppingItem> = JSON.parse(storedShoppingCartString);
-                state.shoppingItems = storedShoppingCart;
-            } else {
-                state.shoppingItems = [];
-            }
         },
         removeAllFromShoppingCart(state: ShoppingCartState, _action: PayloadAction) {
             state.shoppingItems = [];
@@ -48,10 +42,13 @@ const slice = createSlice({
             saveToLocalStorage(state);
         },
         removeItemFromShoppingCart(state: ShoppingCartState, action: PayloadAction<ShoppingItem>) {
-            const index = state.shoppingItems.indexOf(action.payload);
-            if (index >= 0) {
-                state.shoppingItems.splice(index, 1);
-            }
+            const updatedShoppingItems = current(state).shoppingItems.filter((item) => item !== action.payload);
+            state.shoppingItems = updatedShoppingItems;
+
+            saveToLocalStorage(state);
+        },
+        setShoppingCart(state: ShoppingCartState, action: PayloadAction<ShoppingItem[]>) {
+            state.shoppingItems = action.payload;
 
             saveToLocalStorage(state);
         },
@@ -63,11 +60,16 @@ const slice = createSlice({
     },
 });
 
-export const {
-    addItemToShoppingCart,
-    loadShoppingCartFromLocalStorage,
-    removeAllFromShoppingCart,
-    removeItemFromShoppingCart,
-    updateShoppingCartItemQuantity,
-} = slice.actions;
+export const initializeShoppingCart = (dispatch: Dispatch<AnyAction>) => {
+    const storedShoppingCartString = localStorage.getItem('shoppingCart');
+
+    if (storedShoppingCartString) {
+        const storedShoppingCart: Array<ShoppingItem> = JSON.parse(storedShoppingCartString);
+        dispatch(setShoppingCart(storedShoppingCart));
+    } else {
+        dispatch(removeAllFromShoppingCart());
+    }
+};
+
+export const { addItemToShoppingCart, removeAllFromShoppingCart, removeItemFromShoppingCart, setShoppingCart, updateShoppingCartItemQuantity } = slice.actions;
 export default slice.reducer;

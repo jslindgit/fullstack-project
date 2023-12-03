@@ -3,12 +3,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../content';
-import { DeliveryMethod, NewOrder, Order, ShoppingItem } from '../types/orderTypes';
+import { DeliveryMethod, NewOrder, Order } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
 import { pageWidth } from '../constants';
 import { contentToText } from '../types/languageFunctions';
-import localstorageHandler from '../util/localstorageHandler';
 import orderHandler from '../util/orderHandler';
 import { getEmptyOrder, validateOrder } from '../types/orderTypeFunctions';
 
@@ -19,6 +18,7 @@ import OrderInfo from './OrderInfo';
 
 const CheckOut = () => {
     const config = useSelector((state: RootState) => state.config);
+    const shoppingCartState = useSelector((state: RootState) => state.shoppingCart);
 
     const fetchOrder = (): Order | NewOrder => {
         const storedOrder = orderHandler.getOrder();
@@ -28,16 +28,11 @@ const CheckOut = () => {
         return getEmptyOrder();
     };
 
-    const [shoppingItems, setShoppingItems] = useState<ShoppingItem[]>([]);
     const [order, setOrder] = useState<NewOrder | Order>(fetchOrder());
     const [validate, setValidate] = useState<boolean>(false);
     const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
     const navigate = useNavigate();
-
-    const fetch = async () => {
-        setShoppingItems(localstorageHandler.getShoppingCart());
-    };
 
     const handlePaymentClick = () => {
         setValidate(true);
@@ -81,16 +76,12 @@ const CheckOut = () => {
     };
 
     useEffect(() => {
-        fetch();
-    }, []);
-
-    useEffect(() => {
         setOrder({ ...order, deliveryCost: order.deliveryMethod ? order.deliveryMethod.cost : 0 });
     }, [order.deliveryMethod]);
 
     useEffect(() => {
-        setOrder({ ...order, items: shoppingItems });
-    }, [shoppingItems]);
+        setOrder({ ...order, items: shoppingCartState.shoppingItems });
+    }, [shoppingCartState.shoppingItems]);
 
     useEffect(() => {
         orderHandler.setOrder(order);

@@ -17,7 +17,7 @@ import AdminImageCategory from './AdminImageCategory';
 const AdminImages = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
-    const usersState = useSelector((state: RootState) => state.users);
+    const usersState = useSelector((state: RootState) => state.user);
 
     const [imageCategory, setImageCategory] = useState<string>(imageCategories[0]);
     const [images, setImages] = useState<ImageCategory[]>([]);

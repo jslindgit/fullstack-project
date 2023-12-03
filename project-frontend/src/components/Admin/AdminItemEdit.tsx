@@ -25,7 +25,7 @@ const AdminItemEdit = () => {
     const dispatch = useDispatch();
     const categoriesState = useSelector((state: RootState) => state.categories);
     const config = useSelector((state: RootState) => state.config);
-    const usersState = useSelector((state: RootState) => state.users);
+    const usersState = useSelector((state: RootState) => state.user);
 
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [images, setImages] = useState<string[]>([]);
@@ -38,9 +38,9 @@ const AdminItemEdit = () => {
     const [categoriesChanged, setCategoriesChanged] = useState<boolean>(false);
 
     const descriptionFields = useLangTextAreas();
-    const instock = useField('integer');
+    const instock = useField('integer', ContentID.itemsInStock);
     const nameFields = useLangFields('text');
-    const price = useField('decimal');
+    const price = useField('decimal', ContentID.itemsPrice);
 
     const id = Number(useParams().id);
 
@@ -331,13 +331,13 @@ const AdminItemEdit = () => {
                                     {descriptionFields.map((nf) => getTextArea(nf.langCode.toString(), nf.textArea))}
                                     <tr>
                                         <td colSpan={2} className='adminItemEditLabel'>
-                                            {contentToText(ContentID.itemsPrice, config)}:
+                                            {contentToText(price.label, config)}:
                                         </td>
                                     </tr>
                                     {getInputField(config.currency, price, '33%')}
                                     <tr>
                                         <td colSpan={2} className='adminItemEditLabel'>
-                                            {contentToText(ContentID.itemsInStock, config)}:
+                                            {contentToText(instock.label, config)}:
                                         </td>
                                     </tr>
                                     {getInputField(contentToText(ContentID.itemsPcs, config), instock, '33%')}

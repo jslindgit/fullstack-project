@@ -18,7 +18,7 @@ const AdminCategories = () => {
     const dispatch = useDispatch();
     const categoryState = useSelector((state: RootState) => state.categories);
     const config = useSelector((state: RootState) => state.config);
-    const usersState = useSelector((state: RootState) => state.users);
+    const usersState = useSelector((state: RootState) => state.user);
 
     if (!usersState.loggedUser?.admin) {
         return <>Error: 403</>;

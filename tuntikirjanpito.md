@@ -97,4 +97,5 @@
 |        | 1    | Käyttäjähallinnan työstöä                                                                                            |     |
 | 1.12.  | 1    | One-to-many yhteys käyttäjien ja tilausten välille                                                                   |     |
 | 3.12.  | 2    | Käyttäjien ja tilausten yhteys valmiiksi. Parempi tilanhallinta ostoskorille.                                        |     |
-|  yht   | 179  |                                                                                                                      |     |
+|        | 1    | Parempi tilanhallinta sisäänkirjautumiselle. Refactorointia.                                                         | 180 |
+|  yht   | 180  |                                                                                                                      |     |

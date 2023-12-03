@@ -20,7 +20,7 @@ import UserOrderHistory from '../UserOrderHistory';
 const AdminUserInfo = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
-    const usersState = useSelector((state: RootState) => state.users);
+    const usersState = useSelector((state: RootState) => state.user);
 
     const [fetched, setFetched] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);

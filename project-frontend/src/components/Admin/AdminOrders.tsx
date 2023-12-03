@@ -20,7 +20,7 @@ const AdminOrders = () => {
 
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
-    const usersState = useSelector((state: RootState) => state.users);
+    const usersState = useSelector((state: RootState) => state.user);
 
     const fetch = async () => {
         const data = await orderService.getAll();
