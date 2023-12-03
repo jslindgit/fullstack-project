@@ -4,11 +4,10 @@ import { ContentID } from '../content';
 import { Order, NewOrder } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
-import { contentToText } from '../types/languageFunctions';
-import format from '../util/format';
-import { langTextsToText } from '../types/languageFunctions';
 import { orderTotalSum } from '../util/checkoutProvider';
-import { printOrderStatus } from '../types/orderTypeFunctions';
+import format from '../util/format';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
+import { getOrderStatus } from '../types/orderTypeFunctions';
 
 interface Props {
     order: Order | NewOrder;
@@ -48,7 +47,7 @@ const OrderInfo = ({ order }: Props) => {
                                         <td className='adminItemEditLabel'>{contentToText(ContentID.orderStatus, config)}:</td>
                                     </tr>
                                     <tr>
-                                        <td>{printOrderStatus(order.status, config)}</td>
+                                        <td>{getOrderStatus(order.status, config)}</td>
                                     </tr>
                                     <tr>
                                         <td className='adminItemEditLabel'>{contentToText(ContentID.orderCustomer, config)}:</td>

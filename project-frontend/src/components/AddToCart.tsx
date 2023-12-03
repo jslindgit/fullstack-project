@@ -1,13 +1,14 @@
 import { useDispatch } from 'react-redux';
 
 import { Config } from '../types/configTypes';
-import { Item } from '../types/types';
 import { ContentID } from '../content';
+import { ShoppingItem } from '../types/orderTypes';
+import { Item } from '../types/types';
 
-import { refreshShoppingCartItemCount, setNotification } from '../reducers/miscReducer';
+import { setNotification } from '../reducers/miscReducer';
+import { addItemToShoppingCart } from '../reducers/shoppingCartReducer';
 
-import { contentToText } from '../types/languageFunctions';
-import localstorageHandler from '../util/localstorageHandler';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
 import useField from '../hooks/useField';
 
 interface Props {
@@ -18,31 +19,31 @@ interface Props {
 const AddToCart = ({ config, item }: Props) => {
     const dispatch = useDispatch();
 
-    const amount = useField('integer', '1');
+    const amount = useField('integer', ContentID.itemsAmount, '1');
 
     const adjustAmount = (adjustment: number) => {
         amount.setNewValue(Math.max(0, Math.min(Number(amount.value) + adjustment, 1000)).toString());
     };
 
     const handleAddToShoppingCart = (item: Item) => {
-        localstorageHandler.addToShoppingCart(item, Number(amount.value));
+        const shoppingItem: ShoppingItem = { id: item.id, name: langTextsToText(item.name, config), price: item.price, quantity: Number(amount.value) };
+        dispatch(addItemToShoppingCart(shoppingItem));
 
-        dispatch(refreshShoppingCartItemCount());
         dispatch(
             setNotification({
                 tone: 'Positive',
-                message: `${amount.value} x ${item.name} added to shopping cart.`,
+                message: `${amount.value} x ${langTextsToText(item.name, config)} added to shopping cart.`,
                 linkText: 'shopping cart',
                 linkTo: '/cart',
             })
         );
 
-        amount.setNewValue('0');
+        amount.setNewValue('1');
     };
 
     return (
         <div>
-            <b>{contentToText(ContentID.itemsAmount, config)}:</b>
+            <b>{contentToText(amount.label, config)}:</b>
             <br />
             <table className='noPadding'>
                 <tbody>

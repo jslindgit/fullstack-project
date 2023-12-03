@@ -5,16 +5,16 @@
     padding-top: 0;
 }
 .menu td {
-    padding: 0px;
+    padding: 0;
     padding-top: 0;
 }
 
 .menuLink {
     color: var(--colorWhite);
-    padding-top: 20px !important;
-    padding-bottom: 22px !important;
-    padding-left: 30px !important;
-    padding-right: 30px !important;
+    padding-top: 1em !important;
+    padding-bottom: 1.1em !important;
+    padding-left: 1.5em !important;
+    padding-right: 1.5em !important;
     text-wrap: nowrap;
     transition: color 0.25s, background-color 0.25s;
 }
@@ -30,8 +30,8 @@
     transition: color 0s, background-color 0s;
 }
 .menuLinkSmall {
-    padding-top: 10px !important;
-    padding-bottom: 11px !important;
+    padding-top: 0.5em !important;
+    padding-bottom: 0.5em !important;
 }
 
 /* Categories ("frontpage" of /shop/) */

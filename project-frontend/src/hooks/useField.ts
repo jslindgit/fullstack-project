@@ -29,11 +29,7 @@ const convertInput = (input: string, type: string): string => {
     }
 };
 
-const useField = (
-    type: 'text' | 'integer' | 'decimal' | 'password',
-    label: ContentID = ContentID._NONE,
-    initialValue: string | undefined = undefined
-): UseField => {
+const useField = (type: 'text' | 'integer' | 'decimal' | 'password', fieldLabel: ContentID | null, initialValue: string | undefined = undefined): UseField => {
     const initValue = (): string | number => {
         if (initialValue) {
             return convertInput(initialValue, type);
@@ -64,7 +60,7 @@ const useField = (
 
     return {
         anyChanges,
-        label,
+        label: fieldLabel ? fieldLabel : ContentID._NONE,
         onChange,
         reset,
         setNewValue,

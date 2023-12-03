@@ -1,21 +1,24 @@
 // Libraries:
-import { useEffect } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Types:
+import { ContentID } from './content';
 import { RootState } from './reducers/rootReducer';
 import { User } from './types/types';
 
 // Functions/values:
 import { apiBaseUrl } from './constants';
+import { contentToText } from './types/languageFunctions';
 import localstorage_handler from './util/localstorageHandler';
 import userService from './services/userService';
 
 // Reducers:
 import { initializeCategories } from './reducers/categoryReducer';
-import { refreshShoppingCartItemCount, setLoaded } from './reducers/miscReducer';
+import { setLoaded } from './reducers/miscReducer';
+import { loadShoppingCartFromLocalStorage } from './reducers/shoppingCartReducer';
 import { removeLoggedUser, setLoggedUser } from './reducers/usersReducer';
 
 // Components:
@@ -43,11 +46,14 @@ import './App.css';
 
 const App = () => {
     const dispatch = useDispatch();
+    const config = useSelector((state: RootState) => state.config);
     const miscState = useSelector((state: RootState) => state.misc);
     const usersState = useSelector((state: RootState) => state.users);
 
     useEffect(() => {
         dispatch(setLoaded(false));
+
+        dispatch(loadShoppingCartFromLocalStorage());
 
         void axios.get(`${apiBaseUrl}/ping`);
 
@@ -80,8 +86,6 @@ const App = () => {
                     dispatch(setLoaded(true));
                 });
         });
-
-        dispatch(refreshShoppingCartItemCount());
     }, [dispatch]);
 
     const adminPage = (page: JSX.Element): JSX.Element => {
@@ -94,9 +98,9 @@ const App = () => {
 
     if (!miscState.loaded) {
         return (
-            <div>
+            <div className='semiBold sizeLarge'>
                 <br />
-                Loading...
+                {contentToText(ContentID.miscLoading, config)}
             </div>
         );
     }

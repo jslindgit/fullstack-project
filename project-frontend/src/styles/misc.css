@@ -45,9 +45,12 @@
 }
 .infoBox td {
     padding-bottom: 0.3rem;
-    padding-right: 0;
     padding-top: 0.3rem;
 }
+.infoBox td:first-child {
+    padding-right: 0;
+}
+
 .infoHeader {
     color: var(--colorGrayDark);
     font-size: var(--fontSizeVeryLarge);
@@ -83,6 +86,17 @@
     color: white;
 }
 
+.orderHistoryHover {
+    border-radius: 1em;
+    outline: 2px dotted var(--colorGray);
+    transition: all 0.25s;
+}
+.orderHistoryNotHovered {
+    border-radius: 0;
+    outline: 2px dotted transparent;
+    transition: all 0.25s;
+}
+
 .orderItem {
     background-color: var(--colorGrayVeryLight);
     outline: 2px solid black;
@@ -93,4 +107,18 @@
     border-radius: 0 !important;
     border: 0.5rem solid var(--colorGrayLight);
     padding: 0.1rem;
+}
+
+.shoppingCartIndicator {
+    background-color: var(--colorGoldLight);
+    border-radius: 0.27rem;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding-bottom: 0.26rem !important;
+    padding-left: 0.52rem !important;
+    padding-right: 0.5rem !important;
+    padding-top: 0.2rem !important;
+    text-decoration: underline solid 10px black !important;
+    text-underline-offset: 1rem;
 }

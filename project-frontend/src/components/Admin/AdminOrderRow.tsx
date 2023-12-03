@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
 
+import { ContentID } from '../../content';
 import { Order, OrderStatusForAdmin } from '../../types/orderTypes';
 import { RootState } from '../../reducers/rootReducer';
 
 import format from '../../util/format';
-import { langTextsToText } from '../../types/languageFunctions';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
 interface Props {
     order: Order;
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const AdminOrderRow = ({ order, openedOrder, setOpenedOrder }: Props) => {
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
 
     const date = new Date(order.createdAt);
 
@@ -25,17 +26,17 @@ const AdminOrderRow = ({ order, openedOrder, setOpenedOrder }: Props) => {
             <td>
                 {order.customerFirstName} {order.customerLastName}
             </td>
-            <td>{format.currency(order.totalAmount, configState)}</td>
-            <td>{order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, configState) : ''}</td>
+            <td>{format.currency(order.totalAmount, config)}</td>
+            <td>{order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : ''}</td>
             <td>{order.statusForAdmin}</td>
             <td>
                 {isOpened ? (
                     <button type='button' onClick={() => setOpenedOrder(null)}>
-                        Close
+                        {contentToText(ContentID.buttonClose, config)}
                     </button>
                 ) : (
                     <button type='button' onClick={() => setOpenedOrder(order)}>
-                        Open
+                        {contentToText(ContentID.buttonOpen, config)}
                     </button>
                 )}
             </td>

@@ -53,7 +53,12 @@ export const isOrderOrNewOrder = (obj: unknown): obj is Order | NewOrder => {
 
 export const orderToRequestBody = (order: NewOrder | Order, config: Config): object => {
     // The delivery method needs to be added to the 'items' array for Paytrail, as the sum of the prices of items in the order must match the total sum of the order:
-    const deliveryItem: ShoppingItem = { id: 0, name: order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : 'Delivery', price: order.deliveryCost, quantity: 1 };
+    const deliveryItem: ShoppingItem = {
+        id: 0,
+        name: order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : 'Delivery',
+        price: order.deliveryCost,
+        quantity: 1,
+    };
 
     return {
         ...order,
@@ -85,7 +90,7 @@ export const orderFromResponseBody = (responseBody: unknown): Order => {
     };
 };
 
-export const printOrderStatus = (status: OrderStatus, config: Config): string => {
+export const getOrderStatus = (status: OrderStatus, config: Config): string => {
     switch (status) {
         case OrderStatus.CANCELLED:
             return contentToText(ContentID.statusCancelled, config);

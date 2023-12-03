@@ -1,46 +1,25 @@
-import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
-import { Item } from '../types/types';
-import { ShoppingItem } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
-import { refreshShoppingCartItemCount } from '../reducers/miscReducer';
+import { removeItemFromShoppingCart } from '../reducers/shoppingCartReducer';
 
-import { contentToText } from '../types/languageFunctions';
-import { fetchItems } from '../util/checkoutProvider';
-import localstorageHandler from '../util/localstorageHandler';
 import { pageWidth } from '../constants';
+import { contentToText } from '../types/languageFunctions';
 
 import BackButton from './BackButton';
 import { Link } from './CustomLink';
 import ShoppingCartContent from './ShoppingCartContent';
 
-export interface ItemPair {
-    shoppingItem: ShoppingItem;
-    item: Item;
-}
-
 const ShoppingCart = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
-
-    const [items, setItems] = useState<ItemPair[]>([]);
-
-    const fetch = async () => {
-        setItems(await fetchItems());
-    };
-
-    useEffect(() => {
-        fetch();
-    }, []);
+    const shoppingCartState = useSelector((state: RootState) => state.shoppingCart);
 
     const removeItem = (index: number) => {
-        if (window.confirm(`Remove ${items[index].item.name} from shopping cart?`)) {
-            localstorageHandler.removeItemFromShoppingCart(index);
-            fetch();
-            dispatch(refreshShoppingCartItemCount());
+        if (window.confirm(`Remove ${shoppingCartState.shoppingItems[index].name} from shopping cart?`)) {
+            dispatch(removeItemFromShoppingCart(shoppingCartState.shoppingItems[index]));
         }
     };
 
@@ -53,7 +32,7 @@ const ShoppingCart = () => {
                     </tr>
                 </tbody>
             </table>
-            <ShoppingCartContent allowEdit={true} fetchItems={fetch} items={items} removeItem={removeItem} width={pageWidth} />
+            <ShoppingCartContent allowEdit={true} shoppingItems={shoppingCartState.shoppingItems} removeItem={removeItem} width={pageWidth} />
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
@@ -61,7 +40,7 @@ const ShoppingCart = () => {
                             <BackButton type='text' />
                         </td>
                         <td style={{ paddingRight: 0, textAlign: 'right' }}>
-                            {items.length > 0 ? (
+                            {shoppingCartState.shoppingItems.length > 0 ? (
                                 <Link to='/checkout'>
                                     <button type='button' className='large'>
                                         {contentToText(ContentID.buttonCheckOut, config)} →

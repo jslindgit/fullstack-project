@@ -1,6 +1,4 @@
-import { Model, DataTypes, HasManyGetAssociationsMixin, Optional } from 'sequelize';
-
-import Order, { OrderInstance } from './order';
+import { Model, DataTypes, Optional } from 'sequelize';
 
 import { sequelize } from '../util/db';
 import { isBoolean, isObject, isString } from '../types/type_functions';
@@ -30,9 +28,7 @@ interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {
     token?: string;
 }
 
-export interface UserInstance extends Model<UserAttributes, UserCreationAttributes>, UserAttributes {
-    getOrders: HasManyGetAssociationsMixin<OrderInstance>;
-}
+export interface UserInstance extends Model<UserAttributes, UserCreationAttributes>, UserAttributes {}
 
 const User = sequelize.define<UserInstance>(
     'user',
@@ -155,7 +151,3 @@ export const toNewUser = (object: unknown): NewUser => {
 };
 
 export default User;
-
-export const associate = () => {
-    User.hasMany(Order);
-};

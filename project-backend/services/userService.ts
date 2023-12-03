@@ -59,7 +59,7 @@ const getAll = async (searchQuery: string = ''): Promise<Array<UserAttributes | 
             include: [
                 {
                     model: Order,
-                    attributes: ['id', 'status'],
+                    attributes: ['id', 'createdAt', 'items', 'status', 'totalAmount'],
                 },
             ],
             where,
@@ -73,9 +73,19 @@ const getAll = async (searchQuery: string = ''): Promise<Array<UserAttributes | 
     }
 };
 
+// prettier-ignore
 const getById = async (id: unknown): Promise<UserAttributes | null> => {
     try {
-        const user = isNumber(Number(id)) ? await User.findByPk(Number(id)) : null;
+        const user = isNumber(Number(id))
+            ? await User.findByPk(Number(id), {
+                include: [
+                    {
+                        model: Order,
+                        attributes: ['id', 'createdAt', 'items', 'status', 'totalAmount'],
+                    },
+                ],
+            })
+            : null;
         return removePasswordHash(user);
     } catch (err: unknown) {
         handleError(err);

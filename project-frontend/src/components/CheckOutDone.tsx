@@ -1,15 +1,19 @@
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
-import { useEffect, useState } from 'react';
-
+import { ContentID } from '../content';
 import { Order, OrderStatus } from '../types/orderTypes';
+import { RootState } from '../reducers/rootReducer';
 
 import { pageWidth } from '../constants';
+import { contentToText } from '../types/languageFunctions';
 //import orderHandler from '../util/orderHandler';
 import orderService from '../services/orderService';
 import paytrailService from '../services/paytrailService';
 
 import BackButton from './BackButton';
+import { Link } from './CustomLink';
 import OrderInfo from './OrderInfo';
 
 enum SignatureStatus {
@@ -19,6 +23,8 @@ enum SignatureStatus {
 }
 
 const CheckOutDone = () => {
+    const config = useSelector((state: RootState) => state.config);
+
     const [order, setOrder] = useState<Order | null>(null);
     const [signatureStatus, setSignatureStatus] = useState<SignatureStatus>(SignatureStatus.PENDING);
 
@@ -27,13 +33,17 @@ const CheckOutDone = () => {
     useEffect(() => {
         const fetchOrderFromServer = async () => {
             const orderId = searchparams.get('checkout-reference');
-            const orderResponse = orderId ? await orderService.getById(Number(orderId)) : null;
-            if (orderResponse && orderResponse.success && orderResponse.order) {
-                setOrder(orderResponse.order);
-                //orderHandler.setOrder(null);
-            } else {
-                setOrder(null);
+
+            let fetchedOrder: Order | null = null;
+            if (orderId) {
+                const fetchOrder = async () => {
+                    fetchedOrder = (await orderService.getById(Number(orderId))).order;
+                };
+                const fetchPromise = fetchOrder();
+                await Promise.resolve(fetchPromise);
             }
+
+            setOrder(fetchedOrder);
         };
 
         fetchOrderFromServer();
@@ -70,9 +80,15 @@ const CheckOutDone = () => {
 
     const signatureNotValid = (): JSX.Element => {
         if (signatureStatus === SignatureStatus.INVALID) {
-            return <>Error: Signature mismatch. Please contact support.</>;
+            return (
+                <>
+                    {contentToText(ContentID.checkOutSignatureMismatch, config)}
+                    &nbsp;
+                    <Link to='/info'>{contentToText(ContentID.menuInfo, config)}</Link>
+                </>
+            );
         } else {
-            return <>Loading...</>;
+            return <>{contentToText(ContentID.miscLoading, config)}</>;
         }
     };
 
@@ -97,8 +113,8 @@ const CheckOutDone = () => {
                                         <td>
                                             {signatureStatus === SignatureStatus.VALID ? (
                                                 <>
-                                                    <h2>Thank you!</h2>
-                                                    Your order has been received and is being processed for delivery.
+                                                    <h2>{contentToText(ContentID.checkOutThankYou, config)}</h2>
+                                                    {contentToText(ContentID.checkOutYourOrderHasBeenReceive, config)}
                                                 </>
                                             ) : (
                                                 <>{signatureNotValid()}</>
@@ -109,7 +125,7 @@ const CheckOutDone = () => {
                                         <td>
                                             <br />
                                             <br />
-                                            <BackButton label='Back to shop' type='text' to='/' />
+                                            <BackButton labelContentID={ContentID.checkOutBackToShop} type='text' to='/' />
                                         </td>
                                     </tr>
                                 </tbody>

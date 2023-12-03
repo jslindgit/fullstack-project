@@ -1,4 +1,5 @@
 import { LangText } from './languageTypes';
+import { Order } from './orderTypes';
 
 export interface Category {
     id: number;
@@ -64,6 +65,7 @@ export interface User {
     contactPhone: string;
     contactZipcode: string;
     disabled: boolean;
+    orders: Array<Order>;
     token: string;
     username: string;
 }

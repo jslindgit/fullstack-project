@@ -3,13 +3,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../content';
-import { DeliveryMethod, NewOrder, Order } from '../types/orderTypes';
-import { ItemPair } from './ShoppinCart';
+import { DeliveryMethod, NewOrder, Order, ShoppingItem } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
-import { contentToText } from '../types/languageFunctions';
-import { fetchItems } from '../util/checkoutProvider';
 import { pageWidth } from '../constants';
+import { contentToText } from '../types/languageFunctions';
+import localstorageHandler from '../util/localstorageHandler';
 import orderHandler from '../util/orderHandler';
 import { getEmptyOrder, validateOrder } from '../types/orderTypeFunctions';
 
@@ -29,7 +28,7 @@ const CheckOut = () => {
         return getEmptyOrder();
     };
 
-    const [items, setItems] = useState<ItemPair[]>([]);
+    const [shoppingItems, setShoppingItems] = useState<ShoppingItem[]>([]);
     const [order, setOrder] = useState<NewOrder | Order>(fetchOrder());
     const [validate, setValidate] = useState<boolean>(false);
     const [validationErrors, setValidationErrors] = useState<string[]>([]);
@@ -37,7 +36,7 @@ const CheckOut = () => {
     const navigate = useNavigate();
 
     const fetch = async () => {
-        setItems(await fetchItems());
+        setShoppingItems(localstorageHandler.getShoppingCart());
     };
 
     const handlePaymentClick = () => {
@@ -90,8 +89,8 @@ const CheckOut = () => {
     }, [order.deliveryMethod]);
 
     useEffect(() => {
-        setOrder({ ...order, items: items.map((item) => item.shoppingItem) });
-    }, [items]);
+        setOrder({ ...order, items: shoppingItems });
+    }, [shoppingItems]);
 
     useEffect(() => {
         orderHandler.setOrder(order);

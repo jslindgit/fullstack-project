@@ -1,51 +1,63 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
-import { Item } from '../types/types';
-import { RootState } from '../reducers/rootReducer';
 import { ShoppingItem } from '../types/orderTypes';
+import { RootState } from '../reducers/rootReducer';
+import { Item } from '../types/types';
 
-import { refreshShoppingCartItemCount } from '../reducers/miscReducer';
+import { updateShoppingCartItemQuantity } from '../reducers/shoppingCartReducer';
 
-import { contentToText, langTextsToText } from '../types/languageFunctions';
 import format from '../util/format';
+import itemService from '../services/itemService';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { imageFullPath } from '../util/misc';
-import localstorageHandler from '../util/localstorageHandler';
 import useField from '../hooks/useField';
 
 interface Props {
-    item: Item;
     shoppingItem: ShoppingItem;
     indexOf: number;
     removeItem: ((shoppingItem: number) => void) | null;
     allowEdit: boolean;
-    fetchItems: () => Promise<void>;
 }
 
-const ShoppingCartRow = ({ item, shoppingItem, indexOf, removeItem, allowEdit, fetchItems }: Props) => {
+const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props) => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
+    const shoppingCartState = useSelector((state: RootState) => state.shoppingCart);
 
-    const quantity = useField('integer', shoppingItem.quantity.toString());
+    const [item, setItem] = useState<Item | null>(null);
+
+    const quantity = useField('integer', null, shoppingItem.quantity.toString());
 
     useEffect(() => {
-        if (shoppingItem && shoppingItem.quantity && shoppingItem.quantity !== Number(quantity.value)) {
-            localstorageHandler.updateShoppingCartItemQuantity(indexOf, Number(quantity.value));
-            fetchItems();
-            dispatch(refreshShoppingCartItemCount());
-        }
-    }, [quantity, fetchItems, indexOf, shoppingItem, dispatch]);
+        const fetchItem = async () => {
+            setItem(await itemService.getById(shoppingItem.id));
+        };
 
-    const imagePath = item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
+        fetchItem();
+    }, [shoppingItem.id]);
+
+    useEffect(() => {
+        const quantityValue = Number(quantity.value);
+        if (shoppingItem.quantity !== quantityValue) {
+            if (quantityValue > 0 && quantityValue < 1000000) {
+                dispatch(updateShoppingCartItemQuantity({ itemIndex: shoppingCartState.shoppingItems.indexOf(shoppingItem), newQuantity: quantityValue }));
+            } else {
+                quantity.setNewValue(shoppingItem.quantity.toString());
+            }
+        }
+    }, [quantity, indexOf, shoppingItem, dispatch]);
+
+    const imagePath = item && item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
 
     return (
         <tr>
             <td width='1px'>
                 <img src={imageFullPath(imagePath)} className='imgShoppingCart' />
             </td>
-            <td>{langTextsToText(item.name, config)}</td>
-            <td>{format.currency(item.price, config)}</td>
+            <td>{item ? langTextsToText(item.name, config) : shoppingItem.name}</td>
+            <td>{format.currency(shoppingItem.price, config)}</td>
             <td>
                 {allowEdit ? (
                     <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
@@ -53,7 +65,7 @@ const ShoppingCartRow = ({ item, shoppingItem, indexOf, removeItem, allowEdit, f
                     shoppingItem.quantity
                 )}
             </td>
-            <td>{format.currency(item.price * shoppingItem.quantity, config)}</td>
+            <td>{format.currency(shoppingItem.price * shoppingItem.quantity, config)}</td>
             <td width='1px'>
                 {allowEdit ? (
                     <button type='button' className='red' onClick={() => (removeItem ? removeItem(indexOf) : () => {})} disabled={!allowEdit}>

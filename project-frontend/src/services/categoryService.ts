@@ -52,12 +52,22 @@ const deleteCategory = async (category: Category, token: string, config: Config)
     }
 };
 
-const getAll = async () => {
+const getAll = async (): Promise<Category[]> => {
     try {
         const { data } = await axios.get<Category[]>(url);
-        return data.map((cateory) => categoryFromResBody(cateory));
+        const result: Category[] = [];
+        data.forEach((c) => {
+            if (c) {
+                const category = categoryFromResBody(c);
+                if (category) {
+                    result.push(category);
+                }
+            }
+        });
+        return result;
     } catch (err: unknown) {
         handleError(err);
+        return [];
     }
 };
 

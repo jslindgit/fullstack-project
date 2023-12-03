@@ -17,7 +17,7 @@ import { ContentID } from '../content';
 const Menu = () => {
     const dispatch = useDispatch();
     const configState = useSelector((state: RootState) => state.config);
-    const miscState = useSelector((state: RootState) => state.misc);
+    const shoppingCartState = useSelector((state: RootState) => state.shoppingCart);
     const usersState = useSelector((state: RootState) => state.users);
 
     const currentPath = useLocation().pathname;
@@ -62,21 +62,40 @@ const Menu = () => {
         await loginService.logout(loggedUser.token, removeLogged);
     };
 
-    const menuLink = (to: string, text: string, fontSize: 'Big' | 'Small' = 'Big') => {
+    const menuLink = (to: string, text: string, fontSize: 'Big' | 'Small' = 'Big', isShoppingCart: boolean = false) => {
         let className = 'menuLink ' + (fontSize === 'Big' ? 'sizeLarge' : 'sizeNormal');
         if (fontSize === 'Small') {
             className += ' menuLinkSmall';
         }
-        if ((to !== '/' && currentPath.includes(to)) || (currentPath === '/' && to === '/')) {
+        if (((to !== '/' && currentPath.includes(to)) || (currentPath === '/' && to === '/')) && !isShoppingCart) {
             className += ' currentPage';
         }
+
+        const shoppingCartNumberOfItems = (): number => {
+            return shoppingCartState.shoppingItems.reduce((total, item) => total + item.quantity, 0);
+        };
 
         return (
             <Link to={to}>
                 <table align='center' width='100%'>
                     <tbody>
                         <tr>
-                            <td className={className}>{text}</td>
+                            <td className={className}>
+                                {isShoppingCart ? (
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span className={currentPath.includes(to) ? 'currentPage' : ''}>{text}</span>&ensp;
+                                                </td>
+                                                <td className='shoppingCartIndicator'>{shoppingCartNumberOfItems()}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <>{text}</>
+                                )}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -109,7 +128,15 @@ const Menu = () => {
                             <td>{menuLink('/', contentToText(ContentID.menuHome, configState))}</td>
                             <td>{menuLink('/shop', contentToText(ContentID.menuProducts, configState))}</td>
                             <td>{menuLink('/info', contentToText(ContentID.menuInfo, configState))}</td>
-                            <td>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, configState) + ' (' + miscState.shoppingCartItemCount + ')')}</td>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, configState), 'Big', true)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
                             <td style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
                                 {login(usersState.loggedUser, removeLogged, setLogoutNotification)}
                             </td>

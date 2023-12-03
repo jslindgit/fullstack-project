@@ -13,6 +13,7 @@ interface OrderResponse {
 
 const addNew = async (newOrder: NewOrder): Promise<OrderResponse> => {
     try {
+        //const order = await Order.create({ ...newOrder, id: 1 });
         const order = await Order.create(newOrder);
         await order.save();
         return { success: true, message: 'Ok', order: order };

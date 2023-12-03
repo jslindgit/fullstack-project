@@ -25,6 +25,7 @@ export enum ContentID {
     adminItemsUncategorized = 'ADMIN - ITEMS: Uncategorized (category)',
     adminItemsUncategorizedDescription = 'ADMIN - ITEMS: Uncategorized (category) description',
     adminOrdersArchived = 'ADMIN - ORDERS: Archived',
+    adminOrdersDeleteOrder = 'ADMIN - ORDERS: Delete order <number>? (confirmation)',
     adminOrdersNoOrders = 'ADMIN - ORDERS: No orders',
     adminOrdersProcessing = 'ADMIN - ORDERS: Processing',
     adminOrdersRecentlyDelivered = 'ADMIN - ORDERS: Recently Delivered',
@@ -45,11 +46,13 @@ export enum ContentID {
     buttonAdd = 'BUTTON: Add',
     buttonCancel = 'BUTTON: Cancel',
     buttonCheckOut = 'BUTTON: Check out',
+    buttonClose = 'BUTTON: Close',
     buttonDisable = 'BUTTON: Disable (account)',
     buttonEdit = 'BUTTON: Edit',
     buttonEditCategoryDetails = 'BUTTON: Edit details of a Category (i.e. name and description)',
     buttonEditCategoryProducts = 'BUTTON: Edit Category products',
     buttonEnable = 'BUTTON: Enable (account)',
+    buttonOpen = 'BUTTON: Open',
     buttonRemove = 'BUTTON: Remove',
     buttonSave = 'BUTTON: Save',
     buttonShowInfo = 'BUTTON: Show Info',
@@ -62,6 +65,7 @@ export enum ContentID {
     cartTotalPrice = 'SHOPPING CART: Total price',
     cartUnitPrice = 'SHOPPING CART: Unit price',
     checkOutAbortPayment = 'CHECK OUT: Abort Payment (button)',
+    checkOutBackToShop = 'CHECK OUT: Back to Shop (button)',
     checkOutChooseDeliveryMethod = 'CHECK OUT: Choose Delivery Method (header)',
     checkOutChoosePaymentMethod = 'CHECK OUT: Choose Payment Methdod (button)',
     checkOutCity = 'CHECK OUT: City',
@@ -76,7 +80,10 @@ export enum ContentID {
     checkOutOrderInfo = 'CHECK OUT: Order Info (header)',
     checkOutOrganization = 'CHECK OUT: Organization',
     checkOutSelectCountry = 'CHECK OUT: Select a country',
+    checkOutSignatureMismatch = 'CHECK OUT: Signature mismatch.',
     checkOutStreetAddress = 'CHECK OUT: Street address',
+    checkOutThankYou = 'CHECK OUT: Thank you!',
+    checkOutYourOrderHasBeenReceive = 'CHECK OUT: Your order has been received... etc',
     checkOutZipCode = 'CHECK OUT: Zipcode',
     contactBusinessID = 'CONTACT: Business ID',
     contactEmail = 'CONTACT: E-mail',
@@ -115,6 +122,7 @@ export enum ContentID {
     menuShoppingCart = 'MENU: Shopping Cart',
     miscDate = 'MISC: Date',
     miscDescription = 'MISC: Description',
+    miscLoading = 'MISC: Loading',
     miscMerchant = 'MISC: Merchant',
     miscName = 'MISC: Name',
     miscRecycleBin = 'MISC: Recycle Bin',
@@ -314,10 +322,17 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.adminOrdersDeleteOrder,
+        content: [
+            { langCode: LangCode.EN, text: 'Delete order number' },
+            { langCode: LangCode.FI, text: 'Poistetaanko tilaus numero' },
+        ],
+    },
+    {
         id: ContentID.adminOrdersNoOrders,
         content: [
-            { langCode: LangCode.EN, text: 'No orders' },
-            { langCode: LangCode.FI, text: 'Ei tilauksia' },
+            { langCode: LangCode.EN, text: 'No orders.' },
+            { langCode: LangCode.FI, text: 'Ei tilauksia.' },
         ],
     },
     {
@@ -454,6 +469,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.buttonClose,
+        content: [
+            { langCode: LangCode.EN, text: 'Close' },
+            { langCode: LangCode.FI, text: 'Sulje' },
+        ],
+    },
+    {
         id: ContentID.buttonDisable,
         content: [
             { langCode: LangCode.EN, text: 'Suspend' },
@@ -486,6 +508,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Enable' },
             { langCode: LangCode.FI, text: 'Palauta' },
+        ],
+    },
+    {
+        id: ContentID.buttonOpen,
+        content: [
+            { langCode: LangCode.EN, text: 'Open' },
+            { langCode: LangCode.FI, text: 'Avaa' },
         ],
     },
     {
@@ -570,6 +599,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Abort Payment' },
             { langCode: LangCode.FI, text: 'Keskeytä maksaminen' },
+        ],
+    },
+    {
+        id: ContentID.checkOutBackToShop,
+        content: [
+            { langCode: LangCode.EN, text: 'Back to Shop' },
+            { langCode: LangCode.FI, text: 'Takaisin kauppaan' },
         ],
     },
     {
@@ -671,10 +707,31 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.checkOutSignatureMismatch,
+        content: [
+            { langCode: LangCode.EN, text: 'Error: "Signature mismatch". Please contact us:' },
+            { langCode: LangCode.FI, text: 'Virhe: "Signature mismatch". Otathan meihin yhteyttä:' },
+        ],
+    },
+    {
         id: ContentID.checkOutStreetAddress,
         content: [
             { langCode: LangCode.EN, text: 'Street address' },
             { langCode: LangCode.FI, text: 'Katuosoite' },
+        ],
+    },
+    {
+        id: ContentID.checkOutThankYou,
+        content: [
+            { langCode: LangCode.EN, text: 'Thank you!' },
+            { langCode: LangCode.FI, text: 'Kiitos!' },
+        ],
+    },
+    {
+        id: ContentID.checkOutYourOrderHasBeenReceive,
+        content: [
+            { langCode: LangCode.EN, text: 'Your order has been received and is being processed for delivery.' },
+            { langCode: LangCode.FI, text: 'Tilauksenne on otettu käsittelyyn.' },
         ],
     },
     {
@@ -941,6 +998,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Description' },
             { langCode: LangCode.FI, text: 'Kuvaus' },
+        ],
+    },
+    {
+        id: ContentID.miscLoading,
+        content: [
+            { langCode: LangCode.EN, text: 'Loading...' },
+            { langCode: LangCode.FI, text: 'Ladataan sisältöä...' },
         ],
     },
     {

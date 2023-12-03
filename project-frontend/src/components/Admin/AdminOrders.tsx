@@ -32,11 +32,14 @@ const AdminOrders = () => {
     }, []);
 
     const deleteOrder = async (order: Order) => {
-        if (usersState.loggedUser?.admin && confirm(`Delete order number ${order.id} (${order.customerFirstName} ${order.customerLastName})?`)) {
+        if (
+            usersState.loggedUser?.admin &&
+            confirm(`${contentToText(ContentID.adminOrdersDeleteOrder, config)} ${order.id} (${order.customerFirstName} ${order.customerLastName})?`)
+        ) {
             setOpenedOrder(null);
             const res = await orderService.deleteOrder(order, usersState.loggedUser?.token);
             await fetch();
-            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+            dispatch(setNotification({ tone: res.success ? 'Neutral' : 'Negative', message: res.message }));
         }
     };
 

@@ -1,27 +1,26 @@
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
-import { ItemPair } from './ShoppinCart';
+import { ShoppingItem } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
-import { contentToText } from '../types/languageFunctions';
-import format from '../util/format';
 import { itemsTotalSum } from '../util/checkoutProvider';
+import format from '../util/format';
+import { contentToText } from '../types/languageFunctions';
 
 import ShoppingCartRow from './ShoppinCartRow';
 
 interface Props {
     allowEdit: boolean;
-    fetchItems: () => Promise<void>;
-    items: ItemPair[];
+    shoppingItems: ShoppingItem[];
     removeItem: ((shoppingItem: number) => void) | null;
     width: number;
 }
 
-const ShoppingCartContent = ({ allowEdit, fetchItems, items, removeItem, width }: Props) => {
+const ShoppingCartContent = ({ allowEdit, shoppingItems, removeItem, width }: Props) => {
     const config = useSelector((state: RootState) => state.config);
 
-    if (items.length <= 0) {
+    if (shoppingItems.length <= 0) {
         return (
             <table align='center' width={width}>
                 <tbody>
@@ -38,7 +37,7 @@ const ShoppingCartContent = ({ allowEdit, fetchItems, items, removeItem, width }
     return (
         <table align='center' width={width} className='dotted'>
             <tbody>
-                {items.length > 0 ? (
+                {shoppingItems.length > 0 ? (
                     <>
                         <tr className='semiBold' style={{ backgroundColor: 'var(--colorGrayVeryLight)' }}>
                             <td colSpan={2}>{contentToText(ContentID.cartProduct, config)}</td>
@@ -47,15 +46,13 @@ const ShoppingCartContent = ({ allowEdit, fetchItems, items, removeItem, width }
                             <td>{contentToText(ContentID.cartTotalPrice, config)}</td>
                             <td></td>
                         </tr>
-                        {items.map((itemPair) => (
+                        {shoppingItems.map((shoppingItem) => (
                             <ShoppingCartRow
-                                key={itemPair.shoppingItem.id}
-                                item={itemPair.item}
-                                shoppingItem={itemPair.shoppingItem}
-                                indexOf={items.indexOf(itemPair)}
+                                key={shoppingItem.id}
+                                shoppingItem={shoppingItem}
+                                indexOf={shoppingItems.indexOf(shoppingItem)}
                                 removeItem={removeItem}
                                 allowEdit={allowEdit}
-                                fetchItems={fetchItems}
                             />
                         ))}
                         <tr>
@@ -63,7 +60,7 @@ const ShoppingCartContent = ({ allowEdit, fetchItems, items, removeItem, width }
                             <td></td>
                             <td></td>
                             <td className='semiBold'>{contentToText(ContentID.cartSubtotal, config)}:</td>
-                            <td className='semiBold'>{format.currency(itemsTotalSum(items.map((itemPair) => itemPair.shoppingItem)), config)}</td>
+                            <td className='semiBold'>{format.currency(itemsTotalSum(shoppingItems.map((shoppingItem) => shoppingItem)), config)}</td>
                             <td></td>
                         </tr>
                     </>
