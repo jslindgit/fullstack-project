@@ -8,12 +8,12 @@ import { RootState } from '../reducers/rootReducer';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import format from '../util/format';
 import { handleError } from '../util/handleError';
-import { imageFullPath } from '../util/misc';
 import itemService from '../services/itemService';
 import { pageWidth } from '../constants';
 
 import AddToCart from './AddToCart';
 import BackButton from './BackButton';
+import Image from './Image';
 import ItemsMenu from './ItemsMenu';
 import { ContentID } from '../content';
 
@@ -96,7 +96,7 @@ const ItemDetails = () => {
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <img src={imageFullPath(imagePath)} className='imgItemDetails' />
+                                            <Image path={imagePath} className='imgItemDetails' />
                                         </td>
                                     </tr>
                                 </tbody>

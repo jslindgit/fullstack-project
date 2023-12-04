@@ -99,4 +99,5 @@
 | 3.12.  | 2    | Käyttäjien ja tilausten yhteys valmiiksi. Parempi tilanhallinta ostoskorille.                                        |     |
 |        | 1    | Parempi tilanhallinta sisäänkirjautumiselle. Refactorointia.                                                         | 180 |
 | 4.12.  | 2    | Tilanhallintaan parempi persist-ratkaisu. Refactorointia.                                                            |     |
-|  yht   | 182  |                                                                                                                      |     |
+|        | 1    | Kuvien klikkaaminen suuremmaksi (modal)                                                                              |     |
+|  yht   | 183  |                                                                                                                      |     |

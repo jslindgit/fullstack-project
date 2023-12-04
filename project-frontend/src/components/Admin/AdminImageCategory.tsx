@@ -1,6 +1,8 @@
 import { ImageCategory } from '../../types/types';
 
-import { imageFilename, imageFullPath } from '../../util/misc';
+import { imageFilename } from '../../util/misc';
+
+import Image from '../Image';
 
 interface Props {
     category: ImageCategory;
@@ -14,7 +16,7 @@ const AdminImageCategory = ({ category }: Props) => {
                     <tr>
                         {category.imagePaths.map((path) => (
                             <td key={path} width='1px'>
-                                <img key={path} src={imageFullPath(path)} className='imgAdminThumb' alt={path} title={path} />
+                                <Image path={path} className='imgAdminThumb' alt={path} title={path} />
                                 <br />
                                 <span className='adminImageCaption'>{imageFilename(path)}</span>
                             </td>
