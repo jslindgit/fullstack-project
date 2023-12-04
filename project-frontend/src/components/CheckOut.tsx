@@ -1,15 +1,16 @@
-import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../content';
-import { DeliveryMethod, NewOrder, Order } from '../types/orderTypes';
+import { DeliveryMethod } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
 import { pageWidth } from '../constants';
 import { contentToText } from '../types/languageFunctions';
-import orderHandler from '../util/orderHandler';
-import { getEmptyOrder, validateOrder } from '../types/orderTypeFunctions';
+import { validateOrder } from '../types/orderTypeFunctions';
+
+import { setOrder } from '../reducers/orderReducer';
 
 import BackButton from './BackButton';
 import CheckOutContactInfo from './CheckOutContactInfo';
@@ -17,18 +18,9 @@ import CheckOutDelivery from './CheckOutDelivery';
 import OrderInfo from './OrderInfo';
 
 const CheckOut = () => {
+    const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
-    const shoppingCartState = useSelector((state: RootState) => state.shoppingCart);
-
-    const fetchOrder = (): Order | NewOrder => {
-        const storedOrder = orderHandler.getOrder();
-        if (storedOrder) {
-            return storedOrder;
-        }
-        return getEmptyOrder();
-    };
-
-    const [order, setOrder] = useState<NewOrder | Order>(fetchOrder());
+    const order = useSelector((state: RootState) => state.order);
     const [validate, setValidate] = useState<boolean>(false);
     const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
@@ -57,18 +49,20 @@ const CheckOut = () => {
         phone: string,
         zipCode: string
     ) => {
-        setOrder({
-            ...order,
-            customerAddress: address,
-            customerCity: city,
-            customerCountry: country,
-            customerEmail: email,
-            customerFirstName: firstName,
-            customerLastName: lastName,
-            customerPhone: phone,
-            customerZipCode: zipCode,
-            customerOrganization: organization,
-        });
+        dispatch(
+            setOrder({
+                ...order,
+                customerAddress: address,
+                customerCity: city,
+                customerCountry: country,
+                customerEmail: email,
+                customerFirstName: firstName,
+                customerLastName: lastName,
+                customerPhone: phone,
+                customerZipCode: zipCode,
+                customerOrganization: organization,
+            })
+        );
     };
 
     const setDeliveryMethod = (deliveryMethod: DeliveryMethod | null) => {
@@ -78,14 +72,6 @@ const CheckOut = () => {
     useEffect(() => {
         setOrder({ ...order, deliveryCost: order.deliveryMethod ? order.deliveryMethod.cost : 0 });
     }, [order.deliveryMethod]);
-
-    useEffect(() => {
-        setOrder({ ...order, items: shoppingCartState.shoppingItems });
-    }, [shoppingCartState.shoppingItems]);
-
-    useEffect(() => {
-        orderHandler.setOrder(order);
-    }, [order]);
 
     useEffect(() => {
         if (validate) {

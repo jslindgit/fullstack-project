@@ -1,22 +1,3 @@
-import { Language } from '../types/languageTypes';
-
-import { defaultLanguage } from '../constants';
-
-// Language:
-const getLang = (): Language => {
-    const lang = localStorage.getItem('language');
-    if (lang) {
-        return JSON.parse(lang);
-    } else {
-        setLang(defaultLanguage);
-        return defaultLanguage;
-    }
-};
-
-const setLang = (lang: Language) => {
-    localStorage.setItem('language', JSON.stringify(lang));
-};
-
 // Previous location:
 const getPreviousLocation = (): string => {
     const location = localStorage.getItem('previousLocation');
@@ -28,8 +9,6 @@ const setPreviousLocation = (location: string): void => {
 };
 
 export default {
-    getLang,
-    setLang,
     getPreviousLocation,
     setPreviousLocation,
 };

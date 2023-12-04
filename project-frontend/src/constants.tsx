@@ -3,7 +3,6 @@ import { Config } from './types/configTypes';
 import { Currency } from './types/types';
 
 import { defaultLangContent } from './content';
-import localstorageHandler from './util/localstorageHandler';
 
 export const API_KEY = import.meta.env.VITE_API_KEY as string;
 export const apiBaseUrl = 'http://localhost:3001/api';
@@ -20,7 +19,7 @@ export const defaultLanguage: Language = {
 export const defaultConfig: Config = {
     currency: Currency.EUR,
     langContent: defaultLangContent,
-    language: localstorageHandler.getLang(),
+    language: defaultLanguage,
     owner: {
         businessIdentifier: '1234567-8',
         email: 'owner@unnamedwebstore123.com',

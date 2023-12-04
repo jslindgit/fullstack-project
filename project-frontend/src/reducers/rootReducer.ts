@@ -3,14 +3,14 @@ import { combineReducers } from 'redux';
 import categoryReducer, { CategoryState } from './categoryReducer';
 import configReducer, { ConfigState } from './configReducer';
 import miscReducer, { MiscState } from './miscReducer';
-import shoppingCartReducer, { ShoppingCartState } from './shoppingCartReducer';
+import orderReducer, { OrderState } from './orderReducer';
 import userReducer, { UserState } from './userReducer';
 
 export interface RootState {
     categories: CategoryState;
     config: ConfigState;
     misc: MiscState;
-    shoppingCart: ShoppingCartState;
+    order: OrderState;
     user: UserState;
 }
 
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
     categories: categoryReducer,
     config: configReducer,
     misc: miscReducer,
-    shoppingCart: shoppingCartReducer,
+    order: orderReducer,
     user: userReducer,
 });
 

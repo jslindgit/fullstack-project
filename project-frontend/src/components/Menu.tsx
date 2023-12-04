@@ -17,7 +17,7 @@ import { ContentID } from '../content';
 const Menu = () => {
     const dispatch = useDispatch();
     const configState = useSelector((state: RootState) => state.config);
-    const shoppingCartState = useSelector((state: RootState) => state.shoppingCart);
+    const orderState = useSelector((state: RootState) => state.order);
     const usersState = useSelector((state: RootState) => state.user);
 
     const currentPath = useLocation().pathname;
@@ -72,7 +72,7 @@ const Menu = () => {
         }
 
         const shoppingCartNumberOfItems = (): number => {
-            return shoppingCartState.shoppingItems.reduce((total, item) => total + item.quantity, 0);
+            return orderState.items.reduce((total, item) => total + item.quantity, 0);
         };
 
         return (

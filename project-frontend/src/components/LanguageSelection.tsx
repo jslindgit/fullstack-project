@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Language } from '../types/languageTypes';
 import { RootState } from '../reducers/rootReducer';
 
+import { setLanguage } from '../reducers/configReducer';
+
 import { availableLangs } from '../types/languageTypes';
-import localstorageHandler from '../util/localstorageHandler';
-import { setConfig } from '../reducers/configReducer';
 
 const LanguageSelection = () => {
     const dispatch = useDispatch();
@@ -16,8 +16,7 @@ const LanguageSelection = () => {
     };
 
     const setLang = (newLang: Language) => {
-        localstorageHandler.setLang(newLang);
-        dispatch(setConfig({ ...configState, language: newLang }));
+        dispatch(setLanguage(newLang));
     };
 
     return (

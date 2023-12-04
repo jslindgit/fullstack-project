@@ -4,11 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
-import { NewOrder, Order, PaytrailData, PaytrailProvider } from '../types/orderTypes';
+import { PaytrailData, PaytrailProvider } from '../types/orderTypes';
 
 import format from '../util/format';
 
-import orderHandler from '../util/orderHandler';
 import { orderTotalSum } from '../util/checkoutProvider';
 import { pageWidth } from '../constants';
 import paytrailService from '../services/paytrailService';
@@ -19,33 +18,30 @@ import { Link } from './CustomLink';
 import OrderInfo from './OrderInfo';
 
 const CheckOutPayment = () => {
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
+    const order = useSelector((state: RootState) => state.order);
 
-    const [order, setOrder] = useState<NewOrder | Order | null>(null);
     const [paytrailData, setPaytrailData] = useState<PaytrailData | null>(null);
     const [attemptedToFetchPaytrailData, setAttemptedToFetchPaytrailData] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        const storedOrder = orderHandler.getOrder();
-        if (storedOrder && validateOrder(storedOrder).length <= 0) {
-            return setOrder(storedOrder);
-        } else {
+        if (validateOrder(order).length > 0) {
             navigate('/checkout');
         }
-    }, [navigate]);
+    }, [navigate, order]);
 
     useEffect(() => {
         if (order) {
             const createPayment = async () => {
-                const data = await paytrailService.createPayment(order, configState);
+                const data = await paytrailService.createPayment(order, config);
                 setPaytrailData(data.data);
                 setAttemptedToFetchPaytrailData(true);
             };
             createPayment();
         }
-    }, [order]);
+    }, [config, order]);
 
     if (!order) {
         return (
@@ -146,11 +142,11 @@ const CheckOutPayment = () => {
                                                                             Payee
                                                                         </td>
                                                                         <td>
-                                                                            {configState.owner.name}
-                                                                            {configState.owner.businessIdentifier.length > 0 ? (
+                                                                            {config.owner.name}
+                                                                            {config.owner.businessIdentifier.length > 0 ? (
                                                                                 <>
                                                                                     <br />
-                                                                                    {configState.owner.businessIdentifier}
+                                                                                    {config.owner.businessIdentifier}
                                                                                 </>
                                                                             ) : (
                                                                                 ''
@@ -162,7 +158,7 @@ const CheckOutPayment = () => {
                                                                             Total Amount:
                                                                         </td>
                                                                         <td className='semiBold colorGoldLight' style={{ paddingTop: '0.75rem' }}>
-                                                                            {format.currency(orderTotalSum(order), configState)}
+                                                                            {format.currency(orderTotalSum(order), config)}
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>

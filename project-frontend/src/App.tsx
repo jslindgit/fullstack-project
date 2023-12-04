@@ -12,8 +12,9 @@ import { contentToText } from './types/languageFunctions';
 
 // Reducers:
 import { initializeCategories } from './reducers/categoryReducer';
+import { initializeConfig } from './reducers/configReducer';
 import { setLoaded } from './reducers/miscReducer';
-import { initializeShoppingCart } from './reducers/shoppingCartReducer';
+import { initializeOrder } from './reducers/orderReducer';
 import { initializeLoggedUser } from './reducers/userReducer';
 
 // Components:
@@ -49,7 +50,8 @@ const App = () => {
         dispatch(setLoaded(false));
 
         const fetchData = async () => {
-            initializeShoppingCart(dispatch);
+            initializeConfig(dispatch);
+            initializeOrder(dispatch);
             Promise.all([initializeLoggedUser(dispatch), initializeCategories(dispatch)]);
 
             dispatch(setLoaded(true));

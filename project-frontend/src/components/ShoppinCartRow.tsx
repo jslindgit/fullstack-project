@@ -6,7 +6,7 @@ import { ShoppingItem } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 import { Item } from '../types/types';
 
-import { updateShoppingCartItemQuantity } from '../reducers/shoppingCartReducer';
+import { updateShoppingCartItemQuantity } from '../reducers/orderReducer';
 
 import format from '../util/format';
 import itemService from '../services/itemService';
@@ -24,7 +24,7 @@ interface Props {
 const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props) => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
-    const shoppingCartState = useSelector((state: RootState) => state.shoppingCart);
+    const orderState = useSelector((state: RootState) => state.order);
 
     const [item, setItem] = useState<Item | null>(null);
 
@@ -42,7 +42,7 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
         const quantityValue = Number(quantity.value);
         if (shoppingItem.quantity !== quantityValue) {
             if (quantityValue > 0 && quantityValue < 1000000) {
-                dispatch(updateShoppingCartItemQuantity({ itemIndex: shoppingCartState.shoppingItems.indexOf(shoppingItem), newQuantity: quantityValue }));
+                dispatch(updateShoppingCartItemQuantity({ itemIndex: orderState.items.indexOf(shoppingItem), newQuantity: quantityValue }));
             } else {
                 quantity.setNewValue(shoppingItem.quantity.toString());
             }

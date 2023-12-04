@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 
-import { removeItemFromShoppingCart } from '../reducers/shoppingCartReducer';
+import { removeItemFromShoppingCart } from '../reducers/orderReducer';
 
 import { pageWidth } from '../constants';
 import { contentToText } from '../types/languageFunctions';
@@ -15,11 +15,11 @@ import ShoppingCartContent from './ShoppingCartContent';
 const ShoppingCart = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
-    const shoppingCartState = useSelector((state: RootState) => state.shoppingCart);
+    const orderState = useSelector((state: RootState) => state.order);
 
     const removeItem = (index: number) => {
-        if (window.confirm(`Remove ${shoppingCartState.shoppingItems[index].name} from shopping cart?`)) {
-            dispatch(removeItemFromShoppingCart(shoppingCartState.shoppingItems[index]));
+        if (window.confirm(`Remove ${orderState.items[index].name} from shopping cart?`)) {
+            dispatch(removeItemFromShoppingCart(orderState.items[index]));
         }
     };
 
@@ -32,7 +32,7 @@ const ShoppingCart = () => {
                     </tr>
                 </tbody>
             </table>
-            <ShoppingCartContent allowEdit={true} shoppingItems={shoppingCartState.shoppingItems} removeItem={removeItem} width={pageWidth} />
+            <ShoppingCartContent allowEdit={true} shoppingItems={orderState.items} removeItem={removeItem} width={pageWidth} />
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
@@ -40,7 +40,7 @@ const ShoppingCart = () => {
                             <BackButton type='text' />
                         </td>
                         <td style={{ paddingRight: 0, textAlign: 'right' }}>
-                            {shoppingCartState.shoppingItems.length > 0 ? (
+                            {orderState.items.length > 0 ? (
                                 <Link to='/checkout'>
                                     <button type='button' className='large'>
                                         {contentToText(ContentID.buttonCheckOut, config)} →

@@ -6,7 +6,7 @@ import { ShoppingItem } from '../types/orderTypes';
 import { Item } from '../types/types';
 
 import { setNotification } from '../reducers/miscReducer';
-import { addItemToShoppingCart } from '../reducers/shoppingCartReducer';
+import { addItemToShoppingCart } from '../reducers/orderReducer';
 
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import useField from '../hooks/useField';

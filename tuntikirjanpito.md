@@ -98,4 +98,5 @@
 | 1.12.  | 1    | One-to-many yhteys käyttäjien ja tilausten välille                                                                   |     |
 | 3.12.  | 2    | Käyttäjien ja tilausten yhteys valmiiksi. Parempi tilanhallinta ostoskorille.                                        |     |
 |        | 1    | Parempi tilanhallinta sisäänkirjautumiselle. Refactorointia.                                                         | 180 |
-|  yht   | 180  |                                                                                                                      |     |
+| 4.12.  | 2    | Tilanhallintaan parempi persist-ratkaisu. Refactorointia.                                                            |     |
+|  yht   | 182  |                                                                                                                      |     |
