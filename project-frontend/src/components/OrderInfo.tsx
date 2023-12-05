@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
@@ -16,6 +17,13 @@ interface Props {
 const OrderInfo = ({ order }: Props) => {
     const config = useSelector((state: RootState) => state.config);
 
+    const [orderStatus, setOrderStatus] = useState<string>('');
+
+    useEffect(() => {
+        const s = getOrderStatus(order.status, config);
+        setOrderStatus(s);
+    }, [config, order]);
+
     return (
         <>
             <table align='center' width='100%' style={{ backgroundColor: 'var(--colorGrayExtremelyLight)', paddingLeft: '1rem', paddingRight: '1rem' }}>
@@ -30,25 +38,29 @@ const OrderInfo = ({ order }: Props) => {
                             <table align='center' width='100%'>
                                 <tbody>
                                     {'id' in order ? (
-                                        <tr>
-                                            <td className='adminItemEditLabel'>{contentToText(ContentID.orderId, config)}:</td>
-                                        </tr>
+                                        <React.Fragment>
+                                            <tr>
+                                                <td className='adminItemEditLabel'>{contentToText(ContentID.orderId, config)}:</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{order.id}</td>
+                                            </tr>
+                                        </React.Fragment>
                                     ) : (
                                         ''
                                     )}
-                                    {'id' in order ? (
-                                        <tr>
-                                            <td>{order.id}</td>
-                                        </tr>
+                                    {orderStatus.length > 0 ? (
+                                        <React.Fragment>
+                                            <tr>
+                                                <td className='adminItemEditLabel'>{contentToText(ContentID.orderStatus, config)}:</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{orderStatus}</td>
+                                            </tr>
+                                        </React.Fragment>
                                     ) : (
                                         ''
                                     )}
-                                    <tr>
-                                        <td className='adminItemEditLabel'>{contentToText(ContentID.orderStatus, config)}:</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{getOrderStatus(order.status, config)}</td>
-                                    </tr>
                                     <tr>
                                         <td className='adminItemEditLabel'>{contentToText(ContentID.orderCustomer, config)}:</td>
                                     </tr>

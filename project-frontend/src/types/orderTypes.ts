@@ -58,12 +58,6 @@ export enum OrderStatus {
     COMPLETED = 'COMPLETED',
 }
 
-export enum OrderValidationError {
-    DeliveryMethodMissing = 'Choose a delivery method',
-    InvalidEmailAddress = 'Invalid e-mail address',
-    LackingRequiredCustomerInfo = 'Required contact information missing',
-}
-
 export interface PaytrailData {
     providers: PaytrailProvider[];
     terms: string;

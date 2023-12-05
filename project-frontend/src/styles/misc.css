@@ -51,6 +51,12 @@
     padding-right: 0;
 }
 
+.infoBox.errors {
+    border: solid 0.2rem var(--colorRedLight) !important;
+    border-radius: 0.75rem !important;
+    padding: 1.25rem;
+}
+
 .infoHeader {
     color: var(--colorGrayDark);
     font-size: var(--fontSizeVeryLarge);

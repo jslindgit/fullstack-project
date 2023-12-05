@@ -35,37 +35,51 @@ const CheckOutDelivery = ({ currentMethod, customerCountry, customerZipCode, set
     }, [config.store.contactCountry, customerCountry]);
 
     return (
-        <>
-            <table align='center' width={width} className='paddingTopBottomOnly'>
-                <tbody>
-                    <tr>
-                        <td style={{ paddingTop: 0, paddingBottom: 0 }}>
-                            <h3>{contentToText(ContentID.checkOutChooseDeliveryMethod, config)}</h3>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={width} style={{ outline: validate && !currentMethod ? '3px solid red' : '0' }}>
-                <tbody>
-                    <tr>
-                        <td>
-                            {!customerCountry || customerCountry.length < 1 ? <div>Please select a country</div> : <></>}
-                            {methods.map((m) => (
-                                <CheckOutDeliveryMethod key={m.code} currentMethod={currentMethod} customerZipCode={customerZipCode} method={m} setDeliveryMethod={setDeliveryMethod} />
-                            ))}
-                            <a
-                                onClick={() => {
-                                    setDeliveryMethod(null);
-                                }}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                Clear selection
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </>
+        <table className={'infoBox' + (validate && !currentMethod ? ' errors' : '')} width={width}>
+            <tbody>
+                <tr>
+                    <td>
+                        <table align='center' width='100%' className='paddingTopBottomOnly'>
+                            <tbody>
+                                <tr>
+                                    <td style={{ paddingTop: 0, paddingBottom: 0 }}>
+                                        <div className='pageHeader' style={{ paddingTop: 0 }}>
+                                            {contentToText(ContentID.checkOutChooseDeliveryMethod, config)}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table align='center' width='100%' className='paddingTopBottomOnly' style={{ paddingRight: '1rem' }}>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        {!customerCountry || customerCountry.length < 1 ? <div>Please select a country</div> : <></>}
+                                        {methods.map((m) => (
+                                            <CheckOutDeliveryMethod
+                                                key={m.code}
+                                                currentMethod={currentMethod}
+                                                customerZipCode={customerZipCode}
+                                                method={m}
+                                                setDeliveryMethod={setDeliveryMethod}
+                                            />
+                                        ))}
+                                        <a
+                                            onClick={() => {
+                                                setDeliveryMethod(null);
+                                            }}
+                                            style={{ cursor: 'pointer' }}
+                                        >
+                                            Clear selection
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     );
 };
 

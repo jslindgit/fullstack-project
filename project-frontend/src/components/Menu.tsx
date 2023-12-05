@@ -88,7 +88,11 @@ const Menu = () => {
                                                 <td>
                                                     <span className={currentPath.includes(to) ? 'currentPage' : ''}>{text}</span>&ensp;
                                                 </td>
-                                                <td className='shoppingCartIndicator'>{shoppingCartNumberOfItems()}</td>
+                                                {shoppingCartNumberOfItems() > 0 ? (
+                                                    <td className='shoppingCartIndicator'>{shoppingCartNumberOfItems()}</td>
+                                                ) : (
+                                                    ''
+                                                )}
                                             </tr>
                                         </tbody>
                                     </table>

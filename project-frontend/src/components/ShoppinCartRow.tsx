@@ -32,11 +32,12 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
 
     useEffect(() => {
         const fetchItem = async () => {
-            setItem(await itemService.getById(shoppingItem.id));
+            const fetchedItem = await itemService.getById(shoppingItem.id);
+            setItem(fetchedItem);
         };
 
         fetchItem();
-    }, [shoppingItem.id]);
+    }, [shoppingItem]);
 
     useEffect(() => {
         const quantityValue = Number(quantity.value);

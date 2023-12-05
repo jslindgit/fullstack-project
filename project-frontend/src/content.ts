@@ -74,11 +74,13 @@ export enum ContentID {
     checkOutCustomerContactInformation = 'CHECK OUT: Customer Contact Information (header)',
     checkOutFirstName = 'CHECK OUT: First name',
     checkOutHeader = 'CHECK OUT: Header',
+    checkOutInvalidEmail = 'CHECK OUT: Invalid e-mail address',
     checkOutIsRequired = 'CHECK OUT: <some information> is required (validation error)',
     checkOutLastName = 'CHECK OUT: Last name',
     checkOutOptional = 'CHECK OUT: optional (information field)',
     checkOutOrderInfo = 'CHECK OUT: Order Info (header)',
     checkOutOrganization = 'CHECK OUT: Organization',
+    checkOutPleaseCheck = 'CHECK OUT: Please check the following (lacking information)',
     checkOutSelectCountry = 'CHECK OUT: Select a country',
     checkOutSignatureMismatch = 'CHECK OUT: Signature mismatch.',
     checkOutStreetAddress = 'CHECK OUT: Street address',
@@ -92,6 +94,8 @@ export enum ContentID {
     errorSomethingWentWrong = 'ERROR: Something went wrong',
     errorSomethingWentWrongTryAgainlater = 'ERROR: Something went wrong, please try again later',
     homeWelcome = 'HOME: Welcome text',
+    itemsAddedToShoppingCart1 = 'ITEMS: "<item(s)> added to (shopping cart)" (notification)',
+    itemsAddedToShoppingCart2 = 'ITEMS: "<item(s)> (added to) shopping cart" (notification)',
     itemsAddToShoppingCart = 'ITEMS: "Add to shopping cart" button',
     itemsAmount = 'ITEMS: Amount (to add to shopping cart)',
     itemsCategory = 'ITEMS: Category',
@@ -665,6 +669,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.checkOutInvalidEmail,
+        content: [
+            { langCode: LangCode.EN, text: 'Invalid e-mail address' },
+            { langCode: LangCode.FI, text: 'Virheellinen sähköpostiosoite' },
+        ],
+    },
+    {
         id: ContentID.checkOutIsRequired,
         content: [
             { langCode: LangCode.EN, text: 'is required' },
@@ -697,6 +708,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Organization' },
             { langCode: LangCode.FI, text: 'Organisaatio' },
+        ],
+    },
+    {
+        id: ContentID.checkOutPleaseCheck,
+        content: [
+            { langCode: LangCode.EN, text: 'Please check the following:' },
+            { langCode: LangCode.FI, text: 'Tarkistathan seuraavat kohdat:' },
         ],
     },
     {
@@ -788,6 +806,20 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Welcome to Webstore' },
             { langCode: LangCode.FI, text: 'Tervetuloa Verkkokauppaan' },
+        ],
+    },
+    {
+        id: ContentID.itemsAddedToShoppingCart1,
+        content: [
+            { langCode: LangCode.EN, text: 'added to' },
+            { langCode: LangCode.FI, text: 'lisättiin' },
+        ],
+    },
+    {
+        id: ContentID.itemsAddedToShoppingCart2,
+        content: [
+            { langCode: LangCode.EN, text: 'Shopping Cart' },
+            { langCode: LangCode.FI, text: 'ostoskoriin' },
         ],
     },
     {

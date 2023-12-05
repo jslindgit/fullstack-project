@@ -27,7 +27,7 @@ const CheckOutPayment = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (validateOrder(order).length > 0) {
+        if (validateOrder(order, config).length > 0) {
             navigate('/checkout');
         }
     }, [navigate, order]);

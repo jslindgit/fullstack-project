@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
 import { ContentID } from '../content';
@@ -8,9 +8,10 @@ import { RootState } from '../reducers/rootReducer';
 
 import { pageWidth } from '../constants';
 import { contentToText } from '../types/languageFunctions';
-//import orderHandler from '../util/orderHandler';
 import orderService from '../services/orderService';
 import paytrailService from '../services/paytrailService';
+
+import { clearOrder } from '../reducers/orderReducer';
 
 import BackButton from './BackButton';
 import { Link } from './CustomLink';
@@ -23,6 +24,7 @@ enum SignatureStatus {
 }
 
 const CheckOutDone = () => {
+    const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
 
     const [order, setOrder] = useState<Order | null>(null);
@@ -44,6 +46,10 @@ const CheckOutDone = () => {
             }
 
             setOrder(fetchedOrder);
+
+            if (fetchedOrder) {
+                clearOrder(dispatch);
+            }
         };
 
         fetchOrderFromServer();

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useField, { UseField } from '../hooks/useField';
 
@@ -29,9 +29,12 @@ interface Props {
 
 const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }: Props) => {
     const config = useSelector((state: RootState) => state.config);
+    const userState = useSelector((state: RootState) => state.user);
 
     const [availableCountries, setAvailableCountries] = useState<string[]>([]);
     const [country, setCountry] = useState<string | null>(currentOrder.customerCountry.length > 0 ? currentOrder.customerCountry : null);
+    const [errors, setErrors] = useState<boolean>(false);
+    const [register, setRegister] = useState<boolean>(false);
 
     useEffect(() => {
         // In case the current country in the Order is set with a different language that is in use at the moment:
@@ -58,6 +61,9 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
     const organization = useField('text', ContentID.checkOutOrganization, currentOrder.customerOrganization);
     const phone = useField('text', ContentID.contactPhone, currentOrder.customerPhone);
     const zipCode = useField('text', ContentID.checkOutZipCode, currentOrder.customerZipCode);
+
+    const password = useField('password', ContentID.loginPassword, '');
+    const passwordConfirm = useField('password', ContentID.accountPasswordNewConfirm, '');
 
     const required: UseField[] = [address, city, email, firstName, lastName, phone, zipCode];
 
@@ -106,6 +112,22 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
         );
     }, [address.value, city.value, country, email.value, firstName.value, lastName.value, organization.value, phone.value, zipCode.value]);
 
+    useEffect(() => {
+        if (validate) {
+            let errs = false;
+            required.forEach((field) => {
+                if (validateField(field)) {
+                    errs = true;
+                    return;
+                }
+            });
+
+            setErrors(errs);
+        } else {
+            setErrors(false);
+        }
+    }, [required, validate]);
+
     const inputField = (field: UseField, optional: boolean = false) => {
         const label = contentToText(field.label, config);
         const labelParts: string[] = optional ? [label, contentToText(ContentID.checkOutOptional, config)] : [label];
@@ -113,7 +135,7 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
 
         return (
             <tr>
-                <td className={'widthByContent' + (required.includes(field) ? ' semiBold' : '')}>
+                <td className={'widthByContent' + (required.includes(field) || field === password || field === passwordConfirm ? ' semiBold' : '')}>
                     {labelParts.length > 1 ? (
                         <>
                             {labelParts[0]}
@@ -140,55 +162,100 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
     };
 
     return (
-        <>
-            <table align='center' width={width} className='paddingTopBottomOnly'>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h3>{contentToText(ContentID.checkOutCustomerContactInformation, config)}</h3>
-                            <a onClick={fillRandomly}>Fill randomly</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={width}>
-                <tbody>
-                    {inputField(firstName)}
-                    {inputField(lastName)}
-                    {inputField(organization, true)}
-                    {inputField(address)}
-                    {inputField(zipCode)}
-                    {inputField(city)}
+        <table className={'infoBox' + (errors ? ' errors' : '')} width={width}>
+            <tbody>
+                <tr>
+                    <td>
+                        <table align='center' width='100%' className='paddingTopBottomOnly'>
+                            <tbody>
+                                <tr>
+                                    <td style={{ paddingTop: 0 }}>
+                                        <div className='pageHeader' style={{ paddingTop: 0 }}>
+                                            {contentToText(ContentID.checkOutCustomerContactInformation, config)}
+                                        </div>
+                                        <a onClick={fillRandomly}>Fill randomly</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table align='center' width='100%' className='paddingTopBottomOnly' style={{ paddingRight: '1rem' }}>
+                            <tbody>
+                                {inputField(firstName)}
+                                {inputField(lastName)}
+                                {inputField(organization, true)}
+                                {inputField(address)}
+                                {inputField(zipCode)}
+                                {inputField(city)}
 
-                    <tr>
-                        <td className='widthByContent semiBold'>{contentToText(ContentID.checkOutCountry, config)}</td>
-                        <td style={{ paddingTop: '0.6rem', paddingBottom: '0.6rem' }}>
-                            {validate && !country ? (
-                                <div className='validationError'>
-                                    {contentToText(ContentID.checkOutCountryIsRequired, config)}
-                                    <br />
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-                            <select value={country || ''} onChange={handleCountryChange}>
-                                <option value='' disabled>
-                                    {contentToText(ContentID.checkOutSelectCountry, config)}
-                                </option>
-                                {availableCountries.map((c) => (
-                                    <option key={c} value={c}>
-                                        {c}
-                                    </option>
-                                ))}
-                            </select>
-                        </td>
-                    </tr>
+                                <tr>
+                                    <td className='widthByContent semiBold'>{contentToText(ContentID.checkOutCountry, config)}</td>
+                                    <td style={{ paddingTop: '0.6rem', paddingBottom: '0.6rem' }}>
+                                        {validate && !country ? (
+                                            <div className='validationError'>
+                                                {contentToText(ContentID.checkOutCountryIsRequired, config)}
+                                                <br />
+                                            </div>
+                                        ) : (
+                                            <></>
+                                        )}
+                                        <select value={country || ''} onChange={handleCountryChange}>
+                                            <option value='' disabled>
+                                                {contentToText(ContentID.checkOutSelectCountry, config)}
+                                            </option>
+                                            {availableCountries.map((c) => (
+                                                <option key={c} value={c}>
+                                                    {c}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                </tr>
 
-                    {inputField(email)}
-                    {inputField(phone)}
-                </tbody>
-            </table>
-        </>
+                                {inputField(email)}
+                                {inputField(phone)}
+
+                                {!userState.loggedUser ? (
+                                    <React.Fragment>
+                                        <tr>
+                                            <td colSpan={2} style={{ paddingTop: '1em' }}>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style={{ paddingLeft: 0 }}>
+                                                                <input type='checkbox' className='checkbox' onChange={() => setRegister(!register)} />
+                                                            </td>
+                                                            <td>Register</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        {register ? (
+                                            <React.Fragment>
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <table>
+                                                            <tbody>
+                                                                {inputField(password)}
+                                                                {inputField(passwordConfirm)}
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </React.Fragment>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </React.Fragment>
+                                ) : (
+                                    ''
+                                )}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     );
 };
 

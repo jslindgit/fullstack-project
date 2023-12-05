@@ -29,7 +29,7 @@ const CheckOut = () => {
     const handlePaymentClick = () => {
         setValidate(true);
 
-        const errors = validateOrder(order);
+        const errors = validateOrder(order, config);
 
         setValidationErrors(errors);
 
@@ -66,16 +66,16 @@ const CheckOut = () => {
     };
 
     const setDeliveryMethod = (deliveryMethod: DeliveryMethod | null) => {
-        setOrder({ ...order, deliveryMethod: deliveryMethod });
+        dispatch(setOrder({ ...order, deliveryMethod: deliveryMethod }));
     };
 
     useEffect(() => {
-        setOrder({ ...order, deliveryCost: order.deliveryMethod ? order.deliveryMethod.cost : 0 });
+        dispatch(setOrder({ ...order, deliveryCost: order.deliveryMethod ? order.deliveryMethod.cost : 0 }));
     }, [order.deliveryMethod]);
 
     useEffect(() => {
         if (validate) {
-            setValidationErrors(validateOrder(order));
+            setValidationErrors(validateOrder(order, config));
         }
     }, [order, validate]);
 
@@ -91,7 +91,7 @@ const CheckOut = () => {
             <table align='center' width={pageWidth}>
                 <tbody>
                     <tr>
-                        <td style={{ paddingTop: 0 }}>
+                        <td style={{ paddingLeft: 0, paddingTop: 0 }}>
                             <CheckOutContactInfo currentOrder={order} setCustomerInfo={setCustomerInfo} validate={validate} width='100%' />
                             <br />
                             <CheckOutDelivery
@@ -112,7 +112,7 @@ const CheckOut = () => {
                                         <tbody>
                                             <tr>
                                                 <td style={{ fontWeight: '500' }}>
-                                                    Please check the following:
+                                                    {contentToText(ContentID.checkOutPleaseCheck, config)}
                                                     <div style={{ paddingTop: '1rem', paddingBottom: '0', paddingLeft: '1rem', paddingRight: '1rem' }}>
                                                         {validationErrors.map((e) => (
                                                             <div key={e} style={{ fontStyle: 'italic', lineHeight: '2rem', fontWeight: '500' }}>

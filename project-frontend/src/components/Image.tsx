@@ -11,7 +11,7 @@ const Modal = ({ onClose, path }: ModalProps) => {
     return (
         <div className='modal-overlay' onClick={onClose}>
             <div className='modal-content'>
-                <img src={imageFullPath(path)} title='Click to Close' />
+                <img src={imageFullPath(path)} />
             </div>
         </div>
     );

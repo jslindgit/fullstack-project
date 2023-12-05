@@ -26,14 +26,17 @@ const AddToCart = ({ config, item }: Props) => {
     };
 
     const handleAddToShoppingCart = (item: Item) => {
-        const shoppingItem: ShoppingItem = { id: item.id, name: langTextsToText(item.name, config), price: item.price, quantity: Number(amount.value) };
+        const shoppingItem: ShoppingItem = { id: item.id, name: langTextsToText(item.name, config), price: Number(item.price), quantity: Number(amount.value) };
         dispatch(addItemToShoppingCart(shoppingItem));
 
         dispatch(
             setNotification({
                 tone: 'Positive',
-                message: `${amount.value} x ${langTextsToText(item.name, config)} added to shopping cart.`,
-                linkText: 'shopping cart',
+                message: `${amount.value} x ${langTextsToText(item.name, config)} ${contentToText(ContentID.itemsAddedToShoppingCart1, config)} ${contentToText(
+                    ContentID.itemsAddedToShoppingCart2,
+                    config
+                )}.`,
+                linkText: contentToText(ContentID.itemsAddedToShoppingCart2, config),
                 linkTo: '/cart',
             })
         );

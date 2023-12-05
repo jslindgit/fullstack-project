@@ -28,6 +28,12 @@ input:focus.error {
     outline: 3px solid var(--colorGrayDark);
 }
 
+input.checkbox {
+    margin-left: 0;
+    margin-top: 0.3em;
+    outline: 0;
+}
+
 select,
 option {
     font-size: 0.9rem;

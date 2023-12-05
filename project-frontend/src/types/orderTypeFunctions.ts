@@ -1,12 +1,11 @@
-import { ContentID } from '../content';
 import { Config } from './configTypes';
-import { NewOrder, Order, OrderStatus, OrderStatusForAdmin, OrderValidationError, ShoppingItem } from './orderTypes';
+import { ContentID } from '../content';
+import { NewOrder, Order, OrderStatus, OrderStatusForAdmin, ShoppingItem } from './orderTypes';
 
-import { contentToText } from './languageFunctions';
-import { isValidEmailAddress } from '../util/misc';
-import { isObject, isString } from './typeFunctions';
-import { langTextsToText } from './languageFunctions';
 import { orderTotalSum } from '../util/checkoutProvider';
+import { contentToText, langTextsToText } from './languageFunctions';
+import { isValidEmailAddress } from '../util/misc';
+import { isNumber, isObject, isString } from './typeFunctions';
 
 export const getEmptyOrder = (): NewOrder => {
     const order: NewOrder = {
@@ -48,6 +47,20 @@ export const isOrderOrNewOrder = (obj: unknown): obj is Order | NewOrder => {
         'language' in obj &&
         'paymentMethod' in obj &&
         'status' in obj
+    );
+};
+
+export const isShoppingItem = (obj: object): obj is ShoppingItem => {
+    return (
+        isObject(obj) &&
+        'id' in obj &&
+        isNumber(obj.id) &&
+        'name' in obj &&
+        isString(obj.name) &&
+        'price' in obj &&
+        isNumber(obj.price) &&
+        'quantity' in obj &&
+        isNumber(obj.quantity)
     );
 };
 
@@ -107,12 +120,12 @@ export const getOrderStatus = (status: OrderStatus, config: Config): string => {
         case OrderStatus.SHIPPED:
             return contentToText(ContentID.statusShipped, config);
         default:
-            return 'N/A';
+            return '';
     }
 };
 
-export const validateOrder = (order: NewOrder | Order): OrderValidationError[] => {
-    const errors: OrderValidationError[] = [];
+export const validateOrder = (order: NewOrder | Order, config: Config): string[] => {
+    const errors: string[] = [];
 
     if (
         order.customerAddress.length < 1 ||
@@ -124,15 +137,15 @@ export const validateOrder = (order: NewOrder | Order): OrderValidationError[] =
         order.customerPhone.length < 1 ||
         order.customerZipCode.length < 1
     ) {
-        errors.push(OrderValidationError.LackingRequiredCustomerInfo);
+        errors.push(contentToText(ContentID.checkOutCustomerContactInformation, config));
     } else {
         if (!isValidEmailAddress(order.customerEmail)) {
-            errors.push(OrderValidationError.InvalidEmailAddress);
+            errors.push(contentToText(ContentID.checkOutInvalidEmail, config));
         }
     }
 
     if (!order.deliveryMethod) {
-        errors.push(OrderValidationError.DeliveryMethodMissing);
+        errors.push(contentToText(ContentID.checkOutChooseDeliveryMethod, config));
     }
 
     return errors;

@@ -100,4 +100,5 @@
 |        | 1    | Parempi tilanhallinta sisäänkirjautumiselle. Refactorointia.                                                         | 180 |
 | 4.12.  | 2    | Tilanhallintaan parempi persist-ratkaisu. Refactorointia.                                                            |     |
 |        | 1    | Kuvien klikkaaminen suuremmaksi (modal)                                                                              |     |
-|  yht   | 183  |                                                                                                                      |     |
+| 5.12.  | 1    | Checkoutin parantelua                                                                                                |     |
+|  yht   | 184  |                                                                                                                      |     |

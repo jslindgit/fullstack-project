@@ -1,5 +1,6 @@
 table {
     border-spacing: 0px;
+    max-width: 100%;
 }
 
 th,
@@ -150,7 +151,7 @@ table.headerRow tr:first-child {
     padding-top: 0.6rem;
 }
 .adminOrders tr {
-    border-bottom: 1px dashed var(--colorGray);
+    border-bottom: 1px solid var(--colorGray);
 }
 .adminOrders tr:first-child {
     background-color: var(--colorGraySemiDark);
@@ -161,6 +162,7 @@ table.headerRow tr:first-child {
 }
 .adminOrdersOpened {
     background-color: var(--colorYellowVeryLight) !important;
+    border-bottom: 0 !important;
 }
 
 .adminOrdersMenu {
