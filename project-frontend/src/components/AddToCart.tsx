@@ -29,13 +29,17 @@ const AddToCart = ({ config, item }: Props) => {
         const shoppingItem: ShoppingItem = { id: item.id, name: langTextsToText(item.name, config), price: Number(item.price), quantity: Number(amount.value) };
         dispatch(addItemToShoppingCart(shoppingItem));
 
+        console.log('1:', contentToText(ContentID.itemsAddedToShoppingCart1, config));
+        console.log('2:', contentToText(ContentID.itemsAddedToShoppingCart2, config));
+
         dispatch(
             setNotification({
                 tone: 'Positive',
-                message: `${amount.value} x ${langTextsToText(item.name, config)} ${contentToText(ContentID.itemsAddedToShoppingCart1, config)} ${contentToText(
-                    ContentID.itemsAddedToShoppingCart2,
-                    config
-                )}.`,
+                message: `${amount.value} x ${langTextsToText(item.name, config)} ${contentToText(
+                    ContentID.itemsAddedToShoppingCart1,
+                    config,
+                    true
+                )} ${contentToText(ContentID.itemsAddedToShoppingCart2, config)}.`,
                 linkText: contentToText(ContentID.itemsAddedToShoppingCart2, config),
                 linkTo: '/cart',
             })

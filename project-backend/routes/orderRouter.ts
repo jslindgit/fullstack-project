@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express, { RequestHandler } from 'express';
 
-import { errorHandler } from '../middlewares/errors';
-import orderService from '../services/orderService';
 import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
+import { errorHandler } from '../middlewares/errors';
+import { isNewOrder } from '../models/order';
+import orderService from '../services/orderService';
 import { tokenExtractor } from '../middlewares/tokenExtractor';
 
 const router = express.Router();
@@ -45,6 +46,23 @@ router.get('/:id', tokenExtractor, (async (req, res, next) => {
             res.status(404).json({
                 error: `Order with id ${req.params.id} not found`,
             });
+        }
+    } catch (err) {
+        next(err);
+    }
+}) as RequestHandler);
+
+router.post('/', apiKeyExtractor, (async (req, res, next) => {
+    try {
+        if (res.locals.correct_api_key === true) {
+            if (isNewOrder(req.body)) {
+                const addedOrder = await orderService.addNew(req.body);
+                res.status(201).json(addedOrder);
+            } else {
+                res.status(400).json({ error: 'req.body is not a NewOrder' });
+            }
+        } else {
+            res.status(403).json({ error: 'Access denied' });
         }
     } catch (err) {
         next(err);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { Config } from '../types/configTypes';
-import { NewOrder, Order, PaytrailData } from '../types/orderTypes';
+import { Order, PaytrailData } from '../types/orderTypes';
 import { Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
@@ -15,7 +15,7 @@ interface PaytrailResponse extends Response {
 
 const url = apiBaseUrl + '/paytrail';
 
-const createPayment = async (order: NewOrder | Order, config: Config): Promise<PaytrailResponse> => {
+const createPayment = async (order: Order, config: Config): Promise<PaytrailResponse> => {
     try {
         const res = await axios.post<PaytrailData>(url + '/payment', orderToRequestBody({ ...order, userId: 4 }, config));
 

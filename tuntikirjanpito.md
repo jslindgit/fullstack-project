@@ -101,4 +101,5 @@
 | 4.12.  | 2    | Tilanhallintaan parempi persist-ratkaisu. Refactorointia.                                                            |     |
 |        | 1    | Kuvien klikkaaminen suuremmaksi (modal)                                                                              |     |
 | 5.12.  | 1    | Checkoutin parantelua                                                                                                |     |
-|  yht   | 184  |                                                                                                                      |     |
+|        | 1    | Checkoutin parantelua                                                                                                |     |
+|  yht   | 185  |                                                                                                                      |     |

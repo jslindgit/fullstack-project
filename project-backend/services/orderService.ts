@@ -5,21 +5,14 @@ import Order, { NewOrder, OrderAttributes, OrderInstance } from '../models/order
 import { handleError } from '../util/error_handler';
 import { isNumber, isObject } from '../types/type_functions';
 
-interface OrderResponse {
-    success: boolean;
-    message: string;
-    order: OrderInstance | null;
-}
-
-const addNew = async (newOrder: NewOrder): Promise<OrderResponse> => {
+const addNew = async (newOrder: NewOrder): Promise<OrderInstance | null> => {
     try {
-        //const order = await Order.create({ ...newOrder, id: 1 });
         const order = await Order.create(newOrder);
         await order.save();
-        return { success: true, message: 'Ok', order: order };
+        return order;
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Error occurred' + (err instanceof Error ? ': ' + err.message : ''), order: null };
+        return null;
     }
 };
 

@@ -2,13 +2,19 @@ import { Config } from './configTypes';
 import { LangCode, LangField, LangText, LangTextArea } from './languageTypes';
 import { ContentID } from '../content';
 
+import { defaultLangContent } from '../content';
 import { availableLangs } from './languageTypes';
 import { isObject, isString } from './typeFunctions';
 import useField from '../hooks/useField';
 import useTextArea from '../hooks/useTextArea';
 
-export const contentToText = (contentId: ContentID, config: Config) => {
-    const langContent = config.langContent.find((lc) => lc.id === contentId);
+export const contentToText = (contentId: ContentID, config: Config, debug: boolean = false) => {
+    const langContent = defaultLangContent.find((lc) => lc.id === contentId);
+
+    if (debug) {
+        console.log('langC:', langContent);
+    }
+
     if (langContent) {
         return langTextsToText(langContent.content, config);
     } else {

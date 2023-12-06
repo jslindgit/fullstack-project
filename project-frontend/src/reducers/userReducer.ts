@@ -36,11 +36,11 @@ export const initializeLoggedUser = async (dispatch: Dispatch<AnyAction>) => {
     const storedToken = localStorage.getItem('token');
 
     if (storedToken) {
-        const user = await userService.getByToken(storedToken);
+        const userResponse = await userService.getByToken(storedToken);
 
-        if (user) {
+        if (userResponse.user) {
             dispatch(slice.actions.setToken(storedToken));
-            dispatch(setLoggedUser(user));
+            dispatch(setLoggedUser(userResponse.user));
         } else {
             dispatch(slice.actions.setToken(null));
             dispatch(removeLoggedUser());

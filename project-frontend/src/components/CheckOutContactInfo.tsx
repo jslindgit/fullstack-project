@@ -222,7 +222,7 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
                                                     <tbody>
                                                         <tr>
                                                             <td style={{ paddingLeft: 0 }}>
-                                                                <input type='checkbox' className='checkbox' onChange={() => setRegister(!register)} />
+                                                                <input type='checkbox' onChange={() => setRegister(!register)} />
                                                             </td>
                                                             <td>Register</td>
                                                         </tr>

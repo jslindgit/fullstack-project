@@ -28,7 +28,7 @@ input:focus.error {
     outline: 3px solid var(--colorGrayDark);
 }
 
-input.checkbox {
+input[type='checkbox'] {
     margin-left: 0;
     margin-top: 0.3em;
     outline: 0;

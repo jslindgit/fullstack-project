@@ -30,6 +30,32 @@ export const getEmptyOrder = (): NewOrder => {
     return order;
 };
 
+export const isOrder = (obj: unknown): obj is Order => {
+    return (
+        isObject(obj) &&
+        'id' in obj &&
+        isNumber(obj.id) &&
+        'createdAt' in obj &&
+        'customerAddress' in obj &&
+        'customerCity' in obj &&
+        'customerCountry' in obj &&
+        'customerEmail' in obj &&
+        'customerFirstName' in obj &&
+        'customerLastName' in obj &&
+        'customerPhone' in obj &&
+        'customerZipCode' in obj &&
+        'deliveryCost' in obj &&
+        'deliveryMethod' in obj &&
+        'items' in obj &&
+        Array.isArray(obj.items) &&
+        'language' in obj &&
+        'paymentMethod' in obj &&
+        'status' in obj &&
+        'totalAmount' in obj &&
+        isNumber(obj.totalAmount)
+    );
+};
+
 export const isOrderOrNewOrder = (obj: unknown): obj is Order | NewOrder => {
     return (
         isObject(obj) &&
@@ -76,6 +102,7 @@ export const orderToRequestBody = (order: NewOrder | Order, config: Config): obj
     return {
         ...order,
         currency: 'EUR',
+        deliveryCost: Number(order.deliveryCost),
         deliveryMethod: order.deliveryMethod ? JSON.stringify(order.deliveryMethod) : '',
         items: JSON.stringify([...order.items, deliveryItem]),
         language: config.language.paytrailValue,
@@ -83,23 +110,29 @@ export const orderToRequestBody = (order: NewOrder | Order, config: Config): obj
     };
 };
 
-export const orderFromResponseBody = (responseBody: unknown): Order => {
-    if (!isObject(responseBody)) {
+export const orderFromResponseBody = (resBody: unknown): Order => {
+    if (!isObject(resBody)) {
         throw new Error('responseBody is not an object');
     }
 
-    const delivery = 'deliveryMethod' in responseBody ? responseBody.deliveryMethod : null;
-    const payment = 'paymentMethod' in responseBody ? responseBody.paymentMethod : null;
-    const items: ShoppingItem[] = 'items' in responseBody && isString(responseBody.items) ? (JSON.parse(responseBody.items) as ShoppingItem[]) : [];
+    const delivery = 'deliveryMethod' in resBody ? resBody.deliveryMethod : null;
+    const items: ShoppingItem[] = 'items' in resBody && isString(resBody.items) ? (JSON.parse(resBody.items) as ShoppingItem[]) : [];
+    const payment = 'paymentMethod' in resBody ? resBody.paymentMethod : null;
+
+    if (!('deliveryCost' in resBody && 'totalAmount' in resBody)) {
+        throw new Error('resBody is not an Order');
+    }
 
     // Remove the delivery method from the 'items' array (which was added there for Paytrail):
     const filteredItems = items.filter((item) => item.id > 0);
 
     return {
-        ...(responseBody as Order),
+        ...(resBody as Order),
+        deliveryCost: Number(resBody.deliveryCost),
         deliveryMethod: delivery && isString(delivery) && delivery.length > 0 ? JSON.parse(delivery) : null,
         items: filteredItems,
         paymentMethod: payment && isString(payment) && payment.length > 0 ? payment : null,
+        totalAmount: Number(resBody.totalAmount),
     };
 };
 

@@ -29,7 +29,7 @@ const OrderInfo = ({ order }: Props) => {
             <table align='center' width='100%' style={{ backgroundColor: 'var(--colorGrayExtremelyLight)', paddingLeft: '1rem', paddingRight: '1rem' }}>
                 <tbody>
                     <tr>
-                        <td style={{ paddingTop: 0 }}>
+                        <td>
                             <h3 style={{ marginBottom: 0 }}>{contentToText(ContentID.checkOutOrderInfo, config)}</h3>
                         </td>
                     </tr>

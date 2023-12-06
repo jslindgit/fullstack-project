@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 
-import { isNumber, isString } from '../types/type_functions';
+import { isNumber, isObject, isString } from '../types/type_functions';
 import { sequelize } from '../util/db';
 
 export interface OrderAttributes {
@@ -131,11 +131,8 @@ const Order = sequelize.define<OrderInstance>(
 );
 
 export const isNewOrder = (obj: unknown): obj is NewOrder => {
-    if (typeof obj !== 'object' || obj === null) {
-        return false;
-    }
-
-    if (
+    return (
+        isObject(obj) &&
         'currency' in obj &&
         isString(obj.currency) &&
         'customerAddress' in obj &&
@@ -168,11 +165,11 @@ export const isNewOrder = (obj: unknown): obj is NewOrder => {
         isString(obj.statusForAdmin) &&
         'totalAmount' in obj &&
         isNumber(obj.totalAmount)
-    ) {
-        return true;
-    }
+    );
+};
 
-    return false;
+export const isOrderInstance = (obj: unknown): obj is OrderInstance => {
+    return isNewOrder(obj) && 'id' in obj && isNumber(obj.id);
 };
 
 export default Order;

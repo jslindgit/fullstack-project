@@ -1,12 +1,11 @@
 import axios from 'axios';
 
 import { CheckoutParams } from '../util/paytrailProvider';
-import { NewOrder } from '../models/order';
+import { OrderInstance } from '../models/order';
 
 import { calculateHmac, guidv4, TEST_ACCOUNT, TEST_SECRET } from '../util/paytrailProvider';
 import { handleError } from '../util/error_handler';
 import { isObject } from '../types/type_functions';
-import orderService from './orderService';
 
 const API_ENDPOINT = 'https://services.paytrail.com';
 
@@ -16,16 +15,8 @@ interface PaytrailResponse {
     data: object;
 }
 
-const paymentRequest = async (newOrder: NewOrder): Promise<PaytrailResponse> => {
+const paymentRequest = async (order: OrderInstance): Promise<PaytrailResponse> => {
     try {
-        const orderResponse = await orderService.addNew(newOrder);
-
-        if (!orderResponse.success || !orderResponse.order) {
-            return { success: false, message: orderResponse.message, data: {} };
-        }
-
-        const order = orderResponse.order;
-
         const timeStamp = new Date().toISOString();
 
         const headersForHmac: CheckoutParams = {

@@ -1,28 +1,32 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 import { PaytrailData, PaytrailProvider } from '../types/orderTypes';
 
-import format from '../util/format';
-
 import { orderTotalSum } from '../util/checkoutProvider';
 import { pageWidth } from '../constants';
+import format from '../util/format';
+import { isOrder, validateOrder } from '../types/orderTypeFunctions';
+import orderService from '../services/orderService';
 import paytrailService from '../services/paytrailService';
-import { validateOrder } from '../types/orderTypeFunctions';
+
+import { setOrder } from '../reducers/orderReducer';
 
 import BackButton from './BackButton';
 import { Link } from './CustomLink';
 import OrderInfo from './OrderInfo';
 
 const CheckOutPayment = () => {
+    const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const order = useSelector((state: RootState) => state.order);
 
     const [paytrailData, setPaytrailData] = useState<PaytrailData | null>(null);
     const [attemptedToFetchPaytrailData, setAttemptedToFetchPaytrailData] = useState<boolean>(false);
+    const [attemptedToPostOrder, setAttemptedToPostOrder] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -30,10 +34,25 @@ const CheckOutPayment = () => {
         if (validateOrder(order, config).length > 0) {
             navigate('/checkout');
         }
-    }, [navigate, order]);
+    }, [config, navigate, order]);
 
     useEffect(() => {
-        if (order) {
+        // If 'order' is still NewOrder, make an api call to convert it into an Order and to save it in the database:
+        if (order && validateOrder(order, config).length <= 0 && !isOrder(order)) {
+            const createdOrder = async () => {
+                const response = await orderService.addNew(order, config);
+                if (response.success && response.order) {
+                    dispatch(setOrder(response.order));
+                }
+                setAttemptedToPostOrder(true);
+            };
+            createdOrder();
+        }
+    }, [config, dispatch, order]);
+
+    useEffect(() => {
+        // If 'order' is Order (has been sent to backend), make an api call to initiate a Paytrail payment and receive the available payment methods:
+        if (order && validateOrder(order, config) && isOrder(order)) {
             const createPayment = async () => {
                 const data = await paytrailService.createPayment(order, config);
                 setPaytrailData(data.data);
@@ -74,7 +93,7 @@ const CheckOutPayment = () => {
         responseToHtml(paytrailData)
     ) : (
         <div className='semiBold sizeLarge'>
-            {attemptedToFetchPaytrailData ? (
+            {attemptedToPostOrder || attemptedToFetchPaytrailData ? (
                 <>
                     Something went wrong.
                     <br />
@@ -111,7 +130,11 @@ const CheckOutPayment = () => {
                                                     <tr>
                                                         <td>
                                                             <a href='https://www.paytrail.com/kuluttajille' target='_blank'>
-                                                                <img src='https://www.helsinginlipputehdas.fi/verkkokauppa/paytrail-logo-70px.png' />
+                                                                <img
+                                                                    src='https://www.paytrail.com/hs-fs/hub/335946/file-493287103.png?width=200&name=file-493287103.png'
+                                                                    width='70'
+                                                                    height='70'
+                                                                />
                                                             </a>
                                                         </td>
                                                         <td

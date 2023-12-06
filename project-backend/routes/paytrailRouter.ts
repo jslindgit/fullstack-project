@@ -1,11 +1,11 @@
 import express, { RequestHandler } from 'express';
 
-import { NewOrder } from '../models/order';
+import { OrderInstance } from '../models/order';
 
 import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
 import { errorHandler } from '../middlewares/errors';
 import { handleError } from '../util/error_handler';
-import { isNewOrder } from '../models/order';
+import { isOrderInstance } from '../models/order';
 import { isObject, isString } from '../types/type_functions';
 import paytrailService from '../services/paytrailService';
 
@@ -26,10 +26,10 @@ router.get('/test_payment', (async (_req, res, next) => {
 
 router.post('/payment', (async (req, res, next) => {
     try {
-        if (isNewOrder(req.body)) {
-            const newOrder: NewOrder = req.body;
+        if (isOrderInstance(req.body)) {
+            const order: OrderInstance = req.body;
 
-            const paytrailResponse = await paytrailService.paymentRequest(newOrder);
+            const paytrailResponse = await paytrailService.paymentRequest(order);
 
             if (paytrailResponse.success) {
                 res.status(200).json(paytrailResponse.data);
@@ -37,6 +37,7 @@ router.post('/payment', (async (req, res, next) => {
                 res.status(500).json({ error: paytrailResponse.message });
             }
         } else {
+            console.log('req.body:', req.body);
             handleError(new Error('req.body is not a valid NewOrder'));
             res.status(400).json({ error: 'Request body is not a valid NewOrder' });
         }

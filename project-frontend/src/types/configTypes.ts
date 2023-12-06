@@ -1,9 +1,8 @@
 import { Country, Currency } from './types';
-import { LangContent, Language } from './languageTypes';
+import { Language } from './languageTypes';
 
 export interface Config {
     currency: Currency;
-    langContent: LangContent[];
     language: Language;
     owner: ConfigOwner;
     paytrail: ConfigPaytrail | null;
@@ -29,4 +28,5 @@ export interface ConfigStore {
     contactName: string;
     contactPhone: string;
     deliveryCountries: Country[];
+    deliveryTimeBusinessDays: number;
 }

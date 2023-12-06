@@ -125,6 +125,7 @@ export enum ContentID {
     menuProducts = 'MENU: Products',
     menuShoppingCart = 'MENU: Shopping Cart',
     miscDate = 'MISC: Date',
+    miscDays = 'MISC: days',
     miscDescription = 'MISC: Description',
     miscLoading = 'MISC: Loading',
     miscMerchant = 'MISC: Merchant',
@@ -748,8 +749,11 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.checkOutYourOrderHasBeenReceive,
         content: [
-            { langCode: LangCode.EN, text: 'Your order has been received and is being processed for delivery.' },
-            { langCode: LangCode.FI, text: 'Tilauksenne on otettu käsittelyyn.' },
+            {
+                langCode: LangCode.EN,
+                text: 'Your order has been received and is being processed for delivery.\n\nDelivery time for your order is approximately ',
+            },
+            { langCode: LangCode.FI, text: 'Tilauksenne on vastaanotettu.\n\nToimitusaika tilauksellenne on n. ' },
         ],
     },
     {
@@ -1023,6 +1027,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Date' },
             { langCode: LangCode.FI, text: 'Pvm' },
+        ],
+    },
+    {
+        id: ContentID.miscDays,
+        content: [
+            { langCode: LangCode.EN, text: 'days' },
+            { langCode: LangCode.FI, text: 'päivää' },
         ],
     },
     {

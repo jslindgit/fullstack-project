@@ -103,24 +103,23 @@ const CheckOutDone = () => {
             <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
                 <tbody>
                     <tr>
-                        <td>
-                            <h3 className='underlined'>Check Out</h3>
-                        </td>
+                        <td className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</td>
                     </tr>
                 </tbody>
             </table>
             <table align='center' width={pageWidth} className='valignTop'>
                 <tbody>
                     <tr>
-                        <td style={{ paddingTop: 0 }}>
+                        <td style={{ paddingLeft: 0, paddingTop: 0 }}>
                             <table align='center' width='100%' className='paddingTopBottomOnly'>
                                 <tbody>
                                     <tr>
-                                        <td>
+                                        <td style={{ paddingTop: 0 }}>
                                             {signatureStatus === SignatureStatus.VALID ? (
                                                 <>
                                                     <h2>{contentToText(ContentID.checkOutThankYou, config)}</h2>
-                                                    {contentToText(ContentID.checkOutYourOrderHasBeenReceive, config)}
+                                                    {contentToText(ContentID.checkOutYourOrderHasBeenReceive, config)} {config.store.deliveryTimeBusinessDays}{' '}
+                                                    {contentToText(ContentID.miscDays, config)}.
                                                 </>
                                             ) : (
                                                 <>{signatureNotValid()}</>

@@ -1,18 +1,37 @@
 import axios from 'axios';
 
+import { Config } from '../types/configTypes';
+import { ContentID } from '../content';
+import { NewOrder, Order, OrderStatus, OrderStatusForAdmin } from '../types/orderTypes';
 import { Response } from '../types/types';
-import { Order, OrderStatus, OrderStatusForAdmin } from '../types/orderTypes';
 
 import { apiBaseUrl } from '../constants';
-import { apiKeyConfig, authConfig } from '../util/serviceProvider';
 import { handleError } from '../util/handleError';
-import { orderFromResponseBody } from '../types/orderTypeFunctions';
+import { contentToText } from '../types/languageFunctions';
+import { isOrder, orderFromResponseBody, orderToRequestBody } from '../types/orderTypeFunctions';
+import { apiKeyConfig, authConfig } from '../util/serviceProvider';
 
 const url = apiBaseUrl + '/orders';
 
 interface OrderResponse extends Response {
     order: Order | null;
 }
+
+const addNew = async (newOrder: NewOrder, config: Config): Promise<OrderResponse> => {
+    try {
+        const { data } = await axios.post(url, orderToRequestBody(newOrder, config), apiKeyConfig());
+        console.log('data:', data);
+        const order = orderFromResponseBody(data);
+        console.log('order:', order);
+        if (!isOrder(order)) {
+            return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), order: null };
+        }
+        return { success: true, message: 'Ok', order: order };
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config), order: null };
+    }
+};
 
 const deleteOrder = async (order: Order, token: string): Promise<Response> => {
     try {
@@ -98,6 +117,7 @@ const updateStatusForAdmin = async (orderId: number, newStatus: OrderStatusForAd
 };
 
 export default {
+    addNew,
     deleteOrder,
     getAll,
     getById,
