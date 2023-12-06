@@ -26,11 +26,20 @@ const OrderInfo = ({ order }: Props) => {
 
     return (
         <>
-            <table align='center' width='100%' style={{ backgroundColor: 'var(--colorGrayExtremelyLight)', paddingLeft: '1rem', paddingRight: '1rem' }}>
+            <table
+                align='center'
+                width='100%'
+                style={{
+                    backgroundColor: 'var(--colorGrayExtremelyLight)',
+                    border: '0.2em dotted var(--colorGrayLight)',
+                    paddingLeft: '1rem',
+                    paddingRight: '1rem',
+                }}
+            >
                 <tbody>
                     <tr>
                         <td>
-                            <h3 style={{ marginBottom: 0 }}>{contentToText(ContentID.checkOutOrderInfo, config)}</h3>
+                            <h3 style={{ marginBottom: 0 }}>{contentToText(ContentID.checkOutOrderInfo, config) + ('id' in order ? ' ' + order.id : '')}</h3>
                         </td>
                     </tr>
                     <tr>

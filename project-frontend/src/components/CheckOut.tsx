@@ -34,7 +34,7 @@ const CheckOut = () => {
         setValidationErrors(errors);
 
         if (errors.length <= 0) {
-            navigate('/payment');
+            navigate('/order');
         }
     };
 
@@ -127,6 +127,7 @@ const CheckOut = () => {
                                 ) : (
                                     ''
                                 )}
+                                <br />
                                 <button
                                     type='button'
                                     className='large'

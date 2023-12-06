@@ -72,6 +72,7 @@ const CheckOutDone = () => {
                 const updateOrderStatus = async () => {
                     const paymentMethod = searchparams.get('checkout-provider') as string;
                     const orderResponse = await orderService.update(order.id, { paymentMethod: paymentMethod, status: OrderStatus.PROCESSING });
+                    console.log('orderResponse:', orderResponse);
                     if (orderResponse.success && orderResponse.order) {
                         setOrder(orderResponse.order);
                     }

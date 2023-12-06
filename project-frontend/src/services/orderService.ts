@@ -19,14 +19,13 @@ interface OrderResponse extends Response {
 
 const addNew = async (newOrder: NewOrder, config: Config): Promise<OrderResponse> => {
     try {
-        const { data } = await axios.post(url, orderToRequestBody(newOrder, config), apiKeyConfig());
-        console.log('data:', data);
+        const { data } = await axios.post(url, orderToRequestBody(newOrder, config, false), apiKeyConfig());
         const order = orderFromResponseBody(data);
-        console.log('order:', order);
-        if (!isOrder(order)) {
+        if (isOrder(order)) {
+            return { success: true, message: 'Ok', order: order };
+        } else {
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), order: null };
         }
-        return { success: true, message: 'Ok', order: order };
     } catch (err: unknown) {
         handleError(err);
         return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config), order: null };
@@ -72,8 +71,11 @@ const getById = async (id: number): Promise<OrderResponse> => {
 };
 
 const update = async (orderId: number, toUpdate: object): Promise<OrderResponse> => {
+    console.log('orderId:', orderId);
     try {
         const res = await axios.put<Order>(`${url}/${orderId}`, toUpdate, apiKeyConfig());
+
+        console.log('res:', res);
 
         if (res.status === 200) {
             return { success: true, message: `Order ${orderId} updated`, order: orderFromResponseBody(res) };

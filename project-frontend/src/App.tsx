@@ -24,6 +24,7 @@ import AdminPanel from './components/Admin/AdminPanel';
 import AdminUserInfo from './components/Admin/AdminUserInfo';
 import Categories from './components/Categories';
 import CheckOut from './components/CheckOut';
+import CheckOutCreateOrder from './components/CheckOutCreateOrder';
 import CheckOutDone from './components/CheckOutDone';
 import CheckOutPayment from './components/CheckOutPayment';
 import Error404 from './components/Error404';
@@ -92,6 +93,7 @@ const App = () => {
                 <Route path='/info' element={<Info />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/success' element={<CheckOutDone />} />
+                <Route path='/order' element={<CheckOutCreateOrder />} />
                 <Route path='/payment' element={<CheckOutPayment />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/shop' element={<Categories />} />

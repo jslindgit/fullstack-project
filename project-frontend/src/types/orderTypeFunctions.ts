@@ -90,27 +90,34 @@ export const isShoppingItem = (obj: object): obj is ShoppingItem => {
     );
 };
 
-export const orderToRequestBody = (order: NewOrder | Order, config: Config): object => {
-    // The delivery method needs to be added to the 'items' array for Paytrail, as the sum of the prices of items in the order must match the total sum of the order:
-    const deliveryItem: ShoppingItem = {
-        id: 0,
-        name: order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : 'Delivery',
-        price: order.deliveryCost,
-        quantity: 1,
-    };
+export const orderToRequestBody = (order: NewOrder | Order, config: Config, addDeliveryMethodToItems: boolean): object => {
+    const orderItems: ShoppingItem[] = [...order.items];
+
+    if (addDeliveryMethodToItems) {
+        // The delivery method needs to be added to the 'items' array when making a payment request for Paytrail, as the sum of the prices of items in the order must match the total sum of the order:
+        const deliveryItem: ShoppingItem = {
+            id: 0,
+            name: order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : 'Delivery',
+            price: order.deliveryCost,
+            quantity: 1,
+        };
+
+        orderItems.push(deliveryItem);
+    }
 
     return {
         ...order,
         currency: 'EUR',
         deliveryCost: Number(order.deliveryCost),
         deliveryMethod: order.deliveryMethod ? JSON.stringify(order.deliveryMethod) : '',
-        items: JSON.stringify([...order.items, deliveryItem]),
+        items: JSON.stringify(orderItems),
         language: config.language.paytrailValue,
         totalAmount: orderTotalSum(order),
     };
 };
 
 export const orderFromResponseBody = (resBody: unknown): Order => {
+    console.log('resBody:', resBody);
     if (!isObject(resBody)) {
         throw new Error('responseBody is not an object');
     }

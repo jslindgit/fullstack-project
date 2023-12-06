@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../content';
@@ -9,24 +9,20 @@ import { PaytrailData, PaytrailProvider } from '../types/orderTypes';
 import { orderTotalSum } from '../util/checkoutProvider';
 import { pageWidth } from '../constants';
 import format from '../util/format';
+import { contentToText } from '../types/languageFunctions';
 import { isOrder, validateOrder } from '../types/orderTypeFunctions';
-import orderService from '../services/orderService';
 import paytrailService from '../services/paytrailService';
-
-import { setOrder } from '../reducers/orderReducer';
 
 import BackButton from './BackButton';
 import { Link } from './CustomLink';
 import OrderInfo from './OrderInfo';
 
 const CheckOutPayment = () => {
-    const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const order = useSelector((state: RootState) => state.order);
 
     const [paytrailData, setPaytrailData] = useState<PaytrailData | null>(null);
     const [attemptedToFetchPaytrailData, setAttemptedToFetchPaytrailData] = useState<boolean>(false);
-    const [attemptedToPostOrder, setAttemptedToPostOrder] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -37,22 +33,9 @@ const CheckOutPayment = () => {
     }, [config, navigate, order]);
 
     useEffect(() => {
-        // If 'order' is still NewOrder, make an api call to convert it into an Order and to save it in the database:
-        if (order && validateOrder(order, config).length <= 0 && !isOrder(order)) {
-            const createdOrder = async () => {
-                const response = await orderService.addNew(order, config);
-                if (response.success && response.order) {
-                    dispatch(setOrder(response.order));
-                }
-                setAttemptedToPostOrder(true);
-            };
-            createdOrder();
-        }
-    }, [config, dispatch, order]);
-
-    useEffect(() => {
         // If 'order' is Order (has been sent to backend), make an api call to initiate a Paytrail payment and receive the available payment methods:
         if (order && validateOrder(order, config) && isOrder(order)) {
+            console.log('createPayment... order:', order);
             const createPayment = async () => {
                 const data = await paytrailService.createPayment(order, config);
                 setPaytrailData(data.data);
@@ -93,7 +76,7 @@ const CheckOutPayment = () => {
         responseToHtml(paytrailData)
     ) : (
         <div className='semiBold sizeLarge'>
-            {attemptedToPostOrder || attemptedToFetchPaytrailData ? (
+            {attemptedToFetchPaytrailData ? (
                 <>
                     Something went wrong.
                     <br />
@@ -112,7 +95,7 @@ const CheckOutPayment = () => {
                 <tbody>
                     <tr>
                         <td>
-                            <h3 className='underlined'>Check out</h3>
+                            <h3 className='underlined'>{contentToText(ContentID.checkOutHeader, config)}</h3>
                         </td>
                     </tr>
                 </tbody>
