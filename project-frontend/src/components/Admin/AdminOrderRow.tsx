@@ -6,6 +6,7 @@ import { RootState } from '../../reducers/rootReducer';
 
 import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { getOrderStatusForAdmin } from '../../types/orderTypeFunctions';
 
 interface Props {
     order: Order;
@@ -28,7 +29,7 @@ const AdminOrderRow = ({ order, openedOrder, setOpenedOrder }: Props) => {
             </td>
             <td>{format.currency(order.totalAmount, config)}</td>
             <td>{order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : ''}</td>
-            <td>{order.statusForAdmin}</td>
+            <td>{getOrderStatusForAdmin(order.statusForAdmin, config)}</td>
             <td>
                 {isOpened ? (
                     <button type='button' onClick={() => setOpenedOrder(null)}>

@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
 import { ContentID } from '../content';
-import { Order, OrderStatus } from '../types/orderTypes';
+import { OrderResponse } from '../services/orderService';
+import { OrderStatus } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
 import { pageWidth } from '../constants';
@@ -27,65 +28,76 @@ const CheckOutDone = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
 
-    const [order, setOrder] = useState<Order | null>(null);
+    const attemptedToFetchOrder = useRef(false);
+    const clearedOrderFromRedux = useRef(false);
+
+    const [orderId, setOrderId] = useState<string | null>(null);
+    const [orderResponse, setOrderResponse] = useState<OrderResponse | null>(null);
     const [signatureStatus, setSignatureStatus] = useState<SignatureStatus>(SignatureStatus.PENDING);
 
     const [searchparams] = useSearchParams();
 
+    // Get 'orderId' from the return URL:
     useEffect(() => {
-        const fetchOrderFromServer = async () => {
-            const orderId = searchparams.get('checkout-reference');
-
-            let fetchedOrder: Order | null = null;
-            if (orderId) {
-                const fetchOrder = async () => {
-                    fetchedOrder = (await orderService.getById(Number(orderId))).order;
-                };
-                const fetchPromise = fetchOrder();
-                await Promise.resolve(fetchPromise);
-            }
-
-            setOrder(fetchedOrder);
-
-            if (fetchedOrder) {
-                clearOrder(dispatch);
-            }
-        };
-
-        fetchOrderFromServer();
+        const checkoutReference = searchparams.get('checkout-reference');
+        if (checkoutReference) {
+            setOrderId(checkoutReference);
+        }
     }, [searchparams]);
 
+    // When 'orderId' is set, get the order from the server:
     useEffect(() => {
-        if (order && signatureStatus === SignatureStatus.PENDING) {
-            // Check that the returned 'signature' is valid:
+        if (orderId) {
+            const fetchOrder = async () => {
+                const response = await orderService.getById(Number(orderId));
+                console.log('response (fetching):', response);
+                setOrderResponse(response);
+                attemptedToFetchOrder.current = true;
+            };
+            fetchOrder();
+        }
+    }, [orderId]);
+
+    // When 'orderResponse' is set, remove the order from Redux state:
+    useEffect(() => {
+        if (orderResponse && clearedOrderFromRedux.current === false) {
+            clearOrder(dispatch);
+            clearedOrderFromRedux.current = true;
+        }
+    }, [dispatch, orderResponse]);
+
+    // When 'orderResponse' is set, check that the returned 'signature' is valid:
+    useEffect(() => {
+        console.log('When orderResponse is set, check that the returned signature is valid');
+        if (orderResponse?.order && signatureStatus === SignatureStatus.PENDING) {
+            console.log('if (orderResponse?.order && signatureStatus.current === SignatureStatus.PENDING) {');
             const isValidSignature = async () => {
                 const res = await paytrailService.validateSignatureFromUrl(window.location.href);
+                console.log('res (paytrailService.validateSignatureFromUrl):', res);
                 setSignatureStatus(res.success ? SignatureStatus.VALID : SignatureStatus.INVALID);
             };
             isValidSignature();
         }
-    }, [order]);
+    }, [orderResponse, signatureStatus]);
 
+    // If the 'signature' is valid, update the order's status from "PENDING" to "PROCESSING":
     useEffect(() => {
-        if (order && order.status === OrderStatus.PENDING) {
-            if (signatureStatus === SignatureStatus.VALID) {
-                const updateOrderStatus = async () => {
+        console.log('If the signature is valid, update the orders status from "PENDING" to "PROCESSING":');
+        if (orderResponse?.order?.status === OrderStatus.PENDING && signatureStatus === SignatureStatus.VALID) {
+            const updateOrderStatus = async () => {
+                if (orderResponse.order) {
                     const paymentMethod = searchparams.get('checkout-provider') as string;
-                    const orderResponse = await orderService.update(order.id, { paymentMethod: paymentMethod, status: OrderStatus.PROCESSING });
-                    console.log('orderResponse:', orderResponse);
-                    if (orderResponse.success && orderResponse.order) {
-                        setOrder(orderResponse.order);
-                    }
-                };
+                    const response = await orderService.update(orderResponse.order.id, { paymentMethod: paymentMethod, status: OrderStatus.PROCESSING });
+                    console.log('response (updating status):', orderResponse);
+                    setOrderResponse(response);
+                }
+            };
 
-                updateOrderStatus();
-            } else {
-                // TODO: signature mismatch - do something?
-            }
+            updateOrderStatus();
         }
-    }, [order, searchparams, signatureStatus]);
+    }, [orderResponse, searchparams, signatureStatus]);
 
-    const signatureNotValid = (): JSX.Element => {
+    const signaturePendingOrInvalid = (): JSX.Element => {
         if (signatureStatus === SignatureStatus.INVALID) {
             return (
                 <>
@@ -95,7 +107,7 @@ const CheckOutDone = () => {
                 </>
             );
         } else {
-            return <>{contentToText(ContentID.miscLoading, config)}</>;
+            return <div className='semiBold sizeLarge'>{contentToText(ContentID.miscLoading, config)}</div>;
         }
     };
 
@@ -123,7 +135,7 @@ const CheckOutDone = () => {
                                                     {contentToText(ContentID.miscDays, config)}.
                                                 </>
                                             ) : (
-                                                <>{signatureNotValid()}</>
+                                                <>{signaturePendingOrInvalid()}</>
                                             )}
                                         </td>
                                     </tr>
@@ -139,7 +151,7 @@ const CheckOutDone = () => {
                         </td>
                         <td width='3rem'></td>
                         <td width='40%' style={{ verticalAlign: 'top', paddingTop: 0 }}>
-                            <div style={{ position: 'sticky', top: '1rem' }}>{order ? <OrderInfo order={order} /> : <></>}</div>
+                            <div style={{ position: 'sticky', top: '1rem' }}>{orderResponse?.order ? <OrderInfo order={orderResponse.order} /> : <></>}</div>
                         </td>
                     </tr>
                 </tbody>

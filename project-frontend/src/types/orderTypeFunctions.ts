@@ -30,6 +30,38 @@ export const getEmptyOrder = (): NewOrder => {
     return order;
 };
 
+export const getOrderStatus = (status: OrderStatus, config: Config): string => {
+    switch (status) {
+        case OrderStatus.CANCELLED:
+            return contentToText(ContentID.statusCancelled, config);
+        case OrderStatus.COMPLETED:
+            return contentToText(ContentID.statusCompleted, config);
+        case OrderStatus.DELIVERED:
+            return contentToText(ContentID.statusDelivered, config);
+        case OrderStatus.PENDING:
+            return contentToText(ContentID.statusPending, config);
+        case OrderStatus.PROCESSING:
+            return contentToText(ContentID.statusProcessing, config);
+        case OrderStatus.REFUNDED:
+            return contentToText(ContentID.statusRefunded, config);
+        case OrderStatus.SHIPPED:
+            return contentToText(ContentID.statusShipped, config);
+        default:
+            return '';
+    }
+};
+
+export const getOrderStatusForAdmin = (status: OrderStatusForAdmin, config: Config): string => {
+    switch (status) {
+        case OrderStatusForAdmin.NEW:
+            return contentToText(ContentID.orderStatusForAdminNew, config);
+        case OrderStatusForAdmin.READ:
+            return contentToText(ContentID.orderStatusForAdminRead, config);
+        case OrderStatusForAdmin.SHIPPED:
+            return contentToText(ContentID.orderStatusForAdminShipped, config);
+    }
+};
+
 export const isOrder = (obj: unknown): obj is Order => {
     return (
         isObject(obj) &&
@@ -117,7 +149,6 @@ export const orderToRequestBody = (order: NewOrder | Order, config: Config, addD
 };
 
 export const orderFromResponseBody = (resBody: unknown): Order => {
-    console.log('resBody:', resBody);
     if (!isObject(resBody)) {
         throw new Error('responseBody is not an object');
     }
@@ -141,27 +172,6 @@ export const orderFromResponseBody = (resBody: unknown): Order => {
         paymentMethod: payment && isString(payment) && payment.length > 0 ? payment : null,
         totalAmount: Number(resBody.totalAmount),
     };
-};
-
-export const getOrderStatus = (status: OrderStatus, config: Config): string => {
-    switch (status) {
-        case OrderStatus.CANCELLED:
-            return contentToText(ContentID.statusCancelled, config);
-        case OrderStatus.COMPLETED:
-            return contentToText(ContentID.statusCompleted, config);
-        case OrderStatus.DELIVERED:
-            return contentToText(ContentID.statusDelivered, config);
-        case OrderStatus.PENDING:
-            return contentToText(ContentID.statusPending, config);
-        case OrderStatus.PROCESSING:
-            return contentToText(ContentID.statusProcessing, config);
-        case OrderStatus.REFUNDED:
-            return contentToText(ContentID.statusRefunded, config);
-        case OrderStatus.SHIPPED:
-            return contentToText(ContentID.statusShipped, config);
-        default:
-            return '';
-    }
 };
 
 export const validateOrder = (order: NewOrder | Order, config: Config): string[] => {

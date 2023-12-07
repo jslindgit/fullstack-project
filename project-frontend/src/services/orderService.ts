@@ -13,7 +13,7 @@ import { apiKeyConfig, authConfig } from '../util/serviceProvider';
 
 const url = apiBaseUrl + '/orders';
 
-interface OrderResponse extends Response {
+export interface OrderResponse extends Response {
     order: Order | null;
 }
 
@@ -65,20 +65,17 @@ const getById = async (id: number): Promise<OrderResponse> => {
             return { success: false, message: `Something went wrong (${res.status})`, order: null };
         }
     } catch (err: unknown) {
-        handleError(err);
+        //handleError(err);
         return { success: false, message: 'Error occurred', order: null };
     }
 };
 
 const update = async (orderId: number, toUpdate: object): Promise<OrderResponse> => {
-    console.log('orderId:', orderId);
     try {
         const res = await axios.put<Order>(`${url}/${orderId}`, toUpdate, apiKeyConfig());
 
-        console.log('res:', res);
-
         if (res.status === 200) {
-            return { success: true, message: `Order ${orderId} updated`, order: orderFromResponseBody(res) };
+            return { success: true, message: `Order ${orderId} updated`, order: orderFromResponseBody(res.data) };
         } else {
             return { success: false, message: 'Something went wrong, try again later', order: null };
         }

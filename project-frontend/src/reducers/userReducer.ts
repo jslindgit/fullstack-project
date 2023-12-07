@@ -44,6 +44,7 @@ export const initializeLoggedUser = async (dispatch: Dispatch<AnyAction>) => {
         } else {
             dispatch(slice.actions.setToken(null));
             dispatch(removeLoggedUser());
+            localStorage.removeItem('token');
         }
     }
 };

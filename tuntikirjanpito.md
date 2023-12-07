@@ -102,4 +102,5 @@
 |        | 1    | Kuvien klikkaaminen suuremmaksi (modal)                                                                              |     |
 | 5.12.  | 1    | Checkoutin parantelua                                                                                                |     |
 |        | 1    | Checkoutin parantelua                                                                                                |     |
-|  yht   | 185  |                                                                                                                      |     |
+| 7.12.  | 1    | Checkoutin debuggausta                                                                                               |     |
+|  yht   | 186  |                                                                                                                      |     |

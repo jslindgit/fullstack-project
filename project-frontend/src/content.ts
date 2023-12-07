@@ -138,6 +138,9 @@ export enum ContentID {
     orderItems = 'ORDER: Items',
     orderPaymentMethod = 'ORDER: Payment method',
     orderStatus = 'ORDER: Status',
+    orderStatusForAdminNew = 'ORDER STATUS FOR ADMIN: New',
+    orderStatusForAdminRead = 'ORDER STATUS FOR ADMIN: Read',
+    orderStatusForAdminShipped = 'ORDER STATUS FOR ADMIN: Shipped',
     orderTotalAmount = 'ORDER: Total Amount',
     registerHeader = 'REGISTER: header',
     registerSuccess = 'REGISTER: Registration successful',
@@ -1118,6 +1121,27 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Status' },
             { langCode: LangCode.FI, text: 'Tila' },
+        ],
+    },
+    {
+        id: ContentID.orderStatusForAdminNew,
+        content: [
+            { langCode: LangCode.EN, text: 'New' },
+            { langCode: LangCode.FI, text: 'Uusi' },
+        ],
+    },
+    {
+        id: ContentID.orderStatusForAdminRead,
+        content: [
+            { langCode: LangCode.EN, text: 'Read' },
+            { langCode: LangCode.FI, text: 'Luettu' },
+        ],
+    },
+    {
+        id: ContentID.orderStatusForAdminShipped,
+        content: [
+            { langCode: LangCode.EN, text: 'Shipped' },
+            { langCode: LangCode.FI, text: 'Lähetetty' },
         ],
     },
     {
