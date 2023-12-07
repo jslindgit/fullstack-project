@@ -24,12 +24,14 @@ const UserPanel = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        document.title = contentToText(ContentID.menuAccount, config) + ' | ' + config.store.contactName;
+
         setUser(usersState.loggedUser);
 
         if (miscState.loaded && (!usersState.loggedUser || usersState.loggedUser === null)) {
             navigate('/login');
         }
-    }, [usersState.loggedUser, miscState.loaded, navigate, user]);
+    }, [config, usersState.loggedUser, miscState.loaded, navigate, user]);
 
     if (!user) {
         return <>{contentToText(ContentID.menuLogin, config)}</>;

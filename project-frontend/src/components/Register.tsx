@@ -42,6 +42,10 @@ const Register = () => {
 
     const required: UseField[] = [address, city, email, firstName, lastName, password, phone, zipCode];
 
+    useEffect(() => {
+        document.title = contentToText(ContentID.registerHeader, config) + ' | ' + config.store.contactName;
+    }, [config]);
+
     const fillRandomly = () => {
         const zipCity = dev.randomZipCodeAndCity();
 

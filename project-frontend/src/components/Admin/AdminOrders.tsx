@@ -29,7 +29,9 @@ const AdminOrders = () => {
 
     useEffect(() => {
         fetch();
-    }, []);
+
+        document.title = `${contentToText(ContentID.adminPanelHeader, config)} - ${contentToText(ContentID.adminPanelOrders, config)} (${orders.length})`;
+    }, [config, orders.length]);
 
     const deleteOrder = async (order: Order) => {
         if (
@@ -60,11 +62,13 @@ const AdminOrders = () => {
                 <tbody>
                     <tr>
                         <td>{contentToText(ContentID.adminOrdersProcessing, config)}</td>
-                        <td width='1px'>|</td>
-                        <td>{contentToText(ContentID.adminOrdersRecentlyDelivered, config)}</td>
-                        <td width='1px'>|</td>
-                        <td>{contentToText(ContentID.adminOrdersArchived, config)}</td>
-                        <td width='1px'>|</td>
+                        <td width='1px' className='colorGrayLight bold'>
+                            |
+                        </td>
+                        <td>{contentToText(ContentID.adminOrdersDelivered, config)}</td>
+                        <td width='1px' className='colorGrayLight bold'>
+                            |
+                        </td>
                         <td>{contentToText(ContentID.miscRecycleBin, config)}</td>
                     </tr>
                 </tbody>

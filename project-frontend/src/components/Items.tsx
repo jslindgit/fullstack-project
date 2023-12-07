@@ -27,7 +27,7 @@ const Items = () => {
         if (miscState.loaded && category === undefined) {
             navigate('/shop');
         }
-    }, [category, miscState.loaded, navigate]);
+    }, [category, config, miscState.loaded, navigate]);
 
     if (!category) {
         return <></>;

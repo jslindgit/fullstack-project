@@ -103,4 +103,5 @@
 | 5.12.  | 1    | Checkoutin parantelua                                                                                                |     |
 |        | 1    | Checkoutin parantelua                                                                                                |     |
 | 7.12.  | 1    | Checkoutin debuggausta                                                                                               |     |
-|  yht   | 186  |                                                                                                                      |     |
+|        | 1    | Tilauskäsittelyn työstöä                                                                                             |     |
+|  yht   | 187  |                                                                                                                      |     |

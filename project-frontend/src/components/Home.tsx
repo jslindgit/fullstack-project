@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
@@ -6,7 +7,11 @@ import { RootState } from '../reducers/rootReducer';
 import { contentToText } from '../types/languageFunctions';
 
 const MainPage = () => {
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
+
+    useEffect(() => {
+        document.title = config.store.contactName;
+    }, [config]);
 
     return (
         <>
@@ -15,7 +20,7 @@ const MainPage = () => {
                     <tbody>
                         <tr>
                             <td>
-                                <h2>{contentToText(ContentID.homeWelcome, configState)}</h2>
+                                <h2>{contentToText(ContentID.homeWelcome, config)}</h2>
                             </td>
                         </tr>
                     </tbody>

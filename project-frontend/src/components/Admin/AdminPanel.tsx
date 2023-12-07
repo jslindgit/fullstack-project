@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 
@@ -25,6 +26,12 @@ const AdminPanel = () => {
 
     const [searchParams] = useSearchParams();
     const back = searchParams.get('back');
+
+    useEffect(() => {
+        document.title =
+            contentToText(ContentID.adminPanelHeader, config) +
+            (page && page.length > 0 ? ' - ' + printAdminPanelHeader(page, config) : ' | ' + config.store.contactName);
+    }, [config, page]);
 
     const showPage = (): JSX.Element => {
         switch (page) {

@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../content';
 import { User } from '../types/types';
@@ -25,6 +26,10 @@ const Login = () => {
     const password = useField('password', ContentID.loginPassword);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = contentToText(ContentID.menuLogin, config) + ' | ' + config.store.contactName;
+    }, [config]);
 
     const removeLogged = () => {
         dispatch(removeLoggedUser());

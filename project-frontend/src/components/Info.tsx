@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
@@ -7,13 +8,17 @@ import { contentToText } from '../types/languageFunctions';
 import { pageWidth } from '../constants';
 
 const Info = () => {
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
+
+    useEffect(() => {
+        document.title = contentToText(ContentID.menuInfo, config) + ' | ' + config.store.contactName;
+    }, [config]);
 
     const businessId = (bid: string) => {
         if (bid.length > 0) {
             return (
                 <tr>
-                    <td className='widthByContent'>{contentToText(ContentID.contactBusinessID, configState)}:&emsp;</td>
+                    <td className='widthByContent'>{contentToText(ContentID.contactBusinessID, config)}:&emsp;</td>
                     <td>{bid}</td>
                 </tr>
             );
@@ -24,7 +29,7 @@ const Info = () => {
         if (phoneNumber.length > 0) {
             return (
                 <tr>
-                    <td className='widthByContent'>{contentToText(ContentID.contactPhone, configState)}:&emsp;</td>
+                    <td className='widthByContent'>{contentToText(ContentID.contactPhone, config)}:&emsp;</td>
                     <td>
                         <a href={'tel:' + phoneNumber}>{phoneNumber}</a>
                     </td>
@@ -42,7 +47,7 @@ const Info = () => {
                     <tbody>
                         <tr>
                             <td colSpan={3} className='pageHeader'>
-                                {contentToText(ContentID.menuInfo, configState)}
+                                {contentToText(ContentID.menuInfo, config)}
                             </td>
                         </tr>
                         <tr>
@@ -51,16 +56,16 @@ const Info = () => {
                                     <tbody>
                                         <tr>
                                             <td colSpan={2}>
-                                                <div className='infoHeader underlined'>{configState.store.contactName}</div>
+                                                <div className='infoHeader underlined'>{config.store.contactName}</div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className='widthByContent'>{contentToText(ContentID.contactEmail, configState)}:&emsp;</td>
+                                            <td className='widthByContent'>{contentToText(ContentID.contactEmail, config)}:&emsp;</td>
                                             <td>
-                                                <a href={'mailto:' + configState.store.contactEmail}>{configState.store.contactEmail}</a>
+                                                <a href={'mailto:' + config.store.contactEmail}>{config.store.contactEmail}</a>
                                             </td>
                                         </tr>
-                                        {phone(configState.store.contactPhone)}
+                                        {phone(config.store.contactPhone)}
                                     </tbody>
                                 </table>
                             </td>
@@ -70,22 +75,22 @@ const Info = () => {
                                     <tbody>
                                         <tr>
                                             <td colSpan={2}>
-                                                <div className='infoHeader underlined'>{contentToText(ContentID.miscMerchant, configState)}</div>
+                                                <div className='infoHeader underlined'>{contentToText(ContentID.miscMerchant, config)}</div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colSpan={2} className='semiBold' style={{ paddingTop: 0 }}>
-                                                {configState.owner.name}
+                                                {config.owner.name}
                                             </td>
                                         </tr>
-                                        {businessId(configState.owner.businessIdentifier)}
+                                        {businessId(config.owner.businessIdentifier)}
                                         <tr>
-                                            <td className='widthByContent'>{contentToText(ContentID.contactEmail, configState)}:&emsp;</td>
+                                            <td className='widthByContent'>{contentToText(ContentID.contactEmail, config)}:&emsp;</td>
                                             <td>
-                                                <a href={'mailto:' + configState.owner.email}>{configState.owner.email}</a>
+                                                <a href={'mailto:' + config.owner.email}>{config.owner.email}</a>
                                             </td>
                                         </tr>
-                                        {phone(configState.owner.phone)}
+                                        {phone(config.owner.phone)}
                                     </tbody>
                                 </table>
                             </td>

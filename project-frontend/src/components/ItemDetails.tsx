@@ -26,6 +26,8 @@ const ItemDetails = () => {
     const id = Number(useParams().id);
 
     useEffect(() => {
+        document.title = contentToText(ContentID.menuProducts, config) + ' | ' + config.store.contactName;
+
         try {
             itemService.getById(id).then((res) => {
                 setItem(res as Item);
@@ -34,7 +36,7 @@ const ItemDetails = () => {
             handleError(err);
             setLoading('Something went wrong :(');
         }
-    }, [id]);
+    }, [config, id]);
 
     if (!item) {
         return (

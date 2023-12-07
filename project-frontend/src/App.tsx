@@ -48,6 +48,8 @@ const App = () => {
     const userState = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
+        document.title = config.store.contactName;
+
         dispatch(setLoaded(false));
 
         const fetchData = async () => {
@@ -59,7 +61,7 @@ const App = () => {
         };
 
         fetchData();
-    }, [dispatch]);
+    }, [config.store.contactName, dispatch]);
 
     const adminPage = (page: JSX.Element): JSX.Element => {
         if (userState.loggedUser?.admin) {

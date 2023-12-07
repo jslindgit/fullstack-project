@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Config } from '../types/configTypes';
@@ -64,6 +65,10 @@ const CategoryRow = ({ categories, colsPerRow, config }: CategoryRowProps) => {
 const Categories = () => {
     const categoryState = useSelector((state: RootState) => state.categories);
     const config = useSelector((state: RootState) => state.config);
+
+    useEffect(() => {
+        document.title = contentToText(ContentID.menuProducts, config) + ' | ' + config.store.contactName;
+    }, [config]);
 
     if (categoryState.length < 1) {
         return (

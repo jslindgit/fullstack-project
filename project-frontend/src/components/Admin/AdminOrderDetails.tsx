@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { ContentID } from '../../content';
 import { Order } from '../../types/orderTypes';
 import { RootState } from '../../reducers/rootReducer';
 
 import format from '../../util/format';
-import { langTextsToText } from '../../types/languageFunctions';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
 interface Props {
     order: Order;
@@ -16,7 +17,7 @@ const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
     const [copyLabel, setCopyLabel] = useState<string>('');
     const [copyResult, setCopyResult] = useState<string>('');
 
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
 
     const date = new Date(order.createdAt);
 
@@ -42,7 +43,7 @@ const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
                 <span className='bold'>
                     {value} &emsp;&emsp;{' '}
                     <button type='button' onClick={copyToClipboard} style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}>
-                        Copy {label}
+                        {contentToText(ContentID.miscCopy, config)} {label}
                     </button>{' '}
                     <span className='italic normalWeight'>{copyLabel === label ? '\u2002' + copyResult : ''}</span>
                 </span>
@@ -57,14 +58,19 @@ const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
                     <tbody>
                         <tr>
                             <td style={{ borderRadius: 0 }}>
-                                <table width='100%' align='center' className='paddingTopBottomOnly sizeLarge' style={{ marginTop: '0.5rem', marginBottom: '1.25rem' }}>
+                                <table
+                                    width='100%'
+                                    align='center'
+                                    className='paddingTopBottomOnly sizeLarge'
+                                    style={{ marginTop: '0.5rem', marginBottom: '1.25rem' }}
+                                >
                                     <tbody>
                                         <tr>
                                             <td width='1px' style={{ paddingRight: '1rem', paddingTop: 0, paddingBottom: 0, borderRadius: 0 }}>
                                                 <img src='/printer_black.png' />
                                             </td>
                                             <td style={{ paddingLeft: 0, paddingTop: 0, paddingBottom: 4 }}>
-                                                <a>Print order</a>
+                                                <a>{contentToText(ContentID.adminOrdersPrintOrder, config)}</a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -72,7 +78,7 @@ const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
                                                 <img src='/checkmark.png' />
                                             </td>
                                             <td style={{ paddingLeft: 0, paddingBottom: 4 }}>
-                                                <a>Mark as delivered</a>
+                                                <a>{contentToText(ContentID.adminOrdersMarkAsShipped, config)}</a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -82,10 +88,14 @@ const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
                         </tr>
                         <tr>
                             <td>
-                                <span className='bold'>Webstore order {format.dateFormat(date)}</span>
+                                <span className='bold'>
+                                    {config.store.contactName} {contentToText(ContentID.miscOrder, config).toLowerCase()} {format.dateFormat(date)}
+                                </span>
                                 <br />
                                 <br />
-                                <span className='semiBold'>Order number: {order.id}</span>
+                                <span className='semiBold'>
+                                    {contentToText(ContentID.orderId, config)}: {order.id}
+                                </span>
                                 <br />
                                 <br />
                                 ---
@@ -94,60 +104,69 @@ const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
                                     <div key={item.id}>
                                         *<span className='semiBold'> {item.name}</span>
                                         <br />
-                                        <span style={{ color: 'transparent' }}>*</span> {format.currency(item.price, configState)}/pcs &emsp; {item.quantity} pcs &emsp; Total:{' '}
-                                        {format.currency(item.price * item.quantity, configState)}
+                                        <span style={{ color: 'transparent' }}>*</span> {format.currency(item.price, config)}/
+                                        {contentToText(ContentID.itemsPcs, config)} &emsp; {item.quantity} {contentToText(ContentID.itemsPcs, config)} &emsp;
+                                        {contentToText(ContentID.cartTotalPrice, config)}: {format.currency(item.price * item.quantity, config)}
                                         <br />
                                         <br />
                                     </div>
                                 ))}
-                                * Delivery cost: {format.currency(Number(order.deliveryCost), configState)}
+                                * {contentToText(ContentID.orderDeliveryCost, config)}: {format.currency(Number(order.deliveryCost), config)}
                                 <br />
                                 <br />
-                                Net: {format.currency((order.totalAmount / 100) * (100 - configState.vat), configState)}
+                                {contentToText(ContentID.miscNet, config)}: {format.currency((order.totalAmount / 100) * (100 - config.vat), config)}
                                 <br />
-                                VAT {configState.vat}%: {format.currency((order.totalAmount / 100) * configState.vat, configState)}
+                                {contentToText(ContentID.miscVAT, config)} {config.vat}%: {format.currency((order.totalAmount / 100) * config.vat, config)}
                                 <br />
                                 <br />
-                                Total: {format.currency(order.totalAmount, configState)}
+                                {contentToText(ContentID.cartTotalPrice, config)}: {format.currency(order.totalAmount, config)}
                                 <br />
                                 ---
                                 <br />
                                 <br />
-                                <span className='semiBold'>CONTACT INFORMATION</span>
+                                <span className='semiBold'>{contentToText(ContentID.accountContactInfo, config).toUpperCase()}</span>
                                 <br />
                                 <br />
-                                {contactInfo('Name', order.customerFirstName + ' ' + order.customerLastName)}
+                                {contactInfo(contentToText(ContentID.miscName, config), order.customerFirstName + ' ' + order.customerLastName)}
                                 <br />
-                                {contactInfo('Address', order.customerAddress)}
+                                {contactInfo(contentToText(ContentID.checkOutStreetAddress, config), order.customerAddress)}
                                 <br />
-                                {contactInfo('Postal code', order.customerZipCode)}
+                                {contactInfo(contentToText(ContentID.checkOutZipCode, config), order.customerZipCode)}
                                 <br />
-                                {contactInfo('City', order.customerCity)}
+                                {contactInfo(contentToText(ContentID.checkOutCity, config), order.customerCity)}
                                 <br />
-                                {contactInfo('E-mail', order.customerEmail)}
+                                {contactInfo(contentToText(ContentID.contactEmail, config), order.customerEmail)}
                                 <br />
-                                {contactInfo('Phone', order.customerPhone)}
+                                {contactInfo(contentToText(ContentID.contactPhone, config), order.customerPhone)}
                                 <br />
-                                {contactInfo('Delivery method', order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, configState) : '-')}
+                                {contactInfo(
+                                    contentToText(ContentID.orderDeliveryMethod, config),
+                                    order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : '-'
+                                )}
                                 <br />
                                 <br />
                                 <hr />
                                 <br />
-                                <span className='bold'>Printed out: </span>
-                                <span className='colorRed bold'>No</span>
+                                <span className='bold'>{contentToText(ContentID.adminOrdersPrintedOut, config)}: </span>
+                                <span className='colorRed bold'>{contentToText(ContentID.miscNo, config)}</span>
                                 <br />
-                                <span className='bold'>Delivered: </span>
-                                <span className='colorRed bold'>No</span>
+                                <span className='bold'>{contentToText(ContentID.adminOrdersShipped, config)}: </span>
+                                <span className='colorRed bold'>{contentToText(ContentID.miscNo, config)}</span>
                                 <br />
                                 <br />
-                                <table width='100%' align='center' className='paddingTopBottomOnly sizeLarge' style={{ marginTop: '0.25rem', marginBottom: '0.5rem' }}>
+                                <table
+                                    width='100%'
+                                    align='center'
+                                    className='paddingTopBottomOnly sizeLarge'
+                                    style={{ marginTop: '0.25rem', marginBottom: '0.5rem' }}
+                                >
                                     <tbody>
                                         <tr>
                                             <td width='1px' style={{ paddingRight: '1rem', paddingTop: 4, paddingBottom: 0 }}>
                                                 <img src='/trash.png' />
                                             </td>
                                             <td style={{ paddingLeft: 0, paddingTop: 0, paddingBottom: 0 }}>
-                                                <a onClick={() => deleteOrder(order)}>Delete order</a>
+                                                <a onClick={() => deleteOrder(order)}>{contentToText(ContentID.adminOrdersMoveToRecycleBin, config)}</a>
                                             </td>
                                         </tr>
                                     </tbody>

@@ -24,11 +24,16 @@ export enum ContentID {
     adminItemsNoProducts = 'ADMIN - ITEMS: No products in this category',
     adminItemsUncategorized = 'ADMIN - ITEMS: Uncategorized (category)',
     adminItemsUncategorizedDescription = 'ADMIN - ITEMS: Uncategorized (category) description',
-    adminOrdersArchived = 'ADMIN - ORDERS: Archived',
     adminOrdersDeleteOrder = 'ADMIN - ORDERS: Delete order <number>? (confirmation)',
+    adminOrdersDeleteOrderButton = 'ADMIN - ORDERS: Delete Order (button)',
+    adminOrdersDelivered = 'ADMIN - ORDERS: Delivered',
+    adminOrdersMarkAsShipped = 'ADMIN - ORDERS: Mark as Shipped',
+    adminOrdersMoveToRecycleBin = 'ADMIN - ORDERS: Move to Recycle Bin',
     adminOrdersNoOrders = 'ADMIN - ORDERS: No orders',
+    adminOrdersPrintedOut = 'ADMIN - ORDERS: Printed Out',
+    adminOrdersPrintOrder = 'ADMIN - ORDERS: Print Order',
     adminOrdersProcessing = 'ADMIN - ORDERS: Processing',
-    adminOrdersRecentlyDelivered = 'ADMIN - ORDERS: Recently Delivered',
+    adminOrdersShipped = 'ADMIN - ORDERS: Shipped',
     adminPanelCategories = 'ADMIN: Categories',
     adminPanelHeader = 'ADMIN: Admin Panel header',
     adminPanelImages = 'ADMIN: Images',
@@ -82,7 +87,8 @@ export enum ContentID {
     checkOutOrganization = 'CHECK OUT: Organization',
     checkOutPleaseCheck = 'CHECK OUT: Please check the following (lacking information)',
     checkOutSelectCountry = 'CHECK OUT: Select a country',
-    checkOutSignatureMismatch = 'CHECK OUT: Signature mismatch.',
+    checkOutErrorWhenFetchingOrder = 'CHECK OUT: Invalid order. (error)',
+    checkOutErrorSignatureMismatch = 'CHECK OUT: Signature mismatch. (error)',
     checkOutStreetAddress = 'CHECK OUT: Street address',
     checkOutThankYou = 'CHECK OUT: Thank you!',
     checkOutYourOrderHasBeenReceive = 'CHECK OUT: Your order has been received... etc',
@@ -124,15 +130,21 @@ export enum ContentID {
     menuLogout = 'MENU: Log out',
     menuProducts = 'MENU: Products',
     menuShoppingCart = 'MENU: Shopping Cart',
+    miscCopy = 'MISC: Copy',
     miscDate = 'MISC: Date',
     miscDays = 'MISC: days',
     miscDescription = 'MISC: Description',
     miscLoading = 'MISC: Loading',
     miscMerchant = 'MISC: Merchant',
     miscName = 'MISC: Name',
+    miscNet = 'MISC: NET (price without VAT)',
+    miscNo = 'MISC: No',
+    miscOrder = 'MISC: Order',
     miscRecycleBin = 'MISC: Recycle Bin',
+    miscVAT = 'MISC: VAT (tax)',
     notificationLoggedOut = 'NOTIFICATION: Logged out',
     orderCustomer = 'ORDER: Customer',
+    orderDeliveryCost = 'ORDER: Delivery Cost',
     orderDeliveryMethod = 'ORDER: Delivery Method',
     orderId = 'ORDER: Order ID',
     orderItems = 'ORDER: Items',
@@ -323,17 +335,38 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.adminOrdersArchived,
-        content: [
-            { langCode: LangCode.EN, text: 'Archived' },
-            { langCode: LangCode.FI, text: 'Arkistoidut' },
-        ],
-    },
-    {
         id: ContentID.adminOrdersDeleteOrder,
         content: [
             { langCode: LangCode.EN, text: 'Delete order number' },
             { langCode: LangCode.FI, text: 'Poistetaanko tilaus numero' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersDeleteOrderButton,
+        content: [
+            { langCode: LangCode.EN, text: 'Delete Order' },
+            { langCode: LangCode.FI, text: 'Poista tilaus' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersDelivered,
+        content: [
+            { langCode: LangCode.EN, text: 'Delivered' },
+            { langCode: LangCode.FI, text: 'Toimitetut' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersMarkAsShipped,
+        content: [
+            { langCode: LangCode.EN, text: 'Mark as Shipped' },
+            { langCode: LangCode.FI, text: 'Merkitse lähetetyksi' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersMoveToRecycleBin,
+        content: [
+            { langCode: LangCode.EN, text: 'Move to Recycle Bin' },
+            { langCode: LangCode.FI, text: 'Siirrä roskakoriin' },
         ],
     },
     {
@@ -344,6 +377,20 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.adminOrdersPrintOrder,
+        content: [
+            { langCode: LangCode.EN, text: 'Print Order' },
+            { langCode: LangCode.FI, text: 'Tulosta tilaus' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersPrintedOut,
+        content: [
+            { langCode: LangCode.EN, text: 'Printed Out' },
+            { langCode: LangCode.FI, text: 'Tulostettu' },
+        ],
+    },
+    {
         id: ContentID.adminOrdersProcessing,
         content: [
             { langCode: LangCode.EN, text: 'Processing' },
@@ -351,10 +398,10 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.adminOrdersRecentlyDelivered,
+        id: ContentID.adminOrdersShipped,
         content: [
-            { langCode: LangCode.EN, text: 'Recently Delivered' },
-            { langCode: LangCode.FI, text: 'Hiljattain toimitetut' },
+            { langCode: LangCode.EN, text: 'Shipped' },
+            { langCode: LangCode.FI, text: 'Lähetetty' },
         ],
     },
     {
@@ -564,7 +611,7 @@ export const defaultLangContent: LangContent[] = [
         id: ContentID.cartIsEmpty,
         content: [
             { langCode: LangCode.EN, text: 'Shopping Cart is empty.' },
-            { langCode: LangCode.FI, text: 'Ostoskorisi on tyhjä.' },
+            { langCode: LangCode.FI, text: 'Ostoskorissa ei ole tuotteita.' },
         ],
     },
     {
@@ -659,6 +706,20 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.checkOutErrorWhenFetchingOrder,
+        content: [
+            { langCode: LangCode.EN, text: 'Invalid order.\n\nPlease contact us:' },
+            { langCode: LangCode.FI, text: 'Virheellinen tilaus.\n\nOtathan meihin yhteyttä:' },
+        ],
+    },
+    {
+        id: ContentID.checkOutErrorSignatureMismatch,
+        content: [
+            { langCode: LangCode.EN, text: 'Error: Signature mismatch.\n\nPlease contact us:' },
+            { langCode: LangCode.FI, text: 'Virhe: Signature mismatch.\n\nOtathan meihin yhteyttä:' },
+        ],
+    },
+    {
         id: ContentID.checkOutFirstName,
         content: [
             { langCode: LangCode.EN, text: 'First name' },
@@ -729,13 +790,6 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.checkOutSignatureMismatch,
-        content: [
-            { langCode: LangCode.EN, text: 'Error: "Signature mismatch". Please contact us:' },
-            { langCode: LangCode.FI, text: 'Virhe: "Signature mismatch". Otathan meihin yhteyttä:' },
-        ],
-    },
-    {
         id: ContentID.checkOutStreetAddress,
         content: [
             { langCode: LangCode.EN, text: 'Street address' },
@@ -797,15 +851,15 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.errorSomethingWentWrong,
         content: [
-            { langCode: LangCode.EN, text: 'Something went wrong' },
-            { langCode: LangCode.FI, text: 'Jotain meni vikaan' },
+            { langCode: LangCode.EN, text: 'Something went wrong.' },
+            { langCode: LangCode.FI, text: 'Jotain meni vikaan.' },
         ],
     },
     {
         id: ContentID.errorSomethingWentWrongTryAgainlater,
         content: [
-            { langCode: LangCode.EN, text: 'Something went wrong, please try again later' },
-            { langCode: LangCode.FI, text: 'Jotain meni vikaan, yritä myöhemmin uudelleen' },
+            { langCode: LangCode.EN, text: 'Something went wrong, please try again later.' },
+            { langCode: LangCode.FI, text: 'Jotain meni vikaan, yritä myöhemmin uudelleen.' },
         ],
     },
     {
@@ -1026,6 +1080,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.miscCopy,
+        content: [
+            { langCode: LangCode.EN, text: 'Copy' },
+            { langCode: LangCode.FI, text: 'Kopioi' },
+        ],
+    },
+    {
         id: ContentID.miscDate,
         content: [
             { langCode: LangCode.EN, text: 'Date' },
@@ -1068,10 +1129,38 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.miscNet,
+        content: [
+            { langCode: LangCode.EN, text: 'Net' },
+            { langCode: LangCode.FI, text: 'Veroton' },
+        ],
+    },
+    {
+        id: ContentID.miscNo,
+        content: [
+            { langCode: LangCode.EN, text: 'No' },
+            { langCode: LangCode.FI, text: 'Ei' },
+        ],
+    },
+    {
+        id: ContentID.miscOrder,
+        content: [
+            { langCode: LangCode.EN, text: 'Order' },
+            { langCode: LangCode.FI, text: 'Tilaus' },
+        ],
+    },
+    {
         id: ContentID.miscRecycleBin,
         content: [
             { langCode: LangCode.EN, text: 'Recycle Bin' },
             { langCode: LangCode.FI, text: 'Roskakori' },
+        ],
+    },
+    {
+        id: ContentID.miscVAT,
+        content: [
+            { langCode: LangCode.EN, text: 'VAT' },
+            { langCode: LangCode.FI, text: 'ALV' },
         ],
     },
     {
@@ -1086,6 +1175,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Customer' },
             { langCode: LangCode.FI, text: 'Tilaaja' },
+        ],
+    },
+    {
+        id: ContentID.orderDeliveryCost,
+        content: [
+            { langCode: LangCode.EN, text: 'Delivery Cost' },
+            { langCode: LangCode.FI, text: 'Toimituskulut' },
         ],
     },
     {

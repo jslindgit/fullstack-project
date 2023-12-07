@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
@@ -16,6 +17,10 @@ const ShoppingCart = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const orderState = useSelector((state: RootState) => state.order);
+
+    useEffect(() => {
+        document.title = contentToText(ContentID.menuShoppingCart, config) + ' | ' + config.store.contactName;
+    }, [config]);
 
     const removeItem = (index: number) => {
         if (window.confirm(`Remove ${orderState.items[index].name} from shopping cart?`)) {

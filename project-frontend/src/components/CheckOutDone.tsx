@@ -17,6 +17,7 @@ import { clearOrder } from '../reducers/orderReducer';
 import BackButton from './BackButton';
 import { Link } from './CustomLink';
 import OrderInfo from './OrderInfo';
+import { isOrder } from '../types/orderTypeFunctions';
 
 enum SignatureStatus {
     INVALID,
@@ -27,10 +28,12 @@ enum SignatureStatus {
 const CheckOutDone = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
+    const orderState = useSelector((state: RootState) => state.order);
 
     const attemptedToFetchOrder = useRef(false);
     const clearedOrderFromRedux = useRef(false);
 
+    const [errorWhenFetchingOrder, setErrorWhenFetchingOrder] = useState<boolean>(false);
     const [orderId, setOrderId] = useState<string | null>(null);
     const [orderResponse, setOrderResponse] = useState<OrderResponse | null>(null);
     const [signatureStatus, setSignatureStatus] = useState<SignatureStatus>(SignatureStatus.PENDING);
@@ -58,18 +61,24 @@ const CheckOutDone = () => {
         }
     }, [orderId]);
 
-    // When 'orderResponse' is set, remove the order from Redux state:
+    // When 'orderResponse' is set, check that it matches the order in Redux. If yes, remove the order from Redux. If no, set 'errorWhenFetchingOrder' to true:
     useEffect(() => {
-        if (orderResponse && clearedOrderFromRedux.current === false) {
-            clearOrder(dispatch);
-            clearedOrderFromRedux.current = true;
+        if (orderResponse) {
+            if (orderResponse.success === false || (clearedOrderFromRedux.current === false && !orderResponse.order)) {
+                setErrorWhenFetchingOrder(true);
+            } else if (isOrder(orderState) && orderResponse.order && orderState.id !== orderResponse.order.id) {
+                setErrorWhenFetchingOrder(true);
+            } else if (clearedOrderFromRedux.current === false) {
+                clearOrder(dispatch);
+                clearedOrderFromRedux.current = true;
+            }
         }
-    }, [dispatch, orderResponse]);
+    }, [dispatch, orderResponse, orderState]);
 
     // When 'orderResponse' is set, check that the returned 'signature' is valid:
     useEffect(() => {
         console.log('When orderResponse is set, check that the returned signature is valid');
-        if (orderResponse?.order && signatureStatus === SignatureStatus.PENDING) {
+        if (errorWhenFetchingOrder === false && orderResponse?.order && signatureStatus === SignatureStatus.PENDING) {
             console.log('if (orderResponse?.order && signatureStatus.current === SignatureStatus.PENDING) {');
             const isValidSignature = async () => {
                 const res = await paytrailService.validateSignatureFromUrl(window.location.href);
@@ -78,12 +87,13 @@ const CheckOutDone = () => {
             };
             isValidSignature();
         }
-    }, [orderResponse, signatureStatus]);
+    }, [errorWhenFetchingOrder, orderResponse, signatureStatus]);
 
     // If the 'signature' is valid, update the order's status from "PENDING" to "PROCESSING":
     useEffect(() => {
         console.log('If the signature is valid, update the orders status from "PENDING" to "PROCESSING":');
-        if (orderResponse?.order?.status === OrderStatus.PENDING && signatureStatus === SignatureStatus.VALID) {
+        if (errorWhenFetchingOrder === false && orderResponse?.order?.status === OrderStatus.PENDING && signatureStatus === SignatureStatus.VALID) {
+            console.log('updating...');
             const updateOrderStatus = async () => {
                 if (orderResponse.order) {
                     const paymentMethod = searchparams.get('checkout-provider') as string;
@@ -95,13 +105,13 @@ const CheckOutDone = () => {
 
             updateOrderStatus();
         }
-    }, [orderResponse, searchparams, signatureStatus]);
+    }, [errorWhenFetchingOrder, orderResponse, searchparams, signatureStatus]);
 
     const signaturePendingOrInvalid = (): JSX.Element => {
-        if (signatureStatus === SignatureStatus.INVALID) {
+        if (signatureStatus === SignatureStatus.INVALID || errorWhenFetchingOrder) {
             return (
                 <>
-                    {contentToText(ContentID.checkOutSignatureMismatch, config)}
+                    {contentToText(errorWhenFetchingOrder ? ContentID.checkOutErrorWhenFetchingOrder : ContentID.checkOutErrorSignatureMismatch, config)}
                     &nbsp;
                     <Link to='/info'>{contentToText(ContentID.menuInfo, config)}</Link>
                 </>
@@ -141,7 +151,6 @@ const CheckOutDone = () => {
                                     </tr>
                                     <tr>
                                         <td>
-                                            <br />
                                             <br />
                                             <BackButton labelContentID={ContentID.checkOutBackToShop} type='text' to='/' />
                                         </td>

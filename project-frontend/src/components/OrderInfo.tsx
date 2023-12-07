@@ -39,7 +39,7 @@ const OrderInfo = ({ order }: Props) => {
                 <tbody>
                     <tr>
                         <td>
-                            <h3 style={{ marginBottom: 0 }}>{contentToText(ContentID.checkOutOrderInfo, config) + ('id' in order ? ' ' + order.id : '')}</h3>
+                            <h3 style={{ marginBottom: 0 }}>{contentToText(ContentID.checkOutOrderInfo, config) + ('id' in order ? ' #' + order.id : '')}</h3>
                         </td>
                     </tr>
                     <tr>
