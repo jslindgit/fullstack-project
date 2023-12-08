@@ -27,7 +27,6 @@ const AdminMenu = ({ config }: Props) => {
             <table align='center' className='sizeLarge'>
                 <tbody>
                     <tr>
-                        {linkTd('', ContentID.menuHome)}
                         {linkTd('orders', ContentID.adminPanelOrders)}
                         {linkTd('categories', ContentID.adminPanelCategories)}
                         {linkTd('items', ContentID.adminPanelItems)}

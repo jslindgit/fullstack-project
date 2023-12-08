@@ -105,4 +105,5 @@
 | 7.12.  | 1    | Checkoutin debuggausta                                                                                               |     |
 |        | 1    | Tilauskäsittelyn työstöä                                                                                             |     |
 | 8.12.  | 1    | Tilauskäsittelyn työstöä                                                                                             |     |
-|  yht   | 189  |                                                                                                                      |     |
+|        | 1    | Tilauskäsittelyn työstöä                                                                                             | 190 |
+|  yht   | 190  |                                                                                                                      |     |

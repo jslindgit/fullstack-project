@@ -1,6 +1,6 @@
 import { Config } from './configTypes';
 import { ContentID } from '../content';
-import { NewOrder, Order, OrderStatus, OrderStatusForAdmin, ShoppingItem } from './orderTypes';
+import { NewOrder, Order, OrderStatus, ShoppingItem } from './orderTypes';
 
 import { orderTotalSum } from '../util/checkoutProvider';
 import { contentToText, langTextsToText } from './languageFunctions';
@@ -24,7 +24,6 @@ export const getEmptyOrder = (): NewOrder => {
         language: 'FI',
         paymentMethod: null,
         status: OrderStatus.PENDING,
-        statusForAdmin: OrderStatusForAdmin.NEW,
     };
 
     return order;
@@ -45,15 +44,17 @@ export const getOrderStatus = (status: OrderStatus, config: Config): string => {
         case OrderStatus.REFUNDED:
             return contentToText(ContentID.statusRefunded, config);
         case OrderStatus.SHIPPED:
-            return contentToText(ContentID.statusShipped, config);
+            return contentToText(ContentID.statusDelivered, config);
         default:
             return '';
     }
 };
 
 export const getOrderStatusForAdmin = (order: Order, config: Config): string => {
-    if (order.deliveredDate) {
-        return contentToText(ContentID.orderStatusForAdminShipped, config);
+    if (order.recycledDate) {
+        return contentToText(ContentID.orderStatusForAdminRecycled, config);
+    } else if (order.deliveredDate) {
+        return contentToText(ContentID.orderStatusForAdminDelivered, config);
     } else if (order.printedOutDate) {
         return contentToText(ContentID.orderStatusForAdminPrinted, config);
     } else if (order.readDate) {

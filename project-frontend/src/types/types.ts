@@ -39,8 +39,10 @@ export interface LoginResponse {
     message: string;
 }
 
+export type NotificationTone = 'Positive' | 'Neutral' | 'Negative';
+
 export interface Notification {
-    tone: 'Positive' | 'Neutral' | 'Negative';
+    tone: NotificationTone;
     message: string;
     linkText?: string;
     linkTo?: string;

@@ -27,7 +27,7 @@ const CategoryItem = ({ category, config }: CategoryProps) => {
                                     {langTextsToText(category.name, config)}
                                 </span>
                                 <br />
-                                <span className='sizeSmall'>{langTextsToText(category.description, config)}</span>
+                                <span className='sizeSmallish'>{langTextsToText(category.description, config)}</span>
                             </td>
                         </tr>
                     </tbody>

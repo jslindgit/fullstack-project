@@ -24,3 +24,15 @@ a:active {
     color: var(--colorGoldLight);
     transition: color 0s;
 }
+
+a.red {
+    color: var(--colorRed);
+}
+a.red:hover {
+    color: var(--colorRedDark);
+    transition: color 0.25s;
+}
+a.red:active {
+    color: var(--colorRedVeryDark);
+    transition: color 0s;
+}

@@ -21,7 +21,7 @@
     border-color: color;
 }
 .notificationNeutral {
-    background-color: var(--colorGrayVeryLight);
+    background-color: var(--colorYellowLight);
     color: var(--colorGrayDark);
     border-color: color;
 }

@@ -38,18 +38,12 @@ export interface Order {
     paymentMethod: string | null;
     printedOutDate?: Date;
     readDate?: Date;
+    recycledDate?: Date;
     status: OrderStatus;
-    statusForAdmin: OrderStatusForAdmin;
     totalAmount: number;
     userId?: number;
 }
 export type NewOrder = Omit<Omit<Omit<Order, 'id'>, 'createdAt'>, 'totalAmount'>;
-
-export enum OrderStatusForAdmin {
-    NEW = 'New',
-    READ = 'Read',
-    SHIPPED = 'Shipped',
-}
 
 export enum OrderStatus {
     PENDING = 'PENDING',

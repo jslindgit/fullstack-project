@@ -23,8 +23,8 @@ export interface OrderAttributes {
     paymentMethod?: string;
     printedOutDate?: Date;
     readDate?: Date;
+    recycledDate?: Date;
     status: string;
-    statusForAdmin: string;
     totalAmount: number;
     userId?: number;
 }
@@ -37,6 +37,7 @@ interface OrderCreationAttributes extends Optional<OrderAttributes, 'id'> {
     paymentMethod?: string;
     printedOutDate?: Date;
     readDate?: Date;
+    recycledDate?: Date;
     userId?: number;
 }
 
@@ -125,11 +126,11 @@ const Order = sequelize.define<OrderInstance>(
             type: DataTypes.DATE,
             allowNull: true,
         },
-        status: {
-            type: DataTypes.STRING,
-            allowNull: false,
+        recycledDate: {
+            type: DataTypes.DATE,
+            allowNull: true,
         },
-        statusForAdmin: {
+        status: {
             type: DataTypes.STRING,
             allowNull: false,
         },

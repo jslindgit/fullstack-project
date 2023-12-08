@@ -2,6 +2,9 @@
 .bgColorGrayVeryLight {
     background-color: var(--colorGrayVeryLight);
 }
+.bgColorYellowVeryLight {
+    background-color: var(--colorYellowVeryLight);
+}
 
 /* Text */
 .colorGoldLight {

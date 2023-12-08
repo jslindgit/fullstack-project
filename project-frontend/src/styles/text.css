@@ -55,6 +55,10 @@ h4 {
     text-transform: uppercase;
 }
 
+.lineHeight2 {
+    line-height: 2;
+}
+
 .pageHeader {
     /* Applied for the <td> that the header is in */
     font-size: var(--fontSizeVeryLarge);

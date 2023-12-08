@@ -9,13 +9,24 @@ import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
 interface Props {
-    deleteOrder: (order: Order) => Promise<void>;
-    handleMarkAsDelivered: (orderId: number) => Promise<void>;
+    handleDelete: (order: Order) => Promise<void>;
+    handleMarkAsDelivered: (order: Order) => Promise<void>;
+    handleMarkAsNotDelivered: (order: Order) => Promise<void>;
+    handleMoveBackFromRecycleBin: (order: Order) => Promise<void>;
+    handleMoveToRecycleBin: (order: Order) => Promise<void>;
     handlePrint: (orderId: number) => Promise<void>;
     order: Order;
 }
 
-const AdminOrderDetails = ({ deleteOrder, handleMarkAsDelivered, handlePrint, order }: Props) => {
+const AdminOrderDetails = ({
+    handleDelete,
+    handleMarkAsDelivered,
+    handleMarkAsNotDelivered,
+    handleMoveBackFromRecycleBin,
+    handleMoveToRecycleBin,
+    handlePrint,
+    order,
+}: Props) => {
     const [copyLabel, setCopyLabel] = useState<string>('');
     const [copyResult, setCopyResult] = useState<string>('');
 
@@ -28,7 +39,7 @@ const AdminOrderDetails = ({ deleteOrder, handleMarkAsDelivered, handlePrint, or
             navigator.clipboard
                 .writeText(value)
                 .then(() => {
-                    setCopyResult(label + ' copied to clipboard');
+                    setCopyResult(`${label} ${contentToText(ContentID.adminOrdersCopiedToClipboard, config)}`);
                 })
                 .then(() => {
                     setCopyLabel(label);
@@ -63,13 +74,15 @@ const AdminOrderDetails = ({ deleteOrder, handleMarkAsDelivered, handlePrint, or
                                 <table width='100%' align='center' className='paddingTopBottomOnly sizeLarge' style={{ marginTop: '0.5rem', marginBottom: 0 }}>
                                     <tbody>
                                         <tr>
-                                            <td width='1px' style={{ paddingRight: '1rem', borderRadius: 0 }}>
-                                                <img src='/printer_black.png' />
+                                            <td width='1px' style={{ borderRadius: 0, paddingRight: '1rem' }}>
+                                                <img src='/printer_black_2.png' height='20px' />
                                             </td>
-                                            <td className='widthByContent' style={{ paddingBottom: '0.8rem', paddingLeft: 0, paddingRight: '1rem' }}>
-                                                <a onClick={() => handlePrint(order.id)}>{contentToText(ContentID.adminOrdersPrintOrder, config)}</a>
+                                            <td className='widthByContent' style={{ paddingBottom: '0.9rem', paddingLeft: 0, paddingRight: 0 }}>
+                                                <a className='bold' onClick={() => handlePrint(order.id)}>
+                                                    {contentToText(ContentID.adminOrdersPrintOrder, config)}
+                                                </a>
                                             </td>
-                                            <td style={{ paddingLeft: 0, paddingTop: 0, paddingBottom: 0, borderRadius: 0 }}>
+                                            <td style={{ borderRadius: 0, paddingBottom: '0.1rem', paddingLeft: '1rem', paddingTop: 0 }}>
                                                 {order.printedOutDate ? <img src='/checkmark_green.png' /> : <></>}
                                             </td>
                                         </tr>
@@ -78,16 +91,23 @@ const AdminOrderDetails = ({ deleteOrder, handleMarkAsDelivered, handlePrint, or
                                 <table width='100%' align='center' className='paddingTopBottomOnly sizeLarge' style={{ marginTop: 0, marginBottom: '1.25rem' }}>
                                     <tbody>
                                         <tr>
-                                            <td width='1px' style={{ borderRadius: 0, paddingTop: '0.8rem', paddingRight: '1rem' }}>
-                                                <img src='/checkmark.png' />
+                                            <td width='1px' style={{ borderRadius: 0, paddingRight: '1rem', paddingTop: '0.3rem' }}>
+                                                <img src={order.deliveredDate || order.recycledDate ? '/arrow_left.png' : '/checkmark.png'} height='20px' />
                                             </td>
-                                            <td className='widthByContent' style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                <a onClick={() => handleMarkAsDelivered(order.id)}>
-                                                    {contentToText(ContentID.adminOrdersMarkAsShipped, config)}
-                                                </a>
-                                            </td>
-                                            <td style={{ paddingLeft: 0, paddingTop: 0, paddingBottom: 0, borderRadius: 0 }}>
-                                                {order.deliveredDate ? <img src='/checkmark_green.png' /> : <></>}
+                                            <td colSpan={2} className='widthByContent' style={{ paddingLeft: 0, paddingRight: 0, paddingTop: 0 }}>
+                                                {order.recycledDate ? (
+                                                    <a className='bold' onClick={() => handleMoveBackFromRecycleBin(order)}>
+                                                        {contentToText(ContentID.adminOrdersMoveBackFromRecycleBin, config)}
+                                                    </a>
+                                                ) : order.deliveredDate ? (
+                                                    <a className='bold' onClick={() => handleMarkAsNotDelivered(order)}>
+                                                        {contentToText(ContentID.adminOrdersMarkAsNotDelivered, config)}
+                                                    </a>
+                                                ) : (
+                                                    <a className='bold' onClick={() => handleMarkAsDelivered(order)}>
+                                                        {contentToText(ContentID.adminOrdersMarkAsDelivered, config)}
+                                                    </a>
+                                                )}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -156,35 +176,54 @@ const AdminOrderDetails = ({ deleteOrder, handleMarkAsDelivered, handlePrint, or
                                 <br />
                                 <hr />
                                 <br />
-                                <span className='bold'>{contentToText(ContentID.orderStatusForAdminRead, config)}: </span>
-                                <span className={'bold ' + (order.readDate ? 'colorGreen' : 'colorRed')}>
-                                    {order.readDate ? format.dateFormat(new Date(order.readDate)) : contentToText(ContentID.miscNo, config)}
-                                </span>
+                                <div className='lineHeight2'>
+                                    <span className='semiBold'>{contentToText(ContentID.orderStatusForAdminRead, config)}: </span>
+                                    <span className={'semiBold ' + (order.readDate ? 'colorGreen' : 'colorRed')}>
+                                        {order.readDate ? format.dateFormat(new Date(order.readDate)) : contentToText(ContentID.miscNo, config)}
+                                    </span>
+                                    <br />
+                                    <span className='semiBold'>{contentToText(ContentID.adminOrdersPrintedOut, config)}: </span>
+                                    <span className={'semiBold ' + (order.printedOutDate ? 'colorGreen' : 'colorRed')}>
+                                        {order.printedOutDate ? format.dateFormat(new Date(order.printedOutDate)) : contentToText(ContentID.miscNo, config)}
+                                    </span>
+                                    <br />
+                                    <span className='semiBold'>{contentToText(ContentID.adminOrdersDeliveredDate, config)}: </span>
+                                    <span className={'semiBold ' + (order.deliveredDate ? 'colorGreen' : 'colorRed')}>
+                                        {order.deliveredDate ? format.dateFormat(new Date(order.deliveredDate)) : contentToText(ContentID.miscNo, config)}
+                                    </span>
+                                    {order.recycledDate ? (
+                                        <>
+                                            <br />
+                                            <span className='semiBold'>{contentToText(ContentID.orderStatusForAdminRecycled, config)}: </span>
+                                            <span className='semiBold colorRed'>{format.dateFormat(new Date(order.recycledDate))}</span>
+                                        </>
+                                    ) : (
+                                        ''
+                                    )}
+                                </div>
                                 <br />
-                                <span className='bold'>{contentToText(ContentID.adminOrdersPrintedOut, config)}: </span>
-                                <span className={'bold ' + (order.printedOutDate ? 'colorGreen' : 'colorRed')}>
-                                    {order.printedOutDate ? format.dateFormat(new Date(order.printedOutDate)) : contentToText(ContentID.miscNo, config)}
-                                </span>
-                                <br />
-                                <span className='bold'>{contentToText(ContentID.adminOrdersShipped, config)}: </span>
-                                <span className={'bold ' + (order.deliveredDate ? 'colorGreen' : 'colorRed')}>
-                                    {order.deliveredDate ? format.dateFormat(new Date(order.deliveredDate)) : contentToText(ContentID.miscNo, config)}
-                                </span>
-                                <br />
-                                <br />
+                                <hr />
                                 <table
                                     width='100%'
                                     align='center'
                                     className='paddingTopBottomOnly sizeLarge'
-                                    style={{ marginTop: '0.25rem', marginBottom: '0.5rem' }}
+                                    style={{ marginTop: '1rem', marginBottom: '0.5rem' }}
                                 >
                                     <tbody>
                                         <tr>
                                             <td width='1px' style={{ borderRadius: 0, paddingRight: '1rem' }}>
-                                                <img src='/trash.png' />
+                                                <img src='/trash.png' height='20px' />
                                             </td>
                                             <td style={{ paddingBottom: '0.8rem', paddingLeft: 0 }}>
-                                                <a onClick={() => deleteOrder(order)}>{contentToText(ContentID.adminOrdersMoveToRecycleBin, config)}</a>
+                                                {order.recycledDate ? (
+                                                    <a className='bold red' onClick={() => handleDelete(order)}>
+                                                        {contentToText(ContentID.adminOrdersDeleteOrderButton, config)}
+                                                    </a>
+                                                ) : (
+                                                    <a className='bold red' onClick={() => handleMoveToRecycleBin(order)}>
+                                                        {contentToText(ContentID.adminOrdersMoveToRecycleBin, config)}
+                                                    </a>
+                                                )}
                                             </td>
                                         </tr>
                                     </tbody>

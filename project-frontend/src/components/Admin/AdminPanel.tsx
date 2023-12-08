@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
@@ -22,10 +22,18 @@ const AdminPanel = () => {
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.user);
 
+    const navigate = useNavigate();
+
     const page = useParams().page;
 
     const [searchParams] = useSearchParams();
     const back = searchParams.get('back');
+
+    useEffect(() => {
+        if (!page || !['categories', 'items', 'images', 'orders', 'settings', 'users'].includes(page)) {
+            navigate('/admin/orders');
+        }
+    }, [navigate, page]);
 
     useEffect(() => {
         document.title =

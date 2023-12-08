@@ -24,16 +24,21 @@ export enum ContentID {
     adminItemsNoProducts = 'ADMIN - ITEMS: No products in this category',
     adminItemsUncategorized = 'ADMIN - ITEMS: Uncategorized (category)',
     adminItemsUncategorizedDescription = 'ADMIN - ITEMS: Uncategorized (category) description',
+    adminOrdersCopiedToClipboard = 'ADMIN - ORDERS: <contact info> copied to clipboard',
     adminOrdersDeleteOrder = 'ADMIN - ORDERS: Delete order <number>? (confirmation)',
     adminOrdersDeleteOrderButton = 'ADMIN - ORDERS: Delete Order (button)',
     adminOrdersDelivered = 'ADMIN - ORDERS: Delivered',
-    adminOrdersMarkAsShipped = 'ADMIN - ORDERS: Mark as Shipped',
+    adminOrdersDeliveredDate = 'ADMIN - ORDERS: Delivered (date)',
+    adminOrdersMarkAsDelivered = 'ADMIN - ORDERS: Mark as Delivered',
+    adminOrdersMarkAsNotDelivered = 'ADMIN - ORDERS: Mark as Not Delivered',
+    adminOrdersMoveBackFromRecycleBin = 'ADMIN - ORDERS: Move Back from Recycle Bin',
     adminOrdersMoveToRecycleBin = 'ADMIN - ORDERS: Move to Recycle Bin',
     adminOrdersNoOrders = 'ADMIN - ORDERS: No orders',
+    adminOrdersNoOrdersInFolder = 'ADMIN - ORDERS: No orders in folder <foldername>',
+    adminOrdersOrderWasMovedToFolder = 'ADMIN - ORDERS: <Order> was moved to folder (notification)',
     adminOrdersPrintedOut = 'ADMIN - ORDERS: Printed Out',
     adminOrdersPrintOrder = 'ADMIN - ORDERS: Print Order',
     adminOrdersProcessing = 'ADMIN - ORDERS: Processing',
-    adminOrdersShipped = 'ADMIN - ORDERS: Shipped',
     adminPanelCategories = 'ADMIN: Categories',
     adminPanelHeader = 'ADMIN: Admin Panel header',
     adminPanelImages = 'ADMIN: Images',
@@ -150,10 +155,11 @@ export enum ContentID {
     orderItems = 'ORDER: Items',
     orderPaymentMethod = 'ORDER: Payment method',
     orderStatus = 'ORDER: Status',
+    orderStatusForAdminDelivered = 'ORDER STATUS FOR ADMIN: Delivered',
     orderStatusForAdminNew = 'ORDER STATUS FOR ADMIN: New',
     orderStatusForAdminPrinted = 'ORDER STATUS FOR ADMIN: Printed out',
     orderStatusForAdminRead = 'ORDER STATUS FOR ADMIN: Read',
-    orderStatusForAdminShipped = 'ORDER STATUS FOR ADMIN: Shipped',
+    orderStatusForAdminRecycled = 'ORDER STATUS FOR ADMIN: Recycled (move to Recycle Bin)',
     orderTotalAmount = 'ORDER: Total Amount',
     registerHeader = 'REGISTER: header',
     registerSuccess = 'REGISTER: Registration successful',
@@ -164,7 +170,6 @@ export enum ContentID {
     statusPending = 'ORDER STATUS: Pending',
     statusProcessing = 'ORDER STATUS: Processing',
     statusRefunded = 'ORDER STATUS: Refunded',
-    statusShipped = 'ORDER STATUS: Shipped',
     userDisabled = 'USER: Disabled (banned)',
     userStatusCustomer = 'USER - STATUS: Customer',
     userUpdated = 'USER: Account Updated (notification)',
@@ -336,6 +341,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.adminOrdersCopiedToClipboard,
+        content: [
+            { langCode: LangCode.EN, text: 'copied to clipboard' },
+            { langCode: LangCode.FI, text: 'kopioitiin leikepöydälle' },
+        ],
+    },
+    {
         id: ContentID.adminOrdersDeleteOrder,
         content: [
             { langCode: LangCode.EN, text: 'Delete order number' },
@@ -345,8 +357,8 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.adminOrdersDeleteOrderButton,
         content: [
-            { langCode: LangCode.EN, text: 'Delete Order' },
-            { langCode: LangCode.FI, text: 'Poista tilaus' },
+            { langCode: LangCode.EN, text: 'Delete Order Permanently' },
+            { langCode: LangCode.FI, text: 'Poista tilaus pysyvästi' },
         ],
     },
     {
@@ -357,10 +369,31 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.adminOrdersMarkAsShipped,
+        id: ContentID.adminOrdersDeliveredDate,
         content: [
-            { langCode: LangCode.EN, text: 'Mark as Shipped' },
-            { langCode: LangCode.FI, text: 'Merkitse lähetetyksi' },
+            { langCode: LangCode.EN, text: 'Delivered' },
+            { langCode: LangCode.FI, text: 'Toimitettu' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersMarkAsDelivered,
+        content: [
+            { langCode: LangCode.EN, text: 'Mark as Delivered' },
+            { langCode: LangCode.FI, text: 'Merkitse toimitetuksi' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersMarkAsNotDelivered,
+        content: [
+            { langCode: LangCode.EN, text: 'Mark as Not Delivered' },
+            { langCode: LangCode.FI, text: 'Merkitse toimittamattomaksi' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersMoveBackFromRecycleBin,
+        content: [
+            { langCode: LangCode.EN, text: 'Restore from Recycle Bin' },
+            { langCode: LangCode.FI, text: 'Palauta roskakorista' },
         ],
     },
     {
@@ -375,6 +408,20 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'No orders.' },
             { langCode: LangCode.FI, text: 'Ei tilauksia.' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersNoOrdersInFolder,
+        content: [
+            { langCode: LangCode.EN, text: 'No orders in folder ' },
+            { langCode: LangCode.FI, text: 'Ei tilauksia kansiossa ' },
+        ],
+    },
+    {
+        id: ContentID.adminOrdersOrderWasMovedToFolder,
+        content: [
+            { langCode: LangCode.EN, text: 'was moved to folder' },
+            { langCode: LangCode.FI, text: 'siirrettiin kansioon' },
         ],
     },
     {
@@ -396,13 +443,6 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Processing' },
             { langCode: LangCode.FI, text: 'Käsittelyssä' },
-        ],
-    },
-    {
-        id: ContentID.adminOrdersShipped,
-        content: [
-            { langCode: LangCode.EN, text: 'Shipped' },
-            { langCode: LangCode.FI, text: 'Lähetetty' },
         ],
     },
     {
@@ -1221,6 +1261,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.orderStatusForAdminDelivered,
+        content: [
+            { langCode: LangCode.EN, text: 'Delivered' },
+            { langCode: LangCode.FI, text: 'Toimitettu' },
+        ],
+    },
+    {
         id: ContentID.orderStatusForAdminNew,
         content: [
             { langCode: LangCode.EN, text: 'New' },
@@ -1242,10 +1289,10 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.orderStatusForAdminShipped,
+        id: ContentID.orderStatusForAdminRecycled,
         content: [
-            { langCode: LangCode.EN, text: 'Shipped' },
-            { langCode: LangCode.FI, text: 'Lähetetty' },
+            { langCode: LangCode.EN, text: 'Deleted' },
+            { langCode: LangCode.FI, text: 'Poistettu' },
         ],
     },
     {
@@ -1309,13 +1356,6 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Refunded' },
             { langCode: LangCode.FI, text: 'Hyvitetty' },
-        ],
-    },
-    {
-        id: ContentID.statusShipped,
-        content: [
-            { langCode: LangCode.EN, text: 'Shipped' },
-            { langCode: LangCode.FI, text: 'Lähetetty' },
         ],
     },
     {
