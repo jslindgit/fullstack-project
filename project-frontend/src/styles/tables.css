@@ -113,7 +113,7 @@ table.headerRow tr:first-child {
 }
 
 .widthByContent {
-    width: 1px !important;
+    width: 1px;
     text-wrap: nowrap;
 }
 

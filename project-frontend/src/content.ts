@@ -151,6 +151,7 @@ export enum ContentID {
     orderPaymentMethod = 'ORDER: Payment method',
     orderStatus = 'ORDER: Status',
     orderStatusForAdminNew = 'ORDER STATUS FOR ADMIN: New',
+    orderStatusForAdminPrinted = 'ORDER STATUS FOR ADMIN: Printed out',
     orderStatusForAdminRead = 'ORDER STATUS FOR ADMIN: Read',
     orderStatusForAdminShipped = 'ORDER STATUS FOR ADMIN: Shipped',
     orderTotalAmount = 'ORDER: Total Amount',
@@ -1224,6 +1225,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'New' },
             { langCode: LangCode.FI, text: 'Uusi' },
+        ],
+    },
+    {
+        id: ContentID.orderStatusForAdminPrinted,
+        content: [
+            { langCode: LangCode.EN, text: 'Printed' },
+            { langCode: LangCode.FI, text: 'Tulostettu' },
         ],
     },
     {

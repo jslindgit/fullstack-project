@@ -30,11 +30,14 @@ export interface Order {
     customerOrganization?: string;
     customerPhone: string;
     customerZipCode: string;
+    deliveredDate?: Date;
     deliveryCost: number;
     deliveryMethod: DeliveryMethod | null;
     items: ShoppingItem[];
     language: 'FI' | 'EN' | 'SE';
     paymentMethod: string | null;
+    printedOutDate?: Date;
+    readDate?: Date;
     status: OrderStatus;
     statusForAdmin: OrderStatusForAdmin;
     totalAmount: number;

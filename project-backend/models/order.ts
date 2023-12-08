@@ -15,11 +15,14 @@ export interface OrderAttributes {
     customerOrganization?: string;
     customerPhone: string;
     customerZipCode: string;
+    deliveredDate?: Date;
     deliveryCost: number;
     deliveryMethod: string;
     items: string;
     language: string;
     paymentMethod?: string;
+    printedOutDate?: Date;
+    readDate?: Date;
     status: string;
     statusForAdmin: string;
     totalAmount: number;
@@ -30,7 +33,10 @@ export type NewOrder = Omit<Omit<OrderAttributes, 'id'>, 'paymentMethod'>;
 
 interface OrderCreationAttributes extends Optional<OrderAttributes, 'id'> {
     customerOrganization?: string;
+    deliveredDate?: Date;
     paymentMethod?: string;
+    printedOutDate?: Date;
+    readDate?: Date;
     userId?: number;
 }
 
@@ -87,6 +93,10 @@ const Order = sequelize.define<OrderInstance>(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        deliveredDate: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
         deliveryCost: {
             type: DataTypes.DECIMAL,
             allowNull: false,
@@ -105,6 +115,14 @@ const Order = sequelize.define<OrderInstance>(
         },
         paymentMethod: {
             type: DataTypes.STRING,
+            allowNull: true,
+        },
+        printedOutDate: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
+        readDate: {
+            type: DataTypes.DATE,
             allowNull: true,
         },
         status: {

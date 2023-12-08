@@ -9,11 +9,13 @@ import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
 interface Props {
-    order: Order;
     deleteOrder: (order: Order) => Promise<void>;
+    handleMarkAsDelivered: (orderId: number) => Promise<void>;
+    handlePrint: (orderId: number) => Promise<void>;
+    order: Order;
 }
 
-const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
+const AdminOrderDetails = ({ deleteOrder, handleMarkAsDelivered, handlePrint, order }: Props) => {
     const [copyLabel, setCopyLabel] = useState<string>('');
     const [copyResult, setCopyResult] = useState<string>('');
 
@@ -58,27 +60,34 @@ const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
                     <tbody>
                         <tr>
                             <td style={{ borderRadius: 0 }}>
-                                <table
-                                    width='100%'
-                                    align='center'
-                                    className='paddingTopBottomOnly sizeLarge'
-                                    style={{ marginTop: '0.5rem', marginBottom: '1.25rem' }}
-                                >
+                                <table width='100%' align='center' className='paddingTopBottomOnly sizeLarge' style={{ marginTop: '0.5rem', marginBottom: 0 }}>
                                     <tbody>
                                         <tr>
-                                            <td width='1px' style={{ paddingRight: '1rem', paddingTop: 0, paddingBottom: 0, borderRadius: 0 }}>
+                                            <td width='1px' style={{ paddingRight: '1rem', borderRadius: 0 }}>
                                                 <img src='/printer_black.png' />
                                             </td>
-                                            <td style={{ paddingLeft: 0, paddingTop: 0, paddingBottom: 4 }}>
-                                                <a>{contentToText(ContentID.adminOrdersPrintOrder, config)}</a>
+                                            <td className='widthByContent' style={{ paddingBottom: '0.8rem', paddingLeft: 0, paddingRight: '1rem' }}>
+                                                <a onClick={() => handlePrint(order.id)}>{contentToText(ContentID.adminOrdersPrintOrder, config)}</a>
+                                            </td>
+                                            <td style={{ paddingLeft: 0, paddingTop: 0, paddingBottom: 0, borderRadius: 0 }}>
+                                                {order.printedOutDate ? <img src='/checkmark_green.png' /> : <></>}
                                             </td>
                                         </tr>
+                                    </tbody>
+                                </table>
+                                <table width='100%' align='center' className='paddingTopBottomOnly sizeLarge' style={{ marginTop: 0, marginBottom: '1.25rem' }}>
+                                    <tbody>
                                         <tr>
-                                            <td width='1px' style={{ paddingRight: '1rem', paddingBottom: 0 }}>
+                                            <td width='1px' style={{ borderRadius: 0, paddingTop: '0.8rem', paddingRight: '1rem' }}>
                                                 <img src='/checkmark.png' />
                                             </td>
-                                            <td style={{ paddingLeft: 0, paddingBottom: 4 }}>
-                                                <a>{contentToText(ContentID.adminOrdersMarkAsShipped, config)}</a>
+                                            <td className='widthByContent' style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <a onClick={() => handleMarkAsDelivered(order.id)}>
+                                                    {contentToText(ContentID.adminOrdersMarkAsShipped, config)}
+                                                </a>
+                                            </td>
+                                            <td style={{ paddingLeft: 0, paddingTop: 0, paddingBottom: 0, borderRadius: 0 }}>
+                                                {order.deliveredDate ? <img src='/checkmark_green.png' /> : <></>}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -147,11 +156,20 @@ const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
                                 <br />
                                 <hr />
                                 <br />
+                                <span className='bold'>{contentToText(ContentID.orderStatusForAdminRead, config)}: </span>
+                                <span className={'bold ' + (order.readDate ? 'colorGreen' : 'colorRed')}>
+                                    {order.readDate ? format.dateFormat(new Date(order.readDate)) : contentToText(ContentID.miscNo, config)}
+                                </span>
+                                <br />
                                 <span className='bold'>{contentToText(ContentID.adminOrdersPrintedOut, config)}: </span>
-                                <span className='colorRed bold'>{contentToText(ContentID.miscNo, config)}</span>
+                                <span className={'bold ' + (order.printedOutDate ? 'colorGreen' : 'colorRed')}>
+                                    {order.printedOutDate ? format.dateFormat(new Date(order.printedOutDate)) : contentToText(ContentID.miscNo, config)}
+                                </span>
                                 <br />
                                 <span className='bold'>{contentToText(ContentID.adminOrdersShipped, config)}: </span>
-                                <span className='colorRed bold'>{contentToText(ContentID.miscNo, config)}</span>
+                                <span className={'bold ' + (order.deliveredDate ? 'colorGreen' : 'colorRed')}>
+                                    {order.deliveredDate ? format.dateFormat(new Date(order.deliveredDate)) : contentToText(ContentID.miscNo, config)}
+                                </span>
                                 <br />
                                 <br />
                                 <table
@@ -162,10 +180,10 @@ const AdminOrderDetails = ({ order, deleteOrder }: Props) => {
                                 >
                                     <tbody>
                                         <tr>
-                                            <td width='1px' style={{ paddingRight: '1rem', paddingTop: 4, paddingBottom: 0 }}>
+                                            <td width='1px' style={{ borderRadius: 0, paddingRight: '1rem' }}>
                                                 <img src='/trash.png' />
                                             </td>
-                                            <td style={{ paddingLeft: 0, paddingTop: 0, paddingBottom: 0 }}>
+                                            <td style={{ paddingBottom: '0.8rem', paddingLeft: 0 }}>
                                                 <a onClick={() => deleteOrder(order)}>{contentToText(ContentID.adminOrdersMoveToRecycleBin, config)}</a>
                                             </td>
                                         </tr>

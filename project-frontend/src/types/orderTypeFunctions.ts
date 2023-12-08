@@ -51,14 +51,15 @@ export const getOrderStatus = (status: OrderStatus, config: Config): string => {
     }
 };
 
-export const getOrderStatusForAdmin = (status: OrderStatusForAdmin, config: Config): string => {
-    switch (status) {
-        case OrderStatusForAdmin.NEW:
-            return contentToText(ContentID.orderStatusForAdminNew, config);
-        case OrderStatusForAdmin.READ:
-            return contentToText(ContentID.orderStatusForAdminRead, config);
-        case OrderStatusForAdmin.SHIPPED:
-            return contentToText(ContentID.orderStatusForAdminShipped, config);
+export const getOrderStatusForAdmin = (order: Order, config: Config): string => {
+    if (order.deliveredDate) {
+        return contentToText(ContentID.orderStatusForAdminShipped, config);
+    } else if (order.printedOutDate) {
+        return contentToText(ContentID.orderStatusForAdminPrinted, config);
+    } else if (order.readDate) {
+        return contentToText(ContentID.orderStatusForAdminRead, config);
+    } else {
+        return contentToText(ContentID.orderStatusForAdminNew, config);
     }
 };
 
