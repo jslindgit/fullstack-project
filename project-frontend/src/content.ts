@@ -113,6 +113,8 @@ export enum ContentID {
     itemsId = 'ITEMS: Item ID',
     itemsInStock = 'ITEMS: In stock',
     itemsItem = 'ITEMS: Item',
+    itemsMaximumAmountOfItemAlreadyInShoppingCart1 = 'ITEMS: Maximum amount of (<item> already in Shopping Cart)',
+    itemsMaximumAmountOfItemAlreadyInShoppingCart2 = 'ITEMS: (Maximum amount of <item>) already in Shopping Cart)',
     itemsNoItemsInCategory = 'ITEMS: "No items in this category."',
     itemsPcs = 'ITEMS: pcs',
     itemsPrice = 'ITEMS: Price',
@@ -957,6 +959,20 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Item' },
             { langCode: LangCode.FI, text: 'Tuote' },
+        ],
+    },
+    {
+        id: ContentID.itemsMaximumAmountOfItemAlreadyInShoppingCart1,
+        content: [
+            { langCode: LangCode.EN, text: 'Maximum amount of' },
+            { langCode: LangCode.FI, text: 'Maksimimäärä tuotetta' },
+        ],
+    },
+    {
+        id: ContentID.itemsMaximumAmountOfItemAlreadyInShoppingCart2,
+        content: [
+            { langCode: LangCode.EN, text: 'is already in Shopping Cart.' },
+            { langCode: LangCode.FI, text: 'on jo ostoskorissa.' },
         ],
     },
     {

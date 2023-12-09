@@ -3,7 +3,7 @@ import { LangCode } from '../types/languageTypes';
 import { Currency } from '../types/types';
 
 const currency = (amount: number, config: Config): string => {
-    const sum: string = (Math.round(amount * 100) / 100).toFixed(2).toString();
+    let sum: string = (Math.round(amount * 100) / 100).toFixed(2).toString();
 
     const symbol = (): string => {
         if (config.currency === Currency.EUR) {
@@ -13,6 +13,8 @@ const currency = (amount: number, config: Config): string => {
         }
         return config.currency;
     };
+
+    sum = sum.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
     const currencyBeforeSum = [LangCode.ES, LangCode.EN].includes(config.language.code);
 

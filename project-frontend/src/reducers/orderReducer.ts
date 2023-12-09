@@ -1,7 +1,7 @@
 import { AnyAction, createSlice, current, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 
-import { ShoppingItem } from '../types/orderTypes';
-import { NewOrder, Order } from '../types/orderTypes';
+import { Config } from '../types/configTypes';
+import { NewOrder, Order, ShoppingItem } from '../types/orderTypes';
 
 import { getEmptyOrder, isOrderOrNewOrder, isShoppingItem } from '../types/orderTypeFunctions';
 
@@ -12,18 +12,34 @@ interface QuantityUpdate {
 
 export type OrderState = NewOrder | Order;
 
+interface ShoppingItemAndConfig {
+    shoppingItem: ShoppingItem;
+    config: Config;
+}
+
 const slice = createSlice({
     name: 'order',
     initialState: getEmptyOrder(),
     reducers: {
-        addItemToShoppingCart(state: OrderState, action: PayloadAction<ShoppingItem>) {
-            const existingItem = current(state).items.find((si) => si.id === action.payload.id);
+        addItemToShoppingCart(state: OrderState, action: PayloadAction<ShoppingItemAndConfig>) {
+            const toAdd: ShoppingItem = action.payload.shoppingItem;
+            const config = action.payload.config;
+
+            const existingItem = current(state).items.find((si) => si.id === toAdd.id);
+
             if (existingItem) {
                 const updatedShoppingItems = current(state).items.filter((item) => item !== existingItem);
-                updatedShoppingItems.push({ ...existingItem, quantity: existingItem.quantity + action.payload.quantity });
+
+                if (existingItem.quantity + toAdd.quantity > config.maxItemQuantity) {
+                    updatedShoppingItems.push({ ...toAdd, quantity: toAdd.quantity - (existingItem.quantity - config.maxItemQuantity) });
+                    updatedShoppingItems.push({ ...existingItem, quantity: config.maxItemQuantity });
+                } else {
+                    updatedShoppingItems.push({ ...existingItem, quantity: existingItem.quantity + toAdd.quantity });
+                }
+
                 state.items = updatedShoppingItems;
             } else {
-                state.items.push(action.payload);
+                state.items.push(toAdd);
             }
         },
         removeAllFromShoppingCart(state: OrderState, _action: PayloadAction) {

@@ -6,13 +6,13 @@ import { ShoppingItem } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 import { Item } from '../types/types';
 
-import { updateShoppingCartItemQuantity } from '../reducers/orderReducer';
-
 import format from '../util/format';
 import itemService from '../services/itemService';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { imageFullPath } from '../util/misc';
 import useField from '../hooks/useField';
+
+import { updateShoppingCartItemQuantity } from '../reducers/orderReducer';
 
 interface Props {
     shoppingItem: ShoppingItem;
@@ -30,6 +30,7 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
 
     const quantity = useField('integer', null, shoppingItem.quantity.toString());
 
+    // Fetch the Item matching the ShoppingItem from the server:
     useEffect(() => {
         const fetchItem = async () => {
             const fetchedItem = await itemService.getById(shoppingItem.id);
@@ -39,16 +40,17 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
         fetchItem();
     }, [shoppingItem]);
 
+    // Adjust the quantity value, restricting it between 1 and max quantity (defined in Config):
     useEffect(() => {
         const quantityValue = Number(quantity.value);
         if (shoppingItem.quantity !== quantityValue) {
-            if (quantityValue > 0 && quantityValue < 1000000) {
+            if (quantityValue > 0 && quantityValue <= config.maxItemQuantity) {
                 dispatch(updateShoppingCartItemQuantity({ itemIndex: orderState.items.indexOf(shoppingItem), newQuantity: quantityValue }));
             } else {
                 quantity.setNewValue(shoppingItem.quantity.toString());
             }
         }
-    }, [quantity, indexOf, shoppingItem, dispatch]);
+    }, [config.maxItemQuantity, dispatch, indexOf, orderState.items, quantity, shoppingItem]);
 
     const imagePath = item && item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
 

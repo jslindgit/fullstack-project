@@ -13,14 +13,18 @@ export interface UseField {
     value: string | number;
 }
 
-const convertInput = (input: string, type: string): string => {
+const convertInput = (input: string, type: string, currentValue: string): string => {
     if (input === '') {
         return input;
     }
 
     switch (type) {
         case 'integer':
-            return parseInt(input).toString();
+            if (Number.isInteger(Number(input))) {
+                return parseInt(input).toString();
+            } else {
+                return currentValue;
+            }
         case 'decimal':
             const lastChar = input.charAt(input.length - 1);
             return lastChar === '.' ? input : parseFloat(input).toString();
@@ -32,7 +36,7 @@ const convertInput = (input: string, type: string): string => {
 const useField = (type: 'text' | 'integer' | 'decimal' | 'password', fieldLabel: ContentID | null, initialValue: string | undefined = undefined): UseField => {
     const initValue = (): string | number => {
         if (initialValue) {
-            return convertInput(initialValue, type);
+            return convertInput(initialValue, type, initialValue);
         } else {
             return type === 'text' || type === 'password' ? '' : 0;
         }
@@ -42,7 +46,7 @@ const useField = (type: 'text' | 'integer' | 'decimal' | 'password', fieldLabel:
     const [anyChanges, setAnyChanges] = useState<boolean>(false);
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setValue(convertInput(event.target.value, type));
+        setValue(convertInput(event.target.value, type, value.toString()));
         setAnyChanges(true);
     };
 
@@ -51,7 +55,7 @@ const useField = (type: 'text' | 'integer' | 'decimal' | 'password', fieldLabel:
     };
 
     const setNewValue = (newValue: string) => {
-        setValue(convertInput(newValue, type));
+        setValue(convertInput(newValue, type, value.toString()));
     };
 
     const stringValue = (): string => {

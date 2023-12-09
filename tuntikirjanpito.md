@@ -106,4 +106,5 @@
 |        | 1    | Tilauskäsittelyn työstöä                                                                                             |     |
 | 8.12.  | 1    | Tilauskäsittelyn työstöä                                                                                             |     |
 |        | 1    | Tilauskäsittelyn työstöä                                                                                             | 190 |
-|  yht   | 190  |                                                                                                                      |     |
+| 9.12.  | 1    | Tuotteen ostoskoriin lisäämisen parantelua                                                                           |     |
+|  yht   | 191  |                                                                                                                      |     |

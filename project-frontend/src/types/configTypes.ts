@@ -4,6 +4,7 @@ import { Language } from './languageTypes';
 export interface Config {
     currency: Currency;
     language: Language;
+    maxItemQuantity: number;
     owner: ConfigOwner;
     paytrail: ConfigPaytrail | null;
     store: ConfigStore;
