@@ -180,8 +180,6 @@ export const isNewOrder = (obj: unknown): obj is NewOrder => {
         isString(obj.language) &&
         'status' in obj &&
         isString(obj.status) &&
-        'statusForAdmin' in obj &&
-        isString(obj.statusForAdmin) &&
         'totalAmount' in obj &&
         isNumber(obj.totalAmount)
     );

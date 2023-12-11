@@ -39,7 +39,7 @@ router.post('/payment', (async (req, res, next) => {
         } else {
             console.log('req.body:', req.body);
             handleError(new Error('req.body is not a valid NewOrder'));
-            res.status(400).json({ error: 'Request body is not a valid NewOrder' });
+            res.status(400).json({ error: 'Request body is not a valid OrderInstance' });
         }
     } catch (err) {
         next(err);

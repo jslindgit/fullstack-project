@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
-import { NewOrder, Order, OrderStatus, OrderStatusForAdmin } from '../types/orderTypes';
+import { NewOrder, Order, OrderStatus } from '../types/orderTypes';
 import { Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
@@ -17,9 +17,9 @@ export interface OrderResponse extends Response {
     order: Order | null;
 }
 
-const addNew = async (newOrder: NewOrder, config: Config): Promise<OrderResponse> => {
+const addNew = async (newOrder: NewOrder, config: Config, userId: number | null): Promise<OrderResponse> => {
     try {
-        const { data } = await axios.post(url, orderToRequestBody(newOrder, config, false), apiKeyConfig());
+        const { data } = await axios.post(url, orderToRequestBody(newOrder, config, false, userId), apiKeyConfig());
         const order = orderFromResponseBody(data);
         if (isOrder(order)) {
             return { success: true, message: 'Ok', order: order };
@@ -100,21 +100,6 @@ const updateStatus = async (orderId: number, newStatus: OrderStatus): Promise<Or
     }
 };
 
-const updateStatusForAdmin = async (orderId: number, newStatus: OrderStatusForAdmin): Promise<OrderResponse> => {
-    try {
-        const res = await axios.put<Order>(`${url}/${orderId}`, { status_for_admin: newStatus }, apiKeyConfig());
-
-        if (res.status === 200) {
-            return { success: true, message: `Order ${orderId} updated`, order: orderFromResponseBody(res) };
-        } else {
-            return { success: false, message: 'Something went wrong, try again later', order: null };
-        }
-    } catch (err: unknown) {
-        handleError(err);
-        return { success: false, message: 'Error occurred', order: null };
-    }
-};
-
 export default {
     addNew,
     deleteOrder,
@@ -122,5 +107,4 @@ export default {
     getById,
     update,
     updateStatus,
-    updateStatusForAdmin,
 };

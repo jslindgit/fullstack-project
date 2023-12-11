@@ -15,9 +15,9 @@ interface PaytrailResponse extends Response {
 
 const url = apiBaseUrl + '/paytrail';
 
-const createPayment = async (order: Order, config: Config): Promise<PaytrailResponse> => {
+const createPayment = async (order: Order, config: Config, userId: number | null): Promise<PaytrailResponse> => {
     try {
-        const res = await axios.post<PaytrailData>(url + '/payment', orderToRequestBody(order, config, true));
+        const res = await axios.post<PaytrailData>(url + '/payment', orderToRequestBody(order, config, true, userId));
 
         if (res.status === 200) {
             return { success: true, message: 'Ok', data: res.data };

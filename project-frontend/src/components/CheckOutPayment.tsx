@@ -20,6 +20,7 @@ import OrderInfo from './OrderInfo';
 const CheckOutPayment = () => {
     const config = useSelector((state: RootState) => state.config);
     const order = useSelector((state: RootState) => state.order);
+    const userState = useSelector((state: RootState) => state.user);
 
     const [paytrailData, setPaytrailData] = useState<PaytrailData | null>(null);
     const [attemptedToFetchPaytrailData, setAttemptedToFetchPaytrailData] = useState<boolean>(false);
@@ -37,7 +38,7 @@ const CheckOutPayment = () => {
         if (order && validateOrder(order, config) && isOrder(order)) {
             console.log('createPayment... order:', order);
             const createPayment = async () => {
-                const data = await paytrailService.createPayment(order, config);
+                const data = await paytrailService.createPayment(order, config, userState.loggedUser ? userState.loggedUser.id : null);
                 setPaytrailData(data.data);
                 setAttemptedToFetchPaytrailData(true);
             };
@@ -203,6 +204,8 @@ const CheckOutPayment = () => {
                     <tr>
                         <td>
                             <BackButton labelContentID={ContentID.checkOutAbortPayment} type='text' to='/checkout' />
+                            <br />
+                            <br />
                         </td>
                     </tr>
                 </tbody>

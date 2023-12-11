@@ -124,7 +124,7 @@ export const isShoppingItem = (obj: object): obj is ShoppingItem => {
     );
 };
 
-export const orderToRequestBody = (order: NewOrder | Order, config: Config, addDeliveryMethodToItems: boolean): object => {
+export const orderToRequestBody = (order: NewOrder | Order, config: Config, addDeliveryMethodToItems: boolean, userId: number | null): object => {
     const orderItems: ShoppingItem[] = [...order.items];
 
     if (addDeliveryMethodToItems) {
@@ -147,6 +147,7 @@ export const orderToRequestBody = (order: NewOrder | Order, config: Config, addD
         items: JSON.stringify(orderItems),
         language: config.language.paytrailValue,
         totalAmount: orderTotalSum(order),
+        userId: userId,
     };
 };
 

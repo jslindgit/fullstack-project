@@ -28,7 +28,7 @@ const Menu = () => {
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td className='sizeNormal semiBold' style={{ textAlign: 'center', paddingBottom: '3px', paddingTop: '6px' }}>
+                            <td className='sizeSmallish semiBold' style={{ textAlign: 'center', paddingBottom: '3px', paddingTop: '6px' }}>
                                 {loggedUser.username}{' '}
                                 {loggedUser.admin ? <span className='colorYellowLight'> ({contentToText(ContentID.menuAdmin, configState)})</span> : <></>}
                             </td>

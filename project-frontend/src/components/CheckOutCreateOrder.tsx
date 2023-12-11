@@ -6,7 +6,7 @@ import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 
 import { pageWidth } from '../constants';
-import { isOrder, validateOrder } from '../types/orderTypeFunctions';
+import { isOrder, orderToRequestBody, validateOrder } from '../types/orderTypeFunctions';
 import orderService from '../services/orderService';
 
 import { setOrder } from '../reducers/orderReducer';
@@ -17,38 +17,48 @@ const CheckOutCreateOrder = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const orderState = useSelector((state: RootState) => state.order);
+    const userState = useSelector((state: RootState) => state.user);
 
     const attemptedToCreateOrder = useRef(false);
 
     const navigate = useNavigate();
 
+    // If there's no valid order in Redux state, go back to CheckOut:
     useEffect(() => {
         if (!orderState || validateOrder(orderState, config).length > 0) {
             navigate('/checkout');
         }
     }, [config, navigate, orderState]);
 
+    // If the order in Redux state is still NewOrder, make a call to the server to convert it into an Order and to save it in the database-
+    // If it's already an Order (has been posted to the server earlier), update it (in case it has been modified since).
     useEffect(() => {
-        // If 'order' is still NewOrder, make an api call to convert it into an Order and to save it in the database:
         if (!isOrder(orderState) && validateOrder(orderState, config).length <= 0 && !attemptedToCreateOrder.current) {
             console.log('createOrder...');
             const createdOrder = async () => {
-                const response = await orderService.addNew(orderState, config);
+                const response = await orderService.addNew(orderState, config, userState.loggedUser ? userState.loggedUser.id : null);
                 if (response.success && response.order) {
                     dispatch(setOrder(response.order));
                 }
             };
 
             const executeCreateOrder = async () => {
-                const promise = createdOrder();
-                Promise.all([promise]);
+                Promise.all([createdOrder()]);
             };
 
             executeCreateOrder();
 
             attemptedToCreateOrder.current = true;
+        } else if (isOrder(orderState)) {
+            console.log('update order...');
+            const updateOrder = async () => {
+                const toUpdate = orderToRequestBody(orderState, config, false, userState.loggedUser ? userState.loggedUser.id : null);
+                await orderService.update(orderState.id, toUpdate);
+            };
+
+            updateOrder();
         }
-    }, [config, dispatch, orderState]);
+    }, [config, dispatch, orderState, userState.loggedUser]);
 
     useEffect(() => {
         if (orderState) {

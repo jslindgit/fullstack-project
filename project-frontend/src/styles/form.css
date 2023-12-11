@@ -60,6 +60,40 @@ adminFormItemEdit select {
     font-size: inherit;
 }
 
+.customCheckBox {
+    background-color: white;
+    border: 2px solid var(--colorGrayDark);
+    border-radius: 0.25rem;
+    color: white;
+    cursor: default;
+    font-size: 1rem;
+    font-weight: bolder;
+    height: 1.65rem;
+    transition: all 0.25s;
+    user-select: none;
+    width: 1.65rem;
+}
+.customCheckBox:hover {
+    border-radius: 0.5rem;
+}
+.customCheckBox:active {
+    border-radius: 0.75rem;
+}
+.customCheckBox td {
+    border-radius: 0.25rem;
+    padding: 0 !important;
+    text-align: center;
+    vertical-align: middle;
+}
+.customCheckBox.checked {
+    background-color: var(--colorGoldLight);
+    border-color: transparent;
+    border-radius: 0.25rem;
+}
+.customCheckBox.checked:active {
+    border-radius: 0.5rem;
+}
+
 .fileUpload {
     padding: 1rem;
 }

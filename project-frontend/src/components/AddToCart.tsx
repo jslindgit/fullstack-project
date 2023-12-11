@@ -59,7 +59,7 @@ const AddToCart = ({ config, item }: Props) => {
             dispatch(
                 setNotification({
                     tone: 'Positive',
-                    message: `${shoppingItem.quantity} x ${langTextsToText(item.name, config)} ${contentToText(
+                    message: `${langTextsToText(item.name, config)} (${shoppingItem.quantity} ${contentToText(ContentID.itemsPcs, config)})  ${contentToText(
                         ContentID.itemsAddedToShoppingCart1,
                         config
                     )} ${contentToText(ContentID.itemsAddedToShoppingCart2, config)}.`,

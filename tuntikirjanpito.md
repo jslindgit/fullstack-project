@@ -108,4 +108,5 @@
 |        | 1    | Tilauskäsittelyn työstöä                                                                                             | 190 |
 | 9.12.  | 1    | Tuotteen ostoskoriin lisäämisen parantelua                                                                           |     |
 | 11.12. | 1    | Rekisteröitymisen työstöä                                                                                            |     |
-|  yht   | 192  |                                                                                                                      |     |
+|        | 1    | Hienosäätöä Checkoutiin                                                                                              |     |
+|  yht   | 193  |                                                                                                                      |     |

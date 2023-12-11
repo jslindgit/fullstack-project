@@ -10,6 +10,8 @@ import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { isValidEmailAddress, isValidPassword } from '../util/misc';
 import useField, { UseField } from '../hooks/useField';
 
+import CheckBox from './CheckBox';
+
 interface Props {
     currentOrder: NewOrder | Order;
     password: UseField;
@@ -244,9 +246,14 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
                                                     <tbody>
                                                         <tr>
                                                             <td style={{ paddingLeft: 0 }}>
-                                                                <input type='checkbox' onChange={() => setRegister(!register)} />
+                                                                <CheckBox
+                                                                    isChecked={register}
+                                                                    onClick={() => {
+                                                                        setRegister(!register);
+                                                                    }}
+                                                                />
                                                             </td>
-                                                            <td>Register</td>
+                                                            <td className='semiBold'>{contentToText(ContentID.registerHeader, config)}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

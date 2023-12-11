@@ -84,15 +84,17 @@ const update = async (id: unknown, props: unknown): Promise<OrderInstance | null
                 Object.keys(props).forEach((key) => {
                     if (key in order && key !== 'id') {
                         order.setDataValue(key as keyof OrderAttributes, props[key as keyof typeof props]);
-                    } else {
-                        throw new Error(`Invalid property '${key}' for Order`);
+                    } else if (key !== 'id') {
+                        console.warn(`Invalid property '${key}' for Order`);
                     }
                 });
 
                 await order.save();
             } else {
-                throw new Error('Invalid props value (not an object)');
+                handleError(new Error('Invalid props value (not an object)'));
             }
+        } else {
+            console.warn(`Order with id ${id} not found.`);
         }
         return order;
     } catch (err: unknown) {
