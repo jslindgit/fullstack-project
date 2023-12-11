@@ -5,10 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { ContentID } from '../content';
 import { DeliveryMethod } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
+import { NewUser } from '../types/types';
 
 import { pageWidth } from '../constants';
 import { contentToText } from '../types/languageFunctions';
+import { isValidPassword } from '../util/misc';
 import { validateOrder } from '../types/orderTypeFunctions';
+import useField from '../hooks/useField';
+import { registerAndLogin } from '../util/userProvider';
 
 import { setOrder } from '../reducers/orderReducer';
 
@@ -21,15 +25,48 @@ const CheckOut = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const order = useSelector((state: RootState) => state.order);
+
+    const [register, setRegister] = useState<boolean>(false);
     const [validate, setValidate] = useState<boolean>(false);
     const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
+    const password = useField('password', ContentID.loginPassword, '');
+    const passwordConfirm = useField('password', ContentID.registerPasswordConfirm, '');
+
     const navigate = useNavigate();
 
-    const handlePaymentClick = () => {
+    const handlePaymentClick = async () => {
         setValidate(true);
 
         const errors = validateOrder(order, config);
+
+        if (register) {
+            if (!isValidPassword(password.stringValue())) {
+                errors.push(contentToText(ContentID.loginNewPasswordTooShort, config));
+            } else if (passwordConfirm.value !== password.value) {
+                errors.push(contentToText(ContentID.loginNewPasswordMisMatch, config));
+            }
+
+            if (errors.length <= 0) {
+                const newUser: NewUser = {
+                    admin: false,
+                    contactAddress: order.customerAddress,
+                    contactCity: order.customerCity,
+                    contactCountry: order.customerCountry,
+                    contactFirstName: order.customerFirstName,
+                    contactLastName: order.customerLastName,
+                    contactPhone: order.customerPhone,
+                    contactZipcode: order.customerZipCode,
+                    contactOrganization: order.customerOrganization,
+                    disabled: false,
+                    username: order.customerEmail,
+                    orders: [],
+                    password: password.stringValue(),
+                };
+
+                await registerAndLogin(newUser, password.stringValue(), config, dispatch);
+            }
+        }
 
         setValidationErrors(errors);
 
@@ -92,7 +129,16 @@ const CheckOut = () => {
                 <tbody>
                     <tr>
                         <td style={{ paddingLeft: 0, paddingTop: 0 }}>
-                            <CheckOutContactInfo currentOrder={order} setCustomerInfo={setCustomerInfo} validate={validate} width='100%' />
+                            <CheckOutContactInfo
+                                currentOrder={order}
+                                password={password}
+                                passwordConfirm={passwordConfirm}
+                                register={register}
+                                setCustomerInfo={setCustomerInfo}
+                                setRegister={setRegister}
+                                validate={validate}
+                                width='100%'
+                            />
                             <br />
                             <CheckOutDelivery
                                 currentMethod={order.deliveryMethod}

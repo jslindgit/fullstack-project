@@ -5,17 +5,13 @@ import useField, { UseField } from '../hooks/useField';
 
 import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
-import { NewUser, User } from '../types/types';
+import { NewUser } from '../types/types';
 
 import { pageWidth } from '../constants';
 import dev from '../util/dev';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
-import loginService from '../services/loginService';
 import { isValidEmailAddress, isValidPassword } from '../util/misc';
-import userService from '../services/userService';
-
-import { setNotification } from '../reducers/miscReducer';
-import { setLoggedUser } from '../reducers/userReducer';
+import { registerAndLogin } from '../util/userProvider';
 
 import BackButton from './BackButton';
 
@@ -37,10 +33,11 @@ const Register = () => {
     const lastName = useField('text', ContentID.checkOutLastName);
     const organization = useField('text', ContentID.checkOutOrganization);
     const password = useField('password', ContentID.loginPassword);
+    const passwordConfirm = useField('password', ContentID.registerPasswordConfirm);
     const phone = useField('text', ContentID.contactPhone);
     const zipCode = useField('text', ContentID.checkOutZipCode);
 
-    const required: UseField[] = [address, city, email, firstName, lastName, password, phone, zipCode];
+    const required: UseField[] = [address, city, email, firstName, lastName, password, passwordConfirm, phone, zipCode];
 
     useEffect(() => {
         document.title = contentToText(ContentID.registerHeader, config) + ' | ' + config.store.contactName;
@@ -48,13 +45,15 @@ const Register = () => {
 
     const fillRandomly = () => {
         const zipCity = dev.randomZipCodeAndCity();
+        const first = dev.randomFirstName();
+        const last = dev.randomLastName();
 
         address.setNewValue(dev.randomStreetAddress());
         city.setNewValue(zipCity.city);
         setCountry('Suomi');
-        email.setNewValue(dev.randomEmail());
-        firstName.setNewValue(dev.randomFirstName());
-        lastName.setNewValue(dev.randomLastName());
+        email.setNewValue(dev.randomEmail(first, last));
+        firstName.setNewValue(first);
+        lastName.setNewValue(last);
         organization.setNewValue(dev.randomOrganization());
         phone.setNewValue(dev.randomPhone());
         zipCode.setNewValue(zipCity.zip);
@@ -92,20 +91,7 @@ const Register = () => {
                 password: password.stringValue(),
             };
 
-            const response = await userService.addNew(newUser, config);
-
-            // If the registration was successful, login with the registered user:
-            if (response.success && response.user) {
-                const setLogged = (loggedUser: User) => {
-                    dispatch(setLoggedUser(loggedUser));
-                };
-
-                await loginService.login(response.user.username, password.stringValue(), setLogged, config);
-            }
-
-            //navigate('/you');
-
-            dispatch(setNotification({ message: response.message, tone: response.success ? 'Positive' : 'Negative' }));
+            await registerAndLogin(newUser, password.stringValue(), config, dispatch);
         }
     };
 
@@ -116,6 +102,8 @@ const Register = () => {
             return contentToText(ContentID.errorInvalidEmailAddress, config);
         } else if (field === password && !isValidPassword(password.value.toString())) {
             return contentToText(ContentID.loginNewPasswordTooShort, config);
+        } else if (field === passwordConfirm && field.value !== password.value) {
+            return contentToText(ContentID.loginNewPasswordMisMatch, config);
         }
         return null;
     };
@@ -183,6 +171,7 @@ const Register = () => {
                 <tbody>
                     {inputField(email)}
                     {inputField(password)}
+                    {inputField(passwordConfirm)}
                     {inputField(firstName)}
                     {inputField(lastName)}
                     {inputField(organization, true)}

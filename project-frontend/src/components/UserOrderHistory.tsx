@@ -26,7 +26,7 @@ const UserOrderHistory = ({ config, user, width }: Props) => {
                 </tr>
                 <tr>
                     <td>
-                        {user.orders.length > 0 ? (
+                        {user.orders && user.orders.length > 0 ? (
                             <table width='100%' className='headerRow striped'>
                                 <tbody>
                                     <tr>

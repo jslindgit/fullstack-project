@@ -23,9 +23,9 @@ const CategoryItem = ({ category, config }: CategoryProps) => {
                     <tbody>
                         <tr>
                             <td>
-                                <span className='sizeLarge' style={{ lineHeight: 1.5 }}>
+                                <div className='sizeLarge' style={{ lineHeight: 1.5, marginBottom: '-0.5em' }}>
                                     {langTextsToText(category.name, config)}
-                                </span>
+                                </div>
                                 <br />
                                 <span className='sizeSmallish'>{langTextsToText(category.description, config)}</span>
                             </td>
@@ -95,7 +95,7 @@ const Categories = () => {
                         </tr>
                     </tbody>
                 </table>
-                <table align='center' width={pageWidth} className='noOuterPadding'>
+                <table align='center' width={pageWidth} className='noOuterPadding valignTop'>
                     <tbody>
                         {rows.map((r, index) => (
                             <CategoryRow key={index} categories={r} colsPerRow={cols} config={config} />

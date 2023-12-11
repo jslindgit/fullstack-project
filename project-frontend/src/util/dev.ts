@@ -3,8 +3,14 @@ interface ZipCity {
     zip: string;
 }
 
-const randomEmail = (): string => {
-    return Math.random() < 0.5 ? 'jslind@gmail.com' : 'joonas@lindstedt.fi';
+const randomEmail = (firstName: string, lastName: string): string => {
+    let prefix = (Math.random() < 0.5 ? firstName + '.' + lastName : firstName[0] + '_' + lastName) + '_testi' + Math.floor(Math.random() * 1000).toString();
+    prefix = prefix.replace('ä', 'a').replace('ö', 'o').replace('å', 'a');
+
+    const suffixes = ['gmail.com', 'hotmail.com', 'live.fi', 'meiliboxi.fi', 'protonmail.com'];
+    const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+
+    return prefix.toLocaleLowerCase() + '@' + suffix;
 };
 
 const randomFirstName = (): string => {

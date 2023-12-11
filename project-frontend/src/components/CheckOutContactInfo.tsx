@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import useField, { UseField } from '../hooks/useField';
 
 import { ContentID } from '../content';
 import { NewOrder, Order } from '../types/orderTypes';
@@ -8,10 +7,14 @@ import { RootState } from '../reducers/rootReducer';
 
 import dev from '../util/dev';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { isValidEmailAddress } from '../util/misc';
+import { isValidEmailAddress, isValidPassword } from '../util/misc';
+import useField, { UseField } from '../hooks/useField';
 
 interface Props {
     currentOrder: NewOrder | Order;
+    password: UseField;
+    passwordConfirm: UseField;
+    register: boolean;
     setCustomerInfo: (
         address: string,
         city: string,
@@ -23,18 +26,19 @@ interface Props {
         phone: string,
         zipCode: string
     ) => void;
+    setRegister: React.Dispatch<React.SetStateAction<boolean>>;
     validate: boolean;
     width: string;
 }
 
-const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }: Props) => {
+const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCustomerInfo, register, setRegister, validate, width }: Props) => {
     const config = useSelector((state: RootState) => state.config);
     const userState = useSelector((state: RootState) => state.user);
 
     const [availableCountries, setAvailableCountries] = useState<string[]>([]);
     const [country, setCountry] = useState<string | null>(currentOrder.customerCountry.length > 0 ? currentOrder.customerCountry : null);
     const [errors, setErrors] = useState<boolean>(false);
-    const [register, setRegister] = useState<boolean>(false);
+    const [required, setRequired] = useState<UseField[]>([]);
 
     useEffect(() => {
         // In case the current country in the Order is set with a different language that is in use at the moment:
@@ -62,20 +66,17 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
     const phone = useField('text', ContentID.contactPhone, currentOrder.customerPhone);
     const zipCode = useField('text', ContentID.checkOutZipCode, currentOrder.customerZipCode);
 
-    const password = useField('password', ContentID.loginPassword, '');
-    const passwordConfirm = useField('password', ContentID.accountPasswordNewConfirm, '');
-
-    const required: UseField[] = [address, city, email, firstName, lastName, phone, zipCode];
-
     const fillRandomly = () => {
         const zipCity = dev.randomZipCodeAndCity();
+        const first = dev.randomFirstName();
+        const last = dev.randomLastName();
 
         address.setNewValue(dev.randomStreetAddress());
         city.setNewValue(zipCity.city);
         setCountry('Suomi');
-        email.setNewValue(dev.randomEmail());
-        firstName.setNewValue(dev.randomFirstName());
-        lastName.setNewValue(dev.randomLastName());
+        email.setNewValue(dev.randomEmail(first, last));
+        firstName.setNewValue(first);
+        lastName.setNewValue(last);
         organization.setNewValue(dev.randomOrganization());
         phone.setNewValue(dev.randomPhone());
         zipCode.setNewValue(zipCity.zip);
@@ -87,9 +88,28 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
         } else if (field === email && !isValidEmailAddress(email.value.toString())) {
             return contentToText(ContentID.errorInvalidEmailAddress, config);
         }
+
+        if (register) {
+            if (field === password && !isValidPassword(password.value.toString())) {
+                return contentToText(ContentID.loginNewPasswordTooShort, config);
+            } else if (field === passwordConfirm && field.value !== password.value) {
+                return contentToText(ContentID.loginNewPasswordMisMatch, config);
+            }
+        }
+
         return null;
     };
 
+    // Set required fields:
+    useEffect(() => {
+        if (register) {
+            setRequired([address, city, email, firstName, lastName, password, passwordConfirm, phone, zipCode]);
+        } else {
+            setRequired([address, city, email, firstName, lastName, phone, zipCode]);
+        }
+    }, [register]);
+
+    // Set available countries:
     useEffect(() => {
         const countries: string[] = [];
         config.store.deliveryCountries.forEach((c) => {
@@ -98,6 +118,7 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
         setAvailableCountries(countries);
     }, [config]);
 
+    // Set customer info to the order:
     useEffect(() => {
         setCustomerInfo(
             address.value.toString().trim(),
@@ -112,6 +133,7 @@ const CheckOutContactInfo = ({ currentOrder, setCustomerInfo, validate, width }:
         );
     }, [address.value, city.value, country, email.value, firstName.value, lastName.value, organization.value, phone.value, zipCode.value]);
 
+    // Validate the input fields:
     useEffect(() => {
         if (validate) {
             let errs = false;

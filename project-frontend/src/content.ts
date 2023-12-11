@@ -164,6 +164,7 @@ export enum ContentID {
     orderStatusForAdminRecycled = 'ORDER STATUS FOR ADMIN: Recycled (move to Recycle Bin)',
     orderTotalAmount = 'ORDER: Total Amount',
     registerHeader = 'REGISTER: header',
+    registerPasswordConfirm = 'REGISTER: Confirm Password',
     registerSuccess = 'REGISTER: Registration successful',
     statusCancelled = 'ORDER STATUS: Cancelled',
     statusCompleted = 'ORDER STATUS: Completed',
@@ -1027,8 +1028,8 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.loginNewPasswordMisMatch,
         content: [
-            { langCode: LangCode.EN, text: 'New password does not match with the confirmation' },
-            { langCode: LangCode.FI, text: 'Uusi salasana ei täsmää varmenteen kanssa' },
+            { langCode: LangCode.EN, text: 'Password confirmation does not match.' },
+            { langCode: LangCode.FI, text: 'Salasanan vahvistus ei täsmää.' },
         ],
     },
     {
@@ -1323,6 +1324,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Register' },
             { langCode: LangCode.FI, text: 'Rekisteröidy' },
+        ],
+    },
+    {
+        id: ContentID.registerPasswordConfirm,
+        content: [
+            { langCode: LangCode.EN, text: 'Confirm Password' },
+            { langCode: LangCode.FI, text: 'Vahvista salasana' },
         ],
     },
     {
