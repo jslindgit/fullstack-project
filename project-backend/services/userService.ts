@@ -81,7 +81,7 @@ const getById = async (id: unknown): Promise<UserAttributes | null> => {
                 include: [
                     {
                         model: Order,
-                        attributes: ['id', 'createdAt', 'items', 'status', 'totalAmount'],
+                        //attributes: ['id', 'createdAt', 'items', 'status', 'totalAmount'],
                     },
                 ],
             })

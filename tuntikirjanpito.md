@@ -110,4 +110,5 @@
 | 11.12. | 1    | Rekisteröitymisen työstöä                                                                                            |     |
 |        | 1    | Hienosäätöä Checkoutiin                                                                                              |     |
 | 12.12. | 1    | Pari bugin korjausta + Tilaushistorian työstöä                                                                       |     |
-|  yht   | 194  |                                                                                                                      |     |
+|        | 2    | Tilaushistorian työstöä                                                                                              |     |
+|  yht   | 196  |                                                                                                                      |     |

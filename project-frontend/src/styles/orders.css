@@ -1,0 +1,36 @@
+.userOrderDetails {
+    background-color: white;
+    border-radius: 0.5rem;
+    outline: 2px solid var(--colorGraySemiDark);
+    padding: 1rem;
+}
+.userOrderDetails td {
+    background-color: white;
+    color: var(--colorGrayDark);
+}
+
+.userOrderHistoryRow {
+    border-radius: 0;
+    outline: 2px dotted transparent;
+    transition: all 0.25s;
+}
+.userOrderHistoryRow.hover {
+    border-radius: 1em;
+    outline: 2px dotted var(--colorGray);
+    transition: all 0.25s;
+}
+.userOrderHistoryRow.opened {
+    background-color: var(--colorYellowVeryLight) !important;
+}
+.userOrderHistoryRow.opened td:first-child {
+    border-radius: 0;
+}
+.userOrderHistoryRow.opened td:last-child {
+    border-radius: 0;
+}
+
+.orderItem {
+    background-color: var(--colorGrayVeryLight);
+    outline: 2px solid black;
+    padding-left: 2rem;
+}

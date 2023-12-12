@@ -1,10 +1,15 @@
 import React from 'react';
 
 import { Config } from '../types/configTypes';
-import { Order, ShoppingItem } from '../types/orderTypes';
+import { ContentID } from '../content';
+import { DeliveryMethod, Order, ShoppingItem } from '../types/orderTypes';
 
 import format from '../util/format';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
+import { getOrderStatus } from '../types/orderTypeFunctions';
 import { isString } from '../types/typeFunctions';
+
+import ShoppingCartContent from './ShoppingCartContent';
 
 interface Props {
     config: Config;
@@ -12,23 +17,95 @@ interface Props {
 }
 
 const UserOrderDetails = ({ order, config }: Props) => {
-    const parsedOrder = { ...order, items: isString(order.items) ? (JSON.parse(order.items) as ShoppingItem[]) : order.items };
+    const deliveryMethod = isString(order.deliveryMethod) ? (JSON.parse(order.deliveryMethod) as DeliveryMethod) : order.deliveryMethod;
+    const items = isString(order.items) ? (JSON.parse(order.items) as ShoppingItem[]) : order.items;
+
+    if (deliveryMethod) {
+        items.push({ id: -1, name: langTextsToText(deliveryMethod.names, config), price: order.deliveryCost, quantity: 1 });
+    }
+
+    const parsedOrder = {
+        ...order,
+        deliveryMethod: deliveryMethod,
+        items: items,
+    };
 
     return (
-        <table width='100%'>
-            <tbody>
-                {parsedOrder.items.map((item) => (
-                    <React.Fragment key={item.id}>
-                        <tr>
-                            <td>{item.name}</td>
-                            <td>{format.currency(item.price, config)}</td>
-                            <td>{item.quantity}</td>
-                            <td>{format.currency(item.price * item.quantity, config)}</td>
-                        </tr>
-                    </React.Fragment>
-                ))}
-            </tbody>
-        </table>
+        <>
+            <table width='100%' className='userOrderDetails'>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div className='semiBold sizeLarge'>
+                                {contentToText(ContentID.miscOrder, config)} {format.dateFormat(new Date(order.createdAt))}
+                            </div>
+                            <br />
+                            <div className='semiBold'>
+                                {contentToText(ContentID.orderId, config)}: {order.id}
+                            </div>
+                            <br />
+                            <div className='semiBold'>
+                                {contentToText(ContentID.orderStatus, config)}: <span className='bold'>{getOrderStatus(order.status, config)}</span>
+                            </div>
+                            <br />
+                            <ShoppingCartContent
+                                allowEdit={false}
+                                shoppingItems={parsedOrder.items}
+                                removeItem={null}
+                                totalSumContentID={ContentID.cartTotalPrice}
+                                width={'100%'}
+                            />
+                            <br />
+                            <div className='semiBold sizeLarge' style={{ marginBottom: '0.5rem' }}>
+                                {contentToText(ContentID.orderCustomer, config)}
+                            </div>
+                            <div className='normalWeight sizeSmallish'>
+                                {order.customerFirstName} {order.customerLastName}
+                                <br />
+                                {order.customerOrganization ? (
+                                    <>
+                                        {order.customerOrganization}
+                                        <br />
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                                {order.customerAddress}
+                                <br />
+                                {order.customerZipCode} {order.customerCity}
+                                <br />
+                                {order.customerCountry}
+                                <br />
+                                {order.customerEmail}
+                                <br />
+                                {order.customerPhone}
+                            </div>
+                            <br />
+                            {deliveryMethod ? (
+                                <>
+                                    <div className='semiBold sizeLarge' style={{ marginBottom: '0.5rem' }}>
+                                        {contentToText(ContentID.orderDeliveryMethod, config)}
+                                    </div>
+                                    <div className='normalWeight'>
+                                        {langTextsToText(deliveryMethod.names, config)}
+                                        {deliveryMethod.notes.length > 0 ? (
+                                            <>
+                                                <br />
+                                                {deliveryMethod.notes}
+                                            </>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </div>
+                                </>
+                            ) : (
+                                ''
+                            )}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </>
     );
 };
 

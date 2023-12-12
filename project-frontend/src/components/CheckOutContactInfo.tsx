@@ -38,12 +38,19 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
     const userState = useSelector((state: RootState) => state.user);
 
     const [availableCountries, setAvailableCountries] = useState<string[]>([]);
-    const [country, setCountry] = useState<string | null>(currentOrder.customerCountry.length > 0 ? currentOrder.customerCountry : null);
+    const [country, setCountry] = useState<string | null>(null);
     const [errors, setErrors] = useState<boolean>(false);
     const [required, setRequired] = useState<UseField[]>([]);
 
+    // Default country:
     useEffect(() => {
-        // In case the current country in the Order is set with a different language that is in use at the moment:
+        if (!country && userState.loggedUser) {
+            setCountry(currentOrder.customerCountry.length > 0 ? currentOrder.customerCountry : userState.loggedUser.contactAddress);
+        }
+    }, [country, currentOrder.customerCountry, userState.loggedUser]);
+
+    // In case the current country in the Order is set with a different language that is in use at the moment:
+    useEffect(() => {
         const getCountryFromOrder = () => {
             config.store.deliveryCountries.forEach((c) => {
                 if (c.names.find((langText) => langText.text === currentOrder.customerCountry)) {
@@ -59,14 +66,48 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
         setCountry(event.target.value);
     };
 
-    const address = useField('text', ContentID.checkOutStreetAddress, currentOrder.customerAddress);
-    const city = useField('text', ContentID.checkOutCity, currentOrder.customerCity);
-    const email = useField('text', ContentID.contactEmail, currentOrder.customerEmail);
-    const firstName = useField('text', ContentID.checkOutFirstName, currentOrder.customerFirstName);
-    const lastName = useField('text', ContentID.checkOutLastName, currentOrder.customerLastName);
-    const organization = useField('text', ContentID.checkOutOrganization, currentOrder.customerOrganization);
-    const phone = useField('text', ContentID.contactPhone, currentOrder.customerPhone);
-    const zipCode = useField('text', ContentID.checkOutZipCode, currentOrder.customerZipCode);
+    const address = useField(
+        'text',
+        ContentID.checkOutStreetAddress,
+        currentOrder.customerAddress.length > 0 ? currentOrder.customerAddress : userState.loggedUser ? userState.loggedUser.contactAddress : ''
+    );
+    const city = useField(
+        'text',
+        ContentID.checkOutCity,
+        currentOrder.customerCity.length > 0 ? currentOrder.customerCity : userState.loggedUser ? userState.loggedUser.contactCity : ''
+    );
+    const email = useField(
+        'text',
+        ContentID.contactEmail,
+        currentOrder.customerEmail.length > 0 ? currentOrder.customerEmail : userState.loggedUser ? userState.loggedUser.username : ''
+    );
+    const firstName = useField(
+        'text',
+        ContentID.checkOutFirstName,
+        currentOrder.customerFirstName.length > 0 ? currentOrder.customerFirstName : userState.loggedUser ? userState.loggedUser.contactFirstName : ''
+    );
+    const lastName = useField(
+        'text',
+        ContentID.checkOutLastName,
+        currentOrder.customerLastName.length > 0 ? currentOrder.customerLastName : userState.loggedUser ? userState.loggedUser.contactLastName : ''
+    );
+    // prettier-ignore
+    const organization = useField(
+        'text',
+        ContentID.checkOutOrganization,
+        currentOrder.customerOrganization && currentOrder.customerOrganization.length > 0
+            ? currentOrder.customerOrganization : userState.loggedUser ? userState.loggedUser.contactOrganization : ''
+    );
+    const phone = useField(
+        'text',
+        ContentID.contactPhone,
+        currentOrder.customerPhone.length > 0 ? currentOrder.customerPhone : userState.loggedUser ? userState.loggedUser.contactPhone : ''
+    );
+    const zipCode = useField(
+        'text',
+        ContentID.checkOutZipCode,
+        currentOrder.customerZipCode.length > 0 ? currentOrder.customerZipCode : userState.loggedUser ? userState.loggedUser.contactZipcode : ''
+    );
 
     const fillRandomly = () => {
         const zipCity = dev.randomZipCodeAndCity();

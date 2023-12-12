@@ -23,6 +23,7 @@ const UserPanel = () => {
     const usersState = useSelector((state: RootState) => state.user);
 
     const [user, setUser] = useState<User | null>(null);
+    const [userInitialized, setUserInitialized] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -30,16 +31,21 @@ const UserPanel = () => {
     useEffect(() => {
         document.title = contentToText(ContentID.menuAccount, config) + ' | ' + config.store.contactName;
 
-        initializeLoggedUser(dispatch);
+        const init = async () => {
+            await initializeLoggedUser(dispatch);
+            setUserInitialized(true);
+        };
+
+        init();
     }, [config, dispatch]);
 
     useEffect(() => {
         setUser(usersState.loggedUser);
 
-        if (miscState.loaded && (!usersState.loggedUser || usersState.loggedUser === null)) {
+        if (miscState.loaded && userInitialized && (!usersState.loggedUser || usersState.loggedUser === null)) {
             navigate('/login');
         }
-    }, [usersState.loggedUser, miscState.loaded, navigate, user]);
+    }, [usersState.loggedUser, miscState.loaded, navigate, user, userInitialized]);
 
     if (!user) {
         return <>{contentToText(ContentID.menuLogin, config)}</>;

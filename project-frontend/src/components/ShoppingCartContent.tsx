@@ -12,12 +12,13 @@ import ShoppingCartRow from './ShoppinCartRow';
 
 interface Props {
     allowEdit: boolean;
-    shoppingItems: ShoppingItem[];
     removeItem: ((shoppingItem: number) => void) | null;
-    width: number;
+    shoppingItems: ShoppingItem[];
+    totalSumContentID?: ContentID;
+    width: number | string;
 }
 
-const ShoppingCartContent = ({ allowEdit, shoppingItems, removeItem, width }: Props) => {
+const ShoppingCartContent = ({ allowEdit, shoppingItems, removeItem, totalSumContentID = ContentID.cartSubtotal, width }: Props) => {
     const config = useSelector((state: RootState) => state.config);
 
     if (shoppingItems.length <= 0) {
@@ -37,12 +38,14 @@ const ShoppingCartContent = ({ allowEdit, shoppingItems, removeItem, width }: Pr
             <tbody>
                 {shoppingItems.length > 0 ? (
                     <>
-                        <tr className='semiBold' style={{ backgroundColor: 'var(--colorGrayVeryLight)' }}>
-                            <td colSpan={2}>{contentToText(ContentID.cartProduct, config)}</td>
-                            <td>{contentToText(ContentID.cartUnitPrice, config)}</td>
-                            <td>{contentToText(ContentID.cartQuantity, config)}</td>
-                            <td>{contentToText(ContentID.cartTotalPrice, config)}</td>
-                            <td></td>
+                        <tr className='semiBold'>
+                            <td colSpan={2} className='bgColorGrayVeryLightImportant'>
+                                {contentToText(ContentID.cartProduct, config)}
+                            </td>
+                            <td className='bgColorGrayVeryLightImportant'>{contentToText(ContentID.cartUnitPrice, config)}</td>
+                            <td className='bgColorGrayVeryLightImportant'>{contentToText(ContentID.cartQuantity, config)}</td>
+                            <td className='bgColorGrayVeryLightImportant'>{contentToText(ContentID.cartTotalPrice, config)}</td>
+                            <td className='bgColorGrayVeryLightImportant'></td>
                         </tr>
                         {shoppingItems.map((shoppingItem) => (
                             <ShoppingCartRow
@@ -57,7 +60,7 @@ const ShoppingCartContent = ({ allowEdit, shoppingItems, removeItem, width }: Pr
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td className='semiBold'>{contentToText(ContentID.cartSubtotal, config)}:</td>
+                            <td className='semiBold'>{contentToText(totalSumContentID, config)}:</td>
                             <td className='semiBold'>{format.currency(itemsTotalSum(shoppingItems.map((shoppingItem) => shoppingItem)), config)}</td>
                             <td></td>
                         </tr>

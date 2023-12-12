@@ -9,10 +9,11 @@ import { Item } from '../types/types';
 import format from '../util/format';
 import itemService from '../services/itemService';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { imageFullPath } from '../util/misc';
 import useField from '../hooks/useField';
 
 import { updateShoppingCartItemQuantity } from '../reducers/orderReducer';
+
+import Image from './Image';
 
 interface Props {
     shoppingItem: ShoppingItem;
@@ -30,14 +31,16 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
 
     const quantity = useField('integer', null, shoppingItem.quantity.toString());
 
-    // Fetch the Item matching the ShoppingItem from the server:
+    // Fetch the Item matching the ShoppingItem from the server (unless it's 'id' is -1, meaning it's the order's DeliveryMethod, used in UserOrderHistory):
     useEffect(() => {
-        const fetchItem = async () => {
-            const fetchedItem = await itemService.getById(shoppingItem.id);
-            setItem(fetchedItem);
-        };
+        if (shoppingItem.id >= 0) {
+            const fetchItem = async () => {
+                const fetchedItem = await itemService.getById(shoppingItem.id);
+                setItem(fetchedItem);
+            };
 
-        fetchItem();
+            fetchItem();
+        }
     }, [shoppingItem]);
 
     // Adjust the quantity value, restricting it between 1 and max quantity (defined in Config):
@@ -56,19 +59,17 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
 
     return (
         <tr>
-            <td width='1px'>
-                <img src={imageFullPath(imagePath)} className='imgShoppingCart' />
-            </td>
-            <td>{item ? langTextsToText(item.name, config) : shoppingItem.name}</td>
-            <td>{format.currency(shoppingItem.price, config)}</td>
-            <td>
+            <td width='1px'>{item ? <Image path={imagePath} className='imgShoppingCart' /> : ''}</td>
+            <td className='normalWeight'>{item ? langTextsToText(item.name, config) : shoppingItem.name}</td>
+            <td className='normalWeight'>{format.currency(shoppingItem.price, config)}</td>
+            <td className='normalWeight'>
                 {allowEdit ? (
                     <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
                 ) : (
                     shoppingItem.quantity
                 )}
             </td>
-            <td>{format.currency(shoppingItem.price * shoppingItem.quantity, config)}</td>
+            <td className='normalWeight'>{format.currency(shoppingItem.price * shoppingItem.quantity, config)}</td>
             <td width='1px'>
                 {allowEdit ? (
                     <button type='button' className='red' onClick={() => (removeItem ? removeItem(indexOf) : () => {})} disabled={!allowEdit}>

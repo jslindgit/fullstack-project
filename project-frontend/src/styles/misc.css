@@ -92,26 +92,6 @@
     color: white;
 }
 
-.userOrderHistoryRow {
-    border-radius: 0;
-    outline: 2px dotted transparent;
-    transition: all 0.25s;
-}
-.userOrderHistoryRow.hover {
-    border-radius: 1em;
-    outline: 2px dotted var(--colorGray);
-    transition: all 0.25s;
-}
-.userOrderHistoryRow.opened {
-    background-color: var(--colorYellowVeryLight);
-}
-
-.orderItem {
-    background-color: var(--colorGrayVeryLight);
-    outline: 2px solid black;
-    padding-left: 2rem;
-}
-
 .paymentMethodSelection {
     border-radius: 0 !important;
     border: 0.5rem solid var(--colorGrayLight);

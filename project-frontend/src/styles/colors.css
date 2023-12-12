@@ -2,6 +2,9 @@
 .bgColorGrayVeryLight {
     background-color: var(--colorGrayVeryLight);
 }
+.bgColorGrayVeryLightImportant {
+    background-color: var(--colorGrayVeryLight) !important;
+}
 .bgColorYellowVeryLight {
     background-color: var(--colorYellowVeryLight);
 }
