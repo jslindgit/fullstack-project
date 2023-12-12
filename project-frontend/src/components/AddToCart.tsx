@@ -26,7 +26,8 @@ const AddToCart = ({ config, item }: Props) => {
 
     // When quantity is adjusted with the "+" and "-" buttons:
     const adjustAmount = (adjustment: number) => {
-        quantity.setNewValue(Math.max(1, Math.min(Number(quantity.value) + adjustment, config.maxItemQuantity)).toString());
+        const newValue = Math.max(1, Math.min(Number(quantity.value) + adjustment, config.maxItemQuantity)).toString();
+        quantity.setNewValue(newValue);
     };
 
     // When quantity is adjusted by typing in the input field:

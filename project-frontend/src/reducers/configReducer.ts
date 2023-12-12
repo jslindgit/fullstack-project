@@ -3,6 +3,7 @@ import { AnyAction, createSlice, Dispatch, PayloadAction } from '@reduxjs/toolki
 import { Config } from '../types/configTypes';
 import { Language } from '../types/languageTypes';
 
+import { isConfig } from '../types/configTypes';
 import { defaultConfig } from '../constants';
 
 export type ConfigState = Config;
@@ -22,9 +23,16 @@ const slice = createSlice({
 
 export const initializeConfig = (dispatch: Dispatch<AnyAction>) => {
     const storedConfigString = localStorage.getItem('config');
+    const parsedConfig = storedConfigString ? JSON.parse(storedConfigString) : null;
 
-    const config = storedConfigString ? JSON.parse(storedConfigString) : defaultConfig;
-    dispatch(slice.actions.setConfig(config));
+    if (parsedConfig) {
+        if (isConfig(parsedConfig)) {
+            dispatch(slice.actions.setConfig(parsedConfig));
+        } else {
+            saveConfigToLocalStorage(defaultConfig);
+            dispatch(slice.actions.setConfig(defaultConfig));
+        }
+    }
 };
 
 export const saveConfigToLocalStorage = (state: ConfigState) => {

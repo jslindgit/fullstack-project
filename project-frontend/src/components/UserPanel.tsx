@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
@@ -9,12 +9,15 @@ import { User } from '../types/types';
 import { pageWidth } from '../constants';
 import { contentToText } from '../types/languageFunctions';
 
+import { initializeLoggedUser } from '../reducers/userReducer';
+
 import UserBasicInfo from './UserBasicInfo';
 import UserChangePassword from './UserChangePassword';
 import UserContactInfo from './UserContactInfo';
 import UserOrderHistory from './UserOrderHistory';
 
 const UserPanel = () => {
+    const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const miscState = useSelector((state: RootState) => state.misc);
     const usersState = useSelector((state: RootState) => state.user);
@@ -23,15 +26,20 @@ const UserPanel = () => {
 
     const navigate = useNavigate();
 
+    // Fetch the loggedUser from the server (with 'initializeLoggedUser') to make sure it's up to date:
     useEffect(() => {
         document.title = contentToText(ContentID.menuAccount, config) + ' | ' + config.store.contactName;
 
+        initializeLoggedUser(dispatch);
+    }, [config, dispatch]);
+
+    useEffect(() => {
         setUser(usersState.loggedUser);
 
         if (miscState.loaded && (!usersState.loggedUser || usersState.loggedUser === null)) {
             navigate('/login');
         }
-    }, [config, usersState.loggedUser, miscState.loaded, navigate, user]);
+    }, [usersState.loggedUser, miscState.loaded, navigate, user]);
 
     if (!user) {
         return <>{contentToText(ContentID.menuLogin, config)}</>;
@@ -53,6 +61,7 @@ const UserPanel = () => {
             <UserChangePassword config={config} user={user} width={pageWidth} />
             <br />
             <UserOrderHistory config={config} user={user} width={pageWidth} />
+            <br />
             <br />
         </>
     );

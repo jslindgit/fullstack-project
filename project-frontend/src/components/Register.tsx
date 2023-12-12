@@ -100,7 +100,7 @@ const Register = () => {
             return `${contentToText(field.label, config)} ${contentToText(ContentID.checkOutIsRequired, config)}.`;
         } else if (field === email && !isValidEmailAddress(email.value.toString())) {
             return contentToText(ContentID.errorInvalidEmailAddress, config);
-        } else if (field === password && !isValidPassword(password.value.toString())) {
+        } else if (field === password && !isValidPassword(password.stringValue())) {
             return contentToText(ContentID.loginNewPasswordTooShort, config);
         } else if (field === passwordConfirm && field.value !== password.value) {
             return contentToText(ContentID.loginNewPasswordMisMatch, config);

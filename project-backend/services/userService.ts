@@ -59,7 +59,7 @@ const getAll = async (searchQuery: string = ''): Promise<Array<UserAttributes | 
             include: [
                 {
                     model: Order,
-                    attributes: ['id', 'createdAt', 'items', 'status', 'totalAmount'],
+                    //attributes: ['id', 'createdAt', 'items', 'status', 'totalAmount'],
                 },
             ],
             where,
