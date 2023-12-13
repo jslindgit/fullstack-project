@@ -30,12 +30,12 @@ export const isLangText = (obj: unknown): obj is LangText => {
     return isObject(obj) && obj !== null && 'text' in obj && isString(obj.text) && 'lang' in obj && isLangCode(obj.lang);
 };
 
-export const langTextsToText = (langTexts: LangText[], config: Config, debug: boolean = false): string => {
+export const langTextsToText = (langTexts: LangText[] | undefined, config: Config, debug: boolean = false): string => {
     if (debug) {
         console.log('langTexts:', langTexts);
-        console.log('langTexts.length:', langTexts.length);
+        console.log('langTexts.length:', langTexts?.length);
     }
-    if (langTexts.length < 1) {
+    if (!langTexts || langTexts.length < 1) {
         return '';
     }
 

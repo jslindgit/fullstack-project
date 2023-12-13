@@ -9,9 +9,11 @@ import { User } from '../../types/types';
 import { pageWidth } from '../../constants';
 import { contentToText } from '../../types/languageFunctions';
 import { userStatus } from '../../util/misc';
+import useField from '../../hooks/useField';
 import userService from '../../services/userService';
 
 import { Link } from '../CustomLink';
+import InputField from '../InputField';
 import SortArrow from '../SortArrow';
 
 interface Props {
@@ -25,7 +27,6 @@ const AdminUserRow = ({ config, user, hoveredButton, setHoveredButton }: Props) 
         <tr className={'hoverableRow' + (hoveredButton === user ? ' hover' : '')}>
             <td>{user.contactFirstName + ' ' + user.contactLastName}&emsp;</td>
             <td>{user.username}&emsp;</td>
-            <td>{user.contactCountry}&emsp;</td>
             <td>{user.id}&emsp;</td>
             <td className='widthByContent'>{userStatus(user, config)}&emsp;</td>
             <td className='alignRight'>
@@ -40,15 +41,17 @@ const AdminUserRow = ({ config, user, hoveredButton, setHoveredButton }: Props) 
 };
 
 const AdminUsers = () => {
-    const config = useSelector((state: RootState) => state.config);
+    type sortByOption = 'name' | 'username' | 'id' | 'status';
 
-    type sortByOption = 'name' | 'username' | 'country' | 'id' | 'status';
+    const config = useSelector((state: RootState) => state.config);
 
     const [fetched, setFetched] = useState<boolean>(false);
     const [hoveredButton, setHoveredButton] = useState<User | null>(null);
     const [sortBy, setSortBy] = useState<sortByOption>('name');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
     const [users, setUsers] = useState<User[]>([]);
+
+    const search = useField('text', ContentID.miscSearch);
 
     const setSorting = (by: sortByOption) => {
         if (sortBy !== by) {
@@ -60,13 +63,6 @@ const AdminUsers = () => {
 
     const sortAndSet = (allUsers: User[]) => {
         switch (sortBy) {
-            case 'country':
-                if (sortDirection === 'asc') {
-                    setUsers([...allUsers].sort((a, b) => a.contactCountry.localeCompare(b.contactCountry)));
-                } else {
-                    setUsers([...allUsers].sort((a, b) => b.contactCountry.localeCompare(a.contactCountry)));
-                }
-                break;
             case 'id':
                 if (sortDirection === 'asc') {
                     setUsers([...allUsers].sort((a, b) => a.id - b.id));
@@ -105,10 +101,17 @@ const AdminUsers = () => {
         const fetch = async () => {
             const allUsers = await userService.getAll();
             setFetched(true);
-            sortAndSet(allUsers);
+            sortAndSet(
+                allUsers.filter(
+                    (user) =>
+                        user.contactFirstName.toLowerCase().includes(search.stringValue().toLowerCase()) ||
+                        user.contactLastName.toLowerCase().includes(search.stringValue().toLowerCase()) ||
+                        user.username.toLowerCase().includes(search.stringValue().toLowerCase())
+                )
+            );
         };
         fetch();
-    }, []);
+    }, [search.value]);
 
     useEffect(() => {
         sortAndSet(users);
@@ -132,12 +135,31 @@ const AdminUsers = () => {
 
     return (
         <>
+            <table width='100%' className='bgColorGrayExtremelyLight' style={{ border: '2px solid var(--colorGray)', borderRadius: '0.5rem' }}>
+                <tbody>
+                    <tr>
+                        <td className='semiBold widthByContent'>{contentToText(search.label, config)}:</td>
+                        <td className='widthByContent'>
+                            <InputField
+                                useField={search}
+                                width={'20rem'}
+                                placeHolder={contentToText(ContentID.miscName, config) + ', ' + contentToText(ContentID.contactEmail, config)}
+                            />
+                        </td>
+                        <td className='alignLeft'>
+                            <button type='button' onClick={() => search.setNewValue('')}>
+                                {contentToText(ContentID.buttonClear, config)}
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
             <table width={pageWidth} className='headerRow striped'>
                 <tbody>
                     <tr>
                         {columnHeader(ContentID.miscName, 'name')}
                         {columnHeader(ContentID.loginUsername, 'username')}
-                        {columnHeader(ContentID.checkOutCountry, 'country')}
                         {columnHeader(ContentID.accountUserId, 'id', true)}
                         {columnHeader(ContentID.userStatusHeader, 'status', true)}
                         <td></td>

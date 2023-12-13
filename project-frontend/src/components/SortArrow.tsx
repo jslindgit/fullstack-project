@@ -14,7 +14,7 @@ interface Props {
 const SortArrow = ({ column, sortBy, sortDirection, setSortDirection, config }: Props) => (
     <span
         onClick={() => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')}
-        className={'clickable ' + (column === sortBy ? '' : 'colorTransparent')}
+        className={'clickable ' + (column === sortBy ? 'colorGoldVeryLight' : 'colorTransparent')}
         title={contentToText(ContentID.miscClickToChangeSortingOrder, config)}
     >
         &nbsp;{sortDirection === 'asc' ? '▲' : '▼'}

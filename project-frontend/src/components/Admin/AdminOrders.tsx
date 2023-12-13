@@ -7,14 +7,18 @@ import { Order } from '../../types/orderTypes';
 import { RootState } from '../../reducers/rootReducer';
 import { NewNotification, NotificationTone } from '../../types/types';
 
-import { setNotification } from '../../reducers/miscReducer';
-
-import { contentToText } from '../../types/languageFunctions';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import orderService from '../../services/orderService';
+import { getOrderStatusForAdmin } from '../../types/orderTypeFunctions';
+import useField from '../../hooks/useField';
+
+import { setNotification } from '../../reducers/miscReducer';
 
 import AdminOrderDetails from './AdminOrderDetails';
 import AdminOrderRow from './AdminOrderRow';
 import { Link } from '../CustomLink';
+import InputField from '../InputField';
+import SortArrow from '../SortArrow';
 
 enum Folder {
     PROCESSING = 'processing',
@@ -23,10 +27,14 @@ enum Folder {
 }
 
 const AdminOrders = () => {
+    type sortByOption = 'date' | 'customer' | 'totalSum' | 'delivery' | 'status';
+
     const [folder, setFolder] = useState<Folder>(Folder.PROCESSING);
     const [hoveredButton, setHoveredButton] = useState<Order | null>(null);
     const [orders, setOrders] = useState<Order[]>([]);
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
+    const [sortBy, setSortBy] = useState<sortByOption>('date');
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
     const [update, setUpdate] = useState<boolean>(false);
 
     const orderToOpen = useRef<Order | null>(null);
@@ -36,6 +44,71 @@ const AdminOrders = () => {
     const usersState = useSelector((state: RootState) => state.user);
 
     const [searchParams] = useSearchParams();
+
+    const search = useField('text', ContentID.miscSearch);
+
+    const setSorting = (by: sortByOption) => {
+        if (sortBy !== by) {
+            setSortBy(by);
+        } else {
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        }
+    };
+
+    const sortAndSet = (allOrders: Order[]) => {
+        switch (sortBy) {
+            case 'date':
+                if (sortDirection === 'asc') {
+                    setOrders([...allOrders].sort((a, b) => a.createdAt.localeCompare(b.createdAt)));
+                } else {
+                    setOrders([...allOrders].sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
+                }
+                break;
+            case 'customer':
+                if (sortDirection === 'asc') {
+                    setOrders(
+                        [...allOrders].sort((a, b) => (a.customerLastName + a.customerFirstName).localeCompare(b.customerLastName + b.customerFirstName))
+                    );
+                } else {
+                    setOrders(
+                        [...allOrders].sort((a, b) => (b.customerLastName + b.customerFirstName).localeCompare(a.customerLastName + a.customerFirstName))
+                    );
+                }
+                break;
+            case 'totalSum':
+                if (sortDirection === 'asc') {
+                    setOrders([...allOrders].sort((a, b) => a.totalAmount - b.totalAmount));
+                } else {
+                    setOrders([...allOrders].sort((a, b) => b.totalAmount - a.totalAmount));
+                }
+                break;
+            case 'delivery':
+                if (sortDirection === 'asc') {
+                    setOrders(
+                        [...allOrders].sort((a, b) =>
+                            langTextsToText(a.deliveryMethod?.names, config).localeCompare(langTextsToText(b.deliveryMethod?.names, config))
+                        )
+                    );
+                } else {
+                    setOrders(
+                        [...allOrders].sort((a, b) =>
+                            langTextsToText(b.deliveryMethod?.names, config).localeCompare(langTextsToText(a.deliveryMethod?.names, config))
+                        )
+                    );
+                }
+                break;
+            case 'status':
+                if (sortDirection === 'asc') {
+                    setOrders([...allOrders].sort((a, b) => getOrderStatusForAdmin(a, config).localeCompare(getOrderStatusForAdmin(b, config))));
+                } else {
+                    setOrders([...allOrders].sort((a, b) => getOrderStatusForAdmin(b, config).localeCompare(getOrderStatusForAdmin(a, config))));
+                }
+                break;
+            default:
+                setOrders(allOrders);
+                break;
+        }
+    };
 
     useEffect(() => {
         const folderParam = searchParams.get('folder');
@@ -62,14 +135,26 @@ const AdminOrders = () => {
 
     const fetch = async () => {
         const data = await orderService.getAll();
-        setOrders(data.filter((order) => belongsToCurrentFolder(order)).sort((a, b) => a.createdAt.localeCompare(b.createdAt)));
+        // prettier-ignore
+        const dataToSort =
+            search.stringValue().length > 0 ?
+                data.filter((order) =>
+                    order.customerFirstName.toLowerCase().includes(search.stringValue().toLowerCase()) ||
+                    order.customerLastName.toLowerCase().includes(search.stringValue().toLowerCase()))
+                : data;
+
+        sortAndSet(dataToSort.filter((order) => belongsToCurrentFolder(order)));
     };
 
     useEffect(() => {
         fetch();
 
         document.title = `${contentToText(ContentID.adminPanelHeader, config)} - ${contentToText(ContentID.adminPanelOrders, config)} (${orders.length})`;
-    }, [config, folder, orders.length]);
+    }, [config, folder, orders.length, search.value]);
+
+    useEffect(() => {
+        sortAndSet(orders);
+    }, [sortBy, sortDirection]);
 
     useEffect(() => {
         setOpenedOrder(orderToOpen.current);
@@ -209,6 +294,18 @@ const AdminOrders = () => {
         );
     };
 
+    const columnHeader = (label: ContentID, sortByOption: sortByOption, widthByContent: boolean = false) => (
+        <td className={widthByContent ? 'widthByContent' : ''} onClick={() => setSorting(sortByOption)}>
+            <span
+                className='clickable'
+                title={contentToText(sortBy === sortByOption ? ContentID.miscClickToChangeSortingOrder : ContentID.miscClickToSortByThis, config)}
+            >
+                {contentToText(label, config)}
+            </span>{' '}
+            <SortArrow column={sortByOption} sortBy={sortBy} sortDirection={sortDirection} setSortDirection={setSortDirection} config={config} />
+        </td>
+    );
+
     return (
         <div>
             <table align='center' width='100%' className='adminOrdersMenu'>
@@ -226,14 +323,35 @@ const AdminOrders = () => {
                     </tr>
                 </tbody>
             </table>
+            <br />
+            <table width='100%' className='bgColorGrayExtremelyLight' style={{ border: '2px solid var(--colorGray)', borderRadius: '0.5rem' }}>
+                <tbody>
+                    <tr>
+                        <td className='semiBold widthByContent'>{contentToText(search.label, config)}:</td>
+                        <td className='widthByContent'>
+                            <InputField
+                                useField={search}
+                                width={'20rem'}
+                                placeHolder={contentToText(ContentID.miscCustomers, config) + ' ' + contentToText(ContentID.miscName, config).toLowerCase()}
+                            />
+                        </td>
+                        <td className='alignLeft'>
+                            <button type='button' onClick={() => search.setNewValue('')}>
+                                {contentToText(ContentID.buttonClear, config)}
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
             <table align='center' width='100%' className='adminOrders headerRow striped'>
                 <tbody>
                     <tr>
-                        <td>{contentToText(ContentID.miscDate, config)}</td>
-                        <td>{contentToText(ContentID.orderCustomer, config)}</td>
-                        <td>{contentToText(ContentID.orderTotalAmount, config)}</td>
-                        <td>{contentToText(ContentID.orderDeliveryMethod, config)}</td>
-                        <td>{contentToText(ContentID.orderStatus, config)}</td>
+                        {columnHeader(ContentID.miscDate, 'date')}
+                        {columnHeader(ContentID.orderCustomer, 'customer')}
+                        {columnHeader(ContentID.orderTotalAmount, 'totalSum')}
+                        {columnHeader(ContentID.orderDeliveryMethod, 'delivery')}
+                        {columnHeader(ContentID.orderStatus, 'status')}
                         <td width='1px'></td>
                     </tr>
                     {orders.length > 0 ? (
@@ -242,7 +360,16 @@ const AdminOrders = () => {
                         <tr>
                             <td colSpan={6} className='alignCenter centered semiBold'>
                                 <br />
-                                {contentToText(ContentID.adminOrdersNoOrdersInFolder, config)} {folderLabel(folder)}.
+                                {contentToText(ContentID.adminOrdersNoOrdersInFolder, config)} <span className='bold'>{folderLabel(folder)}</span>
+                                {search.stringValue().length > 0 ? (
+                                    <>
+                                        {` ${contentToText(ContentID.miscWithSearchWords, config)} `}{' '}
+                                        <span className='italic'>{`'${search.stringValue()}'`}</span>
+                                    </>
+                                ) : (
+                                    ''
+                                )}
+                                .
                                 <br />
                                 <br />
                             </td>

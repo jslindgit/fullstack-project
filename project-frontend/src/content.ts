@@ -56,6 +56,7 @@ export enum ContentID {
     buttonAdd = 'BUTTON: Add',
     buttonCancel = 'BUTTON: Cancel',
     buttonCheckOut = 'BUTTON: Check out',
+    buttonClear = 'BUTTON: Clear',
     buttonClose = 'BUTTON: Close',
     buttonDisable = 'BUTTON: Disable (account)',
     buttonEdit = 'BUTTON: Edit',
@@ -140,6 +141,8 @@ export enum ContentID {
     miscClickToChangeSortingOrder = 'MISC: Click to change sorting order',
     miscClickToSortByThis = 'MISC: Click to sort by this (column)',
     miscCopy = 'MISC: Copy',
+    // prettier-ignore
+    miscCustomers = 'MISC: Customer\'s',
     miscDate = 'MISC: Date',
     miscDays = 'MISC: days',
     miscDescription = 'MISC: Description',
@@ -150,7 +153,9 @@ export enum ContentID {
     miscNo = 'MISC: No',
     miscOrder = 'MISC: Order',
     miscRecycleBin = 'MISC: Recycle Bin',
+    miscSearch = 'MISC: Search',
     miscVAT = 'MISC: VAT (tax)',
+    miscWithSearchWords = 'MISC: (No hits) with searchwords <search>',
     notificationLoggedOut = 'NOTIFICATION: Logged out',
     orderCustomer = 'ORDER: Customer',
     orderDeliveryCost = 'ORDER: Delivery Cost',
@@ -568,6 +573,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Check out' },
             { langCode: LangCode.FI, text: 'Kassalle' },
+        ],
+    },
+    {
+        id: ContentID.buttonClear,
+        content: [
+            { langCode: LangCode.EN, text: 'Clear' },
+            { langCode: LangCode.FI, text: 'Tyhjennä' },
         ],
     },
     {
@@ -1162,6 +1174,14 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.miscCustomers,
+        content: [
+            // prettier-ignore
+            { langCode: LangCode.EN, text: 'Customer\'s' },
+            { langCode: LangCode.FI, text: 'Tilaajan' },
+        ],
+    },
+    {
         id: ContentID.miscDate,
         content: [
             { langCode: LangCode.EN, text: 'Date' },
@@ -1232,10 +1252,24 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.miscSearch,
+        content: [
+            { langCode: LangCode.EN, text: 'Search' },
+            { langCode: LangCode.FI, text: 'Haku' },
+        ],
+    },
+    {
         id: ContentID.miscVAT,
         content: [
             { langCode: LangCode.EN, text: 'VAT' },
             { langCode: LangCode.FI, text: 'ALV' },
+        ],
+    },
+    {
+        id: ContentID.miscWithSearchWords,
+        content: [
+            { langCode: LangCode.EN, text: 'with search words' },
+            { langCode: LangCode.FI, text: 'hakusanoilla' },
         ],
     },
     {

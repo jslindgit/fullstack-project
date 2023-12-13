@@ -103,6 +103,15 @@ table.headerRow table tr:first-child td {
     text-wrap: nowrap;
 }
 
+.striped {
+    border-collapse: collapse;
+}
+.striped tr {
+    border-bottom: solid 1px var(--colorGrayLight);
+}
+.striped tr:first-child {
+    border-bottom: 0;
+}
 .striped tr:nth-child(odd) {
     background-color: var(--colorGrayVeryLight);
 }
@@ -151,13 +160,7 @@ table.headerRow table tr:first-child td {
     padding-bottom: 0.6rem;
     padding-top: 0.6rem;
 }
-.adminOrders tr {
-    border-bottom: 1px solid var(--colorGrayLight);
-}
-.adminOrders tr:first-child {
-    border-bottom: 0;
-    border-top: 0;
-}
+
 .adminOrdersOpened {
     background-color: var(--colorYellowVeryLight) !important;
     border-bottom: 0 !important;
@@ -166,7 +169,6 @@ table.headerRow table tr:first-child td {
 .adminOrdersMenu {
     border: 3px solid var(--colorGrayLight);
     font-weight: 600;
-    margin-bottom: 1rem;
 }
 .adminOrdersMenu td {
     padding: 0.5rem !important;

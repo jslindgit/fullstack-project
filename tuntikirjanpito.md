@@ -112,4 +112,5 @@
 | 12.12. | 1    | Pari bugin korjausta + Tilaushistorian työstöä                                                                       |     |
 |        | 2    | Tilaushistorian työstöä                                                                                              |     |
 | 13.12. | 1    | Tyylien muokkausta                                                                                                   |     |
-|  yht   | 197  |                                                                                                                      |     |
+|        | 1    | Järjestys- ja Haku-ominaisuuksien lisäämistä listauksiin                                                             |     |
+|  yht   | 198  |                                                                                                                      |     |

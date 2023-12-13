@@ -5,13 +5,22 @@
 .bgColorGrayVeryLightImportant {
     background-color: var(--colorGrayVeryLight) !important;
 }
+.bgColorGrayExtremelyLight {
+    background-color: var(--colorGrayExtremelyLight);
+}
 .bgColorYellowVeryLight {
     background-color: var(--colorYellowVeryLight);
 }
 
 /* Text */
+.colorTransparent {
+    color: rgba(0, 0, 0, 0);
+}
 .colorGoldLight {
     color: var(--colorGoldLight);
+}
+.colorGoldVeryLight {
+    color: var(--colorGoldVeryLight);
 }
 .colorGraySemiDark {
     color: var(--colorGraySemiDark);
@@ -30,9 +39,6 @@
 }
 .colorRed {
     color: var(--colorRed);
-}
-.colorTransparent {
-    color: rgba(0, 0, 0, 0);
 }
 .colorYellowLight {
     color: var(--colorYellowLight);

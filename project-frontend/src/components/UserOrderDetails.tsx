@@ -52,7 +52,7 @@ const UserOrderDetails = ({ order, config }: Props) => {
                                 allowEdit={false}
                                 shoppingItems={parsedOrder.items}
                                 removeItem={null}
-                                totalSumContentID={ContentID.cartTotalPrice}
+                                totalSumContentID={ContentID.orderTotalAmount}
                                 width={'100%'}
                             />
                             <br />

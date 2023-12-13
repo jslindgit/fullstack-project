@@ -61,7 +61,7 @@ const ShoppingCartContent = ({ allowEdit, shoppingItems, removeItem, totalSumCon
                             <td></td>
                             <td></td>
                             <td className='semiBold'>{contentToText(totalSumContentID, config)}:</td>
-                            <td className='semiBold'>{format.currency(itemsTotalSum(shoppingItems.map((shoppingItem) => shoppingItem)), config)}</td>
+                            <td className='bold'>{format.currency(itemsTotalSum(shoppingItems.map((shoppingItem) => shoppingItem)), config)}</td>
                             <td></td>
                         </tr>
                     </>
