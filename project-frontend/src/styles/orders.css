@@ -9,23 +9,13 @@
     color: var(--colorGrayDark);
 }
 
-.userOrderHistoryRow {
-    border-radius: 0;
-    outline: 2px dotted transparent;
-    transition: all 0.25s;
-}
-.userOrderHistoryRow.hover {
-    border-radius: 1em;
-    outline: 2px dotted var(--colorGray);
-    transition: all 0.25s;
-}
-.userOrderHistoryRow.opened {
+.userOrderHistoryRowOpened {
     background-color: var(--colorYellowVeryLight) !important;
 }
-.userOrderHistoryRow.opened td:first-child {
+.userOrderHistoryRowOpened td:first-child {
     border-radius: 0;
 }
-.userOrderHistoryRow.opened td:last-child {
+.userOrderHistoryRowOpened td:last-child {
     border-radius: 0;
 }
 

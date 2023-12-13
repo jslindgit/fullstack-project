@@ -17,7 +17,7 @@ interface Props {
     width: number;
 }
 const UserOrderHistory = ({ config, user, width }: Props) => {
-    const [hoveredOrder, setHoveredOrder] = useState<number>(-1);
+    const [hoveredButton, setHoveredButton] = useState<Order | null>(null);
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
 
     return (
@@ -30,7 +30,7 @@ const UserOrderHistory = ({ config, user, width }: Props) => {
                 </tr>
                 <tr>
                     <td>
-                        {user.orders && user.orders.length > 0 ? (
+                        {user && user.orders && user.orders.length > 0 ? (
                             <table width='100%' className='headerRow striped'>
                                 <tbody>
                                     <tr>
@@ -40,39 +40,43 @@ const UserOrderHistory = ({ config, user, width }: Props) => {
                                         <td>{contentToText(ContentID.orderStatus, config)}</td>
                                         <td className='widthByContent'></td>
                                     </tr>
-                                    {user.orders.map((order) => (
-                                        <React.Fragment key={order.id}>
-                                            <tr
-                                                className={
-                                                    'userOrderHistoryRow' + (openedOrder === order ? ' opened' : hoveredOrder === order.id ? ' hover' : '')
-                                                }
-                                            >
-                                                <td>{format.dateFormat(new Date(order.createdAt))}</td>
-                                                <td>{order.id}</td>
-                                                <td>{format.currency(order.totalAmount, config)}</td>
-                                                <td>{getOrderStatus(order.status, config)}</td>
-                                                <td>
-                                                    <button
-                                                        type='button'
-                                                        onClick={() => setOpenedOrder(openedOrder !== order ? order : null)}
-                                                        onMouseLeave={() => setHoveredOrder(-1)}
-                                                        onMouseOver={() => setHoveredOrder(order.id)}
-                                                    >
-                                                        {contentToText(openedOrder === order ? ContentID.buttonClose : ContentID.buttonShowInfo, config)}
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            {openedOrder === order ? (
-                                                <tr>
-                                                    <td colSpan={5} style={{ padding: 0 }}>
-                                                        <UserOrderDetails order={order} config={config} setOpenedOrder={setOpenedOrder} />
+                                    {[...user.orders]
+                                        .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+                                        .map((order) => (
+                                            <React.Fragment key={order.id}>
+                                                <tr
+                                                    className={
+                                                        openedOrder === order
+                                                            ? 'userOrderHistoryRowOpened'
+                                                            : 'hoverableRow' + (hoveredButton === order ? ' hover' : '')
+                                                    }
+                                                >
+                                                    <td>{format.dateFormat(new Date(order.createdAt))}</td>
+                                                    <td>{order.id}</td>
+                                                    <td>{format.currency(order.totalAmount, config)}</td>
+                                                    <td>{getOrderStatus(order.status, config)}</td>
+                                                    <td>
+                                                        <button
+                                                            type='button'
+                                                            onClick={() => setOpenedOrder(openedOrder !== order ? order : null)}
+                                                            onMouseLeave={() => setHoveredButton(null)}
+                                                            onMouseOver={() => setHoveredButton(order)}
+                                                        >
+                                                            {contentToText(openedOrder === order ? ContentID.buttonClose : ContentID.buttonShowInfo, config)}
+                                                        </button>
                                                     </td>
                                                 </tr>
-                                            ) : (
-                                                ''
-                                            )}
-                                        </React.Fragment>
-                                    ))}
+                                                {openedOrder === order ? (
+                                                    <tr>
+                                                        <td colSpan={5} style={{ padding: 0 }}>
+                                                            <UserOrderDetails order={order} config={config} />
+                                                        </td>
+                                                    </tr>
+                                                ) : (
+                                                    ''
+                                                )}
+                                            </React.Fragment>
+                                        ))}
                                 </tbody>
                             </table>
                         ) : (

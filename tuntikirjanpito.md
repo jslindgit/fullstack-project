@@ -111,4 +111,5 @@
 |        | 1    | Hienosäätöä Checkoutiin                                                                                              |     |
 | 12.12. | 1    | Pari bugin korjausta + Tilaushistorian työstöä                                                                       |     |
 |        | 2    | Tilaushistorian työstöä                                                                                              |     |
-|  yht   | 196  |                                                                                                                      |     |
+| 13.12. | 1    | Tyylien muokkausta                                                                                                   |     |
+|  yht   | 197  |                                                                                                                      |     |

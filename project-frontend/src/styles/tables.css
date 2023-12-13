@@ -152,14 +152,11 @@ table.headerRow table tr:first-child td {
     padding-top: 0.6rem;
 }
 .adminOrders tr {
-    border-bottom: 1px solid var(--colorGray);
+    border-bottom: 1px solid var(--colorGrayLight);
 }
 .adminOrders tr:first-child {
-    background-color: var(--colorGraySemiDark);
     border-bottom: 0;
     border-top: 0;
-    color: white;
-    font-weight: 600;
 }
 .adminOrdersOpened {
     background-color: var(--colorYellowVeryLight) !important;

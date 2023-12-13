@@ -11,17 +11,24 @@ import { getOrderStatusForAdmin } from '../../types/orderTypeFunctions';
 interface Props {
     handleClose: () => void;
     handleOpen: (order: Order) => Promise<void>;
+    hoveredButton: Order | null;
     isOpened: boolean;
     order: Order;
+    setHoveredButton: React.Dispatch<React.SetStateAction<Order | null>>;
 }
 
-const AdminOrderRow = ({ order, isOpened, handleClose, handleOpen }: Props) => {
+const AdminOrderRow = ({ order, isOpened, handleClose, handleOpen, hoveredButton, setHoveredButton }: Props) => {
     const config = useSelector((state: RootState) => state.config);
 
     const date = new Date(order.createdAt);
 
     return (
-        <tr className={(isOpened ? 'adminOrdersOpened' : '') + (!order.printedOutDate && !order.deliveredDate ? ' bold' : '')}>
+        <tr
+            className={
+                (isOpened ? 'adminOrdersOpened' : 'hoverableRow' + (hoveredButton === order ? ' hover' : '')) +
+                (!order.printedOutDate && !order.deliveredDate ? ' bold' : '')
+            }
+        >
             <td>{format.dateFormat(date)}</td>
             <td>
                 {order.customerFirstName} {order.customerLastName}
@@ -35,7 +42,12 @@ const AdminOrderRow = ({ order, isOpened, handleClose, handleOpen }: Props) => {
                         {contentToText(ContentID.buttonClose, config)}
                     </button>
                 ) : (
-                    <button type='button' onClick={() => handleOpen(order)}>
+                    <button
+                        type='button'
+                        onClick={() => handleOpen(order)}
+                        onMouseLeave={() => setHoveredButton(null)}
+                        onMouseOver={() => setHoveredButton(order)}
+                    >
                         {contentToText(ContentID.buttonOpen, config)}
                     </button>
                 )}

@@ -137,6 +137,8 @@ export enum ContentID {
     menuLogout = 'MENU: Log out',
     menuProducts = 'MENU: Products',
     menuShoppingCart = 'MENU: Shopping Cart',
+    miscClickToChangeSortingOrder = 'MISC: Click to change sorting order',
+    miscClickToSortByThis = 'MISC: Click to sort by this (column)',
     miscCopy = 'MISC: Copy',
     miscDate = 'MISC: Date',
     miscDays = 'MISC: days',
@@ -174,6 +176,7 @@ export enum ContentID {
     statusProcessing = 'ORDER STATUS: Processing',
     statusRefunded = 'ORDER STATUS: Refunded',
     userDisabled = 'USER: Disabled (banned)',
+    userStatusHeader = 'USER: Status (e.g. Admin)',
     userStatusCustomer = 'USER - STATUS: Customer',
     userUpdated = 'USER: Account Updated (notification)',
 }
@@ -1138,6 +1141,20 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.miscClickToChangeSortingOrder,
+        content: [
+            { langCode: LangCode.EN, text: 'Click to change sorting order' },
+            { langCode: LangCode.FI, text: 'Klikkaa vaihtaaksesi järjestyksen suuntaa' },
+        ],
+    },
+    {
+        id: ContentID.miscClickToSortByThis,
+        content: [
+            { langCode: LangCode.EN, text: 'Click to sort by this' },
+            { langCode: LangCode.FI, text: 'Klikkaa järjestääksesi tämän mukaan' },
+        ],
+    },
+    {
         id: ContentID.miscCopy,
         content: [
             { langCode: LangCode.EN, text: 'Copy' },
@@ -1387,6 +1404,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Account suspended' },
             { langCode: LangCode.FI, text: 'Tili jäädytetty' },
+        ],
+    },
+    {
+        id: ContentID.userStatusHeader,
+        content: [
+            { langCode: LangCode.EN, text: 'Status' },
+            { langCode: LangCode.FI, text: 'Status' },
         ],
     },
     {

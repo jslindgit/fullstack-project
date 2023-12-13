@@ -38,6 +38,20 @@
     justify-content: center;
 }
 
+.hoverableRow {
+    border-radius: 0;
+    outline: 3px dotted transparent;
+    outline-offset: -2px;
+    transition: all 0.25s;
+}
+.hoverableRow.hover {
+    border-color: transparent;
+    border-radius: 0.5em;
+    outline: 3px dotted var(--colorGrayDark);
+    outline-offset: -2px;
+    transition: all 0.25s;
+}
+
 .infoBox {
     border: solid 0.2rem var(--colorGrayLight) !important;
     border-radius: 0.75rem !important;

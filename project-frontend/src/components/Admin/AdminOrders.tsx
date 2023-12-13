@@ -24,6 +24,7 @@ enum Folder {
 
 const AdminOrders = () => {
     const [folder, setFolder] = useState<Folder>(Folder.PROCESSING);
+    const [hoveredButton, setHoveredButton] = useState<Order | null>(null);
     const [orders, setOrders] = useState<Order[]>([]);
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
     const [update, setUpdate] = useState<boolean>(false);
@@ -176,7 +177,15 @@ const AdminOrders = () => {
     const orderRow = (order: Order) => {
         return openedOrder?.id === order.id ? (
             <React.Fragment key={order.id}>
-                <AdminOrderRow key={order.id} order={order} isOpened={true} handleClose={handleClose} handleOpen={handleOpen} />
+                <AdminOrderRow
+                    key={order.id}
+                    order={order}
+                    isOpened={true}
+                    handleClose={handleClose}
+                    handleOpen={handleOpen}
+                    hoveredButton={hoveredButton}
+                    setHoveredButton={setHoveredButton}
+                />
                 <AdminOrderDetails
                     order={order}
                     handleDelete={handleDelete}
@@ -188,7 +197,15 @@ const AdminOrders = () => {
                 />
             </React.Fragment>
         ) : (
-            <AdminOrderRow key={order.id} order={order} isOpened={false} handleClose={handleClose} handleOpen={handleOpen} />
+            <AdminOrderRow
+                key={order.id}
+                order={order}
+                isOpened={false}
+                handleClose={handleClose}
+                handleOpen={handleOpen}
+                hoveredButton={hoveredButton}
+                setHoveredButton={setHoveredButton}
+            />
         );
     };
 
@@ -209,7 +226,7 @@ const AdminOrders = () => {
                     </tr>
                 </tbody>
             </table>
-            <table align='center' width='100%' className='adminOrders striped'>
+            <table align='center' width='100%' className='adminOrders headerRow striped'>
                 <tbody>
                     <tr>
                         <td>{contentToText(ContentID.miscDate, config)}</td>

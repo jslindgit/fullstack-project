@@ -12,22 +12,27 @@ import { userStatus } from '../../util/misc';
 import userService from '../../services/userService';
 
 import { Link } from '../CustomLink';
+import SortArrow from '../SortArrow';
 
 interface Props {
     config: Config;
+    hoveredButton: User | null;
+    setHoveredButton: React.Dispatch<React.SetStateAction<User | null>>;
     user: User;
 }
-const AdminUserRow = ({ config, user }: Props) => {
+const AdminUserRow = ({ config, user, hoveredButton, setHoveredButton }: Props) => {
     return (
-        <tr>
+        <tr className={'hoverableRow' + (hoveredButton === user ? ' hover' : '')}>
             <td>{user.contactFirstName + ' ' + user.contactLastName}&emsp;</td>
             <td>{user.username}&emsp;</td>
             <td>{user.contactCountry}&emsp;</td>
             <td>{user.id}&emsp;</td>
-            <td>{userStatus(user, config)}&emsp;</td>
+            <td className='widthByContent'>{userStatus(user, config)}&emsp;</td>
             <td className='alignRight'>
                 <Link to={'/admin/users/' + user.id}>
-                    <button type='button'>{contentToText(ContentID.buttonShowInfo, config)}</button>
+                    <button type='button' onMouseLeave={() => setHoveredButton(null)} onMouseOver={() => setHoveredButton(user)}>
+                        {contentToText(ContentID.buttonShowInfo, config)}
+                    </button>
                 </Link>
             </td>
         </tr>
@@ -37,16 +42,15 @@ const AdminUserRow = ({ config, user }: Props) => {
 const AdminUsers = () => {
     const config = useSelector((state: RootState) => state.config);
 
+    type sortByOption = 'name' | 'username' | 'country' | 'id' | 'status';
+
     const [fetched, setFetched] = useState<boolean>(false);
-    const [sortBy, setSortBy] = useState<'name' | 'username' | 'country' | 'id' | 'status'>('name');
+    const [hoveredButton, setHoveredButton] = useState<User | null>(null);
+    const [sortBy, setSortBy] = useState<sortByOption>('name');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
     const [users, setUsers] = useState<User[]>([]);
 
-    const sortArrow = (column: 'name' | 'username' | 'country' | 'id' | 'status') => {
-        return <span className={column === sortBy ? '' : 'colorTransparent'}>&nbsp;{sortDirection === 'asc' ? '▲' : '▼'}</span>;
-    };
-
-    const setSorting = (by: 'name' | 'username' | 'country' | 'id' | 'status') => {
+    const setSorting = (by: sortByOption) => {
         if (sortBy !== by) {
             setSortBy(by);
         } else {
@@ -114,30 +118,32 @@ const AdminUsers = () => {
         return <div className='semiBold sizeLarge'>{fetched ? 'No users' : 'Loading...'}</div>;
     }
 
+    const columnHeader = (label: ContentID, sortByOption: sortByOption, widthByContent: boolean = false) => (
+        <td className={widthByContent ? 'widthByContent' : ''} onClick={() => setSorting(sortByOption)}>
+            <span
+                className='clickable'
+                title={contentToText(sortBy === sortByOption ? ContentID.miscClickToChangeSortingOrder : ContentID.miscClickToSortByThis, config)}
+            >
+                {contentToText(label, config)}
+            </span>{' '}
+            <SortArrow column={sortByOption} sortBy={sortBy} sortDirection={sortDirection} setSortDirection={setSortDirection} config={config} />
+        </td>
+    );
+
     return (
         <>
             <table width={pageWidth} className='headerRow striped'>
                 <tbody>
                     <tr>
-                        <td onClick={() => setSorting('name')}>
-                            <span className='clickable'>{contentToText(ContentID.miscName, config)}</span> {sortArrow('name')}
-                        </td>
-                        <td onClick={() => setSorting('username')}>
-                            <span className='clickable'>{contentToText(ContentID.loginUsername, config)}</span> {sortArrow('username')}
-                        </td>
-                        <td onClick={() => setSorting('country')}>
-                            <span className='clickable'>{contentToText(ContentID.checkOutCountry, config)}</span> {sortArrow('country')}
-                        </td>
-                        <td onClick={() => setSorting('id')}>
-                            <span className='clickable'>{contentToText(ContentID.accountUserId, config)}</span> {sortArrow('id')}
-                        </td>
-                        <td onClick={() => setSorting('status')}>
-                            <span className='clickable'>Status</span> {sortArrow('status')}
-                        </td>
+                        {columnHeader(ContentID.miscName, 'name')}
+                        {columnHeader(ContentID.loginUsername, 'username')}
+                        {columnHeader(ContentID.checkOutCountry, 'country')}
+                        {columnHeader(ContentID.accountUserId, 'id', true)}
+                        {columnHeader(ContentID.userStatusHeader, 'status', true)}
                         <td></td>
                     </tr>
                     {users.map((user) => (
-                        <AdminUserRow key={user.id} config={config} user={user} />
+                        <AdminUserRow key={user.id} config={config} user={user} hoveredButton={hoveredButton} setHoveredButton={setHoveredButton} />
                     ))}
                 </tbody>
             </table>
