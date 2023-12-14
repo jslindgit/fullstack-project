@@ -1,6 +1,7 @@
 import { useState, ChangeEvent } from 'react';
 
 import { ContentID } from '../content';
+import { isNumber } from '../types/typeFunctions';
 
 export interface UseField {
     anyChanges: boolean;
@@ -26,8 +27,13 @@ const convertInput = (input: string, type: string, currentValue: string): string
                 return currentValue;
             }
         case 'decimal':
-            const lastChar = input.charAt(input.length - 1);
-            return lastChar === '.' ? input : parseFloat(input).toString();
+            const parsedInput = input.replace(',', '.');
+            if (isNumber(Number(parsedInput)) && !Number.isNaN(Number(parsedInput))) {
+                const lastChar = parsedInput.charAt(parsedInput.length - 1);
+                return lastChar === '.' ? parsedInput : parseFloat(parsedInput).toString();
+            } else {
+                return currentValue;
+            }
         default:
             return input;
     }

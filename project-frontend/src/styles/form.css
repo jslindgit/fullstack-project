@@ -1,6 +1,6 @@
 input {
     border: 0;
-    border-radius: 5px;
+    border-radius: 0.25rem;
     box-sizing: border-box;
     font-size: 0.9rem;
     outline: 1px solid var(--colorGray);
@@ -41,6 +41,7 @@ option {
 }
 
 textarea {
+    border-radius: 0.25rem;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1rem;

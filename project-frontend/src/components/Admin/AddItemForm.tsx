@@ -29,9 +29,9 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
     const [selectedCategory, setSelectedCategory] = useState<string>(category ? category.id.toString() : '-1');
 
     const descriptionFields = useLangTextAreas();
-    const instock = useField('integer');
+    const instock = useField('integer', ContentID._NONE);
     const nameFields = useLangFields('text');
-    const price = useField('decimal');
+    const price = useField('decimal', ContentID._NONE);
 
     useEffect(() => {
         setSelectedCategory(category ? category.id.toString() : '-1');
@@ -109,7 +109,7 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
                         </td>
                     </tr>
                     <tr>
-                        <td style={{ paddingTop: 0 }}>
+                        <td style={{ paddingRight: 0, paddingTop: 0 }}>
                             <table width='100%'>
                                 <tbody>
                                     {nameFields.map((nf) =>
@@ -120,10 +120,12 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
                         </td>
                     </tr>
                     <tr>
-                        <td className='adminEditSubHeader'>{contentToText(ContentID.miscDescription, config)}</td>
+                        <td className='adminEditSubHeader' style={{ paddingTop: 0 }}>
+                            {contentToText(ContentID.miscDescription, config)}
+                        </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td style={{ paddingRight: 0, paddingTop: 0 }}>
                             <table width='100%'>
                                 <tbody>
                                     {descriptionFields.map((df) =>
@@ -134,48 +136,73 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
                         </td>
                     </tr>
                     <tr>
-                        <td className='adminEditSubHeader' style={{ paddingTop: 0 }}>
-                            {contentToText(ContentID.itemsPrice, config)}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        <td style={{ paddingLeft: 0, paddingRight: 0, paddingTop: 0 }}>
                             <table width='100%'>
-                                <tbody>{getInputField(config.currency, price)}</tbody>
+                                <tbody>
+                                    <tr>
+                                        <td className='adminEditSubHeader' style={{ paddingTop: 0 }}>
+                                            {contentToText(ContentID.itemsPrice, config)}
+                                        </td>
+                                        <td className='adminEditSubHeader' style={{ paddingTop: 0 }}>
+                                            {contentToText(ContentID.itemsInStock, config)}
+                                        </td>
+                                        <td className='adminEditSubHeader' style={{ paddingTop: 0 }}>
+                                            {contentToText(ContentID.itemsCategory, config)}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{ paddingBottom: 0, paddingTop: 0 }}>
+                                            <table width='100%'>
+                                                <tbody>{getInputField(config.currency, price)}</tbody>
+                                            </table>
+                                        </td>
+                                        <td style={{ paddingBottom: 0, paddingTop: 0 }}>
+                                            <table width='100%'>
+                                                <tbody>{getInputField(contentToText(ContentID.itemsPcs, config), instock)}</tbody>
+                                            </table>
+                                        </td>
+                                        <td style={{ paddingBottom: 0, paddingTop: 0 }}>
+                                            <select
+                                                id='categorySelect'
+                                                name='category'
+                                                value={selectedCategory}
+                                                onChange={handleCategoryChange}
+                                                style={{ width: '100%' }}
+                                            >
+                                                {categoriesState.map((c) => (
+                                                    <option key={c.id} value={c.id}>
+                                                        {langTextsToText(c.name, config)}
+                                                    </option>
+                                                ))}
+                                                <option value={-1}>{contentToText(ContentID.adminItemsUncategorized, config).toUpperCase()}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </td>
                     </tr>
                     <tr>
                         <td className='adminEditSubHeader' style={{ paddingTop: 0 }}>
-                            {contentToText(ContentID.itemsInStock, config)}
+                            {contentToText(ContentID.adminPanelImages, config)}
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td style={{ paddingRight: 0, paddingTop: 0 }}>
                             <table width='100%'>
-                                <tbody>{getInputField(contentToText(ContentID.itemsPcs, config), instock)}</tbody>
+                                <tbody>
+                                    {descriptionFields.map((df) =>
+                                        getTextArea(df.langCode, df.textArea, `${contentToText(ContentID.adminItemDescription, config)} (${df.langCode})`)
+                                    )}
+                                </tbody>
                             </table>
                         </td>
                     </tr>
                     <tr>
-                        <td className='adminEditSubHeader'>{contentToText(ContentID.itemsCategory, config)}</td>
-                    </tr>
-                    <tr>
                         <td>
-                            <select id='categorySelect' name='category' value={selectedCategory} onChange={handleCategoryChange}>
-                                {categoriesState.map((c) => (
-                                    <option key={c.id} value={c.id}>
-                                        {langTextsToText(c.name, config)}
-                                    </option>
-                                ))}
-                                <option value={-1}>{contentToText(ContentID.adminItemsUncategorized, config).toUpperCase()}</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type='button' onClick={submit}>
-                                {contentToText(ContentID.buttonAdd, config)}
+                            <button type='button' onClick={submit} className='sizeLarge'>
+                                {contentToText(ContentID.buttonAddItemToCategory, config)}{' '}
+                                {langTextsToText(categoriesState.find((c) => c.id.toString() === selectedCategory)?.name, config)}
                             </button>
                         </td>
                     </tr>

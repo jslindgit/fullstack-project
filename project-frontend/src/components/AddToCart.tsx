@@ -32,11 +32,8 @@ const AddToCart = ({ config, item }: Props) => {
 
     // When quantity is adjusted by typing in the input field:
     useEffect(() => {
-        if (Number(quantity.value) < 1) {
-            quantity.setNewValue('1');
-        } else if (Number(quantity.value) > config.maxItemQuantity) {
-            quantity.setNewValue(config.maxItemQuantity.toString());
-        }
+        const quantityValue = Math.max(1, Math.min(Number(quantity.value), config.maxItemQuantity));
+        quantity.setNewValue(quantityValue.toString());
     }, [quantity, config.maxItemQuantity]);
 
     const handleAddToShoppingCart = (item: Item) => {
@@ -93,12 +90,12 @@ const AddToCart = ({ config, item }: Props) => {
                         <td>
                             <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
                         </td>
-                        <td style={{ paddingBottom: 0, paddingTop: '0.3rem' }}>
-                            <span className='itemDetailsAdjustAmount' onClick={() => adjustAmount(1)}>
+                        <td style={{ paddingBottom: 0, paddingTop: '0.4rem' }}>
+                            <span className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
                                 +
                             </span>
                             <br />
-                            <span className='itemDetailsAdjustAmount' onClick={() => adjustAmount(-1)}>
+                            <span className='adjustAmountButtons' onClick={() => adjustAmount(-1)}>
                                 -
                             </span>
                         </td>

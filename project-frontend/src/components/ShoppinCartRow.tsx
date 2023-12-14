@@ -43,15 +43,21 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
         }
     }, [shoppingItem]);
 
-    // Adjust the quantity value, restricting it between 1 and max quantity (defined in Config):
+    // When quantity is adjusted with the "+" and "-" buttons:
+    const adjustAmount = (adjustment: number) => {
+        const newValue = Math.max(1, Math.min(Number(quantity.value) + adjustment, config.maxItemQuantity));
+        if (shoppingItem.quantity !== newValue) {
+            quantity.setNewValue(newValue.toString());
+            dispatch(updateShoppingCartItemQuantity({ itemIndex: orderState.items.indexOf(shoppingItem), newQuantity: newValue }));
+        }
+    };
+
+    // When quantity is adjusted by typing in the input field:
     useEffect(() => {
-        const quantityValue = Number(quantity.value);
+        const quantityValue = Math.max(1, Math.min(Number(quantity.value), config.maxItemQuantity));
         if (shoppingItem.quantity !== quantityValue) {
-            if (quantityValue > 0 && quantityValue <= config.maxItemQuantity) {
-                dispatch(updateShoppingCartItemQuantity({ itemIndex: orderState.items.indexOf(shoppingItem), newQuantity: quantityValue }));
-            } else {
-                quantity.setNewValue(shoppingItem.quantity.toString());
-            }
+            quantity.setNewValue(quantityValue.toString());
+            dispatch(updateShoppingCartItemQuantity({ itemIndex: orderState.items.indexOf(shoppingItem), newQuantity: quantityValue }));
         }
     }, [config.maxItemQuantity, dispatch, indexOf, orderState.items, quantity, shoppingItem]);
 
@@ -62,12 +68,29 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
             <td width='1px'>{item ? <Image path={imagePath} className='imgShoppingCart' /> : ''}</td>
             <td className='normalWeight'>{item ? langTextsToText(item.name, config) : shoppingItem.name}</td>
             <td className='normalWeight'>{format.currency(shoppingItem.price, config)}</td>
-            <td className='normalWeight'>
-                {allowEdit ? (
-                    <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
-                ) : (
-                    shoppingItem.quantity
-                )}
+            <td style={{ paddingLeft: 0 }}>
+                <table className='nopadding'>
+                    <tbody>
+                        <tr>
+                            <td className='normalWeight' style={{ paddingRight: 0 }}>
+                                {allowEdit ? (
+                                    <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
+                                ) : (
+                                    shoppingItem.quantity
+                                )}
+                            </td>
+                            <td style={{ paddingBottom: 0, paddingLeft: 0, paddingTop: '0.4rem' }}>
+                                <span className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
+                                    +
+                                </span>
+                                <br />
+                                <span className='adjustAmountButtons' onClick={() => adjustAmount(-1)}>
+                                    -
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </td>
             <td className='normalWeight'>{format.currency(shoppingItem.price * shoppingItem.quantity, config)}</td>
             <td width='1px'>

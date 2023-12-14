@@ -54,6 +54,7 @@ export enum ContentID {
     adminUserInfoSendMessage = 'ADMIN - USER INFO: Send Message (button)',
     backButtonDefault = 'BACK BUTTON: Default label',
     buttonAdd = 'BUTTON: Add',
+    buttonAddItemToCategory = 'BUTTON: Add Item to Category <category name>',
     buttonCancel = 'BUTTON: Cancel',
     buttonCheckOut = 'BUTTON: Check out',
     buttonClear = 'BUTTON: Clear',
@@ -559,6 +560,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Add' },
             { langCode: LangCode.FI, text: 'Lisää' },
+        ],
+    },
+    {
+        id: ContentID.buttonAddItemToCategory,
+        content: [
+            { langCode: LangCode.EN, text: 'Add Item to Category' },
+            { langCode: LangCode.FI, text: 'Lisää tuote kategoriaan' },
         ],
     },
     {

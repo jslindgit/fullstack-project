@@ -35,16 +35,6 @@
     font-weight: bold;
 }
 
-.itemDetailsAdjustAmount {
-    color: var(--colorGraySemiDark);
-    cursor: pointer;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.3em;
-    font-weight: bolder;
-    margin-left: 0.5em !important;
-    user-select: none;
-}
-
 .itemInStock {
     color: var(--colorGreen);
 }

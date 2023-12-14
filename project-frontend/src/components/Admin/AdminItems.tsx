@@ -103,7 +103,7 @@ const AdminItems = () => {
             <table width='100%'>
                 <tbody>
                     <tr>
-                        <td style={{ backgroundColor: 'var(--colorGrayVeryLight)', paddingLeft: '2rem', paddingRight: '2rem' }}>
+                        <td style={{ backgroundColor: 'var(--colorGrayVeryLight)', paddingLeft: '2rem', paddingRight: '2rem', paddingTop: '0.5rem' }}>
                             <AddItemForm user={usersState.loggedUser} category={category} items={items} setItems={setItems} />
                         </td>
                     </tr>

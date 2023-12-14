@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 
+import { pageWidth } from '../constants';
 import { contentToText } from '../types/languageFunctions';
 
 const MainPage = () => {
@@ -16,10 +17,10 @@ const MainPage = () => {
     return (
         <>
             <div>
-                <table align='center'>
+                <table align='center' width={pageWidth}>
                     <tbody>
                         <tr>
-                            <td>
+                            <td className='alignCenter'>
                                 <h2>{contentToText(ContentID.homeWelcome, config)}</h2>
                             </td>
                         </tr>

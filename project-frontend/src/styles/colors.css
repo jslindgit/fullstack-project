@@ -8,6 +8,9 @@
 .bgColorGrayExtremelyLight {
     background-color: var(--colorGrayExtremelyLight);
 }
+.bgColorWhite {
+    background-color: white;
+}
 .bgColorYellowVeryLight {
     background-color: var(--colorYellowVeryLight);
 }
