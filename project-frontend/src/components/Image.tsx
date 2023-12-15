@@ -19,7 +19,7 @@ const Modal = ({ onClose, path }: ModalProps) => {
 
 interface Props {
     alt?: string;
-    className: 'imgAdminThumb' | 'imgItemDetails' | 'imgShoppingCart';
+    className: 'imgAdminItems' | 'imgAdminThumb' | 'imgItemDetails' | 'imgShoppingCart';
     path: string;
     title?: string;
 }

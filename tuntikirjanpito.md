@@ -113,4 +113,5 @@
 |        | 2    | Tilaushistorian työstöä                                                                                              |     |
 | 13.12. | 1    | Tyylien muokkausta                                                                                                   |     |
 |        | 1    | Järjestys- ja Haku-ominaisuuksien lisäämistä listauksiin                                                             |     |
-|  yht   | 198  |                                                                                                                      |     |
+| 15.12. | 1    | Tuotteiden lisäämisen/muokkauksen parantelua                                                                         |     |
+|  yht   | 199  |                                                                                                                      |     |

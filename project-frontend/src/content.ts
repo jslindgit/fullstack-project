@@ -17,9 +17,12 @@ export enum ContentID {
     adminImagesAlreadyContainsFile = 'ADMIN - IMAGES: "already contains" ("<category> already contains file <filename>" confirmation)',
     adminImagesDoYouWantToOverwrite = 'ADMIN - IMAGES: Do you want to over it? (confirmation)',
     adminImagesUploadNewImageToCategory = 'ADMIN - IMAGES: Upload new image to category',
-    adminItemDescription = 'ADMIN: Item Description (when editing)',
-    adminItemName = 'ADMIN: Item Name (when editing)',
-    adminItemSelectedImages = 'ADMIN: Selected Images (when editing)',
+    adminItemDescription = 'ADMIN - ITEM EDIT: Item Description',
+    adminItemName = 'ADMIN - ITEM EDIT: Item Name',
+    adminItemNewItem = 'ADMIN - ITEM EDIT: (Edited Item:) New Item',
+    adminItemNoImages = 'ADMIN - ITEM EDIT: No Images',
+    adminItemToEdit = 'ADMIN - ITEM EDIT: Edited Item: (<Item name>/New Item)',
+    adminItemUploadNewImage = 'ADMIN - ITEM EDIT: Upload New Image',
     adminItemsDeleteItemConfirmation = 'ADMIN - ITEMS: Delete <item name>? (confirmation)',
     adminItemsNoProducts = 'ADMIN - ITEMS: No products in this category',
     adminItemsUncategorized = 'ADMIN - ITEMS: Uncategorized (category)',
@@ -318,10 +321,31 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.adminItemSelectedImages,
+        id: ContentID.adminItemNewItem,
         content: [
-            { langCode: LangCode.EN, text: 'Selected Images' },
-            { langCode: LangCode.FI, text: 'Valitut kuvat' },
+            { langCode: LangCode.EN, text: 'New Item' },
+            { langCode: LangCode.FI, text: 'Uusi tuote' },
+        ],
+    },
+    {
+        id: ContentID.adminItemNoImages,
+        content: [
+            { langCode: LangCode.EN, text: 'No images' },
+            { langCode: LangCode.FI, text: 'Ei kuvia' },
+        ],
+    },
+    {
+        id: ContentID.adminItemToEdit,
+        content: [
+            { langCode: LangCode.EN, text: 'Edited Item' },
+            { langCode: LangCode.FI, text: 'Muokattava tuote' },
+        ],
+    },
+    {
+        id: ContentID.adminItemUploadNewImage,
+        content: [
+            { langCode: LangCode.EN, text: 'Upload New Image' },
+            { langCode: LangCode.FI, text: 'Lataa uusi kuva' },
         ],
     },
     {
