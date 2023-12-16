@@ -1,5 +1,7 @@
+//import { isLangText } from './languageFunctions';
 import { LangText } from './languageTypes';
 import { Order } from './orderTypes';
+import { isNumber, isObject } from './typeFunctions';
 
 export interface Category {
     id: number;
@@ -33,6 +35,30 @@ export interface Item {
     price: number;
 }
 export type NewItem = Omit<Omit<Item, 'id'>, 'categories'>;
+
+export const isNewItem = (obj: unknown): obj is NewItem => {
+    return (
+        obj !== null &&
+        isObject(obj) &&
+        'description' in obj &&
+        Array.isArray(obj.description) &&
+        //obj.description.every((d) => isLangText(d)) &&
+        'images' in obj &&
+        Array.isArray(obj.images) &&
+        //obj.images.every((i) => isString(i)) &&
+        'instock' in obj &&
+        isNumber(obj.instock) &&
+        'name' in obj &&
+        Array.isArray(obj.name) &&
+        //obj.name.every((n) => isLangText(n)) &&
+        'price' in obj &&
+        isNumber(Number(obj.price))
+    );
+};
+
+export const isItem = (obj: unknown): obj is Item => {
+    return isNewItem(obj) && 'id' in obj && isNumber(obj.id) && 'categories' in obj && Array.isArray(obj.categories);
+};
 
 export interface LoginResponse {
     success: boolean;

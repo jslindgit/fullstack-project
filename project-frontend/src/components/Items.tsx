@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
-import { Item } from '../types/types';
+import { Category, Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
 import { pageWidth } from '../constants';
@@ -18,16 +18,28 @@ const Items = () => {
     const config = useSelector((state: RootState) => state.config);
     const miscState = useSelector((state: RootState) => state.misc);
 
+    const [category, setCategory] = useState<Category | undefined>(undefined);
+
     const navigate = useNavigate();
 
-    const id = Number(useParams().id);
-    const category = id && isNumber(id) ? categoryState.find((c) => c.id === id) : undefined;
+    const idParam = useParams().id;
 
     useEffect(() => {
-        if (miscState.loaded && category === undefined) {
-            navigate('/shop');
+        if (idParam) {
+            const id = Number(idParam);
+            const cat = isNumber(id) && !isNaN(id) ? categoryState.categories.find((c) => c.id === id) : undefined;
+
+            if (!cat && miscState.loaded) {
+                console.log('idParam:', idParam);
+                console.log('id:', id);
+                console.log('cat:', cat);
+                console.log('catState:', categoryState);
+                navigate('/shop');
+            } else {
+                setCategory(cat);
+            }
         }
-    }, [category, config, miscState.loaded, navigate]);
+    }, [categoryState, idParam, miscState.loaded, navigate]);
 
     if (!category) {
         return <></>;
@@ -35,7 +47,7 @@ const Items = () => {
 
     const cols = 3;
     const rows: Array<Item[]> = [];
-    for (let i = 0; i < categoryState.length; i += cols) {
+    for (let i = 0; i < categoryState.categories.length; i += cols) {
         rows.push(category.items.slice(i, i + cols));
     }
 

@@ -114,4 +114,5 @@
 | 13.12. | 1    | Tyylien muokkausta                                                                                                   |     |
 |        | 1    | Järjestys- ja Haku-ominaisuuksien lisäämistä listauksiin                                                             |     |
 | 15.12. | 1    | Tuotteiden lisäämisen/muokkauksen parantelua                                                                         |     |
-|  yht   | 199  |                                                                                                                      |     |
+| 16.12. | 2    | Tuotteiden lisäämisen/muokkauksen parantelua                                                                         | 201 |
+|  yht   | 201  |                                                                                                                      |     |

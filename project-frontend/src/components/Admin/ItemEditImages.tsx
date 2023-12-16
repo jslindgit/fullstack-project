@@ -48,7 +48,7 @@ const ItemEditImages = ({ config, selectedImages, setSelectedImages }: Props) =>
         if (!matchFound || confirm(`Image "${imageFile.name}" already exist in "${imageCategory}" - Do you want to overwrite it?`)) {
             const res = await imageService.add(imageFile, imageCategory, userState.loggedUser.token);
 
-            setSelectedImages([...selectedImages, imageFile.name]);
+            setSelectedImages([...selectedImages, imageCategory + '\\' + imageFile.name]);
             setNewUploads(newUploads + 1);
 
             dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));

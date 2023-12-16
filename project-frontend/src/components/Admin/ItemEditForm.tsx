@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,7 +7,6 @@ import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 import { Item, NewItem, Response } from '../../types/types';
 
-import { pageWidth } from '../../constants';
 import { handleError } from '../../util/handleError';
 import imageService from '../../services/imageService';
 import item_categoryService from '../../services/item_categoryService';
@@ -20,18 +19,20 @@ import { UseTextArea } from '../../hooks/useTextArea';
 
 import { setNotification } from '../../reducers/miscReducer';
 
+import ItemEditCategories from './ItemEditCategories';
 import ItemEditImages from './ItemEditImages';
 
 interface Props {
     config: Config;
-    item: Item | null;
+    itemToEdit: Item | null;
+    width: number | string;
 }
-const ItemEditForm = ({ config, item }: Props) => {
+const ItemEditForm = ({ config, itemToEdit, width }: Props) => {
     const dispatch = useDispatch();
     const categoriesState = useSelector((state: RootState) => state.categories);
     const usersState = useSelector((state: RootState) => state.user);
 
-    const [categoriesChanged, setCategoriesChanged] = useState<boolean>(false);
+    const initialCategories = useRef<number[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
@@ -42,39 +43,37 @@ const ItemEditForm = ({ config, item }: Props) => {
     const nameFields = useLangFields('text');
     const price = useField('decimal', ContentID.itemsPrice);
 
+    // Set initial values for Name/Description/Instock/Price/Images (if editing an existing Item):
     useEffect(() => {
-        if (item) {
-            setSelectedImages(item.images);
-        }
-    }, [item]);
-
-    useEffect(() => {
-        if (item) {
+        if (itemToEdit) {
             nameFields.forEach((nf) => {
-                const nameLangText = item.name.find((langText) => langText.langCode === nf.langCode);
+                const nameLangText = itemToEdit.name.find((langText) => langText.langCode === nf.langCode);
                 nf.field.setNewValue(nameLangText ? nameLangText.text : '');
             });
             descriptionFields.forEach((df) => {
-                const descriptionLangText = item.description.find((langText) => langText.langCode === df.langCode);
+                const descriptionLangText = itemToEdit.description.find((langText) => langText.langCode === df.langCode);
                 df.textArea.setNewValue(descriptionLangText ? descriptionLangText.text : '');
             });
-            instock.setNewValue(item.instock.toString());
-            price.setNewValue(item.price.toString());
+            instock.setNewValue(itemToEdit.instock.toString());
+            price.setNewValue(itemToEdit.price.toString());
 
-            setSelectedCategories(
-                item.categories.map((i) => {
-                    return i.id;
-                })
-            );
+            const categories = itemToEdit.categories.map((i) => {
+                return i.id;
+            });
+
+            initialCategories.current = [...categories];
+            setSelectedCategories([...categories]);
+
+            setSelectedImages(itemToEdit.images);
         }
-    }, [item]);
+    }, [itemToEdit]);
 
     const cancel = async () => {
         // If images were uploaded before canceling, remove those from the server:
         const promises: Promise<Response>[] = [];
 
         selectedImages.forEach((path) => {
-            if (!(item && item.images.includes(path))) {
+            if (!(itemToEdit && itemToEdit.images.includes(path))) {
                 if (usersState.loggedUser && usersState.loggedUser.admin) {
                     console.log('deleting path:', path);
                     const subdir = imageSubdir(path);
@@ -91,30 +90,35 @@ const ItemEditForm = ({ config, item }: Props) => {
     };
 
     const changesMade = () => {
-        let result = false;
-
-        if (item) {
+        if (itemToEdit) {
             if (
-                item.price.toString() !== price.value.toString() ||
-                item.instock.toString() !== instock.value.toString() ||
-                categoriesChanged ||
-                selectedImages !== item.images
+                itemToEdit.price.toString() !== price.value.toString() ||
+                itemToEdit.instock.toString() !== instock.value.toString() ||
+                JSON.stringify(selectedCategories.sort()) !== JSON.stringify(initialCategories.current.sort()) ||
+                selectedImages !== itemToEdit.images
             ) {
-                result = true;
+                return true;
             }
             nameFields.forEach((nf) => {
-                if (nf.field.value !== item.name.find((langText) => langText.langCode === nf.langCode)?.text) {
-                    result = true;
+                if (nf.field.value !== itemToEdit.name.find((langText) => langText.langCode === nf.langCode)?.text) {
+                    return true;
                 }
             });
             descriptionFields.forEach((df) => {
-                if (df.textArea.value !== item.description.find((langText) => langText.langCode === df.langCode)?.text) {
-                    result = true;
+                if (df.textArea.value !== itemToEdit.description.find((langText) => langText.langCode === df.langCode)?.text) {
+                    return true;
                 }
             });
+        } else {
+            return (
+                price.value.toString().length > 0 &&
+                instock.value.toString().length > 0 &&
+                nameFields.every((nf) => nf.field.value.toString().length > 0) &&
+                descriptionFields.every((df) => df.textArea.value.length > 0)
+            );
         }
 
-        return result;
+        return false;
     };
 
     const getInputField = (label: string, field: UseField, width: string = '100%') => (
@@ -139,81 +143,89 @@ const ItemEditForm = ({ config, item }: Props) => {
         </tr>
     );
 
-    const handleCategoryChange = (categoryId: number) => {
-        setCategoriesChanged(true);
+    const reset = () => {
+        setSelectedCategories([]);
+        setSelectedImages([]);
 
-        const updatedCategories = [...selectedCategories];
+        descriptionFields.forEach((df) => {
+            df.textArea.reset();
+        });
+        nameFields.forEach((nf) => {
+            nf.field.reset();
+        });
 
-        if (updatedCategories.includes(categoryId)) {
-            const index = updatedCategories.indexOf(categoryId);
-            updatedCategories.splice(index, 1);
-        } else {
-            updatedCategories.push(categoryId);
-        }
-        setSelectedCategories(updatedCategories);
+        instock.reset();
+        price.reset();
     };
 
     const submit = async () => {
         if (usersState.loggedUser && usersState.loggedUser.admin && usersState.loggedUser.token) {
             const token = usersState.loggedUser.token;
 
-            if (item && changesMade()) {
-                const updatedItem: Item = {
-                    ...item,
-                    description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
-                    instock: Number(instock.value),
-                    images: selectedImages,
-                    name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
-                    price: Number(price.value),
-                };
+            if (changesMade()) {
+                let returnedItem: Item | null = null;
 
-                // Add connections between the edited Item and the selected Categories that are not yet connected to the Item:
-                selectedCategories.forEach(async (selected) => {
-                    const category = categoriesState.find((c) => {
-                        return c.id === selected;
-                    });
-                    if (category && item.categories.includes(category) === false) {
-                        const res = await item_categoryService.addConnection(item, category, token);
-                        if (!res.success) {
-                            handleError(new Error(res.message));
+                if (itemToEdit) {
+                    const finalItem: Item = {
+                        ...itemToEdit,
+                        description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
+                        instock: Number(instock.value),
+                        images: selectedImages,
+                        name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
+                        price: Number(price.value),
+                    };
+
+                    const res = await itemService.update(finalItem, usersState.loggedUser.token, config, dispatch);
+                    returnedItem = res.item;
+
+                    dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+                } else {
+                    const finalItem: NewItem = {
+                        description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
+                        instock: Number(instock.value),
+                        images: selectedImages,
+                        name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
+                        price: Number(price.value),
+                    };
+
+                    const res = await itemService.add(finalItem, null, usersState.loggedUser.token, config, dispatch);
+                    returnedItem = res.item;
+
+                    dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+                }
+
+                if (returnedItem) {
+                    // Add connections between the updated/added Item and the selected Categories that are not yet connected to the Item:
+                    selectedCategories.forEach(async (selected) => {
+                        const category = categoriesState.categories.find((c) => {
+                            return c.id === selected;
+                        });
+                        if (category && returnedItem && !(returnedItem.categories && returnedItem.categories.includes(category))) {
+                            await item_categoryService.addConnection(returnedItem, category, token);
                         }
+                    });
+
+                    // Remove connections between the updated/added Item and Categories that are not selected and are currently connected to the Item:
+                    if (returnedItem.categories) {
+                        const toRemove = returnedItem.categories.filter((c) => {
+                            if (!selectedCategories.includes(c.id)) {
+                                return c;
+                            }
+                        });
+                        toRemove.forEach(async (c) => {
+                            if (returnedItem) {
+                                await item_categoryService.deleteConnection(returnedItem.id, c.id, token);
+                            }
+                        });
                     }
-                });
-
-                // Remove connections between the edited Item and Categories that are not selected and currently connected to the Item:
-                const toRemove = item.categories.filter((c) => {
-                    if (selectedCategories.includes(c.id) === false) {
-                        return c;
-                    }
-                });
-                toRemove.forEach(async (c) => {
-                    const res = await item_categoryService.deleteConnection(item.id, c.id, token);
-                    if (!res.success) {
-                        handleError(new Error(res.message));
-                    } else {
-                        console.log(res);
-                    }
-                });
-
-                // Update the other info (name, description, etc):
-                const res = await itemService.update(updatedItem, usersState.loggedUser.token, config, dispatch);
-
-                dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
-            } else {
-                const newItem: NewItem = {
-                    description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
-                    instock: Number(instock.value),
-                    images: selectedImages,
-                    name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
-                    price: Number(price.value),
-                };
-
-                const res = await itemService.add(newItem, null, usersState.loggedUser.token, config, dispatch);
-
-                dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+                }
             }
 
-            setSelectedImages([]);
+            if (itemToEdit) {
+                navigate(localstorageHandler.getPreviousLocation());
+            } else {
+                reset();
+            }
         } else {
             handleError(new Error('Missing token'));
         }
@@ -221,12 +233,12 @@ const ItemEditForm = ({ config, item }: Props) => {
 
     return (
         <>
-            <table align='center' width={pageWidth} className='itemDetails'>
+            <table align='center' width={width} className='itemDetails'>
                 <tbody>
                     <tr>
-                        <td colSpan={3} className='colorGraySemiDark' style={{ paddingLeft: 0 }}>
-                            {item
-                                ? contentToText(ContentID.adminItemToEdit, config) + ': ' + langTextsToText(item.name, config)
+                        <td colSpan={3} className='alignCenter colorGraySemiDark' style={{ paddingLeft: 0 }}>
+                            {itemToEdit
+                                ? contentToText(ContentID.adminItemToEdit, config) + ': ' + langTextsToText(itemToEdit.name, config)
                                 : contentToText(ContentID.adminItemNewItem, config)}
                         </td>
                     </tr>
@@ -281,16 +293,11 @@ const ItemEditForm = ({ config, item }: Props) => {
                                     </tr>
                                     <tr>
                                         <td>
-                                            {categoriesState.map((c) => (
-                                                <button
-                                                    key={c.id}
-                                                    type='button'
-                                                    className={'selectButton ' + (selectedCategories.includes(c.id) ? 'selectButtonTrue' : 'selectButtonFalse')}
-                                                    onClick={() => handleCategoryChange(c.id)}
-                                                >
-                                                    {langTextsToText(c.name, config)}
-                                                </button>
-                                            ))}
+                                            <ItemEditCategories
+                                                selectedCategories={selectedCategories}
+                                                setSelectedCategories={setSelectedCategories}
+                                                config={config}
+                                            />
                                         </td>
                                     </tr>
                                     <tr>

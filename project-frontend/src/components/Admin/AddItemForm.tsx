@@ -169,7 +169,7 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
                                                 onChange={handleCategoryChange}
                                                 style={{ width: '100%' }}
                                             >
-                                                {categoriesState.map((c) => (
+                                                {categoriesState.categories.map((c) => (
                                                     <option key={c.id} value={c.id}>
                                                         {langTextsToText(c.name, config)}
                                                     </option>
@@ -202,7 +202,7 @@ const AddItemForm = ({ user, category, items, setItems }: Props) => {
                         <td>
                             <button type='button' onClick={submit} className='sizeLarge'>
                                 {contentToText(ContentID.buttonAddItemToCategory, config)}{' '}
-                                {langTextsToText(categoriesState.find((c) => c.id.toString() === selectedCategory)?.name, config)}
+                                {langTextsToText(categoriesState.categories.find((c) => c.id.toString() === selectedCategory)?.name, config)}
                             </button>
                         </td>
                     </tr>

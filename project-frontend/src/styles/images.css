@@ -1,5 +1,5 @@
 .imgAdminItems {
-    cursor: grab;
+    border: 1px solid var(--colorGrayLight);
     display: block;
     height: 3em;
     margin-right: 0.5rem;

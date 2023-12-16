@@ -51,7 +51,7 @@ const AdminCategories = () => {
                                         <td>{contentToText(ContentID.miscName, config)}</td>
                                         <td colSpan={4}>{contentToText(ContentID.miscDescription, config)}</td>
                                     </tr>
-                                    {categoryState.map((c) => (
+                                    {categoryState.categories.map((c) => (
                                         <tr key={c.id}>
                                             <td width='1px' className='semiBold'>
                                                 {langTextsToText(c.name, config)}

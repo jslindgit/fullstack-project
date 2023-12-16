@@ -5,11 +5,13 @@ import { User } from '../types/types';
 import userService from '../services/userService';
 
 export interface UserState {
+    initialized: boolean;
     loggedUser: User | null;
     token: string | null;
 }
 
 const initialState: UserState = {
+    initialized: false,
     loggedUser: null,
     token: null,
 };
@@ -21,6 +23,9 @@ const slice = createSlice({
         removeLoggedUser(state: UserState, _action: PayloadAction) {
             state.loggedUser = null;
             state.token = null;
+        },
+        setInitialized(state: UserState, action: PayloadAction<boolean>) {
+            state.initialized = action.payload;
         },
         setLoggedUser(state: UserState, action: PayloadAction<User>) {
             state.loggedUser = action.payload;
@@ -47,6 +52,8 @@ export const initializeLoggedUser = async (dispatch: Dispatch<AnyAction>) => {
             localStorage.removeItem('token');
         }
     }
+
+    dispatch(slice.actions.setInitialized(true));
 };
 
 export const saveTokenToLocalStorage = (state: UserState) => {

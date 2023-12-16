@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 
-import { Category, Item } from '../../types/types';
+import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
+import { Category, Item } from '../../types/types';
 
 import itemService from '../../services/itemService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
@@ -12,9 +13,8 @@ import { isNumber } from '../../types/typeFunctions';
 import { setNotification } from '../../reducers/miscReducer';
 
 import AdminItemList from './AdminItemList';
-import AddItemForm from '../Admin/AddItemForm';
 import { Link } from '../CustomLink';
-import { ContentID } from '../../content';
+import ItemEditForm from './ItemEditForm';
 
 const AdminItems = () => {
     const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const AdminItems = () => {
 
     const getCategoryFromParams = (): Category | undefined => {
         const id = Number(searchParams.get('category'));
-        return id && isNumber(id) ? categoryState.find((c) => c.id === id) : undefined;
+        return id && isNumber(id) ? categoryState.categories.find((c) => c.id === id) : undefined;
     };
 
     const [category, setCategory] = useState<Category | undefined>(getCategoryFromParams());
@@ -44,7 +44,7 @@ const AdminItems = () => {
 
     useEffect(() => {
         const id = Number(searchParams.get('category'));
-        setCategory(id && isNumber(id) ? categoryState.find((c) => c.id === id) : undefined);
+        setCategory(id && isNumber(id) ? categoryState.categories.find((c) => c.id === id) : undefined);
     }, [searchParams, categoryState]);
 
     const refreshItems = async () => {
@@ -76,7 +76,7 @@ const AdminItems = () => {
     return (
         <>
             <div>
-                {categoryState.map((c) => (
+                {categoryState.categories.map((c) => (
                     <span key={c.id}>
                         <span className={category === c ? 'underlined' : ''}>
                             <Link to={'/admin/items?category=' + c.id}>
@@ -103,8 +103,9 @@ const AdminItems = () => {
             <table width='100%'>
                 <tbody>
                     <tr>
-                        <td style={{ backgroundColor: 'var(--colorGrayVeryLight)', paddingLeft: '2rem', paddingRight: '2rem', paddingTop: '0.5rem' }}>
-                            <AddItemForm user={usersState.loggedUser} category={category} items={items} setItems={setItems} />
+                        <td style={{ paddingLeft: 0, paddingRight: 0, paddingTop: 0 }}>
+                            <div className='pageHeader'>{contentToText(ContentID.adminAddNewItem, config)}</div>
+                            <ItemEditForm itemToEdit={null} config={config} width='100%' />
                         </td>
                     </tr>
                 </tbody>

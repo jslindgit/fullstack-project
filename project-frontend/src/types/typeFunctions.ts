@@ -8,7 +8,7 @@ export const isBoolean = (text: unknown): text is boolean => {
 };
 
 export const isNumber = (text: unknown): text is number => {
-    return typeof text === 'number' || text instanceof Number;
+    return (typeof text === 'number' || text instanceof Number) && !isNaN(Number(text));
 };
 
 export const isObject = (variable: unknown): variable is object => {

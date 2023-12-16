@@ -35,6 +35,7 @@ const AdminPanel = () => {
         }
     }, [navigate, page]);
 
+    // Title:
     useEffect(() => {
         document.title =
             contentToText(ContentID.adminPanelHeader, config) +

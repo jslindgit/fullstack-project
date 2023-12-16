@@ -70,7 +70,7 @@ const Categories = () => {
         document.title = contentToText(ContentID.menuProducts, config) + ' | ' + config.store.contactName;
     }, [config]);
 
-    if (categoryState.length < 1) {
+    if (categoryState.categories.length < 1) {
         return (
             <div>
                 <br />
@@ -81,8 +81,8 @@ const Categories = () => {
 
     const cols = 3;
     const rows: Array<Category[]> = [];
-    for (let i = 0; i < categoryState.length; i += cols) {
-        rows.push(categoryState.slice(i, i + cols));
+    for (let i = 0; i < categoryState.categories.length; i += cols) {
+        rows.push(categoryState.categories.slice(i, i + cols));
     }
 
     return (

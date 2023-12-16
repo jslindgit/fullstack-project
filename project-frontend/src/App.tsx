@@ -43,6 +43,7 @@ import './App.css';
 
 const App = () => {
     const dispatch = useDispatch();
+    const categoryState = useSelector((state: RootState) => state.categories);
     const config = useSelector((state: RootState) => state.config);
     const miscState = useSelector((state: RootState) => state.misc);
     const userState = useSelector((state: RootState) => state.user);
@@ -56,12 +57,17 @@ const App = () => {
             initializeConfig(dispatch);
             initializeOrder(dispatch);
             Promise.all([initializeLoggedUser(dispatch), initializeCategories(dispatch)]);
-
-            dispatch(setLoaded(true));
         };
 
         fetchData();
     }, [config.store.contactName, dispatch]);
+
+    // Set miscState.loaded to true:
+    useEffect(() => {
+        if (categoryState.initialized && userState.initialized) {
+            dispatch(setLoaded(true));
+        }
+    }, [categoryState.initialized, dispatch, userState.initialized]);
 
     const adminPage = (page: JSX.Element): JSX.Element => {
         if (userState.loggedUser?.admin) {

@@ -21,20 +21,25 @@ const AdminItemEdit = () => {
 
     const id = Number(useParams().id);
 
-    const setItemById = () => {
-        try {
-            itemService.getById(id).then((res) => {
-                setItem(res as Item);
-            });
-        } catch (err: unknown) {
-            handleError(err);
-            setLoading(contentToText(ContentID.errorSomethingWentWrong, config) + ' :(');
-        }
-    };
+    // Title:
+    useEffect(() => {
+        document.title = contentToText(ContentID.adminPanelHeader, config) + ' - ' + contentToText(ContentID.adminEditItem, config);
+    }, [config]);
 
     useEffect(() => {
+        const setItemById = () => {
+            try {
+                itemService.getById(id).then((res) => {
+                    setItem(res as Item);
+                });
+            } catch (err: unknown) {
+                handleError(err);
+                setLoading(contentToText(ContentID.errorSomethingWentWrong, config) + ' :(');
+            }
+        };
+
         setItemById();
-    }, [id]);
+    }, [config, id]);
 
     if (!item) {
         return (
@@ -57,7 +62,7 @@ const AdminItemEdit = () => {
                     </tr>
                 </tbody>
             </table>
-            <ItemEditForm item={item} config={config} />
+            <ItemEditForm itemToEdit={item} config={config} width={pageWidth} />
             <br />
         </div>
     );
