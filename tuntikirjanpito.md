@@ -115,4 +115,5 @@
 |        | 1    | Järjestys- ja Haku-ominaisuuksien lisäämistä listauksiin                                                             |     |
 | 15.12. | 1    | Tuotteiden lisäämisen/muokkauksen parantelua                                                                         |     |
 | 16.12. | 2    | Tuotteiden lisäämisen/muokkauksen parantelua                                                                         | 201 |
-|  yht   | 201  |                                                                                                                      |     |
+| 23.12. | 3    | Parempi tuotekuvasysteemi + Tuotteiden lisäyksen/muokkauksen parantelua                                              |     |
+|  yht   | 204  |                                                                                                                      |     |

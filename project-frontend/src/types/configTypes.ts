@@ -6,6 +6,7 @@ import { isNumber, isObject, isString } from './typeFunctions';
 export interface Config {
     currency: Currency;
     language: Language;
+    maxItemPriceEUR: number;
     maxItemQuantity: number;
     owner: ConfigOwner;
     paytrail: ConfigPaytrail | null;
@@ -18,6 +19,8 @@ export const isConfig = (obj: unknown): obj is Config => {
         isObject(obj) &&
         'currency' in obj &&
         'language' in obj &&
+        'maxItemPriceEUR' in obj &&
+        isNumber(obj.maxItemPriceEUR) &&
         'maxItemQuantity' in obj &&
         isNumber(obj.maxItemQuantity) &&
         'owner' in obj &&

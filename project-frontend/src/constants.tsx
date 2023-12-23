@@ -17,6 +17,7 @@ export const defaultLanguage: Language = {
 export const defaultConfig: Config = {
     currency: Currency.EUR,
     language: defaultLanguage,
+    maxItemPriceEUR: 1000000,
     maxItemQuantity: 1000,
     owner: {
         businessIdentifier: '1234567-8',

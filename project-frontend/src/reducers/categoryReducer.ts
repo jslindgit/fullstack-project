@@ -38,9 +38,9 @@ const slice = createSlice({
 
 export const initializeCategories = async (dispatch: Dispatch<AnyAction>) => {
     const categories = await categoryService.getAll();
-    dispatch(setCategories(categories));
+    dispatch(slice.actions.setCategories(categories));
     dispatch(slice.actions.setInitialized(true));
 };
 
-export const { addCategory, removeCategory, setCategories } = slice.actions;
+export const { addCategory, removeCategory } = slice.actions;
 export default slice.reducer;

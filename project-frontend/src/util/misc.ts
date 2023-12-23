@@ -4,8 +4,6 @@ import { User } from '../types/types';
 
 import { contentToText } from '../types/languageFunctions';
 
-export const imageCategories: string[] = ['misc', 'products'];
-
 export const imageFilename = (path: string): string => {
     const parts = path.split('\\');
     return parts.length > 0 ? parts[parts.length - 1] : '';

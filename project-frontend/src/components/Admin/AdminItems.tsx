@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+import smoothscroll from 'smoothscroll-polyfill';
 
 import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
@@ -22,54 +23,85 @@ const AdminItems = () => {
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.user);
 
+    const addItemButtonRef = useRef<HTMLButtonElement>(null);
+    const [itemAdded, setItemAdded] = useState<Item | null>(null);
+    const previousScrollY = useRef<number>(0);
+
     const [searchParams] = useSearchParams();
 
-    const getCategoryFromParams = (): Category | undefined => {
-        const id = Number(searchParams.get('category'));
-        return id && isNumber(id) ? categoryState.categories.find((c) => c.id === id) : undefined;
-    };
-
-    const [category, setCategory] = useState<Category | undefined>(getCategoryFromParams());
+    const [category, setCategory] = useState<Category | undefined>(undefined);
     const [items, setItems] = useState<Item[]>([]);
+    const [scrollTo, setScrollTo] = useState<number>(0);
+    const [showAddItem, setShowAddItem] = useState<boolean>(false);
     const [uncategorizedItems, setUncategorizedItems] = useState<Item[]>([]);
 
+    // Set Items that don't belong to any Category:
     useEffect(() => {
         const getUncategorizedItems = async () => {
-            const items = (await itemService.getAll()).filter((item) => item.categories.length === 0);
-            setUncategorizedItems(items);
+            const allItems = (await itemService.getAll()).filter((item) => item.categories.length === 0);
+            setUncategorizedItems(allItems);
         };
 
         getUncategorizedItems();
-    }, [items]);
+    }, []);
 
+    // Get Category from URL param:
     useEffect(() => {
         const id = Number(searchParams.get('category'));
         setCategory(id && isNumber(id) ? categoryState.categories.find((c) => c.id === id) : undefined);
     }, [searchParams, categoryState]);
 
-    const refreshItems = async () => {
-        if (category) {
-            setItems(category.items);
-        } else {
-            setItems(uncategorizedItems);
-        }
-    };
-
+    // Fetch Items in the current Category:
     useEffect(() => {
-        refreshItems();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        fetchItems();
     }, [category, uncategorizedItems]);
+
+    // Scroll to "Add Item Form" if it's been opened:
+    useEffect(() => {
+        window.__forceSmoothScrollPolyfill__ = true;
+        smoothscroll.polyfill();
+        window.scrollTo({ top: scrollTo, behavior: 'smooth' });
+    }, [scrollTo]);
+
+    const closeAddItemForm = () => {
+        setShowAddItem(false);
+        setScrollTo(previousScrollY.current);
+    };
 
     const deleteItem = async (item: Item) => {
         if (!usersState.loggedUser) {
             return;
         }
-        if (confirm(`${contentToText(ContentID.adminItemsDeleteItemConfirmation, config)} ${item.name}?`)) {
+        if (confirm(`${contentToText(ContentID.adminItemsDeleteItemConfirmation, config)} "${langTextsToText(item.name, config)}"?`)) {
             const res = await itemService.deleteItem(item, usersState.loggedUser.token, config, dispatch);
 
-            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+            dispatch(setNotification({ tone: res.success ? 'Neutral' : 'Negative', message: res.message }));
 
-            refreshItems();
+            await fetchItems();
+        }
+    };
+
+    const fetchItems = async () => {
+        const source: Item[] = category ? category.items : uncategorizedItems;
+
+        if (itemAdded && !source.includes(itemAdded)) {
+            setItems([...source, itemAdded].sort());
+        } else {
+            setItems(source);
+
+            if (itemAdded) {
+                setItemAdded(null);
+            }
+        }
+    };
+
+    const handleAddItemButton = () => {
+        setShowAddItem(true);
+
+        if (addItemButtonRef.current) {
+            const buttonRect = addItemButtonRef.current.getBoundingClientRect();
+            previousScrollY.current = window.scrollY;
+            setScrollTo(buttonRect.top + window.scrollY);
         }
     };
 
@@ -104,8 +136,23 @@ const AdminItems = () => {
                 <tbody>
                     <tr>
                         <td style={{ paddingLeft: 0, paddingRight: 0, paddingTop: 0 }}>
-                            <div className='pageHeader'>{contentToText(ContentID.adminAddNewItem, config)}</div>
-                            <ItemEditForm itemToEdit={null} config={config} width='100%' />
+                            {showAddItem ? (
+                                <ItemEditForm
+                                    config={config}
+                                    initialCategories={category ? [category.id] : undefined}
+                                    itemToEdit={null}
+                                    onCancel={closeAddItemForm}
+                                    onSubmit={() => {
+                                        closeAddItemForm();
+                                    }}
+                                    setItemAdded={setItemAdded}
+                                    width='100%'
+                                />
+                            ) : (
+                                <button type='button' ref={addItemButtonRef} onClick={handleAddItemButton}>
+                                    {contentToText(ContentID.adminAddNewItem, config)}
+                                </button>
+                            )}
                         </td>
                     </tr>
                 </tbody>

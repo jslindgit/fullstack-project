@@ -3,6 +3,7 @@ import path from 'path';
 import util from 'util';
 
 import { handleError } from '../util/error_handler';
+import itemService from './itemService';
 import { isObject, isString } from '../types/type_functions';
 
 interface ImageResponse {
@@ -14,11 +15,54 @@ interface ImageResponse {
 const rootDir = path.join(__dirname, '../images');
 
 const deleteImage = (subDir: 'misc' | 'products', filename: string): ImageResponse => {
-    const directory = path.join(rootDir, subDir);
+    const fullPath = path.join(rootDir, subDir, filename);
 
-    console.log(`Deleting ${filename} from ${directory}... (TODO)`);
+    let success = false;
 
-    return { success: false, images: [], message: 'TODO...' };
+    fs.unlink(fullPath, (error) => {
+        if (error) {
+            success = false;
+            console.error(`Error deleting file ${fullPath}:`, error);
+        } else {
+            success = true;
+            console.log(`File ${fullPath} deleted.`);
+        }
+    });
+
+    return { success: success, images: [], message: success ? 'Deleted successfully.' : 'Error occurred.' };
+};
+
+const deleteUnusedImages = async () => {
+    const allItems = await itemService.getAll();
+
+    console.log('Deleting unused images...');
+
+    if (allItems) {
+        const toDelete: string[] = [];
+
+        const res = await getBySubDir('products');
+
+        res.images.forEach((img) => {
+            let isUnused = true;
+            allItems.forEach((item) => {
+                if (item.images.includes(img)) {
+                    isUnused = false;
+                    return;
+                }
+            });
+            if (isUnused) {
+                toDelete.push(img);
+            }
+        });
+
+        console.log(toDelete.length.toString() + ' unused images found.');
+
+        toDelete.forEach((img) => {
+            console.log('Deleting ' + img + '...');
+            const filename = img.split('\\')[1];
+            deleteImage('products', filename);
+        });
+    }
 };
 
 const getAll = async (): Promise<ImageResponse> => {
@@ -53,7 +97,15 @@ const getBySubDir = async (subDir: string): Promise<ImageResponse> => {
 
 const getBySubdirAndFilename = async (reqbody: unknown): Promise<ImageResponse> => {
     try {
-        if (isObject(reqbody) && 'subdir' in reqbody && 'filename' in reqbody && isString(reqbody.subdir) && isString(reqbody.filename) && reqbody.subdir.length > 0 && reqbody.filename.length > 0) {
+        if (
+            isObject(reqbody) &&
+            'subdir' in reqbody &&
+            'filename' in reqbody &&
+            isString(reqbody.subdir) &&
+            isString(reqbody.filename) &&
+            reqbody.subdir.length > 0 &&
+            reqbody.filename.length > 0
+        ) {
             const subdir: string = reqbody.subdir;
             const filename: string = reqbody.filename;
 
@@ -79,6 +131,7 @@ const getPath = (subDir: string): string => {
 
 export default {
     deleteImage,
+    deleteUnusedImages,
     getAll,
     getBySubDir,
     getBySubdirAndFilename,

@@ -5,11 +5,12 @@ import { useSelector } from 'react-redux';
 import { Item } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
-import { contentToText, langTextsToText } from '../types/languageFunctions';
+import { pageWidth } from '../constants';
 import format from '../util/format';
 import { handleError } from '../util/handleError';
 import itemService from '../services/itemService';
-import { pageWidth } from '../constants';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
+import { imageFullPath } from '../util/misc';
 
 import AddToCart from './AddToCart';
 import BackButton from './BackButton';
@@ -98,7 +99,7 @@ const ItemDetails = () => {
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <Image path={imagePath} className='imgItemDetails' />
+                                            <Image src={imageFullPath(imagePath)} className='imgItemDetails' />
                                         </td>
                                     </tr>
                                 </tbody>

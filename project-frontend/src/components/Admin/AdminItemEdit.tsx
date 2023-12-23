@@ -62,7 +62,7 @@ const AdminItemEdit = () => {
                     </tr>
                 </tbody>
             </table>
-            <ItemEditForm itemToEdit={item} config={config} width={pageWidth} />
+            <ItemEditForm itemToEdit={item} config={config} initialCategories={item.categories.map((c) => c.id)} width={pageWidth} />
             <br />
         </div>
     );

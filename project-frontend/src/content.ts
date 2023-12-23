@@ -23,7 +23,8 @@ export enum ContentID {
     adminItemNoImages = 'ADMIN - ITEM EDIT: No Images',
     adminItemToEdit = 'ADMIN - ITEM EDIT: Edited Item: (<Item name>/New Item)',
     adminItemUploadNewImage = 'ADMIN - ITEM EDIT: Upload New Image',
-    adminItemsDeleteItemConfirmation = 'ADMIN - ITEMS: Delete <item name>? (confirmation)',
+    adminItemsDeleteItemConfirmation = 'ADMIN - ITEMS: Delete item <item name>? (confirmation)',
+    adminItemsNewItemAdded = 'ADMIN - ITEMS: New Item Added',
     adminItemsNoProducts = 'ADMIN - ITEMS: No products in this category',
     adminItemsUncategorized = 'ADMIN - ITEMS: Uncategorized (category)',
     adminItemsUncategorizedDescription = 'ADMIN - ITEMS: Uncategorized (category) description',
@@ -69,6 +70,7 @@ export enum ContentID {
     buttonEnable = 'BUTTON: Enable (account)',
     buttonOpen = 'BUTTON: Open',
     buttonRemove = 'BUTTON: Remove',
+    buttonRestore = 'BUTTON: Restore',
     buttonSave = 'BUTTON: Save',
     buttonShowInfo = 'BUTTON: Show Info',
     buttonSubmit = 'BUTTON: Submit',
@@ -107,6 +109,7 @@ export enum ContentID {
     contactEmail = 'CONTACT: E-mail',
     contactPhone = 'CONTACT: Phone',
     errorInvalidEmailAddress = 'ERROR: Invalid e-mail address',
+    errorOccurred = 'ERROR: Error occurred',
     errorSomethingWentWrong = 'ERROR: Something went wrong',
     errorSomethingWentWrongTryAgainlater = 'ERROR: Something went wrong, please try again later',
     homeWelcome = 'HOME: Welcome text',
@@ -149,6 +152,7 @@ export enum ContentID {
     miscCustomers = 'MISC: Customer\'s',
     miscDate = 'MISC: Date',
     miscDays = 'MISC: days',
+    miscDeleted = 'MISC: <item/category/etc> deleted',
     miscDescription = 'MISC: Description',
     miscLoading = 'MISC: Loading',
     miscMerchant = 'MISC: Merchant',
@@ -158,6 +162,7 @@ export enum ContentID {
     miscOrder = 'MISC: Order',
     miscRecycleBin = 'MISC: Recycle Bin',
     miscSearch = 'MISC: Search',
+    miscUpdated = 'MISC: Updated',
     miscVAT = 'MISC: VAT (tax)',
     miscWithSearchWords = 'MISC: (No hits) with searchwords <search>',
     notificationLoggedOut = 'NOTIFICATION: Logged out',
@@ -268,7 +273,7 @@ export const defaultLangContent: LangContent[] = [
         id: ContentID.adminAddNewItem,
         content: [
             { langCode: LangCode.EN, text: 'Add New Item' },
-            { langCode: LangCode.FI, text: 'Uusi tuote' },
+            { langCode: LangCode.FI, text: 'Lisää uusi tuote' },
         ],
     },
     {
@@ -351,8 +356,15 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.adminItemsDeleteItemConfirmation,
         content: [
-            { langCode: LangCode.EN, text: 'Delete' },
-            { langCode: LangCode.FI, text: 'Poistetaanko' },
+            { langCode: LangCode.EN, text: 'Delete item' },
+            { langCode: LangCode.FI, text: 'Poistetaanko tuote' },
+        ],
+    },
+    {
+        id: ContentID.adminItemsNewItemAdded,
+        content: [
+            { langCode: LangCode.EN, text: 'New item added' },
+            { langCode: LangCode.FI, text: 'Uusi tuote lisättiin' },
         ],
     },
     {
@@ -671,6 +683,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.buttonRestore,
+        content: [
+            { langCode: LangCode.EN, text: 'Restore' },
+            { langCode: LangCode.FI, text: 'Palauta' },
+        ],
+    },
+    {
         id: ContentID.buttonSave,
         content: [
             { langCode: LangCode.EN, text: 'Save' },
@@ -937,6 +956,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Invalid e-mail address' },
             { langCode: LangCode.FI, text: 'Virheellien sähköpostiosoite' },
+        ],
+    },
+    {
+        id: ContentID.errorOccurred,
+        content: [
+            { langCode: LangCode.EN, text: 'Error occurred.' },
+            { langCode: LangCode.FI, text: 'Tapahtui virhe.' },
         ],
     },
     {
@@ -1228,6 +1254,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.miscDeleted,
+        content: [
+            { langCode: LangCode.EN, text: 'deleted' },
+            { langCode: LangCode.FI, text: 'poistettiin' },
+        ],
+    },
+    {
         id: ContentID.miscDescription,
         content: [
             { langCode: LangCode.EN, text: 'Description' },
@@ -1288,6 +1321,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Search' },
             { langCode: LangCode.FI, text: 'Haku' },
+        ],
+    },
+    {
+        id: ContentID.miscUpdated,
+        content: [
+            { langCode: LangCode.EN, text: 'updated' },
+            { langCode: LangCode.FI, text: 'päivitettiin' },
         ],
     },
     {

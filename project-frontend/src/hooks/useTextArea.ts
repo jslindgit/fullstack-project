@@ -5,6 +5,7 @@ export interface UseTextArea {
     onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
     reset: () => void;
     setNewValue: (newValue: string) => void;
+    stringValue: () => string;
     anyChanges: boolean;
 }
 
@@ -25,11 +26,16 @@ const useTextArea = (): UseTextArea => {
         setValue(newValue);
     };
 
+    const stringValue = (): string => {
+        return value.toString().trim();
+    };
+
     return {
         value,
         onChange,
         reset,
         setNewValue,
+        stringValue,
         anyChanges,
     };
 };

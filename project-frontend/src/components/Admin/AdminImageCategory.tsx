@@ -1,6 +1,10 @@
+import { useSelector } from 'react-redux';
+
+import { RootState } from '../../reducers/rootReducer';
 import { ImageCategory } from '../../types/types';
 
-import { imageFilename } from '../../util/misc';
+import { langTextsToText } from '../../types/languageFunctions';
+import { imageFilename, imageFullPath } from '../../util/misc';
 
 import Image from '../Image';
 
@@ -8,19 +12,26 @@ interface Props {
     category: ImageCategory;
 }
 const AdminImageCategory = ({ category }: Props) => {
+    const config = useSelector((state: RootState) => state.config);
+
     return (
         <>
-            <h3 className='adminHeader'>{category.name}</h3>
+            <div className='adminHeader semiBold sizeLarge' style={{ marginTop: 0 }}>
+                {langTextsToText(category.name, config)}
+            </div>
             <table className='noPadding'>
                 <tbody>
                     <tr>
-                        {category.imagePaths.map((path) => (
-                            <td key={path} width='1px'>
-                                <Image path={path} className='imgAdminThumb' alt={path} title={path} />
-                                <br />
-                                <span className='adminImageCaption'>{imageFilename(path)}</span>
-                            </td>
-                        ))}
+                        <td className='imgFlex'>
+                            {category.imagePaths.map((path) => (
+                                <div key={path} style={{ marginBottom: '2rem', marginRight: '2rem' }}>
+                                    <Image src={imageFullPath(path)} className='imgAdminThumb' title={path} />
+                                    <span className='adminImageCaption sizeSmallish' style={{ marginBottom: '5rem' }}>
+                                        {imageFilename(path)}
+                                    </span>
+                                </div>
+                            ))}
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -59,6 +59,13 @@ button.red:active {
     background-color: var(--colorRedVeryDark);
 }
 
+button.small {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+    padding-bottom: 0.25rem;
+    padding-top: 0.125rem;
+}
+
 .adjustAmountButtons {
     color: var(--colorGold);
     cursor: pointer;

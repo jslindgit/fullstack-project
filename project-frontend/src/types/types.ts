@@ -21,7 +21,8 @@ export enum Currency {
 }
 
 export interface ImageCategory {
-    name: string;
+    directory: string;
+    name: LangText[];
     imagePaths: string[];
 }
 

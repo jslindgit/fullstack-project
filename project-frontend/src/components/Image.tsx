@@ -1,29 +1,26 @@
 import { useState } from 'react';
 
-import { imageFullPath } from '../util/misc';
-
 interface ModalProps {
     onClose: () => void;
-    path: string;
+    src: string;
 }
 
-const Modal = ({ onClose, path }: ModalProps) => {
+const Modal = ({ onClose, src }: ModalProps) => {
     return (
         <div className='modal-overlay' onClick={onClose}>
             <div className='modal-content'>
-                <img src={imageFullPath(path)} />
+                <img src={src} style={{ margin: 0 }} />
             </div>
         </div>
     );
 };
 
 interface Props {
-    alt?: string;
-    className: 'imgAdminItems' | 'imgAdminThumb' | 'imgItemDetails' | 'imgShoppingCart';
-    path: string;
+    className: 'imgAdminItems' | 'imgAdminItems new' | 'imgAdminItems toRemove' | 'imgAdminThumb' | 'imgItemDetails' | 'imgShoppingCart';
+    src: string;
     title?: string;
 }
-const Image = ({ alt = '', path, className, title = '' }: Props) => {
+const Image = ({ className, src, title = '' }: Props) => {
     const [showModal, setShowModal] = useState<boolean>(false);
 
     const handleThumbnailClick = () => {
@@ -36,9 +33,9 @@ const Image = ({ alt = '', path, className, title = '' }: Props) => {
 
     return (
         <div>
-            <img src={imageFullPath(path)} className={className + ' imgThumb'} onClick={handleThumbnailClick} alt={alt} title={title} />
+            <img src={src} className={className + ' imgThumb'} onClick={handleThumbnailClick} alt={title} title={title} />
 
-            {showModal && <Modal onClose={closeModal} path={path} />}
+            {showModal && <Modal onClose={closeModal} src={src} />}
         </div>
     );
 };

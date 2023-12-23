@@ -3,23 +3,34 @@
     display: block;
     height: 3em;
     margin-right: 0.5rem;
-    width: 3rem;
+}
+.imgAdminItems.new {
+    border-color: var(--colorGreenLight);
+    outline: 1px solid var(--colorGreenLight);
+}
+.imgAdminItems.toRemove {
+    border-color: var(--colorRedLight);
+    opacity: 0.5;
+    outline: 1px solid var(--colorRedLight);
 }
 
 .imgAdminThumb {
+    border: 1px solid var(--colorGrayLight);
     display: block;
-    width: 10rem;
     height: 10rem;
-    margin-right: 1rem;
+    width: 10rem;
 }
 
 .imgFlex {
-    display: flex;
     align-items: center !important;
     align-content: center !important;
+    justify-content: flex-start !important;
+    display: flex;
+    flex-wrap: wrap;
 }
 .imgFlex img {
-    margin-right: 1rem;
+    margin-bottom: 0.25rem;
+    margin-top: 0.25rem;
 }
 
 .imgSelected {

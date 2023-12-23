@@ -30,14 +30,14 @@ const add = async (toAdd: NewItem, category_id: number | null, token: string, co
 
         if (item) {
             await initializeCategories(dispatch);
-            return { success: true, message: `New item added: ${langTextsToText(item.name, config)}`, item: item };
+            return { success: true, message: `${contentToText(ContentID.adminItemsNewItemAdded, config)}: ${langTextsToText(item.name, config)}`, item: item };
         } else {
             handleError('Server did not return an Item object');
-            return { success: false, message: 'Something went wrong, try again later', item: null };
+            return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), item: null };
         }
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Error occurred', item: null };
+        return { success: false, message: contentToText(ContentID.errorOccurred, config), item: null };
     }
 };
 
@@ -49,13 +49,19 @@ const deleteItem = async (item: Item, token: string, config: Config, dispatch: D
         const res = await axios.delete<Item>(`${url}/${item.id}`, authConfig(token));
         if (res.status === 204) {
             await initializeCategories(dispatch);
-            return { success: true, message: `Item ${langTextsToText(item.name, config)} deleted` };
+            return {
+                success: true,
+                message: `${contentToText(ContentID.itemsItem, config)} "${langTextsToText(item.name, config)}" ${contentToText(
+                    ContentID.miscDeleted,
+                    config
+                )}.`,
+            };
         } else {
-            return { success: false, message: 'Something went wrong, try again later' };
+            return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config) };
         }
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Error occurred' };
+        return { success: false, message: contentToText(ContentID.errorOccurred, config) };
     }
 };
 
@@ -95,7 +101,14 @@ const update = async (item: Item, token: string, config: Config, dispatch: Dispa
 
         if (updatedItem) {
             await initializeCategories(dispatch);
-            return { success: true, message: `Item ${langTextsToText(updatedItem.name, config)} updated`, item: updatedItem };
+            return {
+                success: true,
+                message: `${contentToText(ContentID.itemsItem, config)} "${langTextsToText(updatedItem.name, config)}" ${contentToText(
+                    ContentID.miscUpdated,
+                    config
+                )}.`,
+                item: updatedItem,
+            };
         } else {
             handleError(new Error('Server did not return an Item object'));
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), item: null };

@@ -128,10 +128,6 @@ table.headerRow table tr:first-child td {
 }
 
 /* Specific uses */
-.adminItems td {
-    padding-right: calc(var(--default-padding) * 3);
-}
-
 .adminOrderDetails {
     background-color: white !important;
     border-radius: 1.25rem;

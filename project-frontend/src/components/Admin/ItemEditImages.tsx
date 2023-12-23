@@ -1,30 +1,30 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
+import { ImageToUpload } from './ItemEditForm';
 import { RootState } from '../../reducers/rootReducer';
 
 import { handleError } from '../../util/handleError';
 import imageService from '../../services/imageService';
 import { contentToText } from '../../types/languageFunctions';
-import { imageFilename } from '../../util/misc';
-
-import { setNotification } from '../../reducers/miscReducer';
+import { imageFilename, imageFullPath } from '../../util/misc';
 
 import Image from '../Image';
 
 interface Props {
     config: Config;
-    selectedImages: string[];
-    setSelectedImages: React.Dispatch<React.SetStateAction<string[]>>;
+    currentImages: string[];
+    imagesToRemove: string[];
+    imagesToUpload: ImageToUpload[];
+    setImagesToRemove: React.Dispatch<React.SetStateAction<string[]>>;
+    setImagesToUpload: React.Dispatch<React.SetStateAction<ImageToUpload[]>>;
 }
-const ItemEditImages = ({ config, selectedImages, setSelectedImages }: Props) => {
-    const dispatch = useDispatch();
+const ItemEditImages = ({ config, currentImages, imagesToRemove, imagesToUpload, setImagesToRemove, setImagesToUpload }: Props) => {
     const userState = useSelector((state: RootState) => state.user);
 
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const [newUploads, setNewUploads] = useState<number>(0);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -45,13 +45,16 @@ const ItemEditImages = ({ config, selectedImages, setSelectedImages }: Props) =>
         const dupecheck = await imageService.getBySubdirAndFilename(imageCategory, imageFile.name);
         const matchFound = dupecheck.success && dupecheck.images.length > 0;
 
-        if (!matchFound || confirm(`Image "${imageFile.name}" already exist in "${imageCategory}" - Do you want to overwrite it?`)) {
-            const res = await imageService.add(imageFile, imageCategory, userState.loggedUser.token);
+        if (!matchFound || confirm(`Image "${imageFile.name}" already exists - Do you want to overwrite it?`)) {
+            if (!imagesToUpload.find((i) => i.file === imageFile)) {
+                const reader = new FileReader();
 
-            setSelectedImages([...selectedImages, imageCategory + '\\' + imageFile.name]);
-            setNewUploads(newUploads + 1);
+                reader.onloadend = () => {
+                    setImagesToUpload([...imagesToUpload, { file: imageFile, dataUrl: reader.result as string }]);
+                };
 
-            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+                reader.readAsDataURL(imageFile);
+            }
 
             setImageFile(null);
         }
@@ -61,18 +64,65 @@ const ItemEditImages = ({ config, selectedImages, setSelectedImages }: Props) =>
         <>
             <table>
                 <tbody>
-                    {selectedImages.length > 0 ? (
-                        selectedImages.map((path) => (
-                            <tr key={path}>
-                                <td className='widthByContent'>
-                                    <Image path={path} className='imgAdminItems' />
-                                </td>
-                                <td className='valignMiddleImportant'>{imageFilename(path)}</td>
-                            </tr>
-                        ))
+                    {currentImages.length + imagesToUpload.length > 0 ? (
+                        <>
+                            {currentImages.map((path) => (
+                                <tr key={path}>
+                                    <td className='widthByContent'>
+                                        <Image
+                                            src={imageFullPath(path)}
+                                            className={imagesToRemove.includes(path) ? 'imgAdminItems toRemove' : 'imgAdminItems'}
+                                            title={imageFilename(path)}
+                                        />
+                                    </td>
+                                    <td className='valignMiddleImportant'>
+                                        {imagesToRemove.includes(path) ? (
+                                            <>
+                                                <span className='strikeThrough'>{imageFilename(path)}</span>
+                                                <br />
+                                                <button
+                                                    type='button'
+                                                    className='small'
+                                                    onClick={() => setImagesToRemove(imagesToRemove.filter((img) => img !== path))}
+                                                >
+                                                    {contentToText(ContentID.buttonRestore, config)}
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                {imageFilename(path)}
+                                                <br />
+                                                <button type='button' className='red small' onClick={() => setImagesToRemove([...imagesToRemove, path])}>
+                                                    {contentToText(ContentID.buttonRemove, config)}
+                                                </button>
+                                            </>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                            {imagesToUpload.map((imageToUpload) => (
+                                <tr key={imageToUpload.file.name}>
+                                    <td className='widthByContent'>
+                                        <Image src={imageToUpload.dataUrl} className='imgAdminItems new' />
+                                    </td>
+                                    <td className='italic valignMiddleImportant'>
+                                        {imageToUpload.file.name.toString()}
+                                        <br />
+                                        <span className='semiBold sizeSmall'>UUSI &nbsp;</span>
+                                        <button
+                                            type='button'
+                                            className='red small'
+                                            onClick={() => setImagesToUpload(imagesToUpload.filter((img) => img !== imageToUpload))}
+                                        >
+                                            {contentToText(ContentID.buttonRemove, config)}
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </>
                     ) : (
                         <tr>
-                            <td>{contentToText(ContentID.adminItemNoImages, config)}</td>
+                            <td>{contentToText(ContentID.adminItemNoImages, config)}.</td>
                         </tr>
                     )}
                 </tbody>
@@ -80,7 +130,7 @@ const ItemEditImages = ({ config, selectedImages, setSelectedImages }: Props) =>
             <table>
                 <tbody>
                     <tr>
-                        <td className='semiBold'>{contentToText(ContentID.adminItemUploadNewImage, config)}</td>
+                        <td className='semiBold'>{contentToText(ContentID.adminItemUploadNewImage, config)}:</td>
                     </tr>
                     <tr>
                         <td>

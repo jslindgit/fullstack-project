@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Config } from '../../types/configTypes';
@@ -7,11 +8,18 @@ import { langTextsToText } from '../../types/languageFunctions';
 
 interface Props {
     config: Config;
+    initialCategories: number[] | undefined;
     selectedCategories: number[];
     setSelectedCategories: React.Dispatch<React.SetStateAction<number[]>>;
 }
-const ItemEditCategories = ({ config, selectedCategories, setSelectedCategories }: Props) => {
+const ItemEditCategories = ({ config, initialCategories, selectedCategories, setSelectedCategories }: Props) => {
     const categoriesState = useSelector((state: RootState) => state.categories);
+
+    useEffect(() => {
+        if (initialCategories) {
+            setSelectedCategories(initialCategories);
+        }
+    }, [initialCategories]);
 
     const handleCategoryChange = (categoryId: number) => {
         const updatedCategories = [...selectedCategories];
