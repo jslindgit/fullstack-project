@@ -64,32 +64,26 @@ const AdminUsers = () => {
     const sortAndSet = (allUsers: User[]) => {
         switch (sortBy) {
             case 'id':
-                if (sortDirection === 'asc') {
-                    setUsers([...allUsers].sort((a, b) => a.id - b.id));
-                } else {
-                    setUsers([...allUsers].sort((a, b) => b.id - a.id));
-                }
+                setUsers([...allUsers].sort((a, b) => (sortDirection === 'asc' ? a.id - b.id : b.id - a.id)));
                 break;
             case 'name':
-                if (sortDirection === 'asc') {
-                    setUsers([...allUsers].sort((a, b) => a.contactLastName.localeCompare(b.contactLastName)));
-                } else {
-                    setUsers([...allUsers].sort((a, b) => b.contactLastName.localeCompare(a.contactLastName)));
-                }
+                setUsers(
+                    [...allUsers].sort((a, b) =>
+                        sortDirection === 'asc' ? a.contactLastName.localeCompare(b.contactLastName) : b.contactLastName.localeCompare(a.contactLastName)
+                    )
+                );
                 break;
             case 'status':
-                if (sortDirection === 'asc') {
-                    setUsers([...allUsers].sort((a, b) => userStatus(a, config).localeCompare(userStatus(b, config))));
-                } else {
-                    setUsers([...allUsers].sort((a, b) => userStatus(b, config).localeCompare(userStatus(a, config))));
-                }
+                setUsers(
+                    [...allUsers].sort((a, b) =>
+                        sortDirection === 'asc'
+                            ? userStatus(a, config).localeCompare(userStatus(b, config))
+                            : userStatus(b, config).localeCompare(userStatus(a, config))
+                    )
+                );
                 break;
             case 'username':
-                if (sortDirection === 'asc') {
-                    setUsers([...allUsers].sort((a, b) => a.username.localeCompare(b.username)));
-                } else {
-                    setUsers([...allUsers].sort((a, b) => b.username.localeCompare(a.username)));
-                }
+                setUsers([...allUsers].sort((a, b) => (sortDirection === 'asc' ? a.username.localeCompare(b.username) : b.username.localeCompare(a.username))));
                 break;
             default:
                 setUsers(allUsers);

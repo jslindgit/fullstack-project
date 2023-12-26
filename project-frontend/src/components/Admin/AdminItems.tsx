@@ -24,16 +24,16 @@ const AdminItems = () => {
     const usersState = useSelector((state: RootState) => state.user);
 
     const addItemButtonRef = useRef<HTMLButtonElement>(null);
-    const [itemAdded, setItemAdded] = useState<Item | null>(null);
-    const previousScrollY = useRef<number>(0);
-
-    const [searchParams] = useSearchParams();
 
     const [category, setCategory] = useState<Category | undefined>(undefined);
+    const [itemAdded, setItemAdded] = useState<Item | null>(null);
     const [items, setItems] = useState<Item[]>([]);
+    const previousScrollY = useRef<number>(0);
     const [scrollTo, setScrollTo] = useState<number>(0);
     const [showAddItem, setShowAddItem] = useState<boolean>(false);
     const [uncategorizedItems, setUncategorizedItems] = useState<Item[]>([]);
+
+    const [searchParams] = useSearchParams();
 
     // Set Items that don't belong to any Category:
     useEffect(() => {
@@ -129,7 +129,7 @@ const AdminItems = () => {
             <h4>{category ? langTextsToText(category.name, config) : contentToText(ContentID.adminItemsUncategorized, config)}</h4>
             <p>{category ? langTextsToText(category.description, config) : contentToText(ContentID.adminItemsUncategorizedDescription, config)}</p>
             <br />
-            <AdminItemList config={config} deleteItem={deleteItem} items={items} />
+            <AdminItemList config={config} deleteItem={deleteItem} items={items} setItems={setItems} />
             <br />
             <br />
             <table width='100%'>

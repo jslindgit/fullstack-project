@@ -116,4 +116,5 @@
 | 15.12. | 1    | Tuotteiden lisäämisen/muokkauksen parantelua                                                                         |     |
 | 16.12. | 2    | Tuotteiden lisäämisen/muokkauksen parantelua                                                                         | 201 |
 | 23.12. | 3    | Parempi tuotekuvasysteemi + Tuotteiden lisäyksen/muokkauksen parantelua                                              |     |
-|  yht   | 204  |                                                                                                                      |     |
+| 26.12. | 1    | Tuotehallintaan sorting.                                                                                             |     |
+|  yht   | 205  |                                                                                                                      |     |

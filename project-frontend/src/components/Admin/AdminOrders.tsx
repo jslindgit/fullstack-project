@@ -58,51 +58,39 @@ const AdminOrders = () => {
     const sortAndSet = (allOrders: Order[]) => {
         switch (sortBy) {
             case 'date':
-                if (sortDirection === 'asc') {
-                    setOrders([...allOrders].sort((a, b) => a.createdAt.localeCompare(b.createdAt)));
-                } else {
-                    setOrders([...allOrders].sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
-                }
+                setOrders(
+                    [...allOrders].sort((a, b) => (sortDirection === 'asc' ? a.createdAt.localeCompare(b.createdAt) : b.createdAt.localeCompare(a.createdAt)))
+                );
                 break;
             case 'customer':
-                if (sortDirection === 'asc') {
-                    setOrders(
-                        [...allOrders].sort((a, b) => (a.customerLastName + a.customerFirstName).localeCompare(b.customerLastName + b.customerFirstName))
-                    );
-                } else {
-                    setOrders(
-                        [...allOrders].sort((a, b) => (b.customerLastName + b.customerFirstName).localeCompare(a.customerLastName + a.customerFirstName))
-                    );
-                }
+                setOrders(
+                    [...allOrders].sort((a, b) =>
+                        sortDirection === 'asc'
+                            ? (a.customerLastName + a.customerFirstName).localeCompare(b.customerLastName + b.customerFirstName)
+                            : (b.customerLastName + b.customerFirstName).localeCompare(a.customerLastName + a.customerFirstName)
+                    )
+                );
                 break;
             case 'totalSum':
-                if (sortDirection === 'asc') {
-                    setOrders([...allOrders].sort((a, b) => a.totalAmount - b.totalAmount));
-                } else {
-                    setOrders([...allOrders].sort((a, b) => b.totalAmount - a.totalAmount));
-                }
+                setOrders([...allOrders].sort((a, b) => (sortDirection === 'asc' ? a.totalAmount - b.totalAmount : b.totalAmount - a.totalAmount)));
                 break;
             case 'delivery':
-                if (sortDirection === 'asc') {
-                    setOrders(
-                        [...allOrders].sort((a, b) =>
-                            langTextsToText(a.deliveryMethod?.names, config).localeCompare(langTextsToText(b.deliveryMethod?.names, config))
-                        )
-                    );
-                } else {
-                    setOrders(
-                        [...allOrders].sort((a, b) =>
-                            langTextsToText(b.deliveryMethod?.names, config).localeCompare(langTextsToText(a.deliveryMethod?.names, config))
-                        )
-                    );
-                }
+                setOrders(
+                    [...allOrders].sort((a, b) =>
+                        sortDirection === 'asc'
+                            ? langTextsToText(a.deliveryMethod?.names, config).localeCompare(langTextsToText(b.deliveryMethod?.names, config))
+                            : langTextsToText(b.deliveryMethod?.names, config).localeCompare(langTextsToText(a.deliveryMethod?.names, config))
+                    )
+                );
                 break;
             case 'status':
-                if (sortDirection === 'asc') {
-                    setOrders([...allOrders].sort((a, b) => getOrderStatusForAdmin(a, config).localeCompare(getOrderStatusForAdmin(b, config))));
-                } else {
-                    setOrders([...allOrders].sort((a, b) => getOrderStatusForAdmin(b, config).localeCompare(getOrderStatusForAdmin(a, config))));
-                }
+                setOrders(
+                    [...allOrders].sort((a, b) =>
+                        sortDirection === 'asc'
+                            ? getOrderStatusForAdmin(a, config).localeCompare(getOrderStatusForAdmin(b, config))
+                            : getOrderStatusForAdmin(b, config).localeCompare(getOrderStatusForAdmin(a, config))
+                    )
+                );
                 break;
             default:
                 setOrders(allOrders);
