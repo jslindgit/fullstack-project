@@ -32,6 +32,7 @@ import Home from './components/Home';
 import Info from './components/Info';
 import ItemDetails from './components/ItemDetails';
 import Items from './components/Items';
+import ItemsSearch from './components/ItemsSearch';
 import Login from './components/Login';
 import Menu from './components/Menu';
 import Register from './components/Register';
@@ -105,6 +106,7 @@ const App = () => {
                 <Route path='/payment' element={<CheckOutPayment />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/shop' element={<Categories />} />
+                <Route path='/shop/search' element={<ItemsSearch />} />
                 <Route path='/shop/item/:id' element={<ItemDetails />} />
                 <Route path='/shop/:id' element={<Items />} />
                 <Route path='/you' element={<UserPanel />} />

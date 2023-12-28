@@ -30,10 +30,6 @@ const Items = () => {
             const cat = isNumber(id) && !isNaN(id) ? categoryState.categories.find((c) => c.id === id) : undefined;
 
             if (!cat && miscState.loaded) {
-                console.log('idParam:', idParam);
-                console.log('id:', id);
-                console.log('cat:', cat);
-                console.log('catState:', categoryState);
                 navigate('/shop');
             } else {
                 setCategory(cat);

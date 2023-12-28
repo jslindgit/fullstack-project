@@ -29,9 +29,10 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.get('/', (async (req, res, next) => {
+router.post('/getall', (async (req, res, next) => {
     try {
-        const items = await service.getAll(isString(req.query.search) ? req.query.search : '');
+        const searchQuery: string = isObject(req.body) && 'search' in req.body && isString(req.body.search) ? req.body.search : '';
+        const items = await service.getAll(searchQuery ? searchQuery : '');
         res.json(items);
     } catch (err) {
         next(err);

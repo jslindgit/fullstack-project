@@ -65,9 +65,10 @@ const deleteItem = async (item: Item, token: string, config: Config, dispatch: D
     }
 };
 
-const getAll = async (): Promise<Item[]> => {
+const getAll = async (searchQuery: string = ''): Promise<Item[]> => {
     try {
-        const { data } = await axios.get<Item[]>(url);
+        const { data } = await axios.post<Item[]>(url + '/getall', { search: searchQuery });
+        console.log('query: "' + searchQuery + '", data:', data);
         const items: Item[] = [];
         data.forEach((itemData) => {
             const item = itemFromResBody(itemData);

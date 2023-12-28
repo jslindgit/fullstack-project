@@ -182,6 +182,8 @@ export enum ContentID {
     registerHeader = 'REGISTER: header',
     registerPasswordConfirm = 'REGISTER: Confirm Password',
     registerSuccess = 'REGISTER: Registration successful',
+    searchHits = 'SEARCH: <number> hits',
+    searchNoResults = 'SEARCH: No results with <search query>"',
     statusCancelled = 'ORDER STATUS: Cancelled',
     statusCompleted = 'ORDER STATUS: Completed',
     statusDelivered = 'ORDER STATUS: Delivered',
@@ -1461,6 +1463,20 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Registered as' },
             { langCode: LangCode.FI, text: 'Rekisteröidyit käyttäjätunnuksella' },
+        ],
+    },
+    {
+        id: ContentID.searchHits,
+        content: [
+            { langCode: LangCode.EN, text: 'hits' },
+            { langCode: LangCode.FI, text: 'osumaa' },
+        ],
+    },
+    {
+        id: ContentID.searchNoResults,
+        content: [
+            { langCode: LangCode.EN, text: 'No results for' },
+            { langCode: LangCode.FI, text: 'Ei tuloksia hakusanalla' },
         ],
     },
     {
