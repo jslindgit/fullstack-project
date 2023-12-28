@@ -183,6 +183,8 @@ export enum ContentID {
     registerPasswordConfirm = 'REGISTER: Confirm Password',
     registerSuccess = 'REGISTER: Registration successful',
     searchHits = 'SEARCH: <number> hits',
+    // prettier-ignore
+    searchItemsName = 'SEARCH: Search with item\'s name (placeholder for search field)',
     searchNoResults = 'SEARCH: No results with <search query>"',
     statusCancelled = 'ORDER STATUS: Cancelled',
     statusCompleted = 'ORDER STATUS: Completed',
@@ -1470,6 +1472,14 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'hits' },
             { langCode: LangCode.FI, text: 'osumaa' },
+        ],
+    },
+    {
+        id: ContentID.searchItemsName,
+        content: [
+            // prettier-ignore
+            { langCode: LangCode.EN, text: 'Search with item\'s name...' },
+            { langCode: LangCode.FI, text: 'Hae tuotteen nimellä...' },
         ],
     },
     {

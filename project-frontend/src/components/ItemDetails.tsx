@@ -48,8 +48,6 @@ const ItemDetails = () => {
         );
     }
 
-    const imagePath = item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
-
     return (
         <div>
             <table align='center'>
@@ -67,7 +65,7 @@ const ItemDetails = () => {
             <table align='center' width={(pageWidth / 3) * 2} className='itemDetails'>
                 <tbody>
                     <tr>
-                        <td width='50%' style={{ paddingLeft: 0 }}>
+                        <td width='50%' className='valignTop' style={{ paddingLeft: 0 }}>
                             <table align='center' width='100%'>
                                 <tbody>
                                     <tr>
@@ -99,7 +97,18 @@ const ItemDetails = () => {
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <Image src={imageFullPath(imagePath)} className='imgItemDetails' />
+                                            {item.images.length > 0 ? (
+                                                <>
+                                                    {item.images.map((path) => (
+                                                        <>
+                                                            <Image key={path} src={imageFullPath(path)} className='imgItemDetails' />
+                                                            <br />
+                                                        </>
+                                                    ))}
+                                                </>
+                                            ) : (
+                                                <img src={imageFullPath('misc/_no_image.png')} className='imgItemDetails' />
+                                            )}
                                         </td>
                                     </tr>
                                 </tbody>

@@ -65,10 +65,9 @@ const deleteItem = async (item: Item, token: string, config: Config, dispatch: D
     }
 };
 
-const getAll = async (searchQuery: string = ''): Promise<Item[]> => {
+const getAll = async (): Promise<Item[]> => {
     try {
-        const { data } = await axios.post<Item[]>(url + '/getall', { search: searchQuery });
-        console.log('query: "' + searchQuery + '", data:', data);
+        const { data } = await axios.get<Item[]>(url);
         const items: Item[] = [];
         data.forEach((itemData) => {
             const item = itemFromResBody(itemData);
@@ -90,6 +89,23 @@ const getById = async (id: number): Promise<Item | null> => {
     } catch (err: unknown) {
         handleError(err);
         return null;
+    }
+};
+
+const getBySearchQuery = async (searchQuery: string, config: Config): Promise<Item[]> => {
+    try {
+        const { data } = await axios.get<Item[]>(url);
+        const items: Item[] = [];
+        data.forEach((itemData) => {
+            const item = itemFromResBody(itemData);
+            if (item && langTextsToText(item.name, config).toLowerCase().includes(searchQuery.toLowerCase())) {
+                items.push(item);
+            }
+        });
+        return items;
+    } catch (err: unknown) {
+        handleError(err);
+        return [];
     }
 };
 
@@ -125,5 +141,6 @@ export default {
     deleteItem,
     getAll,
     getById,
+    getBySearchQuery,
     update,
 };

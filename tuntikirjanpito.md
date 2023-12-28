@@ -118,4 +118,5 @@
 | 23.12. | 3    | Parempi tuotekuvasysteemi + Tuotteiden lisäyksen/muokkauksen parantelua                                              |     |
 | 26.12. | 1    | Tuotehallintaan sorting.                                                                                             |     |
 | 28.12. | 1    | Hakutoiminto tuotteille                                                                                              |     |
-|  yht   | 206  |                                                                                                                      |     |
+|        | 1    | Tuotehaku valmiiksi. Pari uutta tuotetta.                                                                            |     |
+|  yht   | 207  |                                                                                                                      |     |

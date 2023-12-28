@@ -11,6 +11,7 @@ import itemService from '../services/itemService';
 import { contentToText } from '../types/languageFunctions';
 import useField from '../hooks/useField';
 
+import InputField from './InputField';
 import ItemsRow from './ItemsRow';
 
 const ItemsSearch = () => {
@@ -39,14 +40,13 @@ const ItemsSearch = () => {
     useEffect(() => {
         if (attemptedToGetSearchParam) {
             const fetch = async () => {
-                setSearchResults(await itemService.getAll(searchField.value.toString().trim()));
+                setSearchResults(await itemService.getBySearchQuery(searchField.value.toString().trim(), config));
             };
             fetch();
         }
     }, [searchField.value]);
 
     useEffect(() => {
-        console.log('searchResults:', searchResults);
         const allRows: Array<Item[]> = [];
         let currentRow: Item[] = [];
         searchResults.forEach((item) => {
@@ -70,7 +70,7 @@ const ItemsSearch = () => {
                     <tbody>
                         <tr>
                             <td>
-                                <input type={searchField.type} value={searchField.value} onChange={searchField.onChange} />
+                                <InputField useField={searchField} width='100%' placeHolder={contentToText(ContentID.searchItemsName, config)} />
                             </td>
                         </tr>
                         <tr>

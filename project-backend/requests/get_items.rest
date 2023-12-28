@@ -1,6 +1,6 @@
-POST http://localhost:3001/api/items/getall
+GET http://localhost:3001/api/items/getall
 Content-Type: application/json
 
 {
-    "search": "muki"
+    "search": "f"
 }

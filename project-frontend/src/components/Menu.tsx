@@ -1,26 +1,37 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { User } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
-import loginService from '../services/loginService';
-
 import { contentToText } from '../types/languageFunctions';
+import loginService from '../services/loginService';
 import { setNotification } from '../reducers/miscReducer';
 import { removeLoggedUser } from '../reducers/userReducer';
+import useField from '../hooks/useField';
 
+import InputField from './InputField';
 import LanguageSelection from './LanguageSelection';
 import { Link } from './CustomLink';
 import { ContentID } from '../content';
 
 const Menu = () => {
     const dispatch = useDispatch();
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
     const orderState = useSelector((state: RootState) => state.order);
     const usersState = useSelector((state: RootState) => state.user);
 
+    const navigate = useNavigate();
+
     const currentPath = useLocation().pathname;
+
+    const searchField = useField('text', ContentID.miscSearch);
+
+    const handleSearchButton = () => {
+        if (searchField.stringValue().length > 0) {
+            navigate('/shop/search?q=' + searchField.stringValue());
+        }
+    };
 
     const login = (loggedUser: User | null, removeLogged: () => void, setLogoutNotification: () => void) => {
         if (loggedUser) {
@@ -30,7 +41,7 @@ const Menu = () => {
                         <tr>
                             <td className='sizeSmallish semiBold' style={{ textAlign: 'center', paddingBottom: '3px', paddingTop: '6px' }}>
                                 {loggedUser.username}{' '}
-                                {loggedUser.admin ? <span className='colorYellowLight'> ({contentToText(ContentID.menuAdmin, configState)})</span> : <></>}
+                                {loggedUser.admin ? <span className='colorYellowLight'> ({contentToText(ContentID.menuAdmin, config)})</span> : <></>}
                             </td>
                         </tr>
                         <tr>
@@ -39,10 +50,10 @@ const Menu = () => {
                                     <tbody>
                                         <tr>
                                             <td width='1px' className='tight'>
-                                                {menuLink('/you', contentToText(ContentID.menuAccount, configState), 'Small')}
+                                                {menuLink('/you', contentToText(ContentID.menuAccount, config), 'Small')}
                                             </td>
                                             <td className='tight' onClick={async () => await logout(loggedUser, removeLogged, setLogoutNotification)}>
-                                                {menuLink('#', contentToText(ContentID.menuLogout, configState), 'Small')}
+                                                {menuLink('#', contentToText(ContentID.menuLogout, config), 'Small')}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -53,7 +64,7 @@ const Menu = () => {
                 </table>
             );
         } else {
-            return <div>{menuLink('/login', contentToText(ContentID.menuLogin, configState), 'Big')}</div>;
+            return <div>{menuLink('/login', contentToText(ContentID.menuLogin, config), 'Big')}</div>;
         }
     };
 
@@ -112,12 +123,12 @@ const Menu = () => {
     };
 
     const setLogoutNotification = () => {
-        dispatch(setNotification({ tone: 'Neutral', message: contentToText(ContentID.notificationLoggedOut, configState) }));
+        dispatch(setNotification({ tone: 'Neutral', message: contentToText(ContentID.notificationLoggedOut, config) }));
     };
 
     const showAdminMenu = () => {
         if (usersState.loggedUser?.admin) {
-            return <td className='tight'>{menuLink('/admin', contentToText(ContentID.menuAdminSection, configState))}</td>;
+            return <td className='tight'>{menuLink('/admin', contentToText(ContentID.menuAdminSection, config))}</td>;
         } else {
             return <></>;
         }
@@ -129,14 +140,14 @@ const Menu = () => {
                 <table align='center'>
                     <tbody>
                         <tr>
-                            <td>{menuLink('/', contentToText(ContentID.menuHome, configState))}</td>
-                            <td>{menuLink('/shop', contentToText(ContentID.menuProducts, configState))}</td>
-                            <td>{menuLink('/info', contentToText(ContentID.menuInfo, configState))}</td>
+                            <td>{menuLink('/', contentToText(ContentID.menuHome, config))}</td>
+                            <td>{menuLink('/shop', contentToText(ContentID.menuProducts, config))}</td>
+                            <td>{menuLink('/info', contentToText(ContentID.menuInfo, config))}</td>
                             <td>
                                 <table>
                                     <tbody>
                                         <tr>
-                                            <td>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, configState), 'Big', true)}</td>
+                                            <td>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, config), 'Big', true)}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -147,6 +158,18 @@ const Menu = () => {
                             {showAdminMenu()}
                             <td>
                                 <LanguageSelection />
+                            </td>
+                            <td style={{ paddingLeft: '2rem' }}>
+                                <InputField
+                                    useField={searchField}
+                                    width='11rem'
+                                    placeHolder={contentToText(ContentID.searchItemsName, config)}
+                                    className='sizeSmallish'
+                                />
+                                &ensp;
+                                <button type='button' onClick={handleSearchButton} disabled={searchField.stringValue().length <= 0}>
+                                    {contentToText(ContentID.miscSearch, config)}
+                                </button>
                             </td>
                         </tr>
                     </tbody>

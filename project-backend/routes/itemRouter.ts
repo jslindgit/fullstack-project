@@ -2,7 +2,7 @@
 import express from 'express';
 import { RequestHandler } from 'express';
 
-import { isNumber, isObject, isString, toNewItem } from '../types/type_functions';
+import { isNumber, isObject, toNewItem } from '../types/type_functions';
 
 import { errorHandler } from '../middlewares/errors';
 import { tokenExtractor } from '../middlewares/tokenExtractor';
@@ -29,10 +29,9 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.post('/getall', (async (req, res, next) => {
+router.get('/', (async (_req, res, next) => {
     try {
-        const searchQuery: string = isObject(req.body) && 'search' in req.body && isString(req.body.search) ? req.body.search : '';
-        const items = await service.getAll(searchQuery ? searchQuery : '');
+        const items = await service.getAll();
         res.json(items);
     } catch (err) {
         next(err);
