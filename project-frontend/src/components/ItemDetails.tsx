@@ -100,10 +100,10 @@ const ItemDetails = () => {
                                             {item.images.length > 0 ? (
                                                 <>
                                                     {item.images.map((path) => (
-                                                        <>
-                                                            <Image key={path} src={imageFullPath(path)} className='imgItemDetails' />
+                                                        <div key={path}>
+                                                            <Image src={imageFullPath(path)} className='imgItemDetails' />
                                                             <br />
-                                                        </>
+                                                        </div>
                                                     ))}
                                                 </>
                                             ) : (

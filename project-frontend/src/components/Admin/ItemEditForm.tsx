@@ -167,7 +167,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         price: Number(price.value),
                     };
 
-                    const res = await itemService.update(finalItem, usersState.loggedUser.token, config, dispatch);
+                    const res = await itemService.update(finalItem, config, dispatch);
                     returnedItem = res.item;
 
                     dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));

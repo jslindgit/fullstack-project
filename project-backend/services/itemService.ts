@@ -97,8 +97,10 @@ const update = async (id: unknown, props: unknown): Promise<ItemInstance | null>
         if (item) {
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
-                    if (key in item && key !== 'id') {
-                        item.setDataValue(key as keyof ItemAttributes, props[key as keyof typeof props]);
+                    if (key in item) {
+                        if (key !== 'id') {
+                            item.setDataValue(key as keyof ItemAttributes, props[key as keyof typeof props]);
+                        }
                     } else {
                         throw new Error(`Invalid property '${key}' for Item`);
                     }

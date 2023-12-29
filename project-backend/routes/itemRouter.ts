@@ -4,6 +4,7 @@ import { RequestHandler } from 'express';
 
 import { isNumber, isObject, toNewItem } from '../types/type_functions';
 
+import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
 import { errorHandler } from '../middlewares/errors';
 import { tokenExtractor } from '../middlewares/tokenExtractor';
 import service from '../services/itemService';
@@ -73,9 +74,9 @@ router.post('/', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.put('/:id', tokenExtractor, (async (req, res, next) => {
+router.put('/:id', apiKeyExtractor, (async (req, res, next) => {
     try {
-        if (res.locals.admin === true) {
+        if (res.locals.correct_api_key === true) {
             const item = await service.update(req.params.id, req.body);
             if (item) {
                 res.status(200).json(item);

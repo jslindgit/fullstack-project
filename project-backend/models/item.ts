@@ -10,6 +10,7 @@ export interface ItemAttributes {
     instock: number;
     name: string;
     price: number;
+    sold?: number;
 }
 
 export type NewItem = Omit<ItemAttributes, 'id'>;
@@ -37,10 +38,6 @@ const Item = sequelize.define<ItemInstance>(
             type: DataTypes.STRING,
             defaultValue: '',
         },
-        price: {
-            type: DataTypes.DECIMAL,
-            allowNull: false,
-        },
         instock: {
             type: DataTypes.INTEGER,
             defaultValue: 0,
@@ -48,6 +45,14 @@ const Item = sequelize.define<ItemInstance>(
         images: {
             type: DataTypes.ARRAY(DataTypes.STRING),
             defaultValue: [],
+        },
+        price: {
+            type: DataTypes.DECIMAL,
+            allowNull: false,
+        },
+        sold: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
         },
     },
     {

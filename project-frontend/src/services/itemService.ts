@@ -4,6 +4,7 @@ import { AnyAction } from 'redux';
 
 import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
+import { Order } from '../types/orderTypes';
 import { Item, NewItem, Response } from '../types/types';
 
 import { initializeCategories } from '../reducers/categoryReducer';
@@ -12,7 +13,7 @@ import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
 import item_categoryService from './item_categoryService';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { authConfig, itemFromResBody, itemToReqBody } from '../util/serviceProvider';
+import { apiKeyConfig, authConfig, itemFromResBody, itemToReqBody } from '../util/serviceProvider';
 
 interface ItemResponse extends Response {
     item: Item | null;
@@ -109,15 +110,17 @@ const getBySearchQuery = async (searchQuery: string, config: Config): Promise<It
     }
 };
 
-const update = async (item: Item, token: string, config: Config, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
+const update = async (item: Item, config: Config, dispatch: Dispatch<AnyAction> | null): Promise<ItemResponse> => {
     try {
-        const toUpdate = { name: item.name, description: item.description, price: item.price, instock: item.instock, images: item.images };
+        //const toUpdate = { name: item.name, description: item.description, price: item.price, instock: item.instock, images: item.images };
 
-        const res = await axios.put<Item>(`${url}/${item.id}`, itemToReqBody(toUpdate), authConfig(token));
+        const res = await axios.put<Item>(`${url}/${item.id}`, itemToReqBody(item), apiKeyConfig());
         const updatedItem = itemFromResBody(res.data);
 
         if (updatedItem) {
-            await initializeCategories(dispatch);
+            if (dispatch) {
+                await initializeCategories(dispatch);
+            }
             return {
                 success: true,
                 message: `${contentToText(ContentID.itemsItem, config)} "${langTextsToText(updatedItem.name, config)}" ${contentToText(
@@ -136,6 +139,15 @@ const update = async (item: Item, token: string, config: Config, dispatch: Dispa
     }
 };
 
+const updateSoldValues = async (order: Order, config: Config) => {
+    order.items.forEach(async (shoppingItem) => {
+        const item = await getById(shoppingItem.id);
+        if (item) {
+            await update({ ...item, sold: item.sold + shoppingItem.quantity }, config, null);
+        }
+    });
+};
+
 export default {
     add,
     deleteItem,
@@ -143,4 +155,5 @@ export default {
     getById,
     getBySearchQuery,
     update,
+    updateSoldValues,
 };

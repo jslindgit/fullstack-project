@@ -75,7 +75,9 @@ export const itemFromResBody = (resBody: unknown, debug: boolean = false): Item 
         'name' in resBody &&
         isString(resBody.name) &&
         'price' in resBody &&
-        (isNumber(resBody.price) || isString(resBody.price))
+        (isNumber(resBody.price) || isString(resBody.price)) &&
+        'sold' in resBody &&
+        isNumber(resBody.sold)
     ) {
         return { ...(resBody as Item), name: JSON.parse(resBody.name), description: JSON.parse(resBody.description) };
     } else {

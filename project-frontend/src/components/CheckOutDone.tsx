@@ -8,6 +8,7 @@ import { OrderStatus } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
 import { pageWidth } from '../constants';
+import itemService from '../services/itemService';
 import { contentToText } from '../types/languageFunctions';
 import orderService from '../services/orderService';
 import paytrailService from '../services/paytrailService';
@@ -89,7 +90,8 @@ const CheckOutDone = () => {
         }
     }, [errorWhenFetchingOrder, orderResponse, signatureStatus]);
 
-    // If the 'signature' is valid, update the order's status from "PENDING" to "PROCESSING":
+    // If the 'signature' is valid, update the Order's 'status' (from "PENDING" to "PROCESSING") and 'paymentMethod'.
+    // Also update the 'sold' attribute of all the Items that were in this Order:
     useEffect(() => {
         console.log('If the signature is valid, update the orders status from "PENDING" to "PROCESSING":');
         if (errorWhenFetchingOrder === false && orderResponse?.order?.status === OrderStatus.PENDING && signatureStatus === SignatureStatus.VALID) {
@@ -104,6 +106,14 @@ const CheckOutDone = () => {
             };
 
             updateOrderStatus();
+
+            const updateSoldValues = async () => {
+                if (orderResponse.order) {
+                    await itemService.updateSoldValues(orderResponse.order, config);
+                }
+            };
+
+            updateSoldValues();
         }
     }, [errorWhenFetchingOrder, orderResponse, searchparams, signatureStatus]);
 

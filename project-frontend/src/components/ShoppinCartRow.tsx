@@ -9,6 +9,7 @@ import { Item } from '../types/types';
 import format from '../util/format';
 import itemService from '../services/itemService';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
+import { imageFullPath } from '../util/misc';
 import useField from '../hooks/useField';
 
 import { updateShoppingCartItemQuantity } from '../reducers/orderReducer';
@@ -65,7 +66,7 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
 
     return (
         <tr>
-            <td width='1px'>{item ? <Image path={imagePath} className='imgShoppingCart' /> : ''}</td>
+            <td width='1px'>{item ? <Image src={imageFullPath(imagePath)} className='imgShoppingCart' /> : ''}</td>
             <td className='normalWeight'>{item ? langTextsToText(item.name, config) : shoppingItem.name}</td>
             <td className='normalWeight'>{format.currency(shoppingItem.price, config)}</td>
             <td style={{ paddingLeft: 0 }}>

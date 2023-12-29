@@ -34,8 +34,9 @@ export interface Item {
     instock: number;
     name: LangText[];
     price: number;
+    sold: number;
 }
-export type NewItem = Omit<Omit<Item, 'id'>, 'categories'>;
+export type NewItem = Omit<Omit<Omit<Item, 'id'>, 'categories'>, 'sold'>;
 
 export const isNewItem = (obj: unknown): obj is NewItem => {
     return (
@@ -58,7 +59,7 @@ export const isNewItem = (obj: unknown): obj is NewItem => {
 };
 
 export const isItem = (obj: unknown): obj is Item => {
-    return isNewItem(obj) && 'id' in obj && isNumber(obj.id) && 'categories' in obj && Array.isArray(obj.categories);
+    return isNewItem(obj) && 'id' in obj && isNumber(obj.id) && 'categories' in obj && Array.isArray(obj.categories) && 'sold' in obj && isNumber(obj.sold);
 };
 
 export interface LoginResponse {

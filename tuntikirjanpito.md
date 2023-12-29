@@ -119,4 +119,5 @@
 | 26.12. | 1    | Tuotehallintaan sorting.                                                                                             |     |
 | 28.12. | 1    | Hakutoiminto tuotteille                                                                                              |     |
 |        | 1    | Tuotehaku valmiiksi. Pari uutta tuotetta.                                                                            |     |
-|  yht   | 207  |                                                                                                                      |     |
+| 29.12. | 1    | Tuotteisiin myyntimäärä-attribuutti                                                                                  |     |
+|  yht   | 208  |                                                                                                                      |     |
