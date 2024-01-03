@@ -128,7 +128,8 @@ const AdminOrders = () => {
             search.stringValue().length > 0 ?
                 data.filter((order) =>
                     order.customerFirstName.toLowerCase().includes(search.stringValue().toLowerCase()) ||
-                    order.customerLastName.toLowerCase().includes(search.stringValue().toLowerCase()))
+                    order.customerLastName.toLowerCase().includes(search.stringValue().toLowerCase()) ||
+                    order.id.toString().includes(search.stringValue()))
                 : data;
 
         sortAndSet(dataToSort.filter((order) => belongsToCurrentFolder(order)));
@@ -296,7 +297,7 @@ const AdminOrders = () => {
 
     return (
         <div>
-            <table align='center' width='100%' className='adminOrdersMenu'>
+            <table align='center' width='100%' className='adminOrdersMenu' style={{ userSelect: 'none' }}>
                 <tbody>
                     <tr>
                         {menuItem(Folder.PROCESSING)}
@@ -320,7 +321,10 @@ const AdminOrders = () => {
                             <InputField
                                 useField={search}
                                 width={'20rem'}
-                                placeHolder={contentToText(ContentID.miscCustomers, config) + ' ' + contentToText(ContentID.miscName, config).toLowerCase()}
+                                placeHolder={`${contentToText(ContentID.miscCustomers, config)} ${contentToText(
+                                    ContentID.miscName,
+                                    config
+                                ).toLowerCase()} ${contentToText(ContentID.miscOr, config)} ${contentToText(ContentID.orderId, config).toLowerCase()}`}
                             />
                         </td>
                         <td className='alignLeft'>
@@ -365,6 +369,8 @@ const AdminOrders = () => {
                     )}
                 </tbody>
             </table>
+            <br />
+            <br />
         </div>
     );
 };

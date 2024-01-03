@@ -9,7 +9,7 @@ import { Link } from './CustomLink';
 
 interface Props {
     config: Config;
-    currentId: number;
+    currentId?: number;
 }
 
 const ItemsMenu = ({ config, currentId }: Props) => {

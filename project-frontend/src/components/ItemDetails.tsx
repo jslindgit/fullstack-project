@@ -79,9 +79,15 @@ const ItemDetails = () => {
                                     </tr>
                                     <tr>
                                         <td className={'semiBold ' + (item.instock > 0 ? 'itemInStock' : 'itemSoldOut')}>
-                                            {item.instock > 0
-                                                ? `${contentToText(ContentID.itemsInStock, config)} (${item.instock})`
-                                                : contentToText(ContentID.itemsSoldOut, config)}
+                                            {
+                                                // prettier-ignore
+                                                item.instock > 0
+                                                    ? `${contentToText(ContentID.itemsInStock, config)} (${item.instock} ${contentToText(
+                                                        ContentID.itemsPcs,
+                                                        config
+                                                    )})`
+                                                    : contentToText(ContentID.itemsSoldOut, config)
+                                            }
                                         </td>
                                     </tr>
                                     <tr>

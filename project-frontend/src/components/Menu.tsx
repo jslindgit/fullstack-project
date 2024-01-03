@@ -27,9 +27,12 @@ const Menu = () => {
 
     const searchField = useField('text', ContentID.miscSearch);
 
-    const handleSearchButton = () => {
+    const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
         if (searchField.stringValue().length > 0) {
             navigate('/shop/search?q=' + searchField.stringValue());
+            searchField.setNewValue('');
         }
     };
 
@@ -97,7 +100,8 @@ const Menu = () => {
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <span className={currentPath.includes(to) ? 'currentPage' : ''}>{text}</span>&ensp;
+                                                    <span className={currentPath.includes(to) ? 'currentPage' : ''}>{text}</span>
+                                                    {shoppingCartNumberOfItems() > 0 ? <span>&ensp;</span> : ''}
                                                 </td>
                                                 {shoppingCartNumberOfItems() > 0 ? (
                                                     <td className='shoppingCartIndicator'>{shoppingCartNumberOfItems()}</td>
@@ -135,7 +139,7 @@ const Menu = () => {
     };
 
     return (
-        <>
+        <form onSubmit={handleSearchSubmit}>
             <div className='menu'>
                 <table align='center'>
                     <tbody>
@@ -167,7 +171,7 @@ const Menu = () => {
                                     className='sizeSmallish'
                                 />
                                 &ensp;
-                                <button type='button' onClick={handleSearchButton} disabled={searchField.stringValue().length <= 0}>
+                                <button type='submit' disabled={searchField.stringValue().length <= 0}>
                                     {contentToText(ContentID.miscSearch, config)}
                                 </button>
                             </td>
@@ -175,7 +179,7 @@ const Menu = () => {
                     </tbody>
                 </table>
             </div>
-        </>
+        </form>
     );
 };
 

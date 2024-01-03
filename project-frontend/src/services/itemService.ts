@@ -112,9 +112,9 @@ const getBySearchQuery = async (searchQuery: string, config: Config): Promise<It
 
 const update = async (item: Item, config: Config, dispatch: Dispatch<AnyAction> | null): Promise<ItemResponse> => {
     try {
-        //const toUpdate = { name: item.name, description: item.description, price: item.price, instock: item.instock, images: item.images };
+        const toUpdate = { name: item.name, description: item.description, price: item.price, instock: item.instock, images: item.images, sold: item.sold };
 
-        const res = await axios.put<Item>(`${url}/${item.id}`, itemToReqBody(item), apiKeyConfig());
+        const res = await axios.put<Item>(`${url}/${item.id}`, itemToReqBody(toUpdate), apiKeyConfig());
         const updatedItem = itemFromResBody(res.data);
 
         if (updatedItem) {
@@ -139,11 +139,11 @@ const update = async (item: Item, config: Config, dispatch: Dispatch<AnyAction> 
     }
 };
 
-const updateSoldValues = async (order: Order, config: Config) => {
+const updateInstockAndSoldValues = async (order: Order, config: Config) => {
     order.items.forEach(async (shoppingItem) => {
         const item = await getById(shoppingItem.id);
         if (item) {
-            await update({ ...item, sold: item.sold + shoppingItem.quantity }, config, null);
+            await update({ ...item, instock: item.instock - shoppingItem.quantity, sold: item.sold + shoppingItem.quantity }, config, null);
         }
     });
 };
@@ -155,5 +155,5 @@ export default {
     getById,
     getBySearchQuery,
     update,
-    updateSoldValues,
+    updateInstockAndSoldValues,
 };

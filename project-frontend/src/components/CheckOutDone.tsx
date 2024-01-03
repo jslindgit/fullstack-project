@@ -91,7 +91,7 @@ const CheckOutDone = () => {
     }, [errorWhenFetchingOrder, orderResponse, signatureStatus]);
 
     // If the 'signature' is valid, update the Order's 'status' (from "PENDING" to "PROCESSING") and 'paymentMethod'.
-    // Also update the 'sold' attribute of all the Items that were in this Order:
+    // Also update the 'instock' and 'sold' attributes of all the Items that were in this Order:
     useEffect(() => {
         console.log('If the signature is valid, update the orders status from "PENDING" to "PROCESSING":');
         if (errorWhenFetchingOrder === false && orderResponse?.order?.status === OrderStatus.PENDING && signatureStatus === SignatureStatus.VALID) {
@@ -109,7 +109,7 @@ const CheckOutDone = () => {
 
             const updateSoldValues = async () => {
                 if (orderResponse.order) {
-                    await itemService.updateSoldValues(orderResponse.order, config);
+                    await itemService.updateInstockAndSoldValues(orderResponse.order, config);
                 }
             };
 

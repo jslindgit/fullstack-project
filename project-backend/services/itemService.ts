@@ -92,6 +92,7 @@ const getById = async (id: unknown): Promise<ItemInstance | null> => {
 };
 
 const update = async (id: unknown, props: unknown): Promise<ItemInstance | null> => {
+    console.log('props:', props);
     try {
         const item = await getById(id);
         if (item) {
@@ -113,6 +114,7 @@ const update = async (id: unknown, props: unknown): Promise<ItemInstance | null>
         }
         return item;
     } catch (err: unknown) {
+        console.error(err);
         handleError(err);
         return null;
     }

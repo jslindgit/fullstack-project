@@ -12,6 +12,7 @@ import { contentToText } from '../types/languageFunctions';
 import useField from '../hooks/useField';
 
 import InputField from './InputField';
+import ItemsMenu from './ItemsMenu';
 import ItemsRow from './ItemsRow';
 
 const ItemsSearch = () => {
@@ -46,6 +47,7 @@ const ItemsSearch = () => {
         }
     }, [searchField.value]);
 
+    // Set the rows of Items:
     useEffect(() => {
         const allRows: Array<Item[]> = [];
         let currentRow: Item[] = [];
@@ -69,12 +71,25 @@ const ItemsSearch = () => {
                 <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
                     <tbody>
                         <tr>
-                            <td>
-                                <InputField useField={searchField} width='100%' placeHolder={contentToText(ContentID.searchItemsName, config)} />
+                            <td style={{ padding: 0 }}>
+                                <ItemsMenu config={config} />
                             </td>
                         </tr>
                         <tr>
-                            <td style={{ padding: 0, paddingBottom: '1rem' }}>
+                            <td className='pageHeader'>{contentToText(ContentID.miscSearch, config)}</td>
+                        </tr>
+                        <tr>
+                            <td style={{ paddingTop: 0 }}>
+                                <InputField
+                                    className='sizeLarge'
+                                    useField={searchField}
+                                    width='100%'
+                                    placeHolder={contentToText(ContentID.searchItemsName, config)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className='italic' style={{ padding: 0, paddingBottom: '1rem' }}>
                                 {searchResults.length} {contentToText(ContentID.searchHits, config)}
                             </td>
                         </tr>

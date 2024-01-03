@@ -159,6 +159,7 @@ export enum ContentID {
     miscName = 'MISC: Name',
     miscNet = 'MISC: NET (price without VAT)',
     miscNo = 'MISC: No',
+    miscOr = 'MISC: or',
     miscOrder = 'MISC: Order',
     miscRecycleBin = 'MISC: Recycle Bin',
     miscSearch = 'MISC: Search',
@@ -1307,6 +1308,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.miscOr,
+        content: [
+            { langCode: LangCode.EN, text: 'or' },
+            { langCode: LangCode.FI, text: 'tai' },
+        ],
+    },
+    {
         id: ContentID.miscOrder,
         content: [
             { langCode: LangCode.EN, text: 'Order' },
@@ -1470,7 +1478,7 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.searchHits,
         content: [
-            { langCode: LangCode.EN, text: 'hits' },
+            { langCode: LangCode.EN, text: 'matches' },
             { langCode: LangCode.FI, text: 'osumaa' },
         ],
     },

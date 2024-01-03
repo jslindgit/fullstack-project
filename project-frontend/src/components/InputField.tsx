@@ -9,12 +9,12 @@ interface Props {
 
 const InputField = ({ className, useField, width, placeHolder = '' }: Props) => (
     <input
-        type={useField.type}
-        value={useField.value}
+        className={className ? className : ''}
         onChange={useField.onChange}
         placeholder={placeHolder}
-        className={className ? className : ''}
         style={{ width: width }}
+        type={useField.type}
+        value={useField.value}
     />
 );
 

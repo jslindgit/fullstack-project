@@ -45,7 +45,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
     // Default country:
     useEffect(() => {
         if (!country && userState.loggedUser) {
-            setCountry(currentOrder.customerCountry.length > 0 ? currentOrder.customerCountry : userState.loggedUser.contactAddress);
+            setCountry(currentOrder.customerCountry.length > 0 ? currentOrder.customerCountry : userState.loggedUser.contactCountry);
         }
     }, [country, currentOrder.customerCountry, userState.loggedUser]);
 

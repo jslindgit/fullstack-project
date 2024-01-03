@@ -19,11 +19,15 @@ const Items = () => {
     const miscState = useSelector((state: RootState) => state.misc);
 
     const [category, setCategory] = useState<Category | undefined>(undefined);
+    const [rows, setRows] = useState<Array<Item[]>>([]);
 
     const navigate = useNavigate();
 
     const idParam = useParams().id;
 
+    const colsPerRow = 3;
+
+    // Get Category from URL:
     useEffect(() => {
         if (idParam) {
             const id = Number(idParam);
@@ -37,14 +41,30 @@ const Items = () => {
         }
     }, [categoryState, idParam, miscState.loaded, navigate]);
 
+    // Set the rows of Items:
+    useEffect(() => {
+        if (category) {
+            const allRows: Array<Item[]> = [];
+            let currentRow: Item[] = [];
+            category.items.forEach((item) => {
+                if (currentRow.length >= colsPerRow) {
+                    allRows.push(currentRow);
+                    currentRow = [];
+                }
+                currentRow.push(item);
+            });
+            if (currentRow.length > 0) {
+                allRows.push(currentRow);
+            }
+
+            setRows(allRows);
+        } else {
+            setRows([]);
+        }
+    }, [category]);
+
     if (!category) {
         return <></>;
-    }
-
-    const cols = 3;
-    const rows: Array<Item[]> = [];
-    for (let i = 0; i < categoryState.categories.length; i += cols) {
-        rows.push(category.items.slice(i, i + cols));
     }
 
     return (
@@ -70,7 +90,7 @@ const Items = () => {
                     <table align='center' width={pageWidth} className='noOuterPadding'>
                         <tbody>
                             {rows.map((row, index) => (
-                                <ItemsRow key={index} items={row} colsPerRow={cols} config={config} />
+                                <ItemsRow key={index} items={row} colsPerRow={colsPerRow} config={config} />
                             ))}
                         </tbody>
                     </table>
