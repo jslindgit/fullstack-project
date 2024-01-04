@@ -121,4 +121,5 @@
 |           | 1    | Tuotehaku valmiiksi. Pari uutta tuotetta.                                                                            |     |
 |  29.12.   | 1    | Tuotteisiin myyntimäärä-attribuutti                                                                                  |     |
 | 4.1.2024  | 1    | Käyttäjille kolme mahdollista statusta: Pääkäyttäjä/Ylläpitäjä/Asiakas (Admin/Operator/Customer)                     |     |
-|    yht    | 209  |                                                                                                                      |     |
+|           | 1    | Pääkäyttäjälle mahdollisuus muuttaa käyttäjien statusta                                                              | 210 |
+|    yht    | 210  |                                                                                                                      |     |
