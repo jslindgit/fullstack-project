@@ -50,6 +50,8 @@ export const isUser = (obj: unknown): obj is User => {
         isString(obj.contactZipcode) &&
         'disabled' in obj &&
         isBoolean(obj.disabled) &&
+        'operator' in obj &&
+        isBoolean(obj.operator) &&
         'username' in obj &&
         isString(obj.username)
     );

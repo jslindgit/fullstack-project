@@ -16,6 +16,7 @@ export interface UserAttributes {
     contactPhone: string;
     contactZipcode: string;
     disabled: boolean;
+    operator: boolean;
     passwordHash?: string;
     token?: string;
     username: string;
@@ -78,6 +79,10 @@ const User = sequelize.define<UserInstance>(
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+        operator: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
         passwordHash: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -124,6 +129,8 @@ export const isNewUser = (obj: unknown): obj is NewUser => {
             isString(obj.contactZipcode) &&
             'disabled' in obj &&
             isBoolean(obj.disabled) &&
+            'operator' in obj &&
+            isBoolean(obj.operator) &&
             'password' in obj &&
             isString(obj.password) &&
             isValidPassword(obj.password) &&

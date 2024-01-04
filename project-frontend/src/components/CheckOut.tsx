@@ -60,6 +60,7 @@ const CheckOut = () => {
                     contactOrganization: order.customerOrganization,
                     disabled: false,
                     username: order.customerEmail,
+                    operator: false,
                     orders: [],
                     password: password.stringValue(),
                 };

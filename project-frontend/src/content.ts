@@ -137,7 +137,6 @@ export enum ContentID {
     loginRegisterHere = 'LOGIN: Register here (link)',
     loginUsername = 'LOGIN: Username:',
     menuAccount = 'MENU: Account',
-    menuAdmin = 'MENU: Admin (shown next to username if the user is an admin)',
     menuAdminSection = 'MENU: Admin (section)',
     menuHome = 'MENU: Home',
     menuInfo = 'MENU: Info',
@@ -148,6 +147,7 @@ export enum ContentID {
     miscClickToChangeSortingOrder = 'MISC: Click to change sorting order',
     miscClickToSortByThis = 'MISC: Click to sort by this (column)',
     miscCopy = 'MISC: Copy',
+    miscCurrent = 'MISC: Current',
     // prettier-ignore
     miscCustomers = 'MISC: Customer\'s',
     miscDate = 'MISC: Date',
@@ -195,8 +195,10 @@ export enum ContentID {
     statusProcessing = 'ORDER STATUS: Processing',
     statusRefunded = 'ORDER STATUS: Refunded',
     userDisabled = 'USER: Disabled (banned)',
-    userStatusHeader = 'USER: Status (e.g. Admin)',
+    userStatusAdmin = 'USER - STATUS: Admin',
     userStatusCustomer = 'USER - STATUS: Customer',
+    userStatusHeader = 'USER: Status (e.g. Admin)',
+    userStatusOperator = 'USER - STATUS: Operator',
     userUpdated = 'USER: Account Updated (notification)',
 }
 
@@ -1160,13 +1162,6 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.menuAdmin,
-        content: [
-            { langCode: LangCode.EN, text: 'Admin' },
-            { langCode: LangCode.FI, text: 'Ylläpitäjä' },
-        ],
-    },
-    {
         id: ContentID.menuAdminSection,
         content: [
             { langCode: LangCode.EN, text: 'Admin' },
@@ -1234,6 +1229,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Copy' },
             { langCode: LangCode.FI, text: 'Kopioi' },
+        ],
+    },
+    {
+        id: ContentID.miscCurrent,
+        content: [
+            { langCode: LangCode.EN, text: 'Current' },
+            { langCode: LangCode.FI, text: 'Nykyinen' },
         ],
     },
     {
@@ -1547,10 +1549,10 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.userStatusHeader,
+        id: ContentID.userStatusAdmin,
         content: [
-            { langCode: LangCode.EN, text: 'Status' },
-            { langCode: LangCode.FI, text: 'Status' },
+            { langCode: LangCode.EN, text: 'Admin' },
+            { langCode: LangCode.FI, text: 'Pääkäyttäjä' },
         ],
     },
     {
@@ -1558,6 +1560,20 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Customer' },
             { langCode: LangCode.FI, text: 'Asiakas' },
+        ],
+    },
+    {
+        id: ContentID.userStatusHeader,
+        content: [
+            { langCode: LangCode.EN, text: 'Status' },
+            { langCode: LangCode.FI, text: 'Status' },
+        ],
+    },
+    {
+        id: ContentID.userStatusOperator,
+        content: [
+            { langCode: LangCode.EN, text: 'Operator' },
+            { langCode: LangCode.FI, text: 'Ylläpitäjä' },
         ],
     },
     {

@@ -87,6 +87,7 @@ const Register = () => {
                 contactOrganization: organization.stringValue(),
                 disabled: false,
                 username: email.stringValue(),
+                operator: false,
                 orders: [],
                 password: password.stringValue(),
             };
@@ -175,6 +176,7 @@ const Register = () => {
                     {inputField(firstName)}
                     {inputField(lastName)}
                     {inputField(organization, true)}
+                    {inputField(phone)}
                     {inputField(address)}
                     {inputField(zipCode)}
                     {inputField(city)}

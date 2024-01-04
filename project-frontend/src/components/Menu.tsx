@@ -6,9 +6,11 @@ import { RootState } from '../reducers/rootReducer';
 
 import { contentToText } from '../types/languageFunctions';
 import loginService from '../services/loginService';
+import useField from '../hooks/useField';
+import { getUserStatus } from '../util/userProvider';
+
 import { setNotification } from '../reducers/miscReducer';
 import { removeLoggedUser } from '../reducers/userReducer';
-import useField from '../hooks/useField';
 
 import InputField from './InputField';
 import LanguageSelection from './LanguageSelection';
@@ -44,7 +46,11 @@ const Menu = () => {
                         <tr>
                             <td className='sizeSmallish semiBold' style={{ textAlign: 'center', paddingBottom: '3px', paddingTop: '6px' }}>
                                 {loggedUser.username}{' '}
-                                {loggedUser.admin ? <span className='colorYellowLight'> ({contentToText(ContentID.menuAdmin, config)})</span> : <></>}
+                                {loggedUser.admin || loggedUser.operator ? (
+                                    <span className='colorYellowLight'> ({getUserStatus(loggedUser, config)})</span>
+                                ) : (
+                                    <></>
+                                )}
                             </td>
                         </tr>
                         <tr>

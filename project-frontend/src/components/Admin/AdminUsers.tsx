@@ -8,8 +8,8 @@ import { User } from '../../types/types';
 
 import { pageWidth } from '../../constants';
 import { contentToText } from '../../types/languageFunctions';
-import { userStatus } from '../../util/misc';
 import useField from '../../hooks/useField';
+import { getUserStatus } from '../../util/userProvider';
 import userService from '../../services/userService';
 
 import { Link } from '../CustomLink';
@@ -28,7 +28,7 @@ const AdminUserRow = ({ config, user, hoveredButton, setHoveredButton }: Props) 
             <td>{user.contactFirstName + ' ' + user.contactLastName}&emsp;</td>
             <td>{user.username}&emsp;</td>
             <td>{user.id}&emsp;</td>
-            <td className='widthByContent'>{userStatus(user, config)}&emsp;</td>
+            <td className='widthByContent'>{getUserStatus(user, config)}&emsp;</td>
             <td className='alignRight'>
                 <Link to={'/admin/users/' + user.id}>
                     <button type='button' onMouseLeave={() => setHoveredButton(null)} onMouseOver={() => setHoveredButton(user)}>
@@ -77,8 +77,8 @@ const AdminUsers = () => {
                 setUsers(
                     [...allUsers].sort((a, b) =>
                         sortDirection === 'asc'
-                            ? userStatus(a, config).localeCompare(userStatus(b, config))
-                            : userStatus(b, config).localeCompare(userStatus(a, config))
+                            ? getUserStatus(a, config).localeCompare(getUserStatus(b, config))
+                            : getUserStatus(b, config).localeCompare(getUserStatus(a, config))
                     )
                 );
                 break;

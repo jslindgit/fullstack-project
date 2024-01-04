@@ -41,15 +41,11 @@
 
 .hoverableRow {
     border-radius: 0;
-    outline: 3px dotted transparent;
-    outline-offset: -2px;
     transition: all 0.35s;
 }
 .hoverableRow.hover {
     background-color: var(--colorYellowVeryLight) !important;
     border-radius: 0.5em;
-    outline: 3px dotted var(--colorGray);
-    outline-offset: -2px;
     transition: all 0.35s;
 }
 

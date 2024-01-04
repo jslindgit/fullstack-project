@@ -1,13 +1,25 @@
 import { AnyAction, Dispatch } from 'redux';
 
 import { Config } from '../types/configTypes';
+import { ContentID } from '../content';
 import { NewUser, User } from '../types/types';
 
+import { contentToText } from '../types/languageFunctions';
 import loginService from '../services/loginService';
 import userService from '../services/userService';
 
 import { setNotification } from '../reducers/miscReducer';
 import { setLoggedUser } from '../reducers/userReducer';
+
+export const getUserStatus = (user: User, config: Config): string => {
+    if (user.admin) {
+        return contentToText(ContentID.userStatusAdmin, config);
+    } else if (user.operator) {
+        return contentToText(ContentID.userStatusOperator, config);
+    } else {
+        return contentToText(ContentID.userStatusCustomer, config) + (user.disabled ? ` (${contentToText(ContentID.userDisabled, config)})` : '');
+    }
+};
 
 export const registerAndLogin = async (newUser: NewUser, password: string, config: Config, dispatch: Dispatch<AnyAction>) => {
     const response = await userService.addNew(newUser, config);

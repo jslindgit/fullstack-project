@@ -3,7 +3,7 @@ import { ContentID } from '../content';
 import { User } from '../types/types';
 
 import { contentToText } from '../types/languageFunctions';
-import { userStatus } from '../util/misc';
+import { getUserStatus } from '../util/userProvider';
 
 interface Props {
     addLinkToEmail?: boolean;
@@ -24,10 +24,7 @@ const UserBasicInfo = ({ addLinkToEmail = false, config, showUserStatus = false,
                 </tr>
                 <tr>
                     <td className='semiBold widthByContent'>{contentToText(ContentID.miscName, config)}:&emsp;</td>
-                    <td>
-                        {user.contactFirstName + ' ' + user.contactLastName}
-                        {user.admin ? <span className='bold'> ({contentToText(ContentID.menuAdmin, config)})</span> : <></>}
-                    </td>
+                    <td>{user.contactFirstName + ' ' + user.contactLastName}</td>
                 </tr>
                 {user.contactOrganization && user.contactOrganization.length > 0 ? (
                     <tr>
@@ -48,7 +45,7 @@ const UserBasicInfo = ({ addLinkToEmail = false, config, showUserStatus = false,
                 {showUserStatus ? (
                     <tr>
                         <td className='semiBold widthByContent'>Status:&emsp;</td>
-                        <td>{userStatus(user, config)}</td>
+                        <td>{getUserStatus(user, config)}</td>
                     </tr>
                 ) : (
                     <></>

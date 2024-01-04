@@ -9,6 +9,7 @@ export const tokenExtractor = async (req: Request, res: Response, next: NextFunc
     res.locals.token = undefined;
     res.locals.user_id = undefined;
     res.locals.admin = false;
+    res.locals.operator = false;
 
     const authorization = req.get('authorization');
 
@@ -37,6 +38,7 @@ export const tokenExtractor = async (req: Request, res: Response, next: NextFunc
                 res.locals.token = token;
                 res.locals.user_id = decodedToken.id;
                 res.locals.admin = user.getDataValue('admin') === true;
+                res.locals.operator = user.getDataValue('operator') === true;
             }
         }
     }

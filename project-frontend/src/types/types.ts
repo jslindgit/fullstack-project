@@ -95,6 +95,7 @@ export interface User {
     contactPhone: string;
     contactZipcode: string;
     disabled: boolean;
+    operator: boolean;
     orders: Array<Order>;
     token: string;
     username: string;

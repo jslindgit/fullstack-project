@@ -8,6 +8,7 @@ import { User } from '../../types/types';
 
 import { pageWidth } from '../../constants';
 import { contentToText } from '../../types/languageFunctions';
+import { getUserStatus } from '../../util/userProvider';
 import userService from '../../services/userService';
 
 import { setNotification } from '../../reducers/miscReducer';
@@ -23,6 +24,7 @@ const AdminUserInfo = () => {
     const usersState = useSelector((state: RootState) => state.user);
 
     const [fetched, setFetched] = useState<boolean>(false);
+    const [showStatusChange, setShowStatusChange] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
 
     const id = Number(useParams().id);
@@ -95,25 +97,61 @@ const AdminUserInfo = () => {
                                 <button type='button'>{contentToText(ContentID.adminUserInfoSendMessage, config)}</button>
                             </a>
                             &emsp;
-                            <button type='button'>{contentToText(ContentID.adminUserInfoChangeStatus, config)}</button>
+                            <button type='button' disabled={user.admin} onClick={() => setShowStatusChange(!showStatusChange)}>
+                                {contentToText(ContentID.adminUserInfoChangeStatus, config)}
+                            </button>
                             &emsp;
                             {user.disabled ? (
                                 <button type='button' onClick={handleDisableOrEnableAccount}>
                                     {contentToText(ContentID.buttonEnable, config)} {contentToText(ContentID.menuAccount, config)}
                                 </button>
                             ) : (
-                                <button type='button' className='red' onClick={handleDisableOrEnableAccount}>
+                                <button type='button' className='red' disabled={user.admin} onClick={handleDisableOrEnableAccount}>
                                     {contentToText(ContentID.buttonDisable, config)} {contentToText(ContentID.menuAccount, config)}
                                 </button>
                             )}
                         </td>
                         <td className='alignRight'>
                             &emsp;
-                            <button type='button' className='red' onClick={handleDeleteAccount}>
+                            <button type='button' className='red' disabled={user.admin} onClick={handleDeleteAccount}>
                                 {contentToText(ContentID.buttonRemove, config)} {contentToText(ContentID.menuAccount, config)}
                             </button>
                         </td>
                     </tr>
+                    {showStatusChange ? (
+                        <tr>
+                            <td colSpan={2}>
+                                <table className='infoBox' style={{ marginTop: '1rem' }}>
+                                    <tbody>
+                                        <tr>
+                                            <td colSpan={3} className='semiBold sizeLarge' style={{ paddingLeft: 0 }}>
+                                                {user.contactFirstName} {user.contactLastName}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={{ paddingLeft: 0 }}>
+                                                {contentToText(ContentID.miscCurrent, config)} {contentToText(ContentID.userStatusHeader, config)}:
+                                            </td>
+                                            <td colSpan={2} className='semiBold'>
+                                                {getUserStatus(user, config)}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={{ paddingLeft: 0 }}>
+                                                {contentToText(ContentID.orderStatusForAdminNew, config)} {contentToText(ContentID.userStatusHeader, config)}:
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <button type='button'>{contentToText(ContentID.buttonSave, config)}</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    ) : (
+                        ''
+                    )}
                 </tbody>
             </table>
             <br />
