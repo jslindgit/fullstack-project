@@ -23,8 +23,15 @@ interface Props {
     user: User;
 }
 const AdminUserRow = ({ config, user, hoveredButton, setHoveredButton }: Props) => {
+    let className = 'hoverableRow' + (hoveredButton === user ? ' hover' : '');
+    if (user.admin) {
+        className += ' bold';
+    } else if (user.operator) {
+        className += ' semiBold';
+    }
+
     return (
-        <tr className={'hoverableRow' + (hoveredButton === user ? ' hover' : '')}>
+        <tr className={className}>
             <td>{user.contactFirstName + ' ' + user.contactLastName}&emsp;</td>
             <td>{user.username}&emsp;</td>
             <td>{user.id}&emsp;</td>

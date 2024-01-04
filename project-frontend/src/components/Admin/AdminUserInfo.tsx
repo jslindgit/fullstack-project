@@ -24,11 +24,13 @@ const AdminUserInfo = () => {
     const usersState = useSelector((state: RootState) => state.user);
 
     const [fetched, setFetched] = useState<boolean>(false);
+    const [newStatus, setNewStatus] = useState<string>('customer');
     const [showStatusChange, setShowStatusChange] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
 
     const id = Number(useParams().id);
 
+    // Fetch User by the URL param:
     useEffect(() => {
         setFetched(true);
         const fetch = async () => {
@@ -41,6 +43,13 @@ const AdminUserInfo = () => {
         fetch();
     }, [id]);
 
+    // Set the initial value of 'newStatus':
+    useEffect(() => {
+        if (user) {
+            setNewStatus(user.admin || user.operator ? 'operator' : 'customer');
+        }
+    }, [user]);
+
     const handleDeleteAccount = () => {
         if (window.confirm(contentToText(ContentID.adminUserInfoDeleteAccount, config))) {
             console.log('delete...');
@@ -50,13 +59,27 @@ const AdminUserInfo = () => {
     const handleDisableOrEnableAccount = async () => {
         if (user && usersState.loggedUser) {
             if (window.confirm(contentToText(user.disabled ? ContentID.adminUserInfoEnableAccount : ContentID.adminUserInfoDisableAccount, config))) {
-                const response = await userService.update({ ...user, disabled: !user.disabled }, usersState.loggedUser.token, config);
+                const response = await userService.update(user.id, { disabled: !user.disabled }, usersState.loggedUser.token, config);
                 dispatch(setNotification({ message: response.message, tone: response.success ? 'Positive' : 'Negative' }));
                 setUser(response.user);
             }
         } else {
             console.log('user:', user);
             console.log('usersState.loggedUser:', usersState.loggedUser);
+        }
+    };
+
+    const handleSaveStatus = async () => {
+        if (user && usersState.loggedUser?.admin) {
+            if ((newStatus === 'customer' && user.operator) || (newStatus === 'operator' && !user.operator)) {
+                const res = await userService.update(user.id, { operator: newStatus === 'operator' }, usersState.loggedUser.token, config);
+
+                if (res.user) {
+                    setUser(res.user);
+                }
+
+                dispatch(setNotification({ message: res.message, tone: res.success ? 'Positive' : 'Negative' }));
+            }
         }
     };
 
@@ -74,7 +97,7 @@ const AdminUserInfo = () => {
                 <tbody>
                     <tr>
                         <td className='pageHeader'>{contentToText(ContentID.adminUserInfoHeader, config)}</td>
-                        <td className='alignRight'>
+                        <td className='alignRight' style={{ paddingTop: '1.5rem' }}>
                             <BackButton type='button' />
                         </td>
                     </tr>
@@ -130,7 +153,8 @@ const AdminUserInfo = () => {
                                         </tr>
                                         <tr>
                                             <td style={{ paddingLeft: 0 }}>
-                                                {contentToText(ContentID.miscCurrent, config)} {contentToText(ContentID.userStatusHeader, config)}:
+                                                {contentToText(ContentID.miscCurrent, config)} {contentToText(ContentID.userStatusHeader, config).toLowerCase()}
+                                                :
                                             </td>
                                             <td colSpan={2} className='semiBold'>
                                                 {getUserStatus(user, config)}
@@ -138,11 +162,26 @@ const AdminUserInfo = () => {
                                         </tr>
                                         <tr>
                                             <td style={{ paddingLeft: 0 }}>
-                                                {contentToText(ContentID.orderStatusForAdminNew, config)} {contentToText(ContentID.userStatusHeader, config)}:
+                                                {contentToText(ContentID.orderStatusForAdminNew, config)}{' '}
+                                                {contentToText(ContentID.userStatusHeader, config).toLowerCase()}:
                                             </td>
-                                            <td></td>
                                             <td>
-                                                <button type='button'>{contentToText(ContentID.buttonSave, config)}</button>
+                                                <select
+                                                    value={newStatus}
+                                                    onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setNewStatus(event.target.value)}
+                                                >
+                                                    <option value='customer'>{contentToText(ContentID.userStatusCustomer, config)}</option>
+                                                    <option value='operator'>{contentToText(ContentID.userStatusOperator, config)}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button
+                                                    type='button'
+                                                    onClick={handleSaveStatus}
+                                                    disabled={!((newStatus === 'customer' && user.operator) || (newStatus === 'operator' && !user.operator))}
+                                                >
+                                                    {contentToText(ContentID.buttonSave, config)}
+                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>

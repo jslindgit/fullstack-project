@@ -58,11 +58,9 @@ const getByToken = async (token: string): Promise<UserResponse> => {
     }
 };
 
-const update = async (user: User, token: string, config: Config): Promise<UserResponse> => {
+const update = async (userId: number, toUpdate: object, token: string, config: Config): Promise<UserResponse> => {
     try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id, ...reqBody } = user;
-        const res = await axios.put<User>(`${url}/${user.id}`, reqBody, authConfig(token));
+        const res = await axios.put<User>(`${url}/${userId}`, toUpdate, authConfig(token));
         const updatedUser = res.data;
 
         if (updatedUser) {
