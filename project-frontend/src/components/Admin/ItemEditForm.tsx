@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
-import { Item, NewItem, Response } from '../../types/types';
+import { Item, ItemSizeAndInstock, NewItem, Response } from '../../types/types';
 
 import { handleError } from '../../util/handleError';
 import imageService from '../../services/imageService';
@@ -20,6 +20,7 @@ import { setNotification } from '../../reducers/miscReducer';
 
 import ItemEditCategories from './ItemEditCategories';
 import ItemEditImages from './ItemEditImages';
+import ItemSizes from './ItemSizes';
 
 export interface ImageToUpload {
     file: File;
@@ -43,6 +44,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     const [imagesToRemove, setImagesToRemove] = useState<string[]>([]);
     const [imagesToUpload, setImagesToUpload] = useState<ImageToUpload[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+    const [sizes, setSizes] = useState<ItemSizeAndInstock[]>([]);
 
     const navigate = useNavigate();
 
@@ -64,6 +66,8 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             });
             instock.setNewValue(itemToEdit.instock.toString());
             price.setNewValue(itemToEdit.price.toString());
+
+            setSizes(itemToEdit.sizes);
         }
     }, [itemToEdit]);
 
@@ -165,6 +169,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         ],
                         name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                         price: Number(price.value),
+                        sizes: sizes,
                     };
 
                     const res = await itemService.update(finalItem, config, dispatch);
@@ -178,6 +183,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         images: [...imagesToUpload.map((imageToUpload) => imageCategory + '\\' + imageToUpload.file.name)],
                         name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                         price: Number(price.value),
+                        sizes: sizes,
                     };
 
                     const res = await itemService.add(finalItem, null, usersState.loggedUser.token, config, dispatch);
@@ -303,6 +309,11 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                                         </td>
                                     </tr>
                                     {getInputField(contentToText(ContentID.itemsPcs, config), instock, contentToText(ContentID.itemsInStock, config), '33%')}
+                                    <tr>
+                                        <td>
+                                            <ItemSizes setSizes={setSizes} sizes={sizes} />
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td colSpan={2} width='1px'>
                                             <button type='button' onClick={submit} disabled={!(changesMade() && validateFields())}>

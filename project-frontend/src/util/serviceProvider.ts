@@ -76,10 +76,17 @@ export const itemFromResBody = (resBody: unknown, debug: boolean = false): Item 
         isString(resBody.name) &&
         'price' in resBody &&
         (isNumber(resBody.price) || isString(resBody.price)) &&
+        'sizes' in resBody &&
+        Array.isArray(resBody.sizes) &&
         'sold' in resBody &&
         isNumber(resBody.sold)
     ) {
-        return { ...(resBody as Item), name: JSON.parse(resBody.name), description: JSON.parse(resBody.description) };
+        return {
+            ...(resBody as Item),
+            description: JSON.parse(resBody.description),
+            name: JSON.parse(resBody.name),
+            sizes: resBody.sizes.map((stringified) => JSON.parse(stringified)),
+        };
     } else {
         handleError(new Error('Invalid resBody for Item'));
         return null;
@@ -89,7 +96,8 @@ export const itemFromResBody = (resBody: unknown, debug: boolean = false): Item 
 export const itemToReqBody = (item: NewItem | Item): object => {
     return {
         ...item,
-        name: JSON.stringify(item.name),
         description: JSON.stringify(item.description),
+        name: JSON.stringify(item.name),
+        sizes: item.sizes.map((sizeAndInstock) => JSON.stringify(sizeAndInstock)),
     };
 };

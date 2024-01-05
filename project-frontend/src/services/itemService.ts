@@ -112,7 +112,15 @@ const getBySearchQuery = async (searchQuery: string, config: Config): Promise<It
 
 const update = async (item: Item, config: Config, dispatch: Dispatch<AnyAction> | null): Promise<ItemResponse> => {
     try {
-        const toUpdate = { name: item.name, description: item.description, price: item.price, instock: item.instock, images: item.images, sold: item.sold };
+        const toUpdate = {
+            description: item.description,
+            images: item.images,
+            instock: item.instock,
+            name: item.name,
+            price: item.price,
+            sizes: item.sizes,
+            sold: item.sold,
+        };
 
         const res = await axios.put<Item>(`${url}/${item.id}`, itemToReqBody(toUpdate), apiKeyConfig());
         const updatedItem = itemFromResBody(res.data);

@@ -87,7 +87,7 @@ const AddToCart = ({ config, item }: Props) => {
             <table className='noPadding'>
                 <tbody>
                     <tr>
-                        <td>
+                        <td style={{ paddingTop: '0.75rem' }}>
                             <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
                         </td>
                         <td style={{ paddingBottom: 0, paddingTop: '0.4rem' }}>

@@ -10,6 +10,7 @@ export interface ItemAttributes {
     instock: number;
     name: string;
     price: number;
+    sizes: string;
     sold?: number;
 }
 
@@ -49,6 +50,10 @@ const Item = sequelize.define<ItemInstance>(
         price: {
             type: DataTypes.DECIMAL,
             allowNull: false,
+        },
+        sizes: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            defaultValue: [],
         },
         sold: {
             type: DataTypes.INTEGER,

@@ -26,6 +26,7 @@ export interface ImageCategory {
     imagePaths: string[];
 }
 
+// Item-related:
 export interface Item {
     id: number;
     categories: Category[];
@@ -34,6 +35,7 @@ export interface Item {
     instock: number;
     name: LangText[];
     price: number;
+    sizes: ItemSizeAndInstock[];
     sold: number;
 }
 export type NewItem = Omit<Omit<Omit<Item, 'id'>, 'categories'>, 'sold'>;
@@ -54,13 +56,20 @@ export const isNewItem = (obj: unknown): obj is NewItem => {
         Array.isArray(obj.name) &&
         //obj.name.every((n) => isLangText(n)) &&
         'price' in obj &&
-        isNumber(Number(obj.price))
+        isNumber(Number(obj.price)) &&
+        'sizes' in obj &&
+        Array.isArray(obj.sizes)
     );
 };
 
 export const isItem = (obj: unknown): obj is Item => {
     return isNewItem(obj) && 'id' in obj && isNumber(obj.id) && 'categories' in obj && Array.isArray(obj.categories) && 'sold' in obj && isNumber(obj.sold);
 };
+
+export interface ItemSizeAndInstock {
+    size: string;
+    instock: number;
+}
 
 export interface LoginResponse {
     success: boolean;
