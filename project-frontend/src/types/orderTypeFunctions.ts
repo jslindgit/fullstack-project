@@ -120,7 +120,9 @@ export const isShoppingItem = (obj: object): obj is ShoppingItem => {
         'price' in obj &&
         isNumber(obj.price) &&
         'quantity' in obj &&
-        isNumber(obj.quantity)
+        isNumber(obj.quantity) &&
+        'size' in obj &&
+        isString(obj.size)
     );
 };
 
@@ -134,6 +136,7 @@ export const orderToRequestBody = (order: NewOrder | Order, config: Config, addD
             name: order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : 'Delivery',
             price: order.deliveryCost,
             quantity: 1,
+            size: '',
         };
 
         orderItems.push(deliveryItem);

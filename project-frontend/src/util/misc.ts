@@ -1,3 +1,5 @@
+import { Item } from '../types/types';
+
 export const imageFilename = (path: string): string => {
     const parts = path.split('\\');
     return parts.length > 0 ? parts[parts.length - 1] : '';
@@ -19,4 +21,8 @@ export const isValidEmailAddress = (email: string): boolean => {
 
 export const isValidPassword = (password: string) => {
     return password.length >= 10;
+};
+
+export const itemInStockTotal = (item: Item): number => {
+    return item.sizes.reduce((acc, size) => acc + size.instock, 0);
 };

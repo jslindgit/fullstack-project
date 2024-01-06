@@ -43,6 +43,9 @@
 .colorRed {
     color: var(--colorRed);
 }
+.colorRedLight {
+    color: var(--colorRedLight);
+}
 .colorYellowLight {
     color: var(--colorYellowLight);
 }

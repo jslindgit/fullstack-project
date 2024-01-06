@@ -1,7 +1,6 @@
-import { NewCategory, NewItem, Response, User } from './types';
+import { NewCategory, Response, User } from './types';
 
 import { isLangText } from './languageFunctions';
-import { handleError } from '../util/handleError';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
@@ -71,33 +70,4 @@ export const toNewCategory = (obj: unknown): NewCategory => {
     }
 
     throw new Error('Incorrect data: some fields ("name" or "description") are missing or invalid for toNewCategory');
-};
-
-export const toNewItem = (obj: unknown): NewItem | null => {
-    if (
-        isObject(obj) &&
-        'description' in obj &&
-        Array.isArray(obj.description) &&
-        obj.description.every(isLangText) &&
-        'instock' in obj &&
-        isNumber(obj.instock) &&
-        'name' in obj &&
-        Array.isArray(obj.name) &&
-        obj.name.every(isLangText) &&
-        'price' in obj &&
-        isNumber(obj.price)
-    ) {
-        const newItem: NewItem = {
-            description: obj.description,
-            images: 'images' in obj && Array.isArray(obj.images) ? obj.images : [],
-            instock: obj.instock,
-            name: obj.name,
-            price: obj.price,
-        };
-
-        return newItem;
-    } else {
-        handleError(new Error('Incorrect data: some fields ("name" or "price") are missing for toNewItem'));
-        return null;
-    }
 };

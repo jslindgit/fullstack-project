@@ -7,7 +7,7 @@ import { Item } from '../../types/types';
 
 import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
-import { imageFilename, imageFullPath } from '../../util/misc';
+import { imageFilename, imageFullPath, itemInStockTotal } from '../../util/misc';
 
 import { Link } from '../CustomLink';
 import Image from '../Image';
@@ -27,8 +27,8 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
             <td className='semiBold widthByContent'>{langTextsToText(item.name, config)}</td>
             <td>{description.length > descriptionMaxLengthToShow ? description.substring(0, descriptionMaxLengthToShow - 1) + '...' : description}</td>
             <td className='noWrap'>{format.currency(item.price, config)}</td>
-            <td className='noWrap'>
-                {item.instock} {contentToText(ContentID.itemsPcs, config)}
+            <td className={'noWrap' + (itemInStockTotal(item) > 0 ? '' : ' colorRedLight')}>
+                {itemInStockTotal(item)} {contentToText(ContentID.itemsPcs, config)}
             </td>
             <td>{item.id}</td>
             <td style={{ padding: 0 }}>

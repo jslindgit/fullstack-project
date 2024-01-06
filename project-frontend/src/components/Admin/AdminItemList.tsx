@@ -5,6 +5,7 @@ import { ContentID } from '../../content';
 import { Item } from '../../types/types';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { itemInStockTotal } from '../../util/misc';
 
 import AdminItemRow from './AdminItemRow';
 import SortArrow from '../SortArrow';
@@ -49,7 +50,9 @@ const AdminItemList = ({ config, deleteItem, items, setItems }: ListProps) => {
                 setItems([...items].sort((a, b) => (sortDirection === 'asc' ? a.id - b.id : b.id - a.id)));
                 break;
             case 'instock':
-                setItems([...items].sort((a, b) => (sortDirection === 'asc' ? a.instock - b.instock : b.instock - a.instock)));
+                setItems(
+                    [...items].sort((a, b) => (sortDirection === 'asc' ? itemInStockTotal(a) - itemInStockTotal(b) : itemInStockTotal(b) - itemInStockTotal(a)))
+                );
                 break;
             case 'name':
                 setItems(

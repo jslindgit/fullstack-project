@@ -131,16 +131,33 @@ const AdminOrderDetails = ({
                                 <br />
                                 {order.items.map((item) => (
                                     <div key={item.id}>
-                                        *<span className='semiBold'> {item.name}</span>
+                                        •&nbsp;&nbsp;
+                                        <span className='bold'>
+                                            {item.name}
+                                            {item.size && item.size.length > 0 ? (
+                                                <>
+                                                    <br />
+                                                    <span style={{ color: 'transparent' }}>●&nbsp;&nbsp;</span>
+                                                    <span className='sizeSmallish'>
+                                                        {contentToText(ContentID.itemsSize, config)}: {item.size}
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                ''
+                                            )}
+                                        </span>
                                         <br />
-                                        <span style={{ color: 'transparent' }}>*</span> {format.currency(item.price, config)}/
-                                        {contentToText(ContentID.itemsPcs, config)} &emsp; {item.quantity} {contentToText(ContentID.itemsPcs, config)} &emsp;
+                                        <span style={{ color: 'transparent' }}>•&nbsp;&nbsp;</span>
+                                        {format.currency(item.price, config)}/{contentToText(ContentID.itemsPcs, config)} &emsp;{' '}
+                                        <span className={item.quantity > 1 ? 'semiBold' : ''}>
+                                            {item.quantity} {contentToText(ContentID.itemsPcs, config)} &emsp;
+                                        </span>
                                         {contentToText(ContentID.cartTotalPrice, config)}: {format.currency(item.price * item.quantity, config)}
                                         <br />
                                         <br />
                                     </div>
                                 ))}
-                                * {contentToText(ContentID.orderDeliveryCost, config)}: {format.currency(Number(order.deliveryCost), config)}
+                                •&nbsp;&nbsp;{contentToText(ContentID.orderDeliveryCost, config)}: {format.currency(Number(order.deliveryCost), config)}
                                 <br />
                                 <br />
                                 {contentToText(ContentID.miscNet, config)}: {format.currency((order.totalAmount / 100) * (100 - config.vat), config)}
@@ -148,7 +165,9 @@ const AdminOrderDetails = ({
                                 {contentToText(ContentID.miscVAT, config)} {config.vat}%: {format.currency((order.totalAmount / 100) * config.vat, config)}
                                 <br />
                                 <br />
-                                {contentToText(ContentID.cartTotalPrice, config)}: {format.currency(order.totalAmount, config)}
+                                <span className='semiBold'>
+                                    {contentToText(ContentID.cartTotalPrice, config)}: {format.currency(order.totalAmount, config)}
+                                </span>
                                 <br />
                                 ---
                                 <br />

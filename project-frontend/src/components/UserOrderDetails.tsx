@@ -21,7 +21,13 @@ const UserOrderDetails = ({ order, config }: Props) => {
     const items = isString(order.items) ? (JSON.parse(order.items) as ShoppingItem[]) : order.items;
 
     if (deliveryMethod) {
-        items.push({ id: -1, name: langTextsToText(deliveryMethod.names, config), price: order.deliveryCost, quantity: 1 });
+        items.push({
+            id: -1,
+            name: langTextsToText(deliveryMethod.names, config),
+            price: order.deliveryCost,
+            quantity: 1,
+            size: '',
+        });
     }
 
     const parsedOrder = {

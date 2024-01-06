@@ -25,7 +25,7 @@ const slice = createSlice({
             const toAdd: ShoppingItem = action.payload.shoppingItem;
             const config = action.payload.config;
 
-            const existingItem = current(state).items.find((si) => si.id === toAdd.id);
+            const existingItem = current(state).items.find((si) => si.id === toAdd.id && si.size === toAdd.size);
 
             if (existingItem) {
                 const updatedShoppingItems = current(state).items.filter((item) => item !== existingItem);

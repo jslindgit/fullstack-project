@@ -17,10 +17,13 @@ export enum ContentID {
     adminImagesAlreadyContainsFile = 'ADMIN - IMAGES: "already contains" ("<category> already contains file <filename>" confirmation)',
     adminImagesDoYouWantToOverwrite = 'ADMIN - IMAGES: Do you want to over it? (confirmation)',
     adminImagesUploadNewImageToCategory = 'ADMIN - IMAGES: Upload new image to category',
+    adminItemAddNewSize = 'ADMIN - ITEM EDIT: Add New Size (button)',
     adminItemDescription = 'ADMIN - ITEM EDIT: Item Description',
     adminItemName = 'ADMIN - ITEM EDIT: Item Name',
     adminItemNewItem = 'ADMIN - ITEM EDIT: (Edited Item:) New Item',
     adminItemNoImages = 'ADMIN - ITEM EDIT: No Images',
+    adminItemOneSize = 'ADMIN - ITEM EDIT: One size (no size options)',
+    adminItemSizes = 'ADMIN - ITEM EDIT: Sizes',
     adminItemToEdit = 'ADMIN - ITEM EDIT: Edited Item: (<Item name>/New Item)',
     adminItemUploadNewImage = 'ADMIN - ITEM EDIT: Upload New Image',
     adminItemsDeleteItemConfirmation = 'ADMIN - ITEMS: Delete item <item name>? (confirmation)',
@@ -126,6 +129,8 @@ export enum ContentID {
     itemsNoItemsInCategory = 'ITEMS: "No items in this category."',
     itemsPcs = 'ITEMS: pcs',
     itemsPrice = 'ITEMS: Price',
+    itemsSelectSize = 'ITEMS: Select size',
+    itemsSize = 'ITEMS: Size',
     itemsSoldOut = 'ITEMS: Sold out',
     loginInvalidUsernameOrPassword = 'LOGIN: Invalid username or password',
     loginLoggedInAs = 'LOGIN: Logged in as...',
@@ -154,6 +159,7 @@ export enum ContentID {
     miscDays = 'MISC: days',
     miscDeleted = 'MISC: <item/category/etc> deleted',
     miscDescription = 'MISC: Description',
+    miscIs = 'MISC: is',
     miscLoading = 'MISC: Loading',
     miscMerchant = 'MISC: Merchant',
     miscName = 'MISC: Name',
@@ -163,6 +169,7 @@ export enum ContentID {
     miscOrder = 'MISC: Order',
     miscRecycleBin = 'MISC: Recycle Bin',
     miscSearch = 'MISC: Search',
+    miscUnfortunatelly = 'MISC: unfortunatelly',
     miscUpdated = 'MISC: Updated',
     miscVAT = 'MISC: VAT (tax)',
     miscWithSearchWords = 'MISC: (No hits) with searchwords <search>',
@@ -319,6 +326,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.adminItemAddNewSize,
+        content: [
+            { langCode: LangCode.EN, text: 'Add new size' },
+            { langCode: LangCode.FI, text: 'Lisää uusi koko' },
+        ],
+    },
+    {
         id: ContentID.adminItemDescription,
         content: [
             { langCode: LangCode.EN, text: 'Item Description' },
@@ -344,6 +358,20 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'No images' },
             { langCode: LangCode.FI, text: 'Ei kuvia' },
+        ],
+    },
+    {
+        id: ContentID.adminItemOneSize,
+        content: [
+            { langCode: LangCode.EN, text: 'One size' },
+            { langCode: LangCode.FI, text: 'Yksi koko' },
+        ],
+    },
+    {
+        id: ContentID.adminItemSizes,
+        content: [
+            { langCode: LangCode.EN, text: 'Sizes' },
+            { langCode: LangCode.FI, text: 'Koot' },
         ],
     },
     {
@@ -1085,6 +1113,20 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.itemsSelectSize,
+        content: [
+            { langCode: LangCode.EN, text: 'Select size' },
+            { langCode: LangCode.FI, text: 'Valitse koko' },
+        ],
+    },
+    {
+        id: ContentID.itemsSize,
+        content: [
+            { langCode: LangCode.EN, text: 'Size' },
+            { langCode: LangCode.FI, text: 'Koko' },
+        ],
+    },
+    {
         id: ContentID.itemsSoldOut,
         content: [
             { langCode: LangCode.EN, text: 'Sold out' },
@@ -1275,6 +1317,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.miscIs,
+        content: [
+            { langCode: LangCode.EN, text: 'is' },
+            { langCode: LangCode.FI, text: 'on' },
+        ],
+    },
+    {
         id: ContentID.miscLoading,
         content: [
             { langCode: LangCode.EN, text: 'Loading...' },
@@ -1335,6 +1384,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Search' },
             { langCode: LangCode.FI, text: 'Haku' },
+        ],
+    },
+    {
+        id: ContentID.miscUnfortunatelly,
+        content: [
+            { langCode: LangCode.EN, text: 'unfortunatelly' },
+            { langCode: LangCode.FI, text: 'valitettavasti' },
         ],
     },
     {

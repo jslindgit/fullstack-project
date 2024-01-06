@@ -67,7 +67,17 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
     return (
         <tr>
             <td width='1px'>{item ? <Image src={imageFullPath(imagePath)} className='imgShoppingCart' /> : ''}</td>
-            <td className='normalWeight'>{item ? langTextsToText(item.name, config) : shoppingItem.name}</td>
+            <td className='normalWeight'>
+                {item ? langTextsToText(item.name, config) : shoppingItem.name}
+                {shoppingItem.size && shoppingItem.size.length > 0 ? (
+                    <span className='sizeSmallish'>
+                        <br />
+                        {contentToText(ContentID.itemsSize, config)}: {shoppingItem.size}
+                    </span>
+                ) : (
+                    ''
+                )}
+            </td>
             <td className='normalWeight'>{format.currency(shoppingItem.price, config)}</td>
             <td style={{ paddingLeft: 0 }}>
                 <table className='nopadding'>
@@ -77,18 +87,24 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
                                 {allowEdit ? (
                                     <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
                                 ) : (
-                                    shoppingItem.quantity
+                                    <>
+                                        {shoppingItem.quantity} {contentToText(ContentID.itemsPcs, config)}
+                                    </>
                                 )}
                             </td>
-                            <td style={{ paddingBottom: 0, paddingLeft: 0, paddingTop: '0.4rem' }}>
-                                <span className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
-                                    +
-                                </span>
-                                <br />
-                                <span className='adjustAmountButtons' onClick={() => adjustAmount(-1)}>
-                                    -
-                                </span>
-                            </td>
+                            {allowEdit ? (
+                                <td style={{ paddingBottom: 0, paddingLeft: 0, paddingTop: '0.4rem' }}>
+                                    <span className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
+                                        +
+                                    </span>
+                                    <br />
+                                    <span className='adjustAmountButtons' onClick={() => adjustAmount(-1)}>
+                                        -
+                                    </span>
+                                </td>
+                            ) : (
+                                ''
+                            )}
                         </tr>
                     </tbody>
                 </table>

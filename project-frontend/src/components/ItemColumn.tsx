@@ -4,7 +4,7 @@ import { Item } from '../types/types';
 
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import format from '../util/format';
-import { imageFullPath } from '../util/misc';
+import { imageFullPath, itemInStockTotal } from '../util/misc';
 
 import { Link } from './CustomLink';
 
@@ -21,24 +21,24 @@ const ItemColumn = ({ item, config }: ItemColumnProps) => {
                 <table align='center' width='100%' className='item'>
                     <tbody>
                         <tr>
-                            <td>
+                            <td style={{ paddingRight: 0 }}>
                                 <table width='100%'>
                                     <tbody>
                                         <tr>
-                                            <td className='sizeVeryLarge'>{langTextsToText(item.name, config)}</td>
+                                            <td className='sizeLarge'>{langTextsToText(item.name, config)}</td>
                                         </tr>
                                         <tr className='itemPriceTd'>
                                             <td className='sizeNormal itemPriceTd'>{format.currency(item.price, config)}</td>
                                         </tr>
                                         <tr>
-                                            <td className={'sizeSmallish ' + (item.instock > 0 ? 'itemInStock' : 'itemSoldOut')}>
-                                                {contentToText(item.instock > 0 ? ContentID.itemsInStock : ContentID.itemsSoldOut, config)}
+                                            <td className={'sizeSmallish ' + (itemInStockTotal(item) > 0 ? 'itemInStock' : 'itemSoldOut')}>
+                                                {contentToText(itemInStockTotal(item) > 0 ? ContentID.itemsInStock : ContentID.itemsSoldOut, config)}
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </td>
-                            <td width='1px'>
+                            <td width='1px' style={{ paddingLeft: '1rem', paddingRight: 0 }}>
                                 <img src={imageFullPath(imagePath)} className='imgItemColumn' />
                             </td>
                         </tr>

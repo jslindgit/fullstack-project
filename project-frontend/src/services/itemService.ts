@@ -5,7 +5,7 @@ import { AnyAction } from 'redux';
 import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
 import { Order } from '../types/orderTypes';
-import { Item, NewItem, Response } from '../types/types';
+import { NewItem, Item, ItemSizeAndInstock, Response } from '../types/types';
 
 import { initializeCategories } from '../reducers/categoryReducer';
 
@@ -151,7 +151,12 @@ const updateInstockAndSoldValues = async (order: Order, config: Config) => {
     order.items.forEach(async (shoppingItem) => {
         const item = await getById(shoppingItem.id);
         if (item) {
-            await update({ ...item, instock: item.instock - shoppingItem.quantity, sold: item.sold + shoppingItem.quantity }, config, null);
+            const currentSizes = [...item.sizes];
+            const size = currentSizes.find((s) => s.size === shoppingItem.size);
+            const finalSizes: ItemSizeAndInstock[] = size
+                ? [...currentSizes.filter((s) => s.size !== size.size), { size: size.size, instock: size.instock - shoppingItem.quantity }]
+                : currentSizes;
+            await update({ ...item, sizes: finalSizes, sold: item.sold + shoppingItem.quantity }, config, null);
         }
     });
 };

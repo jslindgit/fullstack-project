@@ -123,4 +123,5 @@
 | 4.1.2024  | 1    | Käyttäjille kolme mahdollista statusta: Pääkäyttäjä/Ylläpitäjä/Asiakas (Admin/Operator/Customer)                     |     |
 |           | 1    | Pääkäyttäjälle mahdollisuus muuttaa käyttäjien statusta                                                              | 210 |
 |   5.1.    | 1    | Tuotteille kokovalinta                                                                                               |     |
-|    yht    | 211  |                                                                                                                      |     |
+|   6.1.    | 2    | Kokovalinnan työstöä                                                                                                 |     |
+|    yht    | 213  |                                                                                                                      |     |

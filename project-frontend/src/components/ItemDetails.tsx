@@ -65,30 +65,19 @@ const ItemDetails = () => {
             <table align='center' width={(pageWidth / 3) * 2} className='itemDetails'>
                 <tbody>
                     <tr>
+                        <td colSpan={2} className='itemDetailsName' style={{ paddingBottom: 0 }}>
+                            {langTextsToText(item.name, config)}
+                        </td>
+                    </tr>
+                    <tr>
                         <td width='50%' className='valignTop' style={{ paddingLeft: 0 }}>
                             <table align='center' width='100%'>
                                 <tbody>
                                     <tr>
-                                        <td className='itemDetailsName'>{langTextsToText(item.name, config)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{langTextsToText(item.description, config)}</td>
-                                    </tr>
-                                    <tr>
                                         <td className='itemDetailsPrice'>{format.currency(item.price, config)}</td>
                                     </tr>
                                     <tr>
-                                        <td className={'semiBold ' + (item.instock > 0 ? 'itemInStock' : 'itemSoldOut')}>
-                                            {
-                                                // prettier-ignore
-                                                item.instock > 0
-                                                    ? `${contentToText(ContentID.itemsInStock, config)} (${item.instock} ${contentToText(
-                                                        ContentID.itemsPcs,
-                                                        config
-                                                    )})`
-                                                    : contentToText(ContentID.itemsSoldOut, config)
-                                            }
-                                        </td>
+                                        <td>{langTextsToText(item.description, config)}</td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -98,7 +87,7 @@ const ItemDetails = () => {
                                 </tbody>
                             </table>
                         </td>
-                        <td width='50%' className='valignTop' style={{ paddingRight: 0 }}>
+                        <td width='50%' className='valignTop' style={{ paddingRight: 0, paddingTop: '0.7rem' }}>
                             <table align='center'>
                                 <tbody>
                                     <tr>
@@ -108,7 +97,7 @@ const ItemDetails = () => {
                                                     {item.images.map((path) => (
                                                         <div key={path}>
                                                             <Image src={imageFullPath(path)} className='imgItemDetails' />
-                                                            <br />
+                                                            {item.images.indexOf(path) < item.images.length - 1 ? <br /> : ''}
                                                         </div>
                                                     ))}
                                                 </>

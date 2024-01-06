@@ -151,12 +151,17 @@ const OrderInfo = ({ order }: Props) => {
                                         <td className='adminItemEditLabel'>{contentToText(ContentID.orderItems, config)}:</td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            {order.items.map((si) => (
-                                                <div key={si.id}>
-                                                    {si.name} &nbsp; ({si.quantity} pcs) &nbsp; <b>{format.currency(si.price * si.quantity, config)}</b>
-                                                </div>
-                                            ))}
+                                        <td className='sizeSmallish' style={{ paddingBottom: 0, paddingLeft: 0, paddingTop: 0 }}>
+                                            <ul>
+                                                {order.items.map((si) => (
+                                                    <li key={si.id}>
+                                                        {si.name}
+                                                        {si.size && si.size.length > 0 ? ` [${si.size}]` : ''}&emsp;({si.quantity}{' '}
+                                                        {contentToText(ContentID.itemsPcs, config)})&emsp;
+                                                        <b>{format.currency(si.price * si.quantity, config)}</b>
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         </td>
                                     </tr>
                                     <tr>

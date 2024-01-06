@@ -43,13 +43,13 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
 
     const [imagesToRemove, setImagesToRemove] = useState<string[]>([]);
     const [imagesToUpload, setImagesToUpload] = useState<ImageToUpload[]>([]);
+    const [oneSizeInstock, setOneSizeInstock] = useState<number>(0);
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
     const [sizes, setSizes] = useState<ItemSizeAndInstock[]>([]);
 
     const navigate = useNavigate();
 
     const descriptionFields = useLangTextAreas();
-    const instock = useField('integer', ContentID.itemsInStock);
     const nameFields = useLangFields('text');
     const price = useField('decimal', ContentID.itemsPrice);
 
@@ -64,10 +64,17 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                 const descriptionLangText = itemToEdit.description.find((langText) => langText.langCode === df.langCode);
                 df.textArea.setNewValue(descriptionLangText ? descriptionLangText.text : '');
             });
-            instock.setNewValue(itemToEdit.instock.toString());
             price.setNewValue(itemToEdit.price.toString());
 
-            setSizes(itemToEdit.sizes);
+            if (itemToEdit.sizes.length > 0 && itemToEdit.sizes[0].size !== '-') {
+                setSizes(
+                    itemToEdit.sizes.map((s) => {
+                        return { size: s.size, instock: s.instock };
+                    })
+                );
+            } else if (itemToEdit.sizes.length > 0) {
+                setOneSizeInstock(itemToEdit.sizes[0].instock);
+            }
         }
     }, [itemToEdit]);
 
@@ -83,7 +90,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
         if (itemToEdit) {
             if (
                 itemToEdit.price.toString() !== price.value.toString() ||
-                itemToEdit.instock.toString() !== instock.value.toString() ||
                 (initialCategories && JSON.stringify(selectedCategories.sort()) !== JSON.stringify(initialCategories.sort())) ||
                 (!initialCategories && selectedCategories.length > 0)
             ) {
@@ -97,6 +103,25 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             }
             if (descriptionFields.find((df) => df.textArea.value !== itemToEdit.description.find((langText) => langText.langCode === df.langCode)?.text)) {
                 return true;
+            }
+            if (
+                itemToEdit.sizes.length < 1 ||
+                itemToEdit.sizes.length !== sizes.length ||
+                (itemToEdit.sizes.length === 1 && itemToEdit.sizes[0].instock !== oneSizeInstock)
+            ) {
+                return true;
+            }
+            if (sizes.length > 0 && itemToEdit.sizes.length === sizes.length) {
+                let change = false;
+                sizes.forEach((s) => {
+                    const itemSize = itemToEdit.sizes[sizes.indexOf(s)];
+                    if (itemSize.instock !== s.instock || itemSize.size !== s.size) {
+                        change = true;
+                    }
+                });
+                if (change) {
+                    return true;
+                }
             }
 
             return false;
@@ -138,7 +163,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             nf.field.reset();
         });
 
-        instock.reset();
         price.reset();
     };
 
@@ -162,14 +186,14 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                     const finalItem: Item = {
                         ...itemToEdit,
                         description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
-                        instock: Number(instock.value),
+                        instock: 0,
                         images: [
                             ...itemToEdit.images.filter((img) => !imagesToRemove.includes(img)),
                             ...imagesToUpload.map((imageToUpload) => imageCategory + '\\' + imageToUpload.file.name),
                         ],
                         name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                         price: Number(price.value),
-                        sizes: sizes,
+                        sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
                     };
 
                     const res = await itemService.update(finalItem, config, dispatch);
@@ -179,11 +203,11 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                 } else {
                     const finalItem: NewItem = {
                         description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
-                        instock: Number(instock.value),
+                        instock: 0,
                         images: [...imagesToUpload.map((imageToUpload) => imageCategory + '\\' + imageToUpload.file.name)],
                         name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                         price: Number(price.value),
-                        sizes: sizes,
+                        sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
                     };
 
                     const res = await itemService.add(finalItem, null, usersState.loggedUser.token, config, dispatch);
@@ -244,7 +268,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     const validateFields = (): boolean => {
         return (
             descriptionFields.every((df) => df.textArea.stringValue().length > 0) &&
-            instock.stringValue().length > 0 &&
             nameFields.every((nf) => nf.field.stringValue().length > 0) &&
             price.stringValue().length > 0 &&
             price.numValue() >= 0 &&
@@ -259,10 +282,22 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                     <tr>
                         <td colSpan={3} className='alignCenter colorGraySemiDark' style={{ paddingLeft: 0 }}>
                             {itemToEdit ? (
-                                <>
-                                    <span className='semiBold'>{contentToText(ContentID.adminItemToEdit, config) + ': '}</span>
-                                    {langTextsToText(itemToEdit.name, config)}
-                                </>
+                                <table align='center' className='noPadding'>
+                                    <tbody>
+                                        <tr>
+                                            <td className='semiBold' style={{ paddingRight: '1rem' }}>
+                                                {contentToText(ContentID.adminItemToEdit, config) + ':'}
+                                            </td>
+                                            <td>{langTextsToText(itemToEdit.name, config)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td className='sizeSmallish' style={{ paddingTop: '0.35rem' }}>
+                                                {contentToText(ContentID.itemsId, config)}: {itemToEdit.id}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             ) : (
                                 <span className='semiBold'>{contentToText(ContentID.adminItemNewItem, config)}</span>
                             )}
@@ -305,13 +340,18 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                                     {getInputField(config.currency, price, '0–' + config.maxItemPriceEUR, '33%')}
                                     <tr>
                                         <td colSpan={2} className='adminItemEditLabel'>
-                                            {contentToText(instock.label, config)}:
+                                            {contentToText(ContentID.adminItemSizes, config)} / {contentToText(ContentID.itemsInStock, config)}:
                                         </td>
                                     </tr>
-                                    {getInputField(contentToText(ContentID.itemsPcs, config), instock, contentToText(ContentID.itemsInStock, config), '33%')}
                                     <tr>
-                                        <td>
-                                            <ItemSizes setSizes={setSizes} sizes={sizes} />
+                                        <td colSpan={2}>
+                                            <ItemSizes
+                                                config={config}
+                                                oneSizeInstock={oneSizeInstock}
+                                                setOneSizeInstock={setOneSizeInstock}
+                                                setSizes={setSizes}
+                                                sizes={sizes}
+                                            />
                                         </td>
                                     </tr>
                                     <tr>
