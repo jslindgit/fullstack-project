@@ -29,7 +29,8 @@ enum Folder {
 const AdminOrders = () => {
     type sortByOption = 'date' | 'customer' | 'totalSum' | 'delivery' | 'status';
 
-    const [folder, setFolder] = useState<Folder>(Folder.PROCESSING);
+    const [allOrders, setAllOrders] = useState<Order[]>([]);
+    const [currentFolder, setCurrentFolder] = useState<Folder>(Folder.PROCESSING);
     const [hoveredButton, setHoveredButton] = useState<Order | null>(null);
     const [orders, setOrders] = useState<Order[]>([]);
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
@@ -98,6 +99,7 @@ const AdminOrders = () => {
         }
     };
 
+    // Set current folder according to URL parameter:
     useEffect(() => {
         const folderParam = searchParams.get('folder');
         if (
@@ -106,11 +108,11 @@ const AdminOrders = () => {
                 .map((f) => f.toString())
                 .includes(folderParam)
         ) {
-            setFolder(folderParam as Folder);
+            setCurrentFolder(folderParam as Folder);
         }
     }, [searchParams]);
 
-    const belongsToCurrentFolder = (order: Order): boolean => {
+    const belongsToFolder = (order: Order, folder: Folder): boolean => {
         switch (folder) {
             case Folder.PROCESSING:
                 return !order.deliveredDate && !order.recycledDate;
@@ -123,6 +125,8 @@ const AdminOrders = () => {
 
     const fetch = async () => {
         const data = await orderService.getAll();
+        setAllOrders(data);
+
         // prettier-ignore
         const dataToSort =
             search.stringValue().length > 0 ?
@@ -132,14 +136,14 @@ const AdminOrders = () => {
                     order.id.toString().includes(search.stringValue()))
                 : data;
 
-        sortAndSet(dataToSort.filter((order) => belongsToCurrentFolder(order)));
+        sortAndSet(dataToSort.filter((order) => belongsToFolder(order, currentFolder)));
     };
 
     useEffect(() => {
         fetch();
 
         document.title = `${contentToText(ContentID.adminPanelHeader, config)} - ${contentToText(ContentID.adminPanelOrders, config)} (${orders.length})`;
-    }, [config, folder, orders.length, search.value]);
+    }, [config, currentFolder, orders.length, search.value]);
 
     useEffect(() => {
         sortAndSet(orders);
@@ -232,16 +236,20 @@ const AdminOrders = () => {
     };
 
     const menuItem = (folderName: Folder) => {
-        if (folder === folderName) {
+        const orderCount = allOrders.filter((o) => belongsToFolder(o, folderName)).length;
+
+        if (currentFolder === folderName) {
             return (
                 <td width='33%' className='bold underlined thin'>
-                    {folderLabel(folderName)}
+                    {folderLabel(folderName)} ({orderCount})
                 </td>
             );
         } else {
             return (
                 <td width='33%'>
-                    <Link to={`${window.location.pathname}?folder=${folderName}`}>{folderLabel(folderName)}</Link>
+                    <Link to={`${window.location.pathname}?folder=${folderName}`}>
+                        {folderLabel(folderName)} ({orderCount})
+                    </Link>
                 </td>
             );
         }
@@ -351,7 +359,7 @@ const AdminOrders = () => {
                         <tr>
                             <td colSpan={6} className='alignCenter centered semiBold'>
                                 <br />
-                                {contentToText(ContentID.adminOrdersNoOrdersInFolder, config)} <span className='bold'>{folderLabel(folder)}</span>
+                                {contentToText(ContentID.adminOrdersNoOrdersInFolder, config)} <span className='bold'>{folderLabel(currentFolder)}</span>
                                 {search.stringValue().length > 0 ? (
                                     <>
                                         {` ${contentToText(ContentID.miscWithSearchWords, config)} `}{' '}

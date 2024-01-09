@@ -54,7 +54,7 @@ const getAll = async (searchQuery: string = ''): Promise<Array<CategoryInstance>
                 {
                     model: Item,
                     through: { attributes: [] },
-                    attributes: ['id', 'name', 'description', 'images', 'instock', 'price', 'sizes', 'sold'],
+                    attributes: ['id', 'addedBy', 'description', 'images', 'instock', 'name', 'price', 'sizes', 'sold'],
                     include: [
                         {
                             model: Category,
@@ -86,7 +86,7 @@ const getById = async (id: unknown): Promise<CategoryInstance | null> => {
                     {
                         model: Item,
                         through: { attributes: [] },
-                        attributes: ['id', 'name', 'description', 'price', 'images', 'instock'],
+                        attributes: ['id', 'addedBy', 'description', 'images', 'instock', 'name', 'price', 'sizes', 'sold'],
                         include: [
                             {
                                 model: Category,

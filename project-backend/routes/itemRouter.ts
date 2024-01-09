@@ -13,17 +13,22 @@ const router = express.Router();
 
 router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        if (res.locals.admin === true) {
-            const deletedItem = await service.deleteById(req.params.id);
-            if (deletedItem) {
-                res.status(204).end();
-            } else {
-                res.status(404).json({
-                    error: `Item with id ${req.params.id} not found`,
-                });
-            }
+        const item = await service.getById(req.params.id);
+        if (!item) {
+            res.status(404).end();
         } else {
-            res.status(403).json({ error: 'Access denied' });
+            if (res.locals.admin === true || (res.locals.operator === true && item.addedBy && item.addedBy === res.locals.user_id)) {
+                const deletedItem = await service.deleteById(req.params.id);
+                if (deletedItem) {
+                    res.status(204).end();
+                } else {
+                    res.status(404).json({
+                        error: `Item with id ${req.params.id} not found`,
+                    });
+                }
+            } else {
+                res.status(403).end();
+            }
         }
     } catch (err) {
         next(err);
@@ -56,14 +61,13 @@ router.get('/:id', (async (req, res, next) => {
 
 router.post('/', tokenExtractor, (async (req, res, next) => {
     try {
-        if (res.locals.admin === true) {
+        if ((res.locals.admin === true || res.locals.operator === true) && res.locals.user_id && isNumber(res.locals.user_id)) {
             const newItem = toNewItem(req.body);
             let category_id = null;
             if (isObject(req.body) && 'category_id' in req.body && isNumber(req.body.category_id)) {
                 category_id = req.body.category_id;
             }
-            console.log('category_id', category_id);
-            const addedItem = await service.addNew(newItem, category_id);
+            const addedItem = await service.addNew({ ...newItem, addedBy: res.locals.user_id }, category_id);
 
             res.status(201).json(addedItem);
         } else {

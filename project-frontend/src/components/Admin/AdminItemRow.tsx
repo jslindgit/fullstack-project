@@ -18,6 +18,7 @@ interface Props {
 }
 const AdminItemRow = ({ item, deleteItem }: Props) => {
     const config = useSelector((state: RootState) => state.config);
+    const usersState = useSelector((state: RootState) => state.user);
 
     const descriptionMaxLengthToShow = 300;
     const description = langTextsToText(item.description, config);
@@ -46,7 +47,17 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                 </Link>
             </td>
             <td style={{ paddingRight: '1rem' }}>
-                <button type='button' className='red compactButton' onClick={() => deleteItem(item)}>
+                <button
+                    type='button'
+                    className='red compactButton'
+                    onClick={() => deleteItem(item)}
+                    disabled={!(item.addedBy && item.addedBy === usersState.loggedUser?.id)}
+                    title={
+                        !(item.addedBy && item.addedBy === usersState.loggedUser?.id)
+                            ? contentToText(ContentID.adminYouCanOnlyDeleteItemsAddedByYou, config)
+                            : ''
+                    }
+                >
                     {contentToText(ContentID.buttonRemove, config)}
                 </button>
             </td>

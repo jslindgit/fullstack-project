@@ -32,18 +32,18 @@ export const categoryFromResBody = (resBody: unknown): Category | null => {
         isString(resBody.description) &&
         'id' in resBody &&
         isNumber(resBody.id) &&
-        'items' in resBody &&
-        Array.isArray(resBody.items) &&
         'name' in resBody &&
         isString(resBody.name)
     ) {
         const items: Item[] = [];
-        resBody.items.forEach((itemData) => {
-            const item = itemFromResBody(itemData);
-            if (item) {
-                items.push(item);
-            }
-        });
+        if ('items' in resBody && Array.isArray(resBody.items)) {
+            resBody.items.forEach((itemData) => {
+                const item = itemFromResBody(itemData);
+                if (item) {
+                    items.push(item);
+                }
+            });
+        }
 
         return { ...(resBody as Category), description: JSON.parse(resBody.description), items: items, name: JSON.parse(resBody.name) };
     } else {

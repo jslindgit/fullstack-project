@@ -61,6 +61,8 @@ const AdminCategoryEdit = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [category]);
 
+    const canSaveChanges = () => category?.addedBy === usersState.loggedUser?.id;
+
     const changesMade = (): boolean => {
         let result = false;
 
@@ -139,6 +141,17 @@ const AdminCategoryEdit = () => {
         );
     }
 
+    const submitButton = () => (
+        <button
+            type='button'
+            onClick={submit}
+            disabled={!changesMade() || !canSaveChanges()}
+            title={canSaveChanges() ? '' : contentToText(ContentID.adminYouCanOnlyEditCategoriesAddedByYou, config)}
+        >
+            {contentToText(ContentID.buttonSave, config)}
+        </button>
+    );
+
     return (
         <div>
             <table align='center' width={pageWidth}>
@@ -146,9 +159,7 @@ const AdminCategoryEdit = () => {
                     <tr>
                         <td className='pageHeader'>{contentToText(ContentID.adminEditCategory, config)}</td>
                         <td className='alignRight'>
-                            <button type='button' onClick={submit} disabled={!changesMade()}>
-                                {contentToText(ContentID.buttonSave, config)}
-                            </button>
+                            {submitButton()}
                             &emsp;
                             <BackButton type='button' />
                         </td>
@@ -158,7 +169,7 @@ const AdminCategoryEdit = () => {
             <table align='center' width={pageWidth} className='itemDetails'>
                 <tbody>
                     <tr>
-                        <td className='alignCenter colorGray sizeLarge'>{langTextsToText(category.name, config)}</td>
+                        <td className='alignCenter colorGraySemiDark sizeLarge'>{langTextsToText(category.name, config)}</td>
                     </tr>
                     <tr>
                         <td className='noPaddingTd'>
@@ -176,11 +187,18 @@ const AdminCategoryEdit = () => {
                                         </td>
                                     </tr>
                                     {descriptionFields.map((nf) => getTextArea(nf.langCode.toString(), nf.textArea))}
+                                    {!canSaveChanges() ? (
+                                        <tr>
+                                            <td colSpan={2} className='alignCenter colorRed' style={{ paddingBottom: 0 }}>
+                                                {contentToText(ContentID.adminYouCanOnlyEditCategoriesAddedByYou, config)}
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        ''
+                                    )}
                                     <tr>
                                         <td colSpan={2}>
-                                            <button type='button' onClick={submit} disabled={!changesMade()}>
-                                                {contentToText(ContentID.buttonSave, config)}
-                                            </button>
+                                            {submitButton()}
                                             &emsp;
                                             <BackButton type='button' />
                                         </td>
@@ -191,6 +209,7 @@ const AdminCategoryEdit = () => {
                     </tr>
                 </tbody>
             </table>
+            <br />
         </div>
     );
 };

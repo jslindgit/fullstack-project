@@ -5,6 +5,7 @@ import { isNumber, isObject, isString } from '../types/type_functions';
 
 export interface ItemAttributes {
     id: number;
+    addedBy?: number;
     description?: string;
     images: string[];
     instock: number;
@@ -30,10 +31,9 @@ const Item = sequelize.define<ItemInstance>(
             primaryKey: true,
             autoIncrement: true,
         },
-        name: {
-            type: DataTypes.STRING,
-            unique: true,
-            allowNull: false,
+        addedBy: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
         },
         description: {
             type: DataTypes.STRING,
@@ -46,6 +46,11 @@ const Item = sequelize.define<ItemInstance>(
         images: {
             type: DataTypes.ARRAY(DataTypes.STRING),
             defaultValue: [],
+        },
+        name: {
+            type: DataTypes.STRING,
+            unique: true,
+            allowNull: false,
         },
         price: {
             type: DataTypes.DECIMAL,

@@ -125,4 +125,5 @@
 |   5.1.    | 1    | Tuotteille kokovalinta                                                                                               |     |
 |   6.1.    | 2    | Kokovalinnan työstöä                                                                                                 |     |
 |   9.1.    | 1    | Käyttöoikeuksien työstöä                                                                                             |     |
-|    yht    | 214  |                                                                                                                      |     |
+|           | 1    | Käyttöoikeuksien työstöä                                                                                             |     |
+|    yht    | 215  |                                                                                                                      |     |

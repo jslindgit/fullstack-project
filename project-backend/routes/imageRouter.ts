@@ -53,7 +53,7 @@ router.get('/subdir/:subdir', (async (req, res, next) => {
 
 router.post('/', tokenExtractor, upload.single('image'), ((_req, res, next) => {
     try {
-        if (res.locals.admin === true) {
+        if (res.locals.admin === true || res.locals.operator === true) {
             res.status(201).send('Image uploaded successfully');
         } else {
             res.status(403).json({ error: 'Access denied' });

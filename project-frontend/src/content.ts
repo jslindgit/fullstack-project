@@ -12,6 +12,7 @@ export enum ContentID {
     accountUserId = 'ACCOUNT: Customer Number',
     adminAddNewCategory = 'ADMIN: Add New Category',
     adminAddNewItem = 'ADMIN: Add New Item',
+    adminDeleteCategory = 'ADMIN: Delete category <category name>? (confirmation)',
     adminEditCategory = 'ADMIN: Edit Category (header)',
     adminEditItem = 'ADMIN: Edit Item (header)',
     adminImagesAlreadyContainsFile = 'ADMIN - IMAGES: "already contains" ("<category> already contains file <filename>" confirmation)',
@@ -59,6 +60,9 @@ export enum ContentID {
     adminUserInfoEnableAccount = 'ADMIN - USER INFO: Enable account? (confirmation)',
     adminUserInfoHeader = 'ADMIN - USER INFO: header',
     adminUserInfoSendMessage = 'ADMIN - USER INFO: Send Message (button)',
+    adminYouCanOnlyDeleteItemsAddedByYou = 'ADMIN: You can only delete items you have added.',
+    adminYouCanOnlyDeleteCategoriesAddedByYou = 'ADMIN - CATEGORIES: You can only delete categories you have added.',
+    adminYouCanOnlyEditCategoriesAddedByYou = 'ADMIN - CATEGORIES: You can only edit categories you have added.',
     backButtonDefault = 'BACK BUTTON: Default label',
     buttonAdd = 'BUTTON: Add',
     buttonAddItemToCategory = 'BUTTON: Add Item to Category <category name>',
@@ -289,6 +293,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Add New Item' },
             { langCode: LangCode.FI, text: 'Lisää uusi tuote' },
+        ],
+    },
+    {
+        id: ContentID.adminDeleteCategory,
+        content: [
+            { langCode: LangCode.EN, text: 'Delete cateogry' },
+            { langCode: LangCode.FI, text: 'Poistataanko kategoria' },
         ],
     },
     {
@@ -618,6 +629,27 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Send Message' },
             { langCode: LangCode.FI, text: 'Lähetä viesti' },
+        ],
+    },
+    {
+        id: ContentID.adminYouCanOnlyDeleteItemsAddedByYou,
+        content: [
+            { langCode: LangCode.EN, text: 'As an Operator, you can only delete items which you have added.' },
+            { langCode: LangCode.FI, text: 'Ylläpitäjänä voit poistaa vain itse lisäämiäsi tuotteita.' },
+        ],
+    },
+    {
+        id: ContentID.adminYouCanOnlyDeleteCategoriesAddedByYou,
+        content: [
+            { langCode: LangCode.EN, text: 'As an Operator, you can only delete categories which you have added.' },
+            { langCode: LangCode.FI, text: 'Ylläpitäjänä voit poistaa vain itse lisäämiäsi kategorioita.' },
+        ],
+    },
+    {
+        id: ContentID.adminYouCanOnlyEditCategoriesAddedByYou,
+        content: [
+            { langCode: LangCode.EN, text: 'As an Operator, you can only edity categories which you have added.' },
+            { langCode: LangCode.FI, text: 'Ylläpitäjänä voit muokata vain itse lisäämiäsi kategorioita.' },
         ],
     },
     {

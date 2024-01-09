@@ -13,7 +13,7 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
         const category = await service.getById(req.params.id);
         if (!category) {
-            res.status(404);
+            res.status(404).end();
         } else {
             if (res.locals.admin === true || (res.locals.operator === true && category.addedBy && category.addedBy === res.locals.user_id)) {
                 const deletedCategory = await service.deleteById(req.params.id);
@@ -25,7 +25,7 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
                     });
                 }
             } else {
-                res.status(403).json({ error: 'Access denied' });
+                res.status(403).end();
             }
         }
     } catch (err) {

@@ -30,6 +30,7 @@ export interface ImageCategory {
 // Item-related:
 export interface Item {
     id: number;
+    addedBy?: number;
     categories: Category[];
     description: LangText[];
     images: string[];

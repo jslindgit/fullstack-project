@@ -127,7 +127,12 @@ const AdminUserInfo = () => {
                                 <button type='button'>{contentToText(ContentID.adminUserInfoSendMessage, config)}</button>
                             </a>
                             &emsp;
-                            <button type='button' disabled={user.admin} onClick={() => setShowStatusChange(!showStatusChange)}>
+                            <button
+                                type='button'
+                                onClick={() => setShowStatusChange(!showStatusChange)}
+                                disabled={user.admin || !usersState.loggedUser?.admin}
+                                title={!usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
+                            >
                                 {contentToText(ContentID.adminUserInfoChangeStatus, config)}
                             </button>
                             &emsp;
@@ -136,14 +141,30 @@ const AdminUserInfo = () => {
                                     {contentToText(ContentID.buttonEnable, config)} {contentToText(ContentID.menuAccount, config)}
                                 </button>
                             ) : (
-                                <button type='button' className='red' disabled={user.admin} onClick={handleDisableOrEnableAccount}>
+                                <button
+                                    type='button'
+                                    className='red'
+                                    onClick={handleDisableOrEnableAccount}
+                                    disabled={user.admin || (user.operator && !usersState.loggedUser?.admin)}
+                                    title={
+                                        user.operator && !usersState.loggedUser?.admin
+                                            ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config)
+                                            : ''
+                                    }
+                                >
                                     {contentToText(ContentID.buttonDisable, config)} {contentToText(ContentID.menuAccount, config)}
                                 </button>
                             )}
                         </td>
                         <td className='alignRight'>
                             &emsp;
-                            <button type='button' className='red' disabled={user.admin} onClick={handleDeleteAccount}>
+                            <button
+                                type='button'
+                                className='red'
+                                disabled={user.admin || !usersState.loggedUser?.admin}
+                                onClick={handleDeleteAccount}
+                                title={!usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
+                            >
                                 {contentToText(ContentID.buttonRemove, config)} {contentToText(ContentID.menuAccount, config)}
                             </button>
                         </td>

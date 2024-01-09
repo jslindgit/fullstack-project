@@ -24,10 +24,10 @@ const AdminCategories = () => {
         if (!usersState.loggedUser) {
             return;
         }
-        if (confirm(`Delete category ${category.name}?`)) {
+        if (confirm(`${contentToText(ContentID.adminDeleteCategory, config)} "${langTextsToText(category.name, config)}"?`)) {
             const res = await categoryService.deleteCategory(category, usersState.loggedUser.token, config);
 
-            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+            dispatch(setNotification({ tone: res.success ? 'Neutral' : 'Negative', message: res.message }));
 
             if (res.success) {
                 dispatch(removeCategory(category));
@@ -64,7 +64,16 @@ const AdminCategories = () => {
                                                 </Link>
                                             </td>
                                             <td width='1px'>
-                                                <button className='red' onClick={() => deleteCategory(c)}>
+                                                <button
+                                                    className='red'
+                                                    onClick={() => deleteCategory(c)}
+                                                    disabled={!(c.addedBy && c.addedBy === usersState.loggedUser?.id)}
+                                                    title={
+                                                        !(c.addedBy && c.addedBy === usersState.loggedUser?.id)
+                                                            ? contentToText(ContentID.adminYouCanOnlyDeleteCategoriesAddedByYou, config)
+                                                            : ''
+                                                    }
+                                                >
                                                     {contentToText(ContentID.buttonRemove, config)}
                                                 </button>
                                             </td>

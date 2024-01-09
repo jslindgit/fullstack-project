@@ -11,6 +11,7 @@ import itemService from '../../services/itemService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { isNumber } from '../../types/typeFunctions';
 
+import { initializeCategories } from '../../reducers/categoryReducer';
 import { setNotification } from '../../reducers/miscReducer';
 
 import AdminItemList from './AdminItemList';
@@ -26,6 +27,7 @@ const AdminItems = () => {
     const addItemButtonRef = useRef<HTMLButtonElement>(null);
 
     const [category, setCategory] = useState<Category | undefined>(undefined);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [itemAdded, setItemAdded] = useState<Item | null>(null);
     const [items, setItems] = useState<Item[]>([]);
     const previousScrollY = useRef<number>(0);
@@ -63,6 +65,14 @@ const AdminItems = () => {
         window.scrollTo({ top: scrollTo, behavior: 'smooth' });
     }, [scrollTo]);
 
+    useEffect(() => {
+        const initCats = async () => {
+            await initializeCategories(dispatch);
+            setCategories(categoryState.categories);
+        };
+        initCats();
+    }, [categoryState.categories, dispatch, itemAdded]);
+
     const closeAddItemForm = () => {
         setShowAddItem(false);
         setScrollTo(previousScrollY.current);
@@ -77,22 +87,15 @@ const AdminItems = () => {
 
             dispatch(setNotification({ tone: res.success ? 'Neutral' : 'Negative', message: res.message }));
 
-            await fetchItems();
+            if (res.success) {
+                setItems(items.filter((i) => i !== item));
+            }
         }
     };
 
     const fetchItems = async () => {
         const source: Item[] = category ? category.items : uncategorizedItems;
-
-        if (itemAdded && !source.includes(itemAdded)) {
-            setItems([...source, itemAdded].sort());
-        } else {
-            setItems(source);
-
-            if (itemAdded) {
-                setItemAdded(null);
-            }
-        }
+        setItems(source);
     };
 
     const handleAddItemButton = () => {
@@ -108,7 +111,7 @@ const AdminItems = () => {
     return (
         <>
             <div>
-                {categoryState.categories.map((c) => (
+                {categories.map((c) => (
                     <span key={c.id}>
                         <span className={category === c ? 'underlined' : ''}>
                             <Link to={'/admin/items?category=' + c.id}>

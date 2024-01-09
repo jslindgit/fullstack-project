@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AnyAction, createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 
 import { Category } from '../types/types';
 
@@ -23,8 +23,10 @@ const slice = createSlice({
             state.categories.push(action.payload);
         },
         removeCategory(state: CategoryState, action: PayloadAction<Category>) {
-            const index = state.categories.indexOf(action.payload);
-            state.categories.splice(index - 1);
+            const index = current(state).categories.indexOf(action.payload);
+            console.log('state.categories:', current(state).categories);
+            console.log('index:', index);
+            state.categories.splice(index, 1);
             return state;
         },
         setCategories(state: CategoryState, action: PayloadAction<Category[]>) {

@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.delete('/all_by_item_id/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        if (res.locals.admin === true) {
+        if (res.locals.admin === true || res.locals.operator === true) {
             const all = await service.getAll();
             if (all) {
                 const matching = all.filter((ic) => 'itemId' in ic && ic.itemId === Number(req.params.id));
@@ -113,7 +113,7 @@ router.get('/:id', (async (req, res, next) => {
 
 router.post('/', tokenExtractor, (async (req, res, next) => {
     try {
-        if (res.locals.admin === true) {
+        if (res.locals.admin === true || res.locals.operator === true) {
             const newItem_Category = toNewItem_Category(req.body);
             const addedItem_Category = await service.addNew(newItem_Category);
 
