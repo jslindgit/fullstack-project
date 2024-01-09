@@ -112,7 +112,7 @@ const AdminCategoryEdit = () => {
 
     const submit = async () => {
         if (category && changesMade()) {
-            if (usersState.loggedUser && usersState.loggedUser.admin && usersState.loggedUser.token) {
+            if (usersState.loggedUser && (usersState.loggedUser.admin || usersState.loggedUser.operator) && usersState.loggedUser.token) {
                 const updatedCategory: Category = {
                     ...category,
                     description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
@@ -129,15 +129,6 @@ const AdminCategoryEdit = () => {
             }
         }
     };
-
-    if (!usersState.loggedUser?.admin) {
-        return (
-            <div>
-                <br />
-                Error: 403
-            </div>
-        );
-    }
 
     if (!category) {
         return (

@@ -115,6 +115,7 @@ export enum ContentID {
     errorOccurred = 'ERROR: Error occurred',
     errorSomethingWentWrong = 'ERROR: Something went wrong',
     errorSomethingWentWrongTryAgainlater = 'ERROR: Something went wrong, please try again later',
+    errorThisOperationRequiresAdminRights = 'This operation requires Admin rights.',
     homeWelcome = 'HOME: Welcome text',
     itemsAddedToShoppingCart1 = 'ITEMS: "<item(s)> added to (shopping cart)" (notification)',
     itemsAddedToShoppingCart2 = 'ITEMS: "<item(s)> (added to) shopping cart" (notification)',
@@ -1012,6 +1013,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Something went wrong, please try again later.' },
             { langCode: LangCode.FI, text: 'Jotain meni vikaan, yritä myöhemmin uudelleen.' },
+        ],
+    },
+    {
+        id: ContentID.errorThisOperationRequiresAdminRights,
+        content: [
+            { langCode: LangCode.EN, text: 'This operation requires Admin rights.' },
+            { langCode: LangCode.FI, text: 'Tämä toiminto vaatii pääkäyttäjän käyttöoikeudet.' },
         ],
     },
     {

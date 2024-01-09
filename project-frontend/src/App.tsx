@@ -71,7 +71,7 @@ const App = () => {
     }, [categoryState.initialized, dispatch, userState.initialized]);
 
     const adminPage = (page: JSX.Element): JSX.Element => {
-        if (userState.loggedUser?.admin) {
+        if (userState.loggedUser?.admin || userState.loggedUser?.operator) {
             return page;
         } else {
             return <Error404 />;

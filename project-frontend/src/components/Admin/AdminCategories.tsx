@@ -20,10 +20,6 @@ const AdminCategories = () => {
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.user);
 
-    if (!usersState.loggedUser?.admin) {
-        return <>Error: 403</>;
-    }
-
     const deleteCategory = async (category: Category) => {
         if (!usersState.loggedUser) {
             return;

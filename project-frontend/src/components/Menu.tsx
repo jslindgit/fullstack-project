@@ -137,7 +137,7 @@ const Menu = () => {
     };
 
     const showAdminMenu = () => {
-        if (usersState.loggedUser?.admin) {
+        if (usersState.loggedUser?.admin || usersState.loggedUser?.operator) {
             return <td className='tight'>{menuLink('/admin', contentToText(ContentID.menuAdminSection, config))}</td>;
         } else {
             return <></>;

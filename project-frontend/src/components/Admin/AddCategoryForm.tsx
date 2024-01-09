@@ -22,8 +22,8 @@ const AddCategoryForm = ({ user }: Props) => {
 
     const dispatch = useDispatch();
 
-    if (!user || !user.admin) {
-        return <>Error: Invalid User</>;
+    if (!user?.admin && !user?.operator) {
+        return <>Error: 403</>;
     }
 
     const getInputField = (label: string, field: UseField) => (

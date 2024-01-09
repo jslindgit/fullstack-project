@@ -20,6 +20,7 @@ import BackButton from '../BackButton';
 
 const AdminPanel = () => {
     const config = useSelector((state: RootState) => state.config);
+    const miscState = useSelector((state: RootState) => state.misc);
     const usersState = useSelector((state: RootState) => state.user);
 
     const navigate = useNavigate();
@@ -42,6 +43,13 @@ const AdminPanel = () => {
             (page && page.length > 0 ? ' - ' + printAdminPanelHeader(page, config) : ' | ' + config.store.contactName);
     }, [config, page]);
 
+    // User is Admin/Operator?
+    useEffect(() => {
+        if (miscState.loaded && !(usersState.loggedUser?.admin || usersState.loggedUser?.operator)) {
+            navigate('/');
+        }
+    }, [miscState.loaded, navigate, usersState.loggedUser]);
+
     const showPage = (): JSX.Element => {
         switch (page) {
             case 'categories':
@@ -60,10 +68,6 @@ const AdminPanel = () => {
                 return <>Admin Panel</>;
         }
     };
-
-    if (!usersState.loggedUser?.admin) {
-        return <>Error: 403</>;
-    }
 
     return (
         <div>

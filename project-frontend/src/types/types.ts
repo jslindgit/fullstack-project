@@ -5,8 +5,9 @@ import { isNumber, isObject } from './typeFunctions';
 
 export interface Category {
     id: number;
-    name: LangText[];
+    addedBy?: number;
     description: LangText[];
+    name: LangText[];
     items: Item[];
 }
 export type NewCategory = Omit<Omit<Category, 'id'>, 'items'>;

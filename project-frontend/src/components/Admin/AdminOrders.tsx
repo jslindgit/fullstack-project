@@ -175,10 +175,9 @@ const AdminOrders = () => {
     };
 
     const handleDelete = async (order: Order) => {
-        if (
-            usersState.loggedUser?.admin &&
-            confirm(`${contentToText(ContentID.adminOrdersDeleteOrder, config)} ${order.id} (${order.customerFirstName} ${order.customerLastName})?`)
-        ) {
+        if (!usersState.loggedUser?.admin) {
+            window.alert(contentToText(ContentID.errorThisOperationRequiresAdminRights, config));
+        } else if (confirm(`${contentToText(ContentID.adminOrdersDeleteOrder, config)} ${order.id} (${order.customerFirstName} ${order.customerLastName})?`)) {
             setOpenedOrder(null);
             const res = await orderService.deleteOrder(order, usersState.loggedUser?.token);
             await fetch();

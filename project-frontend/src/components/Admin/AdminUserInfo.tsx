@@ -51,21 +51,26 @@ const AdminUserInfo = () => {
     }, [user]);
 
     const handleDeleteAccount = () => {
-        if (window.confirm(contentToText(ContentID.adminUserInfoDeleteAccount, config))) {
-            console.log('delete...');
+        if (user && usersState.loggedUser?.admin) {
+            if (window.confirm(contentToText(ContentID.adminUserInfoDeleteAccount, config))) {
+                console.log('delete...');
+            }
+        } else {
+            window.alert(contentToText(ContentID.errorThisOperationRequiresAdminRights, config));
         }
     };
 
     const handleDisableOrEnableAccount = async () => {
-        if (user && usersState.loggedUser) {
-            if (window.confirm(contentToText(user.disabled ? ContentID.adminUserInfoEnableAccount : ContentID.adminUserInfoDisableAccount, config))) {
-                const response = await userService.update(user.id, { disabled: !user.disabled }, usersState.loggedUser.token, config);
-                dispatch(setNotification({ message: response.message, tone: response.success ? 'Positive' : 'Negative' }));
-                setUser(response.user);
+        if (usersState.loggedUser?.admin && usersState.loggedUser.token) {
+            if (user) {
+                if (window.confirm(contentToText(user.disabled ? ContentID.adminUserInfoEnableAccount : ContentID.adminUserInfoDisableAccount, config))) {
+                    const response = await userService.update(user.id, { disabled: !user.disabled }, usersState.loggedUser.token, config);
+                    dispatch(setNotification({ message: response.message, tone: response.success ? 'Positive' : 'Negative' }));
+                    setUser(response.user);
+                }
             }
         } else {
-            console.log('user:', user);
-            console.log('usersState.loggedUser:', usersState.loggedUser);
+            window.alert(contentToText(ContentID.errorThisOperationRequiresAdminRights, config));
         }
     };
 
@@ -80,6 +85,8 @@ const AdminUserInfo = () => {
 
                 dispatch(setNotification({ message: res.message, tone: res.success ? 'Positive' : 'Negative' }));
             }
+        } else {
+            window.alert(contentToText(ContentID.errorThisOperationRequiresAdminRights, config));
         }
     };
 

@@ -5,8 +5,9 @@ import { isObject, isString } from '../types/type_functions';
 
 export interface CategoryAttributes {
     id: number;
-    name: string;
+    addedBy?: number;
     description?: string;
+    name: string;
 }
 
 export type NewCategory = Omit<CategoryAttributes, 'id'>;
@@ -25,14 +26,18 @@ const Category = sequelize.define<CategoryInstance>(
             primaryKey: true,
             autoIncrement: true,
         },
-        name: {
-            type: DataTypes.STRING,
-            unique: true,
-            allowNull: false,
+        addedBy: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
         },
         description: {
             type: DataTypes.STRING,
             defaultValue: '',
+        },
+        name: {
+            type: DataTypes.STRING,
+            unique: true,
+            allowNull: false,
         },
     },
     {

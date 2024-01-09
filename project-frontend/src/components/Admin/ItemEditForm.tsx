@@ -167,7 +167,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     };
 
     const submit = async () => {
-        if (usersState.loggedUser && usersState.loggedUser.admin && usersState.loggedUser.token) {
+        if (usersState.loggedUser && (usersState.loggedUser.admin || usersState.loggedUser.operator) && usersState.loggedUser.token) {
             const token = usersState.loggedUser.token;
 
             if (changesMade()) {

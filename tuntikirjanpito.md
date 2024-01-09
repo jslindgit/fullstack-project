@@ -124,4 +124,5 @@
 |           | 1    | Pääkäyttäjälle mahdollisuus muuttaa käyttäjien statusta                                                              | 210 |
 |   5.1.    | 1    | Tuotteille kokovalinta                                                                                               |     |
 |   6.1.    | 2    | Kokovalinnan työstöä                                                                                                 |     |
-|    yht    | 213  |                                                                                                                      |     |
+|   9.1.    | 1    | Käyttöoikeuksien työstöä                                                                                             |     |
+|    yht    | 214  |                                                                                                                      |     |
