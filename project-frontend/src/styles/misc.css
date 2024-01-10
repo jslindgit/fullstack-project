@@ -28,15 +28,20 @@
     outline: 4px solid var(--colorGreenDark);
 }
 
-.flexWrap {
-    display: flex;
-    flex-wrap: wrap;
+.footer {
+    background-color: var(--colorGrayDarkest);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: normal;
 }
-.flexWrapCenter {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
+.footer td {
+    padding: 0.5rem;
+}
+.footer tr:first-child td {
+    padding-top: 1rem;
+}
+.footer tr:last-child td {
+    padding-bottom: 1rem;
 }
 
 .hoverableRow {

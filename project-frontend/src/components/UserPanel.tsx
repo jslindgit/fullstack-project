@@ -60,7 +60,7 @@ const UserPanel = () => {
                     </tr>
                 </tbody>
             </table>
-            <UserBasicInfo config={config} user={user} width={pageWidth} />
+            <UserBasicInfo config={config} showUserStatus={user.admin || user.operator} user={user} width={pageWidth} />
             <br />
             <UserContactInfo config={config} user={user} width={pageWidth} />
             <br />

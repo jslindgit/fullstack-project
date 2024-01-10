@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
@@ -28,6 +28,8 @@ const AdminUserInfo = () => {
     const [showStatusChange, setShowStatusChange] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
 
+    const navigate = useNavigate();
+
     const id = Number(useParams().id);
 
     // Fetch User by the URL param:
@@ -50,10 +52,14 @@ const AdminUserInfo = () => {
         }
     }, [user]);
 
-    const handleDeleteAccount = () => {
+    const handleDeleteAccount = async () => {
         if (user && usersState.loggedUser?.admin) {
             if (window.confirm(contentToText(ContentID.adminUserInfoDeleteAccount, config))) {
-                console.log('delete...');
+                const res = await userService.deleteUser(user, usersState.loggedUser.token, config);
+
+                dispatch(setNotification({ message: res.message, tone: res.success ? 'Neutral' : 'Negative' }));
+
+                navigate('/admin/users');
             }
         } else {
             window.alert(contentToText(ContentID.errorThisOperationRequiresAdminRights, config));
@@ -85,10 +91,6 @@ const AdminUserInfo = () => {
             window.alert(contentToText(ContentID.errorThisOperationRequiresAdminRights, config));
         }
     };
-
-    if (!user) {
-        return <>{contentToText(ContentID.menuLogin, config)}</>;
-    }
 
     if (!user) {
         return <div className='semiBold sizeLarge'>{fetched ? 'Something went wrong :(' : 'Loading...'}</div>;
@@ -141,8 +143,10 @@ const AdminUserInfo = () => {
                                     user.operator && !usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''
                                 }
                             >
-                                {contentToText(user.disabled ? ContentID.buttonEnable : ContentID.buttonDisable, config)}{' '}
-                                {contentToText(ContentID.menuAccount, config)}
+                                {contentToText(
+                                    user.disabled ? ContentID.adminUserInfoEnableAccountButton : ContentID.adminUserInfoDisableAccountButton,
+                                    config
+                                )}
                             </button>
                         </td>
                         <td className='alignRight'>
@@ -154,7 +158,7 @@ const AdminUserInfo = () => {
                                 onClick={handleDeleteAccount}
                                 title={!usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
                             >
-                                {contentToText(ContentID.buttonRemove, config)} {contentToText(ContentID.menuAccount, config)}
+                                {contentToText(ContentID.adminUserInfoDeleteAccountButton, config)}
                             </button>
                         </td>
                     </tr>

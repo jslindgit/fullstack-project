@@ -105,10 +105,11 @@ export interface User {
     contactOrganization?: string;
     contactPhone: string;
     contactZipcode: string;
+    createdAt: string;
     disabled: boolean;
     operator: boolean;
     orders: Array<Order>;
     token: string;
     username: string;
 }
-export type NewUser = Omit<Omit<User, 'id'>, 'token'> & { password: string };
+export type NewUser = Omit<Omit<Omit<User, 'id'>, 'token'>, 'createdAt'> & { password: string };

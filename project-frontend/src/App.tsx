@@ -28,6 +28,7 @@ import CheckOutCreateOrder from './components/CheckOutCreateOrder';
 import CheckOutDone from './components/CheckOutDone';
 import CheckOutPayment from './components/CheckOutPayment';
 import Error404 from './components/Error404';
+import Footer from './components/Footer';
 import Home from './components/Home';
 import Info from './components/Info';
 import ItemDetails from './components/ItemDetails';
@@ -87,32 +88,37 @@ const App = () => {
         );
     }
     return (
-        <Router>
-            <Menu />
-            <ShowNotification />
-            <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/admin' element={adminPage(<AdminPanel />)} />
-                <Route path='/admin/editcategory/:id' element={adminPage(<AdminCategoryEdit />)} />
-                <Route path='/admin/edititem/:id' element={adminPage(<AdminItemEdit />)} />
-                <Route path='/admin/users/:id' element={adminPage(<AdminUserInfo />)} />
-                <Route path='/admin/:page' element={adminPage(<AdminPanel />)} />
-                <Route path='/cart' element={<ShoppingCart />} />
-                <Route path='/checkout' element={<CheckOut />} />
-                <Route path='/info' element={<Info />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='/success' element={<CheckOutDone />} />
-                <Route path='/order' element={<CheckOutCreateOrder />} />
-                <Route path='/payment' element={<CheckOutPayment />} />
-                <Route path='/register' element={<Register />} />
-                <Route path='/shop' element={<Categories />} />
-                <Route path='/shop/search' element={<ItemsSearch />} />
-                <Route path='/shop/item/:id' element={<ItemDetails />} />
-                <Route path='/shop/:id' element={<Items />} />
-                <Route path='/you' element={<UserPanel />} />
-                <Route path='*' element={<Error404 />} />
-            </Routes>
-        </Router>
+        <div className='app-container'>
+            <Router>
+                <Menu />
+                <ShowNotification />
+                <div className='content-container'>
+                    <Routes>
+                        <Route path='/' element={<Home />} />
+                        <Route path='/admin' element={adminPage(<AdminPanel />)} />
+                        <Route path='/admin/editcategory/:id' element={adminPage(<AdminCategoryEdit />)} />
+                        <Route path='/admin/edititem/:id' element={adminPage(<AdminItemEdit />)} />
+                        <Route path='/admin/users/:id' element={adminPage(<AdminUserInfo />)} />
+                        <Route path='/admin/:page' element={adminPage(<AdminPanel />)} />
+                        <Route path='/cart' element={<ShoppingCart />} />
+                        <Route path='/checkout' element={<CheckOut />} />
+                        <Route path='/info' element={<Info />} />
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/success' element={<CheckOutDone />} />
+                        <Route path='/order' element={<CheckOutCreateOrder />} />
+                        <Route path='/payment' element={<CheckOutPayment />} />
+                        <Route path='/register' element={<Register />} />
+                        <Route path='/shop' element={<Categories />} />
+                        <Route path='/shop/search' element={<ItemsSearch />} />
+                        <Route path='/shop/item/:id' element={<ItemDetails />} />
+                        <Route path='/shop/:id' element={<Items />} />
+                        <Route path='/you' element={<UserPanel />} />
+                        <Route path='*' element={<Error404 />} />
+                    </Routes>
+                </div>
+                <Footer />
+            </Router>
+        </div>
     );
 };
 

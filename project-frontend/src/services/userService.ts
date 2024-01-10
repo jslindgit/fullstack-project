@@ -29,6 +29,27 @@ const addNew = async (newUser: NewUser, config: Config): Promise<UserResponse> =
     }
 };
 
+const deleteUser = async (user: User, token: string, config: Config): Promise<UserResponse> => {
+    try {
+        const res = await axios.delete<User>(`${url}/${user.id}`, authConfig(token));
+        if (res.status === 204) {
+            return {
+                success: true,
+                message: `${contentToText(ContentID.user, config)} ${user.contactFirstName} ${user.contactLastName} (${user.username}) ${contentToText(
+                    ContentID.miscDeleted,
+                    config
+                )}.`,
+                user: user,
+            };
+        } else {
+            return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), user: null };
+        }
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: contentToText(ContentID.errorOccurred, config), user: null };
+    }
+};
+
 const getAll = async (): Promise<User[]> => {
     try {
         const { data } = await axios.get<User[]>(url, apiKeyConfig());
@@ -77,6 +98,7 @@ const update = async (userId: number, toUpdate: object, token: string, config: C
 
 export default {
     addNew,
+    deleteUser,
     getAll,
     getById,
     getByToken,

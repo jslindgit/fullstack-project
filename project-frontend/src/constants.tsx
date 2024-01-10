@@ -30,6 +30,7 @@ export const defaultConfig: Config = {
         secretKey: 'SAIPPUAKAUPPIAS',
     },
     store: {
+        contactCity: 'Vantaa',
         contactCountry: {
             names: [
                 { langCode: LangCode.EN, text: 'Finland' },
@@ -39,6 +40,8 @@ export const defaultConfig: Config = {
         contactEmail: 'info@unnamedwebstore123.com',
         contactName: 'Unnamed Webstore',
         contactPhone: '+358 9 123 45678',
+        contactStreetAddress: 'Verkkokauppatie 1',
+        contactZipcode: '01600',
         deliveryCountries: [
             {
                 names: [

@@ -65,10 +65,13 @@ const isConfigPaytrail = (obj: unknown): obj is ConfigPaytrail => {
 };
 
 export interface ConfigStore {
+    contactCity: string;
     contactCountry: Country;
     contactEmail: string;
     contactName: string;
     contactPhone: string;
+    contactStreetAddress: string;
+    contactZipcode: string;
     deliveryCountries: Country[];
     deliveryTimeBusinessDays: number;
 }
@@ -76,6 +79,8 @@ export interface ConfigStore {
 const isConfigStore = (obj: unknown): obj is ConfigStore => {
     return (
         isObject(obj) &&
+        'contactCity' in obj &&
+        isString(obj.contactCity) &&
         'contactCountry' in obj &&
         'contactEmail' in obj &&
         isString(obj.contactEmail) &&
@@ -83,6 +88,10 @@ const isConfigStore = (obj: unknown): obj is ConfigStore => {
         isString(obj.contactName) &&
         'contactPhone' in obj &&
         isString(obj.contactPhone) &&
+        'contactStreetAddress' in obj &&
+        isString(obj.contactStreetAddress) &&
+        'contactZipcode' in obj &&
+        isString(obj.contactZipcode) &&
         'deliveryCountries' in obj &&
         Array.isArray(obj.deliveryCountries) &&
         'deliveryTimeBusinessDays' in obj &&

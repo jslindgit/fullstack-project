@@ -2,6 +2,7 @@ import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
 import { User } from '../types/types';
 
+import format from '../util/format';
 import { contentToText } from '../types/languageFunctions';
 import { getUserStatus } from '../util/userProvider';
 
@@ -38,10 +39,6 @@ const UserBasicInfo = ({ addLinkToEmail = false, config, showUserStatus = false,
                     <td className='semiBold widthByContent'>{contentToText(ContentID.contactEmail, config)}:&emsp;</td>
                     <td>{addLinkToEmail ? <a href={'mailto:' + user.username}>{user.username}</a> : <>{user.username}</>}</td>
                 </tr>
-                <tr>
-                    <td className='semiBold widthByContent'>{contentToText(ContentID.accountUserId, config)}:&emsp;</td>
-                    <td>{user.id}</td>
-                </tr>
                 {showUserStatus ? (
                     <tr>
                         <td className='semiBold widthByContent'>Status:&emsp;</td>
@@ -50,6 +47,14 @@ const UserBasicInfo = ({ addLinkToEmail = false, config, showUserStatus = false,
                 ) : (
                     <></>
                 )}
+                <tr>
+                    <td className='semiBold widthByContent'>{contentToText(ContentID.accountUserId, config)}:&emsp;</td>
+                    <td>{user.id}</td>
+                </tr>
+                <tr>
+                    <td className='semiBold widthByContent'>{contentToText(ContentID.userRegisteredDate, config)}:&emsp;</td>
+                    <td>{format.dateFormat(new Date(user.createdAt))}</td>
+                </tr>
             </tbody>
         </table>
     );

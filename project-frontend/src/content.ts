@@ -56,8 +56,11 @@ export enum ContentID {
     adminPanelUsers = 'ADMIN: Users',
     adminUserInfoChangeStatus = 'ADMIN - USER INFO: Change Status (button)',
     adminUserInfoDeleteAccount = 'ADMIN - USER INFO: Delete account? (confirmation)',
+    adminUserInfoDeleteAccountButton = 'ADMIN - USER INFO: Delete Account (button)',
     adminUserInfoDisableAccount = 'ADMIN - USER INFO: Disable account? (confirmation)',
+    adminUserInfoDisableAccountButton = 'ADMIN - USER INFO: Disable Account (button)',
     adminUserInfoEnableAccount = 'ADMIN - USER INFO: Enable account? (confirmation)',
+    adminUserInfoEnableAccountButton = 'ADMIN - USER INFO: Enable Account (button)',
     adminUserInfoHeader = 'ADMIN - USER INFO: header',
     adminUserInfoSendMessage = 'ADMIN - USER INFO: Send Message (button)',
     adminYouCanOnlyDeleteItemsAddedByYou = 'ADMIN: You can only delete items you have added.',
@@ -207,7 +210,9 @@ export enum ContentID {
     statusPending = 'ORDER STATUS: Pending',
     statusProcessing = 'ORDER STATUS: Processing',
     statusRefunded = 'ORDER STATUS: Refunded',
+    user = 'USER: User',
     userDisabled = 'USER: Disabled (banned)',
+    userRegisteredDate = 'USER: Registered (date)',
     userStatusAdmin = 'USER - STATUS: Admin',
     userStatusCustomer = 'USER - STATUS: Customer',
     userStatusHeader = 'USER: Status (e.g. Admin)',
@@ -605,6 +610,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.adminUserInfoDeleteAccountButton,
+        content: [
+            { langCode: LangCode.EN, text: 'Delete Account' },
+            { langCode: LangCode.FI, text: 'Poista tili' },
+        ],
+    },
+    {
         id: ContentID.adminUserInfoDisableAccount,
         content: [
             { langCode: LangCode.EN, text: 'Disable this account?' },
@@ -612,10 +624,24 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.adminUserInfoDisableAccountButton,
+        content: [
+            { langCode: LangCode.EN, text: 'Disable Account' },
+            { langCode: LangCode.FI, text: 'Jäädytä tili' },
+        ],
+    },
+    {
         id: ContentID.adminUserInfoEnableAccount,
         content: [
             { langCode: LangCode.EN, text: 'Enable this account?' },
             { langCode: LangCode.FI, text: 'Palautetaanko tili käyttöön?' },
+        ],
+    },
+    {
+        id: ContentID.adminUserInfoEnableAccountButton,
+        content: [
+            { langCode: LangCode.EN, text: 'Enable Account' },
+            { langCode: LangCode.FI, text: 'Palauta tili' },
         ],
     },
     {
@@ -1646,10 +1672,24 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.user,
+        content: [
+            { langCode: LangCode.EN, text: 'User' },
+            { langCode: LangCode.FI, text: 'Käyttäjä' },
+        ],
+    },
+    {
         id: ContentID.userDisabled,
         content: [
             { langCode: LangCode.EN, text: 'Account suspended' },
             { langCode: LangCode.FI, text: 'Tili jäädytetty' },
+        ],
+    },
+    {
+        id: ContentID.userRegisteredDate,
+        content: [
+            { langCode: LangCode.EN, text: 'Registered:' },
+            { langCode: LangCode.FI, text: 'Rekisteröity:' },
         ],
     },
     {
