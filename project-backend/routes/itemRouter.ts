@@ -2,7 +2,7 @@
 import express from 'express';
 import { RequestHandler } from 'express';
 
-import { isNumber, isObject, toNewItem } from '../types/type_functions';
+import { isNumber, isObject, isString, toNewItem } from '../types/type_functions';
 
 import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
 import { errorHandler } from '../middlewares/errors';
@@ -14,6 +14,7 @@ const router = express.Router();
 router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
         const item = await service.getById(req.params.id);
+
         if (!item) {
             res.status(404).end();
         } else {
@@ -22,9 +23,7 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
                 if (deletedItem) {
                     res.status(204).end();
                 } else {
-                    res.status(404).json({
-                        error: `Item with id ${req.params.id} not found`,
-                    });
+                    res.status(500).end();
                 }
             } else {
                 res.status(403).end();
@@ -71,27 +70,58 @@ router.post('/', tokenExtractor, (async (req, res, next) => {
 
             res.status(201).json(addedItem);
         } else {
-            res.status(403).json({ error: 'Access denied' });
+            res.status(403).end();
         }
     } catch (err) {
         next(err);
     }
 }) as RequestHandler);
 
-router.put('/:id', apiKeyExtractor, (async (req, res, next) => {
+router.put('/updateinstockandsold/:id', apiKeyExtractor, (async (req, res, next) => {
     try {
         if (res.locals.correct_api_key === true) {
-            const item = await service.update(req.params.id, req.body);
-            if (item) {
-                res.status(200).json(item);
-                return;
+            if (
+                isObject(req.body) &&
+                'sizes' in req.body &&
+                Array.isArray(req.body.sizes) &&
+                req.body.sizes.every((s) => isString(s)) &&
+                'sold' in req.body &&
+                isNumber(req.body.sold)
+            ) {
+                const updatedItem = await service.update(req.params.id, { sizes: req.body.sizes, sold: req.body.sold });
+                if (updatedItem) {
+                    res.status(200).json(updatedItem);
+                } else {
+                    res.status(500).end();
+                }
             } else {
-                res.status(404).json({
-                    error: `Item with id ${req.params.id} not found`,
-                });
+                res.status(400).json({ error: '"instock" and "sold" properties missing or invalid.' });
             }
         } else {
-            res.status(403).json({ error: 'Access denied' });
+            res.status(403).end();
+        }
+    } catch (err) {
+        next(err);
+    }
+}) as RequestHandler);
+
+router.put('/:id', tokenExtractor, (async (req, res, next) => {
+    try {
+        const item = await service.getById(req.params.id);
+        if (!item) {
+            res.status(404).end();
+        } else {
+            if (res.locals.admin === true || (res.locals.operator === true && item.addedBy && item.addedBy === res.locals.user_id)) {
+                const updatedItem = await service.update(req.params.id, req.body);
+                if (updatedItem) {
+                    res.status(200).json(updatedItem);
+                    return;
+                } else {
+                    res.status(400).end();
+                }
+            } else {
+                res.status(403).end();
+            }
         }
     } catch (err) {
         next(err);

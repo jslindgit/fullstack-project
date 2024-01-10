@@ -11,7 +11,7 @@ export interface ItemAttributes {
     instock: number;
     name: string;
     price: number;
-    sizes: string;
+    sizes: string[];
     sold?: number;
 }
 

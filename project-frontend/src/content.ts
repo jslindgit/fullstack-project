@@ -63,6 +63,7 @@ export enum ContentID {
     adminYouCanOnlyDeleteItemsAddedByYou = 'ADMIN: You can only delete items you have added.',
     adminYouCanOnlyDeleteCategoriesAddedByYou = 'ADMIN - CATEGORIES: You can only delete categories you have added.',
     adminYouCanOnlyEditCategoriesAddedByYou = 'ADMIN - CATEGORIES: You can only edit categories you have added.',
+    adminYouCanOnlyEditItemsAddedByYou = 'ADMIN: You can only edit items you have added.',
     backButtonDefault = 'BACK BUTTON: Default label',
     buttonAdd = 'BUTTON: Add',
     buttonAddItemToCategory = 'BUTTON: Add Item to Category <category name>',
@@ -648,8 +649,15 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.adminYouCanOnlyEditCategoriesAddedByYou,
         content: [
-            { langCode: LangCode.EN, text: 'As an Operator, you can only edity categories which you have added.' },
+            { langCode: LangCode.EN, text: 'As an Operator, you can only edit categories which you have added.' },
             { langCode: LangCode.FI, text: 'Ylläpitäjänä voit muokata vain itse lisäämiäsi kategorioita.' },
+        ],
+    },
+    {
+        id: ContentID.adminYouCanOnlyEditItemsAddedByYou,
+        content: [
+            { langCode: LangCode.EN, text: 'As an Operator, you can only edit items which you have added.' },
+            { langCode: LangCode.FI, text: 'Ylläpitäjänä voit muokata vain itse lisäämiäsi tuotteita.' },
         ],
     },
     {

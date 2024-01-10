@@ -61,16 +61,12 @@ const AdminUserInfo = () => {
     };
 
     const handleDisableOrEnableAccount = async () => {
-        if (usersState.loggedUser?.admin && usersState.loggedUser.token) {
-            if (user) {
-                if (window.confirm(contentToText(user.disabled ? ContentID.adminUserInfoEnableAccount : ContentID.adminUserInfoDisableAccount, config))) {
-                    const response = await userService.update(user.id, { disabled: !user.disabled }, usersState.loggedUser.token, config);
-                    dispatch(setNotification({ message: response.message, tone: response.success ? 'Positive' : 'Negative' }));
-                    setUser(response.user);
-                }
+        if (user && usersState.loggedUser) {
+            if (window.confirm(contentToText(user.disabled ? ContentID.adminUserInfoEnableAccount : ContentID.adminUserInfoDisableAccount, config))) {
+                const response = await userService.update(user.id, { disabled: !user.disabled }, usersState.loggedUser.token, config);
+                dispatch(setNotification({ message: response.message, tone: response.success ? 'Positive' : 'Negative' }));
+                setUser(response.user);
             }
-        } else {
-            window.alert(contentToText(ContentID.errorThisOperationRequiresAdminRights, config));
         }
     };
 
@@ -136,25 +132,18 @@ const AdminUserInfo = () => {
                                 {contentToText(ContentID.adminUserInfoChangeStatus, config)}
                             </button>
                             &emsp;
-                            {user.disabled ? (
-                                <button type='button' onClick={handleDisableOrEnableAccount}>
-                                    {contentToText(ContentID.buttonEnable, config)} {contentToText(ContentID.menuAccount, config)}
-                                </button>
-                            ) : (
-                                <button
-                                    type='button'
-                                    className='red'
-                                    onClick={handleDisableOrEnableAccount}
-                                    disabled={user.admin || (user.operator && !usersState.loggedUser?.admin)}
-                                    title={
-                                        user.operator && !usersState.loggedUser?.admin
-                                            ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config)
-                                            : ''
-                                    }
-                                >
-                                    {contentToText(ContentID.buttonDisable, config)} {contentToText(ContentID.menuAccount, config)}
-                                </button>
-                            )}
+                            <button
+                                type='button'
+                                className='red'
+                                onClick={handleDisableOrEnableAccount}
+                                disabled={user.admin || (user.operator && !usersState.loggedUser?.admin)}
+                                title={
+                                    user.operator && !usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''
+                                }
+                            >
+                                {contentToText(user.disabled ? ContentID.buttonEnable : ContentID.buttonDisable, config)}{' '}
+                                {contentToText(ContentID.menuAccount, config)}
+                            </button>
                         </td>
                         <td className='alignRight'>
                             &emsp;

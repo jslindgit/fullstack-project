@@ -54,7 +54,6 @@ const CheckOutDone = () => {
         if (orderId) {
             const fetchOrder = async () => {
                 const response = await orderService.getById(Number(orderId));
-                console.log('response (fetching):', response);
                 setOrderResponse(response);
                 attemptedToFetchOrder.current = true;
             };
@@ -78,12 +77,9 @@ const CheckOutDone = () => {
 
     // When 'orderResponse' is set, check that the returned 'signature' is valid:
     useEffect(() => {
-        console.log('When orderResponse is set, check that the returned signature is valid');
         if (errorWhenFetchingOrder === false && orderResponse?.order && signatureStatus === SignatureStatus.PENDING) {
-            console.log('if (orderResponse?.order && signatureStatus.current === SignatureStatus.PENDING) {');
             const isValidSignature = async () => {
                 const res = await paytrailService.validateSignatureFromUrl(window.location.href);
-                console.log('res (paytrailService.validateSignatureFromUrl):', res);
                 setSignatureStatus(res.success ? SignatureStatus.VALID : SignatureStatus.INVALID);
             };
             isValidSignature();
@@ -93,14 +89,12 @@ const CheckOutDone = () => {
     // If the 'signature' is valid, update the Order's 'status' (from "PENDING" to "PROCESSING") and 'paymentMethod'.
     // Also update the 'instock' and 'sold' attributes of all the Items that were in this Order:
     useEffect(() => {
-        console.log('If the signature is valid, update the orders status from "PENDING" to "PROCESSING":');
         if (errorWhenFetchingOrder === false && orderResponse?.order?.status === OrderStatus.PENDING && signatureStatus === SignatureStatus.VALID) {
             console.log('updating...');
             const updateOrderStatus = async () => {
                 if (orderResponse.order) {
                     const paymentMethod = searchparams.get('checkout-provider') as string;
                     const response = await orderService.update(orderResponse.order.id, { paymentMethod: paymentMethod, status: OrderStatus.PROCESSING });
-                    console.log('response (updating status):', orderResponse);
                     setOrderResponse(response);
                 }
             };
@@ -109,7 +103,7 @@ const CheckOutDone = () => {
 
             const updateSoldValues = async () => {
                 if (orderResponse.order) {
-                    await itemService.updateInstockAndSoldValues(orderResponse.order, config);
+                    await itemService.updateInstockAndSoldValues(orderResponse.order);
                 }
             };
 

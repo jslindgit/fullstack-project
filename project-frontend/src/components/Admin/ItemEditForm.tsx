@@ -86,6 +86,8 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
         navigate(localstorageHandler.getPreviousLocation());
     };
 
+    const canSubmit = () => usersState.loggedUser?.admin || !(itemToEdit && !(itemToEdit.addedBy && itemToEdit.addedBy === usersState.loggedUser?.id));
+
     const changesMade = (): boolean => {
         if (itemToEdit) {
             if (
@@ -104,11 +106,13 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             if (descriptionFields.find((df) => df.textArea.value !== itemToEdit.description.find((langText) => langText.langCode === df.langCode)?.text)) {
                 return true;
             }
-            if (
-                itemToEdit.sizes.length < 1 ||
-                itemToEdit.sizes.length !== sizes.length ||
-                (itemToEdit.sizes.length === 1 && itemToEdit.sizes[0].instock !== oneSizeInstock)
-            ) {
+            if (itemToEdit.sizes.length < 1) {
+                return true;
+            }
+            if (itemToEdit.sizes.length !== sizes.length && !(sizes.length < 1 && itemToEdit.sizes.length === 1 && itemToEdit.sizes[0].size === '-')) {
+                return true;
+            }
+            if (itemToEdit.sizes.length === 1 && itemToEdit.sizes[0].instock !== oneSizeInstock) {
                 return true;
             }
             if (sizes.length > 0 && itemToEdit.sizes.length === sizes.length) {
@@ -196,7 +200,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
                     };
 
-                    const res = await itemService.update(finalItem, config, dispatch);
+                    const res = await itemService.update(finalItem, token, config, dispatch);
                     returnedItem = res.item;
 
                     dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
@@ -356,7 +360,12 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                                     </tr>
                                     <tr>
                                         <td colSpan={2} width='1px'>
-                                            <button type='button' onClick={submit} disabled={!(changesMade() && validateFields())}>
+                                            <button
+                                                type='button'
+                                                onClick={submit}
+                                                disabled={!(changesMade() && validateFields()) || !canSubmit()}
+                                                title={!canSubmit() ? contentToText(ContentID.adminYouCanOnlyEditItemsAddedByYou, config) : ''}
+                                            >
                                                 {contentToText(ContentID.buttonSave, config)}
                                             </button>
                                             &emsp;

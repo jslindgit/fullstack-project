@@ -18,12 +18,10 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
             if (deletedUser) {
                 res.status(204).end();
             } else {
-                res.status(404).json({
-                    error: `User with id ${req.params.id} not found`,
-                });
+                res.status(404).end();
             }
         } else {
-            res.status(403).json({ error: 'Access denied' });
+            res.status(403).end();
         }
     } catch (err) {
         next(err);
@@ -93,17 +91,22 @@ router.post('/', apiKeyExtractor, (async (req, res, next) => {
 
 router.put('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        if (res.locals.admin === true) {
-            const user = await service.update(req.params.id, req.body);
-            if (user) {
-                res.status(200).json(user);
-            } else {
-                res.status(404).json({
-                    error: `User with id ${req.params.id} not found`,
-                });
-            }
+        const user = await service.update(req.params.id, req.body);
+
+        if (!user) {
+            res.status(404).end();
         } else {
-            res.status(403).json({ error: 'Access denied' });
+            if (user.admin === false && (res.locals.admin === true || (res.locals.operator === true && user.operator === false))) {
+                if (user) {
+                    res.status(200).json(user);
+                } else {
+                    res.status(404).json({
+                        error: `User with id ${req.params.id} not found`,
+                    });
+                }
+            } else {
+                res.status(403).json({ error: 'Access denied' });
+            }
         }
     } catch (err) {
         next(err);

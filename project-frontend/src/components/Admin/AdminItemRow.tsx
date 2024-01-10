@@ -23,6 +23,8 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
     const descriptionMaxLengthToShow = 300;
     const description = langTextsToText(item.description, config);
 
+    const canEditAndDelete = () => usersState.loggedUser?.admin || (item.addedBy && item.addedBy === usersState.loggedUser?.id);
+
     return (
         <tr>
             <td className='semiBold widthByContent'>{langTextsToText(item.name, config)}</td>
@@ -41,7 +43,12 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
             </td>
             <td style={{ paddingRight: 0 }}>
                 <Link to={'/admin/edititem/' + item.id}>
-                    <button type='button' className='compactButton'>
+                    <button
+                        type='button'
+                        className='compactButton'
+                        disabled={!canEditAndDelete()}
+                        title={!canEditAndDelete() ? contentToText(ContentID.adminYouCanOnlyEditItemsAddedByYou, config) : ''}
+                    >
                         {contentToText(ContentID.buttonEdit, config)}
                     </button>
                 </Link>
@@ -51,12 +58,8 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                     type='button'
                     className='red compactButton'
                     onClick={() => deleteItem(item)}
-                    disabled={!(item.addedBy && item.addedBy === usersState.loggedUser?.id)}
-                    title={
-                        !(item.addedBy && item.addedBy === usersState.loggedUser?.id)
-                            ? contentToText(ContentID.adminYouCanOnlyDeleteItemsAddedByYou, config)
-                            : ''
-                    }
+                    disabled={!canEditAndDelete()}
+                    title={!canEditAndDelete() ? contentToText(ContentID.adminYouCanOnlyDeleteItemsAddedByYou, config) : ''}
                 >
                     {contentToText(ContentID.buttonRemove, config)}
                 </button>

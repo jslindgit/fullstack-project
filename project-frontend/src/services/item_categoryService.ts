@@ -19,17 +19,6 @@ const addConnection = async (item: Item, category: Category, token: string): Pro
     }
 };
 
-const deleteAllConnectionsByItem = async (item: Item, token: string): Promise<Response> => {
-    try {
-        await axios.delete(url + '/all_by_item_id/' + item.id, authConfig(token));
-
-        return { success: true, message: `${item.name} removed from all categories` };
-    } catch (err: unknown) {
-        handleError(err);
-        return { success: false, message: 'Error occurred' };
-    }
-};
-
 const deleteConnection = async (itemId: number, categoryId: number, token: string): Promise<Response> => {
     try {
         const res = await axios.delete(url + '/item_and_category_id', { ...authConfig(token), data: { item_id: itemId, category_id: categoryId } });
@@ -46,6 +35,5 @@ const deleteConnection = async (itemId: number, categoryId: number, token: strin
 
 export default {
     addConnection,
-    deleteAllConnectionsByItem,
     deleteConnection,
 };

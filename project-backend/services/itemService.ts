@@ -28,6 +28,10 @@ const deleteById = async (id: unknown): Promise<ItemInstance | null> => {
     try {
         const item = await getById(id);
         if (item) {
+            // First delete the connection tables involving this Item:
+            await item_category_service.deleteByItemId(id);
+
+            // Then delete the Item:
             await item.destroy();
         }
         return item;
@@ -92,7 +96,6 @@ const getById = async (id: unknown): Promise<ItemInstance | null> => {
 };
 
 const update = async (id: unknown, props: unknown): Promise<ItemInstance | null> => {
-    console.log('props:', props);
     try {
         const item = await getById(id);
         if (item) {

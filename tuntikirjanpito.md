@@ -126,4 +126,5 @@
 |   6.1.    | 2    | Kokovalinnan työstöä                                                                                                 |     |
 |   9.1.    | 1    | Käyttöoikeuksien työstöä                                                                                             |     |
 |           | 1    | Käyttöoikeuksien työstöä                                                                                             |     |
-|    yht    | 215  |                                                                                                                      |     |
+|   10.1.   | 1    | Käyttöoikeuksien työstöä                                                                                             |     |
+|    yht    | 216  |                                                                                                                      |     |

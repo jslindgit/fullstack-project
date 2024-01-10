@@ -11,7 +11,6 @@ import { initializeCategories } from '../reducers/categoryReducer';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
-import item_categoryService from './item_categoryService';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { apiKeyConfig, authConfig, itemFromResBody, itemToReqBody } from '../util/serviceProvider';
 
@@ -44,9 +43,6 @@ const add = async (toAdd: NewItem, category_id: number | null, token: string, co
 
 const deleteItem = async (item: Item, token: string, config: Config, dispatch: Dispatch<AnyAction>): Promise<Response> => {
     try {
-        // First delete the connection tables involving this Item:
-        await item_categoryService.deleteAllConnectionsByItem(item, token);
-
         const res = await axios.delete<Item>(`${url}/${item.id}`, authConfig(token));
         if (res.status === 204) {
             await initializeCategories(dispatch);
@@ -110,9 +106,10 @@ const getBySearchQuery = async (searchQuery: string, config: Config): Promise<It
     }
 };
 
-const update = async (item: Item, config: Config, dispatch: Dispatch<AnyAction> | null): Promise<ItemResponse> => {
+const update = async (item: Item, token: string, config: Config, dispatch: Dispatch<AnyAction> | null): Promise<ItemResponse> => {
     try {
         const toUpdate = {
+            addedBy: item.addedBy,
             description: item.description,
             images: item.images,
             instock: item.instock,
@@ -122,7 +119,7 @@ const update = async (item: Item, config: Config, dispatch: Dispatch<AnyAction> 
             sold: item.sold,
         };
 
-        const res = await axios.put<Item>(`${url}/${item.id}`, itemToReqBody(toUpdate), apiKeyConfig());
+        const res = await axios.put<Item>(`${url}/${item.id}`, itemToReqBody(toUpdate), authConfig(token));
         const updatedItem = itemFromResBody(res.data);
 
         if (updatedItem) {
@@ -147,18 +144,32 @@ const update = async (item: Item, config: Config, dispatch: Dispatch<AnyAction> 
     }
 };
 
-const updateInstockAndSoldValues = async (order: Order, config: Config) => {
-    order.items.forEach(async (shoppingItem) => {
-        const item = await getById(shoppingItem.id);
-        if (item) {
-            const currentSizes = [...item.sizes];
-            const size = currentSizes.find((s) => s.size === shoppingItem.size);
-            const finalSizes: ItemSizeAndInstock[] = size
-                ? [...currentSizes.filter((s) => s.size !== size.size), { size: size.size, instock: size.instock - shoppingItem.quantity }]
-                : currentSizes;
-            await update({ ...item, sizes: finalSizes, sold: item.sold + shoppingItem.quantity }, config, null);
-        }
-    });
+const updateInstockAndSoldValues = async (order: Order) => {
+    try {
+        order.items.forEach(async (shoppingItem) => {
+            const item = await getById(shoppingItem.id);
+            if (item) {
+                const currentSizes = [...item.sizes];
+                const size = currentSizes.find((s) => s.size === (shoppingItem.size.length > 0 ? shoppingItem.size : '-'));
+                const finalSizes: ItemSizeAndInstock[] = size
+                    ? [...currentSizes.filter((s) => s.size !== size.size), { size: size.size, instock: size.instock - shoppingItem.quantity }]
+                    : currentSizes;
+
+                await axios.put(
+                    `${url}/updateinstockandsold/${item.id}`,
+                    {
+                        sizes: finalSizes.map((sizeAndInstock) => JSON.stringify(sizeAndInstock)),
+                        sold: item.sold + shoppingItem.quantity,
+                    },
+                    apiKeyConfig()
+                );
+            } else {
+                handleError(`Item with id ${shoppingItem.id} not found.`);
+            }
+        });
+    } catch (err: unknown) {
+        handleError(err);
+    }
 };
 
 export default {
