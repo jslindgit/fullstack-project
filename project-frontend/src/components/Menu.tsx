@@ -133,7 +133,7 @@ const Menu = () => {
     };
 
     const setLogoutNotification = () => {
-        dispatch(setNotification({ tone: 'Neutral', message: contentToText(ContentID.notificationLoggedOut, config) }));
+        dispatch(setNotification({ tone: 'Positive', message: contentToText(ContentID.notificationLoggedOut, config) }));
     };
 
     const showAdminMenu = () => {

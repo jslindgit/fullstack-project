@@ -26,6 +26,9 @@
 .sizeVeryLarge {
     font-size: 1.5rem;
 }
+.sizeExtremelyLarge {
+    font-size: 2rem;
+}
 
 /* Font weight */
 .normalWeight {

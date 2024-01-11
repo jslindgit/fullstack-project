@@ -13,15 +13,20 @@ const router = express.Router();
 
 router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        if (res.locals.admin === true) {
-            const deletedUser = await service.deleteById(req.params.id);
-            if (deletedUser) {
-                res.status(204).end();
-            } else {
-                res.status(404).end();
-            }
+        const user = await service.getById(req.params.id);
+        if (!user) {
+            res.status(404).end();
         } else {
-            res.status(403).end();
+            if (res.locals.admin === true || res.locals.user_id === user.id) {
+                const deletedUser = await service.deleteById(req.params.id);
+                if (deletedUser) {
+                    res.status(204).end();
+                } else {
+                    res.status(404).end();
+                }
+            } else {
+                res.status(403).end();
+            }
         }
     } catch (err) {
         next(err);

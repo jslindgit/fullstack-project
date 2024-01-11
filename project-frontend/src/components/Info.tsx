@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 
-import { contentToText } from '../types/languageFunctions';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { pageWidth } from '../constants';
 
 const Info = () => {
@@ -66,6 +66,20 @@ const Info = () => {
                                             </td>
                                         </tr>
                                         {phone(config.store.contactPhone)}
+                                        <tr>
+                                            <td className='widthByContent'>{contentToText(ContentID.miscAddress, config)}:&emsp;</td>
+                                            <td>{config.store.contactStreetAddress}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style={{ paddingTop: 0 }}></td>
+                                            <td style={{ paddingTop: 0 }}>
+                                                {config.store.contactZipcode} {config.store.contactCity}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={{ paddingTop: 0 }}></td>
+                                            <td style={{ paddingTop: 0 }}>{langTextsToText(config.store.contactCountry.names, config)}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </td>

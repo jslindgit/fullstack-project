@@ -1,6 +1,7 @@
 import { Country, Currency } from './types';
-import { Language } from './languageTypes';
+import { LangText, Language } from './languageTypes';
 
+import { isLangText } from './languageFunctions';
 import { isNumber, isObject, isString } from './typeFunctions';
 
 export interface Config {
@@ -74,6 +75,8 @@ export interface ConfigStore {
     contactZipcode: string;
     deliveryCountries: Country[];
     deliveryTimeBusinessDays: number;
+    description: LangText[];
+    welcome: LangText[];
 }
 
 const isConfigStore = (obj: unknown): obj is ConfigStore => {
@@ -95,6 +98,10 @@ const isConfigStore = (obj: unknown): obj is ConfigStore => {
         'deliveryCountries' in obj &&
         Array.isArray(obj.deliveryCountries) &&
         'deliveryTimeBusinessDays' in obj &&
-        isNumber(obj.deliveryTimeBusinessDays)
+        isNumber(obj.deliveryTimeBusinessDays) &&
+        'description' in obj &&
+        isLangText(obj.description) &&
+        'welcome' in obj &&
+        isLangText(obj.welcome)
     );
 };

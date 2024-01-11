@@ -126,7 +126,6 @@ export enum ContentID {
     errorSomethingWentWrong = 'ERROR: Something went wrong',
     errorSomethingWentWrongTryAgainlater = 'ERROR: Something went wrong, please try again later',
     errorThisOperationRequiresAdminRights = 'This operation requires Admin rights.',
-    homeWelcome = 'HOME: Welcome text',
     itemsAddedToShoppingCart1 = 'ITEMS: "<item(s)> added to (shopping cart)" (notification)',
     itemsAddedToShoppingCart2 = 'ITEMS: "<item(s)> (added to) shopping cart" (notification)',
     itemsAddToShoppingCart = 'ITEMS: "Add to shopping cart" button',
@@ -160,6 +159,7 @@ export enum ContentID {
     menuLogout = 'MENU: Log out',
     menuProducts = 'MENU: Products',
     menuShoppingCart = 'MENU: Shopping Cart',
+    miscAddress = 'MISC: Address',
     miscClickToChangeSortingOrder = 'MISC: Click to change sorting order',
     miscClickToSortByThis = 'MISC: Click to sort by this (column)',
     miscCopy = 'MISC: Copy',
@@ -1105,13 +1105,6 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.homeWelcome,
-        content: [
-            { langCode: LangCode.EN, text: 'Welcome to Webstore' },
-            { langCode: LangCode.FI, text: 'Tervetuloa Verkkokauppaan' },
-        ],
-    },
-    {
         id: ContentID.itemsAddedToShoppingCart1,
         content: [
             { langCode: LangCode.EN, text: 'added to' },
@@ -1340,6 +1333,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Shopping Cart' },
             { langCode: LangCode.FI, text: 'Ostoskori' },
+        ],
+    },
+    {
+        id: ContentID.miscAddress,
+        content: [
+            { langCode: LangCode.EN, text: 'Address' },
+            { langCode: LangCode.FI, text: 'Osoite' },
         ],
     },
     {

@@ -72,7 +72,7 @@ router.post('/checkpassword', apiKeyExtractor, (async (req, res, next) => {
     try {
         if (res.locals.correct_api_key === true) {
             const credentials = toCredentials(req.body);
-            const response = await service.login(credentials);
+            const response = await service.checkPassword(credentials);
 
             switch (response) {
                 case LoginError.InvalidPassword:

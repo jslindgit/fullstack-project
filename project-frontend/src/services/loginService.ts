@@ -35,7 +35,7 @@ const checkPassword = async (username: string, password: string, config: Config)
         const res = await axios.post(url + '/checkpassword', { username: username, password: password }, apiKeyConfig());
 
         if (res.status === 200 && isUser(res.data.response)) {
-            return { success: true, message: contentToText(ContentID.loginLoggedInAs, config) + ' ' + res.data.response.username };
+            return { success: true, message: 'Ok' };
         } else {
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config) };
         }
@@ -68,7 +68,6 @@ const login = async (username: string, password: string, setLoggedUser: (loggedU
 };
 
 const logout = async (token: string, removeLoggedUser: () => void) => {
-    //localstorage_handler.removeToken();
     removeLoggedUser();
 
     try {
