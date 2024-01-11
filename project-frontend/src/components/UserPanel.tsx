@@ -14,6 +14,7 @@ import { initializeLoggedUser } from '../reducers/userReducer';
 import UserBasicInfo from './UserBasicInfo';
 import UserChangePassword from './UserChangePassword';
 import UserContactInfo from './UserContactInfo';
+import UserDeleteAccount from './UserDeleteAccount';
 import UserOrderHistory from './UserOrderHistory';
 
 const UserPanel = () => {
@@ -67,6 +68,8 @@ const UserPanel = () => {
             <UserChangePassword config={config} user={user} width={pageWidth} />
             <br />
             <UserOrderHistory config={config} user={user} width={pageWidth} />
+            <br />
+            <UserDeleteAccount config={config} user={user} width={pageWidth} />
             <br />
             <br />
         </>

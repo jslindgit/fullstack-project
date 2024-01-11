@@ -82,21 +82,6 @@ const Login = () => {
         </div>
     );
 
-    const userInfo = () => {
-        if (usersState.loggedUser) {
-            const logged = usersState.loggedUser;
-            return (
-                <>
-                    <h2>Logged in as {logged.username}</h2>
-                    <br />
-                    <Link to='/login' onClick={async () => await loginService.logout(logged.token, removeLogged)}>
-                        <h2>Logout</h2>
-                    </Link>
-                </>
-            );
-        }
-    };
-
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
         const response = await loginService.login(username.value.toString(), password.value.toString(), setLogged, config);
@@ -107,6 +92,21 @@ const Login = () => {
             dispatch(setNotification({ tone: 'Positive', message: response.message }));
         } else {
             dispatch(setNotification({ tone: 'Negative', message: response.message }));
+        }
+    };
+
+    const userInfo = () => {
+        if (usersState.loggedUser) {
+            const logged = usersState.loggedUser;
+            return (
+                <>
+                    <h2>{logged.username}</h2>
+                    <br />
+                    <Link to='/login' onClick={async () => await loginService.logout(logged.token, removeLogged)}>
+                        <h3>{contentToText(ContentID.menuLogout, config)}</h3>
+                    </Link>
+                </>
+            );
         }
     };
 

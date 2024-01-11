@@ -5,6 +5,8 @@ export enum ContentID {
     accountAccountInfo = 'ACCOUNT: Account Information',
     accountChangePassword = 'ACCOUNT: Change Password',
     accountContactInfo = 'ACCOUNT: Contact Information',
+    accountDeleteAccount = 'ACCOUNT: Delete Account',
+    accountDeleteAccountConfirm = 'ACCOUNT: Delete Account confirmation',
     accountOrderHistory = 'ACCOUNT: Order History',
     accountPasswordCurrent = 'ACCOUNT: Current Password',
     accountPasswordNew = 'ACCOUNT: New Password',
@@ -250,6 +252,20 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Contact Information' },
             { langCode: LangCode.FI, text: 'Yhteystiedot' },
+        ],
+    },
+    {
+        id: ContentID.accountDeleteAccount,
+        content: [
+            { langCode: LangCode.EN, text: 'Delete account' },
+            { langCode: LangCode.FI, text: 'Poista käyttäjätili' },
+        ],
+    },
+    {
+        id: ContentID.accountDeleteAccountConfirm,
+        content: [
+            { langCode: LangCode.EN, text: 'Are you sure you want to delete your account? Enter your password to confirm:' },
+            { langCode: LangCode.FI, text: 'Haluatko varmasti poistaa käyttäjätilisi?\r\n\r\nSyötä salasanasi vahvistaaksesi:' },
         ],
     },
     {

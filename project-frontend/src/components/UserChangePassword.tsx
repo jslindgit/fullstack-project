@@ -23,9 +23,9 @@ const UserChangePassword = ({ config, user, width }: Props) => {
     const [newPasswordError, setNewPasswordError] = useState<string>('');
     const [showPasswordFields, setShowPasswordFields] = useState<boolean>(false);
 
-    const passwordCurrent = useField('password');
-    const passwordNew = useField('password');
-    const passwordNewConfirm = useField('password');
+    const passwordCurrent = useField('password', null);
+    const passwordNew = useField('password', null);
+    const passwordNewConfirm = useField('password', null);
 
     const handleCancelButton = () => {
         passwordCurrent.reset();

@@ -63,6 +63,36 @@ const changePassword = async (credentials: Credentials, newPassword: string): Pr
     }
 };
 
+const checkPassword = async (credentials: Credentials): Promise<UserAttributes | LoginError> => {
+    try {
+        const user = await User.findOne({ where: { username: credentials.username } });
+        if (!user) {
+            return LoginError.InvalidUsername;
+        }
+
+        let passwordCorrect = false;
+        if ('passwordHash' in user && isString(user.passwordHash)) {
+            passwordCorrect = await bcrypt.compare(credentials.password, user.passwordHash);
+        } else {
+            return LoginError.SomethingWentWrong;
+        }
+
+        if (!passwordCorrect) {
+            return LoginError.InvalidPassword;
+        }
+
+        const userWithoutPasswordHash = removePasswordHash(user);
+        if (userWithoutPasswordHash) {
+            return userWithoutPasswordHash;
+        } else {
+            return LoginError.SomethingWentWrong;
+        }
+    } catch (err) {
+        handleError(err);
+        return LoginError.SomethingWentWrong;
+    }
+};
+
 const login = async (credentials: Credentials): Promise<UserAttributes | LoginError> => {
     try {
         const user = await User.findOne({ where: { username: credentials.username } });
@@ -140,6 +170,7 @@ const logout = async (token: string): Promise<LogoutResult> => {
 
 export default {
     changePassword,
+    checkPassword,
     login,
     logout,
 };

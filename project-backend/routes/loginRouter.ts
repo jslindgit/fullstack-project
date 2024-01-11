@@ -68,6 +68,33 @@ router.post('/', apiKeyExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
+router.post('/checkpassword', apiKeyExtractor, (async (req, res, next) => {
+    try {
+        if (res.locals.correct_api_key === true) {
+            const credentials = toCredentials(req.body);
+            const response = await service.login(credentials);
+
+            switch (response) {
+                case LoginError.InvalidPassword:
+                    res.status(401).send({ error: 'Invalid password' });
+                    return;
+                case LoginError.InvalidUsername:
+                    res.status(401).send({ error: 'Invalid username' });
+                    return;
+                case LoginError.SomethingWentWrong:
+                    res.status(400).send({ error: 'Something went wrong' });
+                    return;
+            }
+
+            res.status(200).send({ response });
+        } else {
+            res.status(403).json({ error: 'Access denied' });
+        }
+    } catch (err) {
+        next(err);
+    }
+}) as RequestHandler);
+
 router.post('/changepassword', apiKeyExtractor, (async (req, res, next) => {
     try {
         if (res.locals.correct_api_key === true) {

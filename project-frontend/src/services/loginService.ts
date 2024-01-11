@@ -30,13 +30,31 @@ const changePassword = async (username: string, currentPassword: string, newPass
     }
 };
 
+const checkPassword = async (username: string, password: string, config: Config): Promise<LoginResponse> => {
+    try {
+        const res = await axios.post(url + '/checkpassword', { username: username, password: password }, apiKeyConfig());
+
+        if (res.status === 200 && isUser(res.data.response)) {
+            return { success: true, message: contentToText(ContentID.loginLoggedInAs, config) + ' ' + res.data.response.username };
+        } else {
+            return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config) };
+        }
+    } catch (err: unknown) {
+        if (err instanceof AxiosError && err.response?.status === 401) {
+            return { success: false, message: contentToText(ContentID.loginInvalidUsernameOrPassword, config) };
+        } else {
+            return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config) };
+        }
+    }
+};
+
 const login = async (username: string, password: string, setLoggedUser: (loggedUser: User) => void, config: Config): Promise<LoginResponse> => {
     try {
         const res = await axios.post(url, { username: username, password: password }, apiKeyConfig());
 
         if (res.status === 200 && isUser(res.data.response)) {
             setLoggedUser(res.data.response);
-            return { success: true, message: contentToText(ContentID.loginLoggedInAs, config) + res.data.response.username };
+            return { success: true, message: contentToText(ContentID.loginLoggedInAs, config) + ' ' + res.data.response.username };
         } else {
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config) };
         }
@@ -66,6 +84,7 @@ const logout = async (token: string, removeLoggedUser: () => void) => {
 
 export default {
     changePassword,
+    checkPassword,
     login,
     logout,
 };

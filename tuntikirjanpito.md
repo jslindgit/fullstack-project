@@ -128,4 +128,5 @@
 |           | 1    | Käyttöoikeuksien työstöä                                                                                             |     |
 |   10.1.   | 1    | Käyttöoikeuksien työstöä                                                                                             |     |
 |           | 1    | Käyttäjän poistaminen, Alapalkki                                                                                     |     |
-|    yht    | 217  |                                                                                                                      |     |
+|   11.1.   | 1    | Käyttäjälle mahdollisuus poistaa käyttäjätilinsä                                                                     |     |
+|    yht    | 218  |                                                                                                                      |     |

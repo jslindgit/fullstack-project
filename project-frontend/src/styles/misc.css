@@ -66,11 +66,13 @@
 .infoBox td:first-child {
     padding-right: 0;
 }
-
 .infoBox.errors {
     border: solid 0.2rem var(--colorRedLight) !important;
     border-radius: 0.75rem !important;
     padding: 1.25rem;
+}
+.infoBox.red {
+    border-color: var(--colorRed) !important;
 }
 
 .infoHeader {
