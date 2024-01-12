@@ -3,21 +3,21 @@ import express from 'express';
 import { RequestHandler } from 'express';
 
 import { errorHandler } from '../middlewares/errors';
-import service from '../services/categoryService';
-import { isNumber, isString, toNewCategory } from '../types/type_functions';
+import service from '../services/settingsService';
 import { tokenExtractor } from '../middlewares/tokenExtractor';
+import { toNewSettings } from '../types/type_functions';
 
 const router = express.Router();
 
 router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const category = await service.getById(req.params.id);
-        if (!category) {
+        const settings = await service.getById(req.params.id);
+        if (!settings) {
             res.status(404).end();
         } else {
-            if (res.locals.admin === true || (res.locals.operator === true && category.addedBy && category.addedBy === res.locals.user_id)) {
-                const deletedCategory = await service.deleteById(req.params.id);
-                if (deletedCategory) {
+            if (res.locals.admin === true) {
+                const deletedSettings = await service.deleteById(req.params.id);
+                if (deletedSettings) {
                     res.status(204).end();
                 } else {
                     res.status(500).end();
@@ -31,10 +31,10 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.get('/', (async (req, res, next) => {
+router.get('/', (async (_req, res, next) => {
     try {
-        const categories = await service.getAll(isString(req.query.search) ? req.query.search : '');
-        res.json(categories);
+        const settings = await service.getAll();
+        res.json(settings);
     } catch (err) {
         next(err);
     }
@@ -42,9 +42,9 @@ router.get('/', (async (req, res, next) => {
 
 router.get('/:id', (async (req, res, next) => {
     try {
-        const category = await service.getById(req.params.id);
-        if (category) {
-            res.json(category);
+        const settings = await service.getById(req.params.id);
+        if (settings) {
+            res.json(settings);
         } else {
             res.status(404).end();
         }
@@ -55,11 +55,11 @@ router.get('/:id', (async (req, res, next) => {
 
 router.post('/', tokenExtractor, (async (req, res, next) => {
     try {
-        if ((res.locals.admin === true || res.locals.operator === true) && res.locals.user_id && isNumber(res.locals.user_id)) {
-            const newCategory = toNewCategory(req.body);
-            const addedCategory = await service.addNew({ ...newCategory, addedBy: res.locals.user_id });
+        if (res.locals.admin === true) {
+            const newSettings = toNewSettings(req.body);
+            const addedSettings = await service.addNew(newSettings);
 
-            res.status(201).json(addedCategory);
+            res.status(201).json(addedSettings);
         } else {
             res.status(403).end();
         }
@@ -70,14 +70,14 @@ router.post('/', tokenExtractor, (async (req, res, next) => {
 
 router.put('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const category = await service.getById(req.params.id);
-        if (!category) {
+        const settings = await service.getById(req.params.id);
+        if (!settings) {
             res.status(404);
         } else {
-            if (res.locals.admin === true || (res.locals.operator === true && category.addedBy && category.addedBy === res.locals.user_id)) {
-                const updatedCategory = await service.update(req.params.id, req.body);
-                if (updatedCategory) {
-                    res.status(200).json(updatedCategory);
+            if (res.locals.admin === true || res.locals.operator === true) {
+                const updatedSettings = await service.update(req.params.id, req.body);
+                if (updatedSettings) {
+                    res.status(200).json(updatedSettings);
                 } else {
                     res.status(500).end();
                 }

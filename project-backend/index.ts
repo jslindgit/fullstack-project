@@ -12,6 +12,7 @@ import itemRouter from './routes/itemRouter';
 import loginRouter from './routes/loginRouter';
 import orderRouter from './routes/orderRouter';
 import paytrailRouter from './routes/paytrailRouter';
+import settingsRouter from './routes/settingsRouter';
 import userRouter from './routes/userRouter';
 
 import './util/scheduledTasks';
@@ -43,6 +44,7 @@ app.use('/api/item_categories', item_categoryRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/paytrail', paytrailRouter);
+app.use('/api/settings', settingsRouter);
 app.use('/api/users', userRouter);
 
 app.use('/api/images', cors(corsOptions));

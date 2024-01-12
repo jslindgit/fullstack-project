@@ -4,6 +4,7 @@ import { NewItem } from '../models/item';
 
 import { isNewCategory } from '../models/category';
 import { isNewItem } from '../models/item';
+import { NewSettings, isNewSettings } from '../models/settings';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
@@ -87,4 +88,12 @@ export const toNewItem_Category = (object: unknown): NewItem_Category => {
     }
 
     throw new Error('Incorrect data: some fields ("item_id" or "category_id") are missing for toNewItem_Category');
+};
+
+export const toNewSettings = (object: unknown): NewSettings => {
+    if (!isNewSettings(object)) {
+        throw new Error('Incorrect or missing data for toNewSettings');
+    } else {
+        return object;
+    }
 };

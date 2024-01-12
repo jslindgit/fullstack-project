@@ -183,6 +183,7 @@ export enum ContentID {
     miscUnfortunatelly = 'MISC: unfortunatelly',
     miscUpdated = 'MISC: Updated',
     miscVAT = 'MISC: VAT (tax)',
+    miscWebstore = 'MISC: Webstore',
     miscWithSearchWords = 'MISC: (No hits) with searchwords <search>',
     notificationLoggedOut = 'NOTIFICATION: Logged out',
     orderCustomer = 'ORDER: Customer',
@@ -1495,6 +1496,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'VAT' },
             { langCode: LangCode.FI, text: 'ALV' },
+        ],
+    },
+    {
+        id: ContentID.miscWebstore,
+        content: [
+            { langCode: LangCode.EN, text: 'Webstore' },
+            { langCode: LangCode.FI, text: 'Verkkokauppa' },
         ],
     },
     {
