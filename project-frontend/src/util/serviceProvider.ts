@@ -105,7 +105,7 @@ export const itemToReqBody = (item: NewItem | Item): object => {
 export const settingsToReqBody = (settings: Settings): object => {
     return {
         ...settings,
-        storeContactCountry: JSON.stringify(settings.storeContactCity),
+        storeContactCountry: JSON.stringify(settings.storeContactCountry),
         storeDeliveryCountries: settings.storeDeliveryCountries.map((c) => JSON.stringify(c)),
         storeDescription: JSON.stringify(settings.storeDescription),
         storeWelcome: JSON.stringify(settings.storeWelcome),
@@ -145,7 +145,7 @@ export const settingsFromResBody = (resBody: unknown): Settings | null => {
         'storeWelcome' in resBody &&
         isString(resBody.storeWelcome) &&
         'vat' in resBody &&
-        isNumber(resBody.vat)
+        (isNumber(resBody.vat) || isString(resBody.vat))
     ) {
         return {
             ...(resBody as Settings),
@@ -155,6 +155,7 @@ export const settingsFromResBody = (resBody: unknown): Settings | null => {
             storeWelcome: JSON.parse(resBody.storeWelcome),
         };
     } else {
+        console.log('resBody:', resBody);
         handleError('Invalid resBody for Settings');
         return null;
     }

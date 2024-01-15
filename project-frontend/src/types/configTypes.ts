@@ -100,8 +100,10 @@ const isConfigStore = (obj: unknown): obj is ConfigStore => {
         'deliveryTimeBusinessDays' in obj &&
         isNumber(obj.deliveryTimeBusinessDays) &&
         'description' in obj &&
-        isLangText(obj.description) &&
+        Array.isArray(obj.description) &&
+        obj.description.every((d) => isLangText(d)) &&
         'welcome' in obj &&
-        isLangText(obj.welcome)
+        Array.isArray(obj.welcome) &&
+        obj.welcome.every((w) => isLangText(w))
     );
 };

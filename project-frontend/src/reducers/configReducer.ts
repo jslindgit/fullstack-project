@@ -32,21 +32,30 @@ export const initializeConfig = (dispatch: Dispatch<AnyAction>, settings: Settin
             const finalConfig: Config = settings
                 ? {
                     ...parsedConfig,
+                    owner: {
+                        ...parsedConfig.owner,
+                        businessIdentifier: settings.ownerBusinessIdentifier,
+                        email: settings.ownerEmail,
+                        name: settings.ownerName,
+                        phone: settings.ownerPhone
+                    },
                     store: {
                         ...parsedConfig.store,
                         contactCity: settings.storeContactCity,
                         contactCountry: settings.storeContactCountry,
                         contactEmail: settings.storeContactEmail,
+                        contactName: settings.storeName,
                         contactPhone: settings.storeContactPhone,
                         contactZipcode: settings.storeContactZipcode,
                         deliveryCountries: settings.storeDeliveryCountries,
                         deliveryTimeBusinessDays: settings.storeDeliveryTimeBusinessDays,
                         description: settings.storeDescription,
-                        contactName: settings.storeName,
                         welcome: settings.storeWelcome,
                     },
+                    vat: Number(settings.vat)
                 }
                 : parsedConfig;
+
             dispatch(slice.actions.setConfig(finalConfig));
         } else {
             saveConfigToLocalStorage(defaultConfig);

@@ -15,6 +15,7 @@ const InputField = ({ className, useField, width, placeHolder = '' }: Props) => 
         style={{ width: width }}
         type={useField.type}
         value={useField.value}
+        autoFocus
     />
 );
 

@@ -95,7 +95,7 @@ export interface Response {
 }
 
 export interface Settings {
-    id: number;
+    id?: number;
     ownerBusinessIdentifier: string;
     ownerEmail: string;
     ownerName: string;

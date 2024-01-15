@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 
-import { Settings } from '../types/types';
+import { Response, Settings } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
@@ -26,9 +26,9 @@ const getAll = async (): Promise<Settings[]> => {
         const result: Settings[] = [];
         data.forEach((s) => {
             if (s) {
-                const category = settingsFromResBody(s);
-                if (category) {
-                    result.push(category);
+                const settings = settingsFromResBody(s);
+                if (settings) {
+                    result.push(settings);
                 }
             }
         });
@@ -41,19 +41,27 @@ const getAll = async (): Promise<Settings[]> => {
 
 const update = async (settings: Settings, token: string, dispatch: Dispatch<AnyAction>): Promise<SettingsResponse> => {
     try {
-        const res = await axios.put<Settings>(`${url}/${settings.id}`, settingsToReqBody(settings), authConfig(token));
-        const updatedSettings = settingsFromResBody(res.data);
+        let updatedSettings: Settings | null = null;
+
+        const currentSettings = await get();
+        if (currentSettings) {
+            const res = await axios.put<Settings>(`${url}/${currentSettings.id}`, settingsToReqBody(settings), authConfig(token));
+            updatedSettings = settingsFromResBody(res.data);
+        } else {
+            const res = await axios.post<Settings>(url, settingsToReqBody(settings), authConfig(token));
+            updatedSettings = settingsFromResBody(res.data);
+        }
 
         if (updatedSettings) {
-            await initializeConfig(dispatch);
-            return { success: true, message: 'Category updated.', addedCategory: categoryFromResBody(updatedCategory) };
+            initializeConfig(dispatch, updatedSettings);
+            return { success: true, message: 'Settings updated.', settings: updatedSettings };
         } else {
-            handleError(new Error('Server did not return a Category object.'));
-            return { success: false, message: 'Something went wrong, try again later.', addedCategory: null };
+            handleError(new Error('Server did not return a Settings object.'));
+            return { success: false, message: 'Something went wrong, try again later.', settings: null };
         }
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: 'Error occurred.', addedCategory: null };
+        return { success: false, message: 'Error occurred.', settings: null };
     }
 };
 

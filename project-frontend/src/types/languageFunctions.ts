@@ -27,7 +27,7 @@ export const isLangCode = (variable: unknown) => {
 };
 
 export const isLangText = (obj: unknown): obj is LangText => {
-    return isObject(obj) && obj !== null && 'text' in obj && isString(obj.text) && 'lang' in obj && isLangCode(obj.lang);
+    return isObject(obj) && obj !== null && 'text' in obj && isString(obj.text) && 'langCode' in obj && isLangCode(obj.langCode);
 };
 
 export const langTextsToText = (langTexts: LangText[] | undefined, config: Config, debug: boolean = false): string => {

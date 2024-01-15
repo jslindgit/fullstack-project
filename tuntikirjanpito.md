@@ -130,4 +130,5 @@
 |           | 1    | Käyttäjän poistaminen, Alapalkki                                                                                     |     |
 |   11.1.   | 1    | Käyttäjälle mahdollisuus poistaa käyttäjätilinsä                                                                     |     |
 |   12.1.   | 1    | Backendiin asetuksille router+service. Frontendiin alustava Asetukset-sivut.                                         |     |
-|    yht    | 219  |                                                                                                                      |     |
+|   15.1.   | 2    | Asetusten tallentaminen tietokantaan                                                                                 |     |
+|    yht    | 221  |                                                                                                                      |     |

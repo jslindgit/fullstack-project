@@ -4,7 +4,7 @@ input {
     box-sizing: border-box;
     font-size: 0.9rem;
     outline: 1px solid var(--colorGray);
-    padding: 0.5rem;
+    padding: 0.45rem;
     padding-left: 0.6rem;
     width: 100%;
 }

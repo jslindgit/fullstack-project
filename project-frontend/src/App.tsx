@@ -7,8 +7,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ContentID } from './content';
 import { RootState } from './reducers/rootReducer';
 
-// Functions/values:
+// Functions/constants:
 import { contentToText } from './types/languageFunctions';
+import settingsService from './services/settingsService';
 
 // Reducers:
 import { initializeCategories } from './reducers/categoryReducer';
@@ -56,7 +57,8 @@ const App = () => {
         dispatch(setLoaded(false));
 
         const fetchData = async () => {
-            initializeConfig(dispatch);
+            const settings = await settingsService.get();
+            initializeConfig(dispatch, settings);
             initializeOrder(dispatch);
             Promise.all([initializeLoggedUser(dispatch), initializeCategories(dispatch)]);
         };
