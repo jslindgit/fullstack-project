@@ -1,5 +1,5 @@
 import { Category, NewCategory } from '../types/types';
-import { Item, NewItem } from '../types/types';
+import { Item, NewItem, Settings } from '../types/types';
 
 import { API_KEY } from '../constants';
 import { handleError } from './handleError';
@@ -100,4 +100,62 @@ export const itemToReqBody = (item: NewItem | Item): object => {
         name: JSON.stringify(item.name),
         sizes: item.sizes.map((sizeAndInstock) => JSON.stringify(sizeAndInstock)),
     };
+};
+
+export const settingsToReqBody = (settings: Settings): object => {
+    return {
+        ...settings,
+        storeContactCountry: JSON.stringify(settings.storeContactCity),
+        storeDeliveryCountries: settings.storeDeliveryCountries.map((c) => JSON.stringify(c)),
+        storeDescription: JSON.stringify(settings.storeDescription),
+        storeWelcome: JSON.stringify(settings.storeWelcome),
+    };
+};
+
+export const settingsFromResBody = (resBody: unknown): Settings | null => {
+    if (
+        isObject(resBody) &&
+        'id' in resBody &&
+        isNumber(resBody.id) &&
+        'ownerBusinessIdentifier' in resBody &&
+        isString(resBody.ownerBusinessIdentifier) &&
+        'ownerEmail' in resBody &&
+        isString(resBody.ownerEmail) &&
+        'ownerPhone' in resBody &&
+        isString(resBody.ownerPhone) &&
+        'storeContactCity' in resBody &&
+        isString(resBody.storeContactCity) &&
+        'storeContactCountry' in resBody &&
+        isString(resBody.storeContactCountry) &&
+        'storeContactEmail' in resBody &&
+        isString(resBody.storeContactEmail) &&
+        'storeContactPhone' in resBody &&
+        isString(resBody.storeContactPhone) &&
+        'storeContactZipcode' in resBody &&
+        isString(resBody.storeContactZipcode) &&
+        'storeDeliveryCountries' in resBody &&
+        Array.isArray(resBody.storeDeliveryCountries) &&
+        resBody.storeDeliveryCountries.every((c) => isString(c)) &&
+        'storeDeliveryTimeBusinessDays' in resBody &&
+        isNumber(resBody.storeDeliveryTimeBusinessDays) &&
+        'storeDescription' in resBody &&
+        isString(resBody.storeDescription) &&
+        'storeName' in resBody &&
+        isString(resBody.storeName) &&
+        'storeWelcome' in resBody &&
+        isString(resBody.storeWelcome) &&
+        'vat' in resBody &&
+        isNumber(resBody.vat)
+    ) {
+        return {
+            ...(resBody as Settings),
+            storeContactCountry: JSON.parse(resBody.storeContactCountry),
+            storeDeliveryCountries: resBody.storeDeliveryCountries.map((c) => JSON.parse(c)),
+            storeDescription: JSON.parse(resBody.storeDescription),
+            storeWelcome: JSON.parse(resBody.storeWelcome),
+        };
+    } else {
+        handleError('Invalid resBody for Settings');
+        return null;
+    }
 };

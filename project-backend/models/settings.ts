@@ -104,7 +104,7 @@ const Settings = sequelize.define<SettingsInstance>(
 );
 
 export const isNewSettings = (obj: unknown): obj is NewSettings => {
-    if (obj === null || !isObject(obj)) {
+    if (!obj || obj === null || !isObject(obj)) {
         return false;
     } else {
         return (

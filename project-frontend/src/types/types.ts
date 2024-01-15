@@ -94,6 +94,25 @@ export interface Response {
     message: string;
 }
 
+export interface Settings {
+    id: number;
+    ownerBusinessIdentifier: string;
+    ownerEmail: string;
+    ownerName: string;
+    ownerPhone: string;
+    storeContactCity: string;
+    storeContactCountry: Country;
+    storeContactEmail: string;
+    storeContactPhone: string;
+    storeContactZipcode: string;
+    storeDeliveryCountries: Country[];
+    storeDeliveryTimeBusinessDays: number;
+    storeDescription: LangText[];
+    storeName: string;
+    storeWelcome: LangText[];
+    vat: number;
+}
+
 export interface User {
     id: number;
     admin: boolean;
