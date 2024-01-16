@@ -166,6 +166,7 @@ export enum ContentID {
     miscCurrent = 'MISC: Current',
     // prettier-ignore
     miscCustomers = 'MISC: Customer\'s',
+    miscDeliveryCountries = 'MISC: Delivery Countries',
     miscDate = 'MISC: Date',
     miscDays = 'MISC: days',
     miscDeleted = 'MISC: <item/category/etc> deleted',
@@ -1377,6 +1378,14 @@ export const defaultLangContent: LangContent[] = [
             // prettier-ignore
             { langCode: LangCode.EN, text: 'Customer\'s' },
             { langCode: LangCode.FI, text: 'Tilaajan' },
+        ],
+    },
+    {
+        id: ContentID.miscDeliveryCountries,
+        content: [
+            // prettier-ignore
+            { langCode: LangCode.EN, text: 'Delivery Countries' },
+            { langCode: LangCode.FI, text: 'Toimitusmaat' },
         ],
     },
     {

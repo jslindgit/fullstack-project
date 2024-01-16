@@ -1,6 +1,6 @@
 import { LangCode, Language } from './types/languageTypes';
 import { Config } from './types/configTypes';
-import { Currency } from './types/types';
+import { Country, Currency } from './types/types';
 
 export const API_KEY = import.meta.env.VITE_API_KEY as string;
 export const apiBaseUrl = 'http://localhost:3001/api';
@@ -10,7 +10,7 @@ export const passwordMinLength = 10;
 const loremIpsum =
     'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
-export const availableDeliveryCountries = [
+export const availableDeliveryCountries: Country[] = [
     {
         names: [
             { langCode: LangCode.EN, text: 'Denmark' },

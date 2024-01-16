@@ -8,7 +8,9 @@ const CheckBox = ({ isChecked, onClick }: Props) => {
         <table className={'customCheckBox' + (isChecked ? ' checked' : '')}>
             <tbody>
                 <tr>
-                    <td onClick={onClick}>{isChecked ? '✔' : ''}</td>
+                    <td onClick={onClick} style={{ border: 0 }}>
+                        {isChecked ? '✔' : ''}
+                    </td>
                 </tr>
             </tbody>
         </table>

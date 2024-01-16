@@ -3,17 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
-import { Settings } from '../../types/types';
+import { Country, Settings } from '../../types/types';
 
-import { defaultConfig, pageWidth } from '../../constants';
+import { availableDeliveryCountries, defaultConfig, pageWidth } from '../../constants';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import settingsService from '../../services/settingsService';
 import useField, { UseField } from '../../hooks/useField';
 import { useLangFields } from '../../types/languageFunctions';
-import { LangField } from '../../types/languageTypes';
+import { LangField, LangText } from '../../types/languageTypes';
 
 import { setNotification } from '../../reducers/miscReducer';
 
+import CheckBox from '../CheckBox';
 import InputField from '../InputField';
 
 const AdminSettings = () => {
@@ -24,17 +25,26 @@ const AdminSettings = () => {
     const storeAddressField = useField('text', null, config.store.contactStreetAddress);
     const storeCityField = useField('text', null, config.store.contactCity);
     const storeCountryFields = useLangFields('text');
+    const [storeDeliveryCountries, setStoreDeliveryCountries] = useState<Country[]>(config.store.deliveryCountries);
     const storeEmailField = useField('text', null, config.store.contactEmail);
     const storeNameField = useField('text', null, config.store.contactName);
     const storePhoneField = useField('text', null, config.store.contactPhone);
     const storeZipcodeField = useField('text', null, config.store.contactZipcode);
 
-    type PropertyName = '' | 'storeAddress' | 'storeCity' | 'storeCountry' | 'storeEmail' | 'storeName' | 'storePhone' | 'storeZipcode';
+    type PropertyName =
+        | ''
+        | 'storeAddress'
+        | 'storeCity'
+        | 'storeCountry'
+        | 'storeDeliveryCountries'
+        | 'storeEmail'
+        | 'storeName'
+        | 'storePhone'
+        | 'storeZipcode';
 
     const [editedProperty, setEditedProperty] = useState<PropertyName>('');
 
-    // Set initial values for 'langFields':
-    useEffect(() => {
+    const initLangFields = () => {
         storeCountryFields.forEach((langField) => {
             config.store.contactCountry.names.forEach((langText) => {
                 if (langText.langCode === langField.langCode) {
@@ -42,7 +52,61 @@ const AdminSettings = () => {
                 }
             });
         });
-    }, [config, storeCountryFields]);
+    };
+
+    // Initial values:
+    useEffect(() => {
+        initLangFields();
+    }, [config]);
+
+    const deliveryCountryIsSelected = (country: Country): boolean => {
+        return storeDeliveryCountries.map((c) => JSON.stringify(c)).includes(JSON.stringify(country));
+    };
+
+    const deliveryCountryList = (): string => {
+        const names = storeDeliveryCountries.map((c) => langTextsToText(c.names, config));
+        return names.sort().join(', ');
+    };
+
+    const deliveryCountrySelection = () => {
+        const availableSorted = [...availableDeliveryCountries].sort((a, b) =>
+            langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config))
+        );
+
+        return (
+            <>
+                {availableSorted.map((c) => (
+                    <div key={JSON.stringify(c.names)}>
+                        <table className='noPadding'>
+                            <tbody>
+                                <tr>
+                                    <td style={{ border: 0, padding: '0.25rem' }}>
+                                        <CheckBox
+                                            isChecked={deliveryCountryIsSelected(c)}
+                                            onClick={() => {
+                                                if (deliveryCountryIsSelected(c)) {
+                                                    setStoreDeliveryCountries(storeDeliveryCountries.filter((dc) => JSON.stringify(dc) !== JSON.stringify(c)));
+                                                } else {
+                                                    setStoreDeliveryCountries([...storeDeliveryCountries, c]);
+                                                }
+                                            }}
+                                        />
+                                    </td>
+                                    <td style={{ border: 0 }}>{langTextsToText(c.names, config)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                ))}
+            </>
+        );
+    };
+
+    const langFieldsToLangTexts = (langFields: LangField[]): LangText[] => {
+        return langFields.map((langField) => {
+            return { langCode: langField.langCode, text: langField.field.stringValue() };
+        });
+    };
 
     const submitChanges = async () => {
         if (userState.loggedUser?.admin) {
@@ -53,15 +117,13 @@ const AdminSettings = () => {
                 ownerPhone: defaultConfig.owner.phone,
                 storeContactCity: storeCityField.stringValue(),
                 storeContactCountry: {
-                    names: storeCountryFields.map((langField) => {
-                        return { langCode: langField.langCode, text: langField.field.stringValue() };
-                    }),
+                    names: langFieldsToLangTexts(storeCountryFields),
                 },
                 storeContactEmail: storeEmailField.stringValue(),
                 storeContactPhone: storePhoneField.stringValue(),
                 storeContactStreetAddress: storeAddressField.stringValue(),
                 storeContactZipcode: storeZipcodeField.stringValue(),
-                storeDeliveryCountries: defaultConfig.store.deliveryCountries,
+                storeDeliveryCountries: [...storeDeliveryCountries],
                 storeDeliveryTimeBusinessDays: defaultConfig.store.deliveryTimeBusinessDays,
                 storeDescription: defaultConfig.store.description,
                 storeName: storeNameField.stringValue(),
@@ -76,7 +138,7 @@ const AdminSettings = () => {
         }
     };
 
-    const propertyLangFields = (label: ContentID, langFields: LangField[], propertyName: PropertyName) => (
+    const propertyLangFields = (label: ContentID, langFields: LangField[], propertyName: PropertyName, currentValue: LangText[]) => (
         <tr className='underlinedRow'>
             <td className='semiBold widthByContent'>{contentToText(label, config)}:</td>
             <td className='widthByContent'>
@@ -84,10 +146,10 @@ const AdminSettings = () => {
                     <table>
                         <tbody>
                             {langFields.map((langField) => (
-                                <tr>
-                                    <td>{langField.langCode}</td>
-                                    <td>
-                                        <InputField useField={langField.field} width='30rem' />
+                                <tr key={langField.langCode}>
+                                    <td style={{ borderBottom: 0, paddingLeft: 0 }}>{langField.langCode}</td>
+                                    <td style={{ borderBottom: 0 }}>
+                                        <InputField useField={langField.field} width='100%' />
                                     </td>
                                 </tr>
                             ))}
@@ -100,11 +162,21 @@ const AdminSettings = () => {
             <td>
                 {editedProperty === propertyName ? (
                     <>
-                        <button type='button' onClick={submitChanges}>
+                        <button
+                            type='button'
+                            onClick={submitChanges}
+                            disabled={JSON.stringify(langFieldsToLangTexts(langFields)) === JSON.stringify(currentValue)}
+                        >
                             {contentToText(ContentID.buttonSave, config)}
                         </button>
                         &emsp;
-                        <button type='button' onClick={() => setEditedProperty('')}>
+                        <button
+                            type='button'
+                            onClick={() => {
+                                initLangFields();
+                                setEditedProperty('');
+                            }}
+                        >
                             {contentToText(ContentID.buttonCancel, config)}
                         </button>
                     </>
@@ -119,21 +191,27 @@ const AdminSettings = () => {
         </tr>
     );
 
-    const propertyText = (label: ContentID, useField: UseField, propertyName: PropertyName) => (
+    const propertyText = (label: ContentID, useField: UseField, propertyName: PropertyName, currentValue: string) => (
         <tr className='underlinedRow'>
-            <td className='semiBold widthByContent'>{contentToText(label, config)}:</td>
+            <td className='semiBold widthByContent'>{contentToText(label, config)}:&emsp;</td>
             <td className='widthByContent'>
-                {editedProperty === propertyName ? <InputField useField={useField} width={'30rem'} autoFocus={true} /> : useField.stringValue()}
+                {editedProperty === propertyName ? <InputField useField={useField} width={'100%'} autoFocus={true} /> : useField.stringValue()}
                 &emsp;&emsp;
             </td>
             <td>
                 {editedProperty === propertyName ? (
                     <>
-                        <button type='button' onClick={submitChanges}>
+                        <button type='button' onClick={submitChanges} disabled={useField.stringValue() === currentValue}>
                             {contentToText(ContentID.buttonSave, config)}
                         </button>
                         &emsp;
-                        <button type='button' onClick={() => setEditedProperty('')}>
+                        <button
+                            type='button'
+                            onClick={() => {
+                                useField.setNewValue(currentValue);
+                                setEditedProperty('');
+                            }}
+                        >
                             {contentToText(ContentID.buttonCancel, config)}
                         </button>
                     </>
@@ -157,15 +235,52 @@ const AdminSettings = () => {
                             {contentToText(ContentID.miscWebstore, config)}
                         </td>
                     </tr>
-                    {propertyText(ContentID.miscName, storeNameField, 'storeName')}
-                    {propertyText(ContentID.contactEmail, storeEmailField, 'storeEmail')}
-                    {propertyText(ContentID.contactPhone, storePhoneField, 'storePhone')}
-                    {propertyText(ContentID.miscAddress, storeAddressField, 'storeAddress')}
-                    {propertyText(ContentID.checkOutZipCode, storeZipcodeField, 'storeZipcode')}
-                    {propertyText(ContentID.checkOutCity, storeCityField, 'storeCity')}
-                    {propertyLangFields(ContentID.checkOutCountry, storeCountryFields, 'storeCountry')}
+                    {propertyText(ContentID.miscName, storeNameField, 'storeName', config.store.contactName)}
+                    {propertyText(ContentID.contactEmail, storeEmailField, 'storeEmail', config.store.contactEmail)}
+                    {propertyText(ContentID.contactPhone, storePhoneField, 'storePhone', config.store.contactPhone)}
+                    {propertyText(ContentID.miscAddress, storeAddressField, 'storeAddress', config.store.contactStreetAddress)}
+                    {propertyText(ContentID.checkOutZipCode, storeZipcodeField, 'storeZipcode', config.store.contactZipcode)}
+                    {propertyText(ContentID.checkOutCity, storeCityField, 'storeCity', config.store.contactCity)}
+                    {propertyLangFields(ContentID.checkOutCountry, storeCountryFields, 'storeCountry', config.store.contactCountry.names)}
+                    <tr className='underlinedRow'>
+                        <td className='semiBold widthByContent'>{contentToText(ContentID.miscDeliveryCountries, config)}:&nbsp;</td>
+                        <td className='widthByContent'>
+                            {editedProperty === 'storeDeliveryCountries' ? <>{deliveryCountrySelection()}</> : <>{deliveryCountryList()}</>}
+                        </td>
+                        <td>
+                            {editedProperty === 'storeDeliveryCountries' ? (
+                                <>
+                                    <button
+                                        type='button'
+                                        onClick={submitChanges}
+                                        disabled={JSON.stringify(storeDeliveryCountries) === JSON.stringify(config.store.deliveryCountries)}
+                                    >
+                                        {contentToText(ContentID.buttonSave, config)}
+                                    </button>
+                                    &emsp;
+                                    <button
+                                        type='button'
+                                        onClick={() => {
+                                            setStoreDeliveryCountries([...config.store.deliveryCountries]);
+                                            setEditedProperty('');
+                                        }}
+                                    >
+                                        {contentToText(ContentID.buttonCancel, config)}
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <button type='button' onClick={() => setEditedProperty('storeDeliveryCountries')}>
+                                        {contentToText(ContentID.buttonEdit, config)}
+                                    </button>
+                                </>
+                            )}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
+            <br />
+            <br />
         </div>
     );
 };

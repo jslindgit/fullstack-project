@@ -91,8 +91,11 @@ adminFormItemEdit select {
     border-color: transparent;
     border-radius: 0.25rem;
 }
-.customCheckBox.checked:active {
+.customCheckBox.checked:hover {
     border-radius: 0.5rem;
+}
+.customCheckBox.checked:active {
+    border-radius: 0.75rem;
 }
 
 .fileUpload {

@@ -23,6 +23,7 @@ button:active {
 button:disabled {
     background-color: var(--colorGrayLight) !important;
     cursor: default;
+    transition: background-color 0s;
 }
 
 button.large {
