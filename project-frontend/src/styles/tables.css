@@ -122,6 +122,10 @@ table.headerRow table tr:first-child td {
     padding: 0;
 }
 
+.underlinedRow td {
+    border-bottom: 1px dotted var(--colorGrayLight);
+}
+
 .widthByContent {
     width: 1px;
     text-wrap: nowrap;

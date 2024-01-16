@@ -13,6 +13,7 @@ export interface SettingsAttributes {
     storeContactCountry: string;
     storeContactEmail: string;
     storeContactPhone: string;
+    storeContactStreetAddress: string;
     storeContactZipcode: string;
     storeDeliveryCountries: string[];
     storeDeliveryTimeBusinessDays: number;
@@ -65,6 +66,10 @@ const Settings = sequelize.define<SettingsInstance>(
             defaultValue: '',
         },
         storeContactPhone: {
+            type: DataTypes.STRING,
+            defaultValue: '',
+        },
+        storeContactStreetAddress: {
             type: DataTypes.STRING,
             defaultValue: '',
         },
@@ -124,6 +129,8 @@ export const isNewSettings = (obj: unknown): obj is NewSettings => {
             isString(obj.storeContactEmail) &&
             'storeContactPhone' in obj &&
             isString(obj.storeContactPhone) &&
+            'storeContactStreetAddress' in obj &&
+            isString(obj.storeContactStreetAddress) &&
             'storeContactZipcode' in obj &&
             isString(obj.storeContactZipcode) &&
             'storeDeliveryCountries' in obj &&

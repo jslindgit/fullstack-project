@@ -10,6 +10,51 @@ export const passwordMinLength = 10;
 const loremIpsum =
     'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
+export const availableDeliveryCountries = [
+    {
+        names: [
+            { langCode: LangCode.EN, text: 'Denmark' },
+            { langCode: LangCode.FI, text: 'Tanska' },
+        ],
+    },
+    {
+        names: [
+            { langCode: LangCode.EN, text: 'Estonia' },
+            { langCode: LangCode.FI, text: 'Viro' },
+        ],
+    },
+    {
+        names: [
+            { langCode: LangCode.EN, text: 'Finland' },
+            { langCode: LangCode.FI, text: 'Suomi' },
+        ],
+    },
+    {
+        names: [
+            { langCode: LangCode.EN, text: 'Latvia' },
+            { langCode: LangCode.FI, text: 'Latvia' },
+        ],
+    },
+    {
+        names: [
+            { langCode: LangCode.EN, text: 'Lithuania' },
+            { langCode: LangCode.FI, text: 'Liettua' },
+        ],
+    },
+    {
+        names: [
+            { langCode: LangCode.EN, text: 'Norway' },
+            { langCode: LangCode.FI, text: 'Norja' },
+        ],
+    },
+    {
+        names: [
+            { langCode: LangCode.EN, text: 'Sweden' },
+            { langCode: LangCode.FI, text: 'Ruotsi' },
+        ],
+    },
+];
+
 export const defaultLanguage: Language = {
     code: LangCode.FI,
     decimalPoint: ',',
@@ -45,50 +90,7 @@ export const defaultConfig: Config = {
         contactPhone: '+358 9 123 45678',
         contactStreetAddress: 'Verkkokauppatie 1',
         contactZipcode: '01600',
-        deliveryCountries: [
-            {
-                names: [
-                    { langCode: LangCode.EN, text: 'Denmark' },
-                    { langCode: LangCode.FI, text: 'Tanska' },
-                ],
-            },
-            {
-                names: [
-                    { langCode: LangCode.EN, text: 'Estonia' },
-                    { langCode: LangCode.FI, text: 'Viro' },
-                ],
-            },
-            {
-                names: [
-                    { langCode: LangCode.EN, text: 'Finland' },
-                    { langCode: LangCode.FI, text: 'Suomi' },
-                ],
-            },
-            {
-                names: [
-                    { langCode: LangCode.EN, text: 'Latvia' },
-                    { langCode: LangCode.FI, text: 'Latvia' },
-                ],
-            },
-            {
-                names: [
-                    { langCode: LangCode.EN, text: 'Lithuania' },
-                    { langCode: LangCode.FI, text: 'Liettua' },
-                ],
-            },
-            {
-                names: [
-                    { langCode: LangCode.EN, text: 'Norway' },
-                    { langCode: LangCode.FI, text: 'Norja' },
-                ],
-            },
-            {
-                names: [
-                    { langCode: LangCode.EN, text: 'Sweden' },
-                    { langCode: LangCode.FI, text: 'Ruotsi' },
-                ],
-            },
-        ],
+        deliveryCountries: availableDeliveryCountries,
         deliveryTimeBusinessDays: 3,
         description: [
             {

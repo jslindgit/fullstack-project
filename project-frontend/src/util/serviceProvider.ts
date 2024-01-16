@@ -131,6 +131,8 @@ export const settingsFromResBody = (resBody: unknown): Settings | null => {
         isString(resBody.storeContactEmail) &&
         'storeContactPhone' in resBody &&
         isString(resBody.storeContactPhone) &&
+        'storeContactStreetAddress' in resBody &&
+        isString(resBody.storeContactStreetAddress) &&
         'storeContactZipcode' in resBody &&
         isString(resBody.storeContactZipcode) &&
         'storeDeliveryCountries' in resBody &&

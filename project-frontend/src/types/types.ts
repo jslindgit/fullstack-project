@@ -104,6 +104,7 @@ export interface Settings {
     storeContactCountry: Country;
     storeContactEmail: string;
     storeContactPhone: string;
+    storeContactStreetAddress: string;
     storeContactZipcode: string;
     storeDeliveryCountries: Country[];
     storeDeliveryTimeBusinessDays: number;

@@ -46,6 +46,7 @@ export const initializeConfig = (dispatch: Dispatch<AnyAction>, settings: Settin
                         contactEmail: settings.storeContactEmail,
                         contactName: settings.storeName,
                         contactPhone: settings.storeContactPhone,
+                        contactStreetAddress: settings.storeContactStreetAddress,
                         contactZipcode: settings.storeContactZipcode,
                         deliveryCountries: settings.storeDeliveryCountries,
                         deliveryTimeBusinessDays: settings.storeDeliveryTimeBusinessDays,

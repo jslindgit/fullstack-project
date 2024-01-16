@@ -53,7 +53,7 @@ const Login = () => {
                         <tr>
                             <td className='semiBold widthByContent'>{contentToText(username.label, config)}:</td>
                             <td>
-                                <InputField useField={username} width='20rem' />
+                                <InputField useField={username} width='20rem' autoFocus={true} />
                             </td>
                         </tr>
                         <tr>
