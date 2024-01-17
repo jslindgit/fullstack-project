@@ -62,7 +62,10 @@ const CategoryRow = ({ categories, colsPerRow, config }: CategoryRowProps) => {
     );
 };
 
-const Categories = () => {
+interface Props {
+    showPageHeader?: boolean;
+}
+const Categories = ({ showPageHeader = true }: Props) => {
     const categoryState = useSelector((state: RootState) => state.categories);
     const config = useSelector((state: RootState) => state.config);
 
@@ -88,13 +91,17 @@ const Categories = () => {
     return (
         <>
             <div>
-                <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
-                    <tbody>
-                        <tr>
-                            <td className='pageHeader'>{contentToText(ContentID.menuProducts, config)}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                {showPageHeader ? (
+                    <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
+                        <tbody>
+                            <tr>
+                                <td className='pageHeader'>{contentToText(ContentID.menuProducts, config)}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                ) : (
+                    ''
+                )}
                 <table align='center' width={pageWidth} className='noOuterPadding valignTop'>
                     <tbody>
                         {rows.map((r, index) => (

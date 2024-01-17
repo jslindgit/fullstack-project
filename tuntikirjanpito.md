@@ -133,4 +133,5 @@
 |   15.1.   | 2    | Asetusten tallentaminen tietokantaan                                                                                 |     |
 |   16.1.   | 1    | Asetukset-sivun työstöä                                                                                              |     |
 |   17.1.   | 1    | Asetukset-sivun työstöä                                                                                              |     |
-|    yht    | 223  |                                                                                                                      |     |
+|           | 1    | Etusivun työstöä                                                                                                     |
+|    yht    | 224  |                                                                                                                      |     |

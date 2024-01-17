@@ -7,26 +7,6 @@ export const apiBaseUrl = 'http://localhost:3001/api';
 export const pageWidth = 1024;
 export const passwordMinLength = 10;
 
-export const description = (config: Config): JSX.Element => {
-    return config.language.code === LangCode.FI ? (
-        <>
-            Tämä on{' '}
-            <a href='https://fullstackopen.com/' target='_blank' className='u'>
-                Full Stack Open
-            </a>{' '}
-            -kurssin harjoitustyöksi tehty verkkokauppa-alusta.
-        </>
-    ) : (
-        <>
-            This is an e-commerce platform made as a project work for the{' '}
-            <a href='https://fullstackopen.com/' target='_blank' className='u'>
-                Full Stack Open
-            </a>{' '}
-            course.
-        </>
-    );
-};
-
 export const availableDeliveryCountries: Country[] = [
     {
         names: [

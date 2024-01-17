@@ -131,11 +131,13 @@ export enum ContentID {
     itemsAddedToShoppingCart1 = 'ITEMS: "<item(s)> added to (shopping cart)" (notification)',
     itemsAddedToShoppingCart2 = 'ITEMS: "<item(s)> (added to) shopping cart" (notification)',
     itemsAddToShoppingCart = 'ITEMS: "Add to shopping cart" button',
+    itemsAllCategories = 'ITEMS: All Categories (header)',
     itemsAmount = 'ITEMS: Amount (to add to shopping cart)',
     itemsCategory = 'ITEMS: Category',
     itemsId = 'ITEMS: Item ID',
     itemsInStock = 'ITEMS: In stock',
     itemsItem = 'ITEMS: Item',
+    itemsLatestItems = 'ITEMS: Latest Items',
     itemsMaximumAmountOfItemAlreadyInShoppingCart1 = 'ITEMS: Maximum amount of (<item> already in Shopping Cart)',
     itemsMaximumAmountOfItemAlreadyInShoppingCart2 = 'ITEMS: (Maximum amount of <item>) already in Shopping Cart)',
     itemsNoItemsInCategory = 'ITEMS: "No items in this category."',
@@ -144,6 +146,7 @@ export enum ContentID {
     itemsSelectSize = 'ITEMS: Select size',
     itemsSize = 'ITEMS: Size',
     itemsSoldOut = 'ITEMS: Sold out',
+    itemsTopSellers = 'ITEMS: Top Sellers',
     loginInvalidUsernameOrPassword = 'LOGIN: Invalid username or password',
     loginLoggedInAs = 'LOGIN: Logged in as...',
     loginNewPasswordMisMatch = 'LOGIN: Please check the new password',
@@ -1146,6 +1149,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.itemsAllCategories,
+        content: [
+            { langCode: LangCode.EN, text: 'All Categories' },
+            { langCode: LangCode.FI, text: 'Tuotekategoriat' },
+        ],
+    },
+    {
         id: ContentID.itemsAmount,
         content: [
             { langCode: LangCode.EN, text: 'Amount' },
@@ -1171,6 +1181,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Item' },
             { langCode: LangCode.FI, text: 'Tuote' },
+        ],
+    },
+    {
+        id: ContentID.itemsLatestItems,
+        content: [
+            { langCode: LangCode.EN, text: 'Latest Items' },
+            { langCode: LangCode.FI, text: 'Uusimmat tuotteet' },
         ],
     },
     {
@@ -1234,6 +1251,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Sold out' },
             { langCode: LangCode.FI, text: 'Loppu' },
+        ],
+    },
+    {
+        id: ContentID.itemsTopSellers,
+        content: [
+            { langCode: LangCode.EN, text: 'Top Sellers' },
+            { langCode: LangCode.FI, text: 'Myydyimmät tuotteet' },
         ],
     },
     {

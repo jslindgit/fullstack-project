@@ -32,6 +32,7 @@ export interface Item {
     id: number;
     addedBy?: number;
     categories: Category[];
+    createdAt: string;
     description: LangText[];
     images: string[];
     instock: number;
@@ -40,7 +41,7 @@ export interface Item {
     sizes: ItemSizeAndInstock[];
     sold: number;
 }
-export type NewItem = Omit<Omit<Omit<Item, 'id'>, 'categories'>, 'sold'>;
+export type NewItem = Omit<Omit<Omit<Omit<Item, 'id'>, 'categories'>, 'sold'>, 'createdAt'>;
 
 export const isNewItem = (obj: unknown): obj is NewItem => {
     return (

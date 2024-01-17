@@ -216,9 +216,11 @@ const AdminSettings = () => {
 
     const propertyText = (label: string, useField: UseField, propertyName: PropertyName, currentValue: string) => (
         <tr className='underlinedRow'>
-            <td className='semiBold widthByContent'>{label}:&emsp;</td>
+            <td className='semiBold widthByContent' style={{ padding: '0.75rem' }}>
+                {label}:&emsp;
+            </td>
             <td className='widthByContent'>
-                {editedProperty === propertyName ? <InputField useField={useField} width={'100%'} autoFocus={true} /> : useField.stringValue()}
+                {editedProperty === propertyName ? <InputField useField={useField} width={'100%'} minWidth='20rem' autoFocus={true} /> : useField.stringValue()}
                 &emsp;&emsp;
             </td>
             <td>
