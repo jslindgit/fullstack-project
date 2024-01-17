@@ -7,8 +7,25 @@ export const apiBaseUrl = 'http://localhost:3001/api';
 export const pageWidth = 1024;
 export const passwordMinLength = 10;
 
-const loremIpsum =
-    'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+export const description = (config: Config): JSX.Element => {
+    return config.language.code === LangCode.FI ? (
+        <>
+            Tämä on{' '}
+            <a href='https://fullstackopen.com/' target='_blank' className='u'>
+                Full Stack Open
+            </a>{' '}
+            -kurssin harjoitustyöksi tehty verkkokauppa-alusta.
+        </>
+    ) : (
+        <>
+            This is an e-commerce platform made as a project work for the{' '}
+            <a href='https://fullstackopen.com/' target='_blank' className='u'>
+                Full Stack Open
+            </a>{' '}
+            course.
+        </>
+    );
+};
 
 export const availableDeliveryCountries: Country[] = [
     {
@@ -92,16 +109,6 @@ export const defaultConfig: Config = {
         contactZipcode: '01600',
         deliveryCountries: availableDeliveryCountries,
         deliveryTimeBusinessDays: 3,
-        description: [
-            {
-                langCode: LangCode.EN,
-                text: loremIpsum,
-            },
-            {
-                langCode: LangCode.FI,
-                text: loremIpsum,
-            },
-        ],
         welcome: [
             { langCode: LangCode.EN, text: 'Welcome!' },
             { langCode: LangCode.FI, text: 'Tervetuloa!' },

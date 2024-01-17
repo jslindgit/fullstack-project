@@ -36,3 +36,7 @@ a.red:active {
     color: var(--colorRedVeryDark);
     transition: color 0s;
 }
+
+a.u {
+    text-decoration: underline;
+}

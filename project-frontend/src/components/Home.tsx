@@ -6,6 +6,8 @@ import { RootState } from '../reducers/rootReducer';
 import { pageWidth } from '../constants';
 import { langTextsToText } from '../types/languageFunctions';
 
+import { description } from '../constants';
+
 const MainPage = () => {
     const config = useSelector((state: RootState) => state.config);
 
@@ -19,12 +21,12 @@ const MainPage = () => {
                 <table align='center' width={pageWidth}>
                     <tbody>
                         <tr>
-                            <td className='alignCenter semiBold sizeExtremelyLarge' style={{ padding: '3rem' }}>
+                            <td className='alignCenter semiBold sizeExtremelyLarge' style={{ padding: '3rem', paddingBottom: '2rem' }}>
                                 {langTextsToText(config.store.welcome, config)}
                             </td>
                         </tr>
                         <tr>
-                            <td className='sizeLarge'>{langTextsToText(config.store.description, config)}</td>
+                            <td className='alignCenter sizeLarge'>{description(config)}</td>
                         </tr>
                     </tbody>
                 </table>

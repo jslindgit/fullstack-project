@@ -75,7 +75,6 @@ export interface ConfigStore {
     contactZipcode: string;
     deliveryCountries: Country[];
     deliveryTimeBusinessDays: number;
-    description: LangText[];
     welcome: LangText[];
 }
 

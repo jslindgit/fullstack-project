@@ -107,7 +107,6 @@ export const settingsToReqBody = (settings: Settings): object => {
         ...settings,
         storeContactCountry: JSON.stringify(settings.storeContactCountry),
         storeDeliveryCountries: settings.storeDeliveryCountries.map((c) => JSON.stringify(c)),
-        storeDescription: JSON.stringify(settings.storeDescription),
         storeWelcome: JSON.stringify(settings.storeWelcome),
     };
 };
@@ -140,8 +139,6 @@ export const settingsFromResBody = (resBody: unknown): Settings | null => {
         resBody.storeDeliveryCountries.every((c) => isString(c)) &&
         'storeDeliveryTimeBusinessDays' in resBody &&
         isNumber(resBody.storeDeliveryTimeBusinessDays) &&
-        'storeDescription' in resBody &&
-        isString(resBody.storeDescription) &&
         'storeName' in resBody &&
         isString(resBody.storeName) &&
         'storeWelcome' in resBody &&
@@ -153,7 +150,6 @@ export const settingsFromResBody = (resBody: unknown): Settings | null => {
             ...(resBody as Settings),
             storeContactCountry: JSON.parse(resBody.storeContactCountry),
             storeDeliveryCountries: resBody.storeDeliveryCountries.map((c) => JSON.parse(c)),
-            storeDescription: JSON.parse(resBody.storeDescription),
             storeWelcome: JSON.parse(resBody.storeWelcome),
         };
     } else {

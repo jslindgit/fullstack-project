@@ -17,7 +17,6 @@ export interface SettingsAttributes {
     storeContactZipcode: string;
     storeDeliveryCountries: string[];
     storeDeliveryTimeBusinessDays: number;
-    storeDescription: string;
     storeName: string;
     storeWelcome: string;
     vat: number;
@@ -84,10 +83,6 @@ const Settings = sequelize.define<SettingsInstance>(
         storeDeliveryTimeBusinessDays: {
             type: DataTypes.INTEGER,
             defaultValue: 0,
-        },
-        storeDescription: {
-            type: DataTypes.TEXT,
-            defaultValue: '',
         },
         storeName: {
             type: DataTypes.STRING,

@@ -132,4 +132,5 @@
 |   12.1.   | 1    | Backendiin asetuksille router+service. Frontendiin alustava Asetukset-sivut.                                         |     |
 |   15.1.   | 2    | Asetusten tallentaminen tietokantaan                                                                                 |     |
 |   16.1.   | 1    | Asetukset-sivun työstöä                                                                                              |     |
-|    yht    | 222  |                                                                                                                      |     |
+|   17.1.   | 1    | Asetukset-sivun työstöä                                                                                              |     |
+|    yht    | 223  |                                                                                                                      |     |

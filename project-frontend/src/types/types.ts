@@ -108,7 +108,6 @@ export interface Settings {
     storeContactZipcode: string;
     storeDeliveryCountries: Country[];
     storeDeliveryTimeBusinessDays: number;
-    storeDescription: LangText[];
     storeName: string;
     storeWelcome: LangText[];
     vat: number;

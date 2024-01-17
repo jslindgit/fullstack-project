@@ -50,7 +50,6 @@ export const initializeConfig = (dispatch: Dispatch<AnyAction>, settings: Settin
                         contactZipcode: settings.storeContactZipcode,
                         deliveryCountries: settings.storeDeliveryCountries,
                         deliveryTimeBusinessDays: settings.storeDeliveryTimeBusinessDays,
-                        description: settings.storeDescription,
                         welcome: settings.storeWelcome,
                     },
                     vat: Number(settings.vat)

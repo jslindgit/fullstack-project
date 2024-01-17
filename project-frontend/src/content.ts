@@ -121,6 +121,8 @@ export enum ContentID {
     contactBusinessID = 'CONTACT: Business ID',
     contactEmail = 'CONTACT: E-mail',
     contactPhone = 'CONTACT: Phone',
+    contentStoreDescription = 'CONTENT: Store description',
+    contentWelcome = 'CONTENT: Welcome',
     errorInvalidEmailAddress = 'ERROR: Invalid e-mail address',
     errorOccurred = 'ERROR: Error occurred',
     errorSomethingWentWrong = 'ERROR: Something went wrong',
@@ -162,14 +164,16 @@ export enum ContentID {
     miscAddress = 'MISC: Address',
     miscClickToChangeSortingOrder = 'MISC: Click to change sorting order',
     miscClickToSortByThis = 'MISC: Click to sort by this (column)',
+    miscContent = 'MISC: Content',
     miscCopy = 'MISC: Copy',
     miscCurrent = 'MISC: Current',
     // prettier-ignore
     miscCustomers = 'MISC: Customer\'s',
-    miscDeliveryCountries = 'MISC: Delivery Countries',
     miscDate = 'MISC: Date',
     miscDays = 'MISC: days',
     miscDeleted = 'MISC: <item/category/etc> deleted',
+    miscDeliveryCountries = 'MISC: Delivery Countries',
+    miscDeliveryTime = 'MISC: Delivery time',
     miscDescription = 'MISC: Description',
     miscIs = 'MISC: is',
     miscLoading = 'MISC: Loading',
@@ -1072,6 +1076,20 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.contentStoreDescription,
+        content: [
+            { langCode: LangCode.EN, text: 'Store description' },
+            { langCode: LangCode.FI, text: 'Kaupan kuvaus' },
+        ],
+    },
+    {
+        id: ContentID.contentWelcome,
+        content: [
+            { langCode: LangCode.EN, text: 'Welcome' },
+            { langCode: LangCode.FI, text: 'Tervetuloa' },
+        ],
+    },
+    {
         id: ContentID.errorInvalidEmailAddress,
         content: [
             { langCode: LangCode.EN, text: 'Invalid e-mail address' },
@@ -1359,6 +1377,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.miscContent,
+        content: [
+            { langCode: LangCode.EN, text: 'Content' },
+            { langCode: LangCode.FI, text: 'Sisältö' },
+        ],
+    },
+    {
         id: ContentID.miscCopy,
         content: [
             { langCode: LangCode.EN, text: 'Copy' },
@@ -1381,14 +1406,6 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.miscDeliveryCountries,
-        content: [
-            // prettier-ignore
-            { langCode: LangCode.EN, text: 'Delivery Countries' },
-            { langCode: LangCode.FI, text: 'Toimitusmaat' },
-        ],
-    },
-    {
         id: ContentID.miscDate,
         content: [
             { langCode: LangCode.EN, text: 'Date' },
@@ -1407,6 +1424,20 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'deleted' },
             { langCode: LangCode.FI, text: 'poistettiin' },
+        ],
+    },
+    {
+        id: ContentID.miscDeliveryCountries,
+        content: [
+            { langCode: LangCode.EN, text: 'Delivery Countries' },
+            { langCode: LangCode.FI, text: 'Toimitusmaat' },
+        ],
+    },
+    {
+        id: ContentID.miscDeliveryTime,
+        content: [
+            { langCode: LangCode.EN, text: 'Delivery time' },
+            { langCode: LangCode.FI, text: 'Toimitusaika' },
         ],
     },
     {
