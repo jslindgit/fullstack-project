@@ -5,8 +5,10 @@
 .item {
     color: var(--colorGrayDark);
     background-color: white;
-    outline: 2px solid var(--colorGrayLight);
     border-radius: 1rem;
+    box-sizing: border-box;
+    height: 100%;
+    outline: 2px solid var(--colorGrayLight);
     padding-top: 1rem;
     padding-bottom: 1.25rem;
     padding-left: 1.3rem;

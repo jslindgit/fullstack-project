@@ -1,3 +1,30 @@
+.categoryLink {
+    background-color: var(--colorGrayDark);
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: var(--colorWhite);
+    height: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1.3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    text-align: left;
+    transition: all 0.25s;
+}
+.categoryLink:hover {
+    background-color: var(--colorGrayDark);
+    color: var(--colorGoldVeryLight) !important;
+    cursor: pointer;
+    outline: 6px solid var(--colorGoldVeryLight);
+    transition: color 0.25s, outline 0.15s;
+}
+.categoryLink:active {
+    background-color: var(--colorGrayDarkest);
+    color: var(--colorGoldLight);
+    outline: 6px solid var(--colorGoldLight);
+    transition: all 0s;
+}
+
 .clickable {
     cursor: pointer;
     user-select: none;
@@ -33,6 +60,7 @@
     color: white;
     font-size: 0.9rem;
     font-weight: normal;
+    text-align: left;
 }
 .footer td {
     padding: 0.5rem;

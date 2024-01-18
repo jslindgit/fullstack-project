@@ -10,11 +10,9 @@ import { pageWidth } from '../constants';
 import { ContentID } from '../content';
 
 import CategoryRow from './CategoryRow';
+import CategoryGrid from './CategoryGrid';
 
-interface Props {
-    showPageHeader?: boolean;
-}
-const Categories = ({ showPageHeader = true }: Props) => {
+const Categories = () => {
     const categoryState = useSelector((state: RootState) => state.categories);
     const config = useSelector((state: RootState) => state.config);
 
@@ -38,28 +36,10 @@ const Categories = ({ showPageHeader = true }: Props) => {
     }
 
     return (
-        <>
-            <div>
-                {showPageHeader ? (
-                    <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
-                        <tbody>
-                            <tr>
-                                <td className='pageHeader'>{contentToText(ContentID.menuProducts, config)}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                ) : (
-                    ''
-                )}
-                <table align='center' width={pageWidth} className='noOuterPadding valignTop'>
-                    <tbody>
-                        {rows.map((r, index) => (
-                            <CategoryRow key={index} categories={r} colsPerRow={cols} config={config} />
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </>
+        <div style={{ margin: 'auto', maxWidth: pageWidth }}>
+            <div className='pageHeader'>{contentToText(ContentID.itemsAllCategories, config)}</div>
+            <CategoryGrid colsPerRow={2} />
+        </div>
     );
 };
 

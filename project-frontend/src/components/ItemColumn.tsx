@@ -16,7 +16,7 @@ const ItemColumn = ({ item, config }: ItemColumnProps) => {
     const imagePath = item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
 
     return (
-        <div style={{ backgroundColor: 'red', height: '100%' }}>
+        <div>
             <Link to={'/shop/item/' + item.id}>
                 <table align='center' width='100%' className='item' style={{ height: '100%' }}>
                     <tbody>

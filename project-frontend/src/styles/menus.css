@@ -34,31 +34,6 @@
     padding-bottom: 0.5em !important;
 }
 
-/* Categories ("frontpage" of /shop/) */
-.categoryLink {
-    color: var(--colorWhite);
-    background-color: var(--colorGrayDark);
-    border-radius: 15px;
-    padding-top: 1rem;
-    padding-bottom: 1.3rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    transition: all 0.25s;
-}
-.categoryLink:hover {
-    background-color: var(--colorGrayDark);
-    color: var(--colorGoldVeryLight) !important;
-    cursor: pointer;
-    outline: 6px solid var(--colorGoldVeryLight);
-    transition: color 0.25s, outline 0.15s;
-}
-.categoryLink:active {
-    background-color: var(--colorGrayDarkest);
-    color: var(--colorGoldLight);
-    outline: 6px solid var(--colorGoldLight);
-    transition: all 0s;
-}
-
 /* Misc */
 .currentPage {
     text-decoration: underline solid;

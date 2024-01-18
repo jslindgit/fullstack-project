@@ -20,7 +20,9 @@
 }
 
 .valignMiddle {
-    vertical-align: middle;
+    align-items: center;
+    display: flex;
+    vertical-align: middle; /* not needed for <div> */
 }
 .valignMiddle td {
     vertical-align: middle;

@@ -9,10 +9,9 @@ import { pageWidth } from '../constants';
 import itemService from '../services/itemService';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 
-import Categories from './Categories';
+import CategoryGrid from './CategoryGrid';
 import Description from './Description';
-import ItemsRow from './ItemsRow';
-import ItemGridColumn from './ItemGridColumn';
+import ItemGrid from './ItemGrid';
 
 const MainPage = () => {
     const config = useSelector((state: RootState) => state.config);
@@ -45,65 +44,28 @@ const MainPage = () => {
 
     return (
         <>
-            <div className='grid-container' data-cols='1' data-gap='3rem' style={{ margin: '3rem auto', width: pageWidth }}>
+            <div
+                className='grid-container'
+                data-cols='1'
+                data-gap='2rem'
+                style={{ margin: 'auto', marginBottom: '5rem', marginTop: '2rem', maxWidth: pageWidth }}
+            >
                 <div className='semiBold sizeExtremelyLarge'>{langTextsToText(config.store.welcome, config)}</div>
-                <div className='sizeLarge'>
+                <div className='sizeLarge' style={{ marginBottom: '1rem' }}>
                     <Description config={config} />
                 </div>
                 <div>
                     <div className='pageHeader'>{contentToText(ContentID.itemsLatestItems, config)}</div>
-                    <div className='grid-container' data-cols='3' data-gap='1rem' style={{ marginTop: '1rem' }}>
-                        {latestItems.map((item) => (
-                            <ItemGridColumn key={item.id} item={item} config={config} />
-                        ))}
-                    </div>
+                    <ItemGrid colsPerRow={3} config={config} items={latestItems} />
                 </div>
-            </div>
-            <div>
-                <table align='center' width={pageWidth}>
-                    <tbody>
-                        <tr>
-                            <td className='alignCenter semiBold sizeExtremelyLarge' style={{ padding: '3rem', paddingBottom: '2rem' }}>
-                                {langTextsToText(config.store.welcome, config)}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className='alignCenter sizeLarge' style={{ paddingBottom: '3rem' }}>
-                                <Description config={config} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className='pageHeader'>{contentToText(ContentID.itemsLatestItems, config)}</td>
-                        </tr>
-                        <tr style={{ height: '100%' }}>
-                            <td className='noOuterPadding' style={{ height: '100%', padding: 0 }}>
-                                <ItemsRow items={latestItems} colsPerRow={3} config={config} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className='pageHeader' style={{ paddingTop: '4rem' }}>
-                                {contentToText(ContentID.itemsTopSellers, config)}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className='noOuterPadding' style={{ padding: 0 }}>
-                                <ItemsRow items={topSellers} colsPerRow={3} config={config} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className='pageHeader' style={{ paddingTop: '4rem' }}>
-                                {contentToText(ContentID.itemsAllCategories, config)}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style={{ padding: 0 }}>
-                                <Categories showPageHeader={false} />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br />
-                <br />
+                <div style={{ marginTop: '1rem' }}>
+                    <div className='pageHeader'>{contentToText(ContentID.itemsTopSellers, config)}</div>
+                    <ItemGrid colsPerRow={3} config={config} items={topSellers} />
+                </div>
+                <div style={{ marginTop: '1rem' }}>
+                    <div className='pageHeader'>{contentToText(ContentID.itemsAllCategories, config)}</div>
+                    <CategoryGrid colsPerRow={2} />
+                </div>
             </div>
         </>
     );

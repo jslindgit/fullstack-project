@@ -25,7 +25,7 @@ const ItemsRow = ({ items, colsPerRow, config }: ItemRowProps) => {
     return (
         <tr style={{ height: '100%' }}>
             {items.map((item) => (
-                <td key={item.id} width={columnWidth} style={{ backgroundColor: 'green', height: '100%' }}>
+                <td key={item.id} width={columnWidth}>
                     <ItemColumn item={item} config={config} />
                 </td>
             ))}

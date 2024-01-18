@@ -17,6 +17,12 @@
 .grid-container[data-gap='1rem'] {
     grid-gap: 1rem;
 }
+.grid-container[data-gap='1.5rem'] {
+    grid-gap: 1.5rem;
+}
+.grid-container[data-gap='2rem'] {
+    grid-gap: 2rem;
+}
 .grid-container[data-gap='3rem'] {
     grid-gap: 3rem;
 }

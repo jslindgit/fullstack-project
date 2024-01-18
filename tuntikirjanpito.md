@@ -133,5 +133,6 @@
 |   15.1.   | 2    | Asetusten tallentaminen tietokantaan                                                                                 |     |
 |   16.1.   | 1    | Asetukset-sivun työstöä                                                                                              |     |
 |   17.1.   | 1    | Asetukset-sivun työstöä                                                                                              |     |
-|           | 1    | Etusivun työstöä                                                                                                     |
-|    yht    | 224  |                                                                                                                      |     |
+|           | 1    | Etusivun työstöä                                                                                                     |     |
+|   18.1.   | 2    | Ulkoasun parantelua                                                                                                  |     |
+|    yht    | 226  |                                                                                                                      |     |
