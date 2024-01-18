@@ -1,66 +1,15 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Config } from '../types/configTypes';
 import { Category } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
-import { contentToText, langTextsToText } from '../types/languageFunctions';
+import { contentToText } from '../types/languageFunctions';
 import { pageWidth } from '../constants';
 
-import { Link } from './CustomLink';
 import { ContentID } from '../content';
 
-interface CategoryProps {
-    category: Category;
-    config: Config;
-}
-const CategoryItem = ({ category, config }: CategoryProps) => {
-    return (
-        <td width='33.33%'>
-            <Link to={'/shop/' + category.id}>
-                <table align='center' width='100%' className='categoryLink'>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div className='sizeLarge' style={{ lineHeight: 1.5, marginBottom: '-0.5em' }}>
-                                    {langTextsToText(category.name, config)}
-                                </div>
-                                <br />
-                                <span className='sizeSmallish'>{langTextsToText(category.description, config)}</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </Link>
-        </td>
-    );
-};
-
-const addRemainingCols = (colstoAdd: number) => {
-    const result: JSX.Element[] = [];
-    for (let i = 0; i < colstoAdd; i++) {
-        result.push(<td key={'col' + i} width='33.33%'></td>);
-    }
-    return result;
-};
-
-interface CategoryRowProps {
-    categories: Category[];
-    colsPerRow: number;
-    config: Config;
-}
-const CategoryRow = ({ categories, colsPerRow, config }: CategoryRowProps) => {
-    const extraCols = addRemainingCols(colsPerRow - categories.length);
-    return (
-        <tr>
-            {categories.map((c) => (
-                <CategoryItem key={c.id} category={c} config={config} />
-            ))}
-            {extraCols}
-        </tr>
-    );
-};
+import CategoryRow from './CategoryRow';
 
 interface Props {
     showPageHeader?: boolean;
@@ -82,7 +31,7 @@ const Categories = ({ showPageHeader = true }: Props) => {
         );
     }
 
-    const cols = 3;
+    const cols = 2;
     const rows: Array<Category[]> = [];
     for (let i = 0; i < categoryState.categories.length; i += cols) {
         rows.push(categoryState.categories.slice(i, i + cols));

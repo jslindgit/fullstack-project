@@ -62,9 +62,10 @@ h4 {
     /* Applied for the <td> that the header is in */
     font-size: var(--fontSizeVeryLarge);
     font-weight: bold;
-    padding-bottom: 2rem;
+    /*padding-bottom: 2rem;
     padding-left: 0;
-    padding-top: 1.25rem;
+    padding-top: 1.25rem;*/
+    text-align: left;
     text-decoration: underline solid var(--colorGoldVeryLight);
     text-underline-offset: 0.3rem;
     text-decoration-thickness: 0.3rem;

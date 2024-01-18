@@ -23,9 +23,9 @@ const ItemsRow = ({ items, colsPerRow, config }: ItemRowProps) => {
     const extraCols = addRemainingCols(colsPerRow - items.length);
 
     return (
-        <tr>
+        <tr style={{ height: '100%' }}>
             {items.map((item) => (
-                <td key={item.id} width={columnWidth}>
+                <td key={item.id} width={columnWidth} style={{ backgroundColor: 'green', height: '100%' }}>
                     <ItemColumn item={item} config={config} />
                 </td>
             ))}

@@ -16,13 +16,13 @@ const ItemColumn = ({ item, config }: ItemColumnProps) => {
     const imagePath = item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
 
     return (
-        <>
+        <div style={{ backgroundColor: 'red', height: '100%' }}>
             <Link to={'/shop/item/' + item.id}>
-                <table align='center' width='100%' className='item'>
+                <table align='center' width='100%' className='item' style={{ height: '100%' }}>
                     <tbody>
                         <tr>
                             <td style={{ paddingRight: 0 }}>
-                                <table width='100%'>
+                                <table style={{ height: '100%' }}>
                                     <tbody>
                                         <tr>
                                             <td className='sizeLarge'>{langTextsToText(item.name, config)}</td>
@@ -45,7 +45,7 @@ const ItemColumn = ({ item, config }: ItemColumnProps) => {
                     </tbody>
                 </table>
             </Link>
-        </>
+        </div>
     );
 };
 

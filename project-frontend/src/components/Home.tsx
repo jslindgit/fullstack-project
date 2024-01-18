@@ -12,6 +12,7 @@ import { contentToText, langTextsToText } from '../types/languageFunctions';
 import Categories from './Categories';
 import Description from './Description';
 import ItemsRow from './ItemsRow';
+import ItemGridColumn from './ItemGridColumn';
 
 const MainPage = () => {
     const config = useSelector((state: RootState) => state.config);
@@ -44,6 +45,20 @@ const MainPage = () => {
 
     return (
         <>
+            <div className='grid-container' data-cols='1' data-gap='3rem' style={{ margin: '3rem auto', width: pageWidth }}>
+                <div className='semiBold sizeExtremelyLarge'>{langTextsToText(config.store.welcome, config)}</div>
+                <div className='sizeLarge'>
+                    <Description config={config} />
+                </div>
+                <div>
+                    <div className='pageHeader'>{contentToText(ContentID.itemsLatestItems, config)}</div>
+                    <div className='grid-container' data-cols='3' data-gap='1rem' style={{ marginTop: '1rem' }}>
+                        {latestItems.map((item) => (
+                            <ItemGridColumn key={item.id} item={item} config={config} />
+                        ))}
+                    </div>
+                </div>
+            </div>
             <div>
                 <table align='center' width={pageWidth}>
                     <tbody>
@@ -60,8 +75,8 @@ const MainPage = () => {
                         <tr>
                             <td className='pageHeader'>{contentToText(ContentID.itemsLatestItems, config)}</td>
                         </tr>
-                        <tr>
-                            <td className='noOuterPadding' style={{ padding: 0 }}>
+                        <tr style={{ height: '100%' }}>
+                            <td className='noOuterPadding' style={{ height: '100%', padding: 0 }}>
                                 <ItemsRow items={latestItems} colsPerRow={3} config={config} />
                             </td>
                         </tr>
