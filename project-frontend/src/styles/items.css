@@ -25,10 +25,10 @@
 }
 
 .itemDetails {
+    box-sizing: border-box;
     border: 2px solid var(--colorGrayLight);
-    border-radius: 15px;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    border-radius: 1em;
+    padding: 1.5rem 3rem;
 }
 
 .itemDetailsName {

@@ -49,82 +49,42 @@ const ItemDetails = () => {
     }
 
     return (
-        <div>
-            <table align='center'>
-                <tbody>
-                    <tr>
-                        <td style={{ padding: 0 }}>
-                            <ItemsMenu config={config} currentId={id} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={(pageWidth / 3) * 2} className='itemDetails'>
-                <tbody>
-                    <tr>
-                        <td colSpan={2} className='itemDetailsName' style={{ paddingBottom: 0 }}>
-                            {langTextsToText(item.name, config)}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width='50%' className='valignTop' style={{ paddingLeft: 0 }}>
-                            <table align='center' width='100%'>
-                                <tbody>
-                                    <tr>
-                                        <td className='itemDetailsPrice'>{format.currency(item.price, config)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{langTextsToText(item.description, config)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <AddToCart config={config} item={item} />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                        <td width='50%' className='valignTop' style={{ paddingRight: 0, paddingTop: '0.7rem' }}>
-                            <table align='center'>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            {item.images.length > 0 ? (
-                                                <>
-                                                    {item.images.map((path) => (
-                                                        <div key={path}>
-                                                            <Image src={imageFullPath(path)} className='imgItemDetails' />
-                                                            {item.images.indexOf(path) < item.images.length - 1 ? <br /> : ''}
-                                                        </div>
-                                                    ))}
-                                                </>
-                                            ) : (
-                                                <img src={imageFullPath('misc/_no_image.png')} className='imgItemDetails' />
-                                            )}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={(pageWidth / 3) * 2}>
-                <tbody>
-                    <tr>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <BackButton type='text' />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <>
+            <ItemsMenu config={config} currentId={id} />
+            <div style={{ margin: '2em auto', maxWidth: pageWidth, width: (pageWidth / 3) * 2 }}>
+                <div className='itemDetails'>
+                    <div className='alignLeft itemDetailsName' style={{ marginBottom: '2rem' }}>
+                        {langTextsToText(item.name, config)}
+                    </div>
+                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: '1fr 40%' }}>
+                        <div className='alignLeft grid-container' data-cols='1' data-gap='2rem'>
+                            <div className='itemDetailsPrice'>{format.currency(item.price, config)}</div>
+                            <div>{langTextsToText(item.description, config)}</div>
+                            <div>
+                                <AddToCart config={config} item={item} />
+                            </div>
+                        </div>
+                        <div className='valignTop'>
+                            {item.images.length > 0 ? (
+                                <>
+                                    {item.images.map((path) => (
+                                        <div key={path}>
+                                            <Image src={imageFullPath(path)} className='imgItemDetails' />
+                                            {item.images.indexOf(path) < item.images.length - 1 ? <br /> : ''}
+                                        </div>
+                                    ))}
+                                </>
+                            ) : (
+                                <img src={imageFullPath('misc/_no_image.png')} className='imgItemDetails' />
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <div className='alignLeft' style={{ marginTop: '2.5em' }}>
+                    <BackButton type='text' />
+                </div>
+            </div>
+        </>
     );
 };
 

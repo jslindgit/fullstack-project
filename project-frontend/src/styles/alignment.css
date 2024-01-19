@@ -36,6 +36,8 @@
 }
 
 .valignTop {
+    align-items: start;
+    /*display: flex;*/
     vertical-align: top;
 }
 .valignTop td {
