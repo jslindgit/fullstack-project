@@ -20,17 +20,15 @@ const LanguageSelection = () => {
     };
 
     return (
-        <table>
-            <tbody>
-                <tr>
-                    {availableLangs.map((lang) => (
-                        <td key={lang.code} className={'languageSelection' + (isSelected(lang) ? ' languageSelected' : '')} onClick={() => setLang(lang)}>
-                            {lang.code}
-                        </td>
-                    ))}
-                </tr>
-            </tbody>
-        </table>
+        <>
+            <div className='grid-container' data-cols='auto'>
+                {availableLangs.map((lang) => (
+                    <div key={lang.code} className={'languageSelection' + (isSelected(lang) ? ' languageSelected' : '')} onClick={() => setLang(lang)}>
+                        {lang.code}
+                    </div>
+                ))}
+            </div>
+        </>
     );
 };
 

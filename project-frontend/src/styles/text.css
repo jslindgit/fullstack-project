@@ -58,6 +58,10 @@ h4 {
     line-height: 2;
 }
 
+.noWrap {
+    text-wrap: nowrap;
+}
+
 .pageHeader {
     /* Applied for the <td> that the header is in */
     font-size: var(--fontSizeVeryLarge);

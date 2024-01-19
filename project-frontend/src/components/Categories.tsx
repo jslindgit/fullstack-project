@@ -9,7 +9,6 @@ import { pageWidth } from '../constants';
 
 import { ContentID } from '../content';
 
-import CategoryRow from './CategoryRow';
 import CategoryGrid from './CategoryGrid';
 
 const Categories = () => {

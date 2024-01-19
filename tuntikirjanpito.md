@@ -135,4 +135,5 @@
 |   17.1.   | 1    | Asetukset-sivun työstöä                                                                                              |     |
 |           | 1    | Etusivun työstöä                                                                                                     |     |
 |   18.1.   | 2    | Ulkoasun parantelua                                                                                                  |     |
-|    yht    | 226  |                                                                                                                      |     |
+|   19.1.   | 1    | Ulkoasun parantelua                                                                                                  |     |
+|    yht    | 227  |                                                                                                                      |     |

@@ -12,8 +12,15 @@
 .grid-container[data-cols='3'] {
     grid-template-columns: repeat(3, 1fr);
 }
+.grid-container[data-cols='auto'] {
+    grid-auto-flow: column;
+    grid-template-columns: auto;
+}
 
 /* Gap */
+.grid-container[data-gap='0.9rem'] {
+    grid-gap: 0.9rem;
+}
 .grid-container[data-gap='1rem'] {
     grid-gap: 1rem;
 }
