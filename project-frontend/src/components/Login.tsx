@@ -43,41 +43,27 @@ const Login = () => {
     const loginForm = () => (
         <div>
             <form onSubmit={submit}>
-                <table align='center' width='1px' className='paddingTopBottomOnly'>
-                    <tbody>
-                        <tr>
-                            <td colSpan={2} className='pageHeader'>
-                                {contentToText(ContentID.menuLogin, config)}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className='semiBold widthByContent'>{contentToText(username.label, config)}:</td>
-                            <td>
-                                <InputField useField={username} width='20rem' autoFocus={true} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className='semiBold'>{contentToText(password.label, config)}:</td>
-                            <td>
-                                <InputField useField={password} width='20rem' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <button type='submit'>{contentToText(ContentID.menuLogin, config)}</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <br />
-                                {contentToText(ContentID.loginNoAccount, config)}{' '}
-                                <Link to='/register'>{contentToText(ContentID.loginRegisterHere, config)}</Link>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div style={{ margin: 'auto', width: 'min-content' }}>
+                    <div className='pageHeader'>{contentToText(ContentID.menuLogin, config)}</div>
+                    <div className='grid-container valignMiddle' data-gap='2rem' style={{ gridTemplateColumns: 'auto 1fr' }}>
+                        <div className='alignLeft semiBold'>{contentToText(username.label, config)}:</div>
+                        <div>
+                            <InputField useField={username} width='20rem' autoFocus={true} />
+                        </div>
+                        <div className='alignLeft semiBold'>{contentToText(password.label, config)}:</div>
+                        <div>
+                            <InputField useField={password} width='20rem' />
+                        </div>
+                        <div />
+                        <div className='alignLeft'>
+                            <button type='submit'>{contentToText(ContentID.menuLogin, config)}</button>
+                        </div>
+                        <div />
+                        <div className='alignLeft'>
+                            {contentToText(ContentID.loginNoAccount, config)} <Link to='/register'>{contentToText(ContentID.loginRegisterHere, config)}</Link>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     );

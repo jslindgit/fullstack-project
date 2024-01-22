@@ -12,21 +12,18 @@ import { contentToText } from '../types/languageFunctions';
 import useField from '../hooks/useField';
 
 import InputField from './InputField';
+import ItemGrid from './ItemGrid';
 import ItemsMenu from './ItemsMenu';
-import ItemsRow from './ItemsRow';
 
 const ItemsSearch = () => {
     const config = useSelector((state: RootState) => state.config);
 
     const [attemptedToGetSearchParam, setAttemptedToGetSearchParam] = useState<boolean>(false);
-    const [rows, setRows] = useState<Array<Item[]>>([]);
     const [searchResults, setSearchResults] = useState<Item[]>([]);
 
     const searchField = useField('text', ContentID.miscSearch);
 
     const [searchParams] = useSearchParams();
-
-    const colsPerRow = 3;
 
     // Get search query from URL:
     useEffect(() => {
@@ -47,67 +44,24 @@ const ItemsSearch = () => {
         }
     }, [searchField.value]);
 
-    // Set the rows of Items:
-    useEffect(() => {
-        const allRows: Array<Item[]> = [];
-        let currentRow: Item[] = [];
-        searchResults.forEach((item) => {
-            if (currentRow.length >= colsPerRow) {
-                allRows.push(currentRow);
-                currentRow = [];
-            }
-            currentRow.push(item);
-        });
-        if (currentRow.length > 0) {
-            allRows.push(currentRow);
-        }
-
-        setRows(allRows);
-    }, [searchResults]);
-
     return (
         <>
-            <div>
-                <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
-                    <tbody>
-                        <tr>
-                            <td style={{ padding: 0 }}>
-                                <ItemsMenu config={config} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className='pageHeader'>{contentToText(ContentID.miscSearch, config)}</td>
-                        </tr>
-                        <tr>
-                            <td style={{ paddingTop: 0 }}>
-                                <InputField
-                                    className='sizeLarge'
-                                    useField={searchField}
-                                    width='100%'
-                                    placeHolder={contentToText(ContentID.searchItemsName, config)}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className='italic' style={{ padding: 0, paddingBottom: '1rem' }}>
-                                {searchResults.length} {contentToText(ContentID.searchHits, config)}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                {rows.length <= 0 ? (
-                    <div>
-                        {contentToText(ContentID.searchNoResults, config)} "{searchField.stringValue()}"
-                    </div>
-                ) : (
-                    <table align='center' width={pageWidth} className='noOuterPadding'>
-                        <tbody>
-                            {rows.map((row, index) => (
-                                <ItemsRow key={index} items={row} colsPerRow={colsPerRow} config={config} />
-                            ))}
-                        </tbody>
-                    </table>
-                )}
+            <ItemsMenu config={config} />
+            <div style={{ margin: 'auto', maxWidth: pageWidth }}>
+                <div className='pageHeader'>{contentToText(ContentID.miscSearch, config)}</div>
+                <InputField className='sizeLarge' useField={searchField} width='100%' placeHolder={contentToText(ContentID.searchItemsName, config)} />
+                <div className='alignLeft italic' style={{ marginBottom: '1.25rem', marginTop: '1.25rem' }}>
+                    {searchResults.length > 0 ? (
+                        <>
+                            {searchResults.length} {contentToText(ContentID.searchHits, config)}
+                        </>
+                    ) : (
+                        <>
+                            {contentToText(ContentID.searchNoResults, config)} "{searchField.stringValue()}".
+                        </>
+                    )}
+                </div>
+                {searchResults.length > 0 && <ItemGrid colsPerRow={3} config={config} items={searchResults} />}
             </div>
         </>
     );

@@ -136,4 +136,5 @@
 |           | 1    | Etusivun työstöä                                                                                                     |     |
 |   18.1.   | 2    | Ulkoasun parantelua                                                                                                  |     |
 |   19.1.   | 1    | Ulkoasun parantelua                                                                                                  |     |
-|    yht    | 227  |                                                                                                                      |     |
+|   22.1.   | 1    | Ulkoasun parantelua                                                                                                  |     |
+|    yht    | 228  |                                                                                                                      |     |

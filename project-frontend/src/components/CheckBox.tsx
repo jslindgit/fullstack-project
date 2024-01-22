@@ -5,15 +5,11 @@ interface Props {
 
 const CheckBox = ({ isChecked, onClick }: Props) => {
     return (
-        <table className={'customCheckBox' + (isChecked ? ' checked' : '')}>
-            <tbody>
-                <tr>
-                    <td onClick={onClick} style={{ border: 0 }}>
-                        {isChecked ? '✔' : ''}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <>
+            <div className={'customCheckBox' + (isChecked ? ' checked' : '')} onClick={onClick}>
+                {isChecked && '✔'}
+            </div>
+        </>
     );
 };
 

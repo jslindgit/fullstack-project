@@ -109,99 +109,68 @@ const AddToCart = ({ config, item }: Props) => {
     };
 
     return (
-        <div>
-            <table className='noPadding'>
-                <tbody>
-                    {showSizeSelection() ? (
-                        <React.Fragment>
-                            <tr>
-                                <td colSpan={2} className='semiBold' style={{ paddingTop: '0' }}>
-                                    {contentToText(ContentID.itemsSize, config)}:
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan={2} style={{ paddingBottom: '2rem', paddingTop: '0.75rem' }}>
-                                    <select value={size} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setSize(event.target.value)}>
-                                        <option value='' disabled>
-                                            {contentToText(ContentID.itemsSelectSize, config)}
-                                        </option>
-                                        {item.sizes.map((size) => (
-                                            <option key={size.size} value={size.size}>
-                                                {size.size} {size.instock > 0 ? '' : '(' + contentToText(ContentID.itemsSoldOut, config) + ')'}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </td>
-                            </tr>
-                        </React.Fragment>
-                    ) : (
-                        ''
+        <div className='grid-container' data-gap='2rem'>
+            {showSizeSelection() && (
+                <div>
+                    <div className='semiBold'>{contentToText(ContentID.itemsSize, config)}:</div>
+                    <div style={{ marginTop: '0.5rem' }}>
+                        <select value={size} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setSize(event.target.value)}>
+                            <option value='' disabled>
+                                {contentToText(ContentID.itemsSelectSize, config)}
+                            </option>
+                            {item.sizes.map((size) => (
+                                <option key={size.size} value={size.size}>
+                                    {size.size} {size.instock > 0 ? '' : '(' + contentToText(ContentID.itemsSoldOut, config) + ')'}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            )}
+            {(size.length > 0 || !showSizeSelection()) && (
+                <div className={'semiBold ' + (sizeInStock() > 0 ? 'itemInStock' : 'itemSoldOut')}>
+                    {
+                        // prettier-ignore
+                        sizeInStock() > 0
+                            ? `${contentToText(ContentID.itemsInStock, config)} (${sizeInStock()} ${contentToText(
+                                ContentID.itemsPcs,
+                                config
+                            )})`
+                            : <>{soldOutString()}</>
+                    }
+                </div>
+            )}
+            {(sizeInStock() > 0 || (showSizeSelection() && size.length < 1)) && (
+                <div>
+                    <div className='semiBold'>{contentToText(quantity.label, config)}:</div>
+                    <div className='grid-container valignMiddle' style={{ gridTemplateColumns: 'auto 1fr', marginTop: '0.5rem' }}>
+                        <div>
+                            <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
+                        </div>
+                        <div>
+                            <div className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
+                                +
+                            </div>
+                            <div className='adjustAmountButtons' onClick={() => adjustAmount(-1)} style={{ height: '1rem' }}>
+                                -
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            <div>
+                <button type='button' onClick={() => handleAddToShoppingCart(item)} disabled={sizeInStock() < 1 || Number(quantity.value) <= 0}>
+                    {contentToText(
+                        // prettier-ignore
+                        sizeInStock() > 0
+                            ? ContentID.itemsAddToShoppingCart
+                            : showSizeSelection() && size.length < 1
+                                ? ContentID.itemsSelectSize
+                                : ContentID.itemsSoldOut,
+                        config
                     )}
-                    {size.length > 0 || !showSizeSelection() ? (
-                        <tr>
-                            <td
-                                colSpan={2}
-                                className={'semiBold ' + (sizeInStock() > 0 ? 'itemInStock' : 'itemSoldOut')}
-                                style={{ paddingBottom: sizeInStock() > 0 ? '2rem' : '0.5rem' }}
-                            >
-                                {
-                                    // prettier-ignore
-                                    sizeInStock() > 0
-                                        ? `${contentToText(ContentID.itemsInStock, config)} (${sizeInStock()} ${contentToText(
-                                            ContentID.itemsPcs,
-                                            config
-                                        )})`
-                                        : <>{soldOutString()}</>
-                                }
-                            </td>
-                        </tr>
-                    ) : (
-                        ''
-                    )}
-                    {sizeInStock() > 0 || (showSizeSelection() && size.length < 1) ? (
-                        <React.Fragment>
-                            <tr>
-                                <td colSpan={2} className='semiBold'>
-                                    {contentToText(quantity.label, config)}:
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className='widthByContent' style={{ paddingTop: '0.75rem' }}>
-                                    <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
-                                </td>
-                                <td style={{ paddingBottom: 0, paddingTop: '0.4rem' }}>
-                                    <span className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
-                                        +
-                                    </span>
-                                    <br />
-                                    <span className='adjustAmountButtons' onClick={() => adjustAmount(-1)}>
-                                        -
-                                    </span>
-                                </td>
-                            </tr>
-                        </React.Fragment>
-                    ) : (
-                        ''
-                    )}
-                </tbody>
-            </table>
-            <br />
-            <button
-                type='button'
-                onClick={() => handleAddToShoppingCart(item)}
-                disabled={sizeInStock() < 1 || Number(quantity.value) <= 0}
-                style={{ marginTop: '0.5rem' }}
-            >
-                {contentToText(
-                    // prettier-ignore
-                    sizeInStock() > 0
-                        ? ContentID.itemsAddToShoppingCart
-                        : showSizeSelection() && size.length < 1
-                            ? ContentID.itemsSelectSize
-                            : ContentID.itemsSoldOut,
-                    config
-                )}
-            </button>
+                </button>
+            </div>
         </div>
     );
 };
