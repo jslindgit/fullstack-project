@@ -37,62 +37,47 @@ const AdminCategories = () => {
 
     return (
         <div>
-            <table align='center' width='100%'>
+            <table className='dotted' width='100%'>
                 <tbody>
-                    <tr>
-                        <td style={{ padding: 0, paddingBottom: '1rem' }}>
-                            <table className='dotted' width='100%'>
-                                <tbody>
-                                    <tr className='bold'>
-                                        <td>{contentToText(ContentID.miscName, config)}</td>
-                                        <td colSpan={4}>{contentToText(ContentID.miscDescription, config)}</td>
-                                    </tr>
-                                    {categoryState.categories.map((c) => (
-                                        <tr key={c.id}>
-                                            <td width='1px' className='semiBold'>
-                                                {langTextsToText(c.name, config)}
-                                            </td>
-                                            <td>{langTextsToText(c.description, config)}</td>
-                                            <td width='1px' style={{ paddingRight: 0 }}>
-                                                <Link to={'/admin/editcategory/' + c.id}>
-                                                    <button type='button'>{contentToText(ContentID.buttonEditCategoryDetails, config)}</button>
-                                                </Link>
-                                            </td>
-                                            <td width='1px' style={{ paddingRight: 0 }}>
-                                                <Link to={`/admin/items?category=${c.id}&back=1`}>
-                                                    <button type='button'>{contentToText(ContentID.buttonEditCategoryProducts, config)}</button>
-                                                </Link>
-                                            </td>
-                                            <td width='1px'>
-                                                <button
-                                                    className='red'
-                                                    onClick={() => deleteCategory(c)}
-                                                    disabled={!(c.addedBy && c.addedBy === usersState.loggedUser?.id)}
-                                                    title={
-                                                        !(c.addedBy && c.addedBy === usersState.loggedUser?.id)
-                                                            ? contentToText(ContentID.adminYouCanOnlyDeleteCategoriesAddedByYou, config)
-                                                            : ''
-                                                    }
-                                                >
-                                                    {contentToText(ContentID.buttonRemove, config)}
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </td>
+                    <tr className='bold'>
+                        <td>{contentToText(ContentID.miscName, config)}</td>
+                        <td colSpan={4}>{contentToText(ContentID.miscDescription, config)}</td>
                     </tr>
-                    <tr>
-                        <td style={{ backgroundColor: 'var(--colorGrayVeryLight)', paddingLeft: '2rem', paddingRight: '2rem' }}>
-                            <AddCategoryForm user={usersState.loggedUser} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                    </tr>
+                    {categoryState.categories.map((c) => (
+                        <tr key={c.id}>
+                            <td className='semiBold widthByContent'>{langTextsToText(c.name, config)}</td>
+                            <td>{langTextsToText(c.description, config)}</td>
+                            <td width='1px' style={{ paddingRight: 0 }}>
+                                <Link to={'/admin/editcategory/' + c.id}>
+                                    <button type='button'>{contentToText(ContentID.buttonEditCategoryDetails, config)}</button>
+                                </Link>
+                            </td>
+                            <td width='1px' style={{ paddingRight: 0 }}>
+                                <Link to={`/admin/items?category=${c.id}&back=1`}>
+                                    <button type='button'>{contentToText(ContentID.buttonEditCategoryProducts, config)}</button>
+                                </Link>
+                            </td>
+                            <td width='1px'>
+                                <button
+                                    className='red'
+                                    onClick={() => deleteCategory(c)}
+                                    disabled={!(usersState.loggedUser?.admin || (c.addedBy && c.addedBy === usersState.loggedUser?.id))}
+                                    title={
+                                        !(usersState.loggedUser?.admin || (c.addedBy && c.addedBy === usersState.loggedUser?.id))
+                                            ? contentToText(ContentID.adminYouCanOnlyDeleteCategoriesAddedByYou, config)
+                                            : ''
+                                    }
+                                >
+                                    {contentToText(ContentID.buttonRemove, config)}
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
+            <br />
+            <AddCategoryForm user={usersState.loggedUser} />
+            <br />
         </div>
     );
 };

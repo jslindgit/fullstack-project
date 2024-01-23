@@ -1,4 +1,11 @@
 /* Top menu ("navi bar") */
+.adminOrdersMenu {
+    border: 3px solid var(--colorGrayLight);
+    font-weight: 600;
+    padding: 0.5rem;
+    user-select: none;
+}
+
 .menu {
     background-color: var(--colorGrayDarkest);
     color: var(--colorGrayLight);

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
@@ -6,10 +7,10 @@ import { RootState } from '../../reducers/rootReducer';
 
 import { contentToText, useLangFields, useLangTextAreas } from '../../types/languageFunctions';
 import categoryService from '../../services/categoryService';
-import { UseField } from '../../hooks/useField';
-import { UseTextArea } from '../../hooks/useTextArea';
 
 import { setNotification } from '../../reducers/miscReducer';
+
+import InputField from '../InputField';
 
 interface Props {
     user: User | null;
@@ -25,28 +26,6 @@ const AddCategoryForm = ({ user }: Props) => {
     if (!user?.admin && !user?.operator) {
         return <>Error: 403</>;
     }
-
-    const getInputField = (label: string, field: UseField) => (
-        <tr key={label}>
-            <td width='1px' className='semiBold' style={{ paddingLeft: '2.5rem', paddingRight: 0 }}>
-                {label}
-            </td>
-            <td>
-                <input type={field.type} value={field.value} onChange={field.onChange} />
-            </td>
-        </tr>
-    );
-
-    const getTextArea = (label: string, textArea: UseTextArea) => (
-        <tr key={label}>
-            <td width='1px' className='semiBold' style={{ paddingLeft: '2.5rem', paddingRight: 0 }}>
-                {label}
-            </td>
-            <td>
-                <textarea value={textArea.value} onChange={textArea.onChange} style={{ width: '100%', height: '10rem' }} />
-            </td>
-        </tr>
-    );
 
     const submit = async () => {
         const newCategory: NewCategory = {
@@ -67,32 +46,40 @@ const AddCategoryForm = ({ user }: Props) => {
     };
 
     return (
-        <>
-            <div className='pageHeader'>{contentToText(ContentID.adminAddNewCategory, config)}</div>
-            <table width='100%'>
-                <tbody>
-                    <tr>
-                        <td colSpan={2} className='sizeLarge bold' style={{ paddingTop: 0 }}>
-                            {contentToText(ContentID.miscName, config)}
-                        </td>
-                    </tr>
-                    {nameFields.map((nf) => getInputField(nf.langCode.toString(), nf.field))}
-                    <tr>
-                        <td colSpan={2} className='sizeLarge bold'>
-                            {contentToText(ContentID.miscDescription, config)}
-                        </td>
-                    </tr>
-                    {descriptionFields.map((nf) => getTextArea(nf.langCode.toString(), nf.textArea))}
-                    <tr>
-                        <td colSpan={2}>
-                            <button type='button' onClick={submit}>
-                                {contentToText(ContentID.buttonAdd, config)}
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </>
+        <div style={{ backgroundColor: 'var(--colorGrayVeryLight)', borderRadius: '10px', padding: '1.5em 2em' }}>
+            <div className='pageHeader' style={{ marginTop: 0 }}>
+                {contentToText(ContentID.adminAddNewCategory, config)}
+            </div>
+            <div className='grid-container' data-cols='1' data-gap='1rem' style={{ padding: '0 1em' }}>
+                <div className='alignLeft bold sizeLarge'>{contentToText(ContentID.miscName, config)}</div>
+                <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', padding: '1em' }}>
+                    {nameFields.map((nf) => (
+                        <React.Fragment key={nf.langCode}>
+                            <div className='alignLeft semiBold valignMiddle'>{nf.langCode}</div>
+                            <div className='valignMiddle'>
+                                <InputField useField={nf.field} width='100%' />
+                            </div>
+                        </React.Fragment>
+                    ))}
+                </div>
+                <div className='alignLeft bold sizeLarge'>{contentToText(ContentID.miscDescription, config)}</div>
+                <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', padding: '1em' }}>
+                    {descriptionFields.map((df) => (
+                        <React.Fragment key={df.langCode}>
+                            <div className='alignLeft semiBold valignMiddle'>{df.langCode}</div>
+                            <div className='valignMiddle'>
+                                <textarea value={df.textArea.value} onChange={df.textArea.onChange} style={{ width: '100%', height: '10rem' }} />
+                            </div>
+                        </React.Fragment>
+                    ))}
+                </div>
+                <div>
+                    <button type='button' onClick={submit}>
+                        {contentToText(ContentID.buttonAdd, config)}
+                    </button>
+                </div>
+            </div>
+        </div>
     );
 };
 

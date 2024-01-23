@@ -71,27 +71,19 @@ const AdminPanel = () => {
 
     return (
         <div>
-            <table align='center' width={pageWidth}>
-                <tbody>
-                    <tr>
-                        <td colSpan={2} className='tight'>
-                            <AdminMenu config={config} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className='adminHeader pageHeader tight'>
-                            {contentToText(ContentID.adminPanelHeader, config)}
-                            {page && page.length > 0 ? ' - ' + printAdminPanelHeader(page, config) : ''}
-                        </td>
-                        <td className='alignRight'>{back && back === '1' ? <BackButton type='button' /> : <></>}</td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2} className='tight'>
-                            {showPage()}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div className='grid-container' data-gap='1em' style={{ margin: 'auto', width: pageWidth }}>
+                <AdminMenu config={config} />
+                <div className='pageHeader'>
+                    {contentToText(ContentID.adminPanelHeader, config)}
+                    {page && page.length > 0 ? ' - ' + printAdminPanelHeader(page, config) : ''}
+                </div>
+                {back === '1' && (
+                    <div className='alignRight'>
+                        <BackButton type='button' />
+                    </div>
+                )}
+                <div>{showPage()}</div>
+            </div>
         </div>
     );
 };

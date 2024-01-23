@@ -235,26 +235,6 @@ const AdminOrders = () => {
         setUpdate(!update);
     };
 
-    const menuItem = (folderName: Folder) => {
-        const orderCount = allOrders.filter((o) => belongsToFolder(o, folderName)).length;
-
-        if (currentFolder === folderName) {
-            return (
-                <td width='33%' className='bold underlined thin'>
-                    {folderLabel(folderName)} ({orderCount})
-                </td>
-            );
-        } else {
-            return (
-                <td width='33%'>
-                    <Link to={`${window.location.pathname}?folder=${folderName}`}>
-                        {folderLabel(folderName)} ({orderCount})
-                    </Link>
-                </td>
-            );
-        }
-    };
-
     const orderRow = (order: Order) => {
         return openedOrder?.id === order.id ? (
             <React.Fragment key={order.id}>
@@ -302,46 +282,56 @@ const AdminOrders = () => {
         </td>
     );
 
+    const menuItemDiv = (folderName: Folder) => {
+        const orderCount = allOrders.filter((o) => belongsToFolder(o, folderName)).length;
+
+        return currentFolder === folderName ? (
+            <div className='bold underlined thin'>
+                {folderLabel(folderName)} ({orderCount})
+            </div>
+        ) : (
+            <div>
+                <Link to={`${window.location.pathname}?folder=${folderName}`}>
+                    {folderLabel(folderName)} ({orderCount})
+                </Link>
+            </div>
+        );
+    };
+
     return (
         <div>
-            <table align='center' width='100%' className='adminOrdersMenu' style={{ userSelect: 'none' }}>
-                <tbody>
-                    <tr>
-                        {menuItem(Folder.PROCESSING)}
-                        <td width='1px' className='colorGrayLight bold'>
-                            |
-                        </td>
-                        {menuItem(Folder.DELIVERED)}
-                        <td width='1px' className='colorGrayLight bold'>
-                            |
-                        </td>
-                        {menuItem(Folder.RECYCLEBIN)}
-                    </tr>
-                </tbody>
-            </table>
+            <div className='adminOrdersMenu grid-container' style={{ gridTemplateColumns: '1fr auto 1fr auto 1fr' }}>
+                {menuItemDiv(Folder.PROCESSING)}
+                <div className='colorGrayLight bold'>|</div>
+                {menuItemDiv(Folder.DELIVERED)}
+                <div className='colorGrayLight bold'>|</div>
+                {menuItemDiv(Folder.RECYCLEBIN)}
+            </div>
             <br />
-            <table width='100%' className='bgColorGrayExtremelyLight' style={{ border: '2px solid var(--colorGray)', borderRadius: '0.5rem' }}>
-                <tbody>
-                    <tr>
-                        <td className='semiBold widthByContent'>{contentToText(search.label, config)}:</td>
-                        <td className='widthByContent'>
-                            <InputField
-                                useField={search}
-                                width={'20rem'}
-                                placeHolder={`${contentToText(ContentID.miscCustomers, config)} ${contentToText(
-                                    ContentID.miscName,
-                                    config
-                                ).toLowerCase()} ${contentToText(ContentID.miscOr, config)} ${contentToText(ContentID.orderId, config).toLowerCase()}`}
-                            />
-                        </td>
-                        <td className='alignLeft'>
-                            <button type='button' onClick={() => search.setNewValue('')}>
-                                {contentToText(ContentID.buttonClear, config)}
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div
+                className='bgColorGrayExtremelyLight grid-container valignMiddle'
+                data-gap='2rem'
+                style={{ border: '2px solid var(--colorGray)', borderRadius: '0.5rem', gridTemplateColumns: 'auto auto 1fr', padding: '1rem' }}
+            >
+                <div className='semiBold valignMiddle' style={{ height: 'min-content' }}>
+                    {contentToText(search.label, config)}:
+                </div>
+                <div>
+                    <InputField
+                        useField={search}
+                        width={'20rem'}
+                        placeHolder={`${contentToText(ContentID.miscCustomers, config)} ${contentToText(
+                            ContentID.miscName,
+                            config
+                        ).toLowerCase()} ${contentToText(ContentID.miscOr, config)} ${contentToText(ContentID.orderId, config).toLowerCase()}`}
+                    />
+                </div>
+                <div className='alignLeft'>
+                    <button type='button' onClick={() => search.setNewValue('')}>
+                        {contentToText(ContentID.buttonClear, config)}
+                    </button>
+                </div>
+            </div>
             <br />
             <table align='center' width='100%' className='adminOrders headerRow striped'>
                 <tbody>

@@ -32,10 +32,6 @@ h4 {
     text-transform: uppercase;
 }
 
-.adminHeader {
-    text-transform: capitalize;
-}
-
 .adminImageCaption {
     font-size: 1rem;
     word-wrap: break-word !important;
@@ -63,7 +59,6 @@ h4 {
 }
 
 .pageHeader {
-    /* Applied for the <td> that the header is in */
     font-size: var(--fontSizeVeryLarge);
     font-weight: bold;
     margin-bottom: 2rem;

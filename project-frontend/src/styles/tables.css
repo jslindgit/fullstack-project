@@ -166,15 +166,6 @@ table.headerRow table tr:first-child td {
     border-bottom: 0 !important;
 }
 
-.adminOrdersMenu {
-    border: 3px solid var(--colorGrayLight);
-    font-weight: 600;
-}
-.adminOrdersMenu td {
-    padding: 0.5rem !important;
-    text-align: center;
-}
-
 .itemPriceTd {
     padding-top: var(--default-padding) !important;
     padding-bottom: var(--default-padding) !important;
