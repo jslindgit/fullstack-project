@@ -109,16 +109,16 @@ const AdminItems = () => {
     };
 
     return (
-        <>
+        <div className='grid-container' data-gap='2rem'>
             <div>
                 {categories.map((c) => (
                     <span key={c.id}>
-                        <span className={category === c ? 'underlined' : ''}>
+                        <span className={category?.id === c.id ? 'bold underlined' : ''}>
                             <Link to={'/admin/items?category=' + c.id}>
                                 {langTextsToText(c.name, config)} ({c.items.length})
                             </Link>
                         </span>
-                        <span className='colorGrayLight'>&emsp;|&emsp;</span>
+                        <span className='bold colorGrayLight'>&emsp;|&emsp;</span>
                     </span>
                 ))}
                 <span className={category ? '' : 'underlined'}>
@@ -127,41 +127,31 @@ const AdminItems = () => {
                     </Link>
                 </span>
             </div>
-            <br />
-            <br />
-            <h4>{category ? langTextsToText(category.name, config) : contentToText(ContentID.adminItemsUncategorized, config)}</h4>
-            <p>{category ? langTextsToText(category.description, config) : contentToText(ContentID.adminItemsUncategorizedDescription, config)}</p>
-            <br />
+            <div className='bold sizeLarge'>{category ? langTextsToText(category.name, config) : contentToText(ContentID.adminItemsUncategorized, config)}</div>
+            <div style={{ marginTop: '-0.5rem' }}>
+                {category ? langTextsToText(category.description, config) : contentToText(ContentID.adminItemsUncategorizedDescription, config)}
+            </div>
             <AdminItemList config={config} deleteItem={deleteItem} items={items} setItems={setItems} />
-            <br />
-            <br />
-            <table width='100%'>
-                <tbody>
-                    <tr>
-                        <td style={{ paddingLeft: 0, paddingRight: 0, paddingTop: 0 }}>
-                            {showAddItem ? (
-                                <ItemEditForm
-                                    config={config}
-                                    initialCategories={category ? [category.id] : undefined}
-                                    itemToEdit={null}
-                                    onCancel={closeAddItemForm}
-                                    onSubmit={() => {
-                                        closeAddItemForm();
-                                    }}
-                                    setItemAdded={setItemAdded}
-                                    width='100%'
-                                />
-                            ) : (
-                                <button type='button' ref={addItemButtonRef} onClick={handleAddItemButton}>
-                                    {contentToText(ContentID.adminAddNewItem, config)}
-                                </button>
-                            )}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <br />
-        </>
+            <div className='alignLeft'>
+                {showAddItem ? (
+                    <ItemEditForm
+                        config={config}
+                        initialCategories={category ? [category.id] : undefined}
+                        itemToEdit={null}
+                        onCancel={closeAddItemForm}
+                        onSubmit={() => {
+                            closeAddItemForm();
+                        }}
+                        setItemAdded={setItemAdded}
+                        width='100%'
+                    />
+                ) : (
+                    <button type='button' ref={addItemButtonRef} onClick={handleAddItemButton}>
+                        + {contentToText(ContentID.adminAddNewItem, config)}
+                    </button>
+                )}
+            </div>
+        </div>
     );
 };
 

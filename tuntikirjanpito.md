@@ -137,4 +137,5 @@
 |   18.1.   | 2    | Ulkoasun parantelua                                                                                                  |     |
 |   19.1.   | 1    | Ulkoasun parantelua                                                                                                  |     |
 |   22.1.   | 1    | Ulkoasun parantelua                                                                                                  |     |
-|    yht    | 228  |                                                                                                                      |     |
+|   23.1.   | 1    | Ulkoasun parantelua                                                                                                  |     |
+|    yht    | 229  |                                                                                                                      |     |

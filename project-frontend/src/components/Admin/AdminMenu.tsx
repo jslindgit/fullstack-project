@@ -16,26 +16,19 @@ const AdminMenu = ({ config }: Props) => {
 
     const currentPath = useLocation().pathname;
 
-    const linkTd = (page: string, contentId: ContentID) => (
-        <td className={(page !== '' && currentPath.includes(page)) || (page === '' && currentPath === baseUrl) ? 'currentPage' : ''}>
+    const link = (page: string, contentId: ContentID) => (
+        <div className={(page !== '' && currentPath.includes(page)) || (page === '' && currentPath === baseUrl) ? 'currentPage' : ''}>
             <Link to={baseUrl + page}>{contentToText(contentId, config)}</Link>
-        </td>
+        </div>
     );
 
     return (
-        <div>
-            <table align='center' className='sizeLarge'>
-                <tbody>
-                    <tr>
-                        {linkTd('orders', ContentID.adminPanelOrders)}
-                        {linkTd('categories', ContentID.adminPanelCategories)}
-                        {linkTd('items', ContentID.adminPanelItems)}
-                        {linkTd('images', ContentID.adminPanelImages)}
-                        {linkTd('users', ContentID.adminPanelUsers)}
-                        {linkTd('settings', ContentID.adminPanelSettings)}
-                    </tr>
-                </tbody>
-            </table>
+        <div className='grid-container sizeLarge' data-cols='auto' data-gap='3rem' style={{ margin: '1rem auto', width: 'min-content' }}>
+            {link('orders', ContentID.adminPanelOrders)}
+            {link('categories', ContentID.adminPanelCategories)}
+            {link('items', ContentID.adminPanelItems)}
+            {link('users', ContentID.adminPanelUsers)}
+            {link('settings', ContentID.adminPanelSettings)}
         </div>
     );
 };

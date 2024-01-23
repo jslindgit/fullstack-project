@@ -46,8 +46,8 @@ const AddCategoryForm = ({ user }: Props) => {
     };
 
     return (
-        <div style={{ backgroundColor: 'var(--colorGrayVeryLight)', borderRadius: '10px', padding: '1.5em 2em' }}>
-            <div className='pageHeader' style={{ marginTop: 0 }}>
+        <div className='itemDetails'>
+            <div className='pageHeader' style={{ marginTop: 0, textAlign: 'center' }}>
                 {contentToText(ContentID.adminAddNewCategory, config)}
             </div>
             <div className='grid-container' data-cols='1' data-gap='1rem' style={{ padding: '0 1em' }}>
@@ -73,7 +73,7 @@ const AddCategoryForm = ({ user }: Props) => {
                         </React.Fragment>
                     ))}
                 </div>
-                <div>
+                <div style={{ marginBottom: '0.5rem' }}>
                     <button type='button' onClick={submit}>
                         {contentToText(ContentID.buttonAdd, config)}
                     </button>

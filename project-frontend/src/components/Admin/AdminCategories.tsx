@@ -39,7 +39,7 @@ const AdminCategories = () => {
         <div>
             <table className='dotted' width='100%'>
                 <tbody>
-                    <tr className='bold'>
+                    <tr className='bold bgColorGrayExtremelyLight'>
                         <td>{contentToText(ContentID.miscName, config)}</td>
                         <td colSpan={4}>{contentToText(ContentID.miscDescription, config)}</td>
                     </tr>

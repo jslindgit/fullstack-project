@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
 import { Category } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
-import { UseField } from '../../hooks/useField';
-import { UseTextArea } from '../../hooks/useTextArea';
 
 import { setNotification } from '../../reducers/miscReducer';
 
@@ -17,6 +15,7 @@ import { pageWidth } from '../../constants';
 import { useLangFields, useLangTextAreas } from '../../types/languageFunctions';
 
 import BackButton from '../BackButton';
+import InputField from '../InputField';
 
 const AdminCategoryEdit = () => {
     const dispatch = useDispatch();
@@ -61,7 +60,7 @@ const AdminCategoryEdit = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [category]);
 
-    const canSaveChanges = () => category?.addedBy === usersState.loggedUser?.id;
+    const canSaveChanges = () => usersState.loggedUser?.admin || category?.addedBy === usersState.loggedUser?.id;
 
     const changesMade = (): boolean => {
         let result = false;
@@ -81,36 +80,6 @@ const AdminCategoryEdit = () => {
 
         return result;
     };
-
-    const getInputField = (label: string, field: UseField) => (
-        <tr key={label}>
-            <td width='1px' className='semiBold' style={{ paddingLeft: '2.5rem', paddingRight: 0 }}>
-                {label}
-            </td>
-            <td>
-                <input type={field.type} value={field.value} onChange={field.onChange} />
-            </td>
-        </tr>
-    );
-
-    const getTextArea = (label: string, textArea: UseTextArea) => (
-        <tr key={label}>
-            <td width='1px' className='semiBold' style={{ paddingLeft: '2.5rem', paddingRight: 0 }}>
-                {label}
-            </td>
-            <td>
-                <textarea value={textArea.value} onChange={textArea.onChange} style={{ width: '100%', height: '10rem' }} />
-            </td>
-        </tr>
-    );
-
-    /*const inputField = (input: UseField) => {
-        return (
-            <>
-                <input type={input.type} value={input.value} onChange={input.onChange} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }} />
-            </>
-        );
-    };*/
 
     const submit = async () => {
         if (category && changesMade()) {
@@ -141,74 +110,49 @@ const AdminCategoryEdit = () => {
         );
     }
 
-    const submitButton = () => (
-        <button
-            type='button'
-            onClick={submit}
-            disabled={!changesMade() || !canSaveChanges()}
-            title={canSaveChanges() ? '' : contentToText(ContentID.adminYouCanOnlyEditCategoriesAddedByYou, config)}
-        >
-            {contentToText(ContentID.buttonSave, config)}
-        </button>
-    );
-
     return (
         <div>
-            <table align='center' width={pageWidth}>
-                <tbody>
-                    <tr>
-                        <td className='pageHeader'>{contentToText(ContentID.adminEditCategory, config)}</td>
-                        <td className='alignRight'>
-                            {submitButton()}
+            <div style={{ margin: 'auto', width: pageWidth }}>
+                <div className='pageHeader'>{contentToText(ContentID.adminEditCategory, config)}</div>
+                <div className='grid-container itemDetails' data-gap='1rem'>
+                    <div className='alignCenter colorGraySemiDark sizeLarge'>{langTextsToText(category.name, config)}</div>
+                    <div className='alignLeft bold sizeLarge'>{contentToText(ContentID.miscName, config)}</div>
+                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', padding: '1em' }}>
+                        {nameFields.map((nf) => (
+                            <React.Fragment key={nf.langCode}>
+                                <div className='alignLeft semiBold valignMiddle'>{nf.langCode}</div>
+                                <div className='valignMiddle'>
+                                    <InputField useField={nf.field} width='100%' />
+                                </div>
+                            </React.Fragment>
+                        ))}
+                    </div>
+                    <div className='alignLeft bold sizeLarge'>{contentToText(ContentID.miscDescription, config)}</div>
+                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', padding: '1em' }}>
+                        {descriptionFields.map((df) => (
+                            <React.Fragment key={df.langCode}>
+                                <div className='alignLeft semiBold valignMiddle'>{df.langCode}</div>
+                                <div className='valignMiddle'>
+                                    <textarea value={df.textArea.value} onChange={df.textArea.onChange} style={{ width: '100%', height: '10rem' }} />
+                                </div>
+                            </React.Fragment>
+                        ))}
+                        <div />
+                        <div className='alignLeft' style={{ marginTop: '1.5rem' }}>
+                            <button
+                                type='button'
+                                onClick={submit}
+                                disabled={!changesMade() || !canSaveChanges()}
+                                title={canSaveChanges() ? '' : contentToText(ContentID.adminYouCanOnlyEditCategoriesAddedByYou, config)}
+                            >
+                                {contentToText(ContentID.buttonSave, config)}
+                            </button>
                             &emsp;
                             <BackButton type='button' />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={pageWidth} className='itemDetails'>
-                <tbody>
-                    <tr>
-                        <td className='alignCenter colorGraySemiDark sizeLarge'>{langTextsToText(category.name, config)}</td>
-                    </tr>
-                    <tr>
-                        <td className='noPaddingTd'>
-                            <table width='100%'>
-                                <tbody>
-                                    <tr>
-                                        <td colSpan={2} className='sizeLarge bold' style={{ paddingTop: 0 }}>
-                                            {contentToText(ContentID.miscName, config)}
-                                        </td>
-                                    </tr>
-                                    {nameFields.map((nf) => getInputField(nf.langCode.toString(), nf.field))}
-                                    <tr>
-                                        <td colSpan={2} className='sizeLarge bold'>
-                                            {contentToText(ContentID.miscDescription, config)}
-                                        </td>
-                                    </tr>
-                                    {descriptionFields.map((nf) => getTextArea(nf.langCode.toString(), nf.textArea))}
-                                    {!canSaveChanges() ? (
-                                        <tr>
-                                            <td colSpan={2} className='alignCenter colorRed' style={{ paddingBottom: 0 }}>
-                                                {contentToText(ContentID.adminYouCanOnlyEditCategoriesAddedByYou, config)}
-                                            </td>
-                                        </tr>
-                                    ) : (
-                                        ''
-                                    )}
-                                    <tr>
-                                        <td colSpan={2}>
-                                            {submitButton()}
-                                            &emsp;
-                                            <BackButton type='button' />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <br />
         </div>
     );

@@ -10,7 +10,6 @@ import { pageWidth } from '../../constants';
 import { printAdminPanelHeader } from '../../contentFunctions';
 
 import AdminCategories from './AdminCategories';
-import AdminImages from './AdminImages';
 import AdminItems from './AdminItems';
 import AdminMenu from './AdminMenu';
 import AdminOrders from './AdminOrders';
@@ -31,7 +30,7 @@ const AdminPanel = () => {
     const back = searchParams.get('back');
 
     useEffect(() => {
-        if (!page || !['categories', 'items', 'images', 'orders', 'settings', 'users'].includes(page)) {
+        if (!page || !['categories', 'items', 'orders', 'settings', 'users'].includes(page)) {
             navigate('/admin/orders');
         }
     }, [navigate, page]);
@@ -56,8 +55,6 @@ const AdminPanel = () => {
                 return <AdminCategories />;
             case 'items':
                 return <AdminItems />;
-            case 'images':
-                return <AdminImages />;
             case 'orders':
                 return <AdminOrders />;
             case 'settings':

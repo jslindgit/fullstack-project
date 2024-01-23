@@ -52,16 +52,10 @@ const AdminItemEdit = () => {
 
     // prettier-ignore
     return (
-        <div>
-            <table align='center' width={pageWidth}>
-                <tbody>
-                    <tr>
-                        <td className='pageHeader'>
-                            {contentToText(ContentID.adminPanelHeader, config)} - {contentToText(ContentID.adminEditItem, config)}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div style={{ margin: 'auto', width: pageWidth }}>
+            <div className='pageHeader'>
+                {contentToText(ContentID.adminPanelHeader, config)} - {contentToText(ContentID.adminEditItem, config)}
+            </div>
             <ItemEditForm itemToEdit={item} config={config} initialCategories={item.categories.map((c) => c.id)} width={pageWidth} />
             <br />
         </div>
