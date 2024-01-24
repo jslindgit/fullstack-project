@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 import { Country, Settings } from '../../types/types';
 
-import { availableDeliveryCountries, pageWidth } from '../../constants';
+import { availableDeliveryCountries } from '../../constants';
 import { contentToText, langTextsToText, useLangFields } from '../../types/languageFunctions';
 import { LangField, LangText } from '../../types/languageTypes';
 import settingsService from '../../services/settingsService';
@@ -35,7 +35,7 @@ const AdminSettings = () => {
     const storePhoneField = useField('text', null, config.store.contactPhone);
     const storeZipcodeField = useField('text', null, config.store.contactZipcode);
     const storeWelcomeFields = useLangFields('text');
-    const vatField = useField('integer', null, config.vat.toString());
+    const vatField = useField('decimal', null, config.vat.toString());
 
     type PropertyName =
         | ''
@@ -96,31 +96,25 @@ const AdminSettings = () => {
         );
 
         return (
-            <>
+            <div className='grid-container' data-gap='0.5rem' style={{ marginBottom: '1rem', marginTop: '1rem' }}>
                 {availableSorted.map((c) => (
-                    <div key={JSON.stringify(c.names)}>
-                        <table className='noPadding'>
-                            <tbody>
-                                <tr>
-                                    <td style={{ border: 0, padding: '0.25rem' }}>
-                                        <CheckBox
-                                            isChecked={deliveryCountryIsSelected(c)}
-                                            onClick={() => {
-                                                if (deliveryCountryIsSelected(c)) {
-                                                    setStoreDeliveryCountries(storeDeliveryCountries.filter((dc) => JSON.stringify(dc) !== JSON.stringify(c)));
-                                                } else {
-                                                    setStoreDeliveryCountries([...storeDeliveryCountries, c]);
-                                                }
-                                            }}
-                                        />
-                                    </td>
-                                    <td style={{ border: 0 }}>{langTextsToText(c.names, config)}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div key={JSON.stringify(c.names)} className='grid-container' data-gap='0.5rem' style={{ gridTemplateColumns: 'auto 1fr' }}>
+                        <div>
+                            <CheckBox
+                                isChecked={deliveryCountryIsSelected(c)}
+                                onClick={() => {
+                                    if (deliveryCountryIsSelected(c)) {
+                                        setStoreDeliveryCountries(storeDeliveryCountries.filter((dc) => JSON.stringify(dc) !== JSON.stringify(c)));
+                                    } else {
+                                        setStoreDeliveryCountries([...storeDeliveryCountries, c]);
+                                    }
+                                }}
+                            />
+                        </div>
+                        <div>{langTextsToText(c.names, config)}</div>
                     </div>
                 ))}
-            </>
+            </div>
         );
     };
 
@@ -129,6 +123,101 @@ const AdminSettings = () => {
             return { langCode: langField.langCode, text: langField.field.stringValue() };
         });
     };
+
+    const settingLangFields = (label: string, langFields: LangField[], propertyName: PropertyName, currentValue: LangText[]) => {
+        return (
+            <React.Fragment>
+                <div className='alignLeft semiBold underlinedGridItem valignMiddle' style={{ padding: '1rem' }}>
+                    {label}:&emsp;&emsp;&emsp;
+                </div>
+                <div className='alignLeft underlinedGridItem valignMiddle'>
+                    {editedProperty === propertyName ? (
+                        <div className='grid-container' style={{ gridTemplateColumns: 'auto 1fr' }}>
+                            {langFields.map((langField) => (
+                                <React.Fragment key={langField.langCode}>
+                                    <div className='valignMiddle' style={{ padding: '1rem 0', paddingRight: '1rem' }}>
+                                        {langField.langCode}
+                                    </div>
+                                    <div className='valignMiddle'>
+                                        <InputField useField={langField.field} width='100%' minWidth='10rem' />
+                                    </div>
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    ) : (
+                        langTextsToText(currentValue, config)
+                    )}
+                    &emsp;&emsp;&emsp;
+                </div>
+                <div className='alignLeft underlinedGridItem valignMiddle'>
+                    {editedProperty === propertyName ? (
+                        <>
+                            <button
+                                type='button'
+                                onClick={submitChanges}
+                                disabled={JSON.stringify(langFieldsToLangTexts(langFields)) === JSON.stringify(currentValue)}
+                            >
+                                {contentToText(ContentID.buttonSave, config)}
+                            </button>
+                            &emsp;
+                            <button
+                                type='button'
+                                onClick={() => {
+                                    initLangFields();
+                                    setEditedProperty('');
+                                }}
+                            >
+                                {contentToText(ContentID.buttonCancel, config)}
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button type='button' onClick={() => setEditedProperty(propertyName)}>
+                                {contentToText(ContentID.buttonEdit, config)}
+                            </button>
+                        </>
+                    )}
+                </div>
+            </React.Fragment>
+        );
+    };
+
+    const settingText = (label: string, useField: UseField, propertyName: PropertyName, currentValue: string) => (
+        <React.Fragment>
+            <div className='alignLeft semiBold underlinedGridItem valignMiddle' style={{ padding: '1rem' }}>
+                {label}:&emsp;&emsp;&emsp;
+            </div>
+            <div className='alignLeft underlinedGridItem valignMiddle'>
+                {editedProperty === propertyName ? <InputField useField={useField} width={'100%'} minWidth='20rem' autoFocus={true} /> : useField.stringValue()}
+                &emsp;&emsp;&emsp;
+            </div>
+            <div className='alignLeft underlinedGridItem valignMiddle'>
+                {editedProperty === propertyName ? (
+                    <>
+                        <button type='button' onClick={submitChanges} disabled={useField.stringValue() === currentValue}>
+                            {contentToText(ContentID.buttonSave, config)}
+                        </button>
+                        &emsp;
+                        <button
+                            type='button'
+                            onClick={() => {
+                                useField.setNewValue(currentValue);
+                                setEditedProperty('');
+                            }}
+                        >
+                            {contentToText(ContentID.buttonCancel, config)}
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <button type='button' onClick={() => setEditedProperty(propertyName)}>
+                            {contentToText(ContentID.buttonEdit, config)}
+                        </button>
+                    </>
+                )}
+            </div>
+        </React.Fragment>
+    );
 
     const submitChanges = async () => {
         if (userState.loggedUser?.admin) {
@@ -159,131 +248,48 @@ const AdminSettings = () => {
         }
     };
 
-    const propertyLangFields = (label: string, langFields: LangField[], propertyName: PropertyName, currentValue: LangText[]) => {
-        return (
-            <tr className='underlinedRow'>
-                <td className='semiBold widthByContent'>{label}:</td>
-                <td className='widthByContent'>
-                    {editedProperty === propertyName ? (
-                        <table>
-                            <tbody>
-                                {langFields.map((langField) => (
-                                    <tr key={langField.langCode}>
-                                        <td style={{ borderBottom: 0, paddingLeft: 0 }}>{langField.langCode}</td>
-                                        <td style={{ borderBottom: 0 }}>
-                                            <InputField useField={langField.field} width='100%' minWidth='10rem' />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        langTextsToText(currentValue, config)
-                    )}
-                </td>
-                <td>
-                    {editedProperty === propertyName ? (
-                        <>
-                            <button
-                                type='button'
-                                onClick={submitChanges}
-                                disabled={JSON.stringify(langFieldsToLangTexts(langFields)) === JSON.stringify(currentValue)}
-                            >
-                                {contentToText(ContentID.buttonSave, config)}
-                            </button>
-                            &emsp;
-                            <button
-                                type='button'
-                                onClick={() => {
-                                    initLangFields();
-                                    setEditedProperty('');
-                                }}
-                            >
-                                {contentToText(ContentID.buttonCancel, config)}
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            <button type='button' onClick={() => setEditedProperty(propertyName)}>
-                                {contentToText(ContentID.buttonEdit, config)}
-                            </button>
-                        </>
-                    )}
-                </td>
-            </tr>
-        );
-    };
-
-    const propertyText = (label: string, useField: UseField, propertyName: PropertyName, currentValue: string) => (
-        <tr className='underlinedRow'>
-            <td className='semiBold widthByContent' style={{ padding: '0.75rem' }}>
-                {label}:&emsp;
-            </td>
-            <td className='widthByContent'>
-                {editedProperty === propertyName ? <InputField useField={useField} width={'100%'} minWidth='20rem' autoFocus={true} /> : useField.stringValue()}
-                &emsp;&emsp;
-            </td>
-            <td>
-                {editedProperty === propertyName ? (
-                    <>
-                        <button type='button' onClick={submitChanges} disabled={useField.stringValue() === currentValue}>
-                            {contentToText(ContentID.buttonSave, config)}
-                        </button>
-                        &emsp;
-                        <button
-                            type='button'
-                            onClick={() => {
-                                useField.setNewValue(currentValue);
-                                setEditedProperty('');
-                            }}
-                        >
-                            {contentToText(ContentID.buttonCancel, config)}
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <button type='button' onClick={() => setEditedProperty(propertyName)}>
-                            {contentToText(ContentID.buttonEdit, config)}
-                        </button>
-                    </>
-                )}
-            </td>
-        </tr>
-    );
-
     return (
         <div>
-            <table align='center' width={pageWidth} className='infoBox'>
-                <tbody>
-                    <tr>
-                        <td colSpan={3} className='bold sizeVeryLarge underlined' style={{ paddingBottom: '1.5rem' }}>
-                            {contentToText(ContentID.miscWebstore, config)}
-                        </td>
-                    </tr>
-                    {propertyText(contentToText(ContentID.miscName, config), storeNameField, 'storeName', config.store.contactName)}
-                    {propertyText(contentToText(ContentID.contactEmail, config), storeEmailField, 'storeEmail', config.store.contactEmail)}
-                    {propertyText(contentToText(ContentID.contactPhone, config), storePhoneField, 'storePhone', config.store.contactPhone)}
-                    {propertyText(contentToText(ContentID.miscAddress, config), storeAddressField, 'storeAddress', config.store.contactStreetAddress)}
-                    {propertyText(contentToText(ContentID.checkOutZipCode, config), storeZipcodeField, 'storeZipcode', config.store.contactZipcode)}
-                    {propertyText(contentToText(ContentID.checkOutCity, config), storeCityField, 'storeCity', config.store.contactCity)}
-                    {propertyLangFields(
-                        contentToText(ContentID.checkOutCountry, config),
-                        storeCountryFields,
-                        'storeCountry',
-                        config.store.contactCountry.names
-                    )}
-                    <tr className='underlinedRow'>
-                        <td className='semiBold widthByContent'>{contentToText(ContentID.miscDeliveryCountries, config)}:&nbsp;</td>
-                        <td className='widthByContent'>
+            <div className='grid-container pageWidth' data-gap='3rem'>
+                <div className='infoBox'>
+                    <div className='pageHeader noMargin'>{contentToText(ContentID.miscWebstore, config)}</div>
+                    <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
+                        {settingText(contentToText(ContentID.miscName, config), storeNameField, 'storeName', config.store.contactName)}
+                        {settingText(contentToText(ContentID.contactEmail, config), storeEmailField, 'storeEmail', config.store.contactEmail)}
+                        {settingText(contentToText(ContentID.contactPhone, config), storePhoneField, 'storePhone', config.store.contactPhone)}
+                        {settingText(contentToText(ContentID.miscAddress, config), storeAddressField, 'storeAddress', config.store.contactStreetAddress)}
+                        {settingText(contentToText(ContentID.checkOutZipCode, config), storeZipcodeField, 'storeZipcode', config.store.contactZipcode)}
+                        {settingText(contentToText(ContentID.checkOutCity, config), storeCityField, 'storeCity', config.store.contactCity)}
+                        {settingLangFields(
+                            contentToText(ContentID.checkOutCountry, config),
+                            storeCountryFields,
+                            'storeCountry',
+                            config.store.contactCountry.names
+                        )}
+                        <div className='alignLeft semiBold underlinedGridItem valignMiddle' style={{ padding: '1rem' }}>
+                            {contentToText(ContentID.miscDeliveryCountries, config)}:&emsp;&emsp;&emsp;
+                        </div>
+                        <div className='alignLeft underlinedGridItem valignMiddle'>
                             {editedProperty === 'storeDeliveryCountries' ? <>{deliveryCountrySelection()}</> : <>{deliveryCountryList()}</>}
-                        </td>
-                        <td>
+                        </div>
+                        <div className='alignLeft underlinedGridItem valignMiddle'>
                             {editedProperty === 'storeDeliveryCountries' ? (
                                 <>
                                     <button
                                         type='button'
                                         onClick={submitChanges}
-                                        disabled={JSON.stringify(storeDeliveryCountries) === JSON.stringify(config.store.deliveryCountries)}
+                                        disabled={
+                                            JSON.stringify(
+                                                [...storeDeliveryCountries].sort((a, b) =>
+                                                    langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config))
+                                                )
+                                            ) ===
+                                            JSON.stringify(
+                                                [...config.store.deliveryCountries].sort((a, b) =>
+                                                    langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config))
+                                                )
+                                            )
+                                        }
                                     >
                                         {contentToText(ContentID.buttonSave, config)}
                                     </button>
@@ -305,54 +311,42 @@ const AdminSettings = () => {
                                     </button>
                                 </>
                             )}
-                        </td>
-                    </tr>
-                    {propertyText(
-                        `${contentToText(ContentID.miscDeliveryTime, config)} (${contentToText(ContentID.miscDays, config)})`,
-                        storeDeliveryTimeField,
-                        'storeDeliveryTime',
-                        config.store.deliveryTimeBusinessDays.toString()
-                    )}
-                    {propertyText(contentToText(ContentID.miscVAT, config) + '-%', vatField, 'vat', config.vat.toString())}
-                </tbody>
-            </table>
-            <br />
-            <br />
-            <table align='center' width={pageWidth} className='infoBox'>
-                <tbody>
-                    <tr>
-                        <td colSpan={3} className='bold sizeVeryLarge underlined' style={{ paddingBottom: '1.5rem' }}>
-                            {contentToText(ContentID.miscMerchant, config)}
-                        </td>
-                    </tr>
-                    {propertyText(contentToText(ContentID.miscName, config), ownerNameField, 'ownerName', config.owner.name)}
-                    {propertyText(contentToText(ContentID.contactEmail, config), ownerEmailField, 'ownerEmail', config.owner.email)}
-                    {propertyText(contentToText(ContentID.contactPhone, config), ownerPhoneField, 'ownerPhone', config.owner.phone)}
-                    {propertyText(
-                        contentToText(ContentID.contactBusinessID, config),
-                        ownerBusinessIdentifierField,
-                        'ownerBusinessIdentifier',
-                        config.owner.businessIdentifier
-                    )}
-                </tbody>
-            </table>
-            <br />
-            <br />
-            <table align='center' width={pageWidth} className='infoBox'>
-                <tbody>
-                    <tr>
-                        <td colSpan={3} className='bold sizeVeryLarge underlined' style={{ paddingBottom: '1.5rem' }}>
-                            {contentToText(ContentID.miscContent, config)}
-                        </td>
-                    </tr>
-                    {propertyLangFields(
-                        `"${contentToText(ContentID.contentWelcome, config)}" (${contentToText(ContentID.menuHome, config)})`,
-                        storeWelcomeFields,
-                        'storeWelcome',
-                        config.store.welcome
-                    )}
-                </tbody>
-            </table>
+                        </div>
+                        {settingText(
+                            `${contentToText(ContentID.miscDeliveryTime, config)} (${contentToText(ContentID.miscDays, config)})`,
+                            storeDeliveryTimeField,
+                            'storeDeliveryTime',
+                            config.store.deliveryTimeBusinessDays.toString()
+                        )}
+                        {settingText(contentToText(ContentID.miscVAT, config) + '-%', vatField, 'vat', config.vat.toString())}
+                    </div>
+                </div>
+                <div className='infoBox'>
+                    <div className='pageHeader noMargin'>{contentToText(ContentID.miscMerchant, config)}</div>
+                    <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
+                        {settingText(contentToText(ContentID.miscName, config), ownerNameField, 'ownerName', config.owner.name)}
+                        {settingText(contentToText(ContentID.contactEmail, config), ownerEmailField, 'ownerEmail', config.owner.email)}
+                        {settingText(contentToText(ContentID.contactPhone, config), ownerPhoneField, 'ownerPhone', config.owner.phone)}
+                        {settingText(
+                            contentToText(ContentID.contactBusinessID, config),
+                            ownerBusinessIdentifierField,
+                            'ownerBusinessIdentifier',
+                            config.owner.businessIdentifier
+                        )}
+                    </div>
+                </div>
+                <div className='infoBox'>
+                    <div className='pageHeader noMargin'>{contentToText(ContentID.miscContent, config)}</div>
+                    <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
+                        {settingLangFields(
+                            `"${contentToText(ContentID.contentWelcome, config)}" (${contentToText(ContentID.menuHome, config)})`,
+                            storeWelcomeFields,
+                            'storeWelcome',
+                            config.store.welcome
+                        )}
+                    </div>
+                </div>
+            </div>
             <br />
             <br />
         </div>

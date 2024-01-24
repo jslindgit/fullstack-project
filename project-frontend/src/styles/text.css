@@ -68,3 +68,6 @@ h4 {
     text-underline-offset: 0.3rem;
     text-decoration-thickness: 0.3rem;
 }
+.pageHeader.noMargin {
+    margin: 0;
+}

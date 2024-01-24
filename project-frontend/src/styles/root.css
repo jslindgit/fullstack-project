@@ -35,3 +35,9 @@ body {
 .content-container {
     flex-grow: 1;
 }
+
+.pageWidth {
+    margin: auto;
+    max-width: 1024px;
+    min-width: 100px;
+}

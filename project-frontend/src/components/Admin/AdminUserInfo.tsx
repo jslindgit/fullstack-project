@@ -97,34 +97,25 @@ const AdminUserInfo = () => {
     }
 
     return (
-        <>
-            <table align='center' width={pageWidth} className='valignTop'>
-                <tbody>
-                    <tr>
-                        <td className='pageHeader'>{contentToText(ContentID.adminUserInfoHeader, config)}</td>
-                        <td className='alignRight' style={{ paddingTop: '1.5rem' }}>
-                            <BackButton type='button' />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <UserBasicInfo addLinkToEmail={true} config={config} showUserStatus={true} user={user} width={pageWidth} />
-            <br />
-            <br />
-            <UserContactInfo config={config} user={user} width={pageWidth} />
-            <br />
-            <br />
-            <UserOrderHistory config={config} user={user} width={pageWidth} />
-            <br />
-            <br />
-            <table align='center' width={pageWidth} className='infoBox'>
-                <tbody>
-                    <tr>
-                        <td>
+        <div className='pageWidth'>
+            <div className='grid-container' data-cols='2'>
+                <div className='pageHeader'>{contentToText(ContentID.adminUserInfoHeader, config)}</div>
+                <div className='alignRight valignMiddle'>
+                    <BackButton type='button' />
+                </div>
+            </div>
+            <div className='grid-container' data-gap='2rem'>
+                <UserBasicInfo addLinkToEmail={true} config={config} showUserStatus={true} user={user} width={pageWidth} />
+                <UserContactInfo config={config} user={user} width={pageWidth} />
+                <UserOrderHistory config={config} user={user} width={pageWidth} />
+                <div className='infoBox'>
+                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto auto auto 1fr' }}>
+                        <div>
                             <a href={'mailto:' + user.username}>
                                 <button type='button'>{contentToText(ContentID.adminUserInfoSendMessage, config)}</button>
                             </a>
-                            &emsp;
+                        </div>
+                        <div>
                             <button
                                 type='button'
                                 onClick={() => setShowStatusChange(!showStatusChange)}
@@ -133,7 +124,8 @@ const AdminUserInfo = () => {
                             >
                                 {contentToText(ContentID.adminUserInfoChangeStatus, config)}
                             </button>
-                            &emsp;
+                        </div>
+                        <div>
                             <button
                                 type='button'
                                 className='red'
@@ -148,9 +140,8 @@ const AdminUserInfo = () => {
                                     config
                                 )}
                             </button>
-                        </td>
-                        <td className='alignRight'>
-                            &emsp;
+                        </div>
+                        <div className='alignRight'>
                             <button
                                 type='button'
                                 className='red'
@@ -160,72 +151,148 @@ const AdminUserInfo = () => {
                             >
                                 {contentToText(ContentID.adminUserInfoDeleteAccountButton, config)}
                             </button>
-                        </td>
-                    </tr>
-                    {showStatusChange ? (
+                        </div>
+                    </div>
+                    {showStatusChange && (
+                        <div className='infoBox' style={{ marginTop: '1rem', width: 'min-content' }}>
+                            <div className='alignLeft semiBold sizeLarge'>
+                                {user.contactFirstName} {user.contactLastName}
+                            </div>
+                            <div className='grid-container left' style={{ gap: '1rem 2rem', gridTemplateColumns: 'auto auto 1fr', marginTop: '1rem' }}>
+                                <div className='noWrap'>
+                                    {contentToText(ContentID.miscCurrent, config)} {contentToText(ContentID.userStatusHeader, config).toLowerCase()}:
+                                </div>
+                                <div className='semiBold'>{getUserStatus(user, config)}</div>
+                                <div />
+                                <div className='noWrap'>
+                                    {contentToText(ContentID.orderStatusForAdminNew, config)} {contentToText(ContentID.userStatusHeader, config).toLowerCase()}:
+                                </div>
+                                <div>
+                                    <select value={newStatus} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setNewStatus(event.target.value)}>
+                                        <option value='customer'>{contentToText(ContentID.userStatusCustomer, config)}</option>
+                                        <option value='operator'>{contentToText(ContentID.userStatusOperator, config)}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <button
+                                        type='button'
+                                        onClick={handleSaveStatus}
+                                        disabled={!((newStatus === 'customer' && user.operator) || (newStatus === 'operator' && !user.operator))}
+                                    >
+                                        {contentToText(ContentID.buttonSave, config)}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <table align='center' width={pageWidth} className='infoBox'>
+                    <tbody>
                         <tr>
-                            <td colSpan={2}>
-                                <table className='infoBox' style={{ marginTop: '1rem' }}>
-                                    <tbody>
-                                        <tr>
-                                            <td colSpan={3} className='semiBold sizeLarge' style={{ paddingLeft: 0 }}>
-                                                {user.contactFirstName} {user.contactLastName}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style={{ paddingLeft: 0 }}>
-                                                {contentToText(ContentID.miscCurrent, config)} {contentToText(ContentID.userStatusHeader, config).toLowerCase()}
-                                                :
-                                            </td>
-                                            <td colSpan={2} className='semiBold'>
-                                                {getUserStatus(user, config)}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style={{ paddingLeft: 0 }}>
-                                                {contentToText(ContentID.orderStatusForAdminNew, config)}{' '}
-                                                {contentToText(ContentID.userStatusHeader, config).toLowerCase()}:
-                                            </td>
-                                            <td>
-                                                <select
-                                                    value={newStatus}
-                                                    onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setNewStatus(event.target.value)}
-                                                >
-                                                    <option value='customer'>{contentToText(ContentID.userStatusCustomer, config)}</option>
-                                                    <option value='operator'>{contentToText(ContentID.userStatusOperator, config)}</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <button
-                                                    type='button'
-                                                    onClick={handleSaveStatus}
-                                                    disabled={!((newStatus === 'customer' && user.operator) || (newStatus === 'operator' && !user.operator))}
-                                                >
-                                                    {contentToText(ContentID.buttonSave, config)}
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <td>
+                                <a href={'mailto:' + user.username}>
+                                    <button type='button'>{contentToText(ContentID.adminUserInfoSendMessage, config)}</button>
+                                </a>
+                                &emsp;
+                                <button
+                                    type='button'
+                                    onClick={() => setShowStatusChange(!showStatusChange)}
+                                    disabled={user.admin || !usersState.loggedUser?.admin}
+                                    title={!usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
+                                >
+                                    {contentToText(ContentID.adminUserInfoChangeStatus, config)}
+                                </button>
+                                &emsp;
+                                <button
+                                    type='button'
+                                    className='red'
+                                    onClick={handleDisableOrEnableAccount}
+                                    disabled={user.admin || (user.operator && !usersState.loggedUser?.admin)}
+                                    title={
+                                        user.operator && !usersState.loggedUser?.admin
+                                            ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config)
+                                            : ''
+                                    }
+                                >
+                                    {contentToText(
+                                        user.disabled ? ContentID.adminUserInfoEnableAccountButton : ContentID.adminUserInfoDisableAccountButton,
+                                        config
+                                    )}
+                                </button>
+                            </td>
+                            <td className='alignRight'>
+                                &emsp;
+                                <button
+                                    type='button'
+                                    className='red'
+                                    disabled={user.admin || !usersState.loggedUser?.admin}
+                                    onClick={handleDeleteAccount}
+                                    title={!usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
+                                >
+                                    {contentToText(ContentID.adminUserInfoDeleteAccountButton, config)}
+                                </button>
                             </td>
                         </tr>
-                    ) : (
-                        ''
-                    )}
-                </tbody>
-            </table>
+                        {showStatusChange ? (
+                            <tr>
+                                <td colSpan={2}>
+                                    <table className='infoBox' style={{ marginTop: '1rem' }}>
+                                        <tbody>
+                                            <tr>
+                                                <td colSpan={3} className='semiBold sizeLarge' style={{ paddingLeft: 0 }}>
+                                                    {user.contactFirstName} {user.contactLastName}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{ paddingLeft: 0 }}>
+                                                    {contentToText(ContentID.miscCurrent, config)}{' '}
+                                                    {contentToText(ContentID.userStatusHeader, config).toLowerCase()}:
+                                                </td>
+                                                <td colSpan={2} className='semiBold'>
+                                                    {getUserStatus(user, config)}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{ paddingLeft: 0 }}>
+                                                    {contentToText(ContentID.orderStatusForAdminNew, config)}{' '}
+                                                    {contentToText(ContentID.userStatusHeader, config).toLowerCase()}:
+                                                </td>
+                                                <td>
+                                                    <select
+                                                        value={newStatus}
+                                                        onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setNewStatus(event.target.value)}
+                                                    >
+                                                        <option value='customer'>{contentToText(ContentID.userStatusCustomer, config)}</option>
+                                                        <option value='operator'>{contentToText(ContentID.userStatusOperator, config)}</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        type='button'
+                                                        onClick={handleSaveStatus}
+                                                        disabled={
+                                                            !((newStatus === 'customer' && user.operator) || (newStatus === 'operator' && !user.operator))
+                                                        }
+                                                    >
+                                                        {contentToText(ContentID.buttonSave, config)}
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        ) : (
+                            ''
+                        )}
+                    </tbody>
+                </table>
+                <div className='alignLeft'>
+                    <BackButton type='button' />
+                </div>
+            </div>
             <br />
-            <table align='center' width={pageWidth}>
-                <tbody>
-                    <tr>
-                        <td>
-                            <BackButton type='button' />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <br />
-        </>
+        </div>
     );
 };
 

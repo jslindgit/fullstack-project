@@ -5,6 +5,8 @@
     text-align: left;
 }
 .alignRight {
+    display: flex;
+    justify-content: right;
     text-align: right;
 }
 
