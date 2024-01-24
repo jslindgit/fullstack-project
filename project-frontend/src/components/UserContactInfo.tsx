@@ -5,42 +5,28 @@ import { User } from '../types/types';
 import { contentToText } from '../types/languageFunctions';
 
 interface Props {
+    addLinkToEmail?: boolean;
     config: Config;
     user: User;
-    width: number;
 }
-const UserContactInfo = ({ config, user, width }: Props) => {
-    return (
-        <table align='center' width={width} className='infoBox'>
-            <tbody>
-                <tr>
-                    <td colSpan={2}>
-                        <div className='infoHeader underlined'>{contentToText(ContentID.accountContactInfo, config)}</div>
-                    </td>
-                </tr>
-                <tr>
-                    <td className='semiBold widthByContent'>{contentToText(ContentID.contactPhone, config)}:&emsp;</td>
-                    <td>{user.contactPhone}</td>
-                </tr>
-                <tr>
-                    <td className='semiBold widthByContent'>{contentToText(ContentID.checkOutStreetAddress, config)}:&emsp;</td>
-                    <td>{user.contactAddress}</td>
-                </tr>
-                <tr>
-                    <td className='semiBold widthByContent'>{contentToText(ContentID.checkOutZipCode, config)}:&emsp;</td>
-                    <td>{user.contactZipcode}</td>
-                </tr>
-                <tr>
-                    <td className='semiBold widthByContent'>{contentToText(ContentID.checkOutCity, config)}:&emsp;</td>
-                    <td>{user.contactCity}</td>
-                </tr>
-                <tr>
-                    <td className='semiBold widthByContent'>{contentToText(ContentID.checkOutCountry, config)}:&emsp;</td>
-                    <td>{user.contactCountry}</td>
-                </tr>
-            </tbody>
-        </table>
-    );
-};
+const UserContactInfo = ({ addLinkToEmail = false, config, user }: Props) => (
+    <div className='infoBox'>
+        <div className='infoHeader'>{contentToText(ContentID.accountContactInfo, config)}</div>
+        <div className='grid-container left' style={{ gap: '1em 2em', gridTemplateColumns: 'auto 1fr' }}>
+            <div className='semiBold'>{contentToText(ContentID.contactEmail, config)}:</div>
+            <div>{addLinkToEmail ? <a href={'mailto:' + user.username}>{user.username}</a> : <>{user.username}</>}</div>
+            <div className='semiBold'>{contentToText(ContentID.contactPhone, config)}:</div>
+            <div>{user.contactPhone}</div>
+            <div className='semiBold'>{contentToText(ContentID.checkOutStreetAddress, config)}:</div>
+            <div>{user.contactAddress}</div>
+            <div className='semiBold'>{contentToText(ContentID.checkOutZipCode, config)}:</div>
+            <div>{user.contactZipcode}</div>
+            <div className='semiBold'>{contentToText(ContentID.checkOutCity, config)}:</div>
+            <div>{user.contactCity}</div>
+            <div className='semiBold'>{contentToText(ContentID.checkOutCountry, config)}:</div>
+            <div>{user.contactCountry}</div>
+        </div>
+    </div>
+);
 
 export default UserContactInfo;

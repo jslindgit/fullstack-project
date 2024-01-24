@@ -6,7 +6,6 @@ import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 import { User } from '../../types/types';
 
-import { pageWidth } from '../../constants';
 import { contentToText } from '../../types/languageFunctions';
 import { getUserStatus } from '../../util/userProvider';
 import userService from '../../services/userService';
@@ -105,9 +104,9 @@ const AdminUserInfo = () => {
                 </div>
             </div>
             <div className='grid-container' data-gap='2rem'>
-                <UserBasicInfo addLinkToEmail={true} config={config} showUserStatus={true} user={user} width={pageWidth} />
-                <UserContactInfo config={config} user={user} width={pageWidth} />
-                <UserOrderHistory config={config} user={user} width={pageWidth} />
+                <UserBasicInfo addLinkToEmail={true} config={config} showUserStatus={true} user={user} />
+                <UserContactInfo addLinkToEmail={true} config={config} user={user} />
+                <UserOrderHistory config={config} user={user} />
                 <div className='infoBox'>
                     <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto auto auto 1fr' }}>
                         <div>
@@ -186,107 +185,6 @@ const AdminUserInfo = () => {
                         </div>
                     )}
                 </div>
-                <table align='center' width={pageWidth} className='infoBox'>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <a href={'mailto:' + user.username}>
-                                    <button type='button'>{contentToText(ContentID.adminUserInfoSendMessage, config)}</button>
-                                </a>
-                                &emsp;
-                                <button
-                                    type='button'
-                                    onClick={() => setShowStatusChange(!showStatusChange)}
-                                    disabled={user.admin || !usersState.loggedUser?.admin}
-                                    title={!usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
-                                >
-                                    {contentToText(ContentID.adminUserInfoChangeStatus, config)}
-                                </button>
-                                &emsp;
-                                <button
-                                    type='button'
-                                    className='red'
-                                    onClick={handleDisableOrEnableAccount}
-                                    disabled={user.admin || (user.operator && !usersState.loggedUser?.admin)}
-                                    title={
-                                        user.operator && !usersState.loggedUser?.admin
-                                            ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config)
-                                            : ''
-                                    }
-                                >
-                                    {contentToText(
-                                        user.disabled ? ContentID.adminUserInfoEnableAccountButton : ContentID.adminUserInfoDisableAccountButton,
-                                        config
-                                    )}
-                                </button>
-                            </td>
-                            <td className='alignRight'>
-                                &emsp;
-                                <button
-                                    type='button'
-                                    className='red'
-                                    disabled={user.admin || !usersState.loggedUser?.admin}
-                                    onClick={handleDeleteAccount}
-                                    title={!usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
-                                >
-                                    {contentToText(ContentID.adminUserInfoDeleteAccountButton, config)}
-                                </button>
-                            </td>
-                        </tr>
-                        {showStatusChange ? (
-                            <tr>
-                                <td colSpan={2}>
-                                    <table className='infoBox' style={{ marginTop: '1rem' }}>
-                                        <tbody>
-                                            <tr>
-                                                <td colSpan={3} className='semiBold sizeLarge' style={{ paddingLeft: 0 }}>
-                                                    {user.contactFirstName} {user.contactLastName}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style={{ paddingLeft: 0 }}>
-                                                    {contentToText(ContentID.miscCurrent, config)}{' '}
-                                                    {contentToText(ContentID.userStatusHeader, config).toLowerCase()}:
-                                                </td>
-                                                <td colSpan={2} className='semiBold'>
-                                                    {getUserStatus(user, config)}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style={{ paddingLeft: 0 }}>
-                                                    {contentToText(ContentID.orderStatusForAdminNew, config)}{' '}
-                                                    {contentToText(ContentID.userStatusHeader, config).toLowerCase()}:
-                                                </td>
-                                                <td>
-                                                    <select
-                                                        value={newStatus}
-                                                        onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setNewStatus(event.target.value)}
-                                                    >
-                                                        <option value='customer'>{contentToText(ContentID.userStatusCustomer, config)}</option>
-                                                        <option value='operator'>{contentToText(ContentID.userStatusOperator, config)}</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        type='button'
-                                                        onClick={handleSaveStatus}
-                                                        disabled={
-                                                            !((newStatus === 'customer' && user.operator) || (newStatus === 'operator' && !user.operator))
-                                                        }
-                                                    >
-                                                        {contentToText(ContentID.buttonSave, config)}
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                        ) : (
-                            ''
-                        )}
-                    </tbody>
-                </table>
                 <div className='alignLeft'>
                     <BackButton type='button' />
                 </div>

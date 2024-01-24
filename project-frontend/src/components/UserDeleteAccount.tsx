@@ -18,9 +18,8 @@ import InputField from './InputField';
 interface Props {
     config: Config;
     user: User;
-    width: number;
 }
-const UserDeleteAccount = ({ config, user, width }: Props) => {
+const UserDeleteAccount = ({ config, user }: Props) => {
     const dispatch = useDispatch();
 
     const [showPasswordField, setShowPasswordField] = useState<boolean>(false);
@@ -51,43 +50,31 @@ const UserDeleteAccount = ({ config, user, width }: Props) => {
     };
 
     return (
-        <table align='center' width={width} className='infoBox red'>
-            <tbody>
-                <tr>
-                    <td>
-                        {showPasswordField ? (
-                            <table width='100%' className='valignMiddleImportant'>
-                                <tbody>
-                                    <tr>
-                                        <td className='colorRed semiBold'>{contentToText(ContentID.accountDeleteAccountConfirm, config)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{ paddingBottom: '1.75rem', paddingTop: '1.5rem' }}>
-                                            <InputField placeHolder={contentToText(ContentID.loginPassword, config)} useField={password} width='30rem' />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <button type='button' className='red' onClick={handleDeleteAccount} disabled={password.value.toString().length < 1}>
-                                                {contentToText(ContentID.accountDeleteAccount, config)}
-                                            </button>
-                                            &emsp;&emsp;
-                                            <button type='button' onClick={handleCancelButton}>
-                                                {contentToText(ContentID.buttonCancel, config)}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        ) : (
-                            <a className='red sizeLarge' onClick={() => setShowPasswordField(true)}>
-                                {contentToText(ContentID.accountDeleteAccount, config)}
-                            </a>
-                        )}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div className='alignLeft infoBox red'>
+            {showPasswordField ? (
+                <div className='grid-container' data-gap='2rem'>
+                    <div className='colorRed semiBold' style={{ whiteSpace: 'pre-line' }}>
+                        {contentToText(ContentID.accountDeleteAccountConfirm, config)}
+                    </div>
+                    <div>
+                        <InputField placeHolder={contentToText(ContentID.loginPassword, config)} useField={password} width='30rem' />
+                    </div>
+                    <div>
+                        <button type='button' className='red' onClick={handleDeleteAccount} disabled={password.value.toString().length < 1}>
+                            {contentToText(ContentID.accountDeleteAccount, config)}
+                        </button>
+                        &emsp;&emsp;
+                        <button type='button' onClick={handleCancelButton}>
+                            {contentToText(ContentID.buttonCancel, config)}
+                        </button>
+                    </div>
+                </div>
+            ) : (
+                <a className='red sizeLarge' onClick={() => setShowPasswordField(true)}>
+                    {contentToText(ContentID.accountDeleteAccount, config)}
+                </a>
+            )}
+        </div>
     );
 };
 

@@ -273,7 +273,7 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.accountDeleteAccountConfirm,
         content: [
-            { langCode: LangCode.EN, text: 'Are you sure you want to delete your account? Enter your password to confirm:' },
+            { langCode: LangCode.EN, text: 'Are you sure you want to delete your account?\r\n\r\nEnter your password to confirm:' },
             { langCode: LangCode.FI, text: 'Haluatko varmasti poistaa käyttäjätilisi?\r\n\r\nSyötä salasanasi vahvistaaksesi:' },
         ],
     },

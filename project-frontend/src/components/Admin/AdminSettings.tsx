@@ -252,7 +252,7 @@ const AdminSettings = () => {
         <div>
             <div className='grid-container pageWidth' data-gap='3rem'>
                 <div className='infoBox'>
-                    <div className='pageHeader noMargin'>{contentToText(ContentID.miscWebstore, config)}</div>
+                    <div className='infoHeader'>{contentToText(ContentID.miscWebstore, config)}</div>
                     <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
                         {settingText(contentToText(ContentID.miscName, config), storeNameField, 'storeName', config.store.contactName)}
                         {settingText(contentToText(ContentID.contactEmail, config), storeEmailField, 'storeEmail', config.store.contactEmail)}
@@ -322,7 +322,7 @@ const AdminSettings = () => {
                     </div>
                 </div>
                 <div className='infoBox'>
-                    <div className='pageHeader noMargin'>{contentToText(ContentID.miscMerchant, config)}</div>
+                    <div className='infoHeader'>{contentToText(ContentID.miscMerchant, config)}</div>
                     <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
                         {settingText(contentToText(ContentID.miscName, config), ownerNameField, 'ownerName', config.owner.name)}
                         {settingText(contentToText(ContentID.contactEmail, config), ownerEmailField, 'ownerEmail', config.owner.email)}
@@ -336,7 +336,7 @@ const AdminSettings = () => {
                     </div>
                 </div>
                 <div className='infoBox'>
-                    <div className='pageHeader noMargin'>{contentToText(ContentID.miscContent, config)}</div>
+                    <div className='infoHeader'>{contentToText(ContentID.miscContent, config)}</div>
                     <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
                         {settingLangFields(
                             `"${contentToText(ContentID.contentWelcome, config)}" (${contentToText(ContentID.menuHome, config)})`,

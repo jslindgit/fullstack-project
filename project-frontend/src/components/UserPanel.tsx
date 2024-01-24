@@ -6,7 +6,6 @@ import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 import { User } from '../types/types';
 
-import { pageWidth } from '../constants';
 import { contentToText } from '../types/languageFunctions';
 
 import { initializeLoggedUser } from '../reducers/userReducer';
@@ -53,26 +52,16 @@ const UserPanel = () => {
     }
 
     return (
-        <>
-            <table align='center' width={pageWidth} className='valignTop'>
-                <tbody>
-                    <tr>
-                        <td className='pageHeader'>{contentToText(ContentID.menuAccount, config)}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <UserBasicInfo config={config} showUserStatus={user.admin || user.operator} user={user} width={pageWidth} />
-            <br />
-            <UserContactInfo config={config} user={user} width={pageWidth} />
-            <br />
-            <UserChangePassword config={config} user={user} width={pageWidth} />
-            <br />
-            <UserOrderHistory config={config} user={user} width={pageWidth} />
-            <br />
-            <UserDeleteAccount config={config} user={user} width={pageWidth} />
-            <br />
-            <br />
-        </>
+        <div className='pageWidth'>
+            <div className='pageHeader'>{contentToText(ContentID.menuAccount, config)}</div>
+            <div className='grid-container' data-gap='2rem' style={{ marginBottom: '2rem' }}>
+                <UserBasicInfo config={config} showUserStatus={user.admin || user.operator} user={user} />
+                <UserContactInfo config={config} user={user} />
+                <UserChangePassword config={config} user={user} />
+                <UserOrderHistory config={config} user={user} />
+                <UserDeleteAccount config={config} user={user} />
+            </div>
+        </div>
     );
 };
 

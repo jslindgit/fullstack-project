@@ -298,14 +298,8 @@ const AdminOrders = () => {
                 {menuItemDiv(Folder.RECYCLEBIN)}
             </div>
             <br />
-            <div
-                className='bgColorGrayExtremelyLight grid-container valignMiddle'
-                data-gap='2rem'
-                style={{ border: '2px solid var(--colorGray)', borderRadius: '0.5rem', gridTemplateColumns: 'auto auto 1fr', padding: '1rem' }}
-            >
-                <div className='semiBold valignMiddle' style={{ height: 'min-content' }}>
-                    {contentToText(search.label, config)}:
-                </div>
+            <div className='grid-container searchBox' data-gap='2rem' style={{ gridTemplateColumns: 'auto auto 1fr' }}>
+                <div className='semiBold'>{contentToText(search.label, config)}:</div>
                 <div>
                     <InputField
                         useField={search}

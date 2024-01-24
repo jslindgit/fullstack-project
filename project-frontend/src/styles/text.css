@@ -47,6 +47,18 @@ h4 {
     text-transform: uppercase;
 }
 
+.infoHeader {
+    color: var(--colorGrayDark);
+    font-size: var(--fontSizeVeryLarge);
+    font-weight: bold;
+    margin-bottom: 1.25em;
+    margin-top: -0.5em;
+    text-align: left;
+    text-decoration: 0.2em underline solid var(--colorGoldVeryLight);
+    text-underline-offset: 0.2em;
+    text-wrap: nowrap;
+}
+
 .lineHeight1 {
     line-height: 1;
 }
@@ -64,9 +76,9 @@ h4 {
     margin-bottom: 2rem;
     margin-top: 1.5rem;
     text-align: left;
-    text-decoration: underline solid var(--colorGoldVeryLight);
-    text-underline-offset: 0.3rem;
-    text-decoration-thickness: 0.3rem;
+    text-decoration: 0.2em underline solid var(--colorGoldVeryLight);
+    text-underline-offset: 0.2em;
+    text-wrap: nowrap;
 }
 .pageHeader.noMargin {
     margin: 0;

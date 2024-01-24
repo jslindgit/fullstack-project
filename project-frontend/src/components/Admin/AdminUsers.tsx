@@ -135,27 +135,22 @@ const AdminUsers = () => {
     );
 
     return (
-        <>
-            <table width='100%' className='bgColorGrayExtremelyLight' style={{ border: '2px solid var(--colorGray)', borderRadius: '0.5rem' }}>
-                <tbody>
-                    <tr>
-                        <td className='semiBold widthByContent'>{contentToText(search.label, config)}:</td>
-                        <td className='widthByContent'>
-                            <InputField
-                                useField={search}
-                                width={'20rem'}
-                                placeHolder={contentToText(ContentID.miscName, config) + ', ' + contentToText(ContentID.contactEmail, config)}
-                            />
-                        </td>
-                        <td className='alignLeft'>
-                            <button type='button' onClick={() => search.setNewValue('')}>
-                                {contentToText(ContentID.buttonClear, config)}
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <br />
+        <div className='grid-container' data-gap='2rem'>
+            <div className='grid-container searchBox' data-gap='2rem' style={{ gridTemplateColumns: 'auto auto 1fr' }}>
+                <div className='semiBold'>{contentToText(search.label, config)}:</div>
+                <div>
+                    <InputField
+                        useField={search}
+                        width={'20rem'}
+                        placeHolder={contentToText(ContentID.miscName, config) + ', ' + contentToText(ContentID.contactEmail, config)}
+                    />
+                </div>
+                <div>
+                    <button type='button' onClick={() => search.setNewValue('')}>
+                        {contentToText(ContentID.buttonClear, config)}
+                    </button>
+                </div>
+            </div>
             <table width={pageWidth} className='headerRow striped'>
                 <tbody>
                     <tr>
@@ -170,7 +165,8 @@ const AdminUsers = () => {
                     ))}
                 </tbody>
             </table>
-        </>
+            <br />
+        </div>
     );
 };
 

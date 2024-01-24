@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Config } from '../types/configTypes';
@@ -8,16 +8,17 @@ import { User } from '../types/types';
 import { contentToText } from '../types/languageFunctions';
 import loginService from '../services/loginService';
 import { isValidPassword } from '../util/misc';
-import useField, { UseField } from '../hooks/useField';
+import useField from '../hooks/useField';
 
 import { setNotification } from '../reducers/miscReducer';
+
+import InputField from './InputField';
 
 interface Props {
     config: Config;
     user: User;
-    width: number;
 }
-const UserChangePassword = ({ config, user, width }: Props) => {
+const UserChangePassword = ({ config, user }: Props) => {
     const dispatch = useDispatch();
 
     const [newPasswordError, setNewPasswordError] = useState<string>('');
@@ -26,6 +27,10 @@ const UserChangePassword = ({ config, user, width }: Props) => {
     const passwordCurrent = useField('password', null);
     const passwordNew = useField('password', null);
     const passwordNewConfirm = useField('password', null);
+
+    useEffect(() => {
+        setNewPasswordError('');
+    }, [passwordNew.value, passwordNewConfirm.value]);
 
     const handleCancelButton = () => {
         passwordCurrent.reset();
@@ -46,65 +51,46 @@ const UserChangePassword = ({ config, user, width }: Props) => {
         }
     };
 
-    const passwordField = (label: string, field: UseField, error: boolean = false) => (
-        <tr>
-            <td className='widthByContent' style={{ paddingLeft: 0 }}>
-                {label}:
-            </td>
-            <td>
-                <input
-                    type={field.type}
-                    value={field.value}
-                    onChange={field.onChange}
-                    className={error ? 'error' : ''}
-                    style={{ maxWidth: '32rem', width: '100%' }}
-                />
-            </td>
-        </tr>
-    );
-
     return (
-        <table align='center' width={width} className='infoBox'>
-            <tbody>
-                <tr>
-                    <td>
-                        {showPasswordFields ? (
-                            <table width='100%' className='valignMiddleImportant'>
-                                <tbody>
-                                    {passwordField(contentToText(ContentID.accountPasswordCurrent, config), passwordCurrent)}
-                                    {passwordField(contentToText(ContentID.accountPasswordNew, config), passwordNew, newPasswordError.length > 0)}
-                                    {passwordField(contentToText(ContentID.accountPasswordNewConfirm, config), passwordNewConfirm, newPasswordError.length > 0)}
-                                    {newPasswordError.length > 0 ? (
-                                        <tr>
-                                            <td></td>
-                                            <td className='colorRed semiBold'>{newPasswordError}</td>
-                                        </tr>
-                                    ) : (
-                                        ''
-                                    )}
-                                    <tr>
-                                        <td></td>
-                                        <td style={{ paddingTop: '1rem' }}>
-                                            <button type='button' onClick={handleSubmitPasswordChange}>
-                                                {contentToText(ContentID.buttonSubmit, config)}
-                                            </button>
-                                            &emsp;&emsp;
-                                            <button type='button' onClick={handleCancelButton}>
-                                                {contentToText(ContentID.buttonCancel, config)}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        ) : (
-                            <a className='sizeLarge' onClick={() => setShowPasswordFields(true)}>
-                                {contentToText(ContentID.accountChangePassword, config)}
-                            </a>
+        <div className='alignLeft infoBox'>
+            {showPasswordFields ? (
+                <div className='grid-container' data-gap='2rem'>
+                    <div className='grid-container left' data-gap='1rem 2rem' style={{ gridTemplateColumns: 'auto 1fr' }}>
+                        <div className='semiBold'>{contentToText(ContentID.accountPasswordCurrent, config)}:</div>
+                        <div>
+                            <InputField useField={passwordCurrent} width='32rem' />
+                        </div>
+                        <div className='semiBold'>{contentToText(ContentID.accountPasswordNew, config)}</div>
+                        <div>
+                            <InputField useField={passwordNew} width='32rem' className={newPasswordError.length > 0 ? ' error' : ''} />
+                        </div>
+                        <div className='semiBold'>{contentToText(ContentID.accountPasswordNewConfirm, config)}</div>
+                        <div>
+                            <InputField useField={passwordNewConfirm} width='32rem' className={newPasswordError.length > 0 ? ' error' : ''} />
+                        </div>
+                        {newPasswordError.length > 0 && (
+                            <>
+                                <div />
+                                <div className='colorRed semiBold'>{newPasswordError}</div>
+                            </>
                         )}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </div>
+                    <div>
+                        <button type='button' onClick={handleSubmitPasswordChange}>
+                            {contentToText(ContentID.buttonSubmit, config)}
+                        </button>
+                        &emsp;&emsp;
+                        <button type='button' onClick={handleCancelButton}>
+                            {contentToText(ContentID.buttonCancel, config)}
+                        </button>
+                    </div>
+                </div>
+            ) : (
+                <a className='sizeLarge' onClick={() => setShowPasswordFields(true)}>
+                    {contentToText(ContentID.accountChangePassword, config)}
+                </a>
+            )}
+        </div>
     );
 };
 

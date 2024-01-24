@@ -83,31 +83,15 @@
 }
 
 .infoBox {
-    border: solid 0.2rem var(--colorGrayLight) !important;
-    border-radius: 0.75rem !important;
-    padding: 1.25rem;
-}
-.infoBox td {
-    padding-bottom: 0.3rem;
-    padding-top: 0.3rem;
-}
-.infoBox td:first-child {
-    padding-right: 0;
+    border: solid 3px var(--colorGrayLight);
+    border-radius: 15px;
+    padding: 2rem;
 }
 .infoBox.errors {
-    border: solid 0.2rem var(--colorRedLight) !important;
-    border-radius: 0.75rem !important;
-    padding: 1.25rem;
+    border: solid 3px var(--colorRedLight);
 }
 .infoBox.red {
     border-color: var(--colorRed) !important;
-}
-
-.infoHeader {
-    color: var(--colorGrayDark);
-    font-size: var(--fontSizeVeryLarge);
-    font-weight: bold;
-    margin-bottom: 2rem;
 }
 
 .languageSelection {
@@ -142,6 +126,15 @@
     border-radius: 0 !important;
     border: 0.5rem solid var(--colorGrayLight);
     padding: 0.1rem;
+}
+
+.searchBox {
+    align-items: center;
+    background-color: var(--colorGrayExtremelyLight);
+    border: 2px solid var(--colorGray);
+    border-radius: 0.5rem;
+    display: flex;
+    padding: 1rem;
 }
 
 .shoppingCartIndicator {

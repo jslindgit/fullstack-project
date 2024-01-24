@@ -19,8 +19,8 @@ const Info = () => {
             <div style={{ margin: 'auto', maxWidth: pageWidth }}>
                 <div className='pageHeader'>{contentToText(ContentID.menuInfo, config)}</div>
                 <div className='grid-container' style={{ gridTemplateColumns: '47% 1fr 47%' }}>
-                    <div className='alignLeft infoBox' style={{ padding: '1.5rem 2rem' }}>
-                        <div className='infoHeader noWrap underlined'>{config.store.contactName}</div>
+                    <div className='alignLeft infoBox'>
+                        <div className='infoHeader'>{config.store.contactName}</div>
                         <div className='grid-container' data-gap='0.9rem' style={{ gridTemplateColumns: 'min-content auto' }}>
                             <div>{contentToText(ContentID.contactEmail, config)}:</div>
                             <div>
@@ -41,8 +41,8 @@ const Info = () => {
                         </div>
                     </div>
                     <div />
-                    <div className='alignLeft infoBox' style={{ padding: '1.5rem 2rem' }}>
-                        <div className='infoHeader noWrap underlined'>{contentToText(ContentID.miscMerchant, config)}</div>
+                    <div className='alignLeft infoBox'>
+                        <div className='infoHeader'>{contentToText(ContentID.miscMerchant, config)}</div>
                         <div className='semiBold' style={{ marginBottom: '0.9rem' }}>
                             {config.owner.name}
                         </div>
