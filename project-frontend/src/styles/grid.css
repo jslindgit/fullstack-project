@@ -16,6 +16,9 @@
 .grid-container[data-cols='3'] {
     grid-template-columns: repeat(3, 1fr);
 }
+.grid-container[data-cols='auto 1fr'] {
+    grid-template-columns: auto 1fr;
+}
 .grid-container[data-cols='auto'] {
     grid-auto-flow: column;
     grid-template-columns: auto;
@@ -42,6 +45,9 @@
 }
 .grid-container[data-gap='3rem'] {
     gap: 3rem;
+}
+.grid-container[data-gap='4rem'] {
+    gap: 4rem;
 }
 .grid-container[data-gap='1rem 2rem'] {
     gap: 1rem 2rem;

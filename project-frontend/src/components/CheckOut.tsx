@@ -7,7 +7,6 @@ import { DeliveryMethod } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 import { NewUser } from '../types/types';
 
-import { pageWidth } from '../constants';
 import { contentToText } from '../types/languageFunctions';
 import { isValidPassword } from '../util/misc';
 import { validateOrder } from '../types/orderTypeFunctions';
@@ -118,86 +117,54 @@ const CheckOut = () => {
     }, [order, validate]);
 
     return (
-        <div>
-            <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
-                <tbody>
-                    <tr>
-                        <td className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={pageWidth}>
-                <tbody>
-                    <tr>
-                        <td style={{ paddingLeft: 0, paddingTop: 0 }}>
-                            <CheckOutContactInfo
-                                currentOrder={order}
-                                password={password}
-                                passwordConfirm={passwordConfirm}
-                                register={register}
-                                setCustomerInfo={setCustomerInfo}
-                                setRegister={setRegister}
-                                validate={validate}
-                                width='100%'
-                            />
-                            <br />
-                            <CheckOutDelivery
-                                currentMethod={order.deliveryMethod}
-                                customerCountry={order.customerCountry}
-                                customerZipCode={order.customerZipCode}
-                                setDeliveryMethod={setDeliveryMethod}
-                                validate={validate}
-                                width='100%'
-                            />
-                        </td>
-                        <td width='3rem'></td>
-                        <td width='40%' style={{ verticalAlign: 'top', paddingTop: 0 }}>
-                            <div style={{ position: 'sticky', top: '1rem' }}>
-                                <OrderInfo order={order} />
-                                {validationErrors.length > 0 ? (
-                                    <table align='center' width='100%' className='validationErrors' style={{ borderRadius: '0.5rem', marginTop: '1rem' }}>
-                                        <tbody>
-                                            <tr>
-                                                <td style={{ fontWeight: '500' }}>
-                                                    {contentToText(ContentID.checkOutPleaseCheck, config)}
-                                                    <div style={{ paddingTop: '1rem', paddingBottom: '0', paddingLeft: '1rem', paddingRight: '1rem' }}>
-                                                        {validationErrors.map((e) => (
-                                                            <div key={e} style={{ fontStyle: 'italic', lineHeight: '2rem', fontWeight: '500' }}>
-                                                                • {e}
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    ''
-                                )}
-                                <br />
-                                <button
-                                    type='button'
-                                    className='large'
-                                    onClick={handlePaymentClick}
-                                    disabled={validationErrors.length > 0}
-                                    style={{ width: '100%', marginTop: '1rem' }}
-                                >
-                                    {contentToText(ContentID.checkOutChoosePaymentMethod, config)} →
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={pageWidth}>
-                <tbody>
-                    <tr>
-                        <td>
-                            <BackButton type='text' to='/cart' />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div className='pageWidth'>
+            <div className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</div>
+            <div className='grid-container' data-gap='4rem' style={{ gridTemplateColumns: '1fr 39%' }}>
+                <div className='grid-container' data-gap='1.5rem' style={{ marginBottom: '1.5rem' }}>
+                    <CheckOutContactInfo
+                        currentOrder={order}
+                        password={password}
+                        passwordConfirm={passwordConfirm}
+                        register={register}
+                        setCustomerInfo={setCustomerInfo}
+                        setRegister={setRegister}
+                        validate={validate}
+                    />
+                    <CheckOutDelivery
+                        currentMethod={order.deliveryMethod}
+                        customerCountry={order.customerCountry}
+                        customerZipCode={order.customerZipCode}
+                        setDeliveryMethod={setDeliveryMethod}
+                        validate={validate}
+                        width='100%'
+                    />
+                    <div className='alignLeft'>
+                        <BackButton type='text' to='/cart' />
+                    </div>
+                </div>
+                <div>
+                    <div className='grid-container' data-gap='1.5rem' style={{ position: 'sticky', top: '1rem' }}>
+                        <OrderInfo order={order} />
+                        {validationErrors.length > 0 ? (
+                            <>
+                                <div className='alignLeft validationErrors'>
+                                    {contentToText(ContentID.checkOutPleaseCheck, config)}
+                                    {validationErrors.map((e) => (
+                                        <div key={e} style={{ fontStyle: 'italic', fontWeight: '500', marginLeft: '1em', marginTop: '1em' }}>
+                                            • {e}
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
+                        ) : (
+                            ''
+                        )}
+                        <button type='button' className='large' onClick={handlePaymentClick} disabled={validationErrors.length > 0} style={{ width: '100%' }}>
+                            {contentToText(ContentID.checkOutChoosePaymentMethod, config)} →
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

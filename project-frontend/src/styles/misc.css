@@ -148,3 +148,11 @@
     padding-right: 0.5rem !important;
     padding-top: 0.2rem !important;
 }
+
+.validationErrors {
+    border: 3px solid var(--colorRed);
+    border-radius: 0.5em;
+    color: var(--colorRed);
+    font-weight: 600;
+    padding: 1em;
+}

@@ -11,6 +11,7 @@ import { isValidEmailAddress, isValidPassword } from '../util/misc';
 import useField, { UseField } from '../hooks/useField';
 
 import CheckBox from './CheckBox';
+import InputField from './InputField';
 
 interface Props {
     currentOrder: NewOrder | Order;
@@ -30,10 +31,9 @@ interface Props {
     ) => void;
     setRegister: React.Dispatch<React.SetStateAction<boolean>>;
     validate: boolean;
-    width: string;
 }
 
-const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCustomerInfo, register, setRegister, validate, width }: Props) => {
+const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCustomerInfo, register, setRegister, validate }: Props) => {
     const config = useSelector((state: RootState) => state.config);
     const userState = useSelector((state: RootState) => state.user);
 
@@ -150,6 +150,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
         } else {
             setRequired([address, city, email, firstName, lastName, phone, zipCode]);
         }
+        console.log('required:', required);
     }, [register]);
 
     // Set available countries:
@@ -195,137 +196,103 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
 
     const inputField = (field: UseField, optional: boolean = false) => {
         const label = contentToText(field.label, config);
-        const labelParts: string[] = optional ? [label, contentToText(ContentID.checkOutOptional, config)] : [label];
+        const labelParts: string[] = optional ? [label, '(' + contentToText(ContentID.checkOutOptional, config) + ')'] : [label];
         const error = validateField(field);
 
         return (
-            <tr>
-                <td className={'widthByContent' + (required.includes(field) || field === password || field === passwordConfirm ? ' semiBold' : '')}>
+            <React.Fragment>
+                <div
+                    className={
+                        'valignMiddle' + (required.find((f) => f.label === field.label) || field === password || field === passwordConfirm ? ' semiBold' : '')
+                    }
+                >
                     {labelParts.length > 1 ? (
-                        <>
-                            {labelParts[0]}
-                            <br />
-                            <i>{labelParts[1]}</i>
-                        </>
+                        <div>
+                            <div>{labelParts[0]}</div>
+                            <div>
+                                <i>{labelParts[1]}</i>
+                            </div>
+                        </div>
                     ) : (
                         <>{labelParts[0]}</>
                     )}
-                </td>
-                <td style={{ paddingTop: '0.6rem', paddingBottom: '0.6rem' }}>
-                    {validate && error ? (
+                </div>
+                <div className='valignMiddle'>
+                    {validate && error && (
                         <div className='validationError'>
                             {error}
+                            <br />
+                        </div>
+                    )}
+                    <InputField useField={field} width='100%' className={validate && error ? 'error' : ''} />
+                </div>
+            </React.Fragment>
+        );
+    };
+
+    return (
+        <div className={'alignLeft infoBox' + (errors ? ' errors' : '')}>
+            <div className='grid-container' data-cols='2'>
+                <div className='infoHeader' style={{ marginBottom: '3rem' }}>
+                    {contentToText(ContentID.checkOutCustomerContactInformation, config)}
+                </div>
+                <div className='alignRight'>
+                    <a onClick={fillRandomly}>Fill randomly</a>
+                </div>
+            </div>
+            <div className='grid-container left' data-cols='auto 1fr' data-gap='1.5rem'>
+                {inputField(firstName)}
+                {inputField(lastName)}
+                {inputField(organization, true)}
+                {inputField(address)}
+                {inputField(zipCode)}
+                {inputField(city)}
+                <div className='semiBold valignMiddle'>{contentToText(ContentID.checkOutCountry, config)}</div>
+                <div>
+                    {validate && !country ? (
+                        <div className='validationError'>
+                            {contentToText(ContentID.checkOutCountryIsRequired, config)}
                             <br />
                         </div>
                     ) : (
                         <></>
                     )}
-                    <input type={field.type} value={field.value} onChange={field.onChange} className={validate && error ? 'error' : ''} />
-                </td>
-            </tr>
-        );
-    };
-
-    return (
-        <table className={'infoBox' + (errors ? ' errors' : '')} width={width}>
-            <tbody>
-                <tr>
-                    <td>
-                        <table align='center' width='100%' className='paddingTopBottomOnly'>
-                            <tbody>
-                                <tr>
-                                    <td style={{ paddingTop: 0 }}>
-                                        <div className='pageHeader' style={{ paddingTop: 0 }}>
-                                            {contentToText(ContentID.checkOutCustomerContactInformation, config)}
-                                        </div>
-                                        <a onClick={fillRandomly}>Fill randomly</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table align='center' width='100%' className='paddingTopBottomOnly' style={{ paddingRight: '1rem' }}>
-                            <tbody>
-                                {inputField(firstName)}
-                                {inputField(lastName)}
-                                {inputField(organization, true)}
-                                {inputField(address)}
-                                {inputField(zipCode)}
-                                {inputField(city)}
-
-                                <tr>
-                                    <td className='widthByContent semiBold'>{contentToText(ContentID.checkOutCountry, config)}</td>
-                                    <td style={{ paddingTop: '0.6rem', paddingBottom: '0.6rem' }}>
-                                        {validate && !country ? (
-                                            <div className='validationError'>
-                                                {contentToText(ContentID.checkOutCountryIsRequired, config)}
-                                                <br />
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        <select value={country || ''} onChange={handleCountryChange}>
-                                            <option value='' disabled>
-                                                {contentToText(ContentID.checkOutSelectCountry, config)}
-                                            </option>
-                                            {availableCountries.map((c) => (
-                                                <option key={c} value={c}>
-                                                    {c}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                {inputField(email)}
-                                {inputField(phone)}
-
-                                {!userState.loggedUser ? (
-                                    <React.Fragment>
-                                        <tr>
-                                            <td colSpan={2} style={{ paddingTop: '1em' }}>
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td style={{ paddingLeft: 0 }}>
-                                                                <CheckBox
-                                                                    isChecked={register}
-                                                                    onClick={() => {
-                                                                        setRegister(!register);
-                                                                    }}
-                                                                />
-                                                            </td>
-                                                            <td className='semiBold'>{contentToText(ContentID.registerHeader, config)}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        {register ? (
-                                            <React.Fragment>
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <table>
-                                                            <tbody>
-                                                                {inputField(password)}
-                                                                {inputField(passwordConfirm)}
-                                                            </tbody>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                            </React.Fragment>
-                                        ) : (
-                                            ''
-                                        )}
-                                    </React.Fragment>
-                                ) : (
-                                    ''
-                                )}
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    <select value={country || ''} onChange={handleCountryChange}>
+                        <option value='' disabled>
+                            {contentToText(ContentID.checkOutSelectCountry, config)}
+                        </option>
+                        {availableCountries.map((c) => (
+                            <option key={c} value={c}>
+                                {c}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                {inputField(email)}
+                {inputField(phone)}
+            </div>
+            <div>
+                {!userState.loggedUser && (
+                    <div style={{ marginTop: '3rem' }}>
+                        <div className='grid-container' data-cols='auto 1fr' data-gap='0.5rem'>
+                            <CheckBox
+                                isChecked={register}
+                                onClick={() => {
+                                    setRegister(!register);
+                                }}
+                            />
+                            <div className='semiBold'>{contentToText(ContentID.registerHeader, config)}</div>
+                        </div>
+                        {register && (
+                            <div className='grid-container left' data-cols='auto 1fr' data-gap='1rem' style={{ marginTop: '1.5rem' }}>
+                                {inputField(password)}
+                                {inputField(passwordConfirm)}
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+        </div>
     );
 };
 
