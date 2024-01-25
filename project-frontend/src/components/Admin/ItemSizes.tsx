@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
 import { ItemSizeAndInstock } from '../../types/types';
@@ -42,55 +44,43 @@ const ItemSizes = ({ config, oneSizeInstock, setOneSizeInstock, setSizes, sizes 
 
     return (
         <>
-            <table className='infoBox'>
-                <tbody>
-                    <tr className='semiBold'>
-                        <td className='widthByContent'>{contentToText(ContentID.itemsSize, config)}</td>
-                        <td className='widthByContent'>{contentToText(ContentID.itemsInStock, config)}</td>
-                    </tr>
+            <div className='infoBox'>
+                <div className='grid-container left' data-cols='3' data-gap='1rem'>
+                    <div className='semiBold'>{contentToText(ContentID.itemsSize, config)}</div>
+                    <div className='semiBold'>{contentToText(ContentID.itemsInStock, config)}</div>
+                    <div />
                     {sizes.length > 0 && sizes[0].size !== '-' ? (
                         sizes.map((size) => (
-                            <tr key={sizes.indexOf(size)}>
-                                <td>
-                                    <select value={size.size} onChange={handleSizeChange(sizes.indexOf(size))}>
-                                        {sizeValues.map((s) => (
-                                            <option key={s} value={s}>
-                                                {s}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type='number' value={size.instock} onChange={handleInstockChange(sizes.indexOf(size))} />
-                                </td>
-                                <td>
-                                    <button type='button' className='red' onClick={() => handleDeleteSize(sizes.indexOf(size))}>
-                                        {contentToText(ContentID.buttonRemove, config)}
-                                    </button>
-                                </td>
-                            </tr>
+                            <React.Fragment key={sizes.indexOf(size)}>
+                                <select value={size.size} onChange={handleSizeChange(sizes.indexOf(size))}>
+                                    {sizeValues.map((s) => (
+                                        <option key={s} value={s}>
+                                            {s}
+                                        </option>
+                                    ))}
+                                </select>
+                                <input type='number' value={size.instock} onChange={handleInstockChange(sizes.indexOf(size))} />
+                                <button type='button' className='red' onClick={() => handleDeleteSize(sizes.indexOf(size))}>
+                                    {contentToText(ContentID.buttonRemove, config)}
+                                </button>
+                            </React.Fragment>
                         ))
                     ) : (
-                        <tr>
-                            <td className='widthByContent'>{contentToText(ContentID.adminItemOneSize, config)}&emsp;</td>
-                            <td>
-                                <input
-                                    type='number'
-                                    value={oneSizeInstock}
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setOneSizeInstock(Number(event.target.value))}
-                                />
-                            </td>
-                        </tr>
+                        <React.Fragment>
+                            <div>{contentToText(ContentID.adminItemOneSize, config)}</div>
+                            <input
+                                type='number'
+                                value={oneSizeInstock}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => setOneSizeInstock(Number(event.target.value))}
+                            />
+                            <div />
+                        </React.Fragment>
                     )}
-                    <tr>
-                        <td colSpan={2}>
-                            <button type='button' onClick={handleAddSize} disabled={unusedSizeValues().length < 1}>
-                                {contentToText(ContentID.adminItemAddNewSize, config)}
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                </div>
+                <button type='button' onClick={handleAddSize} disabled={unusedSizeValues().length < 1} style={{ marginTop: '1rem' }}>
+                    + {contentToText(ContentID.adminItemAddNewSize, config)}
+                </button>
+            </div>
         </>
     );
 };

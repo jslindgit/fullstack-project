@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Config } from '../../types/configTypes';
@@ -61,89 +61,69 @@ const ItemEditImages = ({ config, currentImages, imagesToRemove, imagesToUpload,
     };
 
     return (
-        <>
-            <table>
-                <tbody>
-                    {currentImages.length + imagesToUpload.length > 0 ? (
-                        <>
-                            {currentImages.map((path) => (
-                                <tr key={path}>
-                                    <td className='widthByContent'>
-                                        <Image
-                                            src={imageFullPath(path)}
-                                            className={imagesToRemove.includes(path) ? 'imgAdminItems toRemove' : 'imgAdminItems'}
-                                            title={imageFilename(path)}
-                                        />
-                                    </td>
-                                    <td className='valignMiddleImportant'>
-                                        {imagesToRemove.includes(path) ? (
-                                            <>
-                                                <span className='strikeThrough'>{imageFilename(path)}</span>
-                                                <br />
-                                                <button
-                                                    type='button'
-                                                    className='small'
-                                                    onClick={() => setImagesToRemove(imagesToRemove.filter((img) => img !== path))}
-                                                >
-                                                    {contentToText(ContentID.buttonRestore, config)}
-                                                </button>
-                                            </>
-                                        ) : (
-                                            <>
-                                                {imageFilename(path)}
-                                                <br />
-                                                <button type='button' className='red small' onClick={() => setImagesToRemove([...imagesToRemove, path])}>
-                                                    {contentToText(ContentID.buttonRemove, config)}
-                                                </button>
-                                            </>
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
-                            {imagesToUpload.map((imageToUpload) => (
-                                <tr key={imageToUpload.file.name}>
-                                    <td className='widthByContent'>
-                                        <Image src={imageToUpload.dataUrl} className='imgAdminItems new' />
-                                    </td>
-                                    <td className='italic valignMiddleImportant'>
-                                        {imageToUpload.file.name.toString()}
+        <div className='grid-container' data-gap='2rem'>
+            {currentImages.length + imagesToUpload.length > 0 ? (
+                <div className='grid-container left' style={{ gap: '2rem 1rem', gridTemplateColumns: 'auto 1fr' }}>
+                    {currentImages.map((path) => (
+                        <React.Fragment key={path}>
+                            <div>
+                                <Image
+                                    src={imageFullPath(path)}
+                                    className={imagesToRemove.includes(path) ? 'imgAdminItems toRemove' : 'imgAdminItems'}
+                                    title={imageFilename(path)}
+                                />
+                            </div>
+                            <div>
+                                {imagesToRemove.includes(path) ? (
+                                    <>
+                                        <span className='strikeThrough'>{imageFilename(path)}</span>
                                         <br />
-                                        <span className='semiBold sizeSmall'>UUSI &nbsp;</span>
-                                        <button
-                                            type='button'
-                                            className='red small'
-                                            onClick={() => setImagesToUpload(imagesToUpload.filter((img) => img !== imageToUpload))}
-                                        >
+                                        <button type='button' className='small' onClick={() => setImagesToRemove(imagesToRemove.filter((img) => img !== path))}>
+                                            {contentToText(ContentID.buttonRestore, config)}
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        {imageFilename(path)}
+                                        <br />
+                                        <button type='button' className='red small' onClick={() => setImagesToRemove([...imagesToRemove, path])}>
                                             {contentToText(ContentID.buttonRemove, config)}
                                         </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </>
-                    ) : (
-                        <tr>
-                            <td>{contentToText(ContentID.adminItemNoImages, config)}.</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-            <table>
-                <tbody>
-                    <tr>
-                        <td className='semiBold'>{contentToText(ContentID.adminItemUploadNewImage, config)}:</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type='file' onChange={handleImageChange} className='fileUpload' />
-                            <br />
-                            <button onClick={handleImageUpload} disabled={!imageFile} style={{ marginTop: '0.75em' }}>
-                                {contentToText(ContentID.buttonUpload, config)}
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </>
+                                    </>
+                                )}
+                            </div>
+                        </React.Fragment>
+                    ))}
+                    {imagesToUpload.map((imageToUpload) => (
+                        <React.Fragment key={imageToUpload.file.name}>
+                            <div>
+                                <Image src={imageToUpload.dataUrl} className='imgAdminItems new' />
+                            </div>
+                            <div className='italic'>
+                                {imageToUpload.file.name.toString()}
+                                <br />
+                                <button
+                                    type='button'
+                                    className='red small'
+                                    onClick={() => setImagesToUpload(imagesToUpload.filter((img) => img !== imageToUpload))}
+                                >
+                                    {contentToText(ContentID.buttonRemove, config)}
+                                </button>
+                            </div>
+                        </React.Fragment>
+                    ))}
+                </div>
+            ) : (
+                <div>{contentToText(ContentID.adminItemNoImages, config)}.</div>
+            )}
+            <div className='grid-container' data-gap='1rem'>
+                <div className='semiBold'>{contentToText(ContentID.adminItemUploadNewImage, config)}:</div>
+                <input type='file' onChange={handleImageChange} className='fileUpload' />
+                <button onClick={handleImageUpload} disabled={!imageFile}>
+                    {contentToText(ContentID.buttonUpload, config)}
+                </button>
+            </div>
+        </div>
     );
 };
 

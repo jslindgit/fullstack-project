@@ -109,7 +109,7 @@ const AdminItems = () => {
     };
 
     return (
-        <div className='grid-container' data-gap='2rem'>
+        <div className='grid-container' data-gap='2rem' style={{ marginBottom: '2rem' }}>
             <div>
                 {categories.map((c) => (
                     <span key={c.id}>
@@ -143,7 +143,6 @@ const AdminItems = () => {
                             closeAddItemForm();
                         }}
                         setItemAdded={setItemAdded}
-                        width='100%'
                     />
                 ) : (
                     <button type='button' ref={addItemButtonRef} onClick={handleAddItemButton}>

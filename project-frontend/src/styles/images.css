@@ -6,6 +6,7 @@
 }
 .imgAdminItems.new {
     border-color: var(--colorGreenLight);
+    opacity: 0.75;
     outline: 1px solid var(--colorGreenLight);
 }
 .imgAdminItems.toRemove {

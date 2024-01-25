@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,11 +13,11 @@ import item_categoryService from '../../services/item_categoryService';
 import itemService from '../../services/itemService';
 import { contentToText, langTextsToText, useLangFields, useLangTextAreas } from '../../types/languageFunctions';
 import localstorageHandler from '../../util/localstorageHandler';
-import useField, { UseField } from '../../hooks/useField';
-import { UseTextArea } from '../../hooks/useTextArea';
+import useField from '../../hooks/useField';
 
 import { setNotification } from '../../reducers/miscReducer';
 
+import InputField from '../InputField';
 import ItemEditCategories from './ItemEditCategories';
 import ItemEditImages from './ItemEditImages';
 import ItemSizes from './ItemSizes';
@@ -34,9 +34,8 @@ interface Props {
     onCancel?: (() => void) | undefined;
     onSubmit?: (() => void) | undefined;
     setItemAdded?: React.Dispatch<React.SetStateAction<Item | null>>;
-    width: number | string;
 }
-const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefined, onSubmit = undefined, setItemAdded, width }: Props) => {
+const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefined, onSubmit = undefined, setItemAdded }: Props) => {
     const dispatch = useDispatch();
     const categoriesState = useSelector((state: RootState) => state.categories);
     const usersState = useSelector((state: RootState) => state.user);
@@ -133,28 +132,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
 
         return true;
     };
-
-    const getInputField = (label: string, field: UseField, placeHolder: string, width: string) => (
-        <tr key={label}>
-            <td width='1px' className='adminEditLangCode' style={{ paddingLeft: '1rem', paddingRight: 0 }}>
-                {label}
-            </td>
-            <td>
-                <input type={field.type} value={field.value} onChange={field.onChange} placeholder={placeHolder} style={{ width: width }} />
-            </td>
-        </tr>
-    );
-
-    const getTextArea = (label: string, textArea: UseTextArea, placeHolder: string) => (
-        <tr key={label}>
-            <td width='1px' className='adminEditLangCode' style={{ paddingLeft: '1rem', paddingRight: 0 }}>
-                {label}
-            </td>
-            <td>
-                <textarea value={textArea.value} onChange={textArea.onChange} placeholder={placeHolder} style={{ width: '100%', height: '7rem' }} />
-            </td>
-        </tr>
-    );
 
     const reset = () => {
         setSelectedCategories([]);
@@ -280,142 +257,95 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     };
 
     return (
-        <>
-            <table align='center' width={width} className='itemDetails'>
-                <tbody>
-                    <tr>
-                        <td colSpan={3} className='alignCenter colorGraySemiDark' style={{ paddingLeft: 0 }}>
-                            {itemToEdit ? (
-                                <table align='center' className='noPadding'>
-                                    <tbody>
-                                        <tr>
-                                            <td className='semiBold' style={{ paddingRight: '1rem' }}>
-                                                {contentToText(ContentID.adminItemToEdit, config) + ':'}
-                                            </td>
-                                            <td>{langTextsToText(itemToEdit.name, config)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td className='sizeSmallish' style={{ paddingTop: '0.35rem' }}>
-                                                {contentToText(ContentID.itemsId, config)}: {itemToEdit.id}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            ) : (
-                                <span className='semiBold'>{contentToText(ContentID.adminItemNewItem, config)}</span>
-                            )}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style={{ padding: 0 }}>
-                            <table width='100%'>
-                                <tbody>
-                                    <tr>
-                                        <td colSpan={2} className='adminItemEditLabel'>
-                                            {contentToText(ContentID.miscName, config)}:
-                                        </td>
-                                    </tr>
-                                    {nameFields.map((nf) =>
-                                        getInputField(
-                                            nf.langCode.toString(),
-                                            nf.field,
-                                            `${contentToText(ContentID.adminItemName, config)} (${nf.langCode})`,
-                                            '100%'
-                                        )
-                                    )}
-                                    <tr>
-                                        <td colSpan={2} className='adminItemEditLabel'>
-                                            {contentToText(ContentID.miscDescription, config)}:
-                                        </td>
-                                    </tr>
-                                    {descriptionFields.map((df) =>
-                                        getTextArea(
-                                            df.langCode.toString(),
-                                            df.textArea,
-                                            `${contentToText(ContentID.adminItemDescription, config)} (${df.langCode})`
-                                        )
-                                    )}
-                                    <tr>
-                                        <td colSpan={2} className='adminItemEditLabel'>
-                                            {contentToText(price.label, config)}:
-                                        </td>
-                                    </tr>
-                                    {getInputField(config.currency, price, '0–' + config.maxItemPriceEUR, '33%')}
-                                    <tr>
-                                        <td colSpan={2} className='adminItemEditLabel'>
-                                            {contentToText(ContentID.adminItemSizes, config)} / {contentToText(ContentID.itemsInStock, config)}:
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <ItemSizes
-                                                config={config}
-                                                oneSizeInstock={oneSizeInstock}
-                                                setOneSizeInstock={setOneSizeInstock}
-                                                setSizes={setSizes}
-                                                sizes={sizes}
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2} width='1px'>
-                                            <button
-                                                type='button'
-                                                onClick={submit}
-                                                disabled={!(changesMade() && validateFields()) || !canSubmit()}
-                                                title={!canSubmit() ? contentToText(ContentID.adminYouCanOnlyEditItemsAddedByYou, config) : ''}
-                                            >
-                                                {contentToText(ContentID.buttonSave, config)}
-                                            </button>
-                                            &emsp;
-                                            <button type='button' onClick={cancel}>
-                                                {contentToText(ContentID.buttonCancel, config)}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                        <td width='10%'></td>
-                        <td width='40%' className='valignTop' style={{ maxWidth: '40%', padding: 0 }}>
-                            <table width='100%'>
-                                <tbody>
-                                    <tr>
-                                        <td className='adminItemEditLabel'>{contentToText(ContentID.adminPanelCategories, config)}:</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <ItemEditCategories
-                                                config={config}
-                                                initialCategories={initialCategories}
-                                                selectedCategories={selectedCategories}
-                                                setSelectedCategories={setSelectedCategories}
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='adminItemEditLabel'>{contentToText(ContentID.adminPanelImages, config)}:</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <ItemEditImages
-                                                currentImages={itemToEdit ? itemToEdit.images : []}
-                                                imagesToRemove={imagesToRemove}
-                                                imagesToUpload={imagesToUpload}
-                                                setImagesToRemove={setImagesToRemove}
-                                                setImagesToUpload={setImagesToUpload}
-                                                config={config}
-                                            />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </>
+        <div className='infoBox'>
+            {itemToEdit ? (
+                <div className='colorGraySemiDark grid-container left noWrap' data-cols='2' style={{ gap: '0.25em 1em', margin: 'auto', width: 'min-content' }}>
+                    <div className='semiBold'>{contentToText(ContentID.adminItemToEdit, config) + ':'}</div>
+                    <div>{langTextsToText(itemToEdit.name, config)}</div>
+                    <div />
+                    <div className='sizeSmallish'>
+                        {contentToText(ContentID.itemsId, config)}: {itemToEdit.id}
+                    </div>
+                </div>
+            ) : (
+                <div className='semiBold'>{contentToText(ContentID.adminItemNewItem, config)}</div>
+            )}
+            <div className='grid-container left' style={{ gridTemplateColumns: '1fr 10% 40%', marginTop: '1rem' }}>
+                <div className='grid-container' data-gap='1rem'>
+                    <div className='adminItemEditLabel'>{contentToText(ContentID.miscName, config)}:</div>
+                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', marginLeft: '1rem' }}>
+                        {nameFields.map((nf) => (
+                            <React.Fragment key={nf.langCode}>
+                                <div className='valignMiddle'>{nf.langCode}</div>
+                                <InputField
+                                    useField={nf.field}
+                                    width='100%'
+                                    placeHolder={`${contentToText(ContentID.adminItemName, config)} (${nf.langCode})`}
+                                />
+                            </React.Fragment>
+                        ))}
+                    </div>
+                    <div className='adminItemEditLabel'>{contentToText(ContentID.miscDescription, config)}:</div>
+                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', marginLeft: '1rem' }}>
+                        {descriptionFields.map((df) => (
+                            <React.Fragment key={df.langCode}>
+                                <div className='valignMiddle'>{df.langCode}</div>
+                                <textarea
+                                    value={df.textArea.value}
+                                    onChange={df.textArea.onChange}
+                                    placeholder={`${contentToText(ContentID.adminItemDescription, config)} (${df.langCode})`}
+                                    style={{ width: '100%', height: '7rem' }}
+                                />
+                            </React.Fragment>
+                        ))}
+                    </div>
+                    <div className='adminItemEditLabel'>{contentToText(ContentID.itemsPrice, config)}:</div>
+                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', marginLeft: '1rem' }}>
+                        <div className='valignMiddle'>{config.currency}</div>
+                        <InputField useField={price} width='33%' placeHolder={'0–' + config.maxItemPriceEUR} />
+                    </div>
+                    <div className='adminItemEditLabel'>{contentToText(ContentID.adminItemSizes, config)}:</div>
+                    <ItemSizes config={config} oneSizeInstock={oneSizeInstock} setOneSizeInstock={setOneSizeInstock} setSizes={setSizes} sizes={sizes} />
+                </div>
+                <div />
+                <div className='grid-container' data-gap='1rem' style={{ height: 'min-content' }}>
+                    <div className='adminItemEditLabel'>{contentToText(ContentID.adminPanelCategories, config)}:</div>
+                    <div style={{ marginLeft: '1rem' }}>
+                        <ItemEditCategories
+                            config={config}
+                            initialCategories={initialCategories}
+                            selectedCategories={selectedCategories}
+                            setSelectedCategories={setSelectedCategories}
+                        />
+                    </div>
+                    <div className='adminItemEditLabel'>{contentToText(ContentID.adminPanelImages, config)}:</div>
+                    <div style={{ marginLeft: '1rem' }}>
+                        <ItemEditImages
+                            currentImages={itemToEdit ? itemToEdit.images : []}
+                            imagesToRemove={imagesToRemove}
+                            imagesToUpload={imagesToUpload}
+                            setImagesToRemove={setImagesToRemove}
+                            setImagesToUpload={setImagesToUpload}
+                            config={config}
+                        />
+                    </div>
+                </div>
+            </div>
+            <div style={{ marginTop: '2rem' }}>
+                <button
+                    type='button'
+                    onClick={submit}
+                    disabled={!(changesMade() && validateFields()) || !canSubmit()}
+                    title={!canSubmit() ? contentToText(ContentID.adminYouCanOnlyEditItemsAddedByYou, config) : ''}
+                >
+                    {contentToText(ContentID.buttonSave, config)}
+                </button>
+                &emsp;
+                <button type='button' onClick={cancel}>
+                    {contentToText(ContentID.buttonCancel, config)}
+                </button>
+            </div>
+        </div>
     );
 };
 
