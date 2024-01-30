@@ -150,7 +150,6 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
         } else {
             setRequired([address, city, email, firstName, lastName, phone, zipCode]);
         }
-        console.log('required:', required);
     }, [register]);
 
     // Set available countries:

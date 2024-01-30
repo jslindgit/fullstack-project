@@ -136,7 +136,6 @@ const CheckOut = () => {
                         customerZipCode={order.customerZipCode}
                         setDeliveryMethod={setDeliveryMethod}
                         validate={validate}
-                        width='100%'
                     />
                     <div className='alignLeft'>
                         <BackButton type='text' to='/cart' />
@@ -145,7 +144,7 @@ const CheckOut = () => {
                 <div>
                     <div className='grid-container' data-gap='1.5rem' style={{ position: 'sticky', top: '1rem' }}>
                         <OrderInfo order={order} />
-                        {validationErrors.length > 0 ? (
+                        {validationErrors.length > 0 && (
                             <>
                                 <div className='alignLeft validationErrors'>
                                     {contentToText(ContentID.checkOutPleaseCheck, config)}
@@ -156,12 +155,11 @@ const CheckOut = () => {
                                     ))}
                                 </div>
                             </>
-                        ) : (
-                            ''
                         )}
                         <button type='button' className='large' onClick={handlePaymentClick} disabled={validationErrors.length > 0} style={{ width: '100%' }}>
                             {contentToText(ContentID.checkOutChoosePaymentMethod, config)} →
                         </button>
+                        <br />
                     </div>
                 </div>
             </div>

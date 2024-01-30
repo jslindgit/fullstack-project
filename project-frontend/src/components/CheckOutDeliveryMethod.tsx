@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
 import { DeliveryMethod, DeliveryCode, PostiLocation } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
 import format from '../util/format';
-import { langTextsToText } from '../types/languageFunctions';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
 import postiService from '../services/postiService';
 import useField from '../hooks/useField';
 
 interface SelectProps {
+    config: Config;
     currentMethod: DeliveryMethod | null;
     customerZipCode: string;
     thisMethod: DeliveryMethod;
@@ -18,7 +20,15 @@ interface SelectProps {
     setDeliveryMethod: (deliveryMethod: DeliveryMethod | null) => void;
     setSelectedLocation: React.Dispatch<React.SetStateAction<string>>;
 }
-const PickupLocationSelection = ({ currentMethod, customerZipCode, thisMethod, selectedLocation, setDeliveryMethod, setSelectedLocation }: SelectProps) => {
+const PickupLocationSelection = ({
+    config,
+    currentMethod,
+    customerZipCode,
+    thisMethod,
+    selectedLocation,
+    setDeliveryMethod,
+    setSelectedLocation,
+}: SelectProps) => {
     const [locations, setLocations] = useState<PostiLocation[]>([]);
 
     const zipCode = useField('text', ContentID.checkOutZipCode, customerZipCode);
@@ -61,7 +71,7 @@ const PickupLocationSelection = ({ currentMethod, customerZipCode, thisMethod, s
 
     return (
         <>
-            <span className='semiBold'>Choose pickup location:</span>
+            <span>{contentToText(ContentID.checkoutChoosePickupLocation, config)}:</span>
             <br />
             <br />
             <input type={zipCode.type} value={zipCode.value} onChange={zipCode.onChange} style={{ width: '6rem' }} />
@@ -97,45 +107,37 @@ const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDel
         currentMethod && currentMethod.notes && currentMethod.notes.length > 0 ? currentMethod.notes : ''
     );
 
-    const configState = useSelector((state: RootState) => state.config);
+    const config = useSelector((state: RootState) => state.config);
 
     const handleClick = () => {
         method.code === DeliveryCode.POSTI_PAKETTI ? setDeliveryMethod({ ...method, notes: selectedLocation }) : setDeliveryMethod(method);
     };
 
     return (
-        <table
-            width='100%'
-            className={'deliveryMethod' + (currentMethod && currentMethod.code === method.code ? ' deliveryMethodSelected' : '')}
+        <div
+            className={'alignLeft deliveryMethod' + (currentMethod && currentMethod.code === method.code ? ' deliveryMethodSelected' : '')}
             onClick={() => handleClick()}
         >
-            <tbody>
-                <tr>
-                    <td>
-                        <span className='sizeNormal bold'>{langTextsToText(method.names, configState)}</span>
-                        {currentMethod?.code === method.code ? <span className='sizeNormal extraBold colorGreen'>&ensp;✔</span> : <></>}
-                        <div className='sizeSmallish' style={{ paddingBottom: '0.5rem', paddingTop: '0.5rem' }}>
-                            {langTextsToText(method.descriptions, configState)}
-                        </div>
-                        <span className='semiBold'>{format.currency(method.cost, configState)}</span>
-                        {method.code === DeliveryCode.POSTI_PAKETTI ? (
-                            <div style={{ marginTop: '1rem' }}>
-                                <PickupLocationSelection
-                                    currentMethod={currentMethod}
-                                    customerZipCode={customerZipCode}
-                                    thisMethod={method}
-                                    selectedLocation={selectedLocation}
-                                    setDeliveryMethod={setDeliveryMethod}
-                                    setSelectedLocation={setSelectedLocation}
-                                />
-                            </div>
-                        ) : (
-                            <></>
-                        )}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <span className='sizeNormal bold'>{langTextsToText(method.names, config)}</span>
+            {currentMethod?.code === method.code ? <span className='sizeNormal extraBold colorGreen'>&ensp;✔</span> : <></>}
+            <div className='sizeSmallish' style={{ paddingBottom: '0.5rem', paddingTop: '0.5rem' }}>
+                {langTextsToText(method.descriptions, config)}
+            </div>
+            <span className='semiBold'>{format.currency(method.cost, config)}</span>
+            {method.code === DeliveryCode.POSTI_PAKETTI && (
+                <div style={{ marginTop: '1rem' }}>
+                    <PickupLocationSelection
+                        config={config}
+                        currentMethod={currentMethod}
+                        customerZipCode={customerZipCode}
+                        thisMethod={method}
+                        selectedLocation={selectedLocation}
+                        setDeliveryMethod={setDeliveryMethod}
+                        setSelectedLocation={setSelectedLocation}
+                    />
+                </div>
+            )}
+        </div>
     );
 };
 

@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 
-import { pageWidth } from '../constants';
 import { isOrder, orderToRequestBody, validateOrder } from '../types/orderTypeFunctions';
 import orderService from '../services/orderService';
 
@@ -34,7 +33,6 @@ const CheckOutCreateOrder = () => {
     // If it's already an Order (has been posted to the server earlier), update it (in case it has been modified since).
     useEffect(() => {
         if (!isOrder(orderState) && validateOrder(orderState, config).length <= 0 && !attemptedToCreateOrder.current) {
-            console.log('createOrder...');
             const createdOrder = async () => {
                 const response = await orderService.addNew(orderState, config, userState.loggedUser ? userState.loggedUser.id : null);
                 if (response.success && response.order) {
@@ -50,7 +48,6 @@ const CheckOutCreateOrder = () => {
 
             attemptedToCreateOrder.current = true;
         } else if (isOrder(orderState)) {
-            console.log('update order...');
             const updateOrder = async () => {
                 const toUpdate = orderToRequestBody(orderState, config, false, userState.loggedUser ? userState.loggedUser.id : null);
                 await orderService.update(orderState.id, toUpdate);
@@ -77,24 +74,7 @@ const CheckOutCreateOrder = () => {
 
     return (
         <>
-            <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h3 className='underlined'>Check out</h3>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
-                <tbody>
-                    <tr>
-                        <td className='sizeLarge semiBold'>
-                            {isOrder(orderState) ? <>Ok</> : <>{contentToText(ContentID.errorSomethingWentWrong, config)}.</>}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div className='pageWidth'>{isOrder(orderState) ? <>Ok</> : <>{contentToText(ContentID.errorSomethingWentWrong, config)}.</>}</div>
         </>
     );
 };

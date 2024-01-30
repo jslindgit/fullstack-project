@@ -7,14 +7,12 @@ import { RootState } from '../reducers/rootReducer';
 import { PaytrailData, PaytrailProvider } from '../types/orderTypes';
 
 import { orderTotalSum } from '../util/checkoutProvider';
-import { pageWidth } from '../constants';
 import format from '../util/format';
 import { contentToText } from '../types/languageFunctions';
 import { isOrder, validateOrder } from '../types/orderTypeFunctions';
 import paytrailService from '../services/paytrailService';
 
 import BackButton from './BackButton';
-import { Link } from './CustomLink';
 import OrderInfo from './OrderInfo';
 
 const CheckOutPayment = () => {
@@ -78,138 +76,76 @@ const CheckOutPayment = () => {
     ) : (
         <div className='semiBold sizeLarge'>
             {attemptedToFetchPaytrailData ? (
-                <>
-                    Something went wrong.
-                    <br />
-                    <br />
-                    Please <Link to='/info'>contact us</Link> or try again later.
-                </>
+                <>{contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config)}</>
             ) : (
-                <>Loading...</>
+                <>{contentToText(ContentID.miscLoading, config)}</>
             )}
         </div>
     );
 
     return (
-        <div>
-            <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h3 className='underlined'>{contentToText(ContentID.checkOutHeader, config)}</h3>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={pageWidth}>
-                <tbody>
-                    <tr>
-                        <td width='1px' style={{ paddingTop: 0, verticalAlign: 'top' }}>
-                            <table align='center' width='100%' className='paymentMethodSelection'>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <table width='100%' className='noOuterPadding noWrap'>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <a href='https://www.paytrail.com/kuluttajille' target='_blank'>
-                                                                <img
-                                                                    src='https://www.paytrail.com/hs-fs/hub/335946/file-493287103.png?width=200&name=file-493287103.png'
-                                                                    width='70'
-                                                                    height='70'
-                                                                />
-                                                            </a>
-                                                        </td>
-                                                        <td
-                                                            className='upperCase sizeSmallish'
-                                                            style={{ lineHeight: '1.5rem', textAlign: 'right', verticalAlign: 'top' }}
-                                                        >
-                                                            <a href='https://www.paytrail.com/turvallisuus' target='_blank'>
-                                                                Safety Information
-                                                            </a>
-                                                            <br />
-                                                            <a href='https://www.paytrail.com/tietosuojaseloste-paytrailin-maksupalvelu' target='_blank'>
-                                                                Data Privacy Notice
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <table width='100%' className='noPadding'>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td width='1px'>
-                                                                            <h4 style={{ marginBottom: '1rem' }}>Payment Details</h4>
-                                                                        </td>
-                                                                        <td></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td width='1px' className='semiBold colorGraySemiDark' style={{ verticalAlign: 'top' }}>
-                                                                            Payee
-                                                                        </td>
-                                                                        <td>
-                                                                            {config.owner.name}
-                                                                            {config.owner.businessIdentifier.length > 0 ? (
-                                                                                <>
-                                                                                    <br />
-                                                                                    {config.owner.businessIdentifier}
-                                                                                </>
-                                                                            ) : (
-                                                                                ''
-                                                                            )}
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td className='semiBold colorGraySemiDark' style={{ paddingTop: '0.75rem' }}>
-                                                                            Total Amount:
-                                                                        </td>
-                                                                        <td className='semiBold colorGoldLight' style={{ paddingTop: '0.75rem' }}>
-                                                                            {format.currency(orderTotalSum(order), config)}
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{ paddingTop: 0, paddingBottom: 0 }}>
-                                            <h3>Select a Payment Method to Proceed</h3>
-                                            {paytrailData ? <div dangerouslySetInnerHTML={{ __html: paytrailData.terms + '.' }} /> : <></>}
-                                            <br />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>{htmlForm}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                        <td width='1rem'></td>
-                        <td width='40%' style={{ verticalAlign: 'top', paddingTop: 0 }}>
-                            <div style={{ position: 'sticky', top: '1rem' }}>
-                                <OrderInfo order={order} />
+        <div className='pageWidth'>
+            <div className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</div>
+            <div className='grid-container' data-gap='4rem' style={{ gridTemplateColumns: '1fr 39%' }}>
+                <div>
+                    <div className='grid-container paymentMethodSelection' data-gap='2rem'>
+                        <div className='grid-container' data-cols='2'>
+                            <div className='alignLeft'>
+                                <a href='https://www.paytrail.com/kuluttajille' target='_blank'>
+                                    <img
+                                        src='https://www.paytrail.com/hs-fs/hub/335946/file-493287103.png?width=200&name=file-493287103.png'
+                                        width='70'
+                                        height='70'
+                                    />
+                                </a>
                             </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={pageWidth}>
-                <tbody>
-                    <tr>
-                        <td>
-                            <BackButton labelContentID={ContentID.checkOutAbortPayment} type='text' to='/checkout' />
-                            <br />
-                            <br />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            <div className='alignRight grid-container sizeSmallish upperCase valignTop' data-gap='0.5rem' style={{ height: 'min-content' }}>
+                                <a href='https://www.paytrail.com/turvallisuus' target='_blank'>
+                                    {contentToText(ContentID.checkOutSafetyInformation, config)}
+                                </a>
+                                <a href='https://www.paytrail.com/tietosuojaseloste-paytrailin-maksupalvelu' target='_blank'>
+                                    {contentToText(ContentID.checkOutDataPrivacyNotice, config)}
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                            <div className='alignLeft bold sizeLarge' style={{ marginBottom: '1rem' }}>
+                                {contentToText(ContentID.checkOutPaymentDetails, config)}
+                            </div>
+                            <div className='grid-container' data-cols='auto 1fr' data-gap='1rem'>
+                                <div className='semiBold colorGraySemiDark'>{contentToText(ContentID.checkOutPayee, config)}</div>
+                                <div className='alignLeft'>
+                                    {config.owner.name}
+                                    {config.owner.businessIdentifier.length > 0 && (
+                                        <>
+                                            <br />
+                                            {config.owner.businessIdentifier}
+                                        </>
+                                    )}
+                                </div>
+                                <div className='semiBold colorGraySemiDark'>{contentToText(ContentID.orderTotalAmount, config)}</div>
+                                <div className='alignLeft colorGoldLight semiBold'>{format.currency(orderTotalSum(order), config)}</div>
+                            </div>
+                        </div>
+                        <div className='grid-container' data-gap='1rem'>
+                            <div className='alignLeft bold sizeVeryLarge'>{contentToText(ContentID.checkOutChoosePaymentMethod, config)}</div>
+                            <div className='alignLeft'>{paytrailData && <div dangerouslySetInnerHTML={{ __html: paytrailData.terms + '.' }} />}</div>
+                            <div>{htmlForm}</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style={{ position: 'sticky', top: '1rem' }}>
+                        <OrderInfo order={order} />
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div className='alignLeft'>
+                <BackButton labelContentID={ContentID.checkOutAbortPayment} type='text' to='/checkout' />
+            </div>
+            <br />
         </div>
     );
 };

@@ -98,10 +98,12 @@ export enum ContentID {
     checkOutBackToShop = 'CHECK OUT: Back to Shop (button)',
     checkOutChooseDeliveryMethod = 'CHECK OUT: Choose Delivery Method (header)',
     checkOutChoosePaymentMethod = 'CHECK OUT: Choose Payment Methdod (button)',
+    checkoutChoosePickupLocation = 'CHECK OUT: Choose pickup location',
     checkOutCity = 'CHECK OUT: City',
     checkOutCountry = 'CHECK OUT: Country',
     checkOutCountryIsRequired = 'CHECK OUT: Country is required (validation error)',
     checkOutCustomerContactInformation = 'CHECK OUT: Customer Contact Information (header)',
+    checkOutDataPrivacyNotice = 'CHECK OUT: Data Privacy Notice',
     checkOutFirstName = 'CHECK OUT: First name',
     checkOutHeader = 'CHECK OUT: Header',
     checkOutInvalidEmail = 'CHECK OUT: Invalid e-mail address',
@@ -110,7 +112,10 @@ export enum ContentID {
     checkOutOptional = 'CHECK OUT: optional (information field)',
     checkOutOrderInfo = 'CHECK OUT: Order Info (header)',
     checkOutOrganization = 'CHECK OUT: Organization',
+    checkOutPayee = 'CHECK OUT: Payee',
+    checkOutPaymentDetails = 'CHECK Out: Payment Details',
     checkOutPleaseCheck = 'CHECK OUT: Please check the following (lacking information)',
+    checkOutSafetyInformation = 'CHECK OUT: Safety Information',
     checkOutSelectCountry = 'CHECK OUT: Select a country',
     checkOutErrorWhenFetchingOrder = 'CHECK OUT: Invalid order. (error)',
     checkOutErrorSignatureMismatch = 'CHECK OUT: Signature mismatch. (error)',
@@ -915,6 +920,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.checkoutChoosePickupLocation,
+        content: [
+            { langCode: LangCode.EN, text: 'Choose pickup location' },
+            { langCode: LangCode.FI, text: 'Valitse noutopiste' },
+        ],
+    },
+    {
         id: ContentID.checkOutCity,
         content: [
             { langCode: LangCode.EN, text: 'City' },
@@ -940,6 +952,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Customer Contact Information' },
             { langCode: LangCode.FI, text: 'Tilaajan yhteystiedot' },
+        ],
+    },
+    {
+        id: ContentID.checkOutDataPrivacyNotice,
+        content: [
+            { langCode: LangCode.EN, text: 'Data Privacy Notice' },
+            { langCode: LangCode.FI, text: 'Tietosuojaseloste' },
         ],
     },
     {
@@ -1013,10 +1032,31 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.checkOutPayee,
+        content: [
+            { langCode: LangCode.EN, text: 'Payee' },
+            { langCode: LangCode.FI, text: 'Maksun saaja' },
+        ],
+    },
+    {
+        id: ContentID.checkOutPaymentDetails,
+        content: [
+            { langCode: LangCode.EN, text: 'Payment Details' },
+            { langCode: LangCode.FI, text: 'Maksun tiedot' },
+        ],
+    },
+    {
         id: ContentID.checkOutPleaseCheck,
         content: [
             { langCode: LangCode.EN, text: 'Please check the following:' },
             { langCode: LangCode.FI, text: 'Tarkistathan seuraavat kohdat:' },
+        ],
+    },
+    {
+        id: ContentID.checkOutSafetyInformation,
+        content: [
+            { langCode: LangCode.EN, text: 'Safety Information' },
+            { langCode: LangCode.FI, text: 'Tietoa turvallisuudesta' },
         ],
     },
     {
