@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
-import { Order, NewOrder } from '../types/orderTypes';
+import { Order, NewOrder, OrderStatus } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
 import { orderTotalSum } from '../util/checkoutProvider';
@@ -25,162 +25,87 @@ const OrderInfo = ({ order }: Props) => {
     }, [config, order]);
 
     return (
-        <>
-            <table
-                align='center'
-                width='100%'
-                style={{
-                    backgroundColor: 'var(--colorGrayExtremelyLight)',
-                    border: '0.2em dotted var(--colorGrayLight)',
-                    paddingLeft: '1rem',
-                    paddingRight: '1rem',
-                }}
-            >
-                <tbody>
-                    <tr>
-                        <td>
-                            <h3 style={{ marginBottom: 0 }}>{contentToText(ContentID.checkOutOrderInfo, config) + ('id' in order ? ' #' + order.id : '')}</h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style={{ paddingTop: 0 }}>
-                            <table align='center' width='100%'>
-                                <tbody>
-                                    {'id' in order ? (
-                                        <React.Fragment>
-                                            <tr>
-                                                <td className='adminItemEditLabel'>{contentToText(ContentID.orderId, config)}:</td>
-                                            </tr>
-                                            <tr>
-                                                <td>{order.id}</td>
-                                            </tr>
-                                        </React.Fragment>
-                                    ) : (
-                                        ''
-                                    )}
-                                    {orderStatus.length > 0 ? (
-                                        <React.Fragment>
-                                            <tr>
-                                                <td className='adminItemEditLabel'>{contentToText(ContentID.orderStatus, config)}:</td>
-                                            </tr>
-                                            <tr>
-                                                <td>{orderStatus}</td>
-                                            </tr>
-                                        </React.Fragment>
-                                    ) : (
-                                        ''
-                                    )}
-                                    <tr>
-                                        <td className='adminItemEditLabel'>{contentToText(ContentID.orderCustomer, config)}:</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <table align='center' width='100%' className='noPadding'>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            {order.customerFirstName} {order.customerLastName}
-                                                        </td>
-                                                    </tr>
-                                                    {order.customerOrganization ? (
-                                                        <tr>
-                                                            <td>{order.customerOrganization}</td>
-                                                        </tr>
-                                                    ) : (
-                                                        ''
-                                                    )}
-                                                    <tr>
-                                                        <td>{order.customerAddress}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            {order.customerZipCode} {order.customerCity}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{order.customerCountry}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{order.customerEmail}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{order.customerPhone}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='adminItemEditLabel'>{contentToText(ContentID.orderDeliveryMethod, config)}:</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            {order.deliveryMethod ? (
-                                                <>
-                                                    {langTextsToText(order.deliveryMethod.names, config)} <b>({format.currency(order.deliveryCost, config)})</b>
-                                                    {order.deliveryMethod.notes && order.deliveryMethod.notes.length > 0 ? (
-                                                        <>
-                                                            <br />
-                                                            <br />
-                                                            {order.deliveryMethod.notes}
-                                                        </>
-                                                    ) : (
-                                                        <></>
-                                                    )}
-                                                </>
-                                            ) : (
-                                                <>-</>
-                                            )}
-                                        </td>
-                                    </tr>
-                                    {order.paymentMethod ? (
-                                        <tr>
-                                            <td className='adminItemEditLabel'>{contentToText(ContentID.orderPaymentMethod, config)}:</td>
-                                        </tr>
-                                    ) : (
-                                        ''
-                                    )}
-                                    {order.paymentMethod ? (
-                                        <tr>
-                                            <td className='capitalize'>{order.paymentMethod}</td>
-                                        </tr>
-                                    ) : (
-                                        ''
-                                    )}
-                                    <tr>
-                                        <td className='adminItemEditLabel'>{contentToText(ContentID.orderItems, config)}:</td>
-                                    </tr>
-                                    <tr>
-                                        <td className='sizeSmallish' style={{ paddingBottom: 0, paddingLeft: 0, paddingTop: 0 }}>
-                                            <ul>
-                                                {order.items.map((si) => (
-                                                    <li key={si.id}>
-                                                        {si.name}
-                                                        {si.size && si.size.length > 0 ? ` [${si.size}]` : ''}&emsp;({si.quantity}{' '}
-                                                        {contentToText(ContentID.itemsPcs, config)})&emsp;
-                                                        <b>{format.currency(si.price * si.quantity, config)}</b>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='adminItemEditLabel' style={{ fontSize: '1rem' }}>
-                                            {contentToText(ContentID.orderTotalAmount, config)}:
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h4>{format.currency(orderTotalSum(order), config)}</h4>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </>
+        <div className={'orderInfo' + (order.status === OrderStatus.PENDING ? ' pending' : '')}>
+            <div className='bold sizeVeryLarge'>{contentToText(ContentID.checkOutOrderInfo, config) + ('id' in order ? ' #' + order.id : '')}</div>
+            <div style={{ lineHeight: 1.5, paddingLeft: '1rem' }}>
+                {'id' in order && (
+                    <>
+                        <div className='adminItemEditLabel'>{contentToText(ContentID.orderId, config)}:</div>
+                        <div style={{ paddingLeft: '1rem' }}>{order.id}</div>
+                    </>
+                )}
+                {orderStatus.length > 0 && (
+                    <>
+                        <div className='adminItemEditLabel' style={{ marginTop: '0.75rem' }}>
+                            {contentToText(ContentID.orderStatus, config)}:
+                        </div>
+                        <div style={{ paddingLeft: '1rem' }}>{orderStatus}</div>
+                    </>
+                )}
+                <div className='adminItemEditLabel' style={{ marginTop: '0.75rem' }}>
+                    {contentToText(ContentID.orderCustomer, config)}:
+                </div>
+                <div className='grid-container' style={{ paddingLeft: '1rem' }}>
+                    <div>
+                        {order.customerFirstName} {order.customerLastName}
+                    </div>
+                    {order.customerOrganization && <div>{order.customerOrganization}</div>}
+                    <div>{order.customerAddress}</div>
+                    <div>
+                        {order.customerZipCode} {order.customerCity}
+                    </div>
+                    <div>{order.customerCountry}</div>
+                    <div>{order.customerEmail}</div>
+                    <div>{order.customerPhone}</div>
+                </div>
+                <div className='adminItemEditLabel' style={{ marginTop: '0.75rem' }}>
+                    {contentToText(ContentID.orderDeliveryMethod, config)}:
+                </div>
+                {order.deliveryMethod && (
+                    <div style={{ paddingLeft: '1rem' }}>
+                        {langTextsToText(order.deliveryMethod.names, config)} <b>({format.currency(order.deliveryCost, config)})</b>
+                        {order.deliveryMethod.notes && order.deliveryMethod.notes.length > 0 && (
+                            <>
+                                <br />
+                                <br />
+                                {order.deliveryMethod.notes}
+                            </>
+                        )}
+                    </div>
+                )}
+                {order.paymentMethod && (
+                    <>
+                        <div className='adminItemEditLabel' style={{ marginTop: '0.75rem' }}>
+                            {contentToText(ContentID.orderPaymentMethod, config)}:
+                        </div>
+                        <div className='capitalize' style={{ paddingLeft: '1rem' }}>
+                            {order.paymentMethod}
+                        </div>
+                    </>
+                )}
+                <div className='adminItemEditLabel' style={{ marginTop: '0.75rem' }}>
+                    {contentToText(ContentID.orderItems, config)}:
+                </div>
+                <div className='sizeSmallish' style={{ marginTop: '-0.5rem' }}>
+                    <ul>
+                        {order.items.map((si) => (
+                            <li key={si.id.toString() + si.size}>
+                                {si.name}
+                                {si.size && si.size.length > 0 ? ` [${si.size}]` : ''}&nbsp;&nbsp;({si.quantity} {contentToText(ContentID.itemsPcs, config)}
+                                )&nbsp;&nbsp;
+                                <span className='bold noWrap'>{format.currency(si.price * si.quantity, config)}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div className='adminItemEditLabel' style={{ fontSize: '1rem', marginTop: '0.75rem' }}>
+                    {contentToText(ContentID.orderTotalAmount, config)}:
+                </div>
+                <div className='bold sizeVeryLarge' style={{ paddingLeft: '1rem' }}>
+                    {format.currency(orderTotalSum(order), config)}
+                </div>
+            </div>
+        </div>
     );
 };
 

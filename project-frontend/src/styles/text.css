@@ -83,3 +83,7 @@ h4 {
 .pageHeader.noMargin {
     margin: 0;
 }
+
+.preLine {
+    white-space: pre-line;
+}

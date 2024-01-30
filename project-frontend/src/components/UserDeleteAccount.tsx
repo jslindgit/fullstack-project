@@ -53,9 +53,7 @@ const UserDeleteAccount = ({ config, user }: Props) => {
         <div className='alignLeft infoBox red'>
             {showPasswordField ? (
                 <div className='grid-container' data-gap='2rem'>
-                    <div className='colorRed semiBold' style={{ whiteSpace: 'pre-line' }}>
-                        {contentToText(ContentID.accountDeleteAccountConfirm, config)}
-                    </div>
+                    <div className='colorRed preLine semiBold'>{contentToText(ContentID.accountDeleteAccountConfirm, config)}</div>
                     <div>
                         <InputField placeHolder={contentToText(ContentID.loginPassword, config)} useField={password} width='30rem' />
                     </div>

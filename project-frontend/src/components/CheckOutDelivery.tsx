@@ -42,24 +42,26 @@ const CheckOutDelivery = ({ currentMethod, customerCountry, customerZipCode, set
     return (
         <div className={'infoBox' + (validate && !currentMethod ? ' errors' : '')}>
             <div className='infoHeader'>{contentToText(ContentID.checkOutChooseDeliveryMethod, config)}</div>
-            {!customerCountry || customerCountry.length < 1 ? <div>{contentToText(ContentID.checkOutSelectCountry, config)}</div> : <></>}
-            {methods.map((m) => (
-                <CheckOutDeliveryMethod
-                    key={m.code}
-                    currentMethod={currentMethod}
-                    customerZipCode={customerZipCode}
-                    method={m}
-                    setDeliveryMethod={setDeliveryMethod}
-                />
-            ))}
-            <a
-                onClick={() => {
-                    setDeliveryMethod(null);
-                }}
-                style={{ cursor: 'pointer' }}
-            >
-                Clear selection
-            </a>
+            {!customerCountry || (customerCountry.length < 1 && <div>{contentToText(ContentID.checkOutSelectCountry, config)}</div>)}
+            <div className='grid-container' data-gap='1.5rem'>
+                {methods.map((m) => (
+                    <CheckOutDeliveryMethod
+                        key={m.code}
+                        currentMethod={currentMethod}
+                        customerZipCode={customerZipCode}
+                        method={m}
+                        setDeliveryMethod={setDeliveryMethod}
+                    />
+                ))}
+                <a
+                    onClick={() => {
+                        setDeliveryMethod(null);
+                    }}
+                    style={{ cursor: 'pointer' }}
+                >
+                    Clear selection
+                </a>
+            </div>
         </div>
     );
 };

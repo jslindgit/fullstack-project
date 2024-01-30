@@ -104,6 +104,7 @@ export enum ContentID {
     checkOutCountryIsRequired = 'CHECK OUT: Country is required (validation error)',
     checkOutCustomerContactInformation = 'CHECK OUT: Customer Contact Information (header)',
     checkOutDataPrivacyNotice = 'CHECK OUT: Data Privacy Notice',
+    checkOutEnterZipcode = 'CHECK OUT: Enter zipcode (pick-up location selection)',
     checkOutFirstName = 'CHECK OUT: First name',
     checkOutHeader = 'CHECK OUT: Header',
     checkOutInvalidEmail = 'CHECK OUT: Invalid e-mail address',
@@ -169,6 +170,7 @@ export enum ContentID {
     menuLogout = 'MENU: Log out',
     menuProducts = 'MENU: Products',
     menuShoppingCart = 'MENU: Shopping Cart',
+    misc404 = 'MISC: 404',
     miscAddress = 'MISC: Address',
     miscClickToChangeSortingOrder = 'MISC: Click to change sorting order',
     miscClickToSortByThis = 'MISC: Click to sort by this (column)',
@@ -962,6 +964,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.checkOutEnterZipcode,
+        content: [
+            { langCode: LangCode.EN, text: 'Enter zipcode' },
+            { langCode: LangCode.FI, text: 'Syötä postinumero' },
+        ],
+    },
+    {
         id: ContentID.checkOutErrorWhenFetchingOrder,
         content: [
             { langCode: LangCode.EN, text: 'Invalid order.\n\nPlease contact us:' },
@@ -1417,6 +1426,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Shopping Cart' },
             { langCode: LangCode.FI, text: 'Ostoskori' },
+        ],
+    },
+    {
+        id: ContentID.misc404,
+        content: [
+            { langCode: LangCode.EN, text: 'Page not found.' },
+            { langCode: LangCode.FI, text: 'Sivua ei löytynyt.' },
         ],
     },
     {

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
@@ -7,7 +7,6 @@ import { OrderResponse } from '../services/orderService';
 import { OrderStatus } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
-import { pageWidth } from '../constants';
 import itemService from '../services/itemService';
 import { contentToText } from '../types/languageFunctions';
 import orderService from '../services/orderService';
@@ -126,49 +125,30 @@ const CheckOutDone = () => {
     };
 
     return (
-        <div>
-            <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
-                <tbody>
-                    <tr>
-                        <td className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={pageWidth} className='valignTop'>
-                <tbody>
-                    <tr>
-                        <td style={{ paddingLeft: 0, paddingTop: 0 }}>
-                            <table align='center' width='100%' className='paddingTopBottomOnly'>
-                                <tbody>
-                                    <tr>
-                                        <td style={{ paddingTop: 0 }}>
-                                            {signatureStatus === SignatureStatus.VALID ? (
-                                                <>
-                                                    <h2>{contentToText(ContentID.checkOutThankYou, config)}</h2>
-                                                    {contentToText(ContentID.checkOutYourOrderHasBeenReceive, config)} {config.store.deliveryTimeBusinessDays}{' '}
-                                                    {contentToText(ContentID.miscDays, config)}.
-                                                </>
-                                            ) : (
-                                                <>{signaturePendingOrInvalid()}</>
-                                            )}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <br />
-                                            <BackButton labelContentID={ContentID.checkOutBackToShop} type='text' to='/' />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                        <td width='3rem'></td>
-                        <td width='40%' style={{ verticalAlign: 'top', paddingTop: 0 }}>
-                            <div style={{ position: 'sticky', top: '1rem' }}>{orderResponse?.order ? <OrderInfo order={orderResponse.order} /> : <></>}</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div className='pageWidth'>
+            <div className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</div>
+            <div className='grid-container' data-gap='4rem' style={{ gridTemplateColumns: '1fr 39%' }}>
+                <div className='alignLeft grid-container' data-gap='3rem' style={{ height: 'min-content' }}>
+                    {signatureStatus === SignatureStatus.VALID ? (
+                        <React.Fragment>
+                            <div className='bold sizeExtremelyLarge'>{contentToText(ContentID.checkOutThankYou, config)}</div>
+                            <div className='preLine'>
+                                {contentToText(ContentID.checkOutYourOrderHasBeenReceive, config)} {config.store.deliveryTimeBusinessDays}{' '}
+                                {contentToText(ContentID.miscDays, config)}.
+                            </div>
+                        </React.Fragment>
+                    ) : (
+                        <React.Fragment>{signaturePendingOrInvalid()}</React.Fragment>
+                    )}
+                    <div>
+                        <BackButton labelContentID={ContentID.checkOutBackToShop} type='text' to='/' />
+                    </div>
+                </div>
+                <div>
+                    {orderResponse?.order && <OrderInfo order={orderResponse.order} />}
+                    <br />
+                </div>
+            </div>
         </div>
     );
 };

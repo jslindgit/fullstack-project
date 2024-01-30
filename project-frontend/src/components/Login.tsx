@@ -86,7 +86,7 @@ const Login = () => {
             const logged = usersState.loggedUser;
             return (
                 <>
-                    <h2>{logged.username}</h2>
+                    <div className='bold sizeVeryLarge'>{logged.username}</div>
                     <br />
                     <Link to='/login' onClick={async () => await loginService.logout(logged.token, removeLogged)}>
                         <h3>{contentToText(ContentID.menuLogout, config)}</h3>

@@ -104,13 +104,8 @@ const Menu = () => {
         dispatch(setNotification({ tone: 'Positive', message: contentToText(ContentID.notificationLoggedOut, config) }));
     };
 
-    const showAdminMenu = () => {
-        if (usersState.loggedUser?.admin || usersState.loggedUser?.operator) {
-            return <>{menuLink('/admin', contentToText(ContentID.menuAdminSection, config))}</>;
-        } else {
-            return <></>;
-        }
-    };
+    const showAdminMenu = () =>
+        (usersState.loggedUser?.admin || usersState.loggedUser?.operator) && <div>{menuLink('/admin', contentToText(ContentID.menuAdminSection, config))}</div>;
 
     return (
         <>
@@ -124,10 +119,10 @@ const Menu = () => {
                         <div>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, config), 'Big', true)}</div>
                         <div style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</div>
                         {showAdminMenu()}
-                        <div className='valignMiddle'>
+                        <div className='valignMiddle' style={{ marginLeft: '1rem' }}>
                             <LanguageSelection />
                         </div>
-                        <div className='grid-container valignMiddle' data-cols='auto' data-gap='1rem' style={{ paddingLeft: '2rem' }}>
+                        <div className='grid-container valignMiddle' data-cols='auto' data-gap='1rem' style={{ marginLeft: '2.5rem' }}>
                             <InputField
                                 useField={searchField}
                                 width='11rem'

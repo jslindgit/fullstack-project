@@ -18,18 +18,14 @@ const ItemsMenu = ({ config, currentId }: Props) => {
     const categoryState = useSelector((state: RootState) => state.categories);
 
     return (
-        <div>
-            <table align='center' className='sizeLarge'>
-                <tbody>
-                    <tr>
-                        {categoryState.categories.map((c) => (
-                            <td key={c.id} className={currentId === c.id ? 'currentPage semiBold' : ''}>
-                                {currentId === c.id ? langTextsToText(c.name, config) : <Link to={baseUrl + c.id}>{langTextsToText(c.name, config)}</Link>}
-                            </td>
-                        ))}
-                    </tr>
-                </tbody>
-            </table>
+        <div style={{ margin: 'auto', marginBottom: '2.5rem', marginTop: '1rem', width: 'min-content' }}>
+            <div className='grid-container noWrap sizeLarge' data-cols='auto' data-gap='2rem'>
+                {categoryState.categories.map((c) => (
+                    <div key={c.id} className={currentId === c.id ? 'currentPage semiBold' : ''}>
+                        {currentId === c.id ? langTextsToText(c.name, config) : <Link to={baseUrl + c.id}>{langTextsToText(c.name, config)}</Link>}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

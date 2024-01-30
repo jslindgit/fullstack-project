@@ -70,28 +70,23 @@ const PickupLocationSelection = ({
     };
 
     return (
-        <>
-            <span>{contentToText(ContentID.checkoutChoosePickupLocation, config)}:</span>
-            <br />
-            <br />
+        <div className='grid-container left' data-gap='1rem'>
+            <div>{contentToText(ContentID.checkoutChoosePickupLocation, config)}:</div>
             <input type={zipCode.type} value={zipCode.value} onChange={zipCode.onChange} style={{ width: '6rem' }} />
-            <br />
             {locations.length > 0 ? (
-                <>
-                    <select value={selectedLocation} onChange={handleChange} style={{ marginTop: '1rem', width: '100%' }}>
-                        {locations.map((loc) => (
-                            <option key={loc.id} value={loc.name + ' (' + loc.address + ')'}>
-                                {loc.name}
-                            </option>
-                        ))}
-                    </select>
-                </>
+                <select value={selectedLocation} onChange={handleChange}>
+                    {locations.map((loc) => (
+                        <option key={loc.id} value={loc.name + ' (' + loc.address + ')'}>
+                            {loc.name}
+                        </option>
+                    ))}
+                </select>
             ) : zipCode.value.toString().length > 4 ? (
-                <>Loading...</>
+                <>{contentToText(ContentID.miscLoading, config)}</>
             ) : (
-                <>Enter zipcode</>
+                <>{contentToText(ContentID.checkOutEnterZipcode, config)}</>
             )}
-        </>
+        </div>
     );
 };
 
