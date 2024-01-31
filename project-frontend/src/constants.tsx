@@ -52,6 +52,8 @@ export const availableDeliveryCountries: Country[] = [
     },
 ];
 
+export const availableSizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+
 export const defaultLanguage: Language = {
     code: LangCode.FI,
     decimalPoint: ',',

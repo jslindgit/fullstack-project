@@ -29,35 +29,23 @@ const ShoppingCart = () => {
     };
 
     return (
-        <div>
-            <table align='center' width={pageWidth} className='paddingTopBottomOnly'>
-                <tbody>
-                    <tr>
-                        <td className='pageHeader'>{contentToText(ContentID.menuShoppingCart, config)}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div className='pageWidth'>
+            <div className='pageHeader'>{contentToText(ContentID.menuShoppingCart, config)}</div>
             <ShoppingCartContent allowEdit={true} shoppingItems={orderState.items} removeItem={removeItem} width={pageWidth} />
-            <table align='center' width={pageWidth}>
-                <tbody>
-                    <tr>
-                        <td style={{ paddingLeft: 0 }}>
-                            <BackButton type='text' />
-                        </td>
-                        <td style={{ paddingRight: 0, textAlign: 'right' }}>
-                            {orderState.items.length > 0 ? (
-                                <Link to='/checkout'>
-                                    <button type='button' className='large'>
-                                        {contentToText(ContentID.buttonCheckOut, config)} →
-                                    </button>
-                                </Link>
-                            ) : (
-                                <></>
-                            )}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div className='grid-container' data-cols='2' style={{ marginBottom: '2rem', marginTop: '2rem' }}>
+                <div className='alignLeft valignMiddle'>
+                    <BackButton type='text' />
+                </div>
+                <div className='alignRight'>
+                    {orderState.items.length > 0 && (
+                        <Link to='/checkout'>
+                            <button type='button' className='large'>
+                                {contentToText(ContentID.buttonCheckOut, config)} →
+                            </button>
+                        </Link>
+                    )}
+                </div>
+            </div>
         </div>
     );
 };

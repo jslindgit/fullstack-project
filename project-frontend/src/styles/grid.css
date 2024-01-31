@@ -1,9 +1,28 @@
 .grid-container {
-    display: grid;
+    display: grid !important;
 }
 
 .grid-container.left > div {
     text-align: left;
+}
+
+.grid-container.middle > div {
+    align-items: center;
+    display: flex;
+}
+
+.grid-container.padded1rem > div {
+    padding: 1rem;
+}
+
+.grid-container.striped > div {
+    border-bottom: 3px solid var(--colorGrayLight);
+}
+
+.gridStripedHeaderRow {
+    background-color: var(--colorGrayVeryLight);
+    border-top: 3px solid var(--colorGrayLight);
+    font-weight: 600;
 }
 
 /* Columns */
@@ -22,6 +41,13 @@
 .grid-container[data-cols='auto'] {
     grid-auto-flow: column;
     grid-template-columns: auto;
+}
+
+.gridSpan2 {
+    grid-column: span 2;
+}
+.gridSpan3 {
+    grid-column: span 3;
 }
 
 /* Gap */

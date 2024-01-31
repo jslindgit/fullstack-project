@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import useField, { UseField } from '../hooks/useField';
@@ -7,13 +7,13 @@ import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 import { NewUser } from '../types/types';
 
-import { pageWidth } from '../constants';
 import dev from '../util/dev';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { isValidEmailAddress, isValidPassword } from '../util/misc';
 import { registerAndLogin } from '../util/userProvider';
 
 import BackButton from './BackButton';
+import InputField from './InputField';
 
 const Register = () => {
     const dispatch = useDispatch();
@@ -129,94 +129,84 @@ const Register = () => {
         const error = validateField(field);
 
         return (
-            <tr>
-                <td className={'widthByContent' + (required.includes(field) ? ' semiBold' : '')}>
+            <React.Fragment>
+                <div
+                    className={
+                        'valignMiddle' + (required.find((f) => f.label === field.label) || field === password || field === passwordConfirm ? ' semiBold' : '')
+                    }
+                >
                     {labelParts.length > 1 ? (
-                        <>
-                            {labelParts[0]}
-                            <br />
-                            <i>{labelParts[1]}</i>
-                        </>
+                        <div>
+                            <div>{labelParts[0]}</div>
+                            <div>
+                                <i>{labelParts[1]}</i>
+                            </div>
+                        </div>
                     ) : (
                         <>{labelParts[0]}</>
                     )}
-                </td>
-                <td style={{ paddingTop: '1em', paddingBottom: '1em' }}>
-                    {validate && error ? (
+                </div>
+                <div className='valignMiddle'>
+                    {validate && error && (
                         <div className='validationError'>
                             {error}
                             <br />
                         </div>
-                    ) : (
-                        <></>
                     )}
-                    <input type={field.type} value={field.value} onChange={field.onChange} className={validate && error ? 'error' : ''} />
-                </td>
-            </tr>
+                    <InputField useField={field} width='100%' className={validate && error ? 'error' : ''} />
+                </div>
+            </React.Fragment>
         );
     };
 
     return (
-        <>
-            <table align='center' width={pageWidth * 0.66} className='paddingTopBottomOnly'>
-                <tbody>
-                    <tr>
-                        <td className='pageHeader widthByContent'>{contentToText(ContentID.registerHeader, config)}</td>
-                        <td>
-                            <a onClick={fillRandomly}>Fill randomly</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table align='center' width={pageWidth * 0.66}>
-                <tbody>
-                    {inputField(email)}
-                    {inputField(password)}
-                    {inputField(passwordConfirm)}
-                    {inputField(firstName)}
-                    {inputField(lastName)}
-                    {inputField(organization, true)}
-                    {inputField(phone)}
-                    {inputField(address)}
-                    {inputField(zipCode)}
-                    {inputField(city)}
-
-                    <tr>
-                        <td className='widthByContent semiBold'>{contentToText(ContentID.checkOutCountry, config)}</td>
-                        <td style={{ paddingTop: '0.6rem', paddingBottom: '0.6rem' }}>
-                            {validate && !country ? (
-                                <div className='validationError'>
-                                    {contentToText(ContentID.checkOutCountryIsRequired, config)}
-                                    <br />
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-                            <select value={country || ''} onChange={handleCountryChange}>
-                                <option value='' disabled>
-                                    {contentToText(ContentID.checkOutSelectCountry, config)}
-                                </option>
-                                {availableCountries.map((c) => (
-                                    <option key={c} value={c}>
-                                        {c}
-                                    </option>
-                                ))}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <BackButton type='text' size='sizeNormal' />
-                        </td>
-                        <td>
-                            <button type='button' onClick={handleSubmit}>
-                                {contentToText(ContentID.buttonSubmit, config)}
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </>
+        <div style={{ margin: 'auto', maxWidth: '40rem' }}>
+            <div className='grid-container' data-cols='2'>
+                <div className='pageHeader'>{contentToText(ContentID.registerHeader, config)}</div>
+                <div className='alignRight valignMiddle'>
+                    <a onClick={fillRandomly}>Fill randomly</a>
+                </div>
+            </div>
+            <div className='grid-container left' data-cols='auto 1fr' data-gap='1.5rem' style={{ marginBottom: '1.5rem' }}>
+                {inputField(email)}
+                {inputField(password)}
+                {inputField(passwordConfirm)}
+                {inputField(firstName)}
+                {inputField(lastName)}
+                {inputField(organization, true)}
+                {inputField(phone)}
+                {inputField(address)}
+                {inputField(zipCode)}
+                {inputField(city)}
+                <div className='semiBold'>{contentToText(ContentID.checkOutCountry, config)}</div>
+                <div>
+                    {validate && !country && (
+                        <div className='validationError'>
+                            {contentToText(ContentID.checkOutCountryIsRequired, config)}
+                            <br />
+                        </div>
+                    )}
+                    <select value={country || ''} onChange={handleCountryChange}>
+                        <option value='' disabled>
+                            {contentToText(ContentID.checkOutSelectCountry, config)}
+                        </option>
+                        {availableCountries.map((c) => (
+                            <option key={c} value={c}>
+                                {c}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <BackButton type='text' size='sizeNormal' />
+                </div>
+                <div>
+                    <button type='button' onClick={handleSubmit}>
+                        {contentToText(ContentID.buttonSubmit, config)}
+                    </button>
+                </div>
+            </div>
+        </div>
     );
 };
 

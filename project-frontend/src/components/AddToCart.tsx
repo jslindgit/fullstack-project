@@ -7,6 +7,7 @@ import { ShoppingItem } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 import { Item } from '../types/types';
 
+import { availableSizes } from '../constants';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { itemInStockTotal } from '../util/misc';
 import useField from '../hooks/useField';
@@ -118,11 +119,13 @@ const AddToCart = ({ config, item }: Props) => {
                             <option value='' disabled>
                                 {contentToText(ContentID.itemsSelectSize, config)}
                             </option>
-                            {item.sizes.map((size) => (
-                                <option key={size.size} value={size.size}>
-                                    {size.size} {size.instock > 0 ? '' : '(' + contentToText(ContentID.itemsSoldOut, config) + ')'}
-                                </option>
-                            ))}
+                            {[...item.sizes]
+                                .sort((a, b) => availableSizes.indexOf(a.size) - availableSizes.indexOf(b.size))
+                                .map((size) => (
+                                    <option key={size.size} value={size.size}>
+                                        {size.size} {size.instock > 0 ? '' : '(' + contentToText(ContentID.itemsSoldOut, config) + ')'}
+                                    </option>
+                                ))}
                         </select>
                     </div>
                 </div>

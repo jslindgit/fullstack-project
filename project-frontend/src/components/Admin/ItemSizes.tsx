@@ -4,6 +4,7 @@ import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
 import { ItemSizeAndInstock } from '../../types/types';
 
+import { availableSizes } from '../../constants';
 import { contentToText } from '../../types/languageFunctions';
 
 interface Props {
@@ -14,9 +15,7 @@ interface Props {
     sizes: ItemSizeAndInstock[];
 }
 const ItemSizes = ({ config, oneSizeInstock, setOneSizeInstock, setSizes, sizes }: Props) => {
-    const sizeValues = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
-
-    const unusedSizeValues = (): string[] => sizeValues.filter((sv) => !sizes.find((s) => s.size === sv));
+    const unusedSizeValues = (): string[] => availableSizes.filter((sv) => !sizes.find((s) => s.size === sv));
 
     const handleAddSize = () => {
         if (unusedSizeValues().length > 0) {
@@ -53,7 +52,7 @@ const ItemSizes = ({ config, oneSizeInstock, setOneSizeInstock, setSizes, sizes 
                         sizes.map((size) => (
                             <React.Fragment key={sizes.indexOf(size)}>
                                 <select value={size.size} onChange={handleSizeChange(sizes.indexOf(size))}>
-                                    {sizeValues.map((s) => (
+                                    {availableSizes.map((s) => (
                                         <option key={s} value={s}>
                                             {s}
                                         </option>

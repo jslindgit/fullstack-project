@@ -33,43 +33,31 @@ const ShoppingCartContent = ({ allowEdit, shoppingItems, removeItem, totalSumCon
         );
     }
 
+    if (shoppingItems.length < 1) {
+        return <></>;
+    }
+
     return (
-        <table align='center' width={width} className='dotted'>
-            <tbody>
-                {shoppingItems.length > 0 ? (
-                    <>
-                        <tr className='semiBold'>
-                            <td colSpan={2} className='bgColorGrayVeryLightImportant'>
-                                {contentToText(ContentID.cartProduct, config)}
-                            </td>
-                            <td className='bgColorGrayVeryLightImportant'>{contentToText(ContentID.cartUnitPrice, config)}</td>
-                            <td className='bgColorGrayVeryLightImportant'>{contentToText(ContentID.cartQuantity, config)}</td>
-                            <td className='bgColorGrayVeryLightImportant'>{contentToText(ContentID.cartTotalPrice, config)}</td>
-                            <td className='bgColorGrayVeryLightImportant'></td>
-                        </tr>
-                        {shoppingItems.map((shoppingItem) => (
-                            <ShoppingCartRow
-                                key={shoppingItem.id}
-                                shoppingItem={shoppingItem}
-                                indexOf={shoppingItems.indexOf(shoppingItem)}
-                                removeItem={removeItem}
-                                allowEdit={allowEdit}
-                            />
-                        ))}
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className='semiBold'>{contentToText(totalSumContentID, config)}:</td>
-                            <td className='bold'>{format.currency(itemsTotalSum(shoppingItems.map((shoppingItem) => shoppingItem)), config)}</td>
-                            <td></td>
-                        </tr>
-                    </>
-                ) : (
-                    <></>
-                )}
-            </tbody>
-        </table>
+        <div className='dotted' style={{ margin: 'auto', width: width }}>
+            <div className='grid-container left middle padded1rem striped' style={{ gridTemplateColumns: 'auto 1fr auto 1fr auto auto' }}>
+                <div className='gridStripedHeaderRow gridSpan2'>{contentToText(ContentID.cartProduct, config)}</div>
+                <div className='gridStripedHeaderRow'>{contentToText(ContentID.cartUnitPrice, config)}</div>
+                <div className='gridStripedHeaderRow'>{contentToText(ContentID.cartQuantity, config)}</div>
+                <div className='gridStripedHeaderRow gridSpan2'>{contentToText(ContentID.cartTotalPrice, config)}</div>
+                {shoppingItems.map((shoppingItem) => (
+                    <ShoppingCartRow
+                        key={shoppingItem.id}
+                        shoppingItem={shoppingItem}
+                        indexOf={shoppingItems.indexOf(shoppingItem)}
+                        removeItem={removeItem}
+                        allowEdit={allowEdit}
+                    />
+                ))}
+                <div className='gridSpan3' />
+                <div className='semiBold'>{contentToText(totalSumContentID, config)}:</div>
+                <div className='bold gridSpan2'>{format.currency(itemsTotalSum(shoppingItems.map((shoppingItem) => shoppingItem)), config)}</div>
+            </div>
+        </div>
     );
 };
 

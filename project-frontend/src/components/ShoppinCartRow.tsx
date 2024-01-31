@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
@@ -65,61 +65,51 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
     const imagePath = item && item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
 
     return (
-        <tr>
-            <td width='1px'>{item ? <Image src={imageFullPath(imagePath)} className='imgShoppingCart' /> : ''}</td>
-            <td className='normalWeight'>
-                {item ? langTextsToText(item.name, config) : shoppingItem.name}
-                {shoppingItem.size && shoppingItem.size.length > 0 ? (
-                    <span className='sizeSmallish'>
-                        <br />
+        <React.Fragment>
+            <div>{item ? <Image src={imageFullPath(imagePath)} className='imgShoppingCart' /> : ''}</div>
+            <div className='grid-container' data-cols='1'>
+                <div>{item ? langTextsToText(item.name, config) : shoppingItem.name}</div>
+                {shoppingItem.size && shoppingItem.size.length > 0 && (
+                    <div className='sizeSmallish'>
                         {contentToText(ContentID.itemsSize, config)}: {shoppingItem.size}
-                    </span>
-                ) : (
-                    ''
+                    </div>
                 )}
-            </td>
-            <td className='normalWeight'>{format.currency(shoppingItem.price, config)}</td>
-            <td style={{ paddingLeft: 0 }}>
-                <table className='nopadding'>
-                    <tbody>
-                        <tr>
-                            <td className='normalWeight' style={{ paddingRight: 0 }}>
-                                {allowEdit ? (
-                                    <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
-                                ) : (
-                                    <>
-                                        {shoppingItem.quantity} {contentToText(ContentID.itemsPcs, config)}
-                                    </>
-                                )}
-                            </td>
-                            {allowEdit ? (
-                                <td style={{ paddingBottom: 0, paddingLeft: 0, paddingTop: '0.4rem' }}>
-                                    <span className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
-                                        +
-                                    </span>
-                                    <br />
-                                    <span className='adjustAmountButtons' onClick={() => adjustAmount(-1)}>
-                                        -
-                                    </span>
-                                </td>
-                            ) : (
-                                ''
-                            )}
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-            <td className='normalWeight'>{format.currency(shoppingItem.price * shoppingItem.quantity, config)}</td>
-            <td width='1px'>
-                {allowEdit ? (
+            </div>
+            <div>{format.currency(shoppingItem.price, config)}</div>
+            <div>
+                <div className='grid-container middle' data-cols='2' style={{ width: 'min-content' }}>
+                    <div>
+                        {allowEdit ? (
+                            <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
+                        ) : (
+                            <>
+                                {shoppingItem.quantity} {contentToText(ContentID.itemsPcs, config)}
+                            </>
+                        )}
+                    </div>
+                    <div>
+                        {allowEdit && (
+                            <div style={{ marginTop: '0.65em' }}>
+                                <div className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
+                                    +
+                                </div>
+                                <div className='adjustAmountButtons' onClick={() => adjustAmount(-1)}>
+                                    -
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+            <div>{format.currency(shoppingItem.price * shoppingItem.quantity, config)}</div>
+            <div>
+                {allowEdit && (
                     <button type='button' className='red' onClick={() => (removeItem ? removeItem(indexOf) : () => {})} disabled={!allowEdit}>
                         {contentToText(ContentID.buttonRemove, config)}
                     </button>
-                ) : (
-                    <></>
                 )}
-            </td>
-        </tr>
+            </div>
+        </React.Fragment>
     );
 };
 
