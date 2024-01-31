@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/rootReducer';
 
-import { pageWidth } from '../constants';
 import { setNotification } from '../reducers/miscReducer';
 
 import { Link } from './CustomLink';
@@ -59,27 +58,19 @@ const ShowNotification = () => {
 
         return (
             <div className={classNames} style={{ position: 'sticky', top: 0 }}>
-                <table align='center' width={pageWidth}>
-                    <tbody>
-                        <tr>
-                            <td width='40px'></td>
-                            <td className='alignCenter' style={{ padding: 0 }}>
-                                {finalMessage}
-                            </td>
-                            <td width='40px'>
-                                <a onClick={() => close()} style={{ textDecorationLine: 'none' }}>
-                                    <table width='100%'>
-                                        <tbody>
-                                            <tr>
-                                                <td className='alignCenter bold noPadding sizeNormal valignMiddle'>✖</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div className='pageWidth' style={{ height: '100%' }}>
+                    <div className='grid-container' style={{ gridTemplateColumns: '40px 1fr 40px', height: '100%' }}>
+                        <div />
+                        <div className='valignMiddle' style={{ display: 'grid' }}>
+                            {finalMessage}
+                        </div>
+                        <a className='alignCenter valignMiddle' onClick={() => close()} style={{ textDecorationLine: 'none' }}>
+                            <div className='bold sizeNormal' style={{ width: '100%' }}>
+                                ✖
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
         );
     }

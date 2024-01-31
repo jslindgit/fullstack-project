@@ -1,11 +1,8 @@
 .notification {
-    align-items: center;
     border: 2px solid;
-    display: flex;
     font-size: var(--fontSizeLarge);
     height: 4rem;
     overflow: hidden !important;
-    padding: 0;
     transition: height 0.5s ease-in-out !important;
     will-change: height;
 }
