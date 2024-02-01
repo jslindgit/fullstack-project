@@ -37,81 +37,73 @@ const UserOrderDetails = ({ order, config }: Props) => {
     };
 
     return (
-        <>
-            <table width='100%' className='userOrderDetails'>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div className='semiBold sizeLarge'>
-                                {contentToText(ContentID.miscOrder, config)} {format.dateFormat(new Date(order.createdAt))}
-                            </div>
-                            <br />
-                            <div className='semiBold'>
-                                {contentToText(ContentID.orderId, config)}: {order.id}
-                            </div>
-                            <br />
-                            <div className='semiBold'>
-                                {contentToText(ContentID.orderStatus, config)}: <span className='bold'>{getOrderStatus(order.status, config)}</span>
-                            </div>
-                            <br />
-                            <ShoppingCartContent
-                                allowEdit={false}
-                                shoppingItems={parsedOrder.items}
-                                removeItem={null}
-                                totalSumContentID={ContentID.orderTotalAmount}
-                                width={'100%'}
-                            />
-                            <br />
-                            <div className='semiBold sizeLarge' style={{ marginBottom: '0.5rem' }}>
-                                {contentToText(ContentID.orderCustomer, config)}
-                            </div>
-                            <div className='normalWeight sizeSmallish'>
-                                {order.customerFirstName} {order.customerLastName}
+        <div className='userOrderDetails'>
+            <div className='semiBold sizeLarge'>
+                {contentToText(ContentID.miscOrder, config)} {format.dateFormat(new Date(order.createdAt))}
+            </div>
+            <br />
+            <div className='semiBold'>
+                {contentToText(ContentID.orderId, config)}: {order.id}
+            </div>
+            <br />
+            <div className='semiBold'>
+                {contentToText(ContentID.orderStatus, config)}: <span className='bold'>{getOrderStatus(order.status, config)}</span>
+            </div>
+            <br />
+            <ShoppingCartContent
+                allowEdit={false}
+                shoppingItems={parsedOrder.items}
+                removeItem={null}
+                totalSumContentID={ContentID.orderTotalAmount}
+                width={'100%'}
+            />
+            <br />
+            <div className='semiBold sizeLarge' style={{ marginBottom: '0.5rem' }}>
+                {contentToText(ContentID.orderCustomer, config)}
+            </div>
+            <div className='normalWeight sizeSmallish'>
+                {order.customerFirstName} {order.customerLastName}
+                <br />
+                {order.customerOrganization ? (
+                    <>
+                        {order.customerOrganization}
+                        <br />
+                    </>
+                ) : (
+                    <></>
+                )}
+                {order.customerAddress}
+                <br />
+                {order.customerZipCode} {order.customerCity}
+                <br />
+                {order.customerCountry}
+                <br />
+                {order.customerEmail}
+                <br />
+                {order.customerPhone}
+            </div>
+            <br />
+            {deliveryMethod ? (
+                <>
+                    <div className='semiBold sizeLarge' style={{ marginBottom: '0.5rem' }}>
+                        {contentToText(ContentID.orderDeliveryMethod, config)}
+                    </div>
+                    <div className='normalWeight'>
+                        {langTextsToText(deliveryMethod.names, config)}
+                        {deliveryMethod.notes.length > 0 ? (
+                            <>
                                 <br />
-                                {order.customerOrganization ? (
-                                    <>
-                                        {order.customerOrganization}
-                                        <br />
-                                    </>
-                                ) : (
-                                    <></>
-                                )}
-                                {order.customerAddress}
-                                <br />
-                                {order.customerZipCode} {order.customerCity}
-                                <br />
-                                {order.customerCountry}
-                                <br />
-                                {order.customerEmail}
-                                <br />
-                                {order.customerPhone}
-                            </div>
-                            <br />
-                            {deliveryMethod ? (
-                                <>
-                                    <div className='semiBold sizeLarge' style={{ marginBottom: '0.5rem' }}>
-                                        {contentToText(ContentID.orderDeliveryMethod, config)}
-                                    </div>
-                                    <div className='normalWeight'>
-                                        {langTextsToText(deliveryMethod.names, config)}
-                                        {deliveryMethod.notes.length > 0 ? (
-                                            <>
-                                                <br />
-                                                {deliveryMethod.notes}
-                                            </>
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </div>
-                                </>
-                            ) : (
-                                ''
-                            )}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </>
+                                {deliveryMethod.notes}
+                            </>
+                        ) : (
+                            <></>
+                        )}
+                    </div>
+                </>
+            ) : (
+                ''
+            )}
+        </div>
     );
 };
 

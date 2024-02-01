@@ -116,6 +116,13 @@ table.headerRow table tr:first-child td {
     background-color: var(--colorGrayVeryLight);
 }
 
+.stripedRowEven {
+    background-color: var(--colorGrayVeryLight);
+}
+.stripedRowOdd {
+    background-color: inherit;
+}
+
 .tight {
     border-spacing: 0px !important;
     border-collapse: collapse !important;

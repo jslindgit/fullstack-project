@@ -19,11 +19,17 @@ const UserOrderHistory = ({ config, user }: Props) => {
     const [hoveredButton, setHoveredButton] = useState<Order | null>(null);
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
 
+    let stripedRow = 'stripedRowEven';
+    const getStripedRowClassName = () => {
+        stripedRow = stripedRow === 'stripedRowEven' ? 'stripedRowOdd' : 'stripedRowEven';
+        return stripedRow;
+    };
+
     return (
         <div className='infoBox'>
             <div className='infoHeader'>{contentToText(ContentID.accountOrderHistory, config)}</div>
             {user && user.orders && user.orders.length > 0 ? (
-                <table width='100%' className='headerRow striped'>
+                <table width='100%' className='headerRow'>
                     <tbody>
                         <tr>
                             <td>{contentToText(ContentID.miscDate, config)}&emsp;&emsp;</td>
@@ -38,7 +44,9 @@ const UserOrderHistory = ({ config, user }: Props) => {
                                 <React.Fragment key={order.id}>
                                     <tr
                                         className={
-                                            openedOrder === order ? 'userOrderHistoryRowOpened' : 'hoverableRow' + (hoveredButton === order ? ' hover' : '')
+                                            getStripedRowClassName() +
+                                            ' ' +
+                                            (openedOrder === order ? 'userOrderHistoryRowOpened' : 'hoverableRow' + (hoveredButton === order ? ' hover' : ''))
                                         }
                                     >
                                         <td>{format.dateFormat(new Date(order.createdAt))}</td>

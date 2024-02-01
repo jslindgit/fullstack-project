@@ -235,31 +235,6 @@ const AdminOrders = () => {
         setUpdate(!update);
     };
 
-    const orderRow = (order: Order) => (
-        <React.Fragment key={order.id}>
-            <AdminOrderRow
-                key={order.id}
-                order={order}
-                isOpened={openedOrder?.id === order.id}
-                handleClose={handleClose}
-                handleOpen={handleOpen}
-                hoveredButton={hoveredButton}
-                setHoveredButton={setHoveredButton}
-            />
-            {openedOrder?.id === order.id && (
-                <AdminOrderDetails
-                    order={order}
-                    handleDelete={handleDelete}
-                    handleMarkAsDelivered={handleMarkAsDelivered}
-                    handleMarkAsNotDelivered={handleMarkAsNotDelivered}
-                    handleMoveBackFromRecycleBin={handleMoveBackFromRecycleBin}
-                    handleMoveToRecycleBin={handleMoveToRecycleBin}
-                    handlePrint={handlePrint}
-                />
-            )}
-        </React.Fragment>
-    );
-
     const columnHeader = (label: ContentID, sortByOption: sortByOption, widthByContent: boolean = false) => (
         <td className={widthByContent ? 'widthByContent' : ''} onClick={() => setSorting(sortByOption)}>
             <span
@@ -287,6 +262,38 @@ const AdminOrders = () => {
             </div>
         );
     };
+
+    let stripedRow = 'stripedRowEven';
+    const getStripedRowClassName = () => {
+        stripedRow = stripedRow === 'stripedRowEven' ? 'stripedRowOdd' : 'stripedRowEven';
+        return stripedRow;
+    };
+
+    const orderRow = (order: Order) => (
+        <React.Fragment key={order.id}>
+            <AdminOrderRow
+                key={order.id}
+                order={order}
+                isOpened={openedOrder?.id === order.id}
+                handleClose={handleClose}
+                handleOpen={handleOpen}
+                hoveredButton={hoveredButton}
+                setHoveredButton={setHoveredButton}
+                stripedClassName={getStripedRowClassName()}
+            />
+            {openedOrder?.id === order.id && (
+                <AdminOrderDetails
+                    order={order}
+                    handleDelete={handleDelete}
+                    handleMarkAsDelivered={handleMarkAsDelivered}
+                    handleMarkAsNotDelivered={handleMarkAsNotDelivered}
+                    handleMoveBackFromRecycleBin={handleMoveBackFromRecycleBin}
+                    handleMoveToRecycleBin={handleMoveToRecycleBin}
+                    handlePrint={handlePrint}
+                />
+            )}
+        </React.Fragment>
+    );
 
     return (
         <div>
@@ -317,7 +324,7 @@ const AdminOrders = () => {
                 </div>
             </div>
             <br />
-            <table align='center' width='100%' className='adminOrders headerRow striped'>
+            <table align='center' width='100%' className='adminOrders headerRow'>
                 <tbody>
                     <tr>
                         {columnHeader(ContentID.miscDate, 'date')}

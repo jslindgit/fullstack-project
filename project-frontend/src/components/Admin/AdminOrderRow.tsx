@@ -15,9 +15,10 @@ interface Props {
     isOpened: boolean;
     order: Order;
     setHoveredButton: React.Dispatch<React.SetStateAction<Order | null>>;
+    stripedClassName: string;
 }
 
-const AdminOrderRow = ({ order, isOpened, handleClose, handleOpen, hoveredButton, setHoveredButton }: Props) => {
+const AdminOrderRow = ({ order, isOpened, handleClose, handleOpen, hoveredButton, setHoveredButton, stripedClassName }: Props) => {
     const config = useSelector((state: RootState) => state.config);
 
     const date = new Date(order.createdAt);
@@ -25,6 +26,8 @@ const AdminOrderRow = ({ order, isOpened, handleClose, handleOpen, hoveredButton
     return (
         <tr
             className={
+                stripedClassName +
+                ' ' +
                 (isOpened ? 'adminOrdersOpened' : 'hoverableRow' + (hoveredButton === order ? ' hover' : '')) +
                 (!order.printedOutDate && !order.deliveredDate ? ' bold' : '')
             }
