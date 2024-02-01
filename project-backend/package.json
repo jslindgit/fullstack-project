@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "ts-node-dev index.ts",
+        "dev:test": "cross-env NODE_ENV=test ts-node-dev index.ts",
         "lint": "eslint --ext .ts .",
         "migration:down": "ts-node util/rollback.ts",
         "start": "node build/index.js",
@@ -27,6 +28,7 @@
         "@types/umzug": "^2.3.4",
         "@typescript-eslint/eslint-plugin": "^6.7.0",
         "@typescript-eslint/parser": "^6.7.0",
+        "cross-env": "^7.0.3",
         "eslint": "^8.49.0",
         "ts-node": "^10.9.1",
         "ts-node-dev": "^2.0.0",
