@@ -5,12 +5,14 @@ interface Props {
     className?: string;
     minWidth?: string;
     placeHolder?: string;
+    testId?: string;
     useField: UseField;
     width: string | number;
 }
 
-const InputField = ({ className, minWidth, useField, width, placeHolder = '', autoFocus = false }: Props) => (
+const InputField = ({ className, minWidth, useField, width, placeHolder = '', autoFocus = false, testId = '' }: Props) => (
     <input
+        data-testid={testId}
         className={className ? className : ''}
         onChange={useField.onChange}
         placeholder={placeHolder}

@@ -50,7 +50,9 @@ const MainPage = () => {
                 data-gap='2rem'
                 style={{ margin: 'auto', marginBottom: '5rem', marginTop: '2rem', maxWidth: pageWidth }}
             >
-                <div className='semiBold sizeExtremelyLarge'>{langTextsToText(config.store.welcome, config)}</div>
+                <div data-testid='welcome-message' className='semiBold sizeExtremelyLarge'>
+                    {langTextsToText(config.store.welcome, config)}
+                </div>
                 <div className='sizeLarge' style={{ marginBottom: '1rem' }}>
                     <Description config={config} />
                 </div>

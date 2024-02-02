@@ -48,15 +48,17 @@ const Login = () => {
                     <div className='grid-container valignMiddle' data-gap='2rem' style={{ gridTemplateColumns: 'auto 1fr' }}>
                         <div className='alignLeft semiBold'>{contentToText(username.label, config)}:</div>
                         <div>
-                            <InputField useField={username} width='20rem' autoFocus={true} />
+                            <InputField testId='input-username' useField={username} width='20rem' autoFocus={true} />
                         </div>
                         <div className='alignLeft semiBold'>{contentToText(password.label, config)}:</div>
                         <div>
-                            <InputField useField={password} width='20rem' />
+                            <InputField testId='input-password' useField={password} width='20rem' />
                         </div>
                         <div />
                         <div className='alignLeft'>
-                            <button type='submit'>{contentToText(ContentID.menuLogin, config)}</button>
+                            <button data-testid='button-submit' type='submit'>
+                                {contentToText(ContentID.menuLogin, config)}
+                            </button>
                         </div>
                         <div />
                         <div className='alignLeft'>
@@ -75,7 +77,7 @@ const Login = () => {
         if (response.success) {
             username.reset();
             navigate(localstorageHandler.getPreviousLocation());
-            dispatch(setNotification({ tone: 'Positive', message: response.message }));
+            dispatch(setNotification({ tone: 'Positive', message: response.message, testId: 'login-success' }));
         } else {
             dispatch(setNotification({ tone: 'Negative', message: response.message }));
         }

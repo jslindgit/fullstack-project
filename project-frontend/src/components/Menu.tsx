@@ -55,7 +55,7 @@ const Menu = () => {
                 </>
             );
         } else {
-            return <div>{menuLink('/login', contentToText(ContentID.menuLogin, config), 'Big')}</div>;
+            return <div>{menuLink('/login', contentToText(ContentID.menuLogin, config), 'Big', false, 'menu-login')}</div>;
         }
     };
 
@@ -64,7 +64,7 @@ const Menu = () => {
         await loginService.logout(loggedUser.token, removeLogged);
     };
 
-    const menuLink = (to: string, text: string, fontSize: 'Big' | 'Small' = 'Big', isShoppingCart: boolean = false) => {
+    const menuLink = (to: string, text: string, fontSize: 'Big' | 'Small' = 'Big', isShoppingCart: boolean = false, testId: string = '') => {
         let className = 'menuLink ' + (fontSize === 'Big' ? 'sizeLarge' : 'sizeNormal');
         if (fontSize === 'Small') {
             className += ' menuLinkSmall';
@@ -79,7 +79,7 @@ const Menu = () => {
 
         return (
             <Link to={to}>
-                <div className={className}>
+                <div className={className} data-testid={testId}>
                     {isShoppingCart ? (
                         <div className='grid-container' data-cols='auto'>
                             <div>

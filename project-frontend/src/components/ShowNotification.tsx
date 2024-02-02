@@ -57,7 +57,7 @@ const ShowNotification = () => {
         }
 
         return (
-            <div className={classNames} style={{ position: 'sticky', top: 0 }}>
+            <div data-testid={notification.testId ? notification.testId : ''} className={classNames} style={{ position: 'sticky', top: 0 }}>
                 <div className='pageWidth' style={{ height: '100%' }}>
                     <div className='grid-container' style={{ gridTemplateColumns: '40px 1fr 40px', height: '100%' }}>
                         <div />

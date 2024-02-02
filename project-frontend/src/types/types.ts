@@ -87,6 +87,7 @@ export interface Notification {
     linkText?: string;
     linkTo?: string;
     renders: number;
+    testId?: string;
 }
 export type NewNotification = Omit<Notification, 'renders'>;
 
