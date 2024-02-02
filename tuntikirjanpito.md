@@ -142,4 +142,5 @@
 |   25.1.   | 1    | Ulkoasun parantelua                                                                                                  |     |
 |   30.1.   | 2    | Ulkoasun parantelua                                                                                                  |     |
 |   31.1.   | 1    | Ulkoasun parantelua                                                                                                  |     |
-|    yht    | 234  |                                                                                                                      |     |
+|   2.2.    | 2    | E2E-testien kirjoittamista                                                                                           |     |
+|    yht    | 236  |                                                                                                                      |     |

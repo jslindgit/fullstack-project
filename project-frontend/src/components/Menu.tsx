@@ -47,15 +47,15 @@ const Menu = () => {
                         {loggedUser.admin || loggedUser.operator ? <span className='colorYellowLight'>({getUserStatus(loggedUser, config)})</span> : <></>}
                     </div>
                     <div className='grid-container' data-cols='auto'>
-                        <div>{menuLink('/you', contentToText(ContentID.menuAccount, config), 'Small')}</div>
+                        <div>{menuLink('/you', contentToText(ContentID.menuAccount, config), 'Small', 'menu-account')}</div>
                         <div onClick={async () => await logout(loggedUser, removeLogged, setLogoutNotification)}>
-                            {menuLink('#', contentToText(ContentID.menuLogout, config), 'Small')}
+                            {menuLink('#', contentToText(ContentID.menuLogout, config), 'Small', 'menu-logout')}
                         </div>
                     </div>
                 </>
             );
         } else {
-            return <div>{menuLink('/login', contentToText(ContentID.menuLogin, config), 'Big', false, 'menu-login')}</div>;
+            return <div>{menuLink('/login', contentToText(ContentID.menuLogin, config), 'Big', 'menu-login')}</div>;
         }
     };
 
@@ -64,7 +64,7 @@ const Menu = () => {
         await loginService.logout(loggedUser.token, removeLogged);
     };
 
-    const menuLink = (to: string, text: string, fontSize: 'Big' | 'Small' = 'Big', isShoppingCart: boolean = false, testId: string = '') => {
+    const menuLink = (to: string, text: string, fontSize: 'Big' | 'Small', testId: string, isShoppingCart: boolean = false) => {
         let className = 'menuLink ' + (fontSize === 'Big' ? 'sizeLarge' : 'sizeNormal');
         if (fontSize === 'Small') {
             className += ' menuLinkSmall';
@@ -105,7 +105,9 @@ const Menu = () => {
     };
 
     const showAdminMenu = () =>
-        (usersState.loggedUser?.admin || usersState.loggedUser?.operator) && <div>{menuLink('/admin', contentToText(ContentID.menuAdminSection, config))}</div>;
+        (usersState.loggedUser?.admin || usersState.loggedUser?.operator) && (
+            <div>{menuLink('/admin', contentToText(ContentID.menuAdminSection, config), 'Big', 'menu-admin')}</div>
+        );
 
     return (
         <>
@@ -113,10 +115,10 @@ const Menu = () => {
                 <div className='grid-container menu' style={{ gridTemplateColumns: '1fr min-content 1fr' }}>
                     <div />
                     <div className='grid-container' data-cols='auto'>
-                        <div>{menuLink('/', contentToText(ContentID.menuHome, config))}</div>
-                        <div>{menuLink('/shop', contentToText(ContentID.menuProducts, config))}</div>
-                        <div>{menuLink('/info', contentToText(ContentID.menuInfo, config))}</div>
-                        <div>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, config), 'Big', true)}</div>
+                        <div>{menuLink('/', contentToText(ContentID.menuHome, config), 'Big', 'menu-home')}</div>
+                        <div>{menuLink('/shop', contentToText(ContentID.menuProducts, config), 'Big', 'menu-shop')}</div>
+                        <div>{menuLink('/info', contentToText(ContentID.menuInfo, config), 'Big', 'menu-info')}</div>
+                        <div>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, config), 'Big', 'menu-cart', true)}</div>
                         <div style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</div>
                         {showAdminMenu()}
                         <div className='valignMiddle' style={{ marginLeft: '1rem' }}>

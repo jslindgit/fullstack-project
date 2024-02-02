@@ -162,7 +162,9 @@ const Register = () => {
     return (
         <div style={{ margin: 'auto', maxWidth: '40rem' }}>
             <div className='grid-container' data-cols='2'>
-                <div className='pageHeader'>{contentToText(ContentID.registerHeader, config)}</div>
+                <div data-testid='register-header' className='pageHeader'>
+                    {contentToText(ContentID.registerHeader, config)}
+                </div>
                 <div className='alignRight valignMiddle'>
                     <a onClick={fillRandomly}>Fill randomly</a>
                 </div>

@@ -53,7 +53,9 @@ const UserPanel = () => {
 
     return (
         <div className='pageWidth'>
-            <div className='pageHeader'>{contentToText(ContentID.menuAccount, config)}</div>
+            <div data-testid='account-header' className='pageHeader'>
+                {contentToText(ContentID.menuAccount, config)}
+            </div>
             <div className='grid-container' data-gap='2rem' style={{ marginBottom: '2rem' }}>
                 <UserBasicInfo config={config} showUserStatus={user.admin || user.operator} user={user} />
                 <UserContactInfo config={config} user={user} />

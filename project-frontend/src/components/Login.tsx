@@ -44,7 +44,9 @@ const Login = () => {
         <div>
             <form onSubmit={submit}>
                 <div style={{ margin: 'auto', width: 'min-content' }}>
-                    <div className='pageHeader'>{contentToText(ContentID.menuLogin, config)}</div>
+                    <div data-testid='login-header' className='pageHeader'>
+                        {contentToText(ContentID.menuLogin, config)}
+                    </div>
                     <div className='grid-container valignMiddle' data-gap='2rem' style={{ gridTemplateColumns: 'auto 1fr' }}>
                         <div className='alignLeft semiBold'>{contentToText(username.label, config)}:</div>
                         <div>
@@ -62,7 +64,10 @@ const Login = () => {
                         </div>
                         <div />
                         <div className='alignLeft'>
-                            {contentToText(ContentID.loginNoAccount, config)} <Link to='/register'>{contentToText(ContentID.loginRegisterHere, config)}</Link>
+                            {contentToText(ContentID.loginNoAccount, config)}{' '}
+                            <Link data-testid='register-link' to='/register'>
+                                {contentToText(ContentID.loginRegisterHere, config)}
+                            </Link>
                         </div>
                     </div>
                 </div>

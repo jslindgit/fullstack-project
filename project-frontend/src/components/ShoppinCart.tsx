@@ -30,7 +30,9 @@ const ShoppingCart = () => {
 
     return (
         <div className='pageWidth'>
-            <div className='pageHeader'>{contentToText(ContentID.menuShoppingCart, config)}</div>
+            <div data-testid='cart-header' className='pageHeader'>
+                {contentToText(ContentID.menuShoppingCart, config)}
+            </div>
             <ShoppingCartContent allowEdit={true} shoppingItems={orderState.items} removeItem={removeItem} width={pageWidth} />
             <div className='grid-container' data-cols='2' style={{ marginBottom: '2rem', marginTop: '2rem' }}>
                 <div className='alignLeft valignMiddle'>
