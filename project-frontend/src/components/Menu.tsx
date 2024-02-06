@@ -86,7 +86,13 @@ const Menu = () => {
                                 <span className={currentPath.includes(to) ? 'currentPage' : ''}>{text}</span>
                                 {shoppingCartNumberOfItems() > 0 ? <span>&ensp;</span> : ''}
                             </div>
-                            {shoppingCartNumberOfItems() > 0 ? <div className='shoppingCartIndicator'>{shoppingCartNumberOfItems()}</div> : ''}
+                            {shoppingCartNumberOfItems() > 0 ? (
+                                <div data-testid='cart-item-amount' className='shoppingCartIndicator'>
+                                    {shoppingCartNumberOfItems()}
+                                </div>
+                            ) : (
+                                ''
+                            )}
                         </div>
                     ) : (
                         <>{text}</>

@@ -53,7 +53,7 @@ const ItemDetails = () => {
             <ItemsMenu config={config} currentId={id} />
             <div style={{ margin: '2em auto', maxWidth: pageWidth, width: (pageWidth / 3) * 2 }}>
                 <div className='itemDetails'>
-                    <div className='alignLeft itemDetailsName' style={{ marginBottom: '2rem' }}>
+                    <div data-testid='item-name' className='alignLeft itemDetailsName' style={{ marginBottom: '2rem' }}>
                         {langTextsToText(item.name, config)}
                     </div>
                     <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: '1fr 40%' }}>

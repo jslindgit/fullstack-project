@@ -148,10 +148,16 @@ const AddToCart = ({ config, item }: Props) => {
                     <div className='semiBold'>{contentToText(quantity.label, config)}:</div>
                     <div className='grid-container valignMiddle' style={{ gridTemplateColumns: 'auto 1fr', marginTop: '0.5rem' }}>
                         <div>
-                            <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
+                            <input
+                                data-testid='item-quantity'
+                                type={quantity.type}
+                                value={quantity.value}
+                                onChange={quantity.onChange}
+                                style={{ width: '5rem' }}
+                            />
                         </div>
                         <div>
-                            <div className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
+                            <div data-testid='increase-quantity' className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
                                 +
                             </div>
                             <div className='adjustAmountButtons' onClick={() => adjustAmount(-1)} style={{ height: '1rem' }}>
@@ -162,7 +168,12 @@ const AddToCart = ({ config, item }: Props) => {
                 </div>
             )}
             <div>
-                <button type='button' onClick={() => handleAddToShoppingCart(item)} disabled={sizeInStock() < 1 || Number(quantity.value) <= 0}>
+                <button
+                    data-testid='button-add-to-cart'
+                    type='button'
+                    onClick={() => handleAddToShoppingCart(item)}
+                    disabled={sizeInStock() < 1 || Number(quantity.value) <= 0}
+                >
                     {contentToText(
                         // prettier-ignore
                         sizeInStock() > 0

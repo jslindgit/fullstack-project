@@ -1,6 +1,8 @@
+const url = 'http://localhost:3000';
+
 describe('Basic', function () {
     beforeEach(function () {
-        cy.visit('http://localhost:3000');
+        cy.visit(url);
     });
 
     it('frontpage can be opened', function () {
@@ -25,7 +27,7 @@ describe('Basic', function () {
 
 describe('Login', function () {
     it('login works with test credentials, account page can be opened, logout works, register can be opened', function () {
-        cy.visit('http://localhost:3000');
+        cy.visit(url);
         cy.get('[data-testid="menu-login"]').click();
         cy.get('[data-testid="input-username"]').type('cypress@testingcypress123.com');
         cy.get('[data-testid="input-password"]').type('cypress123');
@@ -41,5 +43,21 @@ describe('Login', function () {
 
         cy.get('[data-testid="register-link"]').click();
         cy.get('[data-testid="register-header"]').should('exist');
+    });
+});
+
+describe('Shopping cart', function () {
+    beforeEach(function () {
+        cy.visit(url + '/shop/item/89');
+    });
+
+    it('item details page can be opened', function () {
+        cy.get('[data-testid="item-name"]').should('exist');
+    });
+
+    it('items can be added to shopping cart', function () {
+        cy.get('[data-testid="increase-quantity"]').click().click();
+        cy.get('[data-testid="button-add-to-cart"]').click();
+        cy.get('[data-testid="cart-item-amount"]').contains('3');
     });
 });
