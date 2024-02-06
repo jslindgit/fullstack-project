@@ -56,7 +56,7 @@ const AdminItemEdit = () => {
             <div className='pageHeader'>
                 {contentToText(ContentID.adminPanelHeader, config)} - {contentToText(ContentID.adminEditItem, config)}
             </div>
-            <ItemEditForm itemToEdit={item} config={config} initialCategories={item.categories.map((c) => c.id)} width={pageWidth} />
+            <ItemEditForm itemToEdit={item} config={config} initialCategories={item.categories.map((c) => c.id)} />
             <br />
         </div>
     );

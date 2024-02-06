@@ -41,7 +41,7 @@ const ShoppingCart = () => {
                 <div className='alignRight'>
                     {orderState.items.length > 0 && (
                         <Link to='/checkout'>
-                            <button type='button' className='large'>
+                            <button data-testid='button-checkout' type='button' className='large'>
                                 {contentToText(ContentID.buttonCheckOut, config)} →
                             </button>
                         </Link>

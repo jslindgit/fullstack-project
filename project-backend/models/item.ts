@@ -7,6 +7,7 @@ export interface ItemAttributes {
     id: number;
     addedBy?: number;
     description?: string;
+    fitsInLetter: number; // How many pcs of the Item fit in a letter
     images: string[];
     instock: number;
     name: string;
@@ -38,6 +39,10 @@ const Item = sequelize.define<ItemInstance>(
         description: {
             type: DataTypes.STRING,
             defaultValue: '',
+        },
+        fitsInLetter: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
         },
         instock: {
             type: DataTypes.INTEGER,

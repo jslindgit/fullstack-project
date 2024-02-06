@@ -111,6 +111,7 @@ const update = async (item: Item, token: string, config: Config, dispatch: Dispa
         const toUpdate = {
             addedBy: item.addedBy,
             description: item.description,
+            fitsInLetter: item.fitsInLetter,
             images: item.images,
             instock: item.instock,
             name: item.name,

@@ -143,4 +143,5 @@
 |   30.1.   | 2    | Ulkoasun parantelua                                                                                                  |     |
 |   31.1.   | 1    | Ulkoasun parantelua                                                                                                  |     |
 |   2.2.    | 2    | E2E-testien kirjoittamista                                                                                           |     |
-|    yht    | 236  |                                                                                                                      |     |
+|   6.2.    | 2    | Lisää E2E-testejä, tuotteille määrittely kirjetoimituksen mahdollisuudesta                                           |     |
+|    yht    | 238  |                                                                                                                      |     |

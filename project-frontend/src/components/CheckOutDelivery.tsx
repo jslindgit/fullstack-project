@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
-import { DeliveryMethod } from '../types/orderTypes';
+import { DeliveryMethod, NewOrder, Order } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
-import { contentToText } from '../types/languageFunctions';
+import { orderFitsInLetter } from '../util/checkoutProvider';
 import deliveryService from '../services/deliveryService';
+import { contentToText } from '../types/languageFunctions';
 
 import CheckOutDeliveryMethod from './CheckOutDeliveryMethod';
 
@@ -14,11 +15,12 @@ interface Props {
     currentMethod: DeliveryMethod | null;
     customerCountry: string | null;
     customerZipCode: string;
+    order: NewOrder | Order;
     setDeliveryMethod: (deliveryMethod: DeliveryMethod | null) => void;
     validate: boolean;
 }
 
-const CheckOutDelivery = ({ currentMethod, customerCountry, customerZipCode, setDeliveryMethod, validate }: Props) => {
+const CheckOutDelivery = ({ currentMethod, customerCountry, customerZipCode, order, setDeliveryMethod, validate }: Props) => {
     const config = useSelector((state: RootState) => state.config);
 
     const [methods, setMethods] = useState<DeliveryMethod[]>([]);
@@ -28,21 +30,29 @@ const CheckOutDelivery = ({ currentMethod, customerCountry, customerZipCode, set
             return config.store.contactCountry.names.find((name) => name.text === customerCountry);
         };
 
-        if (customerCountry && customerCountry.length > 0) {
-            const suitableMethods = isDomestic() ? deliveryService.getAllDomestic() : deliveryService.getAllInternational();
+        const setSuitableMethods = async () => {
+            if (customerCountry && customerCountry.length > 0) {
+                const availableMethods = isDomestic() ? deliveryService.getAllDomestic() : deliveryService.getAllInternational();
 
-            if (currentMethod && !suitableMethods.find((m) => m.code === currentMethod.code)) {
-                setDeliveryMethod(null);
+                const suitableMethods = (await orderFitsInLetter(order)) ? availableMethods : [...availableMethods].filter((m) => !m.isLetter);
+
+                if (currentMethod && !suitableMethods.find((m) => m.code === currentMethod.code)) {
+                    setDeliveryMethod(null);
+                }
+
+                setMethods(suitableMethods);
             }
+        };
 
-            setMethods(suitableMethods);
-        }
+        setSuitableMethods();
     }, [config.store.contactCountry, customerCountry]);
 
     return (
         <div className={'infoBox' + (validate && !currentMethod ? ' errors' : '')}>
-            <div className='infoHeader'>{contentToText(ContentID.checkOutChooseDeliveryMethod, config)}</div>
-            {!customerCountry || (customerCountry.length < 1 && <div>{contentToText(ContentID.checkOutSelectCountry, config)}</div>)}
+            <div data-testid='checkout-delivery-header' className='infoHeader'>
+                {contentToText(ContentID.checkOutChooseDeliveryMethod, config)}
+            </div>
+            {(!customerCountry || customerCountry.length < 1) && <div className='alignLeft'>{contentToText(ContentID.checkOutSelectCountry, config)}</div>}
             <div className='grid-container' data-gap='1.5rem'>
                 {methods.map((m) => (
                     <CheckOutDeliveryMethod
@@ -51,16 +61,9 @@ const CheckOutDelivery = ({ currentMethod, customerCountry, customerZipCode, set
                         customerZipCode={customerZipCode}
                         method={m}
                         setDeliveryMethod={setDeliveryMethod}
+                        testId={methods.indexOf(m) === methods.length - 1 ? 'checkout-delivery-last-method' : ''}
                     />
                 ))}
-                <a
-                    onClick={() => {
-                        setDeliveryMethod(null);
-                    }}
-                    style={{ cursor: 'pointer' }}
-                >
-                    Clear selection
-                </a>
             </div>
         </div>
     );

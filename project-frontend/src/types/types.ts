@@ -34,6 +34,7 @@ export interface Item {
     categories: Category[];
     createdAt: string;
     description: LangText[];
+    fitsInLetter: number;
     images: string[];
     instock: number;
     name: LangText[];
@@ -50,6 +51,8 @@ export const isNewItem = (obj: unknown): obj is NewItem => {
         'description' in obj &&
         Array.isArray(obj.description) &&
         //obj.description.every((d) => isLangText(d)) &&
+        'fitsInLetter' in obj &&
+        isNumber(obj.fitsInLetter) &&
         'images' in obj &&
         Array.isArray(obj.images) &&
         //obj.images.every((i) => isString(i)) &&

@@ -68,6 +68,8 @@ export const itemFromResBody = (resBody: unknown, debug: boolean = false): Item 
         isObject(resBody) &&
         'description' in resBody &&
         isString(resBody.description) &&
+        'fitsInLetter' in resBody &&
+        isNumber(resBody.fitsInLetter) &&
         'id' in resBody &&
         isNumber(resBody.id) &&
         'instock' in resBody &&

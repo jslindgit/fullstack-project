@@ -68,6 +68,7 @@ const AddToCart = ({ config, item }: Props) => {
                     )} ${contentToText(ContentID.itemsAddedToShoppingCart2, config)}.`,
                     linkText: contentToText(ContentID.itemsAddedToShoppingCart2, config),
                     linkTo: '/cart',
+                    testId: 'added-to-cart-notification',
                 })
             );
 

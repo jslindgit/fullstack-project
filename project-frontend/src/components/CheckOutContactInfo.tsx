@@ -125,6 +125,20 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
         zipCode.setNewValue(zipCity.zip);
     };
 
+    const fillWithLoggedUserInfo = () => {
+        if (userState.loggedUser) {
+            address.setNewValue(userState.loggedUser.contactAddress);
+            city.setNewValue(userState.loggedUser.contactCity);
+            setCountry(userState.loggedUser.contactCountry);
+            email.setNewValue(userState.loggedUser.username);
+            firstName.setNewValue(userState.loggedUser.contactFirstName);
+            lastName.setNewValue(userState.loggedUser.contactLastName);
+            organization.setNewValue(userState.loggedUser.contactOrganization ? userState.loggedUser.contactOrganization : '');
+            phone.setNewValue(userState.loggedUser.contactPhone);
+            zipCode.setNewValue(userState.loggedUser.contactZipcode);
+        }
+    };
+
     const validateField = (field: UseField): string | null => {
         if (required.includes(field) && field.value.toString().trim().length < 1) {
             return `${contentToText(field.label, config)} ${contentToText(ContentID.checkOutIsRequired, config)}.`;
@@ -155,9 +169,11 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
     // Set available countries:
     useEffect(() => {
         const countries: string[] = [];
-        config.store.deliveryCountries.forEach((c) => {
-            countries.push(langTextsToText(c.names, config));
-        });
+        [...config.store.deliveryCountries]
+            .sort((a, b) => langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config)))
+            .forEach((c) => {
+                countries.push(langTextsToText(c.names, config));
+            });
         setAvailableCountries(countries);
     }, [config]);
 
@@ -193,7 +209,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
         }
     }, [required, validate]);
 
-    const inputField = (field: UseField, optional: boolean = false) => {
+    const inputField = (field: UseField, testId: string, optional: boolean = false) => {
         const label = contentToText(field.label, config);
         const labelParts: string[] = optional ? [label, '(' + contentToText(ContentID.checkOutOptional, config) + ')'] : [label];
         const error = validateField(field);
@@ -223,7 +239,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
                             <br />
                         </div>
                     )}
-                    <InputField useField={field} width='100%' className={validate && error ? 'error' : ''} />
+                    <InputField useField={field} width='100%' className={validate && error ? 'error' : ''} testId={testId} />
                 </div>
             </React.Fragment>
         );
@@ -232,7 +248,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
     return (
         <div className={'alignLeft infoBox' + (errors ? ' errors' : '')}>
             <div className='grid-container' data-cols='2'>
-                <div className='infoHeader' style={{ marginBottom: '3rem' }}>
+                <div data-testid='checkout-contactinfo-header' className='infoHeader' style={{ marginBottom: '2.5rem' }}>
                     {contentToText(ContentID.checkOutCustomerContactInformation, config)}
                 </div>
                 <div className='alignRight'>
@@ -240,12 +256,20 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
                 </div>
             </div>
             <div className='grid-container left' data-cols='auto 1fr' data-gap='1.5rem'>
-                {inputField(firstName)}
-                {inputField(lastName)}
-                {inputField(organization, true)}
-                {inputField(address)}
-                {inputField(zipCode)}
-                {inputField(city)}
+                {userState.loggedUser && (
+                    <div style={{ gridColumn: 'span 2', marginBottom: '1rem' }}>
+                        <a onClick={fillWithLoggedUserInfo}>
+                            {contentToText(ContentID.checkOutFillAutomatically, config)} (
+                            {`${userState.loggedUser.contactFirstName} ${userState.loggedUser.contactLastName}`})
+                        </a>
+                    </div>
+                )}
+                {inputField(firstName, 'checkout-firstname')}
+                {inputField(lastName, 'checkout-lastname')}
+                {inputField(organization, 'checkout-organization', true)}
+                {inputField(address, 'checkout-address')}
+                {inputField(zipCode, 'checkout-zipcode')}
+                {inputField(city, 'checkout-city')}
                 <div className='semiBold valignMiddle'>{contentToText(ContentID.checkOutCountry, config)}</div>
                 <div>
                     {validate && !country ? (
@@ -256,7 +280,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
                     ) : (
                         <></>
                     )}
-                    <select value={country || ''} onChange={handleCountryChange}>
+                    <select data-testid='checkout-country' value={country || ''} onChange={handleCountryChange}>
                         <option value='' disabled>
                             {contentToText(ContentID.checkOutSelectCountry, config)}
                         </option>
@@ -267,8 +291,8 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
                         ))}
                     </select>
                 </div>
-                {inputField(email)}
-                {inputField(phone)}
+                {inputField(email, 'checkout-email')}
+                {inputField(phone, 'checkout-phone')}
             </div>
             <div>
                 {!userState.loggedUser && (
@@ -284,8 +308,8 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
                         </div>
                         {register && (
                             <div className='grid-container left' data-cols='auto 1fr' data-gap='1rem' style={{ marginTop: '1.5rem' }}>
-                                {inputField(password)}
-                                {inputField(passwordConfirm)}
+                                {inputField(password, 'checkout-password')}
+                                {inputField(passwordConfirm, 'checkout-password-confirm')}
                             </div>
                         )}
                     </div>

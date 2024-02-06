@@ -24,13 +24,14 @@ const MainPage = () => {
         document.title = config.store.contactName;
     }, [config]);
 
-    // Latest Items:
+    // Latest and top-selling Items:
     useEffect(() => {
         const setLatestAndTopSellers = async () => {
             const allItems = await itemService.getAll();
 
             setLatestItems(
                 [...allItems]
+                    .filter((item) => item.categories.length > 0)
                     .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
                     .reverse()
                     .slice(0, 3)

@@ -5,49 +5,49 @@ const getAllDomestic = (): DeliveryMethod[] => {
     return [
         {
             code: DeliveryCode.POSTI_PIKKUPAKETTI,
-            names: [
-                { langCode: LangCode.EN, text: 'Posti Small Parcel' },
-                { langCode: LangCode.FI, text: 'Posti Pikkupaketti (Kirje)' },
-            ],
+            cost: 3,
             descriptions: [
                 { langCode: LangCode.EN, text: 'Delivered to the recipient’s mail slot or mailbox together with other mail.' },
                 { langCode: LangCode.FI, text: 'Toimitetaan suoraan postiluukkuun tai -laatikkoon kirjepostin mukana.' },
             ],
-            cost: 3,
+            isLetter: true,
+            names: [
+                { langCode: LangCode.EN, text: 'Posti Small Parcel' },
+                { langCode: LangCode.FI, text: 'Posti Pikkupaketti (Kirje)' },
+            ],
             notes: '',
         },
         {
             code: DeliveryCode.POSTI_PAKETTI,
-            names: [
-                { langCode: LangCode.EN, text: 'Posti Postal parcel' },
-                { langCode: LangCode.FI, text: 'Postipaketti' },
-            ],
+            cost: 9,
             descriptions: [
                 { langCode: LangCode.EN, text: 'Delivered to a Posti Parcel Locker or a Posti outlet.' },
                 { langCode: LangCode.FI, text: 'Toimitetaan Postin noutopisteeseen tai pakettiautomaattiin.' },
             ],
-            cost: 9,
+            names: [
+                { langCode: LangCode.EN, text: 'Posti Postal parcel' },
+                { langCode: LangCode.FI, text: 'Postipaketti' },
+            ],
+            isLetter: false,
             notes: '',
         },
         {
             code: DeliveryCode.POSTI_EXPRESS,
-            names: [
-                { langCode: LangCode.EN, text: 'Posti Express Parcel' },
-                { langCode: LangCode.FI, text: 'Posti Express-paketti' },
-            ],
+            cost: 15,
             descriptions: [
                 { langCode: LangCode.EN, text: 'Delivered directly to the recipient Mon-Fri between 8 a.m. and 4 p.m.' },
                 { langCode: LangCode.FI, text: 'Toimitetaan suoraan vastaanottajalle arkisin klo 8-16 välillä.' },
             ],
-            cost: 15,
+            names: [
+                { langCode: LangCode.EN, text: 'Posti Express Parcel' },
+                { langCode: LangCode.FI, text: 'Posti Express-paketti' },
+            ],
+            isLetter: false,
             notes: '',
         },
         {
             code: DeliveryCode.POSTI_KOTIPAKETTI,
-            names: [
-                { langCode: LangCode.EN, text: 'Posti Home Parcel' },
-                { langCode: LangCode.FI, text: 'Posti Kotipaketti' },
-            ],
+            cost: 20,
             descriptions: [
                 {
                     langCode: LangCode.EN,
@@ -58,20 +58,25 @@ const getAllDomestic = (): DeliveryMethod[] => {
                     text: 'Toimitetaan suoraan vastaanottajalle klo 9-21 välillä. Posti on yhteydessä vastaanottajaan tarkemman toimitusajankohdan sopimiseksi.',
                 },
             ],
-            cost: 20,
+            names: [
+                { langCode: LangCode.EN, text: 'Posti Home Parcel' },
+                { langCode: LangCode.FI, text: 'Posti Kotipaketti' },
+            ],
+            isLetter: false,
             notes: '',
         },
         {
             code: DeliveryCode.PICKUP,
-            names: [
-                { langCode: LangCode.EN, text: 'In-store Pickup' },
-                { langCode: LangCode.FI, text: 'Nouto' },
-            ],
+            cost: 0,
             descriptions: [
                 { langCode: LangCode.EN, text: 'Picked up from our store.' },
                 { langCode: LangCode.FI, text: 'Noudetaan myymälästämme.' },
             ],
-            cost: 0,
+            names: [
+                { langCode: LangCode.EN, text: 'In-store Pickup' },
+                { langCode: LangCode.FI, text: 'Nouto' },
+            ],
+            isLetter: false,
             notes: '',
         },
     ];
@@ -81,10 +86,7 @@ const getAllInternational = (): DeliveryMethod[] => {
     return [
         {
             code: DeliveryCode.INTERNATIONAL_POSTI_PRIORITY_PARCEL,
-            names: [
-                { langCode: LangCode.EN, text: 'Posti Priority parcel' },
-                { langCode: LangCode.FI, text: 'Posti Priority-postipaketti' },
-            ],
+            cost: 25,
             descriptions: [
                 {
                     langCode: LangCode.EN,
@@ -92,15 +94,16 @@ const getAllInternational = (): DeliveryMethod[] => {
                 },
                 { langCode: LangCode.FI, text: 'Kuljetukset Pohjoismaihin 3–5, muualle Eurooppaan 2–7 ja muualle maailmaan 6–14 arkipäivässä.' },
             ],
-            cost: 25,
+            names: [
+                { langCode: LangCode.EN, text: 'Posti Priority parcel' },
+                { langCode: LangCode.FI, text: 'Posti Priority-postipaketti' },
+            ],
+            isLetter: false,
             notes: '',
         },
         {
             code: DeliveryCode.INTERNATIONAL_POSTI_EXPRESS_BUSINESS_DAY,
-            names: [
-                { langCode: LangCode.EN, text: 'Posti Express Business Day' },
-                { langCode: LangCode.FI, text: 'Posti Express Business Day' },
-            ],
+            cost: 9,
             descriptions: [
                 {
                     langCode: LangCode.EN,
@@ -108,7 +111,11 @@ const getAllInternational = (): DeliveryMethod[] => {
                 },
                 { langCode: LangCode.FI, text: 'Palvelu on tarkoitettu yritysten välisiin toimituksiin. Toimitusaika on maasta riippuen 2–8 arkipäivää.' },
             ],
-            cost: 9,
+            names: [
+                { langCode: LangCode.EN, text: 'Posti Express Business Day' },
+                { langCode: LangCode.FI, text: 'Posti Express Business Day' },
+            ],
+            isLetter: false,
             notes: '',
         },
     ];

@@ -14,6 +14,7 @@ export interface DeliveryMethod {
     code: DeliveryCode;
     cost: number;
     descriptions: LangText[];
+    isLetter: boolean;
     names: LangText[];
     notes: string;
 }

@@ -51,6 +51,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     const descriptionFields = useLangTextAreas();
     const nameFields = useLangFields('text');
     const price = useField('decimal', ContentID.itemsPrice);
+    const fitsInLetter = useField('integer', null, '0');
 
     // Set initial values for Name/Description/Instock/Price/Images (if editing an existing Item):
     useEffect(() => {
@@ -64,6 +65,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                 df.textArea.setNewValue(descriptionLangText ? descriptionLangText.text : '');
             });
             price.setNewValue(itemToEdit.price.toString());
+            fitsInLetter.setNewValue(itemToEdit.fitsInLetter.toString());
 
             if (itemToEdit.sizes.length > 0 && itemToEdit.sizes[0].size !== '-') {
                 setSizes(
@@ -91,6 +93,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
         if (itemToEdit) {
             if (
                 itemToEdit.price.toString() !== price.value.toString() ||
+                itemToEdit.fitsInLetter.toString() !== fitsInLetter.stringValue() ||
                 (initialCategories && JSON.stringify(selectedCategories.sort()) !== JSON.stringify(initialCategories.sort())) ||
                 (!initialCategories && selectedCategories.length > 0)
             ) {
@@ -167,6 +170,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                     const finalItem: Item = {
                         ...itemToEdit,
                         description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
+                        fitsInLetter: fitsInLetter.numValue(),
                         instock: 0,
                         images: [
                             ...itemToEdit.images.filter((img) => !imagesToRemove.includes(img)),
@@ -184,6 +188,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                 } else {
                     const finalItem: NewItem = {
                         description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
+                        fitsInLetter: fitsInLetter.numValue(),
                         instock: 0,
                         images: [...imagesToUpload.map((imageToUpload) => imageCategory + '\\' + imageToUpload.file.name)],
                         name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
@@ -306,6 +311,11 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                     </div>
                     <div className='adminItemEditLabel'>{contentToText(ContentID.adminItemSizes, config)}:</div>
                     <ItemSizes config={config} oneSizeInstock={oneSizeInstock} setOneSizeInstock={setOneSizeInstock} setSizes={setSizes} sizes={sizes} />
+                    <div className='adminItemEditLabel'>{contentToText(ContentID.itemsFitsInLetter, config)}:</div>
+                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', marginLeft: '1rem' }}>
+                        <div className='valignMiddle'>{contentToText(ContentID.itemsPcs, config).toUpperCase()}</div>
+                        <InputField useField={fitsInLetter} width='33%' />
+                    </div>
                 </div>
                 <div />
                 <div className='grid-container' data-gap='1rem' style={{ height: 'min-content' }}>

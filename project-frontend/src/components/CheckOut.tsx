@@ -134,6 +134,7 @@ const CheckOut = () => {
                         currentMethod={order.deliveryMethod}
                         customerCountry={order.customerCountry}
                         customerZipCode={order.customerZipCode}
+                        order={order}
                         setDeliveryMethod={setDeliveryMethod}
                         validate={validate}
                     />
@@ -156,7 +157,14 @@ const CheckOut = () => {
                                 </div>
                             </>
                         )}
-                        <button type='button' className='large' onClick={handlePaymentClick} disabled={validationErrors.length > 0} style={{ width: '100%' }}>
+                        <button
+                            data-testid='checkout-button-choose-payment-method'
+                            type='button'
+                            className='large'
+                            onClick={handlePaymentClick}
+                            disabled={validationErrors.length > 0}
+                            style={{ width: '100%' }}
+                        >
                             {contentToText(ContentID.checkOutChoosePaymentMethod, config)} →
                         </button>
                         <br />

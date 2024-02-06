@@ -34,7 +34,6 @@ const CheckOutPayment = () => {
     useEffect(() => {
         // If 'order' is Order (has been sent to backend), make an api call to initiate a Paytrail payment and receive the available payment methods:
         if (order && validateOrder(order, config) && isOrder(order)) {
-            console.log('createPayment... order:', order);
             const createPayment = async () => {
                 const data = await paytrailService.createPayment(order, config, userState.loggedUser ? userState.loggedUser.id : null);
                 setPaytrailData(data.data);
@@ -56,7 +55,7 @@ const CheckOutPayment = () => {
 
     const responseToHtml = (response: { providers: PaytrailProvider[] }) => {
         return (
-            <div className='flexWrapCenter'>
+            <div data-testid='payment-providers' className='flexWrapCenter'>
                 {response.providers.map((provider) => (
                     <form method='POST' action={provider.url} key={provider.name} style={{ margin: '0.5rem' }}>
                         {provider.parameters.map((param) => (
@@ -128,7 +127,9 @@ const CheckOutPayment = () => {
                             </div>
                         </div>
                         <div className='grid-container' data-gap='1rem'>
-                            <div className='alignLeft bold sizeVeryLarge'>{contentToText(ContentID.checkOutChoosePaymentMethod, config)}</div>
+                            <div data-testid='payment-choose-method' className='alignLeft bold sizeVeryLarge'>
+                                {contentToText(ContentID.checkOutChoosePaymentMethod, config)}
+                            </div>
                             <div className='alignLeft'>{paytrailData && <div dangerouslySetInnerHTML={{ __html: paytrailData.terms + '.' }} />}</div>
                             <div>{htmlForm}</div>
                         </div>

@@ -95,9 +95,10 @@ interface MethodProps {
     customerZipCode: string;
     method: DeliveryMethod;
     setDeliveryMethod: (deliveryMethod: DeliveryMethod | null) => void;
+    testId?: string;
 }
 
-const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDeliveryMethod }: MethodProps) => {
+const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDeliveryMethod, testId = '' }: MethodProps) => {
     const [selectedLocation, setSelectedLocation] = useState<string>(
         currentMethod && currentMethod.notes && currentMethod.notes.length > 0 ? currentMethod.notes : ''
     );
@@ -110,6 +111,7 @@ const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDel
 
     return (
         <div
+            data-testid={testId}
             className={'alignLeft deliveryMethod' + (currentMethod && currentMethod.code === method.code ? ' deliveryMethodSelected' : '')}
             onClick={() => handleClick()}
         >

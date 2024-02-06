@@ -105,6 +105,7 @@ export enum ContentID {
     checkOutCustomerContactInformation = 'CHECK OUT: Customer Contact Information (header)',
     checkOutDataPrivacyNotice = 'CHECK OUT: Data Privacy Notice',
     checkOutEnterZipcode = 'CHECK OUT: Enter zipcode (pick-up location selection)',
+    checkOutFillAutomatically = 'CHECK OUT: Fill automatically',
     checkOutFirstName = 'CHECK OUT: First name',
     checkOutHeader = 'CHECK OUT: Header',
     checkOutInvalidEmail = 'CHECK OUT: Invalid e-mail address',
@@ -140,6 +141,7 @@ export enum ContentID {
     itemsAllCategories = 'ITEMS: All Categories (header)',
     itemsAmount = 'ITEMS: Amount (to add to shopping cart)',
     itemsCategory = 'ITEMS: Category',
+    itemsFitsInLetter = 'ITEMS: How many fit in a letter',
     itemsId = 'ITEMS: Item ID',
     itemsInStock = 'ITEMS: In stock',
     itemsItem = 'ITEMS: Item',
@@ -971,6 +973,13 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.checkOutFillAutomatically,
+        content: [
+            { langCode: LangCode.EN, text: 'Auto-fill' },
+            { langCode: LangCode.FI, text: 'Täytä automaattisesti' },
+        ],
+    },
+    {
         id: ContentID.checkOutErrorWhenFetchingOrder,
         content: [
             { langCode: LangCode.EN, text: 'Invalid order.\n\nPlease contact us:' },
@@ -1216,6 +1225,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Category' },
             { langCode: LangCode.FI, text: 'Kategoria' },
+        ],
+    },
+    {
+        id: ContentID.itemsFitsInLetter,
+        content: [
+            { langCode: LangCode.EN, text: 'How many fit in a letter' },
+            { langCode: LangCode.FI, text: 'Kuinka monta mahtuu kirjeeseen' },
         ],
     },
     {
