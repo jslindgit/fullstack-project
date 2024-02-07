@@ -117,9 +117,11 @@ const Register = () => {
 
     useEffect(() => {
         const countries: string[] = [];
-        config.store.deliveryCountries.forEach((c) => {
-            countries.push(langTextsToText(c.names, config));
-        });
+        [...config.store.deliveryCountries]
+            .sort((a, b) => langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config)))
+            .forEach((c) => {
+                countries.push(langTextsToText(c.names, config));
+            });
         setAvailableCountries(countries);
     }, [config]);
 
@@ -146,7 +148,7 @@ const Register = () => {
                         <>{labelParts[0]}</>
                     )}
                 </div>
-                <div className='valignMiddle'>
+                <div className='grid-container valignMiddle'>
                     {validate && error && (
                         <div className='validationError'>
                             {error}

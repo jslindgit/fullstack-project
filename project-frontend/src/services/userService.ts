@@ -20,7 +20,6 @@ const addNew = async (newUser: NewUser, config: Config): Promise<UserResponse> =
         if (isUser(data)) {
             return { success: true, message: contentToText(ContentID.registerSuccess, config) + ' ' + data.username, user: data };
         } else {
-            handleError('Server did not return an User');
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), user: null };
         }
     } catch (err: unknown) {

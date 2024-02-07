@@ -71,7 +71,14 @@ const AdminItems = () => {
             setCategories(categoryState.categories);
         };
         initCats();
-    }, [categoryState.categories, dispatch, itemAdded]);
+    }, [categoryState.categories, dispatch]);
+
+    useEffect(() => {
+        if (itemAdded && !items.includes(itemAdded)) {
+            setItems([...items, itemAdded]);
+            setItemAdded(null);
+        }
+    }, [itemAdded]);
 
     const closeAddItemForm = () => {
         setShowAddItem(false);
