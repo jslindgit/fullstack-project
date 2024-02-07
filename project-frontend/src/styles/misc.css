@@ -1,3 +1,15 @@
+.buttonHighlight {
+    transition: all 0.25s;
+}
+.buttonHighlight:has(button:hover) {
+    background-color: var(--colorYellowExtremelyLight) !important;
+    transition: all 0.25s;
+}
+.buttonHighlight:has(button:hover) > div {
+    background-color: var(--colorYellowExtremelyLight);
+    transition: all 0.25s;
+}
+
 .categoryLink {
     background-color: var(--colorGrayDark);
     border-radius: 15px;

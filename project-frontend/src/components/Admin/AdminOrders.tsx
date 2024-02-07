@@ -31,7 +31,6 @@ const AdminOrders = () => {
 
     const [allOrders, setAllOrders] = useState<Order[]>([]);
     const [currentFolder, setCurrentFolder] = useState<Folder>(Folder.PROCESSING);
-    const [hoveredButton, setHoveredButton] = useState<Order | null>(null);
     const [orders, setOrders] = useState<Order[]>([]);
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
     const [sortBy, setSortBy] = useState<sortByOption>('date');
@@ -277,8 +276,6 @@ const AdminOrders = () => {
                 isOpened={openedOrder?.id === order.id}
                 handleClose={handleClose}
                 handleOpen={handleOpen}
-                hoveredButton={hoveredButton}
-                setHoveredButton={setHoveredButton}
                 stripedClassName={getStripedRowClassName()}
             />
             {openedOrder?.id === order.id && (

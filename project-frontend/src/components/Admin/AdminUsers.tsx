@@ -18,29 +18,18 @@ import SortArrow from '../SortArrow';
 
 interface Props {
     config: Config;
-    hoveredButton: User | null;
-    setHoveredButton: React.Dispatch<React.SetStateAction<User | null>>;
     user: User;
 }
-const AdminUserRow = ({ config, user, hoveredButton, setHoveredButton }: Props) => {
-    let className = 'hoverableRow' + (hoveredButton === user ? ' hover' : '');
-    if (user.admin) {
-        className += ' bold';
-    } else if (user.operator) {
-        className += ' semiBold';
-    }
-
+const AdminUserRow = ({ config, user }: Props) => {
     return (
-        <tr className={className}>
+        <tr className='buttonHighlight'>
             <td>{user.contactFirstName + ' ' + user.contactLastName}&emsp;</td>
             <td>{user.username}&emsp;</td>
             <td>{user.id}&emsp;</td>
             <td className='widthByContent'>{getUserStatus(user, config)}&emsp;</td>
             <td className='alignRight'>
                 <Link to={'/admin/users/' + user.id}>
-                    <button type='button' onMouseLeave={() => setHoveredButton(null)} onMouseOver={() => setHoveredButton(user)}>
-                        {contentToText(ContentID.buttonShowInfo, config)}
-                    </button>
+                    <button type='button'>{contentToText(ContentID.buttonShowInfo, config)}</button>
                 </Link>
             </td>
         </tr>
@@ -53,7 +42,6 @@ const AdminUsers = () => {
     const config = useSelector((state: RootState) => state.config);
 
     const [fetched, setFetched] = useState<boolean>(false);
-    const [hoveredButton, setHoveredButton] = useState<User | null>(null);
     const [sortBy, setSortBy] = useState<sortByOption>('name');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
     const [users, setUsers] = useState<User[]>([]);
@@ -161,7 +149,7 @@ const AdminUsers = () => {
                         <td></td>
                     </tr>
                     {users.map((user) => (
-                        <AdminUserRow key={user.id} config={config} user={user} hoveredButton={hoveredButton} setHoveredButton={setHoveredButton} />
+                        <AdminUserRow key={user.id} config={config} user={user} />
                     ))}
                 </tbody>
             </table>

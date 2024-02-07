@@ -126,7 +126,7 @@ const AdminSettings = () => {
 
     const settingLangFields = (label: string, langFields: LangField[], propertyName: PropertyName, currentValue: LangText[]) => {
         return (
-            <React.Fragment>
+            <div className={editedProperty !== propertyName ? 'buttonHighlight' : ''} style={{ display: 'contents' }}>
                 <div className='alignLeft semiBold underlinedGridItem valignMiddle' style={{ padding: '1rem' }}>
                     {label}:&emsp;&emsp;&emsp;
                 </div>
@@ -149,7 +149,7 @@ const AdminSettings = () => {
                     )}
                     &emsp;&emsp;&emsp;
                 </div>
-                <div className='alignLeft underlinedGridItem valignMiddle'>
+                <div className='alignRight underlinedGridItem valignMiddle'>
                     {editedProperty === propertyName ? (
                         <>
                             <button
@@ -178,12 +178,12 @@ const AdminSettings = () => {
                         </>
                     )}
                 </div>
-            </React.Fragment>
+            </div>
         );
     };
 
     const settingText = (label: string, useField: UseField, propertyName: PropertyName, currentValue: string) => (
-        <React.Fragment>
+        <div className={editedProperty !== propertyName ? 'buttonHighlight' : ''} style={{ display: 'contents' }}>
             <div className='alignLeft semiBold underlinedGridItem valignMiddle' style={{ padding: '1rem' }}>
                 {label}:&emsp;&emsp;&emsp;
             </div>
@@ -191,7 +191,7 @@ const AdminSettings = () => {
                 {editedProperty === propertyName ? <InputField useField={useField} width={'100%'} minWidth='20rem' autoFocus={true} /> : useField.stringValue()}
                 &emsp;&emsp;&emsp;
             </div>
-            <div className='alignLeft underlinedGridItem valignMiddle'>
+            <div className='alignRight underlinedGridItem valignMiddle'>
                 {editedProperty === propertyName ? (
                     <>
                         <button type='button' onClick={submitChanges} disabled={useField.stringValue() === currentValue}>
@@ -216,7 +216,7 @@ const AdminSettings = () => {
                     </>
                 )}
             </div>
-        </React.Fragment>
+        </div>
     );
 
     const submitChanges = async () => {
@@ -266,51 +266,53 @@ const AdminSettings = () => {
                             'storeCountry',
                             config.store.contactCountry.names
                         )}
-                        <div className='alignLeft semiBold underlinedGridItem valignMiddle' style={{ padding: '1rem' }}>
-                            {contentToText(ContentID.miscDeliveryCountries, config)}:&emsp;&emsp;&emsp;
-                        </div>
-                        <div className='alignLeft underlinedGridItem valignMiddle'>
-                            {editedProperty === 'storeDeliveryCountries' ? <>{deliveryCountrySelection()}</> : <>{deliveryCountryList()}</>}
-                        </div>
-                        <div className='alignLeft underlinedGridItem valignMiddle'>
-                            {editedProperty === 'storeDeliveryCountries' ? (
-                                <>
-                                    <button
-                                        type='button'
-                                        onClick={submitChanges}
-                                        disabled={
-                                            JSON.stringify(
-                                                [...storeDeliveryCountries].sort((a, b) =>
-                                                    langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config))
+                        <div className={editedProperty !== 'storeDeliveryCountries' ? 'buttonHighlight' : ''} style={{ display: 'contents' }}>
+                            <div className='alignLeft semiBold underlinedGridItem valignMiddle' style={{ padding: '1rem' }}>
+                                {contentToText(ContentID.miscDeliveryCountries, config)}:
+                            </div>
+                            <div className='alignLeft underlinedGridItem valignMiddle'>
+                                {editedProperty === 'storeDeliveryCountries' ? <>{deliveryCountrySelection()}</> : <>{deliveryCountryList()}</>}
+                            </div>
+                            <div className='alignRight underlinedGridItem valignMiddle'>
+                                {editedProperty === 'storeDeliveryCountries' ? (
+                                    <>
+                                        <button
+                                            type='button'
+                                            onClick={submitChanges}
+                                            disabled={
+                                                JSON.stringify(
+                                                    [...storeDeliveryCountries].sort((a, b) =>
+                                                        langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config))
+                                                    )
+                                                ) ===
+                                                JSON.stringify(
+                                                    [...config.store.deliveryCountries].sort((a, b) =>
+                                                        langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config))
+                                                    )
                                                 )
-                                            ) ===
-                                            JSON.stringify(
-                                                [...config.store.deliveryCountries].sort((a, b) =>
-                                                    langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config))
-                                                )
-                                            )
-                                        }
-                                    >
-                                        {contentToText(ContentID.buttonSave, config)}
-                                    </button>
-                                    &emsp;
-                                    <button
-                                        type='button'
-                                        onClick={() => {
-                                            setStoreDeliveryCountries([...config.store.deliveryCountries]);
-                                            setEditedProperty('');
-                                        }}
-                                    >
-                                        {contentToText(ContentID.buttonCancel, config)}
-                                    </button>
-                                </>
-                            ) : (
-                                <>
-                                    <button type='button' onClick={() => setEditedProperty('storeDeliveryCountries')}>
-                                        {contentToText(ContentID.buttonEdit, config)}
-                                    </button>
-                                </>
-                            )}
+                                            }
+                                        >
+                                            {contentToText(ContentID.buttonSave, config)}
+                                        </button>
+                                        &emsp;
+                                        <button
+                                            type='button'
+                                            onClick={() => {
+                                                setStoreDeliveryCountries([...config.store.deliveryCountries]);
+                                                setEditedProperty('');
+                                            }}
+                                        >
+                                            {contentToText(ContentID.buttonCancel, config)}
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button type='button' onClick={() => setEditedProperty('storeDeliveryCountries')}>
+                                            {contentToText(ContentID.buttonEdit, config)}
+                                        </button>
+                                    </>
+                                )}
+                            </div>
                         </div>
                         {settingText(
                             `${contentToText(ContentID.miscDeliveryTime, config)} (${contentToText(ContentID.miscDays, config)})`,
