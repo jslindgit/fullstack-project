@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
 import { ContentID } from '../../content';
-import { Order } from '../../types/orderTypes';
+import { Order, OrderStatus } from '../../types/orderTypes';
 import { RootState } from '../../reducers/rootReducer';
 import { NewNotification, NotificationTone } from '../../types/types';
 
@@ -123,7 +123,7 @@ const AdminOrders = () => {
     };
 
     const fetch = async () => {
-        const data = await orderService.getAll();
+        const data = (await orderService.getAll()).filter((order) => order.status !== OrderStatus.PENDING);
         setAllOrders(data);
 
         // prettier-ignore

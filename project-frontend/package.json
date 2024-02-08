@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite --host",
+        "dev": "cross-env VITE_ENV=dev vite --host",
         "build": "tsc && vite build",
         "cypress:open": "cypress open",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -31,6 +31,7 @@
         "@typescript-eslint/eslint-plugin": "^6.0.0",
         "@typescript-eslint/parser": "^6.0.0",
         "@vitejs/plugin-react": "^4.0.3",
+        "cross-env": "^7.0.3",
         "cypress": "^13.6.4",
         "eslint": "^8.45.0",
         "eslint-plugin-react-hooks": "^4.6.0",
