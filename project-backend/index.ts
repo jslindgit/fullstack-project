@@ -28,9 +28,11 @@ const corsOptions = {
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
-app.get('/', (_req, res) => {
+/*app.get('/', (_req, res) => {
     res.status(200).send('Full Stack open project');
-});
+});*/
+
+app.use(express.static('dist'));
 
 app.get('/api/ping', (_req, res) => {
     console.log('someone pinged here');

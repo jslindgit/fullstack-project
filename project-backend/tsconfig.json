@@ -2,6 +2,7 @@
     "compilerOptions": {
         "target": "ES2022",
         "outDir": "./build/",
+        "module": "CommonJS",
         "strict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,

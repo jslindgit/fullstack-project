@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
 import { DeliveryMethod, Order, ShoppingItem } from '../types/orderTypes';
