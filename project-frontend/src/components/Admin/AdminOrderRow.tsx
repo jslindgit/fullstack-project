@@ -11,14 +11,12 @@ import { getOrderStatusForAdmin } from '../../types/orderTypeFunctions';
 interface Props {
     handleClose: () => void;
     handleOpen: (order: Order) => Promise<void>;
-    hoveredButton: Order | null;
     isOpened: boolean;
     order: Order;
-    setHoveredButton: React.Dispatch<React.SetStateAction<Order | null>>;
     stripedClassName: string;
 }
 
-const AdminOrderRow = ({ order, isOpened, handleClose, handleOpen, hoveredButton, setHoveredButton, stripedClassName }: Props) => {
+const AdminOrderRow = ({ order, isOpened, handleClose, handleOpen, stripedClassName }: Props) => {
     const config = useSelector((state: RootState) => state.config);
 
     const date = new Date(order.createdAt);
@@ -26,10 +24,7 @@ const AdminOrderRow = ({ order, isOpened, handleClose, handleOpen, hoveredButton
     return (
         <tr
             className={
-                stripedClassName +
-                ' ' +
-                (isOpened ? 'adminOrdersOpened' : 'hoverableRow' + (hoveredButton === order ? ' hover' : '')) +
-                (!order.printedOutDate && !order.deliveredDate ? ' bold' : '')
+                stripedClassName + ' ' + (isOpened ? 'adminOrdersOpened' : 'buttonHighlight') + (!order.printedOutDate && !order.deliveredDate ? ' bold' : '')
             }
         >
             <td>{format.dateFormat(date)}</td>
@@ -45,12 +40,7 @@ const AdminOrderRow = ({ order, isOpened, handleClose, handleOpen, hoveredButton
                         {contentToText(ContentID.buttonClose, config)}
                     </button>
                 ) : (
-                    <button
-                        type='button'
-                        onClick={() => handleOpen(order)}
-                        onMouseLeave={() => setHoveredButton(null)}
-                        onMouseOver={() => setHoveredButton(order)}
-                    >
+                    <button type='button' onClick={() => handleOpen(order)}>
                         {contentToText(ContentID.buttonOpen, config)}
                     </button>
                 )}

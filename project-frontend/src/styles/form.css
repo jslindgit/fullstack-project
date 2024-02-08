@@ -74,6 +74,7 @@ adminFormItemEdit select {
     justify-content: center;
     outline-color: transparent;
     padding: 0 !important;
+    pointer-events: auto;
     user-select: none;
     width: 1.25em;
     transition: all 0.25s;
