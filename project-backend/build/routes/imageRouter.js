@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-misused-promises */
 const express_1 = __importDefault(require("express"));
+const fs_1 = __importDefault(require("fs"));
 const multer_1 = __importDefault(require("multer"));
 const errors_1 = require("../middlewares/errors");
 const type_functions_1 = require("../types/type_functions");
@@ -16,6 +17,8 @@ const storage = multer_1.default.diskStorage({
         if ((0, type_functions_1.isObject)(req.body) && 'subdir' in req.body && (0, type_functions_1.isString)(req.body.subdir)) {
             destinationPath = imageService_1.default.getPath(req.body.subdir);
         }
+        // Check if the destination directory exists, if not, create it
+        fs_1.default.mkdirSync(destinationPath, { recursive: true });
         cb(null, destinationPath);
     },
     filename: (_req, file, cb) => {
