@@ -67,6 +67,8 @@ const getAll = async () => {
 const getBySubDir = async (subDir) => {
     try {
         const directory = getPath(subDir);
+        // Check if the destination directory exists, if not, create it
+        fs_1.default.mkdirSync(directory, { recursive: true });
         const readdirAsync = util_1.default.promisify(fs_1.default.readdir);
         const files = await readdirAsync(directory);
         const paths = files.map((filename) => path_1.default.join(subDir, filename));

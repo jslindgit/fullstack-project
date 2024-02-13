@@ -17,6 +17,7 @@ const storage = multer_1.default.diskStorage({
         if ((0, type_functions_1.isObject)(req.body) && 'subdir' in req.body && (0, type_functions_1.isString)(req.body.subdir)) {
             destinationPath = imageService_1.default.getPath(req.body.subdir);
         }
+        console.log('destPath:', destinationPath);
         // Check if the destination directory exists, if not, create it
         fs_1.default.mkdirSync(destinationPath, { recursive: true });
         cb(null, destinationPath);

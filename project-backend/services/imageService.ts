@@ -84,6 +84,10 @@ const getAll = async (): Promise<ImageResponse> => {
 const getBySubDir = async (subDir: string): Promise<ImageResponse> => {
     try {
         const directory = getPath(subDir);
+
+        // Check if the destination directory exists, if not, create it
+        fs.mkdirSync(directory, { recursive: true });
+
         const readdirAsync = util.promisify(fs.readdir);
         const files: string[] = await readdirAsync(directory);
         const paths = files.map((filename) => path.join(subDir, filename));
