@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 import { RequestHandler } from 'express';
+import fs from 'fs';
 import multer from 'multer';
 
 import { errorHandler } from '../middlewares/errors';
@@ -14,6 +15,10 @@ const storage = multer.diskStorage({
         if (isObject(req.body) && 'subdir' in req.body && isString(req.body.subdir)) {
             destinationPath = service.getPath(req.body.subdir);
         }
+
+        // Check if the destination directory exists, if not, create it
+        fs.mkdirSync(destinationPath, { recursive: true });
+
         cb(null, destinationPath);
     },
     filename: (_req, file, cb) => {
