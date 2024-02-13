@@ -35,7 +35,6 @@ const AdminOrders = () => {
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
     const [sortBy, setSortBy] = useState<sortByOption>('date');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-    const [update, setUpdate] = useState<boolean>(false);
 
     const orderToOpen = useRef<Order | null>(null);
 
@@ -52,49 +51,6 @@ const AdminOrders = () => {
             setSortBy(by);
         } else {
             setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-        }
-    };
-
-    const sortAndSet = (allOrders: Order[]) => {
-        switch (sortBy) {
-            case 'date':
-                setOrders(
-                    [...allOrders].sort((a, b) => (sortDirection === 'asc' ? a.createdAt.localeCompare(b.createdAt) : b.createdAt.localeCompare(a.createdAt)))
-                );
-                break;
-            case 'customer':
-                setOrders(
-                    [...allOrders].sort((a, b) =>
-                        sortDirection === 'asc'
-                            ? (a.customerLastName + a.customerFirstName).localeCompare(b.customerLastName + b.customerFirstName)
-                            : (b.customerLastName + b.customerFirstName).localeCompare(a.customerLastName + a.customerFirstName)
-                    )
-                );
-                break;
-            case 'totalSum':
-                setOrders([...allOrders].sort((a, b) => (sortDirection === 'asc' ? a.totalAmount - b.totalAmount : b.totalAmount - a.totalAmount)));
-                break;
-            case 'delivery':
-                setOrders(
-                    [...allOrders].sort((a, b) =>
-                        sortDirection === 'asc'
-                            ? langTextsToText(a.deliveryMethod?.names, config).localeCompare(langTextsToText(b.deliveryMethod?.names, config))
-                            : langTextsToText(b.deliveryMethod?.names, config).localeCompare(langTextsToText(a.deliveryMethod?.names, config))
-                    )
-                );
-                break;
-            case 'status':
-                setOrders(
-                    [...allOrders].sort((a, b) =>
-                        sortDirection === 'asc'
-                            ? getOrderStatusForAdmin(a, config).localeCompare(getOrderStatusForAdmin(b, config))
-                            : getOrderStatusForAdmin(b, config).localeCompare(getOrderStatusForAdmin(a, config))
-                    )
-                );
-                break;
-            default:
-                setOrders(allOrders);
-                break;
         }
     };
 
@@ -122,12 +78,58 @@ const AdminOrders = () => {
         }
     };
 
-    const fetch = async () => {
-        const data = (await orderService.getAll()).filter((order) => order.status !== OrderStatus.PENDING);
-        setAllOrders(data);
+    useEffect(() => {
+        const sortAndSet = (allOrders: Order[]) => {
+            switch (sortBy) {
+                case 'date':
+                    setOrders(
+                        [...allOrders].sort((a, b) =>
+                            sortDirection === 'asc' ? a.createdAt.localeCompare(b.createdAt) : b.createdAt.localeCompare(a.createdAt)
+                        )
+                    );
+                    break;
+                case 'customer':
+                    setOrders(
+                        [...allOrders].sort((a, b) =>
+                            sortDirection === 'asc'
+                                ? (a.customerLastName + a.customerFirstName).localeCompare(b.customerLastName + b.customerFirstName)
+                                : (b.customerLastName + b.customerFirstName).localeCompare(a.customerLastName + a.customerFirstName)
+                        )
+                    );
+                    break;
+                case 'totalSum':
+                    setOrders([...allOrders].sort((a, b) => (sortDirection === 'asc' ? a.totalAmount - b.totalAmount : b.totalAmount - a.totalAmount)));
+                    break;
+                case 'delivery':
+                    setOrders(
+                        [...allOrders].sort((a, b) =>
+                            sortDirection === 'asc'
+                                ? langTextsToText(a.deliveryMethod?.names, config).localeCompare(langTextsToText(b.deliveryMethod?.names, config))
+                                : langTextsToText(b.deliveryMethod?.names, config).localeCompare(langTextsToText(a.deliveryMethod?.names, config))
+                        )
+                    );
+                    break;
+                case 'status':
+                    setOrders(
+                        [...allOrders].sort((a, b) =>
+                            sortDirection === 'asc'
+                                ? getOrderStatusForAdmin(a, config).localeCompare(getOrderStatusForAdmin(b, config))
+                                : getOrderStatusForAdmin(b, config).localeCompare(getOrderStatusForAdmin(a, config))
+                        )
+                    );
+                    break;
+                default:
+                    setOrders(allOrders);
+                    break;
+            }
+        };
 
-        // prettier-ignore
-        const dataToSort =
+        const fetch = async () => {
+            const data = (await orderService.getAll()).filter((order) => order.status !== OrderStatus.PENDING);
+            setAllOrders(data);
+
+            // prettier-ignore
+            const dataToSort =
             search.stringValue().length > 0 ?
                 data.filter((order) =>
                     order.customerFirstName.toLowerCase().includes(search.stringValue().toLowerCase()) ||
@@ -135,22 +137,17 @@ const AdminOrders = () => {
                     order.id.toString().includes(search.stringValue()))
                 : data;
 
-        sortAndSet(dataToSort.filter((order) => belongsToFolder(order, currentFolder)));
-    };
+            sortAndSet(dataToSort.filter((order) => belongsToFolder(order, currentFolder)));
+        };
 
-    useEffect(() => {
         fetch();
 
         document.title = `${contentToText(ContentID.adminPanelHeader, config)} - ${contentToText(ContentID.adminPanelOrders, config)} (${orders.length})`;
-    }, [config, currentFolder, orders.length, search.value]);
-
-    useEffect(() => {
-        sortAndSet(orders);
-    }, [sortBy, sortDirection]);
+    }, [config, currentFolder, orders.length, search, sortBy, sortDirection]);
 
     useEffect(() => {
         setOpenedOrder(orderToOpen.current);
-    }, [openedOrder, update]);
+    }, [openedOrder]);
 
     const folderLabel = (folderName: Folder): string => {
         switch (folderName) {
@@ -183,55 +180,75 @@ const AdminOrders = () => {
         } else if (confirm(`${contentToText(ContentID.adminOrdersDeleteOrder, config)} ${order.id} (${order.customerFirstName} ${order.customerLastName})?`)) {
             setOpenedOrder(null);
             const res = await orderService.deleteOrder(order, usersState.loggedUser?.token);
-            await fetch();
+
+            if (res.success) {
+                setOrders([...orders].filter((o) => o.id !== order.id));
+            }
+
             dispatch(setNotification({ tone: res.success ? 'Neutral' : 'Negative', message: res.message }));
         }
     };
 
     const handleMarkAsDelivered = async (order: Order) => {
-        await orderService.update(order.id, { deliveredDate: new Date() });
+        const res = await orderService.update(order.id, { deliveredDate: new Date() });
         handleClose();
-        await fetch();
+
+        if (res.order) {
+            const returnedOrder = res.order;
+            setOrders(
+                orders.map((o) => {
+                    return o.id !== order.id ? o : returnedOrder;
+                })
+            );
+        }
+
         dispatch(setNotification(getNotification(order, Folder.DELIVERED, 'Positive')));
     };
 
     const handleMarkAsNotDelivered = async (order: Order) => {
-        await orderService.update(order.id, { deliveredDate: null });
+        const res = await orderService.update(order.id, { deliveredDate: null });
         handleClose();
-        await fetch();
+
+        if (res.order) {
+            const returnedOrder = res.order;
+            setOrders(
+                orders.map((o) => {
+                    return o.id !== order.id ? o : returnedOrder;
+                })
+            );
+        }
+
         dispatch(setNotification(getNotification(order, Folder.PROCESSING, 'Positive')));
     };
 
     const handleMoveBackFromRecycleBin = async (order: Order) => {
         await orderService.update(order.id, { recycledDate: null });
         handleClose();
-        await fetch();
         dispatch(setNotification(getNotification(order, order.deliveredDate ? Folder.DELIVERED : Folder.PROCESSING, 'Positive')));
     };
 
     const handleMoveToRecycleBin = async (order: Order) => {
         await orderService.update(order.id, { recycledDate: new Date() });
         handleClose();
-        await fetch();
         dispatch(setNotification(getNotification(order, Folder.RECYCLEBIN, 'Neutral')));
     };
 
     const handleOpen = async (order: Order) => {
         if (!order.readDate) {
-            await orderService.update(order.id, { readDate: new Date() });
-            await fetch();
+            const res = await orderService.update(order.id, { readDate: new Date() });
+
+            if (res.order) {
+                const returnedOrder = res.order;
+                setOrders(
+                    orders.map((o) => {
+                        return o.id !== order.id ? o : returnedOrder;
+                    })
+                );
+            }
         }
 
         orderToOpen.current = order;
         setOpenedOrder(order);
-    };
-
-    const handlePrint = async (orderId: number) => {
-        console.log('print...'); // TODO: print the order
-
-        await orderService.update(orderId, { printedOutDate: new Date() });
-        await fetch();
-        setUpdate(!update);
     };
 
     const columnHeader = (label: ContentID, sortByOption: sortByOption, widthByContent: boolean = false) => (
@@ -286,7 +303,6 @@ const AdminOrders = () => {
                     handleMarkAsNotDelivered={handleMarkAsNotDelivered}
                     handleMoveBackFromRecycleBin={handleMoveBackFromRecycleBin}
                     handleMoveToRecycleBin={handleMoveToRecycleBin}
-                    handlePrint={handlePrint}
                 />
             )}
         </React.Fragment>

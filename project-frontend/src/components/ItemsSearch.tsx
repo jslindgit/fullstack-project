@@ -27,12 +27,14 @@ const ItemsSearch = () => {
 
     // Get search query from URL:
     useEffect(() => {
-        const query = searchParams.get('q');
-        if (query) {
-            searchField.setNewValue(query);
+        if (!attemptedToGetSearchParam) {
+            const query = searchParams.get('q');
+            if (query) {
+                searchField.setNewValue(query);
+            }
+            setAttemptedToGetSearchParam(true);
         }
-        setAttemptedToGetSearchParam(true);
-    }, [searchParams]);
+    }, [attemptedToGetSearchParam, searchField, searchParams]);
 
     // Get Items that match the search query:
     useEffect(() => {
@@ -42,7 +44,7 @@ const ItemsSearch = () => {
             };
             fetch();
         }
-    }, [searchField.value]);
+    }, [attemptedToGetSearchParam, config, searchField.value]);
 
     return (
         <>

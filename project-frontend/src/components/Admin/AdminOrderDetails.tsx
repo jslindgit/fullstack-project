@@ -14,7 +14,6 @@ interface Props {
     handleMarkAsNotDelivered: (order: Order) => Promise<void>;
     handleMoveBackFromRecycleBin: (order: Order) => Promise<void>;
     handleMoveToRecycleBin: (order: Order) => Promise<void>;
-    handlePrint: (orderId: number) => Promise<void>;
     order: Order;
 }
 
@@ -24,7 +23,6 @@ const AdminOrderDetails = ({
     handleMarkAsNotDelivered,
     handleMoveBackFromRecycleBin,
     handleMoveToRecycleBin,
-    handlePrint,
     order,
 }: Props) => {
     const [copyLabel, setCopyLabel] = useState<string>('');
@@ -71,23 +69,6 @@ const AdminOrderDetails = ({
                     <tbody>
                         <tr>
                             <td style={{ borderRadius: 0 }}>
-                                <table width='100%' align='center' className='paddingTopBottomOnly sizeLarge' style={{ marginTop: '0.5rem', marginBottom: 0 }}>
-                                    <tbody>
-                                        <tr>
-                                            <td width='1px' style={{ borderRadius: 0, paddingRight: '1rem' }}>
-                                                <img src='/printer_black_2.png' height='20px' />
-                                            </td>
-                                            <td className='widthByContent' style={{ paddingBottom: '0.9rem', paddingLeft: 0, paddingRight: 0 }}>
-                                                <a className='bold' onClick={() => handlePrint(order.id)}>
-                                                    {contentToText(ContentID.adminOrdersPrintOrder, config)}
-                                                </a>
-                                            </td>
-                                            <td style={{ borderRadius: 0, paddingBottom: '0.1rem', paddingLeft: '1rem', paddingTop: 0 }}>
-                                                {order.printedOutDate ? <img src='/checkmark_green.png' /> : <></>}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
                                 <table width='100%' align='center' className='paddingTopBottomOnly sizeLarge' style={{ marginTop: 0, marginBottom: '1.25rem' }}>
                                     <tbody>
                                         <tr>

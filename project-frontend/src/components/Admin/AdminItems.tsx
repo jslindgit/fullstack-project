@@ -55,6 +55,11 @@ const AdminItems = () => {
 
     // Fetch Items in the current Category:
     useEffect(() => {
+        const fetchItems = async () => {
+            const source: Item[] = category ? category.items : uncategorizedItems;
+            setItems(source);
+        };
+
         fetchItems();
     }, [category, uncategorizedItems]);
 
@@ -78,7 +83,7 @@ const AdminItems = () => {
             setItems([...items, itemAdded]);
             setItemAdded(null);
         }
-    }, [itemAdded]);
+    }, [itemAdded, items]);
 
     const closeAddItemForm = () => {
         setShowAddItem(false);
@@ -98,11 +103,6 @@ const AdminItems = () => {
                 setItems(items.filter((i) => i !== item));
             }
         }
-    };
-
-    const fetchItems = async () => {
-        const source: Item[] = category ? category.items : uncategorizedItems;
-        setItems(source);
     };
 
     const handleAddItemButton = () => {
@@ -138,7 +138,7 @@ const AdminItems = () => {
             <div style={{ marginTop: '-0.5rem' }}>
                 {category ? langTextsToText(category.description, config) : contentToText(ContentID.adminItemsUncategorizedDescription, config)}
             </div>
-            <AdminItemList config={config} deleteItem={deleteItem} items={items} setItems={setItems} />
+            <AdminItemList config={config} deleteItem={deleteItem} items={items} />
             <div className='alignLeft'>
                 {showAddItem ? (
                     <ItemEditForm

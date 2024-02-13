@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';

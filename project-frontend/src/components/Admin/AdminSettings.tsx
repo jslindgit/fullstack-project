@@ -79,6 +79,7 @@ const AdminSettings = () => {
     // Initial values:
     useEffect(() => {
         initLangFields();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [config]);
 
     const deliveryCountryIsSelected = (country: Country): boolean => {

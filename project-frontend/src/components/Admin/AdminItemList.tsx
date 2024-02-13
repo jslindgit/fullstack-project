@@ -14,61 +14,63 @@ interface ListProps {
     config: Config;
     deleteItem: (item: Item) => Promise<void>;
     items: Item[];
-    setItems: React.Dispatch<React.SetStateAction<Item[]>>;
 }
-const AdminItemList = ({ config, deleteItem, items, setItems }: ListProps) => {
+const AdminItemList = ({ config, deleteItem, items }: ListProps) => {
     type sortByOption = 'description' | 'id' | 'instock' | 'name' | 'price';
 
     const [sortBy, setSortBy] = useState<sortByOption>('name');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+    const [sortedItems, setSortedItems] = useState<Item[]>([]);
 
     // Sort the Items if 'sortBy' or 'sortDirection' have changed:
     useEffect(() => {
+        const sortAndSet = () => {
+            switch (sortBy) {
+                case 'description':
+                    setSortedItems(
+                        [...items].sort((a, b) =>
+                            sortDirection === 'asc'
+                                ? langTextsToText(a.description, config).localeCompare(langTextsToText(b.description, config))
+                                : langTextsToText(b.description, config).localeCompare(langTextsToText(a.description, config))
+                        )
+                    );
+                    break;
+                case 'id':
+                    setSortedItems([...items].sort((a, b) => (sortDirection === 'asc' ? a.id - b.id : b.id - a.id)));
+                    break;
+                case 'instock':
+                    setSortedItems(
+                        [...items].sort((a, b) =>
+                            sortDirection === 'asc' ? itemInStockTotal(a) - itemInStockTotal(b) : itemInStockTotal(b) - itemInStockTotal(a)
+                        )
+                    );
+                    break;
+                case 'name':
+                    setSortedItems(
+                        [...items].sort((a, b) =>
+                            sortDirection === 'asc'
+                                ? langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))
+                                : langTextsToText(b.name, config).localeCompare(langTextsToText(a.name, config))
+                        )
+                    );
+                    break;
+                case 'price':
+                    setSortedItems([...items].sort((a, b) => (sortDirection === 'asc' ? a.price - b.price : b.price - a.price)));
+                    break;
+                default:
+                    //setItems(items);
+                    break;
+            }
+        };
+
         sortAndSet();
-    }, [sortBy, sortDirection]);
+    }, [config, items, sortBy, sortDirection]);
 
     const setSorting = (by: sortByOption) => {
         if (sortBy !== by) {
             setSortBy(by);
         } else {
             setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-        }
-    };
-
-    const sortAndSet = () => {
-        switch (sortBy) {
-            case 'description':
-                setItems(
-                    [...items].sort((a, b) =>
-                        sortDirection === 'asc'
-                            ? langTextsToText(a.description, config).localeCompare(langTextsToText(b.description, config))
-                            : langTextsToText(b.description, config).localeCompare(langTextsToText(a.description, config))
-                    )
-                );
-                break;
-            case 'id':
-                setItems([...items].sort((a, b) => (sortDirection === 'asc' ? a.id - b.id : b.id - a.id)));
-                break;
-            case 'instock':
-                setItems(
-                    [...items].sort((a, b) => (sortDirection === 'asc' ? itemInStockTotal(a) - itemInStockTotal(b) : itemInStockTotal(b) - itemInStockTotal(a)))
-                );
-                break;
-            case 'name':
-                setItems(
-                    [...items].sort((a, b) =>
-                        sortDirection === 'asc'
-                            ? langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))
-                            : langTextsToText(b.name, config).localeCompare(langTextsToText(a.name, config))
-                    )
-                );
-                break;
-            case 'price':
-                setItems([...items].sort((a, b) => (sortDirection === 'asc' ? a.price - b.price : b.price - a.price)));
-                break;
-            default:
-                setItems(items);
-                break;
         }
     };
 
@@ -103,7 +105,7 @@ const AdminItemList = ({ config, deleteItem, items, setItems }: ListProps) => {
                     <td width='1px' style={{ paddingRight: 0 }}></td>
                     <td width='1px' style={{ paddingRight: 0 }}></td>
                 </tr>
-                {items.map((item) => (
+                {sortedItems.map((item) => (
                     <AdminItemRow key={item.id} item={item} deleteItem={deleteItem} />
                 ))}
             </tbody>
