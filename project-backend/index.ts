@@ -53,6 +53,10 @@ app.use('/api/images', cors(corsOptions));
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+app.get('*', (_req, res) => {
+    res.sendFile(path.join(__dirname, './../dist', 'index.html'));
+});
+
 const start = async () => {
     await connectToDatabase();
 

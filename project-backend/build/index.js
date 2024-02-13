@@ -46,6 +46,9 @@ app.use('/api/settings', settingsRouter_1.default);
 app.use('/api/users', userRouter_1.default);
 app.use('/api/images', (0, cors_1.default)(corsOptions));
 app.use('/images', express_1.default.static(path_1.default.join(__dirname, 'images')));
+app.get('*', (_req, res) => {
+    res.sendFile(path_1.default.join(__dirname, './../dist', 'index.html'));
+});
 const start = async () => {
     await (0, db_1.connectToDatabase)();
     app.listen(config_1.PORT, () => {
