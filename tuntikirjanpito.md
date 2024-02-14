@@ -144,4 +144,5 @@
 |   31.1.   | 1    | Ulkoasun parantelua                                                                                                  |     |
 |   2.2.    | 2    | E2E-testien kirjoittamista                                                                                           |     |
 |   6.2.    | 2    | Lisää E2E-testejä, tuotteille määrittely kirjetoimituksen mahdollisuudesta                                           |     |
-|    yht    | 238  |                                                                                                                      |     |
+|   14.2.   | 2    | Refactorointia + ajoitettu tehtävä vanhojen tilausten siivoamiseen                                                   | 240 |
+|    yht    | 240  |                                                                                                                      |     |

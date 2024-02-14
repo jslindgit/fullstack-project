@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -75,46 +75,51 @@ const CheckOut = () => {
         }
     };
 
-    const setCustomerInfo = (
-        address: string,
-        city: string,
-        country: string,
-        email: string,
-        firstName: string,
-        lastName: string,
-        organization: string,
-        phone: string,
-        zipCode: string
-    ) => {
-        if (
-            order.customerAddress !== address ||
-            order.customerCity !== city ||
-            order.customerCountry !== country ||
-            order.customerEmail !== email ||
-            order.customerFirstName !== firstName ||
-            order.customerLastName !== lastName ||
-            order.customerOrganization !== organization ||
-            order.customerPhone !== phone ||
-            order.customerZipCode !== zipCode
-        )
-            dispatch(
-                setOrder({
-                    ...order,
-                    customerAddress: address,
-                    customerCity: city,
-                    customerCountry: country,
-                    customerEmail: email,
-                    customerFirstName: firstName,
-                    customerLastName: lastName,
-                    customerPhone: phone,
-                    customerZipCode: zipCode,
-                    customerOrganization: organization,
-                })
-            );
-    };
+    const setCustomerInfo = useCallback(
+        (
+            address: string,
+            city: string,
+            country: string,
+            email: string,
+            firstName: string,
+            lastName: string,
+            organization: string,
+            phone: string,
+            zipCode: string
+        ) => {
+            if (
+                order.customerAddress !== address ||
+                order.customerCity !== city ||
+                order.customerCountry !== country ||
+                order.customerEmail !== email ||
+                order.customerFirstName !== firstName ||
+                order.customerLastName !== lastName ||
+                order.customerOrganization !== organization ||
+                order.customerPhone !== phone ||
+                order.customerZipCode !== zipCode
+            )
+                dispatch(
+                    setOrder({
+                        ...order,
+                        customerAddress: address,
+                        customerCity: city,
+                        customerCountry: country,
+                        customerEmail: email,
+                        customerFirstName: firstName,
+                        customerLastName: lastName,
+                        customerPhone: phone,
+                        customerZipCode: zipCode,
+                        customerOrganization: organization,
+                    })
+                );
+        },
+        [dispatch, order]
+    );
 
     const setDeliveryMethod = (deliveryMethod: DeliveryMethod | null) => {
-        dispatch(setOrder({ ...order, deliveryMethod: deliveryMethod }));
+        if (order.deliveryMethod?.code !== deliveryMethod?.code) {
+            dispatch(setOrder({ ...order, deliveryMethod: deliveryMethod }));
+        }
     };
 
     useEffect(() => {

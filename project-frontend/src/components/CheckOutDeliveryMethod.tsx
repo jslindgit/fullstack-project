@@ -13,26 +13,19 @@ import useField from '../hooks/useField';
 
 interface SelectProps {
     config: Config;
-    currentMethod: DeliveryMethod | null;
+    currentMethodCode: DeliveryCode | null;
     customerZipCode: string;
     thisMethod: DeliveryMethod;
-    selectedLocation: string;
+    selectedPoint: string;
     setDeliveryMethod: (deliveryMethod: DeliveryMethod | null) => void;
-    setSelectedLocation: React.Dispatch<React.SetStateAction<string>>;
+    setSelectedPoint: React.Dispatch<React.SetStateAction<string>>;
 }
-const PickupLocationSelection = ({
-    config,
-    currentMethod,
-    customerZipCode,
-    thisMethod,
-    selectedLocation,
-    setDeliveryMethod,
-    setSelectedLocation,
-}: SelectProps) => {
+const PickupPointSelection = ({ config, currentMethodCode, customerZipCode, thisMethod, selectedPoint, setDeliveryMethod, setSelectedPoint }: SelectProps) => {
     const [locations, setLocations] = useState<PostiLocation[]>([]);
 
     const zipCode = useField('text', ContentID.checkOutZipCode, customerZipCode);
 
+    // Fetch pickup points from Posti's API:
     useEffect(() => {
         if (zipCode.value.toString().length > 4) {
             const fetch = async () => {
@@ -47,26 +40,27 @@ const PickupLocationSelection = ({
         }
     }, [zipCode]);
 
+    // By default, select the first possible pickup point:
     useEffect(() => {
-        if (selectedLocation.length < 1 && locations.length > 0) {
-            setSelectedLocation(locations[0].name);
+        if (selectedPoint.length < 1 && locations.length > 0) {
+            setSelectedPoint(locations[0].name);
         }
-    }, [locations]);
+    }, [locations, selectedPoint.length, setSelectedPoint]);
 
     useEffect(() => {
-        if (currentMethod?.code === thisMethod.code && selectedLocation.length > 0) {
-            setDeliveryMethod({ ...thisMethod, notes: selectedLocation });
+        if (currentMethodCode && currentMethodCode === thisMethod.code && selectedPoint.length > 0) {
+            setDeliveryMethod({ ...thisMethod, notes: selectedPoint });
         }
-    }, [currentMethod, selectedLocation]);
+    }, [currentMethodCode, selectedPoint, setDeliveryMethod, thisMethod]);
 
     useEffect(() => {
         if (customerZipCode.length > zipCode.value.toString().length) {
             zipCode.setNewValue(customerZipCode);
         }
-    }, [customerZipCode]);
+    }, [customerZipCode, zipCode]);
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedLocation(e.target.value);
+        setSelectedPoint(e.target.value);
     };
 
     return (
@@ -74,7 +68,7 @@ const PickupLocationSelection = ({
             <div>{contentToText(ContentID.checkoutChoosePickupLocation, config)}:</div>
             <input type={zipCode.type} value={zipCode.value} onChange={zipCode.onChange} style={{ width: '6rem' }} />
             {locations.length > 0 ? (
-                <select value={selectedLocation} onChange={handleChange}>
+                <select value={selectedPoint} onChange={handleChange}>
                     {locations.map((loc) => (
                         <option key={loc.id} value={loc.name + ' (' + loc.address + ')'}>
                             {loc.name}
@@ -99,14 +93,14 @@ interface MethodProps {
 }
 
 const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDeliveryMethod, testId = '' }: MethodProps) => {
-    const [selectedLocation, setSelectedLocation] = useState<string>(
+    const [selectedPoint, setSelectedPoint] = useState<string>(
         currentMethod && currentMethod.notes && currentMethod.notes.length > 0 ? currentMethod.notes : ''
     );
 
     const config = useSelector((state: RootState) => state.config);
 
     const handleClick = () => {
-        method.code === DeliveryCode.POSTI_PAKETTI ? setDeliveryMethod({ ...method, notes: selectedLocation }) : setDeliveryMethod(method);
+        method.code === DeliveryCode.POSTI_PAKETTI ? setDeliveryMethod({ ...method, notes: selectedPoint }) : setDeliveryMethod(method);
     };
 
     return (
@@ -123,14 +117,14 @@ const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDel
             <span className='semiBold'>{format.currency(method.cost, config)}</span>
             {method.code === DeliveryCode.POSTI_PAKETTI && (
                 <div style={{ marginTop: '1rem' }}>
-                    <PickupLocationSelection
+                    <PickupPointSelection
                         config={config}
-                        currentMethod={currentMethod}
+                        currentMethodCode={currentMethod ? currentMethod.code : null}
                         customerZipCode={customerZipCode}
                         thisMethod={method}
-                        selectedLocation={selectedLocation}
+                        selectedPoint={selectedPoint}
                         setDeliveryMethod={setDeliveryMethod}
-                        setSelectedLocation={setSelectedLocation}
+                        setSelectedPoint={setSelectedPoint}
                     />
                 </div>
             )}

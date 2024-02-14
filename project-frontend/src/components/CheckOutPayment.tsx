@@ -41,7 +41,7 @@ const CheckOutPayment = () => {
             };
             createPayment();
         }
-    }, [config, order]);
+    }, [config, order, userState.loggedUser]);
 
     if (!order) {
         return (

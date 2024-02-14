@@ -45,7 +45,7 @@ const CheckOutDelivery = ({ currentMethod, customerCountry, customerZipCode, ord
         };
 
         setSuitableMethods();
-    }, [config.store.contactCountry, customerCountry]);
+    }, [config.store.contactCountry, currentMethod, customerCountry, order, setDeliveryMethod]);
 
     return (
         <div className={'infoBox' + (validate && !currentMethod ? ' errors' : '')}>

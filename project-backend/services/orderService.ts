@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import Order, { NewOrder, OrderAttributes, OrderInstance } from '../models/order';
 
 import { handleError } from '../util/error_handler';
+import { dateFormat } from '../util/misc';
 import { isNumber, isObject } from '../types/type_functions';
 
 const addNew = async (newOrder: NewOrder): Promise<OrderInstance | null> => {
@@ -26,6 +27,45 @@ const deleteById = async (id: unknown): Promise<OrderInstance | null> => {
     } catch (err: unknown) {
         handleError(err);
         return null;
+    }
+};
+
+const deleteExpiredUnpaidOrders = async () => {
+    try {
+        const expirationTimeHours = 24;
+
+        console.log(`Deleting unpaid orders older than ${expirationTimeHours} hours...`);
+
+        const unpaidOrders = (await getAll()).filter((order) => order.status === 'PENDING');
+
+        const hasExpired = (order: OrderInstance): boolean => {
+            if ('createdAt' in order && order.createdAt instanceof Date) {
+                const currentTime = new Date();
+                const differenceHours = (currentTime.getTime() - order.createdAt.getTime()) / (1000 * 60 * 60);
+
+                return differenceHours >= expirationTimeHours;
+            }
+            return false;
+        };
+
+        const expiredOrders = unpaidOrders.filter((order) => hasExpired(order));
+
+        console.log(expiredOrders.length + ' expired orders found.');
+
+        const promises: Promise<OrderInstance | null>[] = [];
+
+        expiredOrders.forEach((order) => {
+            console.log(
+                `Deleting order #${order.id} (${order.customerFirstName} ${order.customerLastName})` +
+                    ('createdAt' in order && order.createdAt instanceof Date ? ` [${dateFormat(order.createdAt)}]...` : '...')
+            );
+
+            promises.push(deleteById(order.id));
+        });
+
+        await Promise.all(promises);
+    } catch (err: unknown) {
+        handleError(err);
     }
 };
 
@@ -106,6 +146,7 @@ const update = async (id: unknown, props: unknown): Promise<OrderInstance | null
 export default {
     addNew,
     deleteById,
+    deleteExpiredUnpaidOrders,
     getAll,
     getById,
     update,
