@@ -85,11 +85,12 @@ const update = async (category: Category, token: string, dispatch: Dispatch<AnyA
         const toUpdate = { name: category.name, description: category.description };
 
         const res = await axios.put<Category>(`${url}/${category.id}`, categoryToReqBody(toUpdate), authConfig(token));
+
         const updatedCategory = categoryFromResBody(res.data);
 
         if (updatedCategory) {
             await initializeCategories(dispatch);
-            return { success: true, message: 'Category updated.', addedCategory: categoryFromResBody(updatedCategory) };
+            return { success: true, message: 'Category updated.', addedCategory: updatedCategory };
         } else {
             handleError(new Error('Server did not return a Category object.'));
             return { success: false, message: 'Something went wrong, try again later.', addedCategory: null };

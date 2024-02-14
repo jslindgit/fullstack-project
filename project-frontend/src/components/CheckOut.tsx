@@ -86,20 +86,31 @@ const CheckOut = () => {
         phone: string,
         zipCode: string
     ) => {
-        dispatch(
-            setOrder({
-                ...order,
-                customerAddress: address,
-                customerCity: city,
-                customerCountry: country,
-                customerEmail: email,
-                customerFirstName: firstName,
-                customerLastName: lastName,
-                customerPhone: phone,
-                customerZipCode: zipCode,
-                customerOrganization: organization,
-            })
-        );
+        if (
+            order.customerAddress !== address ||
+            order.customerCity !== city ||
+            order.customerCountry !== country ||
+            order.customerEmail !== email ||
+            order.customerFirstName !== firstName ||
+            order.customerLastName !== lastName ||
+            order.customerOrganization !== organization ||
+            order.customerPhone !== phone ||
+            order.customerZipCode !== zipCode
+        )
+            dispatch(
+                setOrder({
+                    ...order,
+                    customerAddress: address,
+                    customerCity: city,
+                    customerCountry: country,
+                    customerEmail: email,
+                    customerFirstName: firstName,
+                    customerLastName: lastName,
+                    customerPhone: phone,
+                    customerZipCode: zipCode,
+                    customerOrganization: organization,
+                })
+            );
     };
 
     const setDeliveryMethod = (deliveryMethod: DeliveryMethod | null) => {
@@ -107,14 +118,16 @@ const CheckOut = () => {
     };
 
     useEffect(() => {
-        dispatch(setOrder({ ...order, deliveryCost: order.deliveryMethod ? order.deliveryMethod.cost : 0 }));
-    }, [order.deliveryMethod]);
+        if (order.deliveryCost !== order.deliveryMethod?.cost) {
+            dispatch(setOrder({ ...order, deliveryCost: order.deliveryMethod ? order.deliveryMethod.cost : 0 }));
+        }
+    }, [dispatch, order]);
 
     useEffect(() => {
         if (validate) {
             setValidationErrors(validateOrder(order, config));
         }
-    }, [order, validate]);
+    }, [config, order, validate]);
 
     return (
         <div className='pageWidth'>

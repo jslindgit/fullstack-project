@@ -25,19 +25,19 @@ export const authConfig = (token: string): AuthInterface => {
     };
 };
 
-export const categoryFromResBody = (resBody: unknown): Category | null => {
+export const categoryFromResBody = (resData: unknown): Category | null => {
     if (
-        isObject(resBody) &&
-        'description' in resBody &&
-        isString(resBody.description) &&
-        'id' in resBody &&
-        isNumber(resBody.id) &&
-        'name' in resBody &&
-        isString(resBody.name)
+        isObject(resData) &&
+        'description' in resData &&
+        isString(resData.description) &&
+        'id' in resData &&
+        isNumber(resData.id) &&
+        'name' in resData &&
+        isString(resData.name)
     ) {
         const items: Item[] = [];
-        if ('items' in resBody && Array.isArray(resBody.items)) {
-            resBody.items.forEach((itemData) => {
+        if ('items' in resData && Array.isArray(resData.items)) {
+            resData.items.forEach((itemData) => {
                 const item = itemFromResBody(itemData);
                 if (item) {
                     items.push(item);
@@ -45,9 +45,9 @@ export const categoryFromResBody = (resBody: unknown): Category | null => {
             });
         }
 
-        return { ...(resBody as Category), description: JSON.parse(resBody.description), items: items, name: JSON.parse(resBody.name) };
+        return { ...(resData as Category), description: JSON.parse(resData.description), items: items, name: JSON.parse(resData.name) };
     } else {
-        handleError(new Error('Invalid resBody for Category'));
+        handleError(new Error('Invalid resData for Category'));
         return null;
     }
 };

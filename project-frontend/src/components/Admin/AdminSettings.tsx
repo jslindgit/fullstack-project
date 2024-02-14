@@ -58,29 +58,28 @@ const AdminSettings = () => {
 
     const [editedProperty, setEditedProperty] = useState<PropertyName>('');
 
-    const initLangFields = () => {
-        storeCountryFields.forEach((langField) => {
-            config.store.contactCountry.names.forEach((langText) => {
-                if (langText.langCode === langField.langCode) {
-                    langField.field.setNewValue(langText.text);
-                }
-            });
-        });
-
-        storeWelcomeFields.forEach((langField) => {
-            config.store.welcome.forEach((langText) => {
-                if (langText.langCode === langField.langCode) {
-                    langField.field.setNewValue(langText.text);
-                }
-            });
-        });
-    };
-
     // Initial values:
     useEffect(() => {
-        initLangFields();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [config]);
+        if (editedProperty !== 'storeCountry') {
+            storeCountryFields.forEach((langField) => {
+                config.store.contactCountry.names.forEach((langText) => {
+                    if (langText.langCode === langField.langCode) {
+                        langField.field.setNewValue(langText.text);
+                    }
+                });
+            });
+        }
+
+        if (editedProperty !== 'storeWelcome') {
+            storeWelcomeFields.forEach((langField) => {
+                config.store.welcome.forEach((langText) => {
+                    if (langText.langCode === langField.langCode) {
+                        langField.field.setNewValue(langText.text);
+                    }
+                });
+            });
+        }
+    }, [config, editedProperty, storeCountryFields, storeWelcomeFields]);
 
     const deliveryCountryIsSelected = (country: Country): boolean => {
         return storeDeliveryCountries.map((c) => JSON.stringify(c)).includes(JSON.stringify(country));
@@ -164,7 +163,13 @@ const AdminSettings = () => {
                             <button
                                 type='button'
                                 onClick={() => {
-                                    initLangFields();
+                                    langFields.forEach((langField) => {
+                                        currentValue.forEach((langText) => {
+                                            if (langField.langCode === langText.langCode) {
+                                                langField.field.setNewValue(langText.text);
+                                            }
+                                        });
+                                    });
                                     setEditedProperty('');
                                 }}
                             >

@@ -41,10 +41,12 @@ const AdminUsers = () => {
 
     const config = useSelector((state: RootState) => state.config);
 
+    const [allUsers, setAllUsers] = useState<User[]>([]);
     const [fetched, setFetched] = useState<boolean>(false);
+    const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
     const [sortBy, setSortBy] = useState<sortByOption>('name');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-    const [users, setUsers] = useState<User[]>([]);
+    const [sortedUsers, setSortedUsers] = useState<User[]>([]);
 
     const search = useField('text', ContentID.miscSearch);
 
@@ -56,21 +58,49 @@ const AdminUsers = () => {
         }
     };
 
-    const sortAndSet = (allUsers: User[]) => {
+    // Fetch all Users from backend:
+    useEffect(() => {
+        if (!fetched) {
+            const fetch = async () => {
+                setAllUsers(await userService.getAll());
+                setFetched(true);
+            };
+            fetch();
+        }
+    }, [fetched]);
+
+    // Filter Users according to search field value:
+    useEffect(() => {
+        setFilteredUsers(
+            // prettier-ignore
+            search.value.toString().trim().length > 0
+                ?
+                allUsers.filter(
+                    (user) =>
+                        user.contactFirstName.toLowerCase().includes(search.value.toString().trim().toLowerCase()) ||
+                        user.contactLastName.toLowerCase().includes(search.value.toString().trim().toLowerCase()) ||
+                        user.username.toLowerCase().includes(search.value.toString().trim().toLowerCase())
+                )
+                : allUsers
+        );
+    }, [allUsers, search.value]);
+
+    // Sort Users:
+    useEffect(() => {
         switch (sortBy) {
             case 'id':
-                setUsers([...allUsers].sort((a, b) => (sortDirection === 'asc' ? a.id - b.id : b.id - a.id)));
+                setSortedUsers([...filteredUsers].sort((a, b) => (sortDirection === 'asc' ? a.id - b.id : b.id - a.id)));
                 break;
             case 'name':
-                setUsers(
-                    [...allUsers].sort((a, b) =>
+                setSortedUsers(
+                    [...filteredUsers].sort((a, b) =>
                         sortDirection === 'asc' ? a.contactLastName.localeCompare(b.contactLastName) : b.contactLastName.localeCompare(a.contactLastName)
                     )
                 );
                 break;
             case 'status':
-                setUsers(
-                    [...allUsers].sort((a, b) =>
+                setSortedUsers(
+                    [...filteredUsers].sort((a, b) =>
                         sortDirection === 'asc'
                             ? getUserStatus(a, config).localeCompare(getUserStatus(b, config))
                             : getUserStatus(b, config).localeCompare(getUserStatus(a, config))
@@ -78,35 +108,17 @@ const AdminUsers = () => {
                 );
                 break;
             case 'username':
-                setUsers([...allUsers].sort((a, b) => (sortDirection === 'asc' ? a.username.localeCompare(b.username) : b.username.localeCompare(a.username))));
+                setSortedUsers(
+                    [...filteredUsers].sort((a, b) => (sortDirection === 'asc' ? a.username.localeCompare(b.username) : b.username.localeCompare(a.username)))
+                );
                 break;
             default:
-                setUsers(allUsers);
+                setSortedUsers(filteredUsers);
                 break;
         }
-    };
+    }, [config, filteredUsers, sortBy, sortDirection]);
 
-    useEffect(() => {
-        const fetch = async () => {
-            const allUsers = await userService.getAll();
-            setFetched(true);
-            sortAndSet(
-                allUsers.filter(
-                    (user) =>
-                        user.contactFirstName.toLowerCase().includes(search.stringValue().toLowerCase()) ||
-                        user.contactLastName.toLowerCase().includes(search.stringValue().toLowerCase()) ||
-                        user.username.toLowerCase().includes(search.stringValue().toLowerCase())
-                )
-            );
-        };
-        fetch();
-    }, [search.value]);
-
-    useEffect(() => {
-        sortAndSet(users);
-    }, [sortBy, sortDirection]);
-
-    if (users.length < 1) {
+    if (allUsers.length < 1) {
         return <div className='semiBold sizeLarge'>{fetched ? 'No users' : 'Loading...'}</div>;
     }
 
@@ -148,7 +160,7 @@ const AdminUsers = () => {
                         {columnHeader(ContentID.userStatusHeader, 'status', true)}
                         <td></td>
                     </tr>
-                    {users.map((user) => (
+                    {sortedUsers.map((user) => (
                         <AdminUserRow key={user.id} config={config} user={user} />
                     ))}
                 </tbody>

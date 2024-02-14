@@ -19,7 +19,7 @@ const ItemEditCategories = ({ config, initialCategories, selectedCategories, set
         if (initialCategories) {
             setSelectedCategories(initialCategories);
         }
-    }, [initialCategories]);
+    }, [initialCategories, setSelectedCategories]);
 
     const handleCategoryChange = (categoryId: number) => {
         const updatedCategories = [...selectedCategories];

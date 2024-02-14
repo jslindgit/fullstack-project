@@ -40,6 +40,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     const categoriesState = useSelector((state: RootState) => state.categories);
     const usersState = useSelector((state: RootState) => state.user);
 
+    const [fieldsInitialized, setFieldsInitialized] = useState<boolean>(false);
     const [imagesToRemove, setImagesToRemove] = useState<string[]>([]);
     const [imagesToUpload, setImagesToUpload] = useState<ImageToUpload[]>([]);
     const [oneSizeInstock, setOneSizeInstock] = useState<number>(0);
@@ -56,28 +57,32 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     // Set initial values for Name/Description/Instock/Price/Images (if editing an existing Item):
     useEffect(() => {
         if (itemToEdit) {
-            nameFields.forEach((nf) => {
-                const nameLangText = itemToEdit.name.find((langText) => langText.langCode === nf.langCode);
-                nf.field.setNewValue(nameLangText ? nameLangText.text : '');
-            });
-            descriptionFields.forEach((df) => {
-                const descriptionLangText = itemToEdit.description.find((langText) => langText.langCode === df.langCode);
-                df.textArea.setNewValue(descriptionLangText ? descriptionLangText.text : '');
-            });
-            price.setNewValue(itemToEdit.price.toString());
-            fitsInLetter.setNewValue(itemToEdit.fitsInLetter.toString());
+            if (!fieldsInitialized) {
+                nameFields.forEach((nf) => {
+                    const nameLangText = itemToEdit.name.find((langText) => langText.langCode === nf.langCode);
+                    nf.field.setNewValue(nameLangText ? nameLangText.text : '');
+                });
+                descriptionFields.forEach((df) => {
+                    const descriptionLangText = itemToEdit.description.find((langText) => langText.langCode === df.langCode);
+                    df.textArea.setNewValue(descriptionLangText ? descriptionLangText.text : '');
+                });
+                price.setNewValue(itemToEdit.price.toString());
+                fitsInLetter.setNewValue(itemToEdit.fitsInLetter.toString());
 
-            if (itemToEdit.sizes.length > 0 && itemToEdit.sizes[0].size !== '-') {
-                setSizes(
-                    itemToEdit.sizes.map((s) => {
-                        return { size: s.size, instock: s.instock };
-                    })
-                );
-            } else if (itemToEdit.sizes.length > 0) {
-                setOneSizeInstock(itemToEdit.sizes[0].instock);
+                if (itemToEdit.sizes.length > 0 && itemToEdit.sizes[0].size !== '-') {
+                    setSizes(
+                        itemToEdit.sizes.map((s) => {
+                            return { size: s.size, instock: s.instock };
+                        })
+                    );
+                } else if (itemToEdit.sizes.length > 0) {
+                    setOneSizeInstock(itemToEdit.sizes[0].instock);
+                }
+
+                setFieldsInitialized(true);
             }
         }
-    }, [itemToEdit]);
+    }, [descriptionFields, fieldsInitialized, fitsInLetter, itemToEdit, nameFields, price]);
 
     const cancel = async () => {
         if (onCancel) {

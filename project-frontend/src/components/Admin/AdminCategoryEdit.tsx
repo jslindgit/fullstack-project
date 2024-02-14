@@ -23,42 +23,42 @@ const AdminCategoryEdit = () => {
     const usersState = useSelector((state: RootState) => state.user);
 
     const [category, setCategory] = useState<Category | undefined>();
-    const [loading, setLoading] = useState<string>('Loading...');
+    const [fieldsInitialized, setFieldsInitialized] = useState<boolean>(false);
+    const [loading, setLoading] = useState<string>(contentToText(ContentID.miscLoading, config));
 
     const nameFields = useLangFields('text');
     const descriptionFields = useLangTextAreas();
 
     const id = Number(useParams().id);
 
-    const setCategoryById = () => {
+    useEffect(() => {
         try {
             categoryService.getById(id).then((res) => {
                 setCategory(res as Category);
+                setFieldsInitialized(false);
             });
         } catch (err: unknown) {
+            setLoading(contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config));
             handleError(err);
-            setLoading('Something went wrong :(');
         }
-    };
-
-    useEffect(() => {
-        setCategoryById();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [config, id]);
 
     useEffect(() => {
         if (category) {
-            nameFields.forEach((nf) => {
-                const nameLangText = category.name.find((langText) => langText.langCode === nf.langCode);
-                nf.field.setNewValue(nameLangText ? nameLangText.text : '');
-            });
-            descriptionFields.forEach((df) => {
-                const descriptionLangText = category.description.find((langText) => langText.langCode === df.langCode);
-                df.textArea.setNewValue(descriptionLangText ? descriptionLangText.text : '');
-            });
+            if (!fieldsInitialized) {
+                nameFields.forEach((nf) => {
+                    const nameLangText = category.name.find((langText) => langText.langCode === nf.langCode);
+                    nf.field.setNewValue(nameLangText ? nameLangText.text : '');
+                });
+                descriptionFields.forEach((df) => {
+                    const descriptionLangText = category.description.find((langText) => langText.langCode === df.langCode);
+                    df.textArea.setNewValue(descriptionLangText ? descriptionLangText.text : '');
+                });
+
+                setFieldsInitialized(true);
+            }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [category]);
+    }, [category, descriptionFields, fieldsInitialized, nameFields]);
 
     const canSaveChanges = () => usersState.loggedUser?.admin || category?.addedBy === usersState.loggedUser?.id;
 
@@ -94,7 +94,9 @@ const AdminCategoryEdit = () => {
 
                 dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
-                setCategoryById();
+                if (res.addedCategory) {
+                    setCategory(res.addedCategory);
+                }
             } else {
                 handleError(new Error('Missing token'));
             }

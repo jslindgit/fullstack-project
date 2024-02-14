@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
@@ -139,32 +139,35 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
         }
     };
 
-    const validateField = (field: UseField): string | null => {
-        if (required.includes(field) && field.value.toString().trim().length < 1) {
-            return `${contentToText(field.label, config)} ${contentToText(ContentID.checkOutIsRequired, config)}.`;
-        } else if (field === email && !isValidEmailAddress(email.value.toString())) {
-            return contentToText(ContentID.errorInvalidEmailAddress, config);
-        }
-
-        if (register) {
-            if (field === password && !isValidPassword(password.value.toString())) {
-                return contentToText(ContentID.loginNewPasswordTooShort, config);
-            } else if (field === passwordConfirm && field.value !== password.value) {
-                return contentToText(ContentID.loginNewPasswordMisMatch, config);
+    const validateField = useCallback(
+        (field: UseField): string | null => {
+            if (required.includes(field) && field.value.toString().trim().length < 1) {
+                return `${contentToText(field.label, config)} ${contentToText(ContentID.checkOutIsRequired, config)}.`;
+            } else if (field === email && !isValidEmailAddress(email.value.toString())) {
+                return contentToText(ContentID.errorInvalidEmailAddress, config);
             }
-        }
 
-        return null;
-    };
+            if (register) {
+                if (field === password && !isValidPassword(password.value.toString())) {
+                    return contentToText(ContentID.loginNewPasswordTooShort, config);
+                } else if (field === passwordConfirm && field.value !== password.value) {
+                    return contentToText(ContentID.loginNewPasswordMisMatch, config);
+                }
+            }
+
+            return null;
+        },
+        [config, email, password, passwordConfirm, register, required]
+    );
 
     // Set required fields:
     useEffect(() => {
-        if (register) {
+        if (register && !(required.includes(password) && required.includes(passwordConfirm))) {
             setRequired([address, city, email, firstName, lastName, password, passwordConfirm, phone, zipCode]);
-        } else {
+        } else if (required.includes(password) || required.includes(passwordConfirm)) {
             setRequired([address, city, email, firstName, lastName, phone, zipCode]);
         }
-    }, [register]);
+    }, [address, city, email, firstName, lastName, password, passwordConfirm, phone, register, required, zipCode]);
 
     // Set available countries:
     useEffect(() => {
@@ -190,7 +193,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
             phone.value.toString().trim(),
             zipCode.value.toString().trim()
         );
-    }, [address.value, city.value, country, email.value, firstName.value, lastName.value, organization.value, phone.value, zipCode.value]);
+    }, [address.value, city.value, country, email.value, firstName.value, lastName.value, organization.value, phone.value, setCustomerInfo, zipCode.value]);
 
     // Validate the input fields:
     useEffect(() => {
@@ -207,7 +210,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
         } else {
             setErrors(false);
         }
-    }, [required, validate]);
+    }, [required, validate, validateField]);
 
     const inputField = (field: UseField, testId: string, optional: boolean = false) => {
         const label = contentToText(field.label, config);
