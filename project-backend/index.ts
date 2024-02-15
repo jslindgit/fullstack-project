@@ -15,6 +15,8 @@ import paytrailRouter from './routes/paytrailRouter';
 import settingsRouter from './routes/settingsRouter';
 import userRouter from './routes/userRouter';
 
+import itemService from './services/itemService';
+
 import './util/scheduledTasks';
 
 const app = express();
@@ -60,12 +62,22 @@ app.get('*', (_req, res) => {
 const start = async () => {
     await connectToDatabase();
 
-    const port = 3001;
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
 
-    console.log('PORT:', PORT);
-
-    app.listen(port, () => {
-        console.log(`Server running on port ${port}`);
+        itemService
+            .getAll()
+            .then((items) => {
+                if (items) {
+                    console.log(items.length + ' items:');
+                    items.forEach((item) => {
+                        console.log(item.name);
+                    });
+                }
+            })
+            .catch((err: unknown) => {
+                console.log('error:', err);
+            });
     });
 };
 
