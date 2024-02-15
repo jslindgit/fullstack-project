@@ -19,6 +19,6 @@ jobs:
                   npm install --prefix project-frontend
             - name: Lint
               run: |
-                  npm run lin --prefix project-backend
-                  npm run lin --prefix project-frontend
+                  npm run lint --prefix project-backend
+                  npm run lint --prefix project-frontend
                   
