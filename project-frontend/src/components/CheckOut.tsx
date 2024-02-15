@@ -123,7 +123,7 @@ const CheckOut = () => {
     };
 
     useEffect(() => {
-        if (order.deliveryCost !== order.deliveryMethod?.cost) {
+        if (order.deliveryMethod && order.deliveryCost !== order.deliveryMethod.cost) {
             dispatch(setOrder({ ...order, deliveryCost: order.deliveryMethod ? order.deliveryMethod.cost : 0 }));
         }
     }, [dispatch, order]);

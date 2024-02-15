@@ -21,4 +21,13 @@ jobs:
               run: |
                   npm run lint --prefix project-backend
                   npm run lint --prefix project-frontend
+            - name: Build
+              run: |
+                  cd project-frontend
+                  npm run build
+                  cp -r ./dist ../project-backend/dist
+                  cd ..
+                  cd project-backend
+                  npm run tsc
+                  ls -l
                   
