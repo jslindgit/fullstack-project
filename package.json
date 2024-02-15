@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "test:e2e": "cd project-frontend && npm run cypress:run"
+    }
+}
