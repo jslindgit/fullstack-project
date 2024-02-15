@@ -1,4 +1,4 @@
-const url = 'http://localhost:3000';
+const url = 'http://localhost:3001';
 
 describe('Pages can be opened', function () {
     beforeEach(function () {
@@ -42,7 +42,7 @@ describe('Login', function () {
 
         // Log out:
         cy.get('[data-testid="menu-logout"]').click();
-        cy.visit('http://localhost:3000/you'); // When not logged it, the Account page should re-direct to the Login page
+        cy.visit(url + '/you'); // When not logged it, the Account page should re-direct to the Login page
         cy.get('[data-testid="login-header"]').should('exist');
 
         // Open registration page:

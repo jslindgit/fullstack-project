@@ -30,4 +30,11 @@ jobs:
                   cd project-backend
                   npm run tsc
                   ls -l
+            - name: e2e tests
+              uses: cypress-io/github-action@v5
+              with:
+                  command: npm run cypress:run --prefix project-frontend
+                  start: npm run start --prefix project-backend
+                  wait-on: http://localhost:3000
+                  
                   
