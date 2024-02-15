@@ -32,6 +32,14 @@ jobs:
                   ls -l
             - name: e2e tests
               uses: cypress-io/github-action@v5
+              env:
+                  API_KEY: ${{ secrets.API_KEY }}
+                  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+                  PAYTRAIL_TEST_ACCOUNT: ${{ secrets.PAYTRAIL_TEST_ACCOUNT }}
+                  PAYTRAIL_TEST_SECRET: ${{ secrets.PAYTRAIL_TEST_SECRET }}
+                  PORT: ${{ secrets.PORT }}
+                  SECRET: ${{ secrets.SECRET }}
+                  VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
               with:
                   command: npm run test:e2e
                   start: npm run start --prefix project-backend
