@@ -60,7 +60,7 @@ app.get('*', (_req, res) => {
 const start = async () => {
     await connectToDatabase();
 
-    const port = 3000;
+    const port = 3001;
 
     console.log('PORT:', PORT);
 
