@@ -60,8 +60,12 @@ app.get('*', (_req, res) => {
 const start = async () => {
     await connectToDatabase();
 
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
+    const port = 3000;
+
+    console.log('PORT:', PORT);
+
+    app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
     });
 };
 
