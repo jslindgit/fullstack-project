@@ -52,7 +52,7 @@ const MainPage = () => {
                 style={{ margin: 'auto', marginBottom: '5rem', marginTop: '2rem', maxWidth: pageWidth }}
             >
                 <div data-testid='welcome-message' className='semiBold sizeExtremelyLarge'>
-                    {langTextsToText(config.store.welcome, config)} v2
+                    {langTextsToText(config.store.welcome, config)} v3
                 </div>
                 <div className='sizeLarge' style={{ marginBottom: '1rem' }}>
                     <Description config={config} />
