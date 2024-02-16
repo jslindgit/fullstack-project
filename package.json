@@ -1,5 +1,6 @@
 {
     "scripts": {
+        "start:prod": "cd project-backend && npm start",
         "test:e2e": "cd project-frontend && npm run cypress:run"
     }
 }

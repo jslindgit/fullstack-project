@@ -48,6 +48,10 @@ app.get('*', (_req, res) => {
     res.sendFile(path.join(__dirname, './../dist', 'index.html'));
 });
 
+app.get('/version', (_req, res) => {
+    res.send('1');
+});
+
 const start = async () => {
     await connectToDatabase();
 
