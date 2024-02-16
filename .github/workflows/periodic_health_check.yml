@@ -1,8 +1,8 @@
-name: Daily health check @ 22:15 UTC
+name: Daily health check @ 14:00 UTC
 
 on:
     schedule:
-        - cron: '15 22 * * *'
+        - cron: '00 14 * * *'
 
 jobs:
     periodic_health_check:
