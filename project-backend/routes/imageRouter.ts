@@ -16,8 +16,6 @@ const storage = multer.diskStorage({
             destinationPath = service.getPath(req.body.subdir);
         }
 
-        console.log('destPath:', destinationPath);
-
         // Check if the destination directory exists, if not, create it
         fs.mkdirSync(destinationPath, { recursive: true });
 
