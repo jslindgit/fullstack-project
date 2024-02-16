@@ -22,6 +22,8 @@ jobs:
                   npm run lint --prefix project-backend
                   npm run lint --prefix project-frontend
             - name: Build
+              env:
+                  VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
               run: |
                   cd project-frontend
                   npm run build
@@ -38,8 +40,7 @@ jobs:
                   PAYTRAIL_TEST_ACCOUNT: ${{ secrets.PAYTRAIL_TEST_ACCOUNT }}
                   PAYTRAIL_TEST_SECRET: ${{ secrets.PAYTRAIL_TEST_SECRET }}
                   PORT: ${{ secrets.PORT }}
-                  SECRET: ${{ secrets.SECRET }}
-                  VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+                  SECRET: ${{ secrets.SECRET }}                  
               with:
                   command: npm run test:e2e
                   start: npm run start --prefix project-backend
