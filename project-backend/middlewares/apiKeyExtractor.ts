@@ -10,9 +10,6 @@ export const apiKeyExtractor = (req: Request, res: Response, next: NextFunction)
     if (authorization && authorization.toLowerCase().startsWith('api_key')) {
         const key = authorization.substring(8);
 
-        console.log('API_KEY:', API_KEY);
-        console.log('key:', key);
-
         res.locals.correct_api_key = key === API_KEY;
     }
 
