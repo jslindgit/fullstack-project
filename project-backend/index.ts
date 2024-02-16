@@ -45,7 +45,7 @@ app.use('/api/images', cors(corsOptions));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.get('/version', (_req, res) => {
-    res.send('2');
+    res.send('3');
 });
 
 app.get('*', (_req, res) => {
