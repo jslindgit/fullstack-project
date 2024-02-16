@@ -3,7 +3,14 @@ import { Umzug, SequelizeStorage } from 'umzug';
 
 import { DATABASE_URL } from './config';
 
-export const sequelize = new Sequelize(DATABASE_URL);
+//export const sequelize = new Sequelize(DATABASE_URL);
+export const sequelize = new Sequelize(DATABASE_URL, {
+    logging: (msg) => {
+        if (msg.startsWith('ERROR')) {
+            console.error(msg); // Log errors to stderr
+        }
+    },
+});
 
 const migrationConf = {
     migrations: {
@@ -37,6 +44,4 @@ export const connectToDatabase = async () => {
         console.log('Connecting database failed:', err);
         return process.exit(1);
     }
-
-    //return null;
 };

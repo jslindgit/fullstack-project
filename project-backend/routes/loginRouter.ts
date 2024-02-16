@@ -44,8 +44,11 @@ router.delete('/', tokenExtractor, (async (_req, res, next) => {
 router.post('/', apiKeyExtractor, (async (req, res, next) => {
     try {
         if (res.locals.correct_api_key === true) {
+            console.log('CORRECT API KEY');
             const credentials = toCredentials(req.body);
             const response = await service.login(credentials);
+
+            console.log('response:', response);
 
             switch (response) {
                 case LoginError.InvalidPassword:
@@ -61,6 +64,7 @@ router.post('/', apiKeyExtractor, (async (req, res, next) => {
 
             res.status(200).send({ response });
         } else {
+            console.error('WRONG API KEY');
             res.status(403).json({ error: 'Access denied' });
         }
     } catch (err) {

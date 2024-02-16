@@ -34,7 +34,7 @@ describe('Login', function () {
         cy.get('[data-testid="input-username"]').type('cypress@testingcypress123.com');
         cy.get('[data-testid="input-password"]').type('cypress123');
         cy.get('[data-testid="button-submit"]').click();
-        cy.get('[data-testid="login-success"]').should('exist');
+        cy.get('[data-testid="logged-username"]').should('exist');
 
         // Open Account page:
         cy.get('[data-testid="menu-account"]').click();

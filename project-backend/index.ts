@@ -15,8 +15,6 @@ import paytrailRouter from './routes/paytrailRouter';
 import settingsRouter from './routes/settingsRouter';
 import userRouter from './routes/userRouter';
 
-import itemService from './services/itemService';
-
 import './util/scheduledTasks';
 
 const app = express();
@@ -25,21 +23,12 @@ app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 5000
 app.use(cors());
 
 const corsOptions = {
-    origin: 'http://localhost:3000', // or your frontend URL
+    origin: 'http://localhost:3000',
     credentials: true,
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    optionsSuccessStatus: 200,
 };
 
-/*app.get('/', (_req, res) => {
-    res.status(200).send('Full Stack open project');
-});*/
-
 app.use(express.static('dist'));
-
-app.get('/api/ping', (_req, res) => {
-    console.log('someone pinged here');
-    res.status(200).send('pong');
-});
 
 app.use('/api/categories', categoryRouter);
 app.use('/api/images', imageRouter);
@@ -64,20 +53,6 @@ const start = async () => {
 
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
-
-        itemService
-            .getAll()
-            .then((items) => {
-                if (items) {
-                    console.log(items.length + ' items:');
-                    items.forEach((item) => {
-                        console.log(item.name);
-                    });
-                }
-            })
-            .catch((err: unknown) => {
-                console.log('error:', err);
-            });
     });
 };
 

@@ -42,7 +42,7 @@ const Menu = () => {
         if (loggedUser) {
             return (
                 <>
-                    <div className='sizeSmallish semiBold'>
+                    <div data-testid='logged-username' className='sizeSmallish semiBold'>
                         {loggedUser.username}{' '}
                         {loggedUser.admin || loggedUser.operator ? <span className='colorYellowLight'>({getUserStatus(loggedUser, config)})</span> : <></>}
                     </div>
