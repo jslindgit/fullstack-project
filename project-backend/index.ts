@@ -49,7 +49,7 @@ app.get('/health', (_req, res) => {
 });
 
 app.get('/version', (_req, res) => {
-    res.send('3');
+    res.send('4');
 });
 
 app.get('*', (_req, res) => {
