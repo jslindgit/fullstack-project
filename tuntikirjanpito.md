@@ -146,4 +146,5 @@
 |   6.2.    | 2    | Lisää E2E-testejä, tuotteille määrittely kirjetoimituksen mahdollisuudesta                                           |     |
 |   14.2.   | 2    | Refactorointia + ajoitettu tehtävä vanhojen tilausten siivoamiseen                                                   | 240 |
 |   15.2.   | 2    | CI/CD                                                                                                                |     |
-|    yht    | 242  |                                                                                                                      |     |
+|   16.2.   | 2    | CI/CD                                                                                                                |     |
+|    yht    | 244  |                                                                                                                      |     |

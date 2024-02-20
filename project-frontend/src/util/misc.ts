@@ -6,7 +6,9 @@ export const imageFilename = (path: string): string => {
 };
 
 export const imageFullPath = (subdirAndFilename: string) => {
-    return 'http://localhost:3001/images/' + subdirAndFilename;
+    const baseUrl = (import.meta.env.VITE_ENV as string) === 'dev' ? 'http://localhost:3001/images/' : '/images/';
+    const fullpath = baseUrl + subdirAndFilename;
+    return fullpath;
 };
 
 export const imageSubdir = (path: string): string => {

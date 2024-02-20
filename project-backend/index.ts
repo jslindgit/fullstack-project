@@ -44,6 +44,14 @@ app.use('/api/images', cors(corsOptions));
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+app.get('/health', (_req, res) => {
+    res.status(200).send('ok');
+});
+
+app.get('/version', (_req, res) => {
+    res.send('4');
+});
+
 app.get('*', (_req, res) => {
     res.sendFile(path.join(__dirname, './../dist', 'index.html'));
 });
