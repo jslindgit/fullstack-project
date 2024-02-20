@@ -6,7 +6,7 @@ import orderService from '../services/orderService';
 
 // Delete unused images:
 cron.schedule('0 * * * *', () => {
-    dateFormat(new Date());
+    console.log(dateFormat(new Date()));
 
     imageService
         .deleteUnusedImages()
@@ -18,7 +18,7 @@ cron.schedule('0 * * * *', () => {
 
 // Delete expired unpaid orders:
 cron.schedule('*/2 * * * *', () => {
-    dateFormat(new Date());
+    console.log(dateFormat(new Date()));
 
     orderService
         .deleteExpiredUnpaidOrders()
