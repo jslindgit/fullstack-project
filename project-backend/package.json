@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "ts-node-dev index.ts",
+        "dev": "cross-env NODE_ENV=dev ts-node-dev index.ts",
         "dev:test": "cross-env NODE_ENV=test ts-node-dev index.ts",
         "lint": "eslint --ext .ts .",
         "migration:down": "ts-node util/rollback.ts",

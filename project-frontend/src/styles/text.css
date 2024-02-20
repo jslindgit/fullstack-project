@@ -56,7 +56,7 @@ h4 {
     text-align: left;
     text-decoration: 0.2em underline solid var(--colorGoldVeryLight);
     text-underline-offset: 0.2em;
-    text-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .lineHeight1 {
@@ -67,7 +67,7 @@ h4 {
 }
 
 .noWrap {
-    text-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .pageHeader {
@@ -78,7 +78,7 @@ h4 {
     text-align: left;
     text-decoration: 0.2em underline solid var(--colorGoldVeryLight);
     text-underline-offset: 0.2em;
-    text-wrap: nowrap;
+    white-space: nowrap;
 }
 .pageHeader.noMargin {
     margin: 0;

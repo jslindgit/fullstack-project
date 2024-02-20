@@ -27,7 +27,7 @@
     min-height: 3em;
     padding-left: 1.25em;
     padding-right: 1.25em;
-    text-wrap: nowrap;
+    white-space: nowrap;
     transition: color 0.25s, background-color 0.25s;
 }
 .menuLink:hover {

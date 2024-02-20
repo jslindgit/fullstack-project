@@ -100,7 +100,7 @@ table.headerRow table tr:first-child td {
 }
 
 .noWrap {
-    text-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .striped {
@@ -135,7 +135,7 @@ table.headerRow table tr:first-child td {
 
 .widthByContent {
     width: 1px;
-    text-wrap: nowrap;
+    white-space: nowrap;
 }
 
 /* Specific uses */

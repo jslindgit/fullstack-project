@@ -42,7 +42,8 @@ app.use('/api/users', userRouter);
 
 app.use('/api/images', cors(corsOptions));
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
+const imagesPath = process.env.NODE_ENV === 'dev' ? path.join(__dirname, 'images') : path.join(__dirname, '..', 'images');
+app.use('/images', express.static(imagesPath));
 
 app.get('/health', (_req, res) => {
     res.status(200).send('ok');
