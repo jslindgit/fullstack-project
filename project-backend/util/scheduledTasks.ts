@@ -4,8 +4,8 @@ import imageService from '../services/imageService';
 import { dateFormat } from './misc';
 import orderService from '../services/orderService';
 
-// Delete unused images:
-cron.schedule('0 * * * *', () => {
+// Delete unused images (12:00 UTC):
+cron.schedule('00 12 * * *', () => {
     console.log(dateFormat(new Date()));
 
     imageService
@@ -16,8 +16,8 @@ cron.schedule('0 * * * *', () => {
         });
 });
 
-// Delete expired unpaid orders:
-cron.schedule('*/2 * * * *', () => {
+// Delete expired unpaid orders (13:00 UTC):
+cron.schedule('00 13 * * *', () => {
     console.log(dateFormat(new Date()));
 
     orderService
