@@ -101,7 +101,10 @@ router.put('/:id', tokenExtractor, (async (req, res, next) => {
         if (!user) {
             res.status(404).end();
         } else {
-            if (user.admin === false && (res.locals.admin === true || (res.locals.operator === true && user.operator === false))) {
+            if (
+                (user.admin === false || res.locals.admin === true) &&
+                (res.locals.admin === true || (res.locals.operator === true && user.operator === false) || res.locals.user_id === user.id)
+            ) {
                 if (user) {
                     res.status(200).json(user);
                 } else {

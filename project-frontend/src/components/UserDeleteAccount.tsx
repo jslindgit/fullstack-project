@@ -27,7 +27,7 @@ const UserDeleteAccount = ({ config, user }: Props) => {
     const password = useField('password', null);
 
     const handleCancelButton = () => {
-        password.reset();
+        password.clear();
         setShowPasswordField(false);
     };
 
@@ -44,7 +44,7 @@ const UserDeleteAccount = ({ config, user }: Props) => {
 
             dispatch(setNotification({ message: res.message, tone: res.success ? 'Neutral' : 'Negative' }));
         } else {
-            password.reset();
+            password.clear();
             dispatch(setNotification({ message: loginResponse.message, tone: 'Negative' }));
         }
     };

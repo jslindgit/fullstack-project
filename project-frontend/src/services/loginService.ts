@@ -52,9 +52,15 @@ const login = async (username: string, password: string, setLoggedUser: (loggedU
     try {
         const res = await axios.post(url, { username: username, password: password }, apiKeyConfig());
 
-        if (res.status === 200 && isUser(res.data.response)) {
-            setLoggedUser(res.data.response);
-            return { success: true, message: contentToText(ContentID.loginLoggedInAs, config) + ' ' + res.data.response.username };
+        const userData = res.data.response;
+
+        if (res.status === 200 && isUser(userData)) {
+            if (userData.disabled === true) {
+                return { success: false, message: contentToText(ContentID.userDisabled, config) };
+            } else {
+                setLoggedUser(userData);
+                return { success: true, message: contentToText(ContentID.loginLoggedInAs, config) + ' ' + res.data.response.username };
+            }
         } else {
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config) };
         }

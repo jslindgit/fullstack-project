@@ -149,10 +149,10 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             df.textArea.reset();
         });
         nameFields.forEach((nf) => {
-            nf.field.reset();
+            nf.field.clear();
         });
 
-        price.reset();
+        price.clear();
     };
 
     const submit = async () => {

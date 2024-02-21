@@ -174,6 +174,7 @@ export enum ContentID {
     menuShoppingCart = 'MENU: Shopping Cart',
     misc404 = 'MISC: 404',
     miscAddress = 'MISC: Address',
+    miscChange = 'MISC: Change',
     miscClickToChangeSortingOrder = 'MISC: Click to change sorting order',
     miscClickToSortByThis = 'MISC: Click to sort by this (column)',
     miscContent = 'MISC: Content',
@@ -1456,6 +1457,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Address' },
             { langCode: LangCode.FI, text: 'Osoite' },
+        ],
+    },
+    {
+        id: ContentID.miscChange,
+        content: [
+            { langCode: LangCode.EN, text: 'Change' },
+            { langCode: LangCode.FI, text: 'Muuta' },
         ],
     },
     {

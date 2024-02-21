@@ -21,6 +21,12 @@
     justify-content: center;
 }
 
+.valignBottom {
+    align-items: end;
+    display: flex;
+    vertical-align: bottom;
+}
+
 .valignMiddle {
     align-items: center;
     display: flex;

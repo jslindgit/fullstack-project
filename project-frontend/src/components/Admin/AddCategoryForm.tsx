@@ -38,7 +38,7 @@ const AddCategoryForm = ({ user }: Props) => {
         dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
         nameFields.forEach((nf) => {
-            nf.field.reset();
+            nf.field.clear();
         });
         descriptionFields.forEach((df) => {
             df.textArea.reset();

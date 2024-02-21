@@ -33,9 +33,9 @@ const UserChangePassword = ({ config, user }: Props) => {
     }, [passwordNew.value, passwordNewConfirm.value]);
 
     const handleCancelButton = () => {
-        passwordCurrent.reset();
-        passwordNew.reset();
-        passwordNewConfirm.reset();
+        passwordCurrent.clear();
+        passwordNew.clear();
+        passwordNewConfirm.clear();
         setShowPasswordFields(false);
     };
 

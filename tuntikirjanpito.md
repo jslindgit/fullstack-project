@@ -147,4 +147,5 @@
 |   14.2.   | 2    | Refactorointia + ajoitettu tehtävä vanhojen tilausten siivoamiseen                                                   | 240 |
 |   15.2.   | 2    | CI/CD                                                                                                                |     |
 |   16.2.   | 2    | CI/CD                                                                                                                |     |
-|    yht    | 244  |                                                                                                                      |     |
+|   21.2.   | 1    | Käyttäjälle mahdollisuus muokata tietojaan                                                                           |     |
+|    yht    | 245  |                                                                                                                      |     |

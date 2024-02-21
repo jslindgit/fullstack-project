@@ -5,6 +5,7 @@ import { isNumber } from '../types/typeFunctions';
 
 export interface UseField {
     anyChanges: boolean;
+    clear: () => void;
     label: ContentID;
     numValue: () => number;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -45,7 +46,6 @@ const useField = (type: 'text' | 'integer' | 'decimal' | 'password', fieldLabel:
         if (initialValue) {
             return convertInput(initialValue, type, initialValue);
         } else {
-            //return type === 'text' || type === 'password' ? '' : 0;
             return '';
         }
     };
@@ -62,8 +62,12 @@ const useField = (type: 'text' | 'integer' | 'decimal' | 'password', fieldLabel:
         setAnyChanges(true);
     };
 
-    const reset = () => {
+    const clear = () => {
         setValue('');
+    };
+
+    const reset = () => {
+        setValue(initValue());
     };
 
     const setNewValue = (newValue: string) => {
@@ -76,6 +80,7 @@ const useField = (type: 'text' | 'integer' | 'decimal' | 'password', fieldLabel:
 
     return {
         anyChanges,
+        clear,
         label: fieldLabel ? fieldLabel : ContentID._NONE,
         numValue,
         onChange,
