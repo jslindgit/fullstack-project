@@ -92,18 +92,22 @@ const Login = () => {
         if (usersState.loggedUser) {
             const logged = usersState.loggedUser;
             return (
-                <>
-                    <div className='bold sizeVeryLarge'>{logged.username}</div>
-                    <br />
-                    <Link to='/login' onClick={async () => await loginService.logout(logged.token, removeLogged)}>
-                        <h3>{contentToText(ContentID.menuLogout, config)}</h3>
-                    </Link>
-                </>
+                <div>
+                    <div className='semiBold sizeVeryLarge' style={{ marginTop: '3rem' }}>
+                        {contentToText(ContentID.miscLoggedInAs, config)}
+                        <span className='bold'>{logged.username}</span>
+                    </div>
+                    <div style={{ marginTop: '3rem' }}>
+                        <Link to='/login' onClick={async () => await loginService.logout(logged.token, removeLogged)}>
+                            <h3>{contentToText(ContentID.menuLogout, config)}</h3>
+                        </Link>
+                    </div>
+                </div>
             );
         }
     };
 
-    return <div>{usersState.loggedUser ? userInfo() : loginForm()}</div>;
+    return <div className='content-container'>{usersState.loggedUser ? userInfo() : loginForm()}</div>;
 };
 
 export default Login;

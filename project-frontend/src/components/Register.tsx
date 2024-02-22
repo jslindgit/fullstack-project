@@ -39,6 +39,7 @@ const Register = () => {
 
     const required: UseField[] = [address, city, email, firstName, lastName, password, passwordConfirm, phone, zipCode];
 
+    // Title:
     useEffect(() => {
         document.title = contentToText(ContentID.registerHeader, config) + ' | ' + config.store.contactName;
     }, [config]);
@@ -115,14 +116,13 @@ const Register = () => {
         }
     }, [navigate, usersState.loggedUser]);
 
+    // Set available countries:
     useEffect(() => {
-        const countries: string[] = [];
-        [...config.store.deliveryCountries]
-            .sort((a, b) => langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config)))
-            .forEach((c) => {
-                countries.push(langTextsToText(c.names, config));
-            });
-        setAvailableCountries(countries);
+        setAvailableCountries(
+            [...config.store.deliveryCountries]
+                .sort((a, b) => langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config)))
+                .map((c) => langTextsToText(c.names, config))
+        );
     }, [config]);
 
     const inputField = (field: UseField, optional: boolean = false) => {

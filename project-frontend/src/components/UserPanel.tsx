@@ -42,7 +42,9 @@ const UserPanel = () => {
     }, [config, dispatch, user]);
 
     useEffect(() => {
-        setUser(usersState.loggedUser);
+        if (user?.id !== usersState.loggedUser?.id) {
+            setUser(usersState.loggedUser);
+        }
 
         if (miscState.loaded && userInitialized && (!usersState.loggedUser || usersState.loggedUser === null)) {
             navigate('/login');

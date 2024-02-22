@@ -190,6 +190,7 @@ export enum ContentID {
     miscDescription = 'MISC: Description',
     miscIs = 'MISC: is',
     miscLoading = 'MISC: Loading',
+    miscLoggedInAs = 'MISC: You are logged in as...',
     miscMerchant = 'MISC: Merchant',
     miscName = 'MISC: Name',
     miscNet = 'MISC: NET (price without VAT)',
@@ -1563,6 +1564,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Loading...' },
             { langCode: LangCode.FI, text: 'Ladataan sisältöä...' },
+        ],
+    },
+    {
+        id: ContentID.miscLoggedInAs,
+        content: [
+            { langCode: LangCode.EN, text: 'You are logged in as ' },
+            { langCode: LangCode.FI, text: 'Olet kirjautuneena sisään käyttäjätunnuksella ' },
         ],
     },
     {

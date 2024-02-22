@@ -148,4 +148,5 @@
 |   15.2.   | 2    | CI/CD                                                                                                                |     |
 |   16.2.   | 2    | CI/CD                                                                                                                |     |
 |   21.2.   | 1    | Käyttäjälle mahdollisuus muokata tietojaan                                                                           |     |
-|    yht    | 245  |                                                                                                                      |     |
+|   22.2.   | 2    | Käyttäjätietojen muokkaus valmiiksi                                                                                  |     |
+|    yht    | 247  |                                                                                                                      |     |
