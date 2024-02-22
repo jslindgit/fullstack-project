@@ -15,24 +15,26 @@ interface Props {
     addLinkToEmail?: boolean;
     config: Config;
     showUserStatus?: boolean;
+    updateUserInfo: (toUpdate: object) => Promise<void>;
     user: User;
 }
-const UserBasicInfo = ({ config, showUserStatus = false, user }: Props) => {
-    const [editedInfo, setEditedInfo] = useState<'' | 'name'>('');
+const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }: Props) => {
+    const [editedInfo, setEditedInfo] = useState<'' | 'name' | 'organization'>('');
 
     const firstName = useField('text', null, user.contactFirstName);
     const lastName = useField('text', null, user.contactLastName);
+    const organization = useField('text', null, user.contactOrganization ? user.contactOrganization : '');
 
     const cancelChanges = () => {
         setEditedInfo('');
 
         firstName.reset();
         lastName.reset();
+        organization.reset();
     };
 
-    const submitChanges = async () => {
-        const editedUser: User = { ...user, contactFirstName: firstName.stringValue(), contactLastName: lastName.stringValue() };
-        console.log('editedUser:', editedUser);
+    const submitChanges = async (toUpdate: object) => {
+        await updateUserInfo(toUpdate);
 
         setEditedInfo('');
     };
@@ -54,7 +56,7 @@ const UserBasicInfo = ({ config, showUserStatus = false, user }: Props) => {
                         <div className='grid-container' style={{ gap: '1rem', gridTemplateColumns: '1fr 1fr' }}>
                             <div className='grid-container' style={{ gap: '0.5rem' }}>
                                 <div className='adminItemEditLabel'>{contentToText(ContentID.checkOutFirstName, config)}</div>
-                                <InputField useField={firstName} width='100%' />
+                                <InputField useField={firstName} width='100%' autoFocus={true} />
                             </div>
                             <div className='grid-container' style={{ gap: '0.5rem' }}>
                                 <div className='adminItemEditLabel'>{contentToText(ContentID.checkOutLastName, config)}</div>
@@ -63,7 +65,11 @@ const UserBasicInfo = ({ config, showUserStatus = false, user }: Props) => {
                         </div>
                         <div className='valignBottom'>
                             <div className='grid-container' data-cols='2' data-gap='1rem'>
-                                <button type='button' onClick={submitChanges}>
+                                <button
+                                    type='button'
+                                    onClick={() => submitChanges({ contactFirstName: firstName.stringValue(), contactLastName: lastName.stringValue() })}
+                                    disabled={firstName.stringValue() === user.contactFirstName && lastName.stringValue() === user.contactLastName}
+                                >
                                     {contentToText(ContentID.buttonSave, config)}
                                 </button>
                                 <button type='button' onClick={cancelChanges}>
@@ -82,11 +88,35 @@ const UserBasicInfo = ({ config, showUserStatus = false, user }: Props) => {
                         </div>
                     </>
                 )}
-                {user.contactOrganization && user.contactOrganization.length > 0 && (
+                <div className='semiBold'>{contentToText(ContentID.checkOutOrganization, config)}:</div>
+                {editedInfo === 'organization' ? (
                     <>
-                        <div className='semiBold'>{contentToText(ContentID.checkOutOrganization, config)}:</div>
+                        <div>
+                            <InputField useField={organization} width='100%' autoFocus={true} />
+                        </div>
+                        <div>
+                            <div className='grid-container' data-cols='2' data-gap='1rem'>
+                                <button
+                                    type='button'
+                                    onClick={() => submitChanges({ contactOrganization: organization.stringValue() })}
+                                    disabled={organization.stringValue() === user.contactOrganization}
+                                >
+                                    {contentToText(ContentID.buttonSave, config)}
+                                </button>
+                                <button type='button' onClick={cancelChanges}>
+                                    {contentToText(ContentID.buttonCancel, config)}
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <>
                         <div>{user.contactOrganization}</div>
-                        <div />
+                        <div className='alignRight'>
+                            <button type='button' onClick={() => setEditedInfo('organization')}>
+                                {contentToText(ContentID.miscChange, config)} {contentToText(ContentID.checkOutOrganization, config)}
+                            </button>
+                        </div>
                     </>
                 )}
                 {showUserStatus && (

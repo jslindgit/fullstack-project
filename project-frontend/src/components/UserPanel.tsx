@@ -7,7 +7,9 @@ import { RootState } from '../reducers/rootReducer';
 import { User } from '../types/types';
 
 import { contentToText } from '../types/languageFunctions';
+import userService from '../services/userService';
 
+import { setNotification } from '../reducers/miscReducer';
 import { initializeLoggedUser } from '../reducers/userReducer';
 
 import UserBasicInfo from './UserBasicInfo';
@@ -37,7 +39,7 @@ const UserPanel = () => {
         };
 
         init();
-    }, [config, dispatch]);
+    }, [config, dispatch, user]);
 
     useEffect(() => {
         setUser(usersState.loggedUser);
@@ -51,14 +53,26 @@ const UserPanel = () => {
         return <>{contentToText(ContentID.menuLogin, config)}</>;
     }
 
+    const updateUserInfo = async (toUpdate: object) => {
+        if (usersState.loggedUser) {
+            const res = await userService.update(user.id, toUpdate, usersState.loggedUser.token, config);
+
+            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+
+            if (res.user) {
+                setUser(res.user);
+            }
+        }
+    };
+
     return (
         <div className='pageWidth'>
             <div data-testid='account-header' className='pageHeader'>
                 {contentToText(ContentID.menuAccount, config)}
             </div>
             <div className='grid-container' data-gap='2rem' style={{ marginBottom: '2rem' }}>
-                <UserBasicInfo config={config} showUserStatus={user.admin || user.operator} user={user} />
-                <UserContactInfo config={config} user={user} />
+                <UserBasicInfo config={config} showUserStatus={user.admin || user.operator} updateUserInfo={updateUserInfo} user={user} />
+                <UserContactInfo config={config} updateUserInfo={updateUserInfo} user={user} />
                 <UserChangePassword config={config} user={user} />
                 <UserOrderHistory config={config} user={user} />
                 <UserDeleteAccount config={config} user={user} />
