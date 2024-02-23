@@ -149,4 +149,5 @@
 |   16.2.   | 2    | CI/CD                                                                                                                |     |
 |   21.2.   | 1    | Käyttäjälle mahdollisuus muokata tietojaan                                                                           |     |
 |   22.2.   | 2    | Käyttäjätietojen muokkaus valmiiksi                                                                                  |     |
-|    yht    | 247  |                                                                                                                      |     |
+|   23.2.   | 1    | Korjauksia ja refactorointia                                                                                         |     |
+|    yht    | 248  |                                                                                                                      |     |
