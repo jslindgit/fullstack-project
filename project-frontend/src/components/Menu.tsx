@@ -7,7 +7,6 @@ import { RootState } from '../reducers/rootReducer';
 import { contentToText } from '../types/languageFunctions';
 import loginService from '../services/loginService';
 import useField from '../hooks/useField';
-import { getUserStatus } from '../util/userProvider';
 
 import { setNotification } from '../reducers/miscReducer';
 import { removeLoggedUser } from '../reducers/userReducer';
@@ -42,9 +41,8 @@ const Menu = () => {
         if (loggedUser) {
             return (
                 <>
-                    <div data-testid='logged-username' className='sizeSmallish semiBold'>
+                    <div data-testid='logged-username' className='sizeSmallish semiBold' style={{ marginTop: '1em' }}>
                         {loggedUser.username}{' '}
-                        {loggedUser.admin || loggedUser.operator ? <span className='colorYellowLight'>({getUserStatus(loggedUser, config)})</span> : <></>}
                     </div>
                     <div className='grid-container' data-cols='auto'>
                         <div>{menuLink('/you', contentToText(ContentID.menuAccount, config), 'Small', 'menu-account')}</div>

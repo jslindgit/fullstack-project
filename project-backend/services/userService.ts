@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { Op } from 'sequelize';
 
 import { Order } from '../models';
-import User, { NewUser, removePasswordHash, UserAttributes } from '../models/user';
+import User, { NewUser, removePasswordHash, removePasswordHashAndToken, UserAttributes } from '../models/user';
 
 import { handleError } from '../util/error_handler';
 import { isNumber, isObject } from '../types/type_functions';
@@ -62,11 +62,12 @@ const getAll = async (searchQuery: string = ''): Promise<Array<UserAttributes | 
                     //attributes: ['id', 'createdAt', 'items', 'status', 'totalAmount'],
                 },
             ],
+            attributes: { exclude: ['passwordHash', 'token'] },
             where,
             order: [['username', 'ASC']],
         });
 
-        return users.map((user) => removePasswordHash(user));
+        return users;
     } catch (err: unknown) {
         handleError(err);
         return [];
@@ -74,7 +75,7 @@ const getAll = async (searchQuery: string = ''): Promise<Array<UserAttributes | 
 };
 
 // prettier-ignore
-const getById = async (id: unknown): Promise<UserAttributes | null> => {
+const getById = async (id: unknown, includeToken: boolean): Promise<UserAttributes | null> => {
     try {
         const user = isNumber(Number(id))
             ? await User.findByPk(Number(id), {
@@ -84,9 +85,10 @@ const getById = async (id: unknown): Promise<UserAttributes | null> => {
                         //attributes: ['id', 'createdAt', 'items', 'status', 'totalAmount'],
                     },
                 ],
+                attributes: { exclude: includeToken ? ['passwordHash'] : ['passwordHash', 'token'] }
             })
             : null;
-        return removePasswordHash(user);
+        return user;
     } catch (err: unknown) {
         handleError(err);
         return null;
@@ -114,7 +116,8 @@ const update = async (id: unknown, props: unknown): Promise<UserAttributes | nul
                 throw new Error('Invalid props value (not an object)');
             }
         }
-        return removePasswordHash(user);
+
+        return removePasswordHashAndToken(user);
     } catch (err: unknown) {
         handleError(err);
         return null;

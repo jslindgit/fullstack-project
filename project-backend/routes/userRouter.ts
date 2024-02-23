@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const user = await service.getById(req.params.id);
+        const user = await service.getById(req.params.id, false);
         if (!user) {
             res.status(404).end();
         } else {
@@ -45,7 +45,7 @@ router.get('/', apiKeyExtractor, (async (req, res, next) => {
 router.get('/me', tokenExtractor, (async (req, res, next) => {
     try {
         if (res.locals.user_id && isNumber(res.locals.user_id)) {
-            const user = await service.getById(res.locals.user_id);
+            const user = await service.getById(res.locals.user_id, true);
             if (user) {
                 res.json(user);
             } else {
@@ -61,7 +61,7 @@ router.get('/me', tokenExtractor, (async (req, res, next) => {
 
 router.get('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const user = await service.getById(req.params.id);
+        const user = await service.getById(req.params.id, false);
         if (user) {
             res.status(200).json(user);
         } else {

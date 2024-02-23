@@ -149,6 +149,16 @@ export const removePasswordHash = (user: UserInstance | null): UserAttributes | 
     return null;
 };
 
+export const removePasswordHashAndToken = (user: UserInstance | null): UserAttributes | null => {
+    if (user) {
+        const userAttributes: UserAttributes = { ...user.toJSON() };
+        delete userAttributes.passwordHash;
+        delete userAttributes.token;
+        return userAttributes;
+    }
+    return null;
+};
+
 export const toNewUser = (object: unknown): NewUser => {
     if (!isNewUser(object)) {
         throw new Error('Incorrect or missing data for toNewUser');

@@ -117,7 +117,7 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
                 {info('address', address, { contactAddress: address.stringValue() }, user.contactAddress, ContentID.checkOutStreetAddress)}
 
                 <div className='semiBold'>{contentToText(ContentID.checkOutZipCode, config)}:</div>
-                {info('zipcode', zipcode, { contactZipCode: zipcode.stringValue() }, user.contactZipcode, ContentID.checkOutZipCode)}
+                {info('zipcode', zipcode, { contactZipcode: zipcode.stringValue() }, user.contactZipcode, ContentID.checkOutZipCode)}
 
                 <div className='semiBold'>{contentToText(ContentID.checkOutCity, config)}:</div>
                 {info('city', city, { contactCity: city.stringValue() }, user.contactCity, ContentID.checkOutCity)}
