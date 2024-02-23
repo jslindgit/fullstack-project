@@ -64,50 +64,42 @@ export const getOrderStatusForAdmin = (order: Order, config: Config): string => 
     }
 };
 
-export const isOrder = (obj: unknown): obj is Order => {
+export const isNewOrder = (obj: unknown): obj is NewOrder => {
     return (
         isObject(obj) &&
-        'id' in obj &&
-        isNumber(obj.id) &&
-        'createdAt' in obj &&
         'customerAddress' in obj &&
+        isString(obj.customerAddress) &&
         'customerCity' in obj &&
+        isString(obj.customerCity) &&
         'customerCountry' in obj &&
+        isString(obj.customerCountry) &&
         'customerEmail' in obj &&
+        isString(obj.customerEmail) &&
         'customerFirstName' in obj &&
+        isString(obj.customerFirstName) &&
         'customerLastName' in obj &&
+        isString(obj.customerLastName) &&
         'customerPhone' in obj &&
+        isString(obj.customerPhone) &&
         'customerZipCode' in obj &&
+        isString(obj.customerZipCode) &&
         'deliveryCost' in obj &&
+        isNumber(obj.deliveryCost) &&
         'deliveryMethod' in obj &&
         'items' in obj &&
         Array.isArray(obj.items) &&
         'language' in obj &&
         'paymentMethod' in obj &&
-        'status' in obj &&
-        'totalAmount' in obj &&
-        isNumber(obj.totalAmount)
+        'status' in obj
     );
 };
 
+export const isOrder = (obj: unknown): obj is Order => {
+    return isNewOrder(obj) && 'id' in obj && isNumber(obj.id) && 'createdAt' in obj && 'totalAmount' in obj && isNumber(obj.totalAmount);
+};
+
 export const isOrderOrNewOrder = (obj: unknown): obj is Order | NewOrder => {
-    return (
-        isObject(obj) &&
-        'customerAddress' in obj &&
-        'customerCity' in obj &&
-        'customerCountry' in obj &&
-        'customerEmail' in obj &&
-        'customerFirstName' in obj &&
-        'customerLastName' in obj &&
-        'customerPhone' in obj &&
-        'customerZipCode' in obj &&
-        'deliveryCost' in obj &&
-        'deliveryMethod' in obj &&
-        'items' in obj &&
-        'language' in obj &&
-        'paymentMethod' in obj &&
-        'status' in obj
-    );
+    return isNewOrder(obj) || isOrder(obj);
 };
 
 export const isShoppingItem = (obj: object): obj is ShoppingItem => {

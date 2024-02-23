@@ -1,0 +1,2 @@
+DELETE http://localhost:3001/api/orders/135
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlcHBvQHRlc3RhYWphLmNvbSIsImlkIjo0LCJpYXQiOjE3MDg3MDE2Mzd9.kvnsnU8MgLS2_xym22ADqMGVhLPeFIfwXfuZzAia58M

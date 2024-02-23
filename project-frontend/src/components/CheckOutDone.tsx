@@ -89,7 +89,6 @@ const CheckOutDone = () => {
     // Also update the 'instock' and 'sold' attributes of all the Items that were in this Order:
     useEffect(() => {
         if (errorWhenFetchingOrder === false && orderResponse?.order?.status === OrderStatus.PENDING && signatureStatus === SignatureStatus.VALID) {
-            console.log('updating...');
             const updateOrderStatus = async () => {
                 if (orderResponse.order) {
                     const paymentMethod = searchparams.get('checkout-provider') as string;

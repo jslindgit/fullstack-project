@@ -11,6 +11,7 @@ import orderService from '../services/orderService';
 import { setOrder } from '../reducers/orderReducer';
 
 import { contentToText } from '../types/languageFunctions';
+import { handleError } from '../util/handleError';
 
 const CheckOutCreateOrder = () => {
     const dispatch = useDispatch();
@@ -32,7 +33,18 @@ const CheckOutCreateOrder = () => {
     // If the order in Redux state is still NewOrder, make a call to the server to convert it into an Order and to save it in the database-
     // If it's already an Order (has been posted to the server earlier), update it (in case it has been modified since).
     useEffect(() => {
-        if (!isOrder(orderState) && validateOrder(orderState, config).length <= 0 && !attemptedToCreateOrder.current) {
+        // If there is a valid Order in Redux state, check if it still exists at the server (Orders with 'PENDING' status are purged periodically):
+        let orderExistsAtServer: boolean = false;
+        if (isOrder(orderState)) {
+            orderService
+                .getById(orderState.id)
+                .then((res) => {
+                    orderExistsAtServer = res.success && res.order !== null;
+                })
+                .catch((err) => handleError(err));
+        }
+
+        if ((!isOrder(orderState) || !orderExistsAtServer) && validateOrder(orderState, config).length <= 0 && !attemptedToCreateOrder.current) {
             const createdOrder = async () => {
                 const response = await orderService.addNew(orderState, config, userState.loggedUser ? userState.loggedUser.id : null);
                 if (response.success && response.order) {

@@ -5,7 +5,6 @@ import { ContentID } from '../content';
 import { NewOrder, Order } from '../types/orderTypes';
 import { RootState } from '../reducers/rootReducer';
 
-import dev from '../util/dev';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { isValidEmailAddress, isValidPassword } from '../util/misc';
 import useField, { UseField } from '../hooks/useField';
@@ -108,22 +107,6 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
         ContentID.checkOutZipCode,
         currentOrder.customerZipCode.length > 0 ? currentOrder.customerZipCode : userState.loggedUser ? userState.loggedUser.contactZipcode : ''
     );
-
-    const fillRandomly = () => {
-        const zipCity = dev.randomZipCodeAndCity();
-        const first = dev.randomFirstName();
-        const last = dev.randomLastName();
-
-        address.setNewValue(dev.randomStreetAddress());
-        city.setNewValue(zipCity.city);
-        setCountry('Suomi');
-        email.setNewValue(dev.randomEmail(first, last));
-        firstName.setNewValue(first);
-        lastName.setNewValue(last);
-        organization.setNewValue(dev.randomOrganization());
-        phone.setNewValue(dev.randomPhone());
-        zipCode.setNewValue(zipCity.zip);
-    };
 
     const fillWithLoggedUserInfo = () => {
         if (userState.loggedUser) {
@@ -250,13 +233,8 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
 
     return (
         <div className={'alignLeft infoBox' + (errors ? ' errors' : '')}>
-            <div className='grid-container' data-cols='2'>
-                <div data-testid='checkout-contactinfo-header' className='infoHeader' style={{ marginBottom: '2.5rem' }}>
-                    {contentToText(ContentID.checkOutCustomerContactInformation, config)}
-                </div>
-                <div className='alignRight'>
-                    <a onClick={fillRandomly}>Fill randomly</a>
-                </div>
+            <div data-testid='checkout-contactinfo-header' className='infoHeader' style={{ marginBottom: '2.5rem' }}>
+                {contentToText(ContentID.checkOutCustomerContactInformation, config)}
             </div>
             <div className='grid-container left' data-cols='auto 1fr' data-gap='1.5rem'>
                 {userState.loggedUser && (

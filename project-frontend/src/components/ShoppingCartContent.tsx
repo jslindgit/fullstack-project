@@ -46,7 +46,7 @@ const ShoppingCartContent = ({ allowEdit, shoppingItems, removeItem, totalSumCon
                 <div className='gridStripedHeaderRow gridSpan2'>{contentToText(ContentID.cartTotalPrice, config)}</div>
                 {shoppingItems.map((shoppingItem) => (
                     <ShoppingCartRow
-                        key={shoppingItem.id}
+                        key={shoppingItem.id + shoppingItem.size}
                         shoppingItem={shoppingItem}
                         indexOf={shoppingItems.indexOf(shoppingItem)}
                         removeItem={removeItem}

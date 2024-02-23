@@ -111,7 +111,7 @@ const AdminOrderDetails = ({
                                 ---
                                 <br />
                                 {order.items.map((item) => (
-                                    <div key={item.id}>
+                                    <div key={item.id.toString() + item.size}>
                                         •&nbsp;&nbsp;
                                         <span className='bold'>
                                             {item.name}
@@ -170,7 +170,10 @@ const AdminOrderDetails = ({
                                 <br />
                                 {contactInfo(
                                     contentToText(ContentID.orderDeliveryMethod, config),
-                                    order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : '-'
+                                    order.deliveryMethod
+                                        ? langTextsToText(order.deliveryMethod.names, config) +
+                                              (order.deliveryMethod.notes.length > 0 ? ` (${order.deliveryMethod.notes})` : '')
+                                        : '-'
                                 )}
                                 <br />
                                 <br />

@@ -50,7 +50,6 @@ const slice = createSlice({
             state.items = updatedShoppingItems;
         },
         setOrder(_state: OrderState, action: PayloadAction<NewOrder | Order>) {
-            //console.log('setting orderRecuder.state to:', action.payload);
             return action.payload;
         },
         setShoppingCart(state: OrderState, action: PayloadAction<ShoppingItem[]>) {

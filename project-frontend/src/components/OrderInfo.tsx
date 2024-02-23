@@ -66,9 +66,7 @@ const OrderInfo = ({ order }: Props) => {
                         {langTextsToText(order.deliveryMethod.names, config)} <b>({format.currency(order.deliveryCost, config)})</b>
                         {order.deliveryMethod.notes && order.deliveryMethod.notes.length > 0 && (
                             <>
-                                <br />
-                                <br />
-                                {order.deliveryMethod.notes}
+                                <br />({order.deliveryMethod.notes})
                             </>
                         )}
                     </div>
