@@ -15,7 +15,7 @@ interface Props {
     addLinkToEmail?: boolean;
     config: Config;
     showUserStatus?: boolean;
-    updateUserInfo: (toUpdate: object) => Promise<void>;
+    updateUserInfo: ((toUpdate: object) => Promise<void>) | null;
     user: User;
 }
 const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }: Props) => {
@@ -34,7 +34,9 @@ const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }:
     };
 
     const submitChanges = async (toUpdate: object) => {
-        await updateUserInfo(toUpdate);
+        if (updateUserInfo) {
+            await updateUserInfo(toUpdate);
+        }
 
         setEditedInfo('');
     };
@@ -81,11 +83,15 @@ const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }:
                 ) : (
                     <>
                         <div>{user.contactFirstName + ' ' + user.contactLastName}</div>
-                        <div className='alignRight'>
-                            <button type='button' onClick={() => setEditedInfo('name')}>
-                                {contentToText(ContentID.miscChange, config)} {contentToText(ContentID.miscName, config)}
-                            </button>
-                        </div>
+                        {updateUserInfo ? (
+                            <div className='alignRight'>
+                                <button type='button' onClick={() => setEditedInfo('name')}>
+                                    {contentToText(ContentID.miscChange, config)} {contentToText(ContentID.miscName, config)}
+                                </button>
+                            </div>
+                        ) : (
+                            <div />
+                        )}
                     </>
                 )}
                 <div className='semiBold'>{contentToText(ContentID.checkOutOrganization, config)}:</div>
@@ -112,11 +118,15 @@ const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }:
                 ) : (
                     <>
                         <div>{user.contactOrganization}</div>
-                        <div className='alignRight'>
-                            <button type='button' onClick={() => setEditedInfo('organization')}>
-                                {contentToText(ContentID.miscChange, config)} {contentToText(ContentID.checkOutOrganization, config)}
-                            </button>
-                        </div>
+                        {updateUserInfo ? (
+                            <div className='alignRight'>
+                                <button type='button' onClick={() => setEditedInfo('organization')}>
+                                    {contentToText(ContentID.miscChange, config)} {contentToText(ContentID.checkOutOrganization, config)}
+                                </button>
+                            </div>
+                        ) : (
+                            <div />
+                        )}
                     </>
                 )}
                 {showUserStatus && (

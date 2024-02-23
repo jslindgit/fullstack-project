@@ -12,7 +12,7 @@ import InputField from './InputField';
 interface Props {
     addLinkToEmail?: boolean;
     config: Config;
-    updateUserInfo: (toUpdate: object) => Promise<void>;
+    updateUserInfo: ((toUpdate: object) => Promise<void>) | null;
     user: User;
 }
 const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user }: Props) => {
@@ -60,7 +60,9 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
     };
 
     const submitChanges = async (toUpdate: object) => {
-        await updateUserInfo(toUpdate);
+        if (updateUserInfo) {
+            await updateUserInfo(toUpdate);
+        }
 
         setEditedInfo('');
     };
@@ -86,11 +88,15 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
             ) : (
                 <>
                     <div>{currentValue}</div>
-                    <div className='alignRight'>
-                        <button type='button' onClick={() => setEditedInfo(info)}>
-                            {contentToText(ContentID.miscChange, config)} {contentToText(buttonLabel, config)}
-                        </button>
-                    </div>
+                    {updateUserInfo ? (
+                        <div className='alignRight'>
+                            <button type='button' onClick={() => setEditedInfo(info)}>
+                                {contentToText(ContentID.miscChange, config)} {contentToText(buttonLabel, config)}
+                            </button>
+                        </div>
+                    ) : (
+                        <div />
+                    )}
                 </>
             )}
         </>
@@ -145,11 +151,15 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
                 ) : (
                     <>
                         <div>{user.contactCountry}</div>
-                        <div className='alignRight'>
-                            <button type='button' onClick={() => setEditedInfo('country')}>
-                                {contentToText(ContentID.miscChange, config)} {contentToText(ContentID.checkOutCountry, config)}
-                            </button>
-                        </div>
+                        {updateUserInfo ? (
+                            <div className='alignRight'>
+                                <button type='button' onClick={() => setEditedInfo('country')}>
+                                    {contentToText(ContentID.miscChange, config)} {contentToText(ContentID.checkOutCountry, config)}
+                                </button>
+                            </div>
+                        ) : (
+                            <div />
+                        )}
                     </>
                 )}
             </div>
