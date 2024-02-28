@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { ContentID } from '../content';
-import { DeliveryMethod, NewOrder, Order } from '../types/orderTypes';
-import { RootState } from '../reducers/rootReducer';
+import { ContentID } from '../../content';
+import { DeliveryMethod, NewOrder, Order } from '../../types/orderTypes';
+import { RootState } from '../../reducers/rootReducer';
 
-import { orderFitsInLetter } from '../util/checkoutProvider';
-import deliveryService from '../services/deliveryService';
-import { contentToText } from '../types/languageFunctions';
+import { orderFitsInLetter } from '../../util/checkoutProvider';
+import deliveryService from '../../services/deliveryService';
+import { contentToText } from '../../types/languageFunctions';
 
 import CheckOutDeliveryMethod from './CheckOutDeliveryMethod';
 

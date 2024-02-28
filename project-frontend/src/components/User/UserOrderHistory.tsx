@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-import { Config } from '../types/configTypes';
-import { ContentID } from '../content';
-import { Order } from '../types/orderTypes';
-import { User } from '../types/types';
+import { Config } from '../../types/configTypes';
+import { ContentID } from '../../content';
+import { Order } from '../../types/orderTypes';
+import { User } from '../../types/types';
 
-import format from '../util/format';
-import { contentToText } from '../types/languageFunctions';
-import { getOrderStatus } from '../types/orderTypeFunctions';
+import format from '../../util/format';
+import { contentToText } from '../../types/languageFunctions';
+import { getOrderStatus } from '../../types/orderTypeFunctions';
 
 import UserOrderDetails from './UserOrderDetails';
 

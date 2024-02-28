@@ -2,22 +2,22 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
-import { ContentID } from '../content';
-import { OrderResponse } from '../services/orderService';
-import { OrderStatus } from '../types/orderTypes';
-import { RootState } from '../reducers/rootReducer';
+import { ContentID } from '../../content';
+import { OrderResponse } from '../../services/orderService';
+import { OrderStatus } from '../../types/orderTypes';
+import { RootState } from '../../reducers/rootReducer';
 
-import itemService from '../services/itemService';
-import { contentToText } from '../types/languageFunctions';
-import orderService from '../services/orderService';
-import paytrailService from '../services/paytrailService';
+import itemService from '../../services/itemService';
+import { contentToText } from '../../types/languageFunctions';
+import orderService from '../../services/orderService';
+import paytrailService from '../../services/paytrailService';
 
-import { clearOrder } from '../reducers/orderReducer';
+import { clearOrder } from '../../reducers/orderReducer';
 
-import BackButton from './BackButton';
-import { Link } from './CustomLink';
-import OrderInfo from './OrderInfo';
-import { isOrder } from '../types/orderTypeFunctions';
+import BackButton from '../BackButton';
+import { Link } from '../CustomLink';
+import OrderInfo from '../OrderInfo';
+import { isOrder } from '../../types/orderTypeFunctions';
 
 enum SignatureStatus {
     INVALID,

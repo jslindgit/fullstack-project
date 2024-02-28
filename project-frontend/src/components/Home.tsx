@@ -11,7 +11,7 @@ import { contentToText, langTextsToText } from '../types/languageFunctions';
 
 import CategoryGrid from './CategoryGrid';
 import Description from './Description';
-import ItemGrid from './ItemGrid';
+import ItemGrid from './Items/ItemGrid';
 
 const MainPage = () => {
     const config = useSelector((state: RootState) => state.config);

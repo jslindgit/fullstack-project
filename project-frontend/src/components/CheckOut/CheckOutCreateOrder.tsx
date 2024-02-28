@@ -2,16 +2,16 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { ContentID } from '../content';
-import { RootState } from '../reducers/rootReducer';
+import { ContentID } from '../../content';
+import { RootState } from '../../reducers/rootReducer';
 
-import { isOrder, orderToRequestBody, validateOrder } from '../types/orderTypeFunctions';
-import orderService from '../services/orderService';
+import { isOrder, orderToRequestBody, validateOrder } from '../../types/orderTypeFunctions';
+import orderService from '../../services/orderService';
 
-import { setOrder } from '../reducers/orderReducer';
+import { setOrder } from '../../reducers/orderReducer';
 
-import { contentToText } from '../types/languageFunctions';
-import { handleError } from '../util/handleError';
+import { contentToText } from '../../types/languageFunctions';
+import { handleError } from '../../util/handleError';
 
 const CheckOutCreateOrder = () => {
     const dispatch = useDispatch();

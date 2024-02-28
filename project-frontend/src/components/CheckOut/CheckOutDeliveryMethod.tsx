@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Config } from '../types/configTypes';
-import { ContentID } from '../content';
-import { DeliveryMethod, DeliveryCode, PostiLocation } from '../types/orderTypes';
-import { RootState } from '../reducers/rootReducer';
+import { Config } from '../../types/configTypes';
+import { ContentID } from '../../content';
+import { DeliveryMethod, DeliveryCode, PostiLocation } from '../../types/orderTypes';
+import { RootState } from '../../reducers/rootReducer';
 
-import format from '../util/format';
-import { contentToText, langTextsToText } from '../types/languageFunctions';
-import postiService from '../services/postiService';
-import useField from '../hooks/useField';
+import format from '../../util/format';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import postiService from '../../services/postiService';
+import useField from '../../hooks/useField';
 
 interface SelectProps {
     config: Config;

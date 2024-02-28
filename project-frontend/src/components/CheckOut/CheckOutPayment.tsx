@@ -2,18 +2,18 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { ContentID } from '../content';
-import { RootState } from '../reducers/rootReducer';
-import { PaytrailData, PaytrailProvider } from '../types/orderTypes';
+import { ContentID } from '../../content';
+import { RootState } from '../../reducers/rootReducer';
+import { PaytrailData, PaytrailProvider } from '../../types/orderTypes';
 
-import { orderTotalSum } from '../util/checkoutProvider';
-import format from '../util/format';
-import { contentToText } from '../types/languageFunctions';
-import { isOrder, validateOrder } from '../types/orderTypeFunctions';
-import paytrailService from '../services/paytrailService';
+import { orderTotalSum } from '../../util/checkoutProvider';
+import format from '../../util/format';
+import { contentToText } from '../../types/languageFunctions';
+import { isOrder, validateOrder } from '../../types/orderTypeFunctions';
+import paytrailService from '../../services/paytrailService';
 
-import BackButton from './BackButton';
-import OrderInfo from './OrderInfo';
+import BackButton from '../BackButton';
+import OrderInfo from '../OrderInfo';
 
 const CheckOutPayment = () => {
     const config = useSelector((state: RootState) => state.config);

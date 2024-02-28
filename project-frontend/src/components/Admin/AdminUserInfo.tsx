@@ -13,9 +13,9 @@ import userService from '../../services/userService';
 import { setNotification } from '../../reducers/miscReducer';
 
 import BackButton from '../BackButton';
-import UserBasicInfo from '../UserBasicInfo';
-import UserContactInfo from '../UserContactInfo';
-import UserOrderHistory from '../UserOrderHistory';
+import UserBasicInfo from '../User/UserBasicInfo';
+import UserContactInfo from '../User/UserContactInfo';
+import UserOrderHistory from '../User/UserOrderHistory';
 
 const AdminUserInfo = () => {
     const dispatch = useDispatch();

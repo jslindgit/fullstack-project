@@ -2,23 +2,23 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { ContentID } from '../content';
-import { DeliveryMethod } from '../types/orderTypes';
-import { RootState } from '../reducers/rootReducer';
-import { NewUser } from '../types/types';
+import { ContentID } from '../../content';
+import { DeliveryMethod } from '../../types/orderTypes';
+import { RootState } from '../../reducers/rootReducer';
+import { NewUser } from '../../types/types';
 
-import { contentToText } from '../types/languageFunctions';
-import { isValidPassword } from '../util/misc';
-import { validateOrder } from '../types/orderTypeFunctions';
-import useField from '../hooks/useField';
-import { registerAndLogin } from '../util/userProvider';
+import { contentToText } from '../../types/languageFunctions';
+import { isValidPassword } from '../../util/misc';
+import { validateOrder } from '../../types/orderTypeFunctions';
+import useField from '../../hooks/useField';
+import { registerAndLogin } from '../../util/userProvider';
 
-import { setOrder } from '../reducers/orderReducer';
+import { setOrder } from '../../reducers/orderReducer';
 
-import BackButton from './BackButton';
+import BackButton from '../BackButton';
 import CheckOutContactInfo from './CheckOutContactInfo';
 import CheckOutDelivery from './CheckOutDelivery';
-import OrderInfo from './OrderInfo';
+import OrderInfo from '../OrderInfo';
 
 const CheckOut = () => {
     const dispatch = useDispatch();

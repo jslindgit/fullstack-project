@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { ContentID } from '../content';
-import { NewOrder, Order } from '../types/orderTypes';
-import { RootState } from '../reducers/rootReducer';
+import { ContentID } from '../../content';
+import { NewOrder, Order } from '../../types/orderTypes';
+import { RootState } from '../../reducers/rootReducer';
 
-import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { isValidEmailAddress, isValidPassword } from '../util/misc';
-import useField, { UseField } from '../hooks/useField';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { isValidEmailAddress, isValidPassword } from '../../util/misc';
+import useField, { UseField } from '../../hooks/useField';
 
-import CheckBox from './CheckBox';
-import InputField from './InputField';
+import CheckBox from '../CheckBox';
+import InputField from '../InputField';
 
 interface Props {
     currentOrder: NewOrder | Order;

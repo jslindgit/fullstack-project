@@ -1,13 +1,13 @@
-import { Config } from '../types/configTypes';
-import { ContentID } from '../content';
-import { DeliveryMethod, Order, ShoppingItem } from '../types/orderTypes';
+import { Config } from '../../types/configTypes';
+import { ContentID } from '../../content';
+import { DeliveryMethod, Order, ShoppingItem } from '../../types/orderTypes';
 
-import format from '../util/format';
-import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { getOrderStatus } from '../types/orderTypeFunctions';
-import { isString } from '../types/typeFunctions';
+import format from '../../util/format';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { getOrderStatus } from '../../types/orderTypeFunctions';
+import { isString } from '../../types/typeFunctions';
 
-import ShoppingCartContent from './ShoppingCartContent';
+import ShoppingCartContent from '../ShoppingCart/ShoppingCartContent';
 
 interface Props {
     config: Config;

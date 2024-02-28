@@ -2,21 +2,21 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Item } from '../types/types';
-import { RootState } from '../reducers/rootReducer';
+import { Item } from '../../types/types';
+import { RootState } from '../../reducers/rootReducer';
 
-import { pageWidth } from '../constants';
-import format from '../util/format';
-import { handleError } from '../util/handleError';
-import itemService from '../services/itemService';
-import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { imageFullPath } from '../util/misc';
+import { pageWidth } from '../../constants';
+import format from '../../util/format';
+import { handleError } from '../../util/handleError';
+import itemService from '../../services/itemService';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { imageFullPath } from '../../util/misc';
 
-import AddToCart from './AddToCart';
-import BackButton from './BackButton';
-import Image from './Image';
+import AddToCart from '../AddToCart';
+import BackButton from '../BackButton';
+import Image from '../Image';
 import ItemsMenu from './ItemsMenu';
-import { ContentID } from '../content';
+import { ContentID } from '../../content';
 
 const ItemDetails = () => {
     const config = useSelector((state: RootState) => state.config);

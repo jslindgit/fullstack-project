@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
 
-import { ContentID } from '../content';
-import { ShoppingItem } from '../types/orderTypes';
-import { RootState } from '../reducers/rootReducer';
+import { ContentID } from '../../content';
+import { ShoppingItem } from '../../types/orderTypes';
+import { RootState } from '../../reducers/rootReducer';
 
-import { itemsTotalSum } from '../util/checkoutProvider';
-import format from '../util/format';
-import { contentToText } from '../types/languageFunctions';
+import { itemsTotalSum } from '../../util/checkoutProvider';
+import format from '../../util/format';
+import { contentToText } from '../../types/languageFunctions';
 
 import ShoppingCartRow from './ShoppinCartRow';
 

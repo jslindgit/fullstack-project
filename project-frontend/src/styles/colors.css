@@ -1,18 +1,6 @@
 /* Background */
-.bgColorGrayVeryLight {
-    background-color: var(--colorGrayVeryLight);
-}
-.bgColorGrayVeryLightImportant {
-    background-color: var(--colorGrayVeryLight) !important;
-}
 .bgColorGrayExtremelyLight {
     background-color: var(--colorGrayExtremelyLight);
-}
-.bgColorWhite {
-    background-color: white;
-}
-.bgColorYellowVeryLight {
-    background-color: var(--colorYellowVeryLight);
 }
 
 /* Text */
@@ -37,18 +25,9 @@
 .colorGreen {
     color: var(--colorGreen);
 }
-.colorGreenVeryLight {
-    color: var(--colorGreenVeryLight);
-}
 .colorRed {
     color: var(--colorRed);
 }
 .colorRedLight {
     color: var(--colorRedLight);
-}
-.colorWhite {
-    color: white;
-}
-.colorYellowLight {
-    color: var(--colorYellowLight);
 }

@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux';
 
-import { Config } from '../types/configTypes';
-import { RootState } from '../reducers/rootReducer';
+import { Config } from '../../types/configTypes';
+import { RootState } from '../../reducers/rootReducer';
 
-import { langTextsToText } from '../types/languageFunctions';
+import { langTextsToText } from '../../types/languageFunctions';
 
-import { Link } from './CustomLink';
+import { Link } from '../CustomLink';
 
 interface Props {
     config: Config;

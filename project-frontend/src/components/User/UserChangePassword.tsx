@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Config } from '../types/configTypes';
-import { ContentID } from '../content';
-import { User } from '../types/types';
+import { Config } from '../../types/configTypes';
+import { ContentID } from '../../content';
+import { User } from '../../types/types';
 
-import { contentToText } from '../types/languageFunctions';
-import loginService from '../services/loginService';
-import { isValidPassword } from '../util/misc';
-import useField from '../hooks/useField';
+import { contentToText } from '../../types/languageFunctions';
+import loginService from '../../services/loginService';
+import { isValidPassword } from '../../util/misc';
+import useField from '../../hooks/useField';
 
-import { setNotification } from '../reducers/miscReducer';
+import { setNotification } from '../../reducers/miscReducer';
 
-import InputField from './InputField';
+import InputField from '../InputField';
 
 interface Props {
     config: Config;

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { Config } from '../types/configTypes';
-import { ContentID } from '../content';
-import { User } from '../types/types';
+import { Config } from '../../types/configTypes';
+import { ContentID } from '../../content';
+import { User } from '../../types/types';
 
-import { contentToText, langTextsToText } from '../types/languageFunctions';
-import useField, { UseField } from '../hooks/useField';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import useField, { UseField } from '../../hooks/useField';
 
-import InputField from './InputField';
+import InputField from '../InputField';
 
 interface Props {
     addLinkToEmail?: boolean;

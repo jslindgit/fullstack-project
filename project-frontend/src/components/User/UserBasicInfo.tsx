@@ -1,15 +1,15 @@
 import { useState } from 'react';
 
-import { Config } from '../types/configTypes';
-import { ContentID } from '../content';
-import { User } from '../types/types';
+import { Config } from '../../types/configTypes';
+import { ContentID } from '../../content';
+import { User } from '../../types/types';
 
-import format from '../util/format';
-import { contentToText } from '../types/languageFunctions';
-import useField from '../hooks/useField';
-import { getUserStatus } from '../util/userProvider';
+import format from '../../util/format';
+import { contentToText } from '../../types/languageFunctions';
+import useField from '../../hooks/useField';
+import { getUserStatus } from '../../util/userProvider';
 
-import InputField from './InputField';
+import InputField from '../InputField';
 
 interface Props {
     addLinkToEmail?: boolean;

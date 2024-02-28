@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ContentID } from '../content';
-import { ShoppingItem } from '../types/orderTypes';
-import { RootState } from '../reducers/rootReducer';
-import { Item } from '../types/types';
+import { ContentID } from '../../content';
+import { ShoppingItem } from '../../types/orderTypes';
+import { RootState } from '../../reducers/rootReducer';
+import { Item } from '../../types/types';
 
-import format from '../util/format';
-import itemService from '../services/itemService';
-import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { imageFullPath } from '../util/misc';
-import useField from '../hooks/useField';
+import format from '../../util/format';
+import itemService from '../../services/itemService';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { imageFullPath } from '../../util/misc';
+import useField from '../../hooks/useField';
 
-import { updateShoppingCartItemQuantity } from '../reducers/orderReducer';
+import { updateShoppingCartItemQuantity } from '../../reducers/orderReducer';
 
-import Image from './Image';
+import Image from '../Image';
 
 interface Props {
     shoppingItem: ShoppingItem;

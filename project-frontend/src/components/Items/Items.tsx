@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { ContentID } from '../content';
-import { Category } from '../types/types';
-import { RootState } from '../reducers/rootReducer';
+import { ContentID } from '../../content';
+import { Category } from '../../types/types';
+import { RootState } from '../../reducers/rootReducer';
 
-import { pageWidth } from '../constants';
-import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { isNumber } from '../types/typeFunctions';
+import { pageWidth } from '../../constants';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { isNumber } from '../../types/typeFunctions';
 
 import ItemGrid from './ItemGrid';
 import ItemsMenu from './ItemsMenu';

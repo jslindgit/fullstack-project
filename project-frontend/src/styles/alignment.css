@@ -37,13 +37,6 @@
     vertical-align: middle;
 }
 
-.valignMiddleImportant {
-    vertical-align: middle !important;
-}
-.valignMiddleImportant td {
-    vertical-align: middle !important;
-}
-
 .valignTop {
     align-items: start;
     /*display: flex;*/

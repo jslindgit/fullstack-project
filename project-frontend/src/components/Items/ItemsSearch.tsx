@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { ContentID } from '../content';
-import { Item } from '../types/types';
-import { RootState } from '../reducers/rootReducer';
+import { ContentID } from '../../content';
+import { Item } from '../../types/types';
+import { RootState } from '../../reducers/rootReducer';
 
-import { pageWidth } from '../constants';
-import itemService from '../services/itemService';
-import { contentToText } from '../types/languageFunctions';
-import useField from '../hooks/useField';
+import { pageWidth } from '../../constants';
+import itemService from '../../services/itemService';
+import { contentToText } from '../../types/languageFunctions';
+import useField from '../../hooks/useField';
 
-import InputField from './InputField';
+import InputField from '../InputField';
 import ItemGrid from './ItemGrid';
 import ItemsMenu from './ItemsMenu';
 

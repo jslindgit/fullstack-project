@@ -1,12 +1,12 @@
-import { ContentID } from '../content';
-import { Config } from '../types/configTypes';
-import { Item } from '../types/types';
+import { ContentID } from '../../content';
+import { Config } from '../../types/configTypes';
+import { Item } from '../../types/types';
 
-import { contentToText, langTextsToText } from '../types/languageFunctions';
-import format from '../util/format';
-import { imageFullPath, itemInStockTotal } from '../util/misc';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import format from '../../util/format';
+import { imageFullPath, itemInStockTotal } from '../../util/misc';
 
-import { Link } from './CustomLink';
+import { Link } from '../CustomLink';
 
 interface ItemColumnProps {
     item: Item;

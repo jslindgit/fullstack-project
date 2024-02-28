@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ContentID } from '../content';
-import { RootState } from '../reducers/rootReducer';
+import { ContentID } from '../../content';
+import { RootState } from '../../reducers/rootReducer';
 
-import { removeItemFromShoppingCart } from '../reducers/orderReducer';
+import { removeItemFromShoppingCart } from '../../reducers/orderReducer';
 
-import { pageWidth } from '../constants';
-import { contentToText } from '../types/languageFunctions';
+import { pageWidth } from '../../constants';
+import { contentToText } from '../../types/languageFunctions';
 
-import BackButton from './BackButton';
-import { Link } from './CustomLink';
+import BackButton from '../BackButton';
+import { Link } from '../CustomLink';
 import ShoppingCartContent from './ShoppingCartContent';
 
 const ShoppingCart = () => {
