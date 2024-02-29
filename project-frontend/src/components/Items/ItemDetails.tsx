@@ -41,10 +41,10 @@ const ItemDetails = () => {
 
     if (!item) {
         return (
-            <>
+            <div className='sizeLarge'>
                 <br />
-                <h4>{loading}</h4>
-            </>
+                {loading}
+            </div>
         );
     }
 

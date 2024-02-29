@@ -34,11 +34,6 @@
     margin-top: 0.25rem;
 }
 
-.imgSelected {
-    cursor: grabbing;
-    outline: 0.3rem solid var(--colorGreenLight);
-}
-
 .imgShoppingCart {
     display: block;
     width: 3rem;

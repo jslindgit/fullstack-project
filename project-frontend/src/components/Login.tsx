@@ -97,9 +97,9 @@ const Login = () => {
                         {contentToText(ContentID.miscLoggedInAs, config)}
                         <span className='bold'>{logged.username}</span>
                     </div>
-                    <div style={{ marginTop: '3rem' }}>
+                    <div className='sizeLarge' style={{ marginTop: '3rem' }}>
                         <Link to='/login' onClick={async () => await loginService.logout(logged.token, removeLogged)}>
-                            <h3>{contentToText(ContentID.menuLogout, config)}</h3>
+                            {contentToText(ContentID.menuLogout, config)}
                         </Link>
                     </div>
                 </div>

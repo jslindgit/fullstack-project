@@ -49,18 +49,6 @@ textarea {
     resize: none;
 }
 
-.adminForm input,
-.adminForm select {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    margin: 0;
-}
-
-.adminFormItemEdit input,
-adminFormItemEdit select {
-    font-size: inherit;
-}
-
 .customCheckBox {
     align-items: center;
     background-color: white;

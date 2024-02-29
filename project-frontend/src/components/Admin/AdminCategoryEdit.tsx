@@ -105,10 +105,10 @@ const AdminCategoryEdit = () => {
 
     if (!category) {
         return (
-            <>
+            <div className='sizeLarge'>
                 <br />
-                <h4>{loading}</h4>
-            </>
+                {loading}
+            </div>
         );
     }
 

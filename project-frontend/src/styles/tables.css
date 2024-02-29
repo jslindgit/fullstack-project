@@ -27,51 +27,6 @@ table.alignTop td {
     vertical-align: top;
 }
 
-/* Padding related */
-.noOuterPadding tr:first-child td {
-    padding-top: 0;
-}
-.noOuterPadding tr:last-child td {
-    padding-bottom: 0;
-}
-.noOuterPadding td:first-child {
-    padding-left: 0;
-}
-.noOuterPadding td:last-child {
-    padding-right: 0;
-}
-
-.noPadding {
-    padding: 0;
-}
-.noPadding td {
-    padding: 0;
-}
-.noPaddingTd {
-    padding: 0;
-}
-
-.noPaddingImportant {
-    padding: 0 !important;
-}
-.noPaddingImportant td {
-    padding: 0 !important;
-}
-
-.paddingTopBottomOnly td:first-child {
-    padding-left: 0;
-}
-.paddingTopBottomOnly td:last-child {
-    padding-right: 0;
-}
-
-.padding150 {
-    padding: calc(var(--default-padding) * 1.5);
-}
-.padding150 td {
-    padding: calc(var(--default-padding) * 1.5);
-}
-
 /* Misc */
 .dotted {
     border-collapse: collapse;
@@ -99,10 +54,6 @@ table.headerRow table tr:first-child td {
     background-color: white;
 }
 
-.noWrap {
-    white-space: nowrap;
-}
-
 .striped {
     border-collapse: collapse;
 }
@@ -123,62 +74,7 @@ table.headerRow table tr:first-child td {
     background-color: inherit;
 }
 
-.tight {
-    border-spacing: 0px !important;
-    border-collapse: collapse !important;
-    padding: 0;
-}
-
-.underlinedRow td {
-    border-bottom: 1px dotted var(--colorGrayLight);
-}
-
 .widthByContent {
     width: 1px;
     white-space: nowrap;
-}
-
-/* Specific uses */
-.adminOrderDetails {
-    background-color: white !important;
-    border-radius: 1.25rem;
-    margin: 2px;
-    margin-bottom: 3px;
-    outline: 3px solid var(--colorGray);
-}
-.adminOrderDetails td {
-    background-color: white !important;
-    color: black;
-    padding: 1.25rem;
-}
-
-.adminOrderDetailsRow {
-    background-color: white !important;
-    padding: 0;
-    padding-bottom: 0 !important;
-    padding-top: 0 !important;
-}
-
-.adminOrders {
-    border-collapse: collapse;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.adminOrders td {
-    padding-bottom: 0.6rem;
-    padding-top: 0.6rem;
-}
-
-.adminOrdersOpened {
-    background-color: var(--colorYellowVeryLight) !important;
-    border-bottom: 0 !important;
-}
-
-.itemPriceTd {
-    padding-top: var(--default-padding) !important;
-    padding-bottom: var(--default-padding) !important;
-}
-
-.validationErrors td {
-    border: 3px solid var(--colorRed);
-    color: var(--colorRed);
 }

@@ -54,8 +54,6 @@ const login = async (username: string, password: string, setLoggedUser: (loggedU
 
         const userData = res.data.response;
 
-        console.log('userData:', userData);
-
         if (res.status === 200 && isUser(userData)) {
             if (userData.disabled === true) {
                 return { success: false, message: contentToText(ContentID.userDisabled, config) };

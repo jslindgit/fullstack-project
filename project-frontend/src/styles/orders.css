@@ -1,3 +1,31 @@
+.adminOrderDetailsDiv {
+    border-radius: 1.25rem;
+    margin: 2px;
+    margin-bottom: 3px;
+    outline: 3px solid var(--colorGray);
+    padding: 1.25rem;
+}
+
+.adminOrderDetailsRow {
+    padding: 0;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
+
+.adminOrders {
+    border-collapse: collapse;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.adminOrders td {
+    padding-bottom: 0.6rem;
+    padding-top: 0.6rem;
+}
+
+.adminOrdersOpened {
+    background-color: var(--colorYellowVeryLight) !important;
+    border-bottom: 0 !important;
+}
+
 .orderInfo {
     background-color: var(--colorGrayExtremelyLight);
     border: 3px solid var(--colorGrayLight);
@@ -9,21 +37,11 @@
     border-style: dotted;
 }
 
-.orderItem {
-    background-color: var(--colorGrayVeryLight);
-    outline: 2px solid black;
-    padding-left: 2rem;
-}
-
 .userOrderDetails {
     background-color: white;
     border-radius: 0.5rem;
     outline: 2px solid var(--colorGraySemiDark);
     padding: 2rem;
-}
-.userOrderDetails td {
-    background-color: white;
-    color: var(--colorGrayDark);
 }
 
 .userOrderHistoryRowOpened {

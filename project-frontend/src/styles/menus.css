@@ -53,3 +53,15 @@
     text-decoration-color: var(--colorGoldVeryLight);
     text-decoration-thickness: 0.2rem;
 }
+
+.shoppingCartIndicator {
+    background-color: var(--colorGoldLight);
+    border-radius: 0.27rem;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding-bottom: 0.26rem !important;
+    padding-left: 0.52rem !important;
+    padding-right: 0.5rem !important;
+    padding-top: 0.2rem !important;
+}
