@@ -9,7 +9,6 @@ import { RootState } from '../../reducers/rootReducer';
 import { contentToText } from '../../types/languageFunctions';
 import { handleError } from '../../util/handleError';
 import itemService from '../../services/itemService';
-import { pageWidth } from '../../constants';
 
 import ItemEditForm from './ItemEditForm';
 
@@ -52,7 +51,7 @@ const AdminItemEdit = () => {
 
     // prettier-ignore
     return (
-        <div style={{ margin: 'auto', width: pageWidth }}>
+        <div className='pageWidth'>
             <div className='pageHeader'>
                 {contentToText(ContentID.adminPanelHeader, config)} - {contentToText(ContentID.adminEditItem, config)}
             </div>

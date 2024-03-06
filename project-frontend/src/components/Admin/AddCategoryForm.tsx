@@ -5,8 +5,9 @@ import { ContentID } from '../../content';
 import { NewCategory, User } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
-import { contentToText, useLangFields, useLangTextAreas } from '../../types/languageFunctions';
 import categoryService from '../../services/categoryService';
+import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
+import { contentToText } from '../../types/languageFunctions';
 
 import { setNotification } from '../../reducers/miscReducer';
 

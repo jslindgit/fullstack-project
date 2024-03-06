@@ -6,7 +6,6 @@ import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 
 import { contentToText } from '../../types/languageFunctions';
-import { pageWidth } from '../../constants';
 import { printAdminPanelHeader } from '../../contentFunctions';
 
 import AdminCategories from './AdminCategories';
@@ -68,7 +67,7 @@ const AdminPanel = () => {
 
     return (
         <div>
-            <div className='grid-container' data-gap='1em' style={{ margin: 'auto', width: pageWidth }}>
+            <div className='grid-container pageWidth' data-gap='1em'>
                 <AdminMenu config={config} />
                 <div className='pageHeader'>
                     {contentToText(ContentID.adminPanelHeader, config)}

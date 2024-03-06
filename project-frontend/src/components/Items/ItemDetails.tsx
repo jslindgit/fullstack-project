@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
-import { pageWidth } from '../../constants';
 import format from '../../util/format';
 import { handleError } from '../../util/handleError';
 import itemService from '../../services/itemService';
@@ -49,9 +48,9 @@ const ItemDetails = () => {
     }
 
     return (
-        <>
+        <div className='pageWidth'>
             <ItemsMenu config={config} currentId={id} />
-            <div style={{ margin: '2em auto', maxWidth: pageWidth, width: (pageWidth / 3) * 2 }}>
+            <div style={{ margin: 'auto', width: '66%' }}>
                 <div className='itemDetails'>
                     <div data-testid='item-name' className='alignLeft itemDetailsName' style={{ marginBottom: '2rem' }}>
                         {langTextsToText(item.name, config)}
@@ -84,7 +83,7 @@ const ItemDetails = () => {
                     <BackButton type='text' />
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

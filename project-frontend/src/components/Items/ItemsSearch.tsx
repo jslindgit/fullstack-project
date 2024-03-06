@@ -6,7 +6,6 @@ import { ContentID } from '../../content';
 import { Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
-import { pageWidth } from '../../constants';
 import itemService from '../../services/itemService';
 import { contentToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
@@ -49,7 +48,7 @@ const ItemsSearch = () => {
     return (
         <>
             <ItemsMenu config={config} />
-            <div style={{ margin: 'auto', maxWidth: pageWidth }}>
+            <div className='pageWidth'>
                 <div className='pageHeader'>{contentToText(ContentID.miscSearch, config)}</div>
                 <InputField className='sizeLarge' useField={searchField} width='100%' placeHolder={contentToText(ContentID.searchItemsName, config)} />
                 <div className='alignLeft italic' style={{ marginBottom: '1.25rem', marginTop: '1.25rem' }}>
@@ -65,6 +64,8 @@ const ItemsSearch = () => {
                 </div>
                 {searchResults.length > 0 && <ItemGrid colsPerRow={3} config={config} items={searchResults} />}
             </div>
+            <br />
+            <br />
         </>
     );
 };

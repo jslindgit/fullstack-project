@@ -5,7 +5,6 @@ import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 import { Item } from '../types/types';
 
-import { pageWidth } from '../constants';
 import itemService from '../services/itemService';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 
@@ -45,12 +44,7 @@ const MainPage = () => {
 
     return (
         <>
-            <div
-                className='grid-container'
-                data-cols='1'
-                data-gap='2rem'
-                style={{ margin: 'auto', marginBottom: '5rem', marginTop: '2rem', maxWidth: pageWidth }}
-            >
+            <div className='grid-container pageWidth' data-cols='1' data-gap='2rem' style={{ marginBottom: '5rem', marginTop: '2rem' }}>
                 <div data-testid='welcome-message' className='semiBold sizeExtremelyLarge'>
                     {langTextsToText(config.store.welcome, config)}
                 </div>

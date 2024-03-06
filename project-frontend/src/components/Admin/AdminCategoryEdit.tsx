@@ -11,8 +11,7 @@ import { setNotification } from '../../reducers/miscReducer';
 import categoryService from '../../services/categoryService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { handleError } from '../../util/handleError';
-import { pageWidth } from '../../constants';
-import { useLangFields, useLangTextAreas } from '../../types/languageFunctions';
+import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
 
 import BackButton from '../BackButton';
 import InputField from '../InputField';
@@ -114,7 +113,7 @@ const AdminCategoryEdit = () => {
 
     return (
         <div>
-            <div style={{ margin: 'auto', width: pageWidth }}>
+            <div className='pageWidth'>
                 <div className='pageHeader'>{contentToText(ContentID.adminEditCategory, config)}</div>
                 <div className='grid-container itemDetails' data-gap='1rem'>
                     <div className='alignCenter colorGraySemiDark sizeLarge'>{langTextsToText(category.name, config)}</div>

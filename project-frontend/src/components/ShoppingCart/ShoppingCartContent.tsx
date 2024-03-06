@@ -15,30 +15,24 @@ interface Props {
     removeItem: ((shoppingItem: number) => void) | null;
     shoppingItems: ShoppingItem[];
     totalSumContentID?: ContentID;
-    width: number | string;
 }
 
-const ShoppingCartContent = ({ allowEdit, shoppingItems, removeItem, totalSumContentID = ContentID.cartSubtotal, width }: Props) => {
+const ShoppingCartContent = ({ allowEdit, shoppingItems, removeItem, totalSumContentID = ContentID.cartSubtotal }: Props) => {
     const config = useSelector((state: RootState) => state.config);
 
     if (shoppingItems.length <= 0) {
         return (
-            <table align='center' width={width}>
-                <tbody>
-                    <tr>
-                        <td style={{ paddingBottom: '1.2em', paddingLeft: 0 }}>{contentToText(ContentID.cartIsEmpty, config)}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div className='alignLeft sizeLarge'>
+                <br />
+                {contentToText(ContentID.cartIsEmpty, config)}
+                <br />
+                <br />
+            </div>
         );
     }
 
-    if (shoppingItems.length < 1) {
-        return <></>;
-    }
-
     return (
-        <div className='dotted' style={{ margin: 'auto', width: width }}>
+        <div className='dotted'>
             <div className='grid-container left middle padded1rem striped' style={{ gridTemplateColumns: 'auto 1fr auto 1fr auto auto' }}>
                 <div className='gridStripedHeaderRow gridSpan2'>{contentToText(ContentID.cartProduct, config)}</div>
                 <div className='gridStripedHeaderRow'>{contentToText(ContentID.cartUnitPrice, config)}</div>

@@ -6,7 +6,6 @@ import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 import { User } from '../../types/types';
 
-import { pageWidth } from '../../constants';
 import { contentToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 import { getUserStatus } from '../../util/userProvider';
@@ -135,7 +134,7 @@ const AdminUsers = () => {
     );
 
     return (
-        <div className='grid-container' data-gap='2rem'>
+        <div className='grid-container pageWidth' data-gap='2rem'>
             <div className='grid-container searchBox' data-gap='2rem' style={{ gridTemplateColumns: 'auto auto 1fr' }}>
                 <div className='semiBold'>{contentToText(search.label, config)}:</div>
                 <div>
@@ -151,7 +150,7 @@ const AdminUsers = () => {
                     </button>
                 </div>
             </div>
-            <table width={pageWidth} className='headerRow striped'>
+            <table width='100%' className='headerRow striped'>
                 <tbody>
                     <tr>
                         {columnHeader(ContentID.miscName, 'name')}

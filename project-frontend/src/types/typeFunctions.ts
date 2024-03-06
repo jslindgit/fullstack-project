@@ -1,6 +1,6 @@
 import { NewCategory, Response, User } from './types';
 
-import { isLangText } from './languageFunctions';
+import { isLangText } from './languageTypeFunctions';
 
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;

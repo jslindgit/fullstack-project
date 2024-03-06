@@ -6,7 +6,6 @@ import { RootState } from '../../reducers/rootReducer';
 
 import { removeItemFromShoppingCart } from '../../reducers/orderReducer';
 
-import { pageWidth } from '../../constants';
 import { contentToText } from '../../types/languageFunctions';
 
 import BackButton from '../BackButton';
@@ -33,7 +32,7 @@ const ShoppingCart = () => {
             <div data-testid='cart-header' className='pageHeader'>
                 {contentToText(ContentID.menuShoppingCart, config)}
             </div>
-            <ShoppingCartContent allowEdit={true} shoppingItems={orderState.items} removeItem={removeItem} width={pageWidth} />
+            <ShoppingCartContent allowEdit={true} shoppingItems={orderState.items} removeItem={removeItem} />
             <div className='grid-container' data-cols='2' style={{ marginBottom: '2rem', marginTop: '2rem' }}>
                 <div className='alignLeft valignMiddle'>
                     <BackButton type='text' />

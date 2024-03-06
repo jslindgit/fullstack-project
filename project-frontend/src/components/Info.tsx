@@ -5,7 +5,6 @@ import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 
 import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { pageWidth } from '../constants';
 
 const Info = () => {
     const config = useSelector((state: RootState) => state.config);
@@ -16,7 +15,7 @@ const Info = () => {
 
     return (
         <>
-            <div style={{ margin: 'auto', maxWidth: pageWidth }}>
+            <div className='pageWidth'>
                 <div data-testid='info-header' className='pageHeader'>
                     {contentToText(ContentID.menuInfo, config)}
                 </div>

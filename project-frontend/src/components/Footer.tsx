@@ -2,18 +2,12 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../reducers/rootReducer';
 
-import { pageWidth } from '../constants';
-
 const Footer = () => {
     const config = useSelector((state: RootState) => state.config);
 
     return (
         <div className='footer'>
-            <div
-                className='grid-container'
-                data-gap='1rem'
-                style={{ gridTemplateColumns: '1fr 1fr auto', margin: 'auto', padding: '1rem', maxWidth: pageWidth }}
-            >
+            <div className='grid-container pageWidth' data-gap='1rem' style={{ gridTemplateColumns: '1fr 1fr auto', padding: '1rem' }}>
                 <div>{config.store.contactName}</div>
                 <div>
                     {config.store.contactStreetAddress}&emsp;{config.store.contactZipcode} {config.store.contactCity}

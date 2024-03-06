@@ -6,7 +6,8 @@ import { RootState } from '../../reducers/rootReducer';
 import { Country, Settings } from '../../types/types';
 
 import { availableDeliveryCountries } from '../../constants';
-import { contentToText, langTextsToText, useLangFields } from '../../types/languageFunctions';
+import { useLangFields } from '../../hooks/useLang';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { LangField, LangText } from '../../types/languageTypes';
 import settingsService from '../../services/settingsService';
 import useField, { UseField } from '../../hooks/useField';

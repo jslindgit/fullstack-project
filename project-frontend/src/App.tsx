@@ -52,8 +52,6 @@ const App = () => {
     const userState = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
-        document.title = config.store.contactName;
-
         dispatch(setLoaded(false));
 
         const fetchData = async () => {
@@ -65,6 +63,11 @@ const App = () => {
 
         fetchData();
     }, [config.store.contactName, dispatch]);
+
+    // Set page title:
+    useEffect(() => {
+        document.title = config.store.contactName;
+    }, [config.store.contactName]);
 
     // Set miscState.loaded to true:
     useEffect(() => {

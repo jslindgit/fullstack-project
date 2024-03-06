@@ -8,10 +8,11 @@ import { RootState } from '../../reducers/rootReducer';
 import { Item, ItemSizeAndInstock, NewItem, Response } from '../../types/types';
 
 import { handleError } from '../../util/handleError';
+import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
 import imageService from '../../services/imageService';
 import item_categoryService from '../../services/item_categoryService';
 import itemService from '../../services/itemService';
-import { contentToText, langTextsToText, useLangFields, useLangTextAreas } from '../../types/languageFunctions';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import localstorageHandler from '../../util/localstorageHandler';
 import useField from '../../hooks/useField';
 

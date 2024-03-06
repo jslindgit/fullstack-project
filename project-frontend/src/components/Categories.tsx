@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../reducers/rootReducer';
 
 import { contentToText } from '../types/languageFunctions';
-import { pageWidth } from '../constants';
 
 import { ContentID } from '../content';
 
@@ -18,7 +17,7 @@ const Categories = () => {
     }, [config]);
 
     return (
-        <div style={{ margin: 'auto', maxWidth: pageWidth }}>
+        <div className='pageWidth'>
             <div data-testid='categories-header' className='pageHeader'>
                 {contentToText(ContentID.itemsAllCategories, config)}
             </div>

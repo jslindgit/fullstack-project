@@ -6,7 +6,6 @@ import { ContentID } from '../../content';
 import { Category } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
-import { pageWidth } from '../../constants';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { isNumber } from '../../types/typeFunctions';
 
@@ -45,7 +44,7 @@ const Items = () => {
     return (
         <>
             <ItemsMenu config={config} currentId={category.id} />
-            <div style={{ margin: 'auto', maxWidth: pageWidth }}>
+            <div className='pageWidth'>
                 <div className='pageHeader'>{langTextsToText(category.name, config)}</div>
                 {category.items.length < 1 ? (
                     <div>{contentToText(ContentID.itemsNoItemsInCategory, config)}</div>
