@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 
-import { Response, Settings } from '../types/types';
+import { Settings } from '../types/configTypes';
+import { Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';

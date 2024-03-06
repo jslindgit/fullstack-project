@@ -9,7 +9,7 @@ import { NewUser } from '../../types/types';
 
 import { contentToText } from '../../types/languageFunctions';
 import { isValidPassword } from '../../util/misc';
-import { validateOrder } from '../../types/orderTypeFunctions';
+import { validateOrder } from '../../util/orderProvider';
 import useField from '../../hooks/useField';
 import { registerAndLogin } from '../../util/userProvider';
 

@@ -36,3 +36,22 @@ export interface ConfigStore {
     deliveryTimeBusinessDays: number;
     welcome: LangText[];
 }
+
+export interface Settings {
+    id?: number;
+    ownerBusinessIdentifier: string;
+    ownerEmail: string;
+    ownerName: string;
+    ownerPhone: string;
+    storeContactCity: string;
+    storeContactCountry: Country;
+    storeContactEmail: string;
+    storeContactPhone: string;
+    storeContactStreetAddress: string;
+    storeContactZipcode: string;
+    storeDeliveryCountries: Country[];
+    storeDeliveryTimeBusinessDays: number;
+    storeName: string;
+    storeWelcome: LangText[];
+    vat: number;
+}

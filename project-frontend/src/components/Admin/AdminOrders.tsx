@@ -9,7 +9,7 @@ import { NewNotification, NotificationTone } from '../../types/types';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import orderService from '../../services/orderService';
-import { getOrderStatusForAdmin } from '../../types/orderTypeFunctions';
+import { getOrderStatusForAdmin } from '../../util/orderProvider';
 import useField from '../../hooks/useField';
 
 import { setNotification } from '../../reducers/miscReducer';

@@ -4,7 +4,6 @@ import { Country, Currency } from './types/types';
 
 export const API_KEY = import.meta.env.VITE_API_KEY as string;
 export const apiBaseUrl = (import.meta.env.VITE_ENV as string) === 'dev' ? 'http://localhost:3001/api' : '/api';
-export const passwordMinLength = 10;
 
 export const availableDeliveryCountries: Country[] = [
     {
@@ -48,6 +47,21 @@ export const availableDeliveryCountries: Country[] = [
             { langCode: LangCode.EN, text: 'Sweden' },
             { langCode: LangCode.FI, text: 'Ruotsi' },
         ],
+    },
+];
+
+export const availableLanguages: Language[] = [
+    {
+        code: LangCode.FI,
+        decimalPoint: ',',
+        name: 'Suomi',
+        paytrailValue: 'FI',
+    },
+    {
+        code: LangCode.EN,
+        decimalPoint: '.',
+        name: 'English',
+        paytrailValue: 'EN',
     },
 ];
 

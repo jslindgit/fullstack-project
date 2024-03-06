@@ -6,7 +6,7 @@ import { RootState } from '../../reducers/rootReducer';
 
 import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
-import { getOrderStatusForAdmin } from '../../types/orderTypeFunctions';
+import { getOrderStatusForAdmin } from '../../util/orderProvider';
 
 interface Props {
     handleClose: () => void;

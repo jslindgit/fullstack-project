@@ -1,5 +1,5 @@
-import { Category, NewCategory } from '../types/types';
-import { Item, NewItem, Settings } from '../types/types';
+import { Settings } from '../types/configTypes';
+import { Category, Item, NewCategory, NewItem } from '../types/types';
 
 import { API_KEY } from '../constants';
 import { handleError } from './handleError';

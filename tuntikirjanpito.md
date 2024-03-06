@@ -151,4 +151,5 @@
 |   22.2.   | 2    | Käyttäjätietojen muokkaus valmiiksi                                                                                  |     |
 |   23.2.   | 1    | Korjauksia ja refactorointia                                                                                         |     |
 |   29.2.   | 1    | Korjauksia ja refactorointia                                                                                         |     |
-|    yht    | 249  |                                                                                                                      |     |
+|   6.3.    | 2    | Refactorointia                                                                                                       |     |
+|    yht    | 251  |                                                                                                                      |     |

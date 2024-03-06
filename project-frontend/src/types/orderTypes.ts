@@ -74,11 +74,6 @@ export interface PostiLocation {
     address: string;
 }
 
-export interface ShoppingCartStatus {
-    items: number;
-    totalAmount: number;
-}
-
 export interface ShoppingItem {
     id: number;
     name: string;

@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 
-import { isOrder, orderToRequestBody, validateOrder } from '../../types/orderTypeFunctions';
+import { orderToRequestBody, validateOrder } from '../../util/orderProvider';
+import { isOrder } from '../../types/orderTypeFunctions';
 import orderService from '../../services/orderService';
 
 import { setOrder } from '../../reducers/orderReducer';

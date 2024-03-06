@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
@@ -6,7 +6,6 @@ import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 
 import { contentToText } from '../../types/languageFunctions';
-import { printAdminPanelHeader } from '../../contentFunctions';
 
 import AdminCategories from './AdminCategories';
 import AdminItems from './AdminItems';
@@ -28,6 +27,28 @@ const AdminPanel = () => {
     const [searchParams] = useSearchParams();
     const back = searchParams.get('back');
 
+    const printHeader = useCallback(
+        (currentPage: string) => {
+            switch (currentPage.toLowerCase()) {
+                case 'categories':
+                    return contentToText(ContentID.adminPanelCategories, config);
+                case 'images':
+                    return contentToText(ContentID.adminPanelImages, config);
+                case 'items':
+                    return contentToText(ContentID.adminPanelItems, config);
+                case 'orders':
+                    return contentToText(ContentID.adminPanelOrders, config);
+                case 'settings':
+                    return contentToText(ContentID.adminPanelSettings, config);
+                case 'users':
+                    return contentToText(ContentID.adminPanelUsers, config);
+                default:
+                    'N/A';
+            }
+        },
+        [config]
+    );
+
     useEffect(() => {
         if (!page || !['categories', 'items', 'orders', 'settings', 'users'].includes(page)) {
             navigate('/admin/orders');
@@ -37,9 +58,8 @@ const AdminPanel = () => {
     // Title:
     useEffect(() => {
         document.title =
-            contentToText(ContentID.adminPanelHeader, config) +
-            (page && page.length > 0 ? ' - ' + printAdminPanelHeader(page, config) : ' | ' + config.store.contactName);
-    }, [config, page]);
+            contentToText(ContentID.adminPanelHeader, config) + (page && page.length > 0 ? ' - ' + printHeader(page) : ' | ' + config.store.contactName);
+    }, [config, page, printHeader]);
 
     // User is Admin/Operator?
     useEffect(() => {
@@ -71,7 +91,7 @@ const AdminPanel = () => {
                 <AdminMenu config={config} />
                 <div className='pageHeader'>
                     {contentToText(ContentID.adminPanelHeader, config)}
-                    {page && page.length > 0 ? ' - ' + printAdminPanelHeader(page, config) : ''}
+                    {page && page.length > 0 ? ' - ' + printHeader(page) : ''}
                 </div>
                 {back === '1' && (
                     <div className='alignRight'>

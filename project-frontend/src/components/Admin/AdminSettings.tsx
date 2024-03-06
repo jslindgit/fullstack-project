@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Settings } from '../../types/configTypes';
 import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
-import { Country, Settings } from '../../types/types';
+import { Country } from '../../types/types';
 
 import { availableDeliveryCountries } from '../../constants';
 import { useLangFields } from '../../hooks/useLang';

@@ -7,7 +7,7 @@ import { Response } from '../types/types';
 import { apiBaseUrl } from '../constants';
 import { apiKeyConfig } from '../util/serviceProvider';
 import { handleError } from '../util/handleError';
-import { orderToRequestBody } from '../types/orderTypeFunctions';
+import { orderToRequestBody } from '../util/orderProvider';
 
 interface PaytrailResponse extends Response {
     data: PaytrailData | null;

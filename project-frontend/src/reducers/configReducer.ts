@@ -1,8 +1,7 @@
 import { AnyAction, createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 
-import { Config } from '../types/configTypes';
+import { Config, Settings } from '../types/configTypes';
 import { Language } from '../types/languageTypes';
-import { Settings } from '../types/types';
 
 import { defaultConfig } from '../constants';
 

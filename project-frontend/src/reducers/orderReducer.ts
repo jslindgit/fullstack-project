@@ -3,7 +3,8 @@ import { AnyAction, createSlice, current, Dispatch, PayloadAction } from '@redux
 import { Config } from '../types/configTypes';
 import { NewOrder, Order, ShoppingItem } from '../types/orderTypes';
 
-import { getEmptyOrder, isOrderOrNewOrder, isShoppingItem } from '../types/orderTypeFunctions';
+import { getEmptyOrder } from '../util/orderProvider';
+import { isOrderOrNewOrder, isShoppingItem } from '../types/orderTypeFunctions';
 
 interface QuantityUpdate {
     itemIndex: number;

@@ -9,7 +9,8 @@ import { PaytrailData, PaytrailProvider } from '../../types/orderTypes';
 import { orderTotalSum } from '../../util/checkoutProvider';
 import format from '../../util/format';
 import { contentToText } from '../../types/languageFunctions';
-import { isOrder, validateOrder } from '../../types/orderTypeFunctions';
+import { validateOrder } from '../../util/orderProvider';
+import { isOrder } from '../../types/orderTypeFunctions';
 import paytrailService from '../../services/paytrailService';
 
 import BackButton from '../BackButton';

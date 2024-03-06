@@ -1,7 +1,5 @@
-//import { isLangText } from './languageFunctions';
 import { LangText } from './languageTypes';
 import { Order } from './orderTypes';
-import { isNumber, isObject } from './typeFunctions';
 
 export interface Category {
     id: number;
@@ -26,8 +24,6 @@ export interface ImageCategory {
     name: LangText[];
     imagePaths: string[];
 }
-
-// Item-related:
 export interface Item {
     id: number;
     addedBy?: number;
@@ -43,34 +39,6 @@ export interface Item {
     sold: number;
 }
 export type NewItem = Omit<Omit<Omit<Omit<Item, 'id'>, 'categories'>, 'sold'>, 'createdAt'>;
-
-export const isNewItem = (obj: unknown): obj is NewItem => {
-    return (
-        obj !== null &&
-        isObject(obj) &&
-        'description' in obj &&
-        Array.isArray(obj.description) &&
-        //obj.description.every((d) => isLangText(d)) &&
-        'fitsInLetter' in obj &&
-        isNumber(obj.fitsInLetter) &&
-        'images' in obj &&
-        Array.isArray(obj.images) &&
-        //obj.images.every((i) => isString(i)) &&
-        'instock' in obj &&
-        isNumber(obj.instock) &&
-        'name' in obj &&
-        Array.isArray(obj.name) &&
-        //obj.name.every((n) => isLangText(n)) &&
-        'price' in obj &&
-        isNumber(Number(obj.price)) &&
-        'sizes' in obj &&
-        Array.isArray(obj.sizes)
-    );
-};
-
-export const isItem = (obj: unknown): obj is Item => {
-    return isNewItem(obj) && 'id' in obj && isNumber(obj.id) && 'categories' in obj && Array.isArray(obj.categories) && 'sold' in obj && isNumber(obj.sold);
-};
 
 export interface ItemSizeAndInstock {
     size: string;
@@ -97,25 +65,6 @@ export type NewNotification = Omit<Notification, 'renders'>;
 export interface Response {
     success: boolean;
     message: string;
-}
-
-export interface Settings {
-    id?: number;
-    ownerBusinessIdentifier: string;
-    ownerEmail: string;
-    ownerName: string;
-    ownerPhone: string;
-    storeContactCity: string;
-    storeContactCountry: Country;
-    storeContactEmail: string;
-    storeContactPhone: string;
-    storeContactStreetAddress: string;
-    storeContactZipcode: string;
-    storeDeliveryCountries: Country[];
-    storeDeliveryTimeBusinessDays: number;
-    storeName: string;
-    storeWelcome: LangText[];
-    vat: number;
 }
 
 export interface User {

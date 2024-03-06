@@ -5,7 +5,7 @@ import { RootState } from '../reducers/rootReducer';
 
 import { setLanguage } from '../reducers/configReducer';
 
-import { availableLangs } from '../types/languageTypes';
+import { availableLanguages } from '../constants';
 
 const LanguageSelection = () => {
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const LanguageSelection = () => {
     return (
         <>
             <div className='grid-container' data-cols='auto' data-gap='0.75rem'>
-                {availableLangs.map((lang) => (
+                {availableLanguages.map((lang) => (
                     <div key={lang.code} className={'languageSelection' + (isSelected(lang) ? ' languageSelected' : '')} onClick={() => setLang(lang)}>
                         {lang.code}
                     </div>

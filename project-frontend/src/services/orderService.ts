@@ -8,7 +8,8 @@ import { Response } from '../types/types';
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
 import { contentToText } from '../types/languageFunctions';
-import { isOrder, orderFromResponseBody, orderToRequestBody } from '../types/orderTypeFunctions';
+import { orderFromResponseBody, orderToRequestBody } from '../util/orderProvider';
+import { isOrder } from '../types/orderTypeFunctions';
 import { apiKeyConfig, authConfig } from '../util/serviceProvider';
 
 const url = apiBaseUrl + '/orders';

@@ -7,7 +7,7 @@ import { User } from '../../types/types';
 
 import format from '../../util/format';
 import { contentToText } from '../../types/languageFunctions';
-import { getOrderStatus } from '../../types/orderTypeFunctions';
+import { getOrderStatus } from '../../util/orderProvider';
 
 import UserOrderDetails from './UserOrderDetails';
 

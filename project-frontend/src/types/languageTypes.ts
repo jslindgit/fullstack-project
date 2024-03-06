@@ -38,18 +38,3 @@ export interface Language {
     name: string;
     paytrailValue: 'FI' | 'SV' | 'EN';
 }
-
-export const availableLangs: Language[] = [
-    {
-        code: LangCode.FI,
-        decimalPoint: ',',
-        name: 'Suomi',
-        paytrailValue: 'FI',
-    },
-    {
-        code: LangCode.EN,
-        decimalPoint: '.',
-        name: 'English',
-        paytrailValue: 'EN',
-    },
-];

@@ -8,7 +8,7 @@ import { RootState } from '../reducers/rootReducer';
 import { orderTotalSum } from '../util/checkoutProvider';
 import format from '../util/format';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { getOrderStatus } from '../types/orderTypeFunctions';
+import { getOrderStatus } from '../util/orderProvider';
 
 interface Props {
     order: Order | NewOrder;

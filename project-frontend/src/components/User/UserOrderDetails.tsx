@@ -4,7 +4,7 @@ import { DeliveryMethod, Order, ShoppingItem } from '../../types/orderTypes';
 
 import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
-import { getOrderStatus } from '../../types/orderTypeFunctions';
+import { getOrderStatus } from '../../util/orderProvider';
 import { isString } from '../../types/typeFunctions';
 
 import ShoppingCartContent from '../ShoppingCart/ShoppingCartContent';
@@ -48,13 +48,7 @@ const UserOrderDetails = ({ order, config }: Props) => {
                 {contentToText(ContentID.orderStatus, config)}: <span className='bold'>{getOrderStatus(order.status, config)}</span>
             </div>
             <br />
-            <ShoppingCartContent
-                allowEdit={false}
-                shoppingItems={parsedOrder.items}
-                removeItem={null}
-                totalSumContentID={ContentID.orderTotalAmount}
-                width={'100%'}
-            />
+            <ShoppingCartContent allowEdit={false} shoppingItems={parsedOrder.items} removeItem={null} totalSumContentID={ContentID.orderTotalAmount} />
             <br />
             <div className='semiBold sizeLarge' style={{ marginBottom: '0.5rem' }}>
                 {contentToText(ContentID.orderCustomer, config)}
