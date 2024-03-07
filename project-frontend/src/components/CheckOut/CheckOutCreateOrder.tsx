@@ -14,6 +14,8 @@ import { setOrder } from '../../reducers/orderReducer';
 import { contentToText } from '../../types/languageFunctions';
 import { handleError } from '../../util/handleError';
 
+import Loading from '../Loading';
+
 const CheckOutCreateOrder = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
@@ -77,12 +79,7 @@ const CheckOutCreateOrder = () => {
     }, [navigate, orderState]);
 
     if (attemptedToCreateOrder.current === false) {
-        return (
-            <>
-                <br />
-                <div className='sizeLarge semiBold'>{contentToText(ContentID.miscLoading, config)}</div>
-            </>
-        );
+        return <Loading config={config} />;
     }
 
     return (

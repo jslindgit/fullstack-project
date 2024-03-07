@@ -10,14 +10,15 @@ import { RootState } from '../../reducers/rootReducer';
 import itemService from '../../services/itemService';
 import { contentToText } from '../../types/languageFunctions';
 import orderService from '../../services/orderService';
+import { isOrder } from '../../types/orderTypeFunctions';
 import paytrailService from '../../services/paytrailService';
 
 import { clearOrder } from '../../reducers/orderReducer';
 
 import BackButton from '../BackButton';
 import { Link } from '../CustomLink';
+import Loading from '../Loading';
 import OrderInfo from '../OrderInfo';
-import { isOrder } from '../../types/orderTypeFunctions';
 
 enum SignatureStatus {
     INVALID,
@@ -119,7 +120,7 @@ const CheckOutDone = () => {
                 </>
             );
         } else {
-            return <div className='semiBold sizeLarge'>{contentToText(ContentID.miscLoading, config)}</div>;
+            return <Loading config={config} />;
         }
     };
 

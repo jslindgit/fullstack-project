@@ -11,11 +11,6 @@ export const imageFullPath = (subdirAndFilename: string) => {
     return fullpath;
 };
 
-export const imageSubdir = (path: string): string => {
-    const parts = path.split('\\');
-    return parts.length > 0 ? parts[0] : '';
-};
-
 export const isValidEmailAddress = (email: string): boolean => {
     const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);

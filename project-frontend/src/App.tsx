@@ -4,11 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Types:
-import { ContentID } from './content';
 import { RootState } from './reducers/rootReducer';
 
-// Functions/constants:
-import { contentToText } from './types/languageFunctions';
+// Functions:
 import settingsService from './services/settingsService';
 
 // Reducers:
@@ -35,14 +33,13 @@ import Info from './components/Info';
 import ItemDetails from './components/Items/ItemDetails';
 import Items from './components/Items/Items';
 import ItemsSearch from './components/Items/ItemsSearch';
+import Loading from './components/Loading';
 import Login from './components/Login';
 import Menu from './components/Menu';
 import Register from './components/Register';
 import ShoppingCart from './components/ShoppingCart/ShoppinCart';
 import ShowNotification from './components/ShowNotification';
 import UserPanel from './components/User/UserPanel';
-
-import './App.css';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -77,20 +74,11 @@ const App = () => {
     }, [categoryState.initialized, dispatch, userState.initialized]);
 
     const adminPage = (page: JSX.Element): JSX.Element => {
-        if (userState.loggedUser?.admin || userState.loggedUser?.operator) {
-            return page;
-        } else {
-            return <Error404 />;
-        }
+        return userState.loggedUser?.admin || userState.loggedUser?.operator ? page : <Error404 />;
     };
 
     if (!miscState.loaded) {
-        return (
-            <div className='semiBold sizeLarge'>
-                <br />
-                {contentToText(ContentID.miscLoading, config)}
-            </div>
-        );
+        return <Loading config={config} />;
     }
     return (
         <div className='app-container'>

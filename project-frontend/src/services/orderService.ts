@@ -66,7 +66,6 @@ const getById = async (id: number): Promise<OrderResponse> => {
             return { success: false, message: `Something went wrong (${res.status})`, order: null };
         }
     } catch (err: unknown) {
-        //handleError(err);
         return { success: false, message: 'Error occurred', order: null };
     }
 };

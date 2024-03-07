@@ -14,6 +14,7 @@ import { isOrder } from '../../types/orderTypeFunctions';
 import paytrailService from '../../services/paytrailService';
 
 import BackButton from '../BackButton';
+import Loading from '../Loading';
 import OrderInfo from '../OrderInfo';
 
 const CheckOutPayment = () => {
@@ -74,13 +75,14 @@ const CheckOutPayment = () => {
     const htmlForm = paytrailData ? (
         responseToHtml(paytrailData)
     ) : (
-        <div className='semiBold sizeLarge'>
-            {attemptedToFetchPaytrailData ? (
-                <>{contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config)}</>
-            ) : (
-                <>{contentToText(ContentID.miscLoading, config)}</>
-            )}
-        </div>
+        <Loading
+            config={config}
+            text={
+                attemptedToFetchPaytrailData
+                    ? contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config)
+                    : contentToText(ContentID.miscLoading, config)
+            }
+        />
     );
 
     return (

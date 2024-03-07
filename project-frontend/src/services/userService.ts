@@ -73,7 +73,6 @@ const getByToken = async (token: string): Promise<UserResponse> => {
         const { data } = await axios.get<User>(`${url}/me`, authConfig(token));
         return { success: true, message: 'Ok', user: data };
     } catch (err: unknown) {
-        //handleError(err);
         return { success: false, message: err instanceof Error ? err.message : 'Error occurred', user: null };
     }
 };

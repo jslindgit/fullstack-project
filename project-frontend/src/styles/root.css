@@ -1,16 +1,16 @@
 :root {
-    --default-padding: 1rem; /* paddingBottom: 'calc(var(--default-padding) * 2 + 3px)' */
+    --default-padding: 1rem;
 
+    background-color: white;
+    color: black;
     /*font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;*/
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-synthesis: none;
     font-weight: 400;
     line-height: 1.4;
-
-    color: black;
-    background-color: white;
-
-    font-synthesis: none;
+    text-align: center;
     text-rendering: optimizeLegibility;
+    vertical-align: top;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;

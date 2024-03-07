@@ -1,4 +1,3 @@
-// Previous location:
 const getPreviousLocation = (): string => {
     const location = localStorage.getItem('previousLocation');
     return location ? location : '/';

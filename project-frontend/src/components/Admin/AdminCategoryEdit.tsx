@@ -15,6 +15,7 @@ import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
 
 import BackButton from '../BackButton';
 import InputField from '../InputField';
+import Loading from '../Loading';
 
 const AdminCategoryEdit = () => {
     const dispatch = useDispatch();
@@ -103,12 +104,7 @@ const AdminCategoryEdit = () => {
     };
 
     if (!category) {
-        return (
-            <div className='sizeLarge'>
-                <br />
-                {loading}
-            </div>
-        );
+        return <Loading config={config} text={loading} />;
     }
 
     return (
