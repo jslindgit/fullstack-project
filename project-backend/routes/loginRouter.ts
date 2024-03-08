@@ -10,7 +10,6 @@ import service from '../services/loginService';
 
 const router = express.Router();
 
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.delete('/', tokenExtractor, (async (_req, res, next) => {
     try {
         if (!res.locals.token || !isString(res.locals.token)) {

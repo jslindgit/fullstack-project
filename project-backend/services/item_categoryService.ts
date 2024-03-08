@@ -62,41 +62,7 @@ const getAll = async (): Promise<Array<Item_Category> | null> => {
 export default {
     addNew,
     deleteByCategoryId,
-    //deleteById,
     deleteByItemAndCategoryId,
     deleteByItemId,
     getAll,
-    //getById,
-    //getByItemAndCategoryId,
 };
-
-/*const deleteById = async (id: unknown): Promise<Item_Category | null> => {
-    try {
-        const item_category = await getById(id);
-        if (item_category) {
-            await item_category.destroy();
-        }
-        return item_category;
-    } catch (err: unknown) {
-        handleError(err);
-        return null;
-    }
-};*/
-
-/*const getById = async (id: unknown): Promise<Item_Category | null> => {
-    try {
-        return isNumber(Number(id)) ? await Item_Category.findByPk(Number(id)) : null;
-    } catch (err: unknown) {
-        handleError(err);
-        return null;
-    }
-};*/
-
-/*const getByItemAndCategoryId = async (itemId: unknown, categoryId: unknown): Promise<Item_Category | null> => {
-    try {
-        return isNumber(itemId) && isNumber(categoryId) ? await Item_Category.findOne({ where: { item_id: itemId, category_id: categoryId } }) : null;
-    } catch (err: unknown) {
-        handleError(err);
-        return null;
-    }
-};*/

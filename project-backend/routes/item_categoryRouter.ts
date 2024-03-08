@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 import { RequestHandler } from 'express';
 
@@ -57,54 +56,3 @@ router.post('/', tokenExtractor, (async (req, res, next) => {
 router.use(errorHandler);
 
 export default router;
-
-/*router.delete('/:id', tokenExtractor, (async (req, res, next) => {
-    try {
-        if (res.locals.admin === true) {
-            const deletedItem_Category = await service.deleteById(req.params.id);
-            if (deletedItem_Category) {
-                res.status(204).end();
-            } else {
-                res.status(404).json({
-                    error: `Item_Category with id ${req.params.id} not found`,
-                });
-            }
-        } else {
-            res.status(403).json({ error: 'Access denied' });
-        }
-    } catch (err) {
-        next(err);
-    }
-}) as RequestHandler);*/
-
-/*router.get('/item_and_category_id', (async (req, res, next) => {
-    try {
-        if (isObject(req.body) && 'item_id' in req.body && 'category_id' in req.body) {
-            const item_category = await service.getByItemAndCategoryId(req.body.item_id, req.body.category_id);
-            if (item_category) {
-                res.json(item_category);
-            } else {
-                res.status(404).json({ error: 'Not found' });
-            }
-        } else {
-            res.status(400).json({ error: 'itemId or categoryId missing from req.body' });
-        }
-    } catch (err) {
-        next(err);
-    }
-}) as RequestHandler);*/
-
-/*router.get('/:id', (async (req, res, next) => {
-    try {
-        const item_category = await service.getById(req.params.id);
-        if (item_category) {
-            res.json(item_category);
-        } else {
-            res.status(404).json({
-                error: `Item_Category with id ${req.params.id} not found`,
-            });
-        }
-    } catch (err) {
-        next(err);
-    }
-}) as RequestHandler);*/

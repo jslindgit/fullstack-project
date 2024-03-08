@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import express, { RequestHandler } from 'express';
 
 import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
