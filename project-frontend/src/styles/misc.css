@@ -1,3 +1,9 @@
+.adminFormDiv {
+    border: solid 3px var(--colorGrayLight);
+    border-radius: 1rem;
+    padding: 2rem;
+}
+
 .buttonHighlight {
     transition: all 0.25s;
 }
@@ -69,18 +75,17 @@
 .footer {
     background-color: var(--colorGrayDarkest);
     color: white;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: normal;
     text-align: left;
 }
-.footer td {
-    padding: 0.5rem;
+
+.height1rem {
+    height: 1rem;
 }
-.footer tr:first-child td {
-    padding-top: 1rem;
-}
-.footer tr:last-child td {
-    padding-bottom: 1rem;
+
+.hidden {
+    display: none !important;
 }
 
 .hoverableRow {
@@ -164,4 +169,8 @@
 .validationErrors td {
     border: 3px solid var(--colorRed);
     color: var(--colorRed);
+}
+
+.width5rem {
+    width: 5rem;
 }

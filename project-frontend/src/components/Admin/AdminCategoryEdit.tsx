@@ -111,7 +111,7 @@ const AdminCategoryEdit = () => {
         <div>
             <div className='pageWidth'>
                 <div className='pageHeader'>{contentToText(ContentID.adminEditCategory, config)}</div>
-                <div className='grid-container itemDetails' data-gap='1rem'>
+                <div className='adminFormDiv grid-container' data-gap='1rem'>
                     <div className='alignCenter colorGraySemiDark sizeLarge'>{langTextsToText(category.name, config)}</div>
                     <div className='alignLeft bold sizeLarge'>{contentToText(ContentID.miscName, config)}</div>
                     <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', padding: '1em' }}>

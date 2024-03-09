@@ -11,17 +11,6 @@
     text-align: right;
 }
 
-.flexWrap {
-    display: flex;
-    flex-wrap: wrap;
-}
-.flexWrapCenter {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-}
-
 .valignBottom {
     align-items: end;
     display: flex;

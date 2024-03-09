@@ -15,10 +15,8 @@ interface ColumnProps {
 const CategoryGridColumn = ({ category, config }: ColumnProps) => (
     <div>
         <Link to={'/shop/' + category.id}>
-            <div className='categoryLink grid-container' data-cols='1' data-gap='1.5rem'>
-                <div className='sizeLarge' style={{ lineHeight: 1.5, marginBottom: '-0.5em' }}>
-                    {langTextsToText(category.name, config)}
-                </div>
+            <div className='categoryLink grid-container' data-cols='1' data-gap='1rem'>
+                <div className='sizeLarge'>{langTextsToText(category.name, config)}</div>
                 <div className='sizeSmallish'>{langTextsToText(category.description, config)}</div>
             </div>
         </Link>
@@ -26,14 +24,14 @@ const CategoryGridColumn = ({ category, config }: ColumnProps) => (
 );
 
 interface Props {
-    colsPerRow: number;
+    colsPerRow: 2 | 3;
 }
 const CategoryGrid = ({ colsPerRow }: Props) => {
     const categoryState = useSelector((state: RootState) => state.categories);
     const config = useSelector((state: RootState) => state.config);
 
     return (
-        <div className='grid-container' data-gap='2rem' style={{ gridTemplateColumns: `repeat(${colsPerRow}, 1fr)` }}>
+        <div className='grid-container' data-gap='2rem' data-cols={colsPerRow.toString()}>
             {categoryState.categories.map((category) => (
                 <CategoryGridColumn key={category.id} category={category} config={config} />
             ))}

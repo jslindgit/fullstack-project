@@ -7,7 +7,7 @@ const Footer = () => {
 
     return (
         <div className='footer'>
-            <div className='grid-container pageWidth' data-gap='1rem' style={{ gridTemplateColumns: '1fr 1fr auto', padding: '1rem' }}>
+            <div className='grid-container padding1 pageWidth' data-cols='footer' data-gap='1rem'>
                 <div>{config.store.contactName}</div>
                 <div>
                     {config.store.contactStreetAddress}&emsp;{config.store.contactZipcode} {config.store.contactCity}

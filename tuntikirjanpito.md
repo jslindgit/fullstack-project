@@ -153,4 +153,5 @@
 |   29.2.   | 1    | Korjauksia ja refactorointia                                                                                         |     |
 |   6.3.    | 2    | Refactorointia                                                                                                       |     |
 |   7.3.    | 1    | Refactorointia                                                                                                       |     |
-|    yht    | 252  |                                                                                                                      |     |
+|   9.3.    | 1    | Refactorointia                                                                                                       |     |
+|    yht    | 253  |                                                                                                                      |     |

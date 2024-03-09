@@ -38,7 +38,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
 
     const [availableCountries, setAvailableCountries] = useState<string[]>([]);
     const [country, setCountry] = useState<string | null>(null);
-    const [errors, setErrors] = useState<boolean>(false);
+    const [invalidFields, setInvalidFields] = useState<ContentID[]>([]);
     const [required, setRequired] = useState<UseField[]>([]);
 
     // Default country:
@@ -124,30 +124,43 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
 
     const validateField = useCallback(
         (field: UseField): string | null => {
-            if (required.includes(field) && field.value.toString().trim().length < 1) {
-                return `${contentToText(field.label, config)} ${contentToText(ContentID.checkOutIsRequired, config)}.`;
-            } else if (field === email && !isValidEmailAddress(email.value.toString())) {
-                return contentToText(ContentID.errorInvalidEmailAddress, config);
-            }
+            let result = null;
 
-            if (register) {
-                if (field === password && !isValidPassword(password.value.toString())) {
-                    return contentToText(ContentID.loginNewPasswordTooShort, config);
-                } else if (field === passwordConfirm && field.value !== password.value) {
-                    return contentToText(ContentID.loginNewPasswordMisMatch, config);
+            if (required.find((useField) => useField.label === field.label) && field.stringValue().length < 1) {
+                result = `${contentToText(field.label, config)} ${contentToText(ContentID.checkOutIsRequired, config)}.`;
+            } else if (field === email && !isValidEmailAddress(email.value.toString())) {
+                result = contentToText(ContentID.errorInvalidEmailAddress, config);
+            } else if (register) {
+                if (field === password && !isValidPassword(field.stringValue())) {
+                    result = contentToText(ContentID.loginNewPasswordTooShort, config);
+                } else if (field === passwordConfirm && isValidPassword(password.stringValue()) && field.stringValue() !== password.stringValue()) {
+                    result = contentToText(ContentID.loginNewPasswordMisMatch, config);
                 }
             }
 
-            return null;
+            if (result && !invalidFields.includes(field.label)) {
+                setInvalidFields([...invalidFields, field.label]);
+            } else if (!result && invalidFields.includes(field.label)) {
+                setInvalidFields([...invalidFields].filter((contentId) => contentId !== field.label));
+            }
+
+            return result;
         },
-        [config, email, password, passwordConfirm, register, required]
+        [config, email, invalidFields, password, passwordConfirm, register, required]
     );
 
     // Set required fields:
     useEffect(() => {
+        if (required.length === 0) {
+            setRequired([address, city, email, firstName, lastName, phone, zipCode]);
+        }
+
         if (register && !(required.includes(password) && required.includes(passwordConfirm))) {
             setRequired([address, city, email, firstName, lastName, password, passwordConfirm, phone, zipCode]);
-        } else if (required.includes(password) || required.includes(passwordConfirm)) {
+        } else if (
+            !register &&
+            (required.find((usefield) => usefield.label === password.label) || required.find((usefield) => usefield.label === passwordConfirm.label))
+        ) {
             setRequired([address, city, email, firstName, lastName, phone, zipCode]);
         }
     }, [address, city, email, firstName, lastName, password, passwordConfirm, phone, register, required, zipCode]);
@@ -178,23 +191,6 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
         );
     }, [address.value, city.value, country, email.value, firstName.value, lastName.value, organization.value, phone.value, setCustomerInfo, zipCode.value]);
 
-    // Validate the input fields:
-    useEffect(() => {
-        if (validate) {
-            let errs = false;
-            required.forEach((field) => {
-                if (validateField(field)) {
-                    errs = true;
-                    return;
-                }
-            });
-
-            setErrors(errs);
-        } else {
-            setErrors(false);
-        }
-    }, [required, validate, validateField]);
-
     const inputField = (field: UseField, testId: string, optional: boolean = false) => {
         const label = contentToText(field.label, config);
         const labelParts: string[] = optional ? [label, '(' + contentToText(ContentID.checkOutOptional, config) + ')'] : [label];
@@ -218,7 +214,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
                         <>{labelParts[0]}</>
                     )}
                 </div>
-                <div className='valignMiddle'>
+                <div className='grid-container valignMiddle'>
                     {validate && error && (
                         <div className='validationError'>
                             {error}
@@ -232,7 +228,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
     };
 
     return (
-        <div className={'alignLeft infoBox' + (errors ? ' errors' : '')}>
+        <div className={'alignLeft infoBox' + (validate && invalidFields.length > 0 ? ' errors' : '')}>
             <div data-testid='checkout-contactinfo-header' className='infoHeader' style={{ marginBottom: '2.5rem' }}>
                 {contentToText(ContentID.checkOutCustomerContactInformation, config)}
             </div>
@@ -287,12 +283,12 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
                             />
                             <div className='semiBold'>{contentToText(ContentID.registerHeader, config)}</div>
                         </div>
-                        {register && (
+                        <div className={register ? '' : 'hidden'}>
                             <div className='grid-container left' data-cols='auto 1fr' data-gap='1rem' style={{ marginTop: '1.5rem' }}>
                                 {inputField(password, 'checkout-password')}
                                 {inputField(passwordConfirm, 'checkout-password-confirm')}
                             </div>
-                        )}
+                        </div>
                     </div>
                 )}
             </div>

@@ -57,7 +57,7 @@ const CheckOutPayment = () => {
 
     const responseToHtml = (response: { providers: PaytrailProvider[] }) => {
         return (
-            <div data-testid='payment-providers' className='flexWrapCenter'>
+            <div data-testid='payment-providers' className='flex-container' data-justify='center'>
                 {response.providers.map((provider) => (
                     <form method='POST' action={provider.url} key={provider.name} style={{ margin: '0.5rem' }}>
                         {provider.parameters.map((param) => (

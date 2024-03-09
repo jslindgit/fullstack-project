@@ -34,17 +34,23 @@ const CheckOut = () => {
 
     const navigate = useNavigate();
 
+    const validatePassword = useCallback((): string[] => {
+        if (!isValidPassword(password.value.toString().trim())) {
+            return [contentToText(ContentID.loginNewPasswordTooShort, config)];
+        } else if (passwordConfirm.value !== password.value) {
+            return [contentToText(ContentID.loginNewPasswordMisMatch, config)];
+        }
+
+        return [];
+    }, [config, password.value, passwordConfirm.value]);
+
     const handlePaymentClick = async () => {
         setValidate(true);
 
         const errors = validateOrder(order, config);
 
         if (register) {
-            if (!isValidPassword(password.stringValue())) {
-                errors.push(contentToText(ContentID.loginNewPasswordTooShort, config));
-            } else if (passwordConfirm.value !== password.value) {
-                errors.push(contentToText(ContentID.loginNewPasswordMisMatch, config));
-            }
+            errors.push(...validatePassword());
 
             if (errors.length <= 0) {
                 const newUser: NewUser = {
@@ -130,9 +136,15 @@ const CheckOut = () => {
 
     useEffect(() => {
         if (validate) {
-            setValidationErrors(validateOrder(order, config));
+            const errs = validateOrder(order, config);
+
+            if (register) {
+                errs.push(...validatePassword());
+            }
+
+            setValidationErrors(errs);
         }
-    }, [config, order, validate]);
+    }, [config, order, register, validate, validatePassword]);
 
     return (
         <div className='pageWidth'>

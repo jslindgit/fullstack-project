@@ -50,7 +50,7 @@ const ItemDetails = () => {
     return (
         <div className='pageWidth'>
             <ItemsMenu config={config} currentId={id} />
-            <div style={{ margin: 'auto', width: '66%' }}>
+            <div className='pageWidth_66'>
                 <div className='itemDetails'>
                     <div data-testid='item-name' className='alignLeft itemDetailsName' style={{ marginBottom: '2rem' }}>
                         {langTextsToText(item.name, config)}
@@ -79,7 +79,7 @@ const ItemDetails = () => {
                         </div>
                     </div>
                 </div>
-                <div className='alignLeft' style={{ marginTop: '2.5em' }}>
+                <div className='alignLeft marginBottom1_25 marginTop1'>
                     <BackButton type='text' />
                 </div>
             </div>

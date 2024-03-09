@@ -47,7 +47,7 @@ const AddCategoryForm = ({ user }: Props) => {
     };
 
     return (
-        <div className='itemDetails'>
+        <div className='adminFormDiv'>
             <div className='pageHeader' style={{ marginTop: 0, textAlign: 'center' }}>
                 {contentToText(ContentID.adminAddNewCategory, config)}
             </div>

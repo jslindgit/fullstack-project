@@ -259,7 +259,7 @@ const AdminSettings = () => {
     return (
         <div>
             <div className='grid-container pageWidth' data-gap='3rem'>
-                <div className='infoBox'>
+                <div className='adminFormDiv'>
                     <div className='infoHeader'>{contentToText(ContentID.miscWebstore, config)}</div>
                     <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
                         {settingText(contentToText(ContentID.miscName, config), storeNameField, 'storeName', config.store.contactName)}
@@ -331,7 +331,7 @@ const AdminSettings = () => {
                         {settingText(contentToText(ContentID.miscVAT, config) + '-%', vatField, 'vat', config.vat.toString())}
                     </div>
                 </div>
-                <div className='infoBox'>
+                <div className='adminFormDiv'>
                     <div className='infoHeader'>{contentToText(ContentID.miscMerchant, config)}</div>
                     <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
                         {settingText(contentToText(ContentID.miscName, config), ownerNameField, 'ownerName', config.owner.name)}
@@ -345,7 +345,7 @@ const AdminSettings = () => {
                         )}
                     </div>
                 </div>
-                <div className='infoBox'>
+                <div className='adminFormDiv'>
                     <div className='infoHeader'>{contentToText(ContentID.miscContent, config)}</div>
                     <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
                         {settingLangFields(

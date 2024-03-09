@@ -268,7 +268,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     };
 
     return (
-        <div className='infoBox'>
+        <div className='adminFormDiv'>
             {itemToEdit ? (
                 <div className='colorGraySemiDark grid-container left noWrap' data-cols='2' style={{ gap: '0.25em 1em', margin: 'auto', width: 'min-content' }}>
                     <div className='semiBold'>{contentToText(ContentID.adminItemToEdit, config) + ':'}</div>

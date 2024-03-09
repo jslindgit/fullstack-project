@@ -1,5 +1,5 @@
 :root {
-    --default-padding: 1rem;
+    --contentWidth: 1024px;
 
     background-color: white;
     color: black;
@@ -34,10 +34,4 @@ body {
 
 .content-container {
     flex-grow: 1;
-}
-
-.pageWidth {
-    margin: auto;
-    max-width: 1024px;
-    min-width: 100px;
 }

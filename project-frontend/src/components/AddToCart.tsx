@@ -115,7 +115,7 @@ const AddToCart = ({ config, item }: Props) => {
             {showSizeSelection() && (
                 <div>
                     <div className='semiBold'>{contentToText(ContentID.itemsSize, config)}:</div>
-                    <div style={{ marginTop: '0.5rem' }}>
+                    <div className='marginTop0_5'>
                         <select value={size} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setSize(event.target.value)}>
                             <option value='' disabled>
                                 {contentToText(ContentID.itemsSelectSize, config)}
@@ -147,21 +147,15 @@ const AddToCart = ({ config, item }: Props) => {
             {(sizeInStock() > 0 || (showSizeSelection() && size.length < 1)) && (
                 <div>
                     <div className='semiBold'>{contentToText(quantity.label, config)}:</div>
-                    <div className='grid-container valignMiddle' style={{ gridTemplateColumns: 'auto 1fr', marginTop: '0.5rem' }}>
+                    <div className='grid-container marginTop0_5 valignMiddle' data-cols='auto 1fr'>
                         <div>
-                            <input
-                                data-testid='item-quantity'
-                                type={quantity.type}
-                                value={quantity.value}
-                                onChange={quantity.onChange}
-                                style={{ width: '5rem' }}
-                            />
+                            <input data-testid='item-quantity' className='width5rem' type={quantity.type} value={quantity.value} onChange={quantity.onChange} />
                         </div>
                         <div>
                             <div data-testid='increase-quantity' className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
                                 +
                             </div>
-                            <div className='adjustAmountButtons' onClick={() => adjustAmount(-1)} style={{ height: '1rem' }}>
+                            <div className='adjustAmountButtons height1rem' onClick={() => adjustAmount(-1)}>
                                 -
                             </div>
                         </div>

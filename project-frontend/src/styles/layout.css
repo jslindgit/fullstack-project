@@ -1,0 +1,52 @@
+.divCenter {
+    margin: auto;
+}
+
+.divMinWidth {
+    width: min-content;
+}
+
+.marginBottom1 {
+    margin-bottom: 1rem;
+}
+.marginBottom1_25 {
+    margin-bottom: 1.25rem;
+}
+.marginBottom1_5 {
+    margin-bottom: 1.5rem;
+}
+.marginBottom2 {
+    margin-bottom: 2rem;
+}
+.marginBottom5 {
+    margin-bottom: 5rem !important;
+}
+
+.marginTop0_5 {
+    margin-top: 0.5rem;
+}
+.marginTop1 {
+    margin-top: 1rem;
+}
+.marginTop1_5 {
+    margin-top: 1.5rem;
+}
+.marginTop2 {
+    margin-top: 2rem;
+}
+
+.padding1 {
+    padding: 1rem;
+}
+
+.pageWidth {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--contentWidth);
+    min-width: 100px;
+}
+.pageWidth_66 {
+    margin: auto;
+    max-width: calc(var(--contentWidth) * 0.66);
+    min-width: 100px;
+}

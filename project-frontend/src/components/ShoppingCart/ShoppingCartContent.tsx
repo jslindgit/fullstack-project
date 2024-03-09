@@ -33,7 +33,7 @@ const ShoppingCartContent = ({ allowEdit, shoppingItems, removeItem, totalSumCon
 
     return (
         <div className='dotted'>
-            <div className='grid-container left middle padded1rem striped' style={{ gridTemplateColumns: 'auto 1fr auto 1fr auto auto' }}>
+            <div className='grid-container left middle padded1rem striped' data-cols='shoppingcart-row'>
                 <div className='gridStripedHeaderRow gridSpan2'>{contentToText(ContentID.cartProduct, config)}</div>
                 <div className='gridStripedHeaderRow'>{contentToText(ContentID.cartUnitPrice, config)}</div>
                 <div className='gridStripedHeaderRow'>{contentToText(ContentID.cartQuantity, config)}</div>
