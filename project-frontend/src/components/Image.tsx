@@ -9,7 +9,7 @@ const Modal = ({ onClose, src }: ModalProps) => {
     return (
         <div className='modal-overlay' onClick={onClose}>
             <div className='modal-content'>
-                <img src={src} style={{ margin: 0 }} />
+                <img src={src} />
             </div>
         </div>
     );

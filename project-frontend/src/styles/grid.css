@@ -35,15 +35,21 @@
 .grid-container[data-cols='3'] {
     grid-template-columns: repeat(3, 1fr);
 }
-.grid-container[data-cols='auto 1fr'] {
-    grid-template-columns: auto 1fr;
-}
 .grid-container[data-cols='auto'] {
     grid-auto-flow: column;
     grid-template-columns: auto;
 }
+.grid-container[data-cols='auto 1fr'] {
+    grid-template-columns: auto 1fr;
+}
+.grid-container[data-cols='1fr auto 1fr'] {
+    grid-template-columns: 1fr auto 1fr;
+}
 .grid-container[data-cols='footer'] {
     grid-template-columns: 1fr 1fr auto;
+}
+.grid-container[data-cols='info-page'] {
+    grid-template-columns: 47% 1fr 47%;
 }
 .grid-container[data-cols='shoppingcart-row'] {
     grid-template-columns: auto 1fr 1fr 1fr 1fr auto;

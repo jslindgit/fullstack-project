@@ -17,6 +17,10 @@
     white-space: nowrap;
 }
 
+.lineHeight1_5 {
+    line-height: 1.5;
+}
+
 .noWrap {
     white-space: nowrap;
 }

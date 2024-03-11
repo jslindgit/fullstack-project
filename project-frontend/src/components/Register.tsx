@@ -145,11 +145,11 @@ const Register = () => {
     };
 
     return (
-        <div style={{ margin: 'auto', maxWidth: '40rem' }}>
+        <div className='divCenter divMaxWidth40rem'>
             <div data-testid='register-header' className='pageHeader'>
                 {contentToText(ContentID.registerHeader, config)}
             </div>
-            <div className='grid-container left' data-cols='auto 1fr' data-gap='1.5rem' style={{ marginBottom: '1.5rem' }}>
+            <div className='grid-container left marginBottom1_5' data-cols='auto 1fr' data-gap='1.5rem'>
                 {inputField(email)}
                 {inputField(password)}
                 {inputField(passwordConfirm)}

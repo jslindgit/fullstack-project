@@ -19,10 +19,10 @@ const Info = () => {
                 <div data-testid='info-header' className='pageHeader'>
                     {contentToText(ContentID.menuInfo, config)}
                 </div>
-                <div className='grid-container' style={{ gridTemplateColumns: '47% 1fr 47%' }}>
+                <div className='grid-container' data-cols='info-page'>
                     <div className='alignLeft infoBox'>
                         <div className='infoHeader'>{config.store.contactName}</div>
-                        <div className='grid-container' data-gap='0.9rem' style={{ gridTemplateColumns: 'min-content auto' }}>
+                        <div className='grid-container' data-gap='0.9rem' data-cols='auto 1fr'>
                             <div className='semiBold'>{contentToText(ContentID.contactEmail, config)}:</div>
                             <div>
                                 <a href={'mailto:' + config.store.contactEmail}>{config.store.contactEmail}</a>
@@ -44,10 +44,8 @@ const Info = () => {
                     <div />
                     <div className='alignLeft infoBox'>
                         <div className='infoHeader'>{contentToText(ContentID.miscMerchant, config)}</div>
-                        <div className='semiBold' style={{ marginBottom: '0.9rem' }}>
-                            {config.owner.name}
-                        </div>
-                        <div className='grid-container' data-gap='0.9rem' style={{ gridTemplateColumns: 'min-content auto' }}>
+                        <div className='grid-container' data-gap='0.9rem' data-cols='auto 1fr'>
+                            <div className='gridSpan2 semiBold'>{config.owner.name}</div>
                             <div className='noWrap semiBold'>{contentToText(ContentID.contactBusinessID, config)}:</div>
                             <div>{config.owner.businessIdentifier}</div>
                             <div className='semiBold'>{contentToText(ContentID.contactEmail, config)}:</div>

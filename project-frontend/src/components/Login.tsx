@@ -43,11 +43,11 @@ const Login = () => {
     const loginForm = () => (
         <div>
             <form onSubmit={submit}>
-                <div style={{ margin: 'auto', width: 'min-content' }}>
+                <div className='divCenter divMinWidth'>
                     <div data-testid='login-header' className='pageHeader'>
                         {contentToText(ContentID.menuLogin, config)}
                     </div>
-                    <div className='grid-container valignMiddle' data-gap='2rem' style={{ gridTemplateColumns: 'auto 1fr' }}>
+                    <div className='grid-container valignMiddle' data-cols='auto 1fr' data-gap='2rem'>
                         <div className='alignLeft semiBold'>{contentToText(username.label, config)}:</div>
                         <div>
                             <InputField testId='input-username' useField={username} width='20rem' autoFocus={true} />
@@ -93,11 +93,11 @@ const Login = () => {
             const logged = usersState.loggedUser;
             return (
                 <div>
-                    <div className='semiBold sizeVeryLarge' style={{ marginTop: '3rem' }}>
+                    <div className='marginTop3 semiBold sizeVeryLarge'>
                         {contentToText(ContentID.miscLoggedInAs, config)}
                         <span className='bold'>{logged.username}</span>
                     </div>
-                    <div className='sizeLarge' style={{ marginTop: '3rem' }}>
+                    <div className='marginTop3 sizeLarge'>
                         <Link to='/login' onClick={async () => await loginService.logout(logged.token, removeLogged)}>
                             {contentToText(ContentID.menuLogout, config)}
                         </Link>

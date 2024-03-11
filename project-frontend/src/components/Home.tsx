@@ -48,18 +48,18 @@ const MainPage = () => {
                 <div data-testid='welcome-message' className='semiBold sizeExtremelyLarge'>
                     {langTextsToText(config.store.welcome, config)}
                 </div>
-                <div className='sizeLarge' style={{ marginBottom: '1rem' }}>
+                <div className='sizeLarge'>
                     <Description config={config} />
                 </div>
                 <div>
                     <div className='pageHeader'>{contentToText(ContentID.itemsLatestItems, config)}</div>
                     <ItemGrid colsPerRow={3} config={config} items={latestItems} />
                 </div>
-                <div style={{ marginTop: '1rem' }}>
+                <div>
                     <div className='pageHeader'>{contentToText(ContentID.itemsTopSellers, config)}</div>
                     <ItemGrid colsPerRow={3} config={config} items={topSellers} />
                 </div>
-                <div style={{ marginTop: '1rem' }}>
+                <div>
                     <div className='pageHeader'>{contentToText(ContentID.itemsAllCategories, config)}</div>
                     <CategoryGrid colsPerRow={2} />
                 </div>

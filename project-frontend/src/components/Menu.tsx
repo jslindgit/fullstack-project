@@ -41,7 +41,7 @@ const Menu = () => {
         if (loggedUser) {
             return (
                 <>
-                    <div data-testid='logged-username' className='sizeSmallish semiBold' style={{ marginTop: '1em' }}>
+                    <div data-testid='logged-username' className='marginTop1em sizeSmallish semiBold'>
                         {loggedUser.username}{' '}
                     </div>
                     <div className='grid-container' data-cols='auto'>
@@ -116,19 +116,19 @@ const Menu = () => {
     return (
         <>
             <form onSubmit={handleSearchSubmit}>
-                <div className='grid-container menu' style={{ gridTemplateColumns: '1fr min-content 1fr' }}>
+                <div className='grid-container menu' data-cols='1fr auto 1fr'>
                     <div />
                     <div className='grid-container' data-cols='auto'>
                         <div>{menuLink('/', contentToText(ContentID.menuHome, config), 'Big', 'menu-home')}</div>
                         <div>{menuLink('/shop', contentToText(ContentID.menuProducts, config), 'Big', 'menu-shop')}</div>
                         <div>{menuLink('/info', contentToText(ContentID.menuInfo, config), 'Big', 'menu-info')}</div>
                         <div>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, config), 'Big', 'menu-cart', true)}</div>
-                        <div style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</div>
+                        <div>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</div>
                         {showAdminMenu()}
-                        <div className='valignMiddle' style={{ marginLeft: '1rem' }}>
+                        <div className='marginLeft1 valignMiddle'>
                             <LanguageSelection />
                         </div>
-                        <div className='grid-container valignMiddle' data-cols='auto' data-gap='1rem' style={{ marginLeft: '2.5rem' }}>
+                        <div className='grid-container marginLeft2_5 valignMiddle' data-cols='auto' data-gap='1rem'>
                             <InputField
                                 useField={searchField}
                                 width='11rem'

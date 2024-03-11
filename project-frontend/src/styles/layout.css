@@ -2,6 +2,10 @@
     margin: auto;
 }
 
+.divMaxWidth40rem {
+    max-width: 40rem;
+}
+
 .divMinWidth {
     width: min-content;
 }
@@ -22,6 +26,16 @@
     margin-bottom: 5rem !important;
 }
 
+.marginLeft1 {
+    margin-left: 1rem;
+}
+.marginLeft2_5 {
+    margin-left: 2.5rem;
+}
+
+.marginTop-0_5 {
+    margin-top: -0.5rem;
+}
 .marginTop0_5 {
     margin-top: 0.5rem;
 }
@@ -34,9 +48,19 @@
 .marginTop2 {
     margin-top: 2rem;
 }
+.marginTop3 {
+    margin-top: 3rem;
+}
+
+.marginTop1em {
+    margin-top: 1em;
+}
 
 .padding1 {
     padding: 1rem;
+}
+.paddingLeft1 {
+    padding-left: 1rem;
 }
 
 .pageWidth {

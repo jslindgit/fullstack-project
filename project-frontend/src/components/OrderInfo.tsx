@@ -27,25 +27,21 @@ const OrderInfo = ({ order }: Props) => {
     return (
         <div className={'orderInfo' + (order.status === OrderStatus.PENDING ? ' pending' : '')}>
             <div className='bold sizeVeryLarge'>{contentToText(ContentID.checkOutOrderInfo, config) + ('id' in order ? ' #' + order.id : '')}</div>
-            <div style={{ lineHeight: 1.5, paddingLeft: '1rem' }}>
+            <div className='lineHeight1_5 paddingLeft1'>
                 {'id' in order && (
                     <>
                         <div className='adminItemEditLabel'>{contentToText(ContentID.orderId, config)}:</div>
-                        <div style={{ paddingLeft: '1rem' }}>{order.id}</div>
+                        <div className='paddingLeft1'>{order.id}</div>
                     </>
                 )}
                 {orderStatus.length > 0 && (
                     <>
-                        <div className='adminItemEditLabel' style={{ marginTop: '0.75rem' }}>
-                            {contentToText(ContentID.orderStatus, config)}:
-                        </div>
-                        <div style={{ paddingLeft: '1rem' }}>{orderStatus}</div>
+                        <div className='adminItemEditLabel marginTop1'>{contentToText(ContentID.orderStatus, config)}:</div>
+                        <div className='paddingLeft1'>{orderStatus}</div>
                     </>
                 )}
-                <div className='adminItemEditLabel' style={{ marginTop: '0.75rem' }}>
-                    {contentToText(ContentID.orderCustomer, config)}:
-                </div>
-                <div className='grid-container' style={{ paddingLeft: '1rem' }}>
+                <div className='adminItemEditLabel marginTop1'>{contentToText(ContentID.orderCustomer, config)}:</div>
+                <div className='grid-container paddingLeft1'>
                     <div>
                         {order.customerFirstName} {order.customerLastName}
                     </div>
@@ -58,11 +54,9 @@ const OrderInfo = ({ order }: Props) => {
                     <div>{order.customerEmail}</div>
                     <div>{order.customerPhone}</div>
                 </div>
-                <div className='adminItemEditLabel' style={{ marginTop: '0.75rem' }}>
-                    {contentToText(ContentID.orderDeliveryMethod, config)}:
-                </div>
+                <div className='adminItemEditLabel marginTop1'>{contentToText(ContentID.orderDeliveryMethod, config)}:</div>
                 {order.deliveryMethod && (
-                    <div style={{ paddingLeft: '1rem' }}>
+                    <div className='paddingLeft1'>
                         {langTextsToText(order.deliveryMethod.names, config)} <b>({format.currency(order.deliveryCost, config)})</b>
                         {order.deliveryMethod.notes && order.deliveryMethod.notes.length > 0 && (
                             <>
@@ -73,18 +67,12 @@ const OrderInfo = ({ order }: Props) => {
                 )}
                 {order.paymentMethod && (
                     <>
-                        <div className='adminItemEditLabel' style={{ marginTop: '0.75rem' }}>
-                            {contentToText(ContentID.orderPaymentMethod, config)}:
-                        </div>
-                        <div className='capitalize' style={{ paddingLeft: '1rem' }}>
-                            {order.paymentMethod}
-                        </div>
+                        <div className='adminItemEditLabel marginTop1'>{contentToText(ContentID.orderPaymentMethod, config)}:</div>
+                        <div className='capitalize paddingLeft1'>{order.paymentMethod}</div>
                     </>
                 )}
-                <div className='adminItemEditLabel' style={{ marginTop: '0.75rem' }}>
-                    {contentToText(ContentID.orderItems, config)}:
-                </div>
-                <div className='sizeSmallish' style={{ marginTop: '-0.5rem' }}>
+                <div className='adminItemEditLabel marginTop1'>{contentToText(ContentID.orderItems, config)}:</div>
+                <div className='marginTop-0_5 sizeSmallish'>
                     <ul>
                         {order.items.map((si) => (
                             <li key={si.id.toString() + si.size}>
@@ -96,12 +84,8 @@ const OrderInfo = ({ order }: Props) => {
                         ))}
                     </ul>
                 </div>
-                <div className='adminItemEditLabel' style={{ fontSize: '1rem', marginTop: '0.75rem' }}>
-                    {contentToText(ContentID.orderTotalAmount, config)}:
-                </div>
-                <div className='bold sizeVeryLarge' style={{ paddingLeft: '1rem' }}>
-                    {format.currency(orderTotalSum(order), config)}
-                </div>
+                <div className='adminItemEditLabel marginTop1 sizeNormal'>{contentToText(ContentID.orderTotalAmount, config)}:</div>
+                <div className='bold paddingLeft1 sizeVeryLarge'>{format.currency(orderTotalSum(order), config)}</div>
             </div>
         </div>
     );
