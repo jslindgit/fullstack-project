@@ -48,12 +48,10 @@ const AddCategoryForm = ({ user }: Props) => {
 
     return (
         <div className='adminFormDiv'>
-            <div className='pageHeader' style={{ marginTop: 0, textAlign: 'center' }}>
-                {contentToText(ContentID.adminAddNewCategory, config)}
-            </div>
-            <div className='grid-container' data-cols='1' data-gap='1rem' style={{ padding: '0 1em' }}>
+            <div className='alignCenter marginTop0 pageHeader'>{contentToText(ContentID.adminAddNewCategory, config)}</div>
+            <div className='grid-container paddingLeft1 paddingRight1' data-cols='1' data-gap='1rem'>
                 <div className='alignLeft bold sizeLarge'>{contentToText(ContentID.miscName, config)}</div>
-                <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', padding: '1em' }}>
+                <div className='grid-container' data-gap='1rem' data-cols='auto 1fr'>
                     {nameFields.map((nf) => (
                         <React.Fragment key={nf.langCode}>
                             <div className='alignLeft semiBold valignMiddle'>{nf.langCode}</div>
@@ -63,18 +61,18 @@ const AddCategoryForm = ({ user }: Props) => {
                         </React.Fragment>
                     ))}
                 </div>
-                <div className='alignLeft bold sizeLarge'>{contentToText(ContentID.miscDescription, config)}</div>
-                <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', padding: '1em' }}>
+                <div className='alignLeft bold marginTop1 sizeLarge'>{contentToText(ContentID.miscDescription, config)}</div>
+                <div className='grid-container' data-cols='auto 1fr' data-gap='1rem'>
                     {descriptionFields.map((df) => (
                         <React.Fragment key={df.langCode}>
                             <div className='alignLeft semiBold valignMiddle'>{df.langCode}</div>
                             <div className='valignMiddle'>
-                                <textarea value={df.textArea.value} onChange={df.textArea.onChange} style={{ width: '100%', height: '10rem' }} />
+                                <textarea className='height10rem width100' value={df.textArea.value} onChange={df.textArea.onChange} />
                             </div>
                         </React.Fragment>
                     ))}
                 </div>
-                <div style={{ marginBottom: '0.5rem' }}>
+                <div className='marginTop1'>
                     <button type='button' onClick={submit}>
                         {contentToText(ContentID.buttonAdd, config)}
                     </button>

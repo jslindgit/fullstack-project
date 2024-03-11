@@ -57,19 +57,13 @@ const ShowNotification = () => {
         }
 
         return (
-            <div data-testid={notification.testId ? notification.testId : ''} className={classNames} style={{ position: 'sticky', top: 0 }}>
-                <div className='pageWidth' style={{ height: '100%' }}>
-                    <div className='grid-container' style={{ gridTemplateColumns: '40px 1fr 40px', height: '100%' }}>
-                        <div />
-                        <div className='valignMiddle' style={{ display: 'grid' }}>
-                            {finalMessage}
-                        </div>
-                        <a className='alignCenter valignMiddle' onClick={() => close()} style={{ textDecorationLine: 'none' }}>
-                            <div className='bold sizeNormal' style={{ width: '100%' }}>
-                                ✖
-                            </div>
-                        </a>
-                    </div>
+            <div data-testid={notification.testId ? notification.testId : ''} className={classNames}>
+                <div className='grid-container heightFull pageWidth' data-cols='notification'>
+                    <div />
+                    <div className='grid-container valignMiddle'>{finalMessage}</div>
+                    <a className='alignCenter textDecorationNone valignMiddle' onClick={() => close()}>
+                        <div className='bold sizeNormal'>✖</div>
+                    </a>
                 </div>
             </div>
         );

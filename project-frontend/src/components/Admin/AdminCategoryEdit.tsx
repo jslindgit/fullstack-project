@@ -114,7 +114,7 @@ const AdminCategoryEdit = () => {
                 <div className='adminFormDiv grid-container' data-gap='1rem'>
                     <div className='alignCenter colorGraySemiDark sizeLarge'>{langTextsToText(category.name, config)}</div>
                     <div className='alignLeft bold sizeLarge'>{contentToText(ContentID.miscName, config)}</div>
-                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', padding: '1em' }}>
+                    <div className='grid-container padding1' data-cols='auto 1fr' data-gap='1rem'>
                         {nameFields.map((nf) => (
                             <React.Fragment key={nf.langCode}>
                                 <div className='alignLeft semiBold valignMiddle'>{nf.langCode}</div>
@@ -125,17 +125,17 @@ const AdminCategoryEdit = () => {
                         ))}
                     </div>
                     <div className='alignLeft bold sizeLarge'>{contentToText(ContentID.miscDescription, config)}</div>
-                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', padding: '1em' }}>
+                    <div className='grid-container padding1' data-cols='auto 1fr' data-gap='1rem'>
                         {descriptionFields.map((df) => (
                             <React.Fragment key={df.langCode}>
                                 <div className='alignLeft semiBold valignMiddle'>{df.langCode}</div>
                                 <div className='valignMiddle'>
-                                    <textarea value={df.textArea.value} onChange={df.textArea.onChange} style={{ width: '100%', height: '10rem' }} />
+                                    <textarea className='height10rem width100' value={df.textArea.value} onChange={df.textArea.onChange} />
                                 </div>
                             </React.Fragment>
                         ))}
                         <div />
-                        <div className='alignLeft' style={{ marginTop: '1.5rem' }}>
+                        <div className='alignLeft marginTop1_5'>
                             <button
                                 type='button'
                                 onClick={submit}

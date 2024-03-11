@@ -3,6 +3,8 @@
     font-size: var(--fontSizeLarge);
     height: 4rem;
     overflow: hidden !important;
+    position: sticky;
+    top: 0;
     transition: height 0.5s ease-in-out !important;
     will-change: height;
 }

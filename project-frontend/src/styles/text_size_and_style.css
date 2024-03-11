@@ -53,6 +53,10 @@
     text-decoration: line-through solid;
 }
 
+.textDecorationNone {
+    text-decoration: none !important;
+}
+
 .underlined {
     text-decoration: underline solid;
     text-underline-offset: 0.3rem;

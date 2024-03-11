@@ -1,6 +1,6 @@
 .alignCenter {
     justify-content: center;
-    text-align: center;
+    text-align: center !important;
 }
 .alignLeft {
     text-align: left;
