@@ -116,7 +116,7 @@ const AdminItems = () => {
     };
 
     return (
-        <div className='grid-container' data-gap='2rem' style={{ marginBottom: '2rem' }}>
+        <div className='grid-container marginBottom2' data-gap='2rem'>
             <div>
                 {categories.map((c) => (
                     <span key={c.id}>
@@ -135,7 +135,7 @@ const AdminItems = () => {
                 </span>
             </div>
             <div className='bold sizeLarge'>{category ? langTextsToText(category.name, config) : contentToText(ContentID.adminItemsUncategorized, config)}</div>
-            <div style={{ marginTop: '-0.5rem' }}>
+            <div className='marginTop-0_5'>
                 {category ? langTextsToText(category.description, config) : contentToText(ContentID.adminItemsUncategorizedDescription, config)}
             </div>
             <AdminItemList config={config} deleteItem={deleteItem} items={items} />

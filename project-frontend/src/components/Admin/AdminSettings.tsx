@@ -98,9 +98,9 @@ const AdminSettings = () => {
         );
 
         return (
-            <div className='grid-container' data-gap='0.5rem' style={{ marginBottom: '1rem', marginTop: '1rem' }}>
+            <div className='grid-container marginBottom1 marginTop1' data-gap='0.5rem'>
                 {availableSorted.map((c) => (
-                    <div key={JSON.stringify(c.names)} className='grid-container' data-gap='0.5rem' style={{ gridTemplateColumns: 'auto 1fr' }}>
+                    <div key={JSON.stringify(c.names)} className='grid-container' data-cols='auto 1fr' data-gap='0.5rem'>
                         <div>
                             <CheckBox
                                 isChecked={deliveryCountryIsSelected(c)}
@@ -128,20 +128,16 @@ const AdminSettings = () => {
 
     const settingLangFields = (label: string, langFields: LangField[], propertyName: PropertyName, currentValue: LangText[]) => {
         return (
-            <div className={editedProperty !== propertyName ? 'buttonHighlight' : ''} style={{ display: 'contents' }}>
-                <div className='alignLeft semiBold underlinedGridItem valignMiddle' style={{ padding: '1rem' }}>
-                    {label}:&emsp;&emsp;&emsp;
-                </div>
+            <div className={'displayContents ' + (editedProperty !== propertyName ? 'buttonHighlight' : '')}>
+                <div className='alignLeft padding1 semiBold underlinedGridItem valignMiddle'>{label}:&emsp;&emsp;&emsp;</div>
                 <div className='alignLeft underlinedGridItem valignMiddle'>
                     {editedProperty === propertyName ? (
-                        <div className='grid-container' style={{ gridTemplateColumns: 'auto 1fr' }}>
+                        <div className='grid-container' data-cols='auto 1fr'>
                             {langFields.map((langField) => (
                                 <React.Fragment key={langField.langCode}>
-                                    <div className='valignMiddle' style={{ padding: '1rem 0', paddingRight: '1rem' }}>
-                                        {langField.langCode}
-                                    </div>
+                                    <div className='padding1 paddingLeft0 valignMiddle'>{langField.langCode}</div>
                                     <div className='valignMiddle'>
-                                        <InputField useField={langField.field} width='100%' minWidth='10rem' />
+                                        <InputField useField={langField.field} width='100%' />
                                     </div>
                                 </React.Fragment>
                             ))}
@@ -191,12 +187,10 @@ const AdminSettings = () => {
     };
 
     const settingText = (label: string, useField: UseField, propertyName: PropertyName, currentValue: string) => (
-        <div className={editedProperty !== propertyName ? 'buttonHighlight' : ''} style={{ display: 'contents' }}>
-            <div className='alignLeft semiBold underlinedGridItem valignMiddle' style={{ padding: '1rem' }}>
-                {label}:&emsp;&emsp;&emsp;
-            </div>
+        <div className={'displayContents ' + (editedProperty !== propertyName ? 'buttonHighlight' : '')}>
+            <div className='alignLeft padding1 semiBold underlinedGridItem valignMiddle'>{label}:&emsp;&emsp;&emsp;</div>
             <div className='alignLeft underlinedGridItem valignMiddle'>
-                {editedProperty === propertyName ? <InputField useField={useField} width={'100%'} minWidth='20rem' autoFocus={true} /> : useField.stringValue()}
+                {editedProperty === propertyName ? <InputField useField={useField} width={'100%'} autoFocus={true} /> : useField.stringValue()}
                 &emsp;&emsp;&emsp;
             </div>
             <div className='alignRight underlinedGridItem valignMiddle'>
@@ -261,7 +255,7 @@ const AdminSettings = () => {
             <div className='grid-container pageWidth' data-gap='3rem'>
                 <div className='adminFormDiv'>
                     <div className='infoHeader'>{contentToText(ContentID.miscWebstore, config)}</div>
-                    <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
+                    <div className='grid-container underlinedDiv' data-cols='auto auto 1fr' data-gap='0'>
                         {settingText(contentToText(ContentID.miscName, config), storeNameField, 'storeName', config.store.contactName)}
                         {settingText(contentToText(ContentID.contactEmail, config), storeEmailField, 'storeEmail', config.store.contactEmail)}
                         {settingText(contentToText(ContentID.contactPhone, config), storePhoneField, 'storePhone', config.store.contactPhone)}
@@ -274,8 +268,8 @@ const AdminSettings = () => {
                             'storeCountry',
                             config.store.contactCountry.names
                         )}
-                        <div className={editedProperty !== 'storeDeliveryCountries' ? 'buttonHighlight' : ''} style={{ display: 'contents' }}>
-                            <div className='alignLeft semiBold underlinedGridItem valignMiddle' style={{ padding: '1rem' }}>
+                        <div className={'displayContents ' + (editedProperty !== 'storeDeliveryCountries' ? 'buttonHighlight' : '')}>
+                            <div className='alignLeft padding1 semiBold underlinedGridItem valignMiddle'>
                                 {contentToText(ContentID.miscDeliveryCountries, config)}:
                             </div>
                             <div className='alignLeft underlinedGridItem valignMiddle'>
@@ -333,7 +327,7 @@ const AdminSettings = () => {
                 </div>
                 <div className='adminFormDiv'>
                     <div className='infoHeader'>{contentToText(ContentID.miscMerchant, config)}</div>
-                    <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
+                    <div className='grid-container underlinedDiv' data-cols='auto auto 1fr' data-gap='0'>
                         {settingText(contentToText(ContentID.miscName, config), ownerNameField, 'ownerName', config.owner.name)}
                         {settingText(contentToText(ContentID.contactEmail, config), ownerEmailField, 'ownerEmail', config.owner.email)}
                         {settingText(contentToText(ContentID.contactPhone, config), ownerPhoneField, 'ownerPhone', config.owner.phone)}
@@ -347,7 +341,7 @@ const AdminSettings = () => {
                 </div>
                 <div className='adminFormDiv'>
                     <div className='infoHeader'>{contentToText(ContentID.miscContent, config)}</div>
-                    <div className='grid-container underlinedDiv' data-gap='0' style={{ gridTemplateColumns: 'auto auto 1fr', marginTop: '2rem' }}>
+                    <div className='grid-container underlinedDiv' data-cols='auto auto 1fr' data-gap='0'>
                         {settingLangFields(
                             `"${contentToText(ContentID.contentWelcome, config)}" (${contentToText(ContentID.menuHome, config)})`,
                             storeWelcomeFields,

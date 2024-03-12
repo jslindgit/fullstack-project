@@ -33,14 +33,14 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                 {itemInStockTotal(item)} {contentToText(ContentID.itemsPcs, config)}
             </td>
             <td>{item.id}</td>
-            <td style={{ padding: 0 }}>
+            <td className='padding0'>
                 <div className='imgFlex'>
                     {item.images && item.images.length > 0
                         ? item.images.map((img) => <Image key={img} className='imgAdminItems' src={imageFullPath(img)} title={imageFilename(img)} />)
                         : '-'}
                 </div>
             </td>
-            <td style={{ paddingRight: 0 }}>
+            <td className='paddingRight0'>
                 <Link to={'/admin/edititem/' + item.id}>
                     <button
                         type='button'
@@ -52,7 +52,7 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                     </button>
                 </Link>
             </td>
-            <td style={{ paddingRight: '1rem' }}>
+            <td className='paddingRight1'>
                 <button
                     type='button'
                     className='red compactButton'

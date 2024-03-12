@@ -99,11 +99,11 @@ const AdminItemList = ({ config, deleteItem, items }: ListProps) => {
                     {columnHeader(ContentID.itemsPrice, 'price', true)}
                     {columnHeader(ContentID.itemsInStock, 'instock', true)}
                     {columnHeader(ContentID.itemsId, 'id', true)}
-                    <td width='1px' style={{ paddingLeft: 0 }}>
+                    <td className='paddingLeft0' width='1px'>
                         {contentToText(ContentID.adminPanelImages, config)}
                     </td>
-                    <td width='1px' style={{ paddingRight: 0 }}></td>
-                    <td width='1px' style={{ paddingRight: 0 }}></td>
+                    <td className='paddingRight0' width='1px'></td>
+                    <td className='paddingRight0' width='1px'></td>
                 </tr>
                 {sortedItems.map((item) => (
                     <AdminItemRow key={item.id} item={item} deleteItem={deleteItem} />

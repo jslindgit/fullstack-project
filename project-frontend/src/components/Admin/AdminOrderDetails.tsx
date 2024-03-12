@@ -49,11 +49,11 @@ const AdminOrderDetails = ({
         };
 
         return (
-            <div className='grid-container valignMiddle' data-gap='1rem' style={{ gridTemplateColumns: 'auto auto 1fr' }}>
+            <div className='grid-container valignMiddle' data-cols='auto auto 1fr' data-gap='1rem'>
                 <div>{label}:</div>
                 <div className='bold'>{value}&emsp;</div>
                 <div>
-                    <button type='button' onClick={copyToClipboard} style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}>
+                    <button type='button' className='marginBottom0_5 marginTop0_5' onClick={copyToClipboard}>
                         {contentToText(ContentID.miscCopy, config)} {label}
                     </button>{' '}
                     <span className='italic normalWeight'>{copyLabel === label ? '\u2002' + copyResult : ''}</span>
@@ -102,7 +102,7 @@ const AdminOrderDetails = ({
                                     {item.size && item.size.length > 0 ? (
                                         <>
                                             <br />
-                                            <span style={{ color: 'transparent' }}>●&nbsp;&nbsp;</span>
+                                            <span className='colorTransparent'>●&nbsp;&nbsp;</span>
                                             <span className='sizeSmallish'>
                                                 {contentToText(ContentID.itemsSize, config)}: {item.size}
                                             </span>
@@ -112,7 +112,7 @@ const AdminOrderDetails = ({
                                     )}
                                 </span>
                                 <br />
-                                <span style={{ color: 'transparent' }}>•&nbsp;&nbsp;</span>
+                                <span className='colorTransparent'>•&nbsp;&nbsp;</span>
                                 {format.currency(item.price, config)}/{contentToText(ContentID.itemsPcs, config)} &emsp;{' '}
                                 <span className={item.quantity > 1 ? 'semiBold' : ''}>
                                     {item.quantity} {contentToText(ContentID.itemsPcs, config)} &emsp;
@@ -184,7 +184,7 @@ const AdminOrderDetails = ({
                     <div>
                         <hr />
                     </div>
-                    <div className='bold grid-container left sizeLarge valignMiddle' data-cols='auto 1fr' data-gap='1rem' style={{ marginBottom: '0.25rem' }}>
+                    <div className='bold grid-container left marginBottom0_25 sizeLarge valignMiddle' data-cols='auto 1fr' data-gap='1rem'>
                         <img src='/trash.png' height='20px' />
                         {order.recycledDate ? (
                             <a className='bold red' onClick={() => handleDelete(order)}>

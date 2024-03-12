@@ -55,7 +55,7 @@ const UserDeleteAccount = ({ config, user }: Props) => {
                 <div className='grid-container' data-gap='2rem'>
                     <div className='colorRed preLine semiBold'>{contentToText(ContentID.accountDeleteAccountConfirm, config)}</div>
                     <div>
-                        <InputField placeHolder={contentToText(ContentID.loginPassword, config)} useField={password} width='30rem' />
+                        <InputField placeHolder={contentToText(ContentID.loginPassword, config)} useField={password} width='32rem' />
                     </div>
                     <div>
                         <button type='button' className='red' onClick={handleDeleteAccount} disabled={password.value.toString().length < 1}>

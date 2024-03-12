@@ -1,3 +1,7 @@
+.displayContents {
+    display: contents;
+}
+
 .divCenter {
     margin: auto;
 }
@@ -17,6 +21,12 @@
     height: 100%;
 }
 
+.marginBottom0_25 {
+    margin-bottom: 0.25rem;
+}
+.marginBottom0_5 {
+    margin-bottom: 0.5rem;
+}
 .marginBottom1 {
     margin-bottom: 1rem;
 }
@@ -66,14 +76,23 @@
     margin-top: 1em;
 }
 
+.padding0 {
+    padding: 0;
+}
 .padding1 {
     padding: 1rem;
+}
+.paddingLeft0 {
+    padding-left: 0 !important;
 }
 .paddingLeft1 {
     padding-left: 1rem;
 }
+.paddingRight0 {
+    padding-right: 0 !important;
+}
 .paddingRight1 {
-    padding-right: 1rem;
+    padding-right: 1rem !important;
 }
 
 .pageWidth {
@@ -88,6 +107,18 @@
     min-width: 100px;
 }
 
-.width100 {
+.width11rem {
+    width: 11rem;
+}
+.width20rem {
+    width: 20rem;
+}
+.width32rem {
+    width: 32rem;
+}
+.width33 {
+    width: 33%;
+}
+.widthFull {
     width: 100%;
 }

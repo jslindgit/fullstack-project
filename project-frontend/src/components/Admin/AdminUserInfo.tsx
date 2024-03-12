@@ -108,7 +108,7 @@ const AdminUserInfo = () => {
                 <UserContactInfo addLinkToEmail={true} config={config} updateUserInfo={null} user={user} />
                 <UserOrderHistory config={config} user={user} />
                 <div className='infoBox'>
-                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto auto auto 1fr' }}>
+                    <div className='grid-container' data-cols='auto auto auto 1fr' data-gap='1rem'>
                         <div>
                             <a href={'mailto:' + user.username}>
                                 <button type='button'>{contentToText(ContentID.adminUserInfoSendMessage, config)}</button>
@@ -153,11 +153,11 @@ const AdminUserInfo = () => {
                         </div>
                     </div>
                     {showStatusChange && (
-                        <div className='infoBox' style={{ marginTop: '1rem', width: 'min-content' }}>
+                        <div className='infoBox marginTop2 divMinWidth'>
                             <div className='alignLeft semiBold sizeLarge'>
                                 {user.contactFirstName} {user.contactLastName}
                             </div>
-                            <div className='grid-container left' style={{ gap: '1rem 2rem', gridTemplateColumns: 'auto auto 1fr', marginTop: '1rem' }}>
+                            <div className='grid-container left marginTop1' data-cols='auto auto 1fr' data-gap='1rem 2rem'>
                                 <div className='noWrap'>
                                     {contentToText(ContentID.miscCurrent, config)} {contentToText(ContentID.userStatusHeader, config).toLowerCase()}:
                                 </div>

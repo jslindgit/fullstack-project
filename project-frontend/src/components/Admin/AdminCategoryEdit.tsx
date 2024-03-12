@@ -130,7 +130,7 @@ const AdminCategoryEdit = () => {
                             <React.Fragment key={df.langCode}>
                                 <div className='alignLeft semiBold valignMiddle'>{df.langCode}</div>
                                 <div className='valignMiddle'>
-                                    <textarea className='height10rem width100' value={df.textArea.value} onChange={df.textArea.onChange} />
+                                    <textarea className='height10rem widthFull' value={df.textArea.value} onChange={df.textArea.onChange} />
                                 </div>
                             </React.Fragment>
                         ))}

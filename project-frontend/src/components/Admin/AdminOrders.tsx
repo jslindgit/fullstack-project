@@ -310,7 +310,7 @@ const AdminOrders = () => {
 
     return (
         <div>
-            <div className='adminOrdersMenu grid-container' style={{ gridTemplateColumns: '1fr auto 1fr auto 1fr' }}>
+            <div className='adminOrdersMenu grid-container' data-cols='1fr auto 1fr auto 1fr'>
                 {menuItemDiv(Folder.PROCESSING)}
                 <div className='colorGrayLight bold'>|</div>
                 {menuItemDiv(Folder.DELIVERED)}
@@ -318,7 +318,7 @@ const AdminOrders = () => {
                 {menuItemDiv(Folder.RECYCLEBIN)}
             </div>
             <br />
-            <div className='grid-container searchBox' data-gap='2rem' style={{ gridTemplateColumns: 'auto auto 1fr' }}>
+            <div className='grid-container searchBox' data-cols='auto auto 1fr' data-gap='2rem'>
                 <div className='semiBold'>{contentToText(search.label, config)}:</div>
                 <div>
                     <InputField
