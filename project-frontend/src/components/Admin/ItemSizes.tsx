@@ -44,7 +44,7 @@ const ItemSizes = ({ config, oneSizeInstock, setOneSizeInstock, setSizes, sizes 
     return (
         <>
             <div className='infoBox'>
-                <div className='grid-container left' data-cols='3' data-gap='1rem'>
+                <div className='grid-container left middle' data-cols='3' data-gap='1rem'>
                     <div className='semiBold'>{contentToText(ContentID.itemsSize, config)}</div>
                     <div className='semiBold'>{contentToText(ContentID.itemsInStock, config)}</div>
                     <div />
@@ -76,7 +76,7 @@ const ItemSizes = ({ config, oneSizeInstock, setOneSizeInstock, setSizes, sizes 
                         </React.Fragment>
                     )}
                 </div>
-                <button type='button' onClick={handleAddSize} disabled={unusedSizeValues().length < 1} style={{ marginTop: '1rem' }}>
+                <button className='marginTop2' type='button' onClick={handleAddSize} disabled={unusedSizeValues().length < 1}>
                     + {contentToText(ContentID.adminItemAddNewSize, config)}
                 </button>
             </div>

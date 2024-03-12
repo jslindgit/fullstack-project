@@ -59,12 +59,12 @@ const CheckOutPayment = () => {
         return (
             <div data-testid='payment-providers' className='flex-container' data-justify='center'>
                 {response.providers.map((provider) => (
-                    <form method='POST' action={provider.url} key={provider.name} style={{ margin: '0.5rem' }}>
+                    <form className='margin0_5' method='POST' action={provider.url} key={provider.name}>
                         {provider.parameters.map((param) => (
                             <div key={param.name}>{parameterToInput(param)}</div>
                         ))}
                         <button className='paymentMethod'>
-                            <img src={provider.svg} alt={provider.name} title={provider.name} style={{ height: '3rem', width: 'auto' }} />
+                            <img className='checkOutPaymentMethod' src={provider.svg} alt={provider.name} title={provider.name} />
                         </button>
                     </form>
                 ))}
@@ -88,7 +88,7 @@ const CheckOutPayment = () => {
     return (
         <div className='pageWidth'>
             <div className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</div>
-            <div className='grid-container' data-gap='4rem' style={{ gridTemplateColumns: '1fr 39%' }}>
+            <div className='grid-container' data-cols='check-out' data-gap='4rem'>
                 <div>
                     <div className='grid-container paymentMethodSelection' data-gap='2rem'>
                         <div className='grid-container' data-cols='2'>
@@ -101,7 +101,7 @@ const CheckOutPayment = () => {
                                     />
                                 </a>
                             </div>
-                            <div className='alignRight grid-container sizeSmallish upperCase valignTop' data-gap='0.5rem' style={{ height: 'min-content' }}>
+                            <div className='alignRight divMinHeight grid-container sizeSmallish upperCase valignTop' data-gap='0.5rem'>
                                 <a href='https://www.paytrail.com/turvallisuus' target='_blank'>
                                     {contentToText(ContentID.checkOutSafetyInformation, config)}
                                 </a>
@@ -111,9 +111,7 @@ const CheckOutPayment = () => {
                             </div>
                         </div>
                         <div>
-                            <div className='alignLeft bold sizeLarge' style={{ marginBottom: '1rem' }}>
-                                {contentToText(ContentID.checkOutPaymentDetails, config)}
-                            </div>
+                            <div className='alignLeft bold marginBottom1 sizeLarge'>{contentToText(ContentID.checkOutPaymentDetails, config)}</div>
                             <div className='grid-container' data-cols='auto 1fr' data-gap='1rem'>
                                 <div className='semiBold colorGraySemiDark'>{contentToText(ContentID.checkOutPayee, config)}</div>
                                 <div className='alignLeft'>
@@ -139,7 +137,7 @@ const CheckOutPayment = () => {
                     </div>
                 </div>
                 <div>
-                    <div style={{ position: 'sticky', top: '1rem' }}>
+                    <div className='stickyTop1rem'>
                         <OrderInfo order={order} />
                         <br />
                     </div>

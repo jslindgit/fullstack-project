@@ -55,7 +55,7 @@ const UserChangePassword = ({ config, user }: Props) => {
         <div className='alignLeft infoBox'>
             {showPasswordFields ? (
                 <div className='grid-container' data-gap='2rem'>
-                    <div className='grid-container left' data-gap='1rem 2rem' style={{ gridTemplateColumns: 'auto 1fr' }}>
+                    <div className='grid-container left' data-cols='auto 1fr' data-gap='1rem 2rem'>
                         <div className='semiBold'>{contentToText(ContentID.accountPasswordCurrent, config)}:</div>
                         <div>
                             <InputField useField={passwordCurrent} width='32rem' />

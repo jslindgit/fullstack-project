@@ -63,7 +63,7 @@ const ItemEditImages = ({ config, currentImages, imagesToRemove, imagesToUpload,
     return (
         <div className='grid-container' data-gap='2rem'>
             {currentImages.length + imagesToUpload.length > 0 ? (
-                <div className='grid-container left' style={{ gap: '2rem 1rem', gridTemplateColumns: 'auto 1fr' }}>
+                <div className='grid-container left' data-cols='auto 1fr' data-gap='2rem 1rem'>
                     {currentImages.map((path) => (
                         <React.Fragment key={path}>
                             <div>

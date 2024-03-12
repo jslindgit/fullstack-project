@@ -10,15 +10,26 @@
     max-width: 40rem;
 }
 
+.divMinHeight {
+    height: min-content;
+}
+
 .divMinWidth {
     width: min-content;
 }
 
+.height7rem {
+    height: 7rem;
+}
 .height10rem {
     height: 10rem;
 }
 .heightFull {
     height: 100%;
+}
+
+.margin0_5 {
+    margin: 0.5rem;
 }
 
 .marginBottom0_25 {
@@ -38,6 +49,9 @@
 }
 .marginBottom2 {
     margin-bottom: 2rem;
+}
+.marginBottom3 {
+    margin-bottom: 3rem;
 }
 .marginBottom5 {
     margin-bottom: 5rem !important;
@@ -61,6 +75,9 @@
 }
 .marginTop1 {
     margin-top: 1rem;
+}
+.marginTop1_25 {
+    margin-top: 1.25rem;
 }
 .marginTop1_5 {
     margin-top: 1.5rem;
@@ -107,6 +124,17 @@
     min-width: 100px;
 }
 
+.stickyTop1rem {
+    position: sticky;
+    top: 1rem;
+}
+
+.width5rem {
+    width: 5rem;
+}
+.width6rem {
+    width: 6rem;
+}
 .width11rem {
     width: 11rem;
 }

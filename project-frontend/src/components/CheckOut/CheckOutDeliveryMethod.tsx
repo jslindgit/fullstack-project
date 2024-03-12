@@ -66,7 +66,7 @@ const PickupPointSelection = ({ config, currentMethodCode, customerZipCode, this
     return (
         <div className='grid-container left' data-gap='1rem'>
             <div>{contentToText(ContentID.checkoutChoosePickupLocation, config)}:</div>
-            <input type={zipCode.type} value={zipCode.value} onChange={zipCode.onChange} style={{ width: '6rem' }} />
+            <input className='width6rem' type={zipCode.type} value={zipCode.value} onChange={zipCode.onChange} />
             {locations.length > 0 ? (
                 <select value={selectedPoint} onChange={handleChange}>
                     {locations.map((loc) => (
@@ -111,12 +111,10 @@ const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDel
         >
             <span className='sizeNormal bold'>{langTextsToText(method.names, config)}</span>
             {currentMethod?.code === method.code ? <span className='sizeNormal extraBold colorGreen'>&ensp;✔</span> : <></>}
-            <div className='sizeSmallish' style={{ paddingBottom: '0.5rem', paddingTop: '0.5rem' }}>
-                {langTextsToText(method.descriptions, config)}
-            </div>
+            <div className='marginBottom0_5 marginTop0_5 sizeSmallish'>{langTextsToText(method.descriptions, config)}</div>
             <span className='semiBold'>{format.currency(method.cost, config)}</span>
             {method.code === DeliveryCode.POSTI_PAKETTI && (
-                <div style={{ marginTop: '1rem' }}>
+                <div className='marginTop1'>
                     <PickupPointSelection
                         config={config}
                         currentMethodCode={currentMethod ? currentMethod.code : null}

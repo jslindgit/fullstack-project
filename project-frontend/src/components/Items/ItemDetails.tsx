@@ -51,11 +51,11 @@ const ItemDetails = () => {
         <div className='pageWidth'>
             <ItemsMenu config={config} currentId={id} />
             <div className='pageWidth_66'>
-                <div className='itemDetails'>
-                    <div data-testid='item-name' className='alignLeft itemDetailsName' style={{ marginBottom: '2rem' }}>
+                <div className='itemDetails marginBottom3 marginTop3'>
+                    <div data-testid='item-name' className='alignLeft itemDetailsName marginBottom2'>
                         {langTextsToText(item.name, config)}
                     </div>
-                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: '1fr 40%' }}>
+                    <div className='grid-container' data-cols='item-details' data-gap='1rem'>
                         <div className='alignLeft grid-container' data-cols='1' data-gap='2rem'>
                             <div className='itemDetailsPrice'>{format.currency(item.price, config)}</div>
                             <div>{langTextsToText(item.description, config)}</div>
@@ -79,7 +79,7 @@ const ItemDetails = () => {
                         </div>
                     </div>
                 </div>
-                <div className='alignLeft marginBottom1_25 marginTop1'>
+                <div className='alignLeft marginBottom1_25'>
                     <BackButton type='text' />
                 </div>
             </div>

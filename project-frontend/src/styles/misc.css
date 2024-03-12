@@ -43,6 +43,11 @@
     transition: all 0s;
 }
 
+.checkOutPaymentMethod {
+    height: 3rem;
+    width: auto;
+}
+
 .clickable {
     cursor: pointer;
     user-select: none;

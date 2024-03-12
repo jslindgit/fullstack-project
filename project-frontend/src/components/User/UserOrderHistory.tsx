@@ -66,7 +66,7 @@ const UserOrderHistory = ({ config, user }: Props) => {
                                     </tr>
                                     {openedOrder === order ? (
                                         <tr>
-                                            <td colSpan={5} style={{ padding: 0 }}>
+                                            <td className='padding0' colSpan={5}>
                                                 <UserOrderDetails order={order} config={config} />
                                             </td>
                                         </tr>

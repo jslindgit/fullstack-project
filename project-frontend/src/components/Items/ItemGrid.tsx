@@ -19,8 +19,8 @@ const ItemGridColumn = ({ item, config }: ItemColumnProps) => {
         <div>
             <Link to={'/shop/item/' + item.id}>
                 <div className='item'>
-                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: '1fr auto', height: '100%' }}>
-                        <div className='grid-container' data-cols='1' data-gap='1rem' style={{ height: '100%', textAlign: 'left' }}>
+                    <div className='grid-container left heightFull' data-cols='1fr auto' data-gap='1rem'>
+                        <div className='grid-container heightFull' data-cols='1' data-gap='1rem'>
                             <div className='sizeLarge'>{langTextsToText(item.name, config)}</div>
                             <div className='sizeNormal'>{format.currency(item.price, config)}</div>
                             <div className={'sizeSmallish ' + (itemInStockTotal(item) > 0 ? 'itemInStock' : 'itemSoldOut')}>
@@ -38,12 +38,12 @@ const ItemGridColumn = ({ item, config }: ItemColumnProps) => {
 };
 
 interface Props {
-    colsPerRow: number;
+    colsPerRow: 1 | 2 | 3 | 4 | 5;
     config: Config;
     items: Item[];
 }
 const ItemGrid = ({ colsPerRow, config, items }: Props) => (
-    <div className='grid-container' data-gap='2rem' style={{ gridTemplateColumns: `repeat(${colsPerRow}, 1fr)` }}>
+    <div className='grid-container' data-cols={colsPerRow.toString()} data-gap='2rem'>
         {items.map((item) => (
             <ItemGridColumn key={item.id} item={item} config={config} />
         ))}

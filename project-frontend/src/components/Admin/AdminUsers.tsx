@@ -135,7 +135,7 @@ const AdminUsers = () => {
 
     return (
         <div className='grid-container pageWidth' data-gap='2rem'>
-            <div className='grid-container searchBox' data-gap='2rem' style={{ gridTemplateColumns: 'auto auto 1fr' }}>
+            <div className='grid-container left searchBox' data-cols='auto auto 1fr' data-gap='2rem'>
                 <div className='semiBold'>{contentToText(search.label, config)}:</div>
                 <div>
                     <InputField

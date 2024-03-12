@@ -155,4 +155,5 @@
 |   7.3.    | 1    | Refactorointia                                                                                                       |     |
 |   9.3.    | 1    | Refactorointia                                                                                                       |     |
 |   12.3.   | 1    | Refactorointia                                                                                                       |     |
-|    yht    | 254  |                                                                                                                      |     |
+|   13.3.   | 2    | Refactorointia                                                                                                       |     |
+|    yht    | 256  |                                                                                                                      |     |

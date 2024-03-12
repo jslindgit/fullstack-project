@@ -46,21 +46,19 @@ const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }:
             <div className='grid-container' data-cols='2'>
                 <div className='infoHeader'>{contentToText(ContentID.accountAccountInfo, config)}</div>
                 {user.disabled && (
-                    <div className='alignRight bold colorRed sizeLarge' style={{ marginTop: '-0.5em', textTransform: 'uppercase' }}>
-                        {contentToText(ContentID.userDisabled, config)}
-                    </div>
+                    <div className='alignRight bold colorRed marginTop-0_5 sizeLarge upperCase'>{contentToText(ContentID.userDisabled, config)}</div>
                 )}
             </div>
-            <div className='grid-container left' style={{ gap: '1em 2em', gridTemplateColumns: 'auto 1fr auto' }}>
+            <div className='grid-container left size' data-cols='auto 1fr auto' data-gap='1rem 2rem'>
                 <div className='semiBold'>{contentToText(ContentID.miscName, config)}:</div>
                 {editedInfo === 'name' ? (
                     <>
-                        <div className='grid-container' style={{ gap: '1rem', gridTemplateColumns: '1fr 1fr' }}>
-                            <div className='grid-container' style={{ gap: '0.5rem' }}>
+                        <div className='grid-container' data-cols='2' data-gap='1rem'>
+                            <div className='grid-container' data-gap='0.5rem'>
                                 <div className='adminItemEditLabel'>{contentToText(ContentID.checkOutFirstName, config)}</div>
                                 <InputField useField={firstName} width='100%' autoFocus={true} />
                             </div>
-                            <div className='grid-container' style={{ gap: '0.5rem' }}>
+                            <div className='grid-container' data-gap='0.5rem'>
                                 <div className='adminItemEditLabel'>{contentToText(ContentID.checkOutLastName, config)}</div>
                                 <InputField useField={lastName} width='100%' />
                             </div>

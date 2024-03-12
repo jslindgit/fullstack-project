@@ -270,7 +270,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     return (
         <div className='adminFormDiv'>
             {itemToEdit ? (
-                <div className='colorGraySemiDark grid-container left noWrap' data-cols='2' style={{ gap: '0.25em 1em', margin: 'auto', width: 'min-content' }}>
+                <div className='colorGraySemiDark divCenter divMinWidth grid-container left noWrap' data-cols='2' data-gap='0.25rem 1rem'>
                     <div className='semiBold'>{contentToText(ContentID.adminItemToEdit, config) + ':'}</div>
                     <div>{langTextsToText(itemToEdit.name, config)}</div>
                     <div />
@@ -281,10 +281,10 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             ) : (
                 <div className='semiBold'>{contentToText(ContentID.adminItemNewItem, config)}</div>
             )}
-            <div className='grid-container left' style={{ gridTemplateColumns: '1fr 10% 40%', marginTop: '1rem' }}>
+            <div className='grid-container left marginTop2' data-cols='item-edit-form'>
                 <div className='grid-container' data-gap='1rem'>
                     <div className='adminItemEditLabel'>{contentToText(ContentID.miscName, config)}:</div>
-                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', marginLeft: '1rem' }}>
+                    <div className='grid-container marginLeft1' data-cols='auto 1fr' data-gap='1rem'>
                         {nameFields.map((nf) => (
                             <React.Fragment key={nf.langCode}>
                                 <div className='valignMiddle'>{nf.langCode}</div>
@@ -297,36 +297,38 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         ))}
                     </div>
                     <div className='adminItemEditLabel'>{contentToText(ContentID.miscDescription, config)}:</div>
-                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', marginLeft: '1rem' }}>
+                    <div className='grid-container marginLeft1' data-cols='auto 1fr' data-gap='1rem'>
                         {descriptionFields.map((df) => (
                             <React.Fragment key={df.langCode}>
                                 <div className='valignMiddle'>{df.langCode}</div>
                                 <textarea
+                                    className='height7rem widthFull'
                                     value={df.textArea.value}
                                     onChange={df.textArea.onChange}
                                     placeholder={`${contentToText(ContentID.adminItemDescription, config)} (${df.langCode})`}
-                                    style={{ width: '100%', height: '7rem' }}
                                 />
                             </React.Fragment>
                         ))}
                     </div>
                     <div className='adminItemEditLabel'>{contentToText(ContentID.itemsPrice, config)}:</div>
-                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', marginLeft: '1rem' }}>
+                    <div className='grid-container marginLeft1' data-cols='auto 1fr' data-gap='1rem'>
                         <div className='valignMiddle'>{config.currency}</div>
                         <InputField useField={price} width='33%' placeHolder={'0–' + config.maxItemPriceEUR} />
                     </div>
                     <div className='adminItemEditLabel'>{contentToText(ContentID.adminItemSizes, config)}:</div>
-                    <ItemSizes config={config} oneSizeInstock={oneSizeInstock} setOneSizeInstock={setOneSizeInstock} setSizes={setSizes} sizes={sizes} />
+                    <div className='marginLeft1'>
+                        <ItemSizes config={config} oneSizeInstock={oneSizeInstock} setOneSizeInstock={setOneSizeInstock} setSizes={setSizes} sizes={sizes} />
+                    </div>
                     <div className='adminItemEditLabel'>{contentToText(ContentID.itemsFitsInLetter, config)}:</div>
-                    <div className='grid-container' data-gap='1rem' style={{ gridTemplateColumns: 'auto 1fr', marginLeft: '1rem' }}>
+                    <div className='grid-container marginLeft1' data-cols='auto 1fr' data-gap='1rem'>
                         <div className='valignMiddle'>{contentToText(ContentID.itemsPcs, config).toUpperCase()}</div>
                         <InputField useField={fitsInLetter} width='33%' />
                     </div>
                 </div>
                 <div />
-                <div className='grid-container' data-gap='1rem' style={{ height: 'min-content' }}>
+                <div className='divMinHeight grid-container' data-gap='1rem'>
                     <div className='adminItemEditLabel'>{contentToText(ContentID.adminPanelCategories, config)}:</div>
-                    <div style={{ marginLeft: '1rem' }}>
+                    <div className='marginLeft1'>
                         <ItemEditCategories
                             config={config}
                             initialCategories={initialCategories}
@@ -335,7 +337,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         />
                     </div>
                     <div className='adminItemEditLabel'>{contentToText(ContentID.adminPanelImages, config)}:</div>
-                    <div style={{ marginLeft: '1rem' }}>
+                    <div className='marginLeft1'>
                         <ItemEditImages
                             currentImages={itemToEdit ? itemToEdit.images : []}
                             imagesToRemove={imagesToRemove}
@@ -347,7 +349,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                     </div>
                 </div>
             </div>
-            <div style={{ marginTop: '2rem' }}>
+            <div className='marginTop2'>
                 <button
                     type='button'
                     onClick={submit}

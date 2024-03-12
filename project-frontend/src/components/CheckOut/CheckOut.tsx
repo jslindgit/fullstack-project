@@ -149,8 +149,8 @@ const CheckOut = () => {
     return (
         <div className='pageWidth'>
             <div className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</div>
-            <div className='grid-container' data-gap='4rem' style={{ gridTemplateColumns: '1fr 39%' }}>
-                <div className='grid-container' data-gap='1.5rem' style={{ marginBottom: '1.5rem' }}>
+            <div className='grid-container' data-cols='check-out' data-gap='4rem'>
+                <div className='grid-container marginBottom1_5' data-gap='1.5rem'>
                     <CheckOutContactInfo
                         currentOrder={order}
                         password={password}
@@ -173,14 +173,14 @@ const CheckOut = () => {
                     </div>
                 </div>
                 <div>
-                    <div className='grid-container' data-gap='1.5rem' style={{ position: 'sticky', top: '1rem' }}>
+                    <div className='grid-container stickyTop1rem' data-gap='1.5rem'>
                         <OrderInfo order={order} />
                         {validationErrors.length > 0 && (
                             <>
                                 <div className='alignLeft validationErrors'>
                                     {contentToText(ContentID.checkOutPleaseCheck, config)}
                                     {validationErrors.map((e) => (
-                                        <div key={e} style={{ fontStyle: 'italic', fontWeight: '500', marginLeft: '1em', marginTop: '1em' }}>
+                                        <div key={e} className='italic marginLeft1 marginTop1 semiBold'>
                                             • {e}
                                         </div>
                                     ))}
@@ -190,10 +190,9 @@ const CheckOut = () => {
                         <button
                             data-testid='checkout-button-choose-payment-method'
                             type='button'
-                            className='large'
+                            className='large widthFull'
                             onClick={handlePaymentClick}
                             disabled={validationErrors.length > 0}
-                            style={{ width: '100%' }}
                         >
                             {contentToText(ContentID.checkOutChoosePaymentMethod, config)} →
                         </button>

@@ -50,9 +50,7 @@ const UserOrderDetails = ({ order, config }: Props) => {
             <br />
             <ShoppingCartContent allowEdit={false} shoppingItems={parsedOrder.items} removeItem={null} totalSumContentID={ContentID.orderTotalAmount} />
             <br />
-            <div className='semiBold sizeLarge' style={{ marginBottom: '0.5rem' }}>
-                {contentToText(ContentID.orderCustomer, config)}
-            </div>
+            <div className='marginBottom0_5 semiBold sizeLarge'>{contentToText(ContentID.orderCustomer, config)}</div>
             <div className='normalWeight sizeSmallish'>
                 {order.customerFirstName} {order.customerLastName}
                 <br />
@@ -77,9 +75,7 @@ const UserOrderDetails = ({ order, config }: Props) => {
             <br />
             {deliveryMethod ? (
                 <>
-                    <div className='semiBold sizeLarge' style={{ marginBottom: '0.5rem' }}>
-                        {contentToText(ContentID.orderDeliveryMethod, config)}
-                    </div>
+                    <div className='marginBottom0_5 semiBold sizeLarge'>{contentToText(ContentID.orderDeliveryMethod, config)}</div>
                     <div className='normalWeight'>
                         {langTextsToText(deliveryMethod.names, config)}
                         {deliveryMethod.notes.length > 0 ? (

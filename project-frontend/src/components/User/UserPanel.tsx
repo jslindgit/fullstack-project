@@ -72,7 +72,7 @@ const UserPanel = () => {
             <div data-testid='account-header' className='pageHeader'>
                 {contentToText(ContentID.menuAccount, config)}
             </div>
-            <div className='grid-container' data-gap='2rem' style={{ marginBottom: '2rem' }}>
+            <div className='grid-container marginBottom2' data-gap='2rem'>
                 <UserBasicInfo config={config} showUserStatus={user.admin || user.operator} updateUserInfo={updateUserInfo} user={user} />
                 <UserContactInfo config={config} updateUserInfo={updateUserInfo} user={user} />
                 <UserChangePassword config={config} user={user} />

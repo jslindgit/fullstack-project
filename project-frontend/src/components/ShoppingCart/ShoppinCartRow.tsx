@@ -77,10 +77,10 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
             </div>
             <div>{format.currency(shoppingItem.price, config)}</div>
             <div>
-                <div className='grid-container middle' data-cols='2' style={{ width: 'min-content' }}>
+                <div className='divMinWidth grid-container middle' data-cols='2'>
                     <div>
                         {allowEdit ? (
-                            <input type={quantity.type} value={quantity.value} onChange={quantity.onChange} style={{ width: '5rem' }} />
+                            <input className='width5rem' type={quantity.type} value={quantity.value} onChange={quantity.onChange} />
                         ) : (
                             <>
                                 {shoppingItem.quantity} {contentToText(ContentID.itemsPcs, config)}
@@ -89,7 +89,7 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
                     </div>
                     <div>
                         {allowEdit && (
-                            <div style={{ marginTop: '0.65em' }}>
+                            <div className='marginTop0_5'>
                                 <div className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
                                     +
                                 </div>

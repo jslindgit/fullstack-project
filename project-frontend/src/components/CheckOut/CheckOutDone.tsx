@@ -127,8 +127,8 @@ const CheckOutDone = () => {
     return (
         <div className='pageWidth'>
             <div className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</div>
-            <div className='grid-container' data-gap='4rem' style={{ gridTemplateColumns: '1fr 39%' }}>
-                <div className='alignLeft grid-container' data-gap='3rem' style={{ height: 'min-content' }}>
+            <div className='grid-container' data-cols='check-out' data-gap='4rem'>
+                <div className='alignLeft divMinHeight grid-container height' data-gap='3rem'>
                     {signatureStatus === SignatureStatus.VALID ? (
                         <React.Fragment>
                             <div className='bold sizeExtremelyLarge'>{contentToText(ContentID.checkOutThankYou, config)}</div>

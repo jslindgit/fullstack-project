@@ -33,7 +33,7 @@ const ShoppingCart = () => {
                 {contentToText(ContentID.menuShoppingCart, config)}
             </div>
             <ShoppingCartContent allowEdit={true} shoppingItems={orderState.items} removeItem={removeItem} />
-            <div className='grid-container' data-cols='2' style={{ marginBottom: '2rem', marginTop: '2rem' }}>
+            <div className='grid-container marginBottom2 marginTop2' data-cols='2'>
                 <div className='alignLeft valignMiddle'>
                     <BackButton type='text' />
                 </div>

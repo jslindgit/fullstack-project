@@ -51,7 +51,7 @@ const ItemsSearch = () => {
             <div className='pageWidth'>
                 <div className='pageHeader'>{contentToText(ContentID.miscSearch, config)}</div>
                 <InputField className='sizeLarge' useField={searchField} width='100%' placeHolder={contentToText(ContentID.searchItemsName, config)} />
-                <div className='alignLeft italic' style={{ marginBottom: '1.25rem', marginTop: '1.25rem' }}>
+                <div className='alignLeft italic marginBottom1_25 marginTop1_25'>
                     {searchResults.length > 0 ? (
                         <>
                             {searchResults.length} {contentToText(ContentID.searchHits, config)}

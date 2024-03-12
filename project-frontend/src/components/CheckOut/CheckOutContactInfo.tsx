@@ -229,12 +229,12 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
 
     return (
         <div className={'alignLeft infoBox' + (validate && invalidFields.length > 0 ? ' errors' : '')}>
-            <div data-testid='checkout-contactinfo-header' className='infoHeader' style={{ marginBottom: '2.5rem' }}>
+            <div data-testid='checkout-contactinfo-header' className='infoHeader marginBottom2'>
                 {contentToText(ContentID.checkOutCustomerContactInformation, config)}
             </div>
             <div className='grid-container left' data-cols='auto 1fr' data-gap='1.5rem'>
                 {userState.loggedUser && (
-                    <div style={{ gridColumn: 'span 2', marginBottom: '1rem' }}>
+                    <div className='gridSpan2 marginBottom1'>
                         <a onClick={fillWithLoggedUserInfo}>
                             {contentToText(ContentID.checkOutFillAutomatically, config)} (
                             {`${userState.loggedUser.contactFirstName} ${userState.loggedUser.contactLastName}`})
@@ -273,7 +273,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
             </div>
             <div>
                 {!userState.loggedUser && (
-                    <div style={{ marginTop: '3rem' }}>
+                    <div className='marginTop3'>
                         <div className='grid-container' data-cols='auto 1fr' data-gap='0.5rem'>
                             <CheckBox
                                 isChecked={register}
@@ -284,7 +284,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
                             <div className='semiBold'>{contentToText(ContentID.registerHeader, config)}</div>
                         </div>
                         <div className={register ? '' : 'hidden'}>
-                            <div className='grid-container left' data-cols='auto 1fr' data-gap='1rem' style={{ marginTop: '1.5rem' }}>
+                            <div className='grid-container left marginTop1_5' data-cols='auto 1fr' data-gap='1rem'>
                                 {inputField(password, 'checkout-password')}
                                 {inputField(passwordConfirm, 'checkout-password-confirm')}
                             </div>
