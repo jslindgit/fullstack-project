@@ -77,9 +77,8 @@ const AdminItemList = ({ config, deleteItem, items }: ListProps) => {
     if (items.length < 1) {
         return <div className='alignCenter colorGrayDark semiBold sizeLarge'>{contentToText(ContentID.adminItemsNoProducts, config)}</div>;
     }
-
-    const columnHeader = (label: ContentID, sortByOption: sortByOption, widthByContent: boolean = false) => (
-        <td className={widthByContent ? 'widthByContent' : ''} onClick={() => setSorting(sortByOption)}>
+    const columnHeader = (label: ContentID, sortByOption: sortByOption) => (
+        <div className='gridHeaderRowDarkGray' onClick={() => setSorting(sortByOption)}>
             <span
                 className='clickable'
                 title={contentToText(sortBy === sortByOption ? ContentID.miscClickToChangeSortingOrder : ContentID.miscClickToSortByThis, config)}
@@ -87,29 +86,23 @@ const AdminItemList = ({ config, deleteItem, items }: ListProps) => {
                 {contentToText(label, config)}
             </span>{' '}
             <SortArrow column={sortByOption} sortBy={sortBy} sortDirection={sortDirection} setSortDirection={setSortDirection} config={config} />
-        </td>
+        </div>
     );
 
     return (
-        <table align='center' width='100%' className='headerRow sizeSmallish dotted adminItems'>
-            <tbody>
-                <tr className='bold'>
-                    {columnHeader(ContentID.miscName, 'name', true)}
-                    {columnHeader(ContentID.miscDescription, 'description', false)}
-                    {columnHeader(ContentID.itemsPrice, 'price', true)}
-                    {columnHeader(ContentID.itemsInStock, 'instock', true)}
-                    {columnHeader(ContentID.itemsId, 'id', true)}
-                    <td className='paddingLeft0' width='1px'>
-                        {contentToText(ContentID.adminPanelImages, config)}
-                    </td>
-                    <td className='paddingRight0' width='1px'></td>
-                    <td className='paddingRight0' width='1px'></td>
-                </tr>
+        <>
+            <div className='grid-container left middle padded1rem sizeSmallish' data-cols='admin-item-list'>
+                {columnHeader(ContentID.miscName, 'name')}
+                {columnHeader(ContentID.miscDescription, 'description')}
+                {columnHeader(ContentID.itemsPrice, 'price')}
+                {columnHeader(ContentID.itemsInStock, 'instock')}
+                {columnHeader(ContentID.itemsId, 'id')}
+                <div className='gridHeaderRowDarkGray gridSpan3'>{contentToText(ContentID.adminPanelImages, config)}</div>
                 {sortedItems.map((item) => (
                     <AdminItemRow key={item.id} item={item} deleteItem={deleteItem} />
                 ))}
-            </tbody>
-        </table>
+            </div>
+        </>
     );
 };
 

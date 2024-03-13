@@ -25,22 +25,24 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
     const canEditAndDelete = () => usersState.loggedUser?.admin || (item.addedBy && item.addedBy === usersState.loggedUser?.id);
 
     return (
-        <tr>
-            <td className='semiBold widthByContent'>{langTextsToText(item.name, config)}</td>
-            <td>{description.length > descriptionMaxLengthToShow ? description.substring(0, descriptionMaxLengthToShow - 1) + '...' : description}</td>
-            <td className='noWrap'>{format.currency(item.price, config)}</td>
-            <td className={'noWrap' + (itemInStockTotal(item) > 0 ? '' : ' colorRedLight')}>
+        <>
+            <div className='semiBold underlinedGridItem'>{langTextsToText(item.name, config)}</div>
+            <div className='underlinedGridItem'>
+                {description.length > descriptionMaxLengthToShow ? description.substring(0, descriptionMaxLengthToShow - 1) + '...' : description}
+            </div>
+            <div className='noWrap underlinedGridItem'>{format.currency(item.price, config)}</div>
+            <div className={'noWrap underlinedGridItem' + (itemInStockTotal(item) > 0 ? '' : ' colorRedLight')}>
                 {itemInStockTotal(item)} {contentToText(ContentID.itemsPcs, config)}
-            </td>
-            <td>{item.id}</td>
-            <td className='padding0'>
+            </div>
+            <div className='underlinedGridItem'>{item.id}</div>
+            <div className='padding0 underlinedGridItem'>
                 <div className='imgFlex'>
                     {item.images && item.images.length > 0
                         ? item.images.map((img) => <Image key={img} className='imgAdminItems' src={imageFullPath(img)} title={imageFilename(img)} />)
                         : '-'}
                 </div>
-            </td>
-            <td className='paddingRight0'>
+            </div>
+            <div className='paddingRight0 underlinedGridItem'>
                 <Link to={'/admin/edititem/' + item.id}>
                     <button
                         type='button'
@@ -51,8 +53,8 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                         {contentToText(ContentID.buttonEdit, config)}
                     </button>
                 </Link>
-            </td>
-            <td className='paddingRight1'>
+            </div>
+            <div className='underlinedGridItem'>
                 <button
                     type='button'
                     className='red compactButton'
@@ -62,8 +64,8 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                 >
                     {contentToText(ContentID.buttonRemove, config)}
                 </button>
-            </td>
-        </tr>
+            </div>
+        </>
     );
 };
 
