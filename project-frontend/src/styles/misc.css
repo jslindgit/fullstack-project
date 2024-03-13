@@ -12,7 +12,7 @@
     transition: all 0.25s;
 }
 .buttonHighlight:has(button:hover) > div {
-    background-color: var(--colorYellowExtremelyLight);
+    background-color: var(--colorYellowExtremelyLight) !important;
     transition: all 0.25s;
 }
 

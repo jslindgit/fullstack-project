@@ -16,6 +16,7 @@ import { setNotification } from '../../reducers/miscReducer';
 
 import AdminOrderDetails from './AdminOrderDetails';
 import AdminOrderRow from './AdminOrderRow';
+import AdminOrderGridRow from './AdminOrderGridRow';
 import { Link } from '../CustomLink';
 import InputField from '../InputField';
 import SortArrow from '../SortArrow';
@@ -251,8 +252,8 @@ const AdminOrders = () => {
         setOpenedOrder(order);
     };
 
-    const columnHeader = (label: ContentID, sortByOption: sortByOption, widthByContent: boolean = false) => (
-        <td className={widthByContent ? 'widthByContent' : ''} onClick={() => setSorting(sortByOption)}>
+    const gridColumnHeader = (label: ContentID, sortByOption: sortByOption) => (
+        <div onClick={() => setSorting(sortByOption)}>
             <span
                 className='clickable'
                 title={contentToText(sortBy === sortByOption ? ContentID.miscClickToChangeSortingOrder : ContentID.miscClickToSortByThis, config)}
@@ -260,7 +261,7 @@ const AdminOrders = () => {
                 {contentToText(label, config)}
             </span>{' '}
             <SortArrow column={sortByOption} sortBy={sortBy} sortDirection={sortDirection} setSortDirection={setSortDirection} config={config} />
-        </td>
+        </div>
     );
 
     const menuItemDiv = (folderName: Folder) => {
@@ -279,22 +280,9 @@ const AdminOrders = () => {
         );
     };
 
-    let stripedRow = 'stripedRowEven';
-    const getStripedRowClassName = () => {
-        stripedRow = stripedRow === 'stripedRowEven' ? 'stripedRowOdd' : 'stripedRowEven';
-        return stripedRow;
-    };
-
-    const orderRow = (order: Order) => (
+    const orderGridRow = (order: Order) => (
         <React.Fragment key={order.id}>
-            <AdminOrderRow
-                key={order.id}
-                order={order}
-                isOpened={openedOrder?.id === order.id}
-                handleClose={handleClose}
-                handleOpen={handleOpen}
-                stripedClassName={getStripedRowClassName()}
-            />
+            <AdminOrderGridRow key={order.id} order={order} isOpened={openedOrder?.id === order.id} handleClose={handleClose} handleOpen={handleOpen} />
             {openedOrder?.id === order.id && (
                 <AdminOrderDetails
                     order={order}
@@ -337,39 +325,31 @@ const AdminOrders = () => {
                 </div>
             </div>
             <br />
-            <table align='center' width='100%' className='adminOrders headerRow'>
-                <tbody>
-                    <tr>
-                        {columnHeader(ContentID.miscDate, 'date')}
-                        {columnHeader(ContentID.orderCustomer, 'customer')}
-                        {columnHeader(ContentID.orderTotalAmount, 'totalSum')}
-                        {columnHeader(ContentID.orderDeliveryMethod, 'delivery')}
-                        {columnHeader(ContentID.orderStatus, 'status')}
-                        <td width='1px'></td>
-                    </tr>
-                    {orders.length > 0 ? (
-                        orders.map((order) => orderRow(order))
-                    ) : (
-                        <tr>
-                            <td colSpan={6} className='alignCenter centered semiBold'>
-                                <br />
-                                {contentToText(ContentID.adminOrdersNoOrdersInFolder, config)} <span className='bold'>{folderLabel(currentFolder)}</span>
-                                {search.stringValue().length > 0 ? (
-                                    <>
-                                        {` ${contentToText(ContentID.miscWithSearchWords, config)} `}{' '}
-                                        <span className='italic'>{`'${search.stringValue()}'`}</span>
-                                    </>
-                                ) : (
-                                    ''
-                                )}
-                                .
-                                <br />
-                                <br />
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+            <div className='grid-container left middle padded0_5rem_1rem stripedBackground' data-cols='6'>
+                <div className='displayContents gridHeaderRowDarkGray'>
+                    {gridColumnHeader(ContentID.miscDate, 'date')}
+                    {gridColumnHeader(ContentID.orderCustomer, 'customer')}
+                    {gridColumnHeader(ContentID.orderTotalAmount, 'totalSum')}
+                    {gridColumnHeader(ContentID.orderDeliveryMethod, 'delivery')}
+                    {gridColumnHeader(ContentID.orderStatus, 'status')}
+                    <div />
+                </div>
+                {orders.length > 0 ? (
+                    orders.map((order) => orderGridRow(order))
+                ) : (
+                    <div className='alignCenter centered gridSpan6 padding1 semiBold'>
+                        {contentToText(ContentID.adminOrdersNoOrdersInFolder, config)} <span className='bold'>{folderLabel(currentFolder)}</span>
+                        {search.stringValue().length > 0 && (
+                            <>
+                                {` ${contentToText(ContentID.miscWithSearchWords, config)} `} <span className='italic'>{`'${search.stringValue()}'`}</span>
+                            </>
+                        )}
+                        .
+                        <br />
+                        <br />
+                    </div>
+                )}
+            </div>
             <br />
             <br />
         </div>

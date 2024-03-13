@@ -128,9 +128,9 @@ const AdminSettings = () => {
 
     const settingLangFields = (label: string, langFields: LangField[], propertyName: PropertyName, currentValue: LangText[]) => {
         return (
-            <div className={'displayContents ' + (editedProperty !== propertyName ? 'buttonHighlight' : '')}>
-                <div className='alignLeft padding1 semiBold underlinedGridItem valignMiddle'>{label}:&emsp;&emsp;&emsp;</div>
-                <div className='alignLeft underlinedGridItem valignMiddle'>
+            <div className={'displayContents underlinedGridItem ' + (editedProperty !== propertyName ? 'buttonHighlight' : '')}>
+                <div className='alignLeft padding1 semiBold valignMiddle'>{label}:&emsp;&emsp;&emsp;</div>
+                <div className='alignLeft valignMiddle'>
                     {editedProperty === propertyName ? (
                         <div className='grid-container' data-cols='auto 1fr'>
                             {langFields.map((langField) => (
@@ -147,7 +147,7 @@ const AdminSettings = () => {
                     )}
                     &emsp;&emsp;&emsp;
                 </div>
-                <div className='alignRight underlinedGridItem valignMiddle'>
+                <div className='alignRight valignMiddle'>
                     {editedProperty === propertyName ? (
                         <>
                             <button
@@ -187,13 +187,13 @@ const AdminSettings = () => {
     };
 
     const settingText = (label: string, useField: UseField, propertyName: PropertyName, currentValue: string) => (
-        <div className={'displayContents ' + (editedProperty !== propertyName ? 'buttonHighlight' : '')}>
-            <div className='alignLeft padding1 semiBold underlinedGridItem valignMiddle'>{label}:&emsp;&emsp;&emsp;</div>
-            <div className='alignLeft underlinedGridItem valignMiddle'>
+        <div className={'displayContents underlinedGridItem ' + (editedProperty !== propertyName ? 'buttonHighlight' : '')}>
+            <div className='alignLeft padding1 semiBold valignMiddle'>{label}:&emsp;&emsp;&emsp;</div>
+            <div className='alignLeft valignMiddle'>
                 {editedProperty === propertyName ? <InputField useField={useField} width={'100%'} autoFocus={true} /> : useField.stringValue()}
                 &emsp;&emsp;&emsp;
             </div>
-            <div className='alignRight underlinedGridItem valignMiddle'>
+            <div className='alignRight valignMiddle'>
                 {editedProperty === propertyName ? (
                     <>
                         <button type='button' onClick={submitChanges} disabled={useField.stringValue() === currentValue}>
@@ -255,7 +255,7 @@ const AdminSettings = () => {
             <div className='grid-container pageWidth' data-gap='3rem'>
                 <div className='adminFormDiv'>
                     <div className='infoHeader'>{contentToText(ContentID.miscWebstore, config)}</div>
-                    <div className='grid-container underlinedDiv' data-cols='auto auto 1fr' data-gap='0'>
+                    <div className='grid-container striped' data-cols='auto auto 1fr' data-gap='0'>
                         {settingText(contentToText(ContentID.miscName, config), storeNameField, 'storeName', config.store.contactName)}
                         {settingText(contentToText(ContentID.contactEmail, config), storeEmailField, 'storeEmail', config.store.contactEmail)}
                         {settingText(contentToText(ContentID.contactPhone, config), storePhoneField, 'storePhone', config.store.contactPhone)}
@@ -268,14 +268,12 @@ const AdminSettings = () => {
                             'storeCountry',
                             config.store.contactCountry.names
                         )}
-                        <div className={'displayContents ' + (editedProperty !== 'storeDeliveryCountries' ? 'buttonHighlight' : '')}>
-                            <div className='alignLeft padding1 semiBold underlinedGridItem valignMiddle'>
-                                {contentToText(ContentID.miscDeliveryCountries, config)}:
-                            </div>
-                            <div className='alignLeft underlinedGridItem valignMiddle'>
+                        <div className={'displayContents underlinedGridItem ' + (editedProperty !== 'storeDeliveryCountries' ? 'buttonHighlight' : '')}>
+                            <div className='alignLeft padding1 semiBold valignMiddle'>{contentToText(ContentID.miscDeliveryCountries, config)}:</div>
+                            <div className='alignLeft valignMiddle'>
                                 {editedProperty === 'storeDeliveryCountries' ? <>{deliveryCountrySelection()}</> : <>{deliveryCountryList()}</>}
                             </div>
-                            <div className='alignRight underlinedGridItem valignMiddle'>
+                            <div className='alignRight valignMiddle'>
                                 {editedProperty === 'storeDeliveryCountries' ? (
                                     <>
                                         <button
@@ -327,7 +325,7 @@ const AdminSettings = () => {
                 </div>
                 <div className='adminFormDiv'>
                     <div className='infoHeader'>{contentToText(ContentID.miscMerchant, config)}</div>
-                    <div className='grid-container underlinedDiv' data-cols='auto auto 1fr' data-gap='0'>
+                    <div className='grid-container striped' data-cols='auto auto 1fr' data-gap='0'>
                         {settingText(contentToText(ContentID.miscName, config), ownerNameField, 'ownerName', config.owner.name)}
                         {settingText(contentToText(ContentID.contactEmail, config), ownerEmailField, 'ownerEmail', config.owner.email)}
                         {settingText(contentToText(ContentID.contactPhone, config), ownerPhoneField, 'ownerPhone', config.owner.phone)}
@@ -341,7 +339,7 @@ const AdminSettings = () => {
                 </div>
                 <div className='adminFormDiv'>
                     <div className='infoHeader'>{contentToText(ContentID.miscContent, config)}</div>
-                    <div className='grid-container underlinedDiv' data-cols='auto auto 1fr' data-gap='0'>
+                    <div className='grid-container' data-cols='auto auto 1fr' data-gap='0'>
                         {settingLangFields(
                             `"${contentToText(ContentID.contentWelcome, config)}" (${contentToText(ContentID.menuHome, config)})`,
                             storeWelcomeFields,

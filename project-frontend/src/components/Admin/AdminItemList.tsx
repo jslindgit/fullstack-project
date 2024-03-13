@@ -78,7 +78,7 @@ const AdminItemList = ({ config, deleteItem, items }: ListProps) => {
         return <div className='alignCenter colorGrayDark semiBold sizeLarge'>{contentToText(ContentID.adminItemsNoProducts, config)}</div>;
     }
     const columnHeader = (label: ContentID, sortByOption: sortByOption) => (
-        <div className='gridHeaderRowDarkGray' onClick={() => setSorting(sortByOption)}>
+        <div onClick={() => setSorting(sortByOption)}>
             <span
                 className='clickable'
                 title={contentToText(sortBy === sortByOption ? ContentID.miscClickToChangeSortingOrder : ContentID.miscClickToSortByThis, config)}
@@ -91,13 +91,15 @@ const AdminItemList = ({ config, deleteItem, items }: ListProps) => {
 
     return (
         <>
-            <div className='grid-container left middle padded1rem sizeSmallish' data-cols='admin-item-list'>
-                {columnHeader(ContentID.miscName, 'name')}
-                {columnHeader(ContentID.miscDescription, 'description')}
-                {columnHeader(ContentID.itemsPrice, 'price')}
-                {columnHeader(ContentID.itemsInStock, 'instock')}
-                {columnHeader(ContentID.itemsId, 'id')}
-                <div className='gridHeaderRowDarkGray gridSpan3'>{contentToText(ContentID.adminPanelImages, config)}</div>
+            <div className='grid-container left middle padded1rem sizeSmallish striped' data-cols='admin-item-list'>
+                <div className='displayContents gridHeaderRowDarkGray'>
+                    {columnHeader(ContentID.miscName, 'name')}
+                    {columnHeader(ContentID.miscDescription, 'description')}
+                    {columnHeader(ContentID.itemsPrice, 'price')}
+                    {columnHeader(ContentID.itemsInStock, 'instock')}
+                    {columnHeader(ContentID.itemsId, 'id')}
+                    <div className='gridSpan3'>{contentToText(ContentID.adminPanelImages, config)}</div>
+                </div>
                 {sortedItems.map((item) => (
                     <AdminItemRow key={item.id} item={item} deleteItem={deleteItem} />
                 ))}

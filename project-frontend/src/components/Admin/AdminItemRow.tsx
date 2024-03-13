@@ -26,23 +26,21 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
 
     return (
         <>
-            <div className='semiBold underlinedGridItem'>{langTextsToText(item.name, config)}</div>
-            <div className='underlinedGridItem'>
-                {description.length > descriptionMaxLengthToShow ? description.substring(0, descriptionMaxLengthToShow - 1) + '...' : description}
-            </div>
-            <div className='noWrap underlinedGridItem'>{format.currency(item.price, config)}</div>
-            <div className={'noWrap underlinedGridItem' + (itemInStockTotal(item) > 0 ? '' : ' colorRedLight')}>
+            <div className='semiBold'>{langTextsToText(item.name, config)}</div>
+            <div>{description.length > descriptionMaxLengthToShow ? description.substring(0, descriptionMaxLengthToShow - 1) + '...' : description}</div>
+            <div className='noWrap'>{format.currency(item.price, config)}</div>
+            <div className={'noWrap' + (itemInStockTotal(item) > 0 ? '' : ' colorRedLight')}>
                 {itemInStockTotal(item)} {contentToText(ContentID.itemsPcs, config)}
             </div>
-            <div className='underlinedGridItem'>{item.id}</div>
-            <div className='padding0 underlinedGridItem'>
+            <div>{item.id}</div>
+            <div className='padding0'>
                 <div className='imgFlex'>
                     {item.images && item.images.length > 0
                         ? item.images.map((img) => <Image key={img} className='imgAdminItems' src={imageFullPath(img)} title={imageFilename(img)} />)
                         : '-'}
                 </div>
             </div>
-            <div className='paddingRight0 underlinedGridItem'>
+            <div className='paddingRight0'>
                 <Link to={'/admin/edititem/' + item.id}>
                     <button
                         type='button'
@@ -54,7 +52,7 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                     </button>
                 </Link>
             </div>
-            <div className='underlinedGridItem'>
+            <div>
                 <button
                     type='button'
                     className='red compactButton'

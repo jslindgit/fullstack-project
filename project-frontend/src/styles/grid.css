@@ -2,35 +2,6 @@
     display: grid !important;
 }
 
-.grid-container.left > div {
-    text-align: left;
-}
-
-.grid-container.middle > div {
-    align-items: center;
-    display: flex;
-}
-
-.grid-container.padded1rem > div {
-    padding: 1rem;
-}
-
-.grid-container.striped > div {
-    border-bottom: 3px solid var(--colorGrayLight);
-}
-
-.gridStripedHeaderRow {
-    background-color: var(--colorGrayVeryLight);
-    border-top: 3px solid var(--colorGrayLight);
-    font-weight: 600;
-}
-.gridHeaderRowDarkGray {
-    background-color: var(--colorGrayDark);
-    color: white;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-}
-
 /* Columns */
 .grid-container[data-cols='1'] {
     grid-template-columns: 1fr;
@@ -46,6 +17,9 @@
 }
 .grid-container[data-cols='5'] {
     grid-template-columns: repeat(5, 1fr);
+}
+.grid-container[data-cols='6'] {
+    grid-template-columns: repeat(6, 1fr);
 }
 .grid-container[data-cols='auto'] {
     grid-auto-flow: column;
@@ -103,6 +77,9 @@
 .gridSpan3 {
     grid-column: span 3;
 }
+.gridSpan6 {
+    grid-column: span 6;
+}
 
 /* Gap */
 .grid-container[data-gap='0'] {
@@ -142,7 +119,65 @@
     gap: 2rem 1rem;
 }
 
+/* Alignment */
+.grid-container.left > div {
+    text-align: left;
+}
+
+.grid-container.middle > div {
+    align-items: center;
+    display: flex;
+}
+.grid-container.middle > div > div {
+    align-items: center;
+    display: flex;
+}
+
 /* Styling */
+.grid-container.padded1rem > div {
+    padding: 1rem;
+}
+.grid-container.padded1rem > div > div {
+    padding: 1rem;
+}
+
+.grid-container.striped > div {
+    border-bottom: 3px solid var(--colorGrayLight);
+}
+
+.grid-container.stripedBackground > div > div {
+    padding: 0.5rem 1rem;
+}
+.grid-container.stripedBackground > div:nth-child(odd) > div {
+    background-color: var(--colorGrayVeryLight);
+    transition: all 0.25s;
+}
+
+.gridHeaderRowDarkGray > div {
+    background-color: var(--colorGrayDark) !important;
+    border-bottom: 0 !important;
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+}
+.gridHeaderRowDarkGray > div:first-child {
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.gridHeaderRowDarkGray > div:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.gridStripedHeaderRow {
+    background-color: var(--colorGrayVeryLight);
+    border-top: 3px solid var(--colorGrayLight);
+    font-weight: 600;
+}
+
 .underlinedGridItem {
-    border-bottom: 1px dotted var(--colorGrayLight);
+    border-bottom: 1px solid var(--colorGrayLight);
+}
+.underlinedGridItem > div {
+    border-bottom: 1px solid var(--colorGrayLight);
 }
