@@ -27,7 +27,7 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    // Title:
+    // Page title:
     useEffect(() => {
         document.title = contentToText(ContentID.menuLogin, config) + ' | ' + config.store.contactName;
     }, [config]);

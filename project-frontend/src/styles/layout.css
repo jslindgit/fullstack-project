@@ -18,6 +18,9 @@
     width: min-content;
 }
 
+.height1rem {
+    height: 1rem;
+}
 .height7rem {
     height: 7rem;
 }
@@ -26,6 +29,10 @@
 }
 .heightFull {
     height: 100%;
+}
+
+.hidden {
+    display: none !important;
 }
 
 .margin0_5 {

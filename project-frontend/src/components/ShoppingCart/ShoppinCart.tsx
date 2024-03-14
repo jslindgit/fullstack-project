@@ -17,6 +17,7 @@ const ShoppingCart = () => {
     const config = useSelector((state: RootState) => state.config);
     const orderState = useSelector((state: RootState) => state.order);
 
+    // Page title:
     useEffect(() => {
         document.title = contentToText(ContentID.menuShoppingCart, config) + ' | ' + config.store.contactName;
     }, [config]);

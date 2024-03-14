@@ -5,29 +5,27 @@
     overflow: hidden !important;
     position: sticky;
     top: 0;
-    transition: height 0.5s ease-in-out !important;
-    will-change: height;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .notification.hidden {
     height: 1px !important;
-    transition: height 0.5s ease-in-out !important;
 }
 
 .notificationPositive {
     background-color: var(--colorGreenVeryLight);
+    border-color: var(--colorGreen);
     color: var(--colorGreenDark);
-    border-color: color;
 }
 .notificationNeutral {
     background-color: var(--colorYellowVeryLight);
-    color: var(--colorGrayDark);
     border-color: color;
+    color: var(--colorGrayDark);
 }
 .notificationNegative {
     background-color: var(--colorRedVeryLight);
-    color: var(--colorRed);
     border-color: color;
+    color: var(--colorRed);
 }
 
 .notification a {

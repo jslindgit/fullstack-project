@@ -154,7 +154,8 @@
 |   6.3.    | 2    | Refactorointia                                                                                                       |     |
 |   7.3.    | 1    | Refactorointia                                                                                                       |     |
 |   9.3.    | 1    | Refactorointia                                                                                                       |     |
-|   12.3.   | 1    | Refactorointia                                                                                                       |     |
+|   11.3.   | 1    | Refactorointia                                                                                                       |     |
+|   12.3.   | 2    | Refactorointia                                                                                                       |     |
 |   13.3.   | 2    | Refactorointia                                                                                                       |     |
-|   14.3.   | 2    | Refactorointia                                                                                                       |     |
-|    yht    | 258  |                                                                                                                      |     |
+|   14.3.   | 1    | Refactorointia                                                                                                       |
+|    yht    | 259  |                                                                                                                      |     |

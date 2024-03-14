@@ -34,6 +34,11 @@ const CheckOut = () => {
 
     const navigate = useNavigate();
 
+    // Page title:
+    useEffect(() => {
+        document.title = contentToText(ContentID.checkOutHeader, config) + ' | ' + config.store.contactName;
+    }, [config]);
+
     const validatePassword = useCallback((): string[] => {
         if (!isValidPassword(password.value.toString().trim())) {
             return [contentToText(ContentID.loginNewPasswordTooShort, config)];

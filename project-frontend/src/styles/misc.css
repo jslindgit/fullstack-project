@@ -7,11 +7,6 @@
 .buttonHighlight {
     transition: all 0.25s;
 }
-.buttonHighlight:has(button:hover) {
-    background-color: skyblue !important;
-    transition: all 0.25s;
-}
-/* Works for `<div classname='displayContents'><div>asd</div></div>`: */
 .buttonHighlight:has(button:hover) > div {
     background-color: var(--colorYellowExtremelyLight) !important;
     transition: all 0.25s;
@@ -81,14 +76,6 @@
     font-size: 1rem;
     font-weight: normal;
     text-align: left;
-}
-
-.height1rem {
-    height: 1rem;
-}
-
-.hidden {
-    display: none !important;
 }
 
 .hoverableRow {
