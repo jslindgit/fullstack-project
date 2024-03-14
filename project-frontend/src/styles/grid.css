@@ -67,15 +67,28 @@
 .grid-container[data-cols='notification'] {
     grid-template-columns: 40px 1fr 40px;
 }
+.grid-container[data-cols='order-history'] {
+    grid-template-columns: 1fr 1fr 1fr 1fr auto;
+}
+.grid-container[data-cols='orders'] {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr auto;
+}
+.grid-container[data-cols='users'] {
+    grid-template-columns: 1fr 1fr 1fr 1fr auto;
+}
 .grid-container[data-cols='shoppingcart-row'] {
     grid-template-columns: auto 1fr 1fr 1fr 1fr auto;
 }
 
+/* Column Span: */
 .gridSpan2 {
     grid-column: span 2;
 }
 .gridSpan3 {
     grid-column: span 3;
+}
+.gridSpan5 {
+    grid-column: span 5;
 }
 .gridSpan6 {
     grid-column: span 6;

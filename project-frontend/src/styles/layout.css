@@ -96,6 +96,9 @@
 .padding0 {
     padding: 0;
 }
+.padding0Important {
+    padding: 0 !important;
+}
 .padding1 {
     padding: 1rem;
 }

@@ -19,19 +19,19 @@ interface Props {
     config: Config;
     user: User;
 }
-const AdminUserRow = ({ config, user }: Props) => {
+const AdminUserGridRow = ({ config, user }: Props) => {
     return (
-        <tr className='buttonHighlight'>
-            <td>{user.contactFirstName + ' ' + user.contactLastName}&emsp;</td>
-            <td>{user.username}&emsp;</td>
-            <td>{user.id}&emsp;</td>
-            <td className='widthByContent'>{getUserStatus(user, config)}&emsp;</td>
-            <td className='alignRight'>
+        <div className='buttonHighlight displayContents'>
+            <div>{user.contactFirstName + ' ' + user.contactLastName}</div>
+            <div>{user.username}</div>
+            <div>{user.id}</div>
+            <div>{getUserStatus(user, config)}</div>
+            <div className='alignRight'>
                 <Link to={'/admin/users/' + user.id}>
                     <button type='button'>{contentToText(ContentID.buttonShowInfo, config)}</button>
                 </Link>
-            </td>
-        </tr>
+            </div>
+        </div>
     );
 };
 
@@ -121,8 +121,8 @@ const AdminUsers = () => {
         return <div className='semiBold sizeLarge'>{fetched ? 'No users' : 'Loading...'}</div>;
     }
 
-    const columnHeader = (label: ContentID, sortByOption: sortByOption, widthByContent: boolean = false) => (
-        <td className={widthByContent ? 'widthByContent' : ''} onClick={() => setSorting(sortByOption)}>
+    const gridColumnHeader = (label: ContentID, sortByOption: sortByOption) => (
+        <div onClick={() => setSorting(sortByOption)}>
             <span
                 className='clickable'
                 title={contentToText(sortBy === sortByOption ? ContentID.miscClickToChangeSortingOrder : ContentID.miscClickToSortByThis, config)}
@@ -130,7 +130,7 @@ const AdminUsers = () => {
                 {contentToText(label, config)}
             </span>{' '}
             <SortArrow column={sortByOption} sortBy={sortBy} sortDirection={sortDirection} setSortDirection={setSortDirection} config={config} />
-        </td>
+        </div>
     );
 
     return (
@@ -150,20 +150,18 @@ const AdminUsers = () => {
                     </button>
                 </div>
             </div>
-            <table width='100%' className='headerRow striped'>
-                <tbody>
-                    <tr>
-                        {columnHeader(ContentID.miscName, 'name')}
-                        {columnHeader(ContentID.loginUsername, 'username')}
-                        {columnHeader(ContentID.accountUserId, 'id', true)}
-                        {columnHeader(ContentID.userStatusHeader, 'status', true)}
-                        <td></td>
-                    </tr>
-                    {sortedUsers.map((user) => (
-                        <AdminUserRow key={user.id} config={config} user={user} />
-                    ))}
-                </tbody>
-            </table>
+            <div className='grid-container left middle padded1rem stripedBackground' data-cols='users'>
+                <div className='displayContents gridHeaderRowDarkGray'>
+                    {gridColumnHeader(ContentID.miscName, 'name')}
+                    {gridColumnHeader(ContentID.loginUsername, 'username')}
+                    {gridColumnHeader(ContentID.accountUserId, 'id')}
+                    {gridColumnHeader(ContentID.userStatusHeader, 'status')}
+                    <div />
+                </div>
+                {sortedUsers.map((user) => (
+                    <AdminUserGridRow key={user.id} config={config} user={user} />
+                ))}
+            </div>
             <br />
         </div>
     );

@@ -11,10 +11,6 @@
     color: var(--colorGrayLight);
     padding-top: 0;
 }
-.menu td {
-    padding: 0;
-    padding-top: 0;
-}
 
 .menuLink {
     align-items: center;

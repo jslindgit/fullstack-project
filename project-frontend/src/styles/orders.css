@@ -20,10 +20,6 @@
     border-collapse: collapse;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.adminOrders td {
-    padding-bottom: 0.6rem;
-    padding-top: 0.6rem;
-}
 
 .adminOrdersOpened > div {
     background-color: var(--colorYellowVeryLight) !important;
@@ -44,16 +40,11 @@
 .userOrderDetails {
     background-color: white;
     border-radius: 0.5rem;
+    margin-bottom: 2px;
     outline: 2px solid var(--colorGraySemiDark);
     padding: 2rem;
 }
 
-.userOrderHistoryRowOpened {
+.userOrderHistoryRowOpened > div {
     background-color: var(--colorYellowVeryLight) !important;
-}
-.userOrderHistoryRowOpened td:first-child {
-    border-radius: 0;
-}
-.userOrderHistoryRowOpened td:last-child {
-    border-radius: 0;
 }

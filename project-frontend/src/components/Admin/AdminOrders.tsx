@@ -15,7 +15,6 @@ import useField from '../../hooks/useField';
 import { setNotification } from '../../reducers/miscReducer';
 
 import AdminOrderDetails from './AdminOrderDetails';
-import AdminOrderRow from './AdminOrderRow';
 import AdminOrderGridRow from './AdminOrderGridRow';
 import { Link } from '../CustomLink';
 import InputField from '../InputField';
@@ -325,7 +324,7 @@ const AdminOrders = () => {
                 </div>
             </div>
             <br />
-            <div className='grid-container left middle padded0_5rem_1rem stripedBackground' data-cols='6'>
+            <div className='grid-container left middle padded0_5rem_1rem stripedBackground' data-cols='orders'>
                 <div className='displayContents gridHeaderRowDarkGray'>
                     {gridColumnHeader(ContentID.miscDate, 'date')}
                     {gridColumnHeader(ContentID.orderCustomer, 'customer')}

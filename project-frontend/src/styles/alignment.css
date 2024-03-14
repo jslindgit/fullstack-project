@@ -22,15 +22,9 @@
     display: flex;
     vertical-align: middle; /* not needed for <div> */
 }
-.valignMiddle td {
-    vertical-align: middle;
-}
 
 .valignTop {
     align-items: start;
     /*display: flex;*/
-    vertical-align: top;
-}
-.valignTop td {
     vertical-align: top;
 }

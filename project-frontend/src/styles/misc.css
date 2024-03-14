@@ -8,9 +8,10 @@
     transition: all 0.25s;
 }
 .buttonHighlight:has(button:hover) {
-    background-color: var(--colorYellowExtremelyLight) !important;
+    background-color: skyblue !important;
     transition: all 0.25s;
 }
+/* Works for `<div classname='displayContents'><div>asd</div></div>`: */
 .buttonHighlight:has(button:hover) > div {
     background-color: var(--colorYellowExtremelyLight) !important;
     transition: all 0.25s;
@@ -59,9 +60,6 @@
     line-height: 1.25rem;
     outline: solid 2px var(--colorGray);
     padding: 0.9rem;
-}
-.deliveryMethod td {
-    padding: 0 !important;
 }
 .deliveryMethod:hover {
     outline: solid 4px var(--colorGray);
@@ -169,11 +167,6 @@
     color: var(--colorRed);
     font-weight: 600;
     padding: 1em;
-}
-
-.validationErrors td {
-    border: 3px solid var(--colorRed);
-    color: var(--colorRed);
 }
 
 .width5rem {
