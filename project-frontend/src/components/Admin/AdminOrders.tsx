@@ -175,11 +175,11 @@ const AdminOrders = () => {
     };
 
     const handleDelete = async (order: Order) => {
-        if (!usersState.loggedUser?.admin) {
-            window.alert(contentToText(ContentID.errorThisOperationRequiresAdminRights, config));
+        if (!(usersState.loggedUser?.admin || usersState.loggedUser?.operator)) {
+            window.alert(contentToText(ContentID.errorThisOperationRequiresAdminOrOperatorRights, config));
         } else if (confirm(`${contentToText(ContentID.adminOrdersDeleteOrder, config)} ${order.id} (${order.customerFirstName} ${order.customerLastName})?`)) {
             setOpenedOrder(null);
-            const res = await orderService.deleteOrder(order, usersState.loggedUser?.token);
+            const res = await orderService.deleteOrder(order, usersState.loggedUser?.token, config);
 
             if (res.success) {
                 setOrders([...orders].filter((o) => o.id !== order.id));
@@ -336,17 +336,18 @@ const AdminOrders = () => {
                 {orders.length > 0 ? (
                     orders.map((order) => orderGridRow(order))
                 ) : (
-                    <div className='alignCenter centered gridSpan6 padding1 semiBold'>
-                        {contentToText(ContentID.adminOrdersNoOrdersInFolder, config)} <span className='bold'>{folderLabel(currentFolder)}</span>
-                        {search.stringValue().length > 0 && (
-                            <>
-                                {` ${contentToText(ContentID.miscWithSearchWords, config)} `} <span className='italic'>{`'${search.stringValue()}'`}</span>
-                            </>
-                        )}
-                        .
-                        <br />
-                        <br />
-                    </div>
+                    <>
+                        <div className='alignCenter gridSpan6 padding1 semiBold'>
+                            <span>
+                                {contentToText(ContentID.adminOrdersNoOrdersInFolder, config)} <span className='bold'>{folderLabel(currentFolder)}</span>.
+                            </span>
+                            {search.stringValue().length > 0 && (
+                                <span>
+                                    {` ${contentToText(ContentID.miscWithSearchWords, config)} `} <span className='italic'>{`'${search.stringValue()}'`}</span>.
+                                </span>
+                            )}
+                        </div>
+                    </>
                 )}
             </div>
             <br />

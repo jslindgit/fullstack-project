@@ -157,5 +157,6 @@
 |   11.3.   | 1    | Refactorointia                                                                                                       |     |
 |   12.3.   | 2    | Refactorointia                                                                                                       |     |
 |   13.3.   | 2    | Refactorointia                                                                                                       |     |
-|   14.3.   | 1    | Refactorointia                                                                                                       |
-|    yht    | 259  |                                                                                                                      |     |
+|   14.3.   | 1    | Refactorointia                                                                                                       |     |
+|   15.3.   | 1    | Viimeistelyä                                                                                                         | 260 |
+|    yht    | 260  |                                                                                                                      |     |

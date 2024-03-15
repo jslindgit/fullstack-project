@@ -113,9 +113,6 @@ const validateSignatureFromUrl = (url: string) => {
 
     const hmac = calculateHmac(TEST_SECRET, checkoutParams, undefined);
 
-    console.log('hmac:', hmac);
-    console.log('usig:', params.get('signature'));
-
     return hmac === params.get('signature');
 };
 

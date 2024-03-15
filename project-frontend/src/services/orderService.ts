@@ -33,11 +33,17 @@ const addNew = async (newOrder: NewOrder, config: Config, userId: number | null)
     }
 };
 
-const deleteOrder = async (order: Order, token: string): Promise<Response> => {
+const deleteOrder = async (order: Order, token: string, config: Config): Promise<Response> => {
     try {
         const res = await axios.delete<Order>(`${url}/${order.id}`, authConfig(token));
         if (res.status === 204) {
-            return { success: true, message: `Order number ${order.id} (${order.customerFirstName} ${order.customerLastName}) deleted` };
+            return {
+                success: true,
+                message: `${contentToText(ContentID.miscOrder, config)} #${order.id} (${order.customerFirstName} ${order.customerLastName}) ${contentToText(
+                    ContentID.miscDeleted,
+                    config
+                )}.`,
+            };
         } else {
             return { success: false, message: 'Something went wrong, try again later' };
         }

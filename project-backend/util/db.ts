@@ -3,7 +3,6 @@ import { Umzug, SequelizeStorage } from 'umzug';
 
 import { DATABASE_URL } from './config';
 
-//export const sequelize = new Sequelize(DATABASE_URL);
 export const sequelize = new Sequelize(DATABASE_URL, {
     logging: (msg) => {
         if (msg.startsWith('ERROR')) {

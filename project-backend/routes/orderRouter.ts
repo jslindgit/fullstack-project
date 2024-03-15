@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        if (res.locals.admin === true) {
+        if (res.locals.admin === true || res.locals.operator === true) {
             const deletedOrder = await orderService.deleteById(req.params.id);
             if (deletedOrder) {
                 res.status(204).end();

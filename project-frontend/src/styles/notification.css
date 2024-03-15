@@ -15,7 +15,7 @@
 .notificationPositive {
     background-color: var(--colorGreenVeryLight);
     border-color: var(--colorGreen);
-    color: var(--colorGreenDark);
+    color: var(--colorGreenVeryDark);
 }
 .notificationNeutral {
     background-color: var(--colorYellowVeryLight);
