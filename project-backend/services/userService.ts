@@ -59,7 +59,6 @@ const getAll = async (searchQuery: string = ''): Promise<Array<UserAttributes | 
             include: [
                 {
                     model: Order,
-                    //attributes: ['id', 'createdAt', 'items', 'status', 'totalAmount'],
                 },
             ],
             attributes: { exclude: ['passwordHash', 'token'] },
@@ -82,7 +81,6 @@ const getById = async (id: unknown, includeToken: boolean): Promise<UserAttribut
                 include: [
                     {
                         model: Order,
-                        //attributes: ['id', 'createdAt', 'items', 'status', 'totalAmount'],
                     },
                 ],
                 attributes: { exclude: includeToken ? ['passwordHash'] : ['passwordHash', 'token'] }

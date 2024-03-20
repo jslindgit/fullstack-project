@@ -71,7 +71,6 @@ textarea {
     border-radius: 30%;
 }
 .customCheckBox:active {
-    /*border-radius: 35%;*/
     outline: 1rem solid rgba(169, 141, 103, 0.25);
 }
 .customCheckBox.checked {

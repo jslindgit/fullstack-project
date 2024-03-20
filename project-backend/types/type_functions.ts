@@ -10,10 +10,6 @@ export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
 };
 
-export const isBuffer = (data: unknown): data is Buffer => {
-    return Buffer.isBuffer(data);
-};
-
 export const isNumber = (text: unknown): text is number => {
     return typeof text === 'number' || text instanceof Number;
 };

@@ -20,7 +20,6 @@ router.delete('/', tokenExtractor, (async (_req, res, next) => {
             switch (response) {
                 case LogoutResult.InvalidToken:
                     res.status(401).json({ error: 'Invalid token' });
-                    console.log('invalid token');
                     break;
                 case LogoutResult.SomethingWentWrong:
                     res.status(400).json({ error: 'Something went wrong' });
