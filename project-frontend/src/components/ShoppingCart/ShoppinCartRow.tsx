@@ -9,7 +9,6 @@ import { Item } from '../../types/types';
 import format from '../../util/format';
 import itemService from '../../services/itemService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
-import { imageFullPath } from '../../util/misc';
 import useField from '../../hooks/useField';
 
 import { updateShoppingCartItemQuantity } from '../../reducers/orderReducer';
@@ -62,11 +61,11 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
         }
     }, [config.maxItemQuantity, dispatch, indexOf, orderState.items, quantity, shoppingItem]);
 
-    const imagePath = item && item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
+    const imagePath = item && item.images.length > 0 ? item.images[0] : '/no_image.png';
 
     return (
         <React.Fragment>
-            <div>{item ? <Image src={imageFullPath(imagePath)} className='imgShoppingCart' /> : ''}</div>
+            <div>{item ? <Image src={imagePath} className='imgShoppingCart' /> : ''}</div>
             <div className='grid-container' data-cols='1'>
                 <div>{item ? langTextsToText(item.name, config) : shoppingItem.name}</div>
                 {shoppingItem.size && shoppingItem.size.length > 0 && (

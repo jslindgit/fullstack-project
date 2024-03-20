@@ -16,11 +16,12 @@ const Modal = ({ onClose, src }: ModalProps) => {
 };
 
 interface Props {
+    alt?: string | null;
     className: 'imgAdminItems' | 'imgAdminItems new' | 'imgAdminItems toRemove' | 'imgAdminThumb' | 'imgItemDetails' | 'imgShoppingCart';
     src: string;
     title?: string;
 }
-const Image = ({ className, src, title = '' }: Props) => {
+const Image = ({ alt = null, className, src, title = '' }: Props) => {
     const [showModal, setShowModal] = useState<boolean>(false);
 
     const handleThumbnailClick = () => {
@@ -33,7 +34,7 @@ const Image = ({ className, src, title = '' }: Props) => {
 
     return (
         <div>
-            <img src={src} className={className + ' imgThumb'} onClick={handleThumbnailClick} alt={title} title={title} />
+            <img src={src} className={className + ' imgThumb'} onClick={handleThumbnailClick} alt={alt ? alt : title} title={title} />
 
             {showModal && <Modal onClose={closeModal} src={src} />}
         </div>

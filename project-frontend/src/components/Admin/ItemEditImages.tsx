@@ -1,92 +1,84 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
-import { ImageToUpload } from './ItemEditForm';
 import { RootState } from '../../reducers/rootReducer';
 
 import { handleError } from '../../util/handleError';
-import imageService from '../../services/imageService';
 import { contentToText } from '../../types/languageFunctions';
-import { imageFilename, imageFullPath } from '../../util/misc';
+import { imageFilename, isValidUrl } from '../../util/misc';
+import useField from '../../hooks/useField';
 
 import Image from '../Image';
+import InputField from '../InputField';
 
 interface Props {
     config: Config;
     currentImages: string[];
+    imagesToAdd: string[];
     imagesToRemove: string[];
-    imagesToUpload: ImageToUpload[];
+    setImagesToAdd: React.Dispatch<React.SetStateAction<string[]>>;
     setImagesToRemove: React.Dispatch<React.SetStateAction<string[]>>;
-    setImagesToUpload: React.Dispatch<React.SetStateAction<ImageToUpload[]>>;
 }
-const ItemEditImages = ({ config, currentImages, imagesToRemove, imagesToUpload, setImagesToRemove, setImagesToUpload }: Props) => {
+const ItemEditImages = ({ config, currentImages, imagesToAdd, imagesToRemove, setImagesToAdd, setImagesToRemove }: Props) => {
     const userState = useSelector((state: RootState) => state.user);
 
-    const [imageFile, setImageFile] = useState<File | null>(null);
+    const newImageUrl = useField('text', null);
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            setImageFile(e.target.files[0]);
-        }
-    };
-
-    const handleImageUpload = async () => {
-        if (!imageFile) {
+    const handleAddImage = async () => {
+        if (!isValidUrl(newImageUrl.stringValue())) {
             return;
         } else if (!userState.loggedUser) {
             handleError('Log in to upload images');
             return;
         }
 
-        const imageCategory = 'products';
-
-        const dupecheck = await imageService.getBySubdirAndFilename(imageCategory, imageFile.name);
-        const matchFound = dupecheck.success && dupecheck.images.length > 0;
-
-        if (!matchFound || confirm(`Image "${imageFile.name}" already exists - Do you want to overwrite it?`)) {
-            if (!imagesToUpload.find((i) => i.file === imageFile)) {
-                const reader = new FileReader();
-
-                reader.onloadend = () => {
-                    setImagesToUpload([...imagesToUpload, { file: imageFile, dataUrl: reader.result as string }]);
-                };
-
-                reader.readAsDataURL(imageFile);
-            }
-
-            setImageFile(null);
+        if (currentImages.includes(newImageUrl.stringValue()) || imagesToAdd.includes(newImageUrl.stringValue())) {
+            alert(contentToText(ContentID.adminItemImageAlreadyAdded, config));
+            return;
         }
+
+        setImagesToAdd([...imagesToAdd, newImageUrl.stringValue()]);
+
+        newImageUrl.clear();
+    };
+
+    const imageName = (url: string): string => {
+        const filename = imageFilename(url);
+        return filename.length > 30 ? filename.substring(0, 13) + '...' + filename.substring(filename.length - 13) : filename;
     };
 
     return (
         <div className='grid-container' data-gap='2rem'>
-            {currentImages.length + imagesToUpload.length > 0 ? (
+            {currentImages.length + imagesToAdd.length > 0 ? (
                 <div className='grid-container left' data-cols='auto 1fr' data-gap='2rem 1rem'>
-                    {currentImages.map((path) => (
-                        <React.Fragment key={path}>
+                    {currentImages.map((url) => (
+                        <React.Fragment key={url}>
                             <div>
                                 <Image
-                                    src={imageFullPath(path)}
-                                    className={imagesToRemove.includes(path) ? 'imgAdminItems toRemove' : 'imgAdminItems'}
-                                    title={imageFilename(path)}
+                                    src={url}
+                                    className={imagesToRemove.includes(url) ? 'imgAdminItems toRemove' : 'imgAdminItems'}
+                                    title={url}
+                                    alt={url.length > 10 ? url.substring(0, 10) + '...' : imageFilename(url)}
                                 />
                             </div>
                             <div>
-                                {imagesToRemove.includes(path) ? (
+                                {imagesToRemove.includes(url) ? (
                                     <>
-                                        <span className='strikeThrough'>{imageFilename(path)}</span>
+                                        <span className='strikeThrough' title={url}>
+                                            {imageName(url)}
+                                        </span>
                                         <br />
-                                        <button type='button' className='small' onClick={() => setImagesToRemove(imagesToRemove.filter((img) => img !== path))}>
+                                        <button type='button' className='small' onClick={() => setImagesToRemove(imagesToRemove.filter((img) => img !== url))}>
                                             {contentToText(ContentID.buttonRestore, config)}
                                         </button>
                                     </>
                                 ) : (
                                     <>
-                                        {imageFilename(path)}
+                                        <span title={url}>{imageName(url)}</span>
                                         <br />
-                                        <button type='button' className='red small' onClick={() => setImagesToRemove([...imagesToRemove, path])}>
+                                        <button type='button' className='red small' onClick={() => setImagesToRemove([...imagesToRemove, url])}>
                                             {contentToText(ContentID.buttonRemove, config)}
                                         </button>
                                     </>
@@ -94,19 +86,15 @@ const ItemEditImages = ({ config, currentImages, imagesToRemove, imagesToUpload,
                             </div>
                         </React.Fragment>
                     ))}
-                    {imagesToUpload.map((imageToUpload) => (
-                        <React.Fragment key={imageToUpload.file.name}>
+                    {imagesToAdd.map((url) => (
+                        <React.Fragment key={url}>
                             <div>
-                                <Image src={imageToUpload.dataUrl} className='imgAdminItems new' />
+                                <Image src={url} className='imgAdminItems new' />
                             </div>
                             <div className='italic'>
-                                {imageToUpload.file.name.toString()}
+                                {imageFilename(url)}
                                 <br />
-                                <button
-                                    type='button'
-                                    className='red small'
-                                    onClick={() => setImagesToUpload(imagesToUpload.filter((img) => img !== imageToUpload))}
-                                >
+                                <button type='button' className='red small' onClick={() => setImagesToAdd(imagesToAdd.filter((img) => img !== url))}>
                                     {contentToText(ContentID.buttonRemove, config)}
                                 </button>
                             </div>
@@ -117,10 +105,10 @@ const ItemEditImages = ({ config, currentImages, imagesToRemove, imagesToUpload,
                 <div>{contentToText(ContentID.adminItemNoImages, config)}.</div>
             )}
             <div className='grid-container' data-gap='1rem'>
-                <div className='semiBold'>{contentToText(ContentID.adminItemUploadNewImage, config)}:</div>
-                <input type='file' onChange={handleImageChange} className='fileUpload' />
-                <button onClick={handleImageUpload} disabled={!imageFile}>
-                    {contentToText(ContentID.buttonUpload, config)}
+                <div className='semiBold'>{contentToText(ContentID.adminItemAddNewImage, config)}:</div>
+                <InputField useField={newImageUrl} width='100%' placeHolder={contentToText(ContentID.adminItemUrlToImage, config)} />
+                <button onClick={handleAddImage} disabled={!isValidUrl(newImageUrl.stringValue())}>
+                    {contentToText(ContentID.buttonAdd, config)}
                 </button>
             </div>
         </div>

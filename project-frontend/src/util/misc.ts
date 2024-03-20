@@ -1,14 +1,8 @@
 import { Item } from '../types/types';
 
-export const imageFilename = (path: string): string => {
-    const parts = path.split('\\');
+export const imageFilename = (url: string): string => {
+    const parts = url.split('/');
     return parts.length > 0 ? parts[parts.length - 1] : '';
-};
-
-export const imageFullPath = (subdirAndFilename: string) => {
-    const baseUrl = (import.meta.env.VITE_ENV as string) === 'dev' ? 'http://localhost:3001/images/' : '/images/';
-    const fullpath = baseUrl + subdirAndFilename;
-    return fullpath;
 };
 
 export const isValidEmailAddress = (email: string): boolean => {
@@ -16,8 +10,12 @@ export const isValidEmailAddress = (email: string): boolean => {
     return emailRegex.test(email);
 };
 
-export const isValidPassword = (password: string) => {
+export const isValidPassword = (password: string): boolean => {
     return password.length >= 10;
+};
+
+export const isValidUrl = (url: string): boolean => {
+    return url.length > 10 && url.includes('://') && url.includes('.');
 };
 
 export const itemInStockTotal = (item: Item): number => {

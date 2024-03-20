@@ -6,7 +6,7 @@ import { Item } from '../../types/types';
 
 import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
-import { imageFilename, imageFullPath, itemInStockTotal } from '../../util/misc';
+import { imageFilename, itemInStockTotal } from '../../util/misc';
 
 import { Link } from '../CustomLink';
 import Image from '../Image';
@@ -36,7 +36,7 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
             <div className='padding0'>
                 <div className='imgFlex'>
                     {item.images && item.images.length > 0
-                        ? item.images.map((img) => <Image key={img} className='imgAdminItems' src={imageFullPath(img)} title={imageFilename(img)} />)
+                        ? item.images.map((img) => <Image key={img} className='imgAdminItems' src={img} title={imageFilename(img)} />)
                         : '-'}
                 </div>
             </div>

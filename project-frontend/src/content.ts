@@ -17,18 +17,17 @@ export enum ContentID {
     adminDeleteCategory = 'ADMIN: Delete category <category name>? (confirmation)',
     adminEditCategory = 'ADMIN: Edit Category (header)',
     adminEditItem = 'ADMIN: Edit Item (header)',
-    adminImagesAlreadyContainsFile = 'ADMIN - IMAGES: "already contains" ("<category> already contains file <filename>" confirmation)',
-    adminImagesDoYouWantToOverwrite = 'ADMIN - IMAGES: Do you want to over it? (confirmation)',
-    adminImagesUploadNewImageToCategory = 'ADMIN - IMAGES: Upload new image to category',
+    adminItemAddNewImage = 'ADMIN - ITEM EDIT: Add New Image',
     adminItemAddNewSize = 'ADMIN - ITEM EDIT: Add New Size (button)',
     adminItemDescription = 'ADMIN - ITEM EDIT: Item Description',
+    adminItemImageAlreadyAdded = 'ADMIN - ITEM EDIT: Image already added for this item',
     adminItemName = 'ADMIN - ITEM EDIT: Item Name',
     adminItemNewItem = 'ADMIN - ITEM EDIT: (Edited Item:) New Item',
     adminItemNoImages = 'ADMIN - ITEM EDIT: No Images',
     adminItemOneSize = 'ADMIN - ITEM EDIT: One size (no size options)',
     adminItemSizes = 'ADMIN - ITEM EDIT: Sizes',
     adminItemToEdit = 'ADMIN - ITEM EDIT: Edited Item: (<Item name>/New Item)',
-    adminItemUploadNewImage = 'ADMIN - ITEM EDIT: Upload New Image',
+    adminItemUrlToImage = 'ADMIN - ITEM EDIT: URL to new image',
     adminItemsDeleteItemConfirmation = 'ADMIN - ITEMS: Delete item <item name>? (confirmation)',
     adminItemsNewItemAdded = 'ADMIN - ITEMS: New Item Added',
     adminItemsNoProducts = 'ADMIN - ITEMS: No products in this category',
@@ -359,24 +358,10 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.adminImagesAlreadyContainsFile,
+        id: ContentID.adminItemAddNewImage,
         content: [
-            { langCode: LangCode.EN, text: 'already contains file' },
-            { langCode: LangCode.FI, text: 'sisältää jo tiedoston' },
-        ],
-    },
-    {
-        id: ContentID.adminImagesDoYouWantToOverwrite,
-        content: [
-            { langCode: LangCode.EN, text: 'Do you want to overwrite it?' },
-            { langCode: LangCode.FI, text: 'Korvataanko se?' },
-        ],
-    },
-    {
-        id: ContentID.adminImagesUploadNewImageToCategory,
-        content: [
-            { langCode: LangCode.EN, text: 'Upload new image to category' },
-            { langCode: LangCode.FI, text: 'Lataa uusi kuva kategoriaan' },
+            { langCode: LangCode.EN, text: 'Add New Image' },
+            { langCode: LangCode.FI, text: 'Lisää uusi kuva' },
         ],
     },
     {
@@ -391,6 +376,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Item Description' },
             { langCode: LangCode.FI, text: 'Tuotteen kuvaus' },
+        ],
+    },
+    {
+        id: ContentID.adminItemImageAlreadyAdded,
+        content: [
+            { langCode: LangCode.EN, text: 'This image has already been added for this item.' },
+            { langCode: LangCode.FI, text: 'Tämä kuva on jo lisätty tuotteelle.' },
         ],
     },
     {
@@ -436,10 +428,10 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
-        id: ContentID.adminItemUploadNewImage,
+        id: ContentID.adminItemUrlToImage,
         content: [
-            { langCode: LangCode.EN, text: 'Upload New Image' },
-            { langCode: LangCode.FI, text: 'Lataa uusi kuva' },
+            { langCode: LangCode.EN, text: 'URL to image...' },
+            { langCode: LangCode.FI, text: 'Kuvan osoite...' },
         ],
     },
     {

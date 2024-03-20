@@ -9,7 +9,6 @@ import { Item, ItemSizeAndInstock, NewItem, Response } from '../../types/types';
 
 import { handleError } from '../../util/handleError';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
-import imageService from '../../services/imageService';
 import item_categoryService from '../../services/item_categoryService';
 import itemService from '../../services/itemService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
@@ -22,11 +21,6 @@ import InputField from '../InputField';
 import ItemEditCategories from './ItemEditCategories';
 import ItemEditImages from './ItemEditImages';
 import ItemSizes from './ItemSizes';
-
-export interface ImageToUpload {
-    file: File;
-    dataUrl: string;
-}
 
 interface Props {
     config: Config;
@@ -43,7 +37,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
 
     const [fieldsInitialized, setFieldsInitialized] = useState<boolean>(false);
     const [imagesToRemove, setImagesToRemove] = useState<string[]>([]);
-    const [imagesToUpload, setImagesToUpload] = useState<ImageToUpload[]>([]);
+    const [imagesToAdd, setImagesToAdd] = useState<string[]>([]);
     const [oneSizeInstock, setOneSizeInstock] = useState<number>(0);
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
     const [sizes, setSizes] = useState<ItemSizeAndInstock[]>([]);
@@ -105,7 +99,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             ) {
                 return true;
             }
-            if (imagesToRemove.length > 0 || imagesToUpload.length > 0) {
+            if (imagesToRemove.length > 0 || imagesToAdd.length > 0) {
                 return true;
             }
             if (nameFields.find((nf) => nf.field.value !== itemToEdit.name.find((langText) => langText.langCode === nf.langCode)?.text)) {
@@ -144,7 +138,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
 
     const reset = () => {
         setSelectedCategories([]);
-        setImagesToUpload([]);
+        setImagesToAdd([]);
 
         descriptionFields.forEach((df) => {
             df.textArea.reset();
@@ -163,25 +157,13 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             if (changesMade()) {
                 let returnedItem: Item | null = null;
 
-                const imageCategory = 'products';
-
-                // Uploaded new images to server:
-                imagesToUpload.forEach(async (imageToUpload) => {
-                    if (usersState.loggedUser) {
-                        await imageService.add(imageToUpload.file, imageCategory, usersState.loggedUser.token);
-                    }
-                });
-
                 if (itemToEdit) {
                     const finalItem: Item = {
                         ...itemToEdit,
                         description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
                         fitsInLetter: fitsInLetter.numValue(),
                         instock: 0,
-                        images: [
-                            ...itemToEdit.images.filter((img) => !imagesToRemove.includes(img)),
-                            ...imagesToUpload.map((imageToUpload) => imageCategory + '\\' + imageToUpload.file.name),
-                        ],
+                        images: [...itemToEdit.images.filter((img) => !imagesToRemove.includes(img)), ...imagesToAdd],
                         name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                         price: Number(price.value),
                         sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
@@ -196,7 +178,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         description: descriptionFields.map((df) => ({ langCode: df.langCode, text: df.textArea.value.toString() })),
                         fitsInLetter: fitsInLetter.numValue(),
                         instock: 0,
-                        images: [...imagesToUpload.map((imageToUpload) => imageCategory + '\\' + imageToUpload.file.name)],
+                        images: [...imagesToAdd],
                         name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                         price: Number(price.value),
                         sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
@@ -340,10 +322,10 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                     <div className='marginLeft1'>
                         <ItemEditImages
                             currentImages={itemToEdit ? itemToEdit.images : []}
+                            imagesToAdd={imagesToAdd}
                             imagesToRemove={imagesToRemove}
-                            imagesToUpload={imagesToUpload}
+                            setImagesToAdd={setImagesToAdd}
                             setImagesToRemove={setImagesToRemove}
-                            setImagesToUpload={setImagesToUpload}
                             config={config}
                         />
                     </div>

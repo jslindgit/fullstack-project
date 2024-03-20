@@ -9,7 +9,6 @@ import format from '../../util/format';
 import { handleError } from '../../util/handleError';
 import itemService from '../../services/itemService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
-import { imageFullPath } from '../../util/misc';
 
 import AddToCart from '../AddToCart';
 import BackButton from '../BackButton';
@@ -66,15 +65,15 @@ const ItemDetails = () => {
                         <div className='valignTop'>
                             {item.images.length > 0 ? (
                                 <>
-                                    {item.images.map((path) => (
-                                        <div key={path}>
-                                            <Image src={imageFullPath(path)} className='imgItemDetails' />
-                                            {item.images.indexOf(path) < item.images.length - 1 ? <br /> : ''}
+                                    {item.images.map((url) => (
+                                        <div key={url}>
+                                            <Image src={url} className='imgItemDetails' />
+                                            {item.images.indexOf(url) < item.images.length - 1 ? <br /> : ''}
                                         </div>
                                     ))}
                                 </>
                             ) : (
-                                <img src={imageFullPath('misc/_no_image.png')} className='imgItemDetails' />
+                                <img src={'/no_image.png'} className='imgItemDetails' />
                             )}
                         </div>
                     </div>

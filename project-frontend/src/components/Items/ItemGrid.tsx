@@ -4,7 +4,7 @@ import { Item } from '../../types/types';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import format from '../../util/format';
-import { imageFullPath, itemInStockTotal } from '../../util/misc';
+import { itemInStockTotal } from '../../util/misc';
 
 import { Link } from '../CustomLink';
 
@@ -13,7 +13,7 @@ interface ItemColumnProps {
     config: Config;
 }
 const ItemGridColumn = ({ item, config }: ItemColumnProps) => {
-    const imagePath = item.images.length > 0 ? item.images[0] : 'misc/_no_image.png';
+    const imagePath = item.images.length > 0 ? item.images[0] : '/no_image.png';
 
     return (
         <div>
@@ -28,7 +28,7 @@ const ItemGridColumn = ({ item, config }: ItemColumnProps) => {
                             </div>
                         </div>
                         <div className='valignMiddle'>
-                            <img src={imageFullPath(imagePath)} className='imgItemColumn' />
+                            <img src={imagePath} className='imgItemColumn' />
                         </div>
                     </div>
                 </div>

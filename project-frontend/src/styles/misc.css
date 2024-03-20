@@ -78,16 +78,6 @@
     text-align: left;
 }
 
-.hoverableRow {
-    border-radius: 0;
-    transition: all 0.35s;
-}
-.hoverableRow.hover {
-    background-color: var(--colorYellowVeryLight) !important;
-    border-radius: 0.5em;
-    transition: all 0.35s;
-}
-
 .infoBox {
     border: solid 3px var(--colorGrayLight);
     border-radius: 15px;
