@@ -19,11 +19,6 @@ export enum Currency {
     USD = 'USD',
 }
 
-export interface ImageCategory {
-    directory: string;
-    name: LangText[];
-    imagePaths: string[];
-}
 export interface Item {
     id: number;
     addedBy?: number;
