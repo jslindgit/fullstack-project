@@ -6,7 +6,6 @@ import { PORT } from './util/config';
 import { connectToDatabase } from './util/db';
 
 import categoryRouter from './routes/categoryRouter';
-import imageRouter from './routes/imageRouter';
 import item_categoryRouter from './routes/item_categoryRouter';
 import itemRouter from './routes/itemRouter';
 import loginRouter from './routes/loginRouter';
@@ -31,7 +30,6 @@ const corsOptions = {
 app.use(express.static('dist'));
 
 app.use('/api/categories', categoryRouter);
-app.use('/api/images', imageRouter);
 app.use('/api/items', itemRouter);
 app.use('/api/item_categories', item_categoryRouter);
 app.use('/api/login', loginRouter);
@@ -58,6 +56,8 @@ app.get('*', (_req, res) => {
 });
 
 const start = async () => {
+    process.env.TZ = 'UTC';
+
     await connectToDatabase();
 
     app.listen(PORT, () => {

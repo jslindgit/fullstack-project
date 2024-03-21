@@ -3,8 +3,8 @@ import * as cron from 'node-cron';
 import { dateFormat } from './misc';
 import orderService from '../services/orderService';
 
-// Delete expired unpaid orders (13:00 UTC):
-cron.schedule('00 13 * * *', () => {
+// Delete expired unpaid orders (13:30 UTC):
+cron.schedule('30 13 * * *', () => {
     console.log(dateFormat(new Date()));
 
     orderService
