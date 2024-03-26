@@ -89,15 +89,15 @@ const AdminPanel = () => {
         <div>
             <div className='grid-container pageWidth' data-gap='1em'>
                 <AdminMenu config={config} />
-                <div className='pageHeader'>
+                <div className='grid-container pageHeader' data-cols='auto'>
                     {contentToText(ContentID.adminPanelHeader, config)}
                     {page && page.length > 0 ? ' - ' + printHeader(page) : ''}
+                    {back === '1' && (
+                        <div className='alignRight'>
+                            <BackButton type='button' />
+                        </div>
+                    )}
                 </div>
-                {back === '1' && (
-                    <div className='alignRight'>
-                        <BackButton type='button' />
-                    </div>
-                )}
                 <div>{showPage()}</div>
             </div>
         </div>

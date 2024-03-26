@@ -21,12 +21,6 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 app.use(cors());
 
-const corsOptions = {
-    origin: 'http://localhost:3000',
-    credentials: true,
-    optionsSuccessStatus: 200,
-};
-
 app.use(express.static('dist'));
 
 app.use('/api/categories', categoryRouter);
@@ -37,11 +31,6 @@ app.use('/api/orders', orderRouter);
 app.use('/api/paytrail', paytrailRouter);
 app.use('/api/settings', settingsRouter);
 app.use('/api/users', userRouter);
-
-app.use('/api/images', cors(corsOptions));
-
-const imagesPath = process.env.NODE_ENV === 'dev' ? path.join(__dirname, 'images') : path.join(__dirname, '..', 'images');
-app.use('/images', express.static(imagesPath));
 
 app.get('/health', (_req, res) => {
     res.status(200).send('ok');
