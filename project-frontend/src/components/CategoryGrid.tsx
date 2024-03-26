@@ -1,12 +1,15 @@
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Config } from '../types/configTypes';
 import { RootState } from '../reducers/rootReducer';
 import { Category } from '../types/types';
 
+import categoryService from '../services/categoryService';
 import { langTextsToText } from '../types/languageFunctions';
 
 import { Link } from './CustomLink';
+import Loading from './Loading';
 
 interface ColumnProps {
     category: Category;
@@ -27,15 +30,34 @@ interface Props {
     colsPerRow: 2 | 3;
 }
 const CategoryGrid = ({ colsPerRow }: Props) => {
-    const categoryState = useSelector((state: RootState) => state.categories);
     const config = useSelector((state: RootState) => state.config);
 
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loaded, setLoaded] = useState<boolean>(false);
+
+    // Fetch the categories from server:
+    useEffect(() => {
+        const fetch = async () => {
+            const fetchedCategories = await categoryService.getAll();
+            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
+            setLoaded(true);
+        };
+
+        fetch();
+    }, [config]);
+
     return (
-        <div className='grid-container' data-gap='2rem' data-cols={colsPerRow.toString()}>
-            {categoryState.categories.map((category) => (
-                <CategoryGridColumn key={category.id} category={category} config={config} />
-            ))}
-        </div>
+        <>
+            {loaded ? (
+                <div className='grid-container' data-gap='2rem' data-cols={colsPerRow.toString()}>
+                    {categories.map((category) => (
+                        <CategoryGridColumn key={category.id} category={category} config={config} />
+                    ))}
+                </div>
+            ) : (
+                <Loading config={config} />
+            )}
+        </>
     );
 };
 

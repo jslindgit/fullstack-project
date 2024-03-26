@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
-import { Item, ItemSizeAndInstock, NewItem, Response } from '../../types/types';
+import { Category, Item, ItemSizeAndInstock, NewItem, Response } from '../../types/types';
 
+import categoryService from '../../services/categoryService';
 import { handleError } from '../../util/handleError';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
 import item_categoryService from '../../services/item_categoryService';
@@ -32,9 +33,9 @@ interface Props {
 }
 const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefined, onSubmit = undefined, setItemAdded }: Props) => {
     const dispatch = useDispatch();
-    const categoriesState = useSelector((state: RootState) => state.categories);
     const usersState = useSelector((state: RootState) => state.user);
 
+    const [categories, setCategories] = useState<Category[]>([]);
     const [fieldsInitialized, setFieldsInitialized] = useState<boolean>(false);
     const [imagesToRemove, setImagesToRemove] = useState<string[]>([]);
     const [imagesToAdd, setImagesToAdd] = useState<string[]>([]);
@@ -48,6 +49,16 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     const nameFields = useLangFields('text');
     const price = useField('decimal', ContentID.itemsPrice);
     const fitsInLetter = useField('integer', null, '0');
+
+    // Fetch the categories from server:
+    useEffect(() => {
+        const fetch = async () => {
+            const fetchedCategories = await categoryService.getAll();
+            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
+        };
+
+        fetch();
+    }, [config]);
 
     // Set initial values for Name/Description/Instock/Price/Images (if editing an existing Item):
     useEffect(() => {
@@ -169,7 +180,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
                     };
 
-                    const res = await itemService.update(finalItem, token, config, dispatch);
+                    const res = await itemService.update(finalItem, token, config);
                     returnedItem = res.item;
 
                     dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
@@ -184,7 +195,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
                     };
 
-                    const res = await itemService.add(finalItem, null, usersState.loggedUser.token, config, dispatch);
+                    const res = await itemService.add(finalItem, null, usersState.loggedUser.token, config);
                     returnedItem = res.item;
 
                     dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
@@ -195,7 +206,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
 
                     // Add connections between the updated/added Item and the selected Categories that are not yet connected to the Item:
                     selectedCategories.forEach(async (selected) => {
-                        const category = categoriesState.categories.find((c) => {
+                        const category = categories.find((c) => {
                             return c.id === selected;
                         });
                         if (category && returnedItem && !(returnedItem.categories && returnedItem.categories.includes(category))) {

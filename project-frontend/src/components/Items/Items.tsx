@@ -6,6 +6,7 @@ import { ContentID } from '../../content';
 import { Category } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
+import categoryService from '../../services/categoryService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { isNumber } from '../../types/typeFunctions';
 
@@ -13,29 +14,40 @@ import ItemGrid from './ItemGrid';
 import ItemsMenu from './ItemsMenu';
 
 const Items = () => {
-    const categoryState = useSelector((state: RootState) => state.categories);
     const config = useSelector((state: RootState) => state.config);
-    const miscState = useSelector((state: RootState) => state.misc);
 
+    const [categories, setCategories] = useState<Category[]>([]);
     const [category, setCategory] = useState<Category | undefined>(undefined);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
     const idParam = useParams().id;
 
+    // Fetch the categories from server:
+    useEffect(() => {
+        const fetch = async () => {
+            const fetchedCategories = await categoryService.getAll();
+            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
+            setLoaded(true);
+        };
+
+        fetch();
+    }, [config]);
+
     // Get Category from URL:
     useEffect(() => {
         if (idParam) {
             const id = Number(idParam);
-            const cat = isNumber(id) && !isNaN(id) ? categoryState.categories.find((c) => c.id === id) : undefined;
+            const cat = isNumber(id) && !isNaN(id) ? categories.find((c) => c.id === id) : undefined;
 
-            if (!cat && miscState.loaded) {
+            if (!cat && loaded) {
                 navigate('/shop');
             } else {
                 setCategory(cat);
             }
         }
-    }, [categoryState, idParam, miscState.loaded, navigate]);
+    }, [categories, idParam, loaded, navigate]);
 
     if (!category) {
         return <></>;
@@ -43,7 +55,7 @@ const Items = () => {
 
     return (
         <>
-            <ItemsMenu config={config} currentId={category.id} />
+            <ItemsMenu categories={categories} config={config} currentId={category.id} />
             <div className='pageWidth'>
                 <div className='pageHeader'>{langTextsToText(category.name, config)}</div>
                 {category.items.length < 1 ? (

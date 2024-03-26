@@ -10,7 +10,6 @@ import { RootState } from './reducers/rootReducer';
 import settingsService from './services/settingsService';
 
 // Reducers:
-import { initializeCategories } from './reducers/categoryReducer';
 import { initializeConfig } from './reducers/configReducer';
 import { setLoaded } from './reducers/miscReducer';
 import { initializeOrder } from './reducers/orderReducer';
@@ -43,7 +42,6 @@ import UserPanel from './components/User/UserPanel';
 
 const App = () => {
     const dispatch = useDispatch();
-    const categoryState = useSelector((state: RootState) => state.categories);
     const config = useSelector((state: RootState) => state.config);
     const miscState = useSelector((state: RootState) => state.misc);
     const userState = useSelector((state: RootState) => state.user);
@@ -55,7 +53,7 @@ const App = () => {
             const settings = await settingsService.get();
             initializeConfig(dispatch, settings);
             initializeOrder(dispatch);
-            Promise.all([initializeLoggedUser(dispatch), initializeCategories(dispatch)]);
+            Promise.all([initializeLoggedUser(dispatch)]);
         };
 
         fetchData();
@@ -68,10 +66,10 @@ const App = () => {
 
     // Set miscState.loaded to true:
     useEffect(() => {
-        if (categoryState.initialized && userState.initialized) {
+        if (userState.initialized) {
             dispatch(setLoaded(true));
         }
-    }, [categoryState.initialized, dispatch, userState.initialized]);
+    }, [dispatch, userState.initialized]);
 
     const adminPage = (page: JSX.Element): JSX.Element => {
         return userState.loggedUser?.admin || userState.loggedUser?.operator ? page : <Error404 />;

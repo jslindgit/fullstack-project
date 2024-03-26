@@ -2,21 +2,23 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
-import { NewCategory, User } from '../../types/types';
+import { Category, NewCategory, User } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
 import categoryService from '../../services/categoryService';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
-import { contentToText } from '../../types/languageFunctions';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
 import { setNotification } from '../../reducers/miscReducer';
 
 import InputField from '../InputField';
 
 interface Props {
+    categories: Category[];
+    setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
     user: User | null;
 }
-const AddCategoryForm = ({ user }: Props) => {
+const AddCategoryForm = ({ categories, setCategories, user }: Props) => {
     const config = useSelector((state: RootState) => state.config);
 
     const nameFields = useLangFields('text');
@@ -34,7 +36,11 @@ const AddCategoryForm = ({ user }: Props) => {
             name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
         };
 
-        const res = await categoryService.add(newCategory, user.token, dispatch);
+        const res = await categoryService.add(newCategory, user.token);
+
+        if (res.addedCategory) {
+            setCategories([...categories, res.addedCategory].sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
+        }
 
         dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 

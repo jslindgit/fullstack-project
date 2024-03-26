@@ -1,13 +1,9 @@
 import axios from 'axios';
-import { Dispatch } from 'react';
-import { AnyAction } from 'redux';
 
 import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
 import { Order } from '../types/orderTypes';
 import { NewItem, Item, ItemSizeAndInstock, Response } from '../types/types';
-
-import { initializeCategories } from '../reducers/categoryReducer';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
@@ -20,7 +16,7 @@ interface ItemResponse extends Response {
 
 const url = apiBaseUrl + '/items';
 
-const add = async (toAdd: NewItem, category_id: number | null, token: string, config: Config, dispatch: Dispatch<AnyAction>): Promise<ItemResponse> => {
+const add = async (toAdd: NewItem, category_id: number | null, token: string, config: Config): Promise<ItemResponse> => {
     try {
         const itemData = itemToReqBody(toAdd);
         const body = category_id ? { ...itemData, category_id: category_id } : itemData;
@@ -29,7 +25,6 @@ const add = async (toAdd: NewItem, category_id: number | null, token: string, co
         const item = itemFromResBody(data);
 
         if (item) {
-            await initializeCategories(dispatch);
             return { success: true, message: `${contentToText(ContentID.adminItemsNewItemAdded, config)}: ${langTextsToText(item.name, config)}`, item: item };
         } else {
             handleError('Server did not return an Item object');
@@ -41,11 +36,10 @@ const add = async (toAdd: NewItem, category_id: number | null, token: string, co
     }
 };
 
-const deleteItem = async (item: Item, token: string, config: Config, dispatch: Dispatch<AnyAction>): Promise<Response> => {
+const deleteItem = async (item: Item, token: string, config: Config): Promise<Response> => {
     try {
         const res = await axios.delete<Item>(`${url}/${item.id}`, authConfig(token));
         if (res.status === 204) {
-            await initializeCategories(dispatch);
             return {
                 success: true,
                 message: `${contentToText(ContentID.itemsItem, config)} "${langTextsToText(item.name, config)}" ${contentToText(
@@ -106,7 +100,7 @@ const getBySearchQuery = async (searchQuery: string, config: Config): Promise<It
     }
 };
 
-const update = async (item: Item, token: string, config: Config, dispatch: Dispatch<AnyAction> | null): Promise<ItemResponse> => {
+const update = async (item: Item, token: string, config: Config): Promise<ItemResponse> => {
     try {
         const toUpdate = {
             addedBy: item.addedBy,
@@ -124,9 +118,6 @@ const update = async (item: Item, token: string, config: Config, dispatch: Dispa
         const updatedItem = itemFromResBody(res.data);
 
         if (updatedItem) {
-            if (dispatch) {
-                await initializeCategories(dispatch);
-            }
             return {
                 success: true,
                 message: `${contentToText(ContentID.itemsItem, config)} "${langTextsToText(updatedItem.name, config)}" ${contentToText(

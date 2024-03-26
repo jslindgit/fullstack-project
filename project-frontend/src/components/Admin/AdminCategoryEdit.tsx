@@ -90,7 +90,7 @@ const AdminCategoryEdit = () => {
                     name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                 };
 
-                const res = await categoryService.update(updatedCategory, usersState.loggedUser.token, dispatch);
+                const res = await categoryService.update(updatedCategory, usersState.loggedUser.token);
 
                 dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 

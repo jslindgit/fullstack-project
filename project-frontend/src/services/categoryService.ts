@@ -1,11 +1,7 @@
 import axios from 'axios';
-import { Dispatch } from 'react';
-import { AnyAction } from 'redux';
 
 import { Config } from '../types/configTypes';
 import { Category, NewCategory, Response } from '../types/types';
-
-import { addCategory, initializeCategories } from '../reducers/categoryReducer';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
@@ -19,14 +15,13 @@ interface CategoryResponse extends Response {
 
 const url = apiBaseUrl + '/categories';
 
-const add = async (toAdd: NewCategory, token: string, dispatch: Dispatch<AnyAction>): Promise<CategoryResponse> => {
+const add = async (toAdd: NewCategory, token: string): Promise<CategoryResponse> => {
     try {
         const { data } = await axios.post(url, categoryToReqBody(toAdd), authConfig(token));
 
         const addedCategory = categoryFromResBody(data);
 
         if (addedCategory) {
-            dispatch(addCategory(addedCategory));
             return { success: true, message: 'New category added.', addedCategory: addedCategory };
         } else {
             handleError('Server did not return a Category object');
@@ -80,7 +75,7 @@ const getById = async (id: number) => {
     }
 };
 
-const update = async (category: Category, token: string, dispatch: Dispatch<AnyAction>): Promise<CategoryResponse> => {
+const update = async (category: Category, token: string): Promise<CategoryResponse> => {
     try {
         const toUpdate = { name: category.name, description: category.description };
 
@@ -89,7 +84,6 @@ const update = async (category: Category, token: string, dispatch: Dispatch<AnyA
         const updatedCategory = categoryFromResBody(res.data);
 
         if (updatedCategory) {
-            await initializeCategories(dispatch);
             return { success: true, message: 'Category updated.', addedCategory: updatedCategory };
         } else {
             handleError(new Error('Server did not return a Category object.'));

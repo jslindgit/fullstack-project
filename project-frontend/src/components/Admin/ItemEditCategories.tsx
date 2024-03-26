@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 import { Config } from '../../types/configTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { Category } from '../../types/types';
 
+import categoryService from '../../services/categoryService';
 import { langTextsToText } from '../../types/languageFunctions';
 
 interface Props {
@@ -13,7 +13,17 @@ interface Props {
     setSelectedCategories: React.Dispatch<React.SetStateAction<number[]>>;
 }
 const ItemEditCategories = ({ config, initialCategories, selectedCategories, setSelectedCategories }: Props) => {
-    const categoriesState = useSelector((state: RootState) => state.categories);
+    const [categories, setCategories] = useState<Category[]>([]);
+
+    // Fetch the categories from server:
+    useEffect(() => {
+        const fetch = async () => {
+            const fetchedCategories = await categoryService.getAll();
+            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
+        };
+
+        fetch();
+    }, [config]);
 
     useEffect(() => {
         if (initialCategories) {
@@ -35,7 +45,7 @@ const ItemEditCategories = ({ config, initialCategories, selectedCategories, set
 
     return (
         <>
-            {categoriesState.categories.map((c) => (
+            {categories.map((c) => (
                 <button
                     key={c.id}
                     type='button'
