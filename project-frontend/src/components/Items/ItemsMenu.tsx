@@ -22,8 +22,7 @@ const ItemsMenu = ({ config, currentId }: Props) => {
     // Fetch the categories from server:
     useEffect(() => {
         const fetch = async () => {
-            const fetchedCategories = await categoryService.getAll();
-            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
+            setCategories(await categoryService.getAll());
         };
 
         fetch();

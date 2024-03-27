@@ -162,4 +162,5 @@
 |   20.3.   | 1    | Tuotekuvat ulkoiselle palvelimelle                                                                                   |     |
 |   21.3.   | 1    | Tuotekuvat ulkoiselle palvelimelle                                                                                   |     |
 |   26.3.   | 2    | Refactorointia                                                                                                       |     |
-|    yht    | 264  |                                                                                                                      |     |
+|   27.3.   | 2    | Viimeistelyä                                                                                                         |     |
+|    yht    | 266  |                                                                                                                      |     |

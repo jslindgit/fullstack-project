@@ -12,45 +12,42 @@ import { isNumber } from '../../types/typeFunctions';
 
 import ItemGrid from './ItemGrid';
 import ItemsMenu from './ItemsMenu';
+import Loading from '../Loading';
 
 const Items = () => {
     const config = useSelector((state: RootState) => state.config);
 
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [category, setCategory] = useState<Category | undefined>(undefined);
+    const [category, setCategory] = useState<Category | null>(null);
     const [loaded, setLoaded] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
     const idParam = useParams().id;
 
-    // Fetch the categories from server:
+    // Get Category from URL:
     useEffect(() => {
         const fetch = async () => {
-            const fetchedCategories = await categoryService.getAll();
-            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
+            const id = idParam ? Number(idParam) : undefined;
+
+            if (id && isNumber(id) && !isNaN(id)) {
+                setCategory(await categoryService.getById(id));
+            }
+
             setLoaded(true);
         };
 
         fetch();
-    }, [config]);
+    }, [idParam]);
 
-    // Get Category from URL:
+    // If there's an invalid Category id in the url, navigate back to /shop:
     useEffect(() => {
-        if (idParam) {
-            const id = Number(idParam);
-            const cat = isNumber(id) && !isNaN(id) ? categories.find((c) => c.id === id) : undefined;
-
-            if (!cat && loaded) {
-                navigate('/shop');
-            } else {
-                setCategory(cat);
-            }
+        if (loaded && !category) {
+            navigate('/shop');
         }
-    }, [categories, idParam, loaded, navigate]);
+    }, [category, loaded, navigate]);
 
     if (!category) {
-        return <></>;
+        return <Loading config={config} text={loaded ? contentToText(ContentID.errorSomethingWentWrong, config) : null} />;
     }
 
     return (

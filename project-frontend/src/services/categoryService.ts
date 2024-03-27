@@ -66,12 +66,12 @@ const getAll = async (): Promise<Category[]> => {
     }
 };
 
-const getById = async (id: number) => {
+const getById = async (id: number): Promise<Category | null> => {
     try {
         const { data } = await axios.get<Category>(`${url}/${id}`);
         return categoryFromResBody(data);
     } catch (err: unknown) {
-        handleError(err);
+        return null;
     }
 };
 

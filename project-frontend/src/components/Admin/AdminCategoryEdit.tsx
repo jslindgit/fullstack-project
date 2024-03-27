@@ -22,27 +22,27 @@ const AdminCategoryEdit = () => {
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.user);
 
-    const [category, setCategory] = useState<Category | undefined>();
+    const [attemptedToFetchCategory, setAttemptedToFetchCategory] = useState<boolean>(false);
+    const [category, setCategory] = useState<Category | null>();
     const [fieldsInitialized, setFieldsInitialized] = useState<boolean>(false);
-    const [loading, setLoading] = useState<string>(contentToText(ContentID.miscLoading, config));
 
     const nameFields = useLangFields('text');
     const descriptionFields = useLangTextAreas();
 
     const id = Number(useParams().id);
 
+    // Fetch the Category from server:
     useEffect(() => {
-        try {
-            categoryService.getById(id).then((res) => {
-                setCategory(res as Category);
-                setFieldsInitialized(false);
-            });
-        } catch (err: unknown) {
-            setLoading(contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config));
-            handleError(err);
-        }
+        const fetch = async () => {
+            setCategory(await categoryService.getById(id));
+            setFieldsInitialized(false);
+            setAttemptedToFetchCategory(true);
+        };
+
+        fetch();
     }, [config, id]);
 
+    // Set initial values for name and description fields:
     useEffect(() => {
         if (category) {
             if (!fieldsInitialized) {
@@ -104,7 +104,7 @@ const AdminCategoryEdit = () => {
     };
 
     if (!category) {
-        return <Loading config={config} text={loading} />;
+        return <Loading config={config} text={attemptedToFetchCategory ? contentToText(ContentID.errorSomethingWentWrong, config) : null} />;
     }
 
     return (
