@@ -55,7 +55,7 @@ const Items = () => {
 
     return (
         <>
-            <ItemsMenu categories={categories} config={config} currentId={category.id} />
+            <ItemsMenu config={config} currentId={category.id} />
             <div className='pageWidth'>
                 <div className='pageHeader'>{langTextsToText(category.name, config)}</div>
                 {category.items.length < 1 ? (

@@ -1,26 +1,47 @@
+import { useEffect, useState } from 'react';
+
+import { ContentID } from '../../content';
 import { Config } from '../../types/configTypes';
 import { Category } from '../../types/types';
 
-import { langTextsToText } from '../../types/languageFunctions';
+import categoryService from '../../services/categoryService';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
 import { Link } from '../CustomLink';
 
 interface Props {
-    categories: Category[];
     config: Config;
     currentId?: number;
 }
 
-const ItemsMenu = ({ categories, config, currentId }: Props) => {
+const ItemsMenu = ({ config, currentId }: Props) => {
+    const [categories, setCategories] = useState<Category[]>([]);
+
     const baseUrl = '/shop/';
+
+    // Fetch the categories from server:
+    useEffect(() => {
+        const fetch = async () => {
+            const fetchedCategories = await categoryService.getAll();
+            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
+        };
+
+        fetch();
+    }, [config]);
 
     return (
         <div className='divCenter flex-container marginBottom1_25 marginTop1 noWrap sizeLarge' data-gap='2rem' data-justify='center'>
-            {categories.map((c) => (
-                <div key={c.id} className={currentId === c.id ? ' currentPage semiBold' : ''}>
-                    {currentId === c.id ? langTextsToText(c.name, config) : <Link to={baseUrl + c.id}>{langTextsToText(c.name, config)}</Link>}
-                </div>
-            ))}
+            {categories.length > 0 ? (
+                <>
+                    {categories.map((c) => (
+                        <div key={c.id} className={currentId === c.id ? ' currentPage semiBold' : ''}>
+                            {currentId === c.id ? langTextsToText(c.name, config) : <Link to={baseUrl + c.id}>{langTextsToText(c.name, config)}</Link>}
+                        </div>
+                    ))}
+                </>
+            ) : (
+                <div>{contentToText(ContentID.miscLoading, config)}</div>
+            )}
         </div>
     );
 };

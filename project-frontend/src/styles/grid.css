@@ -150,9 +150,6 @@
 .grid-container.padded1rem > div {
     padding: 1rem;
 }
-.grid-container.padded1rem > div > div {
-    padding: 1rem;
-}
 
 .grid-container.striped > div {
     border-bottom: 3px solid var(--colorGrayLight);
