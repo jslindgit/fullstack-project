@@ -59,16 +59,10 @@ router.get('/me', tokenExtractor, (async (req, res, next) => {
 }) as RequestHandler);
 
 router.get('/username/:username', apiKeyExtractor, (async (req, res, next) => {
-    if (res.locals.correct_api_key) {
+    if (res.locals.correct_api_key || res.locals.correct_api_key === false) {
         try {
-            const user = await service.getByUsername(req.params.username);
-            if (user) {
-                res.status(200).json(user);
-            } else {
-                res.status(404).json({
-                    error: `User with username ${req.params.username} not found`,
-                });
-            }
+            const isAvailable = await service.getUsernameIsAvailable(req.params.username);
+            res.status(200).json({ isAvailable: isAvailable });
         } catch (err) {
             next(err);
         }

@@ -94,18 +94,18 @@ const getById = async (id: unknown, includeToken: boolean): Promise<UserAttribut
 };
 
 // prettier-ignore
-const getByUsername = async (username: unknown): Promise<UserAttributes | null> => {
+const getUsernameIsAvailable = async (username: unknown): Promise<boolean> => {
     try {
         const user = isString(username)
             ? await User.findOne({
                 where: { username: username },
-                attributes: { exclude: ['passwordHash', 'token'] }
             })
             : null;
-        return user;
+
+        return user === null;
     } catch (err: unknown) {
         handleError(err);
-        return null;
+        return false;
     }
 };
 
@@ -143,6 +143,6 @@ export default {
     deleteById,
     getAll,
     getById,
-    getByUsername,
+    getUsernameIsAvailable,
     update,
 };

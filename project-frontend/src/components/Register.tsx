@@ -22,6 +22,7 @@ const Register = () => {
 
     const [availableCountries, setAvailableCountries] = useState<string[]>([]);
     const [country, setCountry] = useState<string | null>(null);
+    const [usernameAvailableError, setUsernameAvailableError] = useState<string | null>(null);
     const [validate, setValidate] = useState<boolean>(false);
 
     const navigate = useNavigate();
@@ -76,24 +77,33 @@ const Register = () => {
         });
 
         if (errors.length <= 0) {
-            const newUser: NewUser = {
-                admin: false,
-                contactAddress: address.stringValue(),
-                contactCity: city.stringValue(),
-                contactCountry: country ? country : '-',
-                contactFirstName: firstName.stringValue(),
-                contactLastName: lastName.stringValue(),
-                contactPhone: phone.stringValue(),
-                contactZipcode: zipCode.stringValue(),
-                contactOrganization: organization.stringValue(),
-                disabled: false,
-                username: email.stringValue(),
-                operator: false,
-                orders: [],
-                password: password.stringValue(),
-            };
+            // Check if the email (username) is available:
+            const usernameIsAvailable = await userService.usernameIsAvailable(email.stringValue());
 
-            await registerAndLogin(newUser, password.stringValue(), config, dispatch);
+            if (usernameIsAvailable === false) {
+                setUsernameAvailableError(
+                    `${contentToText(ContentID.loginUsername, config)} ${email.stringValue()} ${contentToText(ContentID.errorUsernameInUse, config)}`
+                );
+            } else {
+                const newUser: NewUser = {
+                    admin: false,
+                    contactAddress: address.stringValue(),
+                    contactCity: city.stringValue(),
+                    contactCountry: country ? country : '-',
+                    contactFirstName: firstName.stringValue(),
+                    contactLastName: lastName.stringValue(),
+                    contactPhone: phone.stringValue(),
+                    contactZipcode: zipCode.stringValue(),
+                    contactOrganization: organization.stringValue(),
+                    disabled: false,
+                    username: email.stringValue(),
+                    operator: false,
+                    orders: [],
+                    password: password.stringValue(),
+                };
+
+                await registerAndLogin(newUser, password.stringValue(), config, dispatch);
+            }
         }
     };
 
@@ -108,14 +118,6 @@ const Register = () => {
             return contentToText(ContentID.loginNewPasswordMisMatch, config);
         }
 
-        // Check if the email (username) is available:
-        if (field === email) {
-            userService.usernameIsAvailable(email.stringValue(), config).then((res) => {
-                if (!res.success) {
-                    return res.message;
-                }
-            });
-        }
         return null;
     };
 
@@ -125,7 +127,11 @@ const Register = () => {
         if (field === email) {
             labelParts.push(`\r\n(${contentToText(ContentID.loginUsername, config)})`);
         }
-        const error = validateField(field);
+        let error = validateField(field);
+
+        if (!error && field === email && usernameAvailableError) {
+            error = usernameAvailableError;
+        }
 
         return (
             <React.Fragment>

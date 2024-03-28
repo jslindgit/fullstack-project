@@ -1191,8 +1191,8 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.errorUsernameInUse,
         content: [
-            { langCode: LangCode.EN, text: 'Username is already taken.' },
-            { langCode: LangCode.FI, text: 'Käyttäjätunnus on jo käytössä.' },
+            { langCode: LangCode.EN, text: 'is already taken.' },
+            { langCode: LangCode.FI, text: 'on jo käytössä.' },
         ],
     },
     {

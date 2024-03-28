@@ -8,7 +8,7 @@ import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
 import { contentToText } from '../types/languageFunctions';
 import { apiKeyConfig, authConfig } from '../util/serviceProvider';
-import { isUser } from '../types/typeFunctions';
+import { isBoolean, isObject, isUser } from '../types/typeFunctions';
 
 type UserResponse = Response & { user: User | null };
 
@@ -93,18 +93,14 @@ const update = async (userId: number, toUpdate: object, token: string, config: C
     }
 };
 
-const usernameIsAvailable = async (username: string, config: Config): Promise<Response> => {
+const usernameIsAvailable = async (username: string): Promise<boolean> => {
     try {
         const { data } = await axios.get(`${url}/username/${username}`, apiKeyConfig());
 
-        if (isUser(data)) {
-            return { success: false, message: contentToText(ContentID.errorUsernameInUse, config) };
-        } else {
-            return { success: true, message: 'Ok' };
-        }
+        return isObject(data) && 'isAvailable' in data && isBoolean(data.isAvailable) && data.isAvailable === true;
     } catch (err: unknown) {
         handleError(err);
-        return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config) };
+        return false;
     }
 };
 

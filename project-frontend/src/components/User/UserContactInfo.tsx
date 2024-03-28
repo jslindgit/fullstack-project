@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
@@ -6,6 +7,9 @@ import { User } from '../../types/types';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import useField, { UseField } from '../../hooks/useField';
+import userService from '../../services/userService';
+
+import { setNotification } from '../../reducers/miscReducer';
 
 import InputField from '../InputField';
 
@@ -16,7 +20,9 @@ interface Props {
     user: User;
 }
 const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user }: Props) => {
-    type infoType = '' | 'address' | 'city' | 'country' | 'phone' | 'zipcode';
+    type infoType = '' | 'address' | 'city' | 'country' | 'email' | 'phone' | 'zipcode';
+
+    const dispatch = useDispatch();
 
     const [availableCountries, setAvailableCountries] = useState<string[]>([]);
     const [country, setCountry] = useState<string | null>(null);
@@ -24,6 +30,7 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
 
     const address = useField('text', null, user.contactAddress);
     const city = useField('text', null, user.contactCity);
+    const email = useField('text', null, user.username);
     const phone = useField('text', null, user.contactPhone);
     const zipcode = useField('text', null, user.contactZipcode);
 
@@ -51,6 +58,7 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
 
         address.reset();
         city.reset();
+        email.reset();
         phone.reset();
         zipcode.reset();
     };
@@ -61,7 +69,20 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
 
     const submitChanges = async (toUpdate: object) => {
         if (updateUserInfo) {
-            await updateUserInfo(toUpdate);
+            const usernameIsAvailable = await userService.usernameIsAvailable(email.stringValue());
+            if (usernameIsAvailable) {
+                await updateUserInfo(toUpdate);
+            } else {
+                dispatch(
+                    setNotification({
+                        tone: 'Negative',
+                        message: `${contentToText(ContentID.loginUsername, config)} ${email.stringValue()} ${contentToText(
+                            ContentID.errorUsernameInUse,
+                            config
+                        )}`,
+                    })
+                );
+            }
         }
 
         setEditedInfo('');
@@ -87,7 +108,7 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
                 </>
             ) : (
                 <>
-                    <div>{currentValue}</div>
+                    <div>{useField === email && addLinkToEmail ? <a href={'mailto:' + currentValue}>{currentValue}</a> : <>{currentValue}</>}</div>
                     {updateUserInfo ? (
                         <div className='alignRight'>
                             <button type='button' onClick={() => setEditedInfo(info)}>
@@ -107,8 +128,9 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
             <div className='infoHeader'>{contentToText(ContentID.accountContactInfo, config)}</div>
             <div className='grid-container left' data-cols='auto 1fr auto' data-gap='1rem 2rem'>
                 <div className='semiBold'>{contentToText(ContentID.contactEmail, config)}:</div>
-                <div>{addLinkToEmail ? <a href={'mailto:' + user.username}>{user.username}</a> : <>{user.username}</>}</div>
-                <div />
+                {/*<div>{addLinkToEmail ? <a href={'mailto:' + user.username}>{user.username}</a> : <>{user.username}</>}</div>
+                <div />*/}
+                {info('email', email, { username: email.stringValue() }, user.username, ContentID.contactEmail)}
 
                 <div className='semiBold'>{contentToText(ContentID.contactPhone, config)}:</div>
                 {info('phone', phone, { contactPhone: phone.stringValue() }, user.contactPhone, ContentID.contactPhone)}
