@@ -23,7 +23,6 @@ const addNew = async (newUser: NewUser, config: Config): Promise<UserResponse> =
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), user: null };
         }
     } catch (err: unknown) {
-        handleError(err);
         return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config), user: null };
     }
 };
@@ -61,7 +60,7 @@ const getAll = async (): Promise<User[]> => {
 
 const getById = async (id: number) => {
     try {
-        const { data } = await axios.get<User>(`${url}/${id}`);
+        const { data } = await axios.get<User>(`${url}/${id}`, apiKeyConfig());
         return data;
     } catch (err: unknown) {
         handleError(err);
@@ -94,6 +93,21 @@ const update = async (userId: number, toUpdate: object, token: string, config: C
     }
 };
 
+const usernameIsAvailable = async (username: string, config: Config): Promise<Response> => {
+    try {
+        const { data } = await axios.get(`${url}/username/${username}`, apiKeyConfig());
+
+        if (isUser(data)) {
+            return { success: false, message: contentToText(ContentID.errorUsernameInUse, config) };
+        } else {
+            return { success: true, message: 'Ok' };
+        }
+    } catch (err: unknown) {
+        handleError(err);
+        return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config) };
+    }
+};
+
 export default {
     addNew,
     deleteUser,
@@ -101,4 +115,5 @@ export default {
     getById,
     getByToken,
     update,
+    usernameIsAvailable,
 };

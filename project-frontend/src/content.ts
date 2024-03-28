@@ -135,6 +135,7 @@ export enum ContentID {
     errorSomethingWentWrongTryAgainlater = 'ERROR: Something went wrong, please try again later',
     errorThisOperationRequiresAdminRights = 'This operation requires Admin rights.',
     errorThisOperationRequiresAdminOrOperatorRights = 'This operation requires Admin or Operator rights.',
+    errorUsernameInUse = 'Username is already in use',
     itemsAddedToShoppingCart1 = 'ITEMS: "<item(s)> added to (shopping cart)" (notification)',
     itemsAddedToShoppingCart2 = 'ITEMS: "<item(s)> (added to) shopping cart" (notification)',
     itemsAddToShoppingCart = 'ITEMS: "Add to shopping cart" button',
@@ -1185,6 +1186,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'This operation requires Admin or Operator rights.' },
             { langCode: LangCode.FI, text: 'Tämä toiminto vaatii pääkäyttäjän tai ylläpitäjän käyttöoikeudet.' },
+        ],
+    },
+    {
+        id: ContentID.errorUsernameInUse,
+        content: [
+            { langCode: LangCode.EN, text: 'Username is already taken.' },
+            { langCode: LangCode.FI, text: 'Käyttäjätunnus on jo käytössä.' },
         ],
     },
     {

@@ -5,7 +5,7 @@ import { Order } from '../models';
 import User, { NewUser, removePasswordHash, removePasswordHashAndToken, UserAttributes } from '../models/user';
 
 import { handleError } from '../util/error_handler';
-import { isNumber, isObject } from '../types/type_functions';
+import { isNumber, isObject, isString } from '../types/type_functions';
 
 const addNew = async (newUser: NewUser): Promise<UserAttributes | null> => {
     try {
@@ -93,6 +93,22 @@ const getById = async (id: unknown, includeToken: boolean): Promise<UserAttribut
     }
 };
 
+// prettier-ignore
+const getByUsername = async (username: unknown): Promise<UserAttributes | null> => {
+    try {
+        const user = isString(username)
+            ? await User.findOne({
+                where: { username: username },
+                attributes: { exclude: ['passwordHash', 'token'] }
+            })
+            : null;
+        return user;
+    } catch (err: unknown) {
+        handleError(err);
+        return null;
+    }
+};
+
 const update = async (id: unknown, props: unknown): Promise<UserAttributes | null> => {
     try {
         const user = isNumber(Number(id)) ? await User.findByPk(Number(id)) : null;
@@ -127,5 +143,6 @@ export default {
     deleteById,
     getAll,
     getById,
+    getByUsername,
     update,
 };

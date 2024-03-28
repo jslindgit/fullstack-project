@@ -58,18 +58,41 @@ router.get('/me', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.get('/:id', tokenExtractor, (async (req, res, next) => {
-    try {
-        const user = await service.getById(req.params.id, false);
-        if (user) {
-            res.status(200).json(user);
-        } else {
-            res.status(404).json({
-                error: `User with id ${req.params.id} not found`,
-            });
+router.get('/username/:username', apiKeyExtractor, (async (req, res, next) => {
+    if (res.locals.correct_api_key) {
+        try {
+            const user = await service.getByUsername(req.params.username);
+            if (user) {
+                res.status(200).json(user);
+            } else {
+                res.status(404).json({
+                    error: `User with username ${req.params.username} not found`,
+                });
+            }
+        } catch (err) {
+            next(err);
         }
-    } catch (err) {
-        next(err);
+    } else {
+        res.status(401).end();
+    }
+}) as RequestHandler);
+
+router.get('/:id', apiKeyExtractor, (async (req, res, next) => {
+    if (res.locals.correct_api_key) {
+        try {
+            const user = await service.getById(req.params.id, false);
+            if (user) {
+                res.status(200).json(user);
+            } else {
+                res.status(404).json({
+                    error: `User with id ${req.params.id} not found`,
+                });
+            }
+        } catch (err) {
+            next(err);
+        }
+    } else {
+        res.status(401).end();
     }
 }) as RequestHandler);
 

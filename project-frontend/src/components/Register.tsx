@@ -10,6 +10,7 @@ import { NewUser } from '../types/types';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { isValidEmailAddress, isValidPassword } from '../util/misc';
 import { registerAndLogin } from '../util/userProvider';
+import userService from '../services/userService';
 
 import BackButton from './BackButton';
 import InputField from './InputField';
@@ -38,9 +39,25 @@ const Register = () => {
 
     const required: UseField[] = [address, city, email, firstName, lastName, password, passwordConfirm, phone, zipCode];
 
-    // Title:
+    // Page title:
     useEffect(() => {
         document.title = contentToText(ContentID.registerHeader, config) + ' | ' + config.store.contactName;
+    }, [config]);
+
+    // If already logged in, go to account page:
+    useEffect(() => {
+        if (usersState.loggedUser) {
+            navigate('/you');
+        }
+    }, [navigate, usersState.loggedUser]);
+
+    // Set available countries:
+    useEffect(() => {
+        setAvailableCountries(
+            [...config.store.deliveryCountries]
+                .sort((a, b) => langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config)))
+                .map((c) => langTextsToText(c.names, config))
+        );
     }, [config]);
 
     const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -90,27 +107,24 @@ const Register = () => {
         } else if (field === passwordConfirm && field.value !== password.value) {
             return contentToText(ContentID.loginNewPasswordMisMatch, config);
         }
+
+        // Check if the email (username) is available:
+        if (field === email) {
+            userService.usernameIsAvailable(email.stringValue(), config).then((res) => {
+                if (!res.success) {
+                    return res.message;
+                }
+            });
+        }
         return null;
     };
-
-    useEffect(() => {
-        if (usersState.loggedUser) {
-            navigate('/you');
-        }
-    }, [navigate, usersState.loggedUser]);
-
-    // Set available countries:
-    useEffect(() => {
-        setAvailableCountries(
-            [...config.store.deliveryCountries]
-                .sort((a, b) => langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config)))
-                .map((c) => langTextsToText(c.names, config))
-        );
-    }, [config]);
 
     const inputField = (field: UseField, optional: boolean = false) => {
         const label = contentToText(field.label, config);
         const labelParts: string[] = optional ? [label, '(' + contentToText(ContentID.checkOutOptional, config) + ')'] : [label];
+        if (field === email) {
+            labelParts.push(`\r\n(${contentToText(ContentID.loginUsername, config)})`);
+        }
         const error = validateField(field);
 
         return (
