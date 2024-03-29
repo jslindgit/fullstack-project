@@ -33,11 +33,15 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
 }) as RequestHandler);
 
 router.get('/', apiKeyExtractor, (async (req, res, next) => {
-    try {
-        const users = await service.getAll(isString(req.query.search) ? req.query.search : '');
-        res.json(users);
-    } catch (err) {
-        next(err);
+    if (res.locals.correct_api_key) {
+        try {
+            const users = await service.getAll(isString(req.query.search) ? req.query.search : '');
+            res.json(users);
+        } catch (err) {
+            next(err);
+        }
+    } else {
+        res.status(401).end();
     }
 }) as RequestHandler);
 
@@ -59,7 +63,7 @@ router.get('/me', tokenExtractor, (async (req, res, next) => {
 }) as RequestHandler);
 
 router.get('/username/:username', apiKeyExtractor, (async (req, res, next) => {
-    if (res.locals.correct_api_key || res.locals.correct_api_key === false) {
+    if (res.locals.correct_api_key) {
         try {
             const isAvailable = await service.getUsernameIsAvailable(req.params.username);
             res.status(200).json({ isAvailable: isAvailable });

@@ -58,7 +58,7 @@ const deleteItem = async (item: Item, token: string, config: Config): Promise<Re
 
 const getAll = async (): Promise<Item[]> => {
     try {
-        const { data } = await axios.get<Item[]>(url);
+        const { data } = await axios.get<Item[]>(url, apiKeyConfig());
         const items: Item[] = [];
         data.forEach((itemData) => {
             const item = itemFromResBody(itemData);
@@ -75,7 +75,7 @@ const getAll = async (): Promise<Item[]> => {
 
 const getById = async (id: number): Promise<Item | null> => {
     try {
-        const { data } = await axios.get<Item>(`${url}/${id}`);
+        const { data } = await axios.get<Item>(`${url}/${id}`, apiKeyConfig());
         return itemFromResBody(data);
     } catch (err: unknown) {
         handleError(err);
@@ -85,7 +85,7 @@ const getById = async (id: number): Promise<Item | null> => {
 
 const getBySearchQuery = async (searchQuery: string, config: Config): Promise<Item[]> => {
     try {
-        const { data } = await axios.get<Item[]>(url);
+        const { data } = await axios.get<Item[]>(url, apiKeyConfig());
         const items: Item[] = [];
         data.forEach((itemData) => {
             const item = itemFromResBody(itemData);

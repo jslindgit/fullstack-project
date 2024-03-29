@@ -1,6 +1,7 @@
 import express from 'express';
 import { RequestHandler } from 'express';
 
+import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
 import { errorHandler } from '../middlewares/errors';
 import service from '../services/settingsService';
 import { tokenExtractor } from '../middlewares/tokenExtractor';
@@ -30,25 +31,33 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.get('/', (async (_req, res, next) => {
-    try {
-        const settings = await service.getAll();
-        res.json(settings);
-    } catch (err) {
-        next(err);
+router.get('/', apiKeyExtractor, (async (_req, res, next) => {
+    if (res.locals.correct_api_key) {
+        try {
+            const settings = await service.getAll();
+            res.json(settings);
+        } catch (err) {
+            next(err);
+        }
+    } else {
+        res.status(401).end();
     }
 }) as RequestHandler);
 
-router.get('/:id', (async (req, res, next) => {
-    try {
-        const settings = await service.getById(req.params.id);
-        if (settings) {
-            res.json(settings);
-        } else {
-            res.status(404).end();
+router.get('/:id', apiKeyExtractor, (async (req, res, next) => {
+    if (res.locals.correct_api_key) {
+        try {
+            const settings = await service.getById(req.params.id);
+            if (settings) {
+                res.json(settings);
+            } else {
+                res.status(404).end();
+            }
+        } catch (err) {
+            next(err);
         }
-    } catch (err) {
-        next(err);
+    } else {
+        res.status(401).end();
     }
 }) as RequestHandler);
 

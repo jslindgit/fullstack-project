@@ -6,7 +6,7 @@ import { Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
-import { authConfig, settingsFromResBody, settingsToReqBody } from '../util/serviceProvider';
+import { apiKeyConfig, authConfig, settingsFromResBody, settingsToReqBody } from '../util/serviceProvider';
 
 import { initializeConfig } from '../reducers/configReducer';
 
@@ -23,7 +23,7 @@ const get = async (): Promise<Settings | null> => {
 
 const getAll = async (): Promise<Settings[]> => {
     try {
-        const { data } = await axios.get<Settings[]>(url);
+        const { data } = await axios.get<Settings[]>(url, apiKeyConfig());
         const result: Settings[] = [];
         data.forEach((s) => {
             if (s) {

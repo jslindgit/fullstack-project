@@ -55,7 +55,7 @@ const deleteOrder = async (order: Order, token: string, config: Config): Promise
 
 const getAll = async (): Promise<Order[]> => {
     try {
-        const { data } = await axios.get<Order[]>(url);
+        const { data } = await axios.get<Order[]>(url, apiKeyConfig());
         return data.map((order) => orderFromResponseBody(order));
     } catch (err: unknown) {
         handleError(err);
@@ -65,7 +65,7 @@ const getAll = async (): Promise<Order[]> => {
 
 const getById = async (id: number): Promise<OrderResponse> => {
     try {
-        const res = await axios.get(`${url}/${id}`);
+        const res = await axios.get(`${url}/${id}`, apiKeyConfig());
         if (res.status >= 200 && res.status <= 299) {
             return { success: true, message: 'Ok', order: orderFromResponseBody(res.data) };
         } else {

@@ -1,6 +1,7 @@
 import express from 'express';
 import { RequestHandler } from 'express';
 
+import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
 import { errorHandler } from '../middlewares/errors';
 import service from '../services/categoryService';
 import { isNumber, isString, toNewCategory } from '../types/type_functions';
@@ -30,25 +31,33 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.get('/', (async (req, res, next) => {
-    try {
-        const categories = await service.getAll(isString(req.query.search) ? req.query.search : '');
-        res.json(categories);
-    } catch (err) {
-        next(err);
+router.get('/', apiKeyExtractor, (async (req, res, next) => {
+    if (res.locals.correct_api_key) {
+        try {
+            const categories = await service.getAll(isString(req.query.search) ? req.query.search : '');
+            res.json(categories);
+        } catch (err) {
+            next(err);
+        }
+    } else {
+        res.status(401).end();
     }
 }) as RequestHandler);
 
-router.get('/:id', (async (req, res, next) => {
-    try {
-        const category = await service.getById(req.params.id);
-        if (category) {
-            res.json(category);
-        } else {
-            res.status(404).end();
+router.get('/:id', apiKeyExtractor, (async (req, res, next) => {
+    if (res.locals.correct_api_key) {
+        try {
+            const category = await service.getById(req.params.id);
+            if (category) {
+                res.json(category);
+            } else {
+                res.status(404).end();
+            }
+        } catch (err) {
+            next(err);
         }
-    } catch (err) {
-        next(err);
+    } else {
+        res.status(401).end();
     }
 }) as RequestHandler);
 

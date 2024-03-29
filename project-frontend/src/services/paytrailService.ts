@@ -17,7 +17,7 @@ const url = apiBaseUrl + '/paytrail';
 
 const createPayment = async (order: Order, config: Config, userId: number | null): Promise<PaytrailResponse> => {
     try {
-        const res = await axios.post<PaytrailData>(url + '/payment', orderToRequestBody(order, config, true, userId));
+        const res = await axios.post<PaytrailData>(url + '/payment', orderToRequestBody(order, config, true, userId), apiKeyConfig());
 
         if (res.status === 200) {
             return { success: true, message: 'Ok', data: res.data };
@@ -32,7 +32,7 @@ const createPayment = async (order: Order, config: Config, userId: number | null
 
 const createTestPayment = async (): Promise<PaytrailResponse> => {
     try {
-        const res = await axios.get<PaytrailData>(url + '/test_payment');
+        const res = await axios.get<PaytrailData>(url + '/test_payment', apiKeyConfig());
 
         if (res.status === 200) {
             return { success: true, message: 'Ok', data: res.data };

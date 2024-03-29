@@ -1,6 +1,7 @@
 import express from 'express';
 import { RequestHandler } from 'express';
 
+import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
 import { errorHandler } from '../middlewares/errors';
 import service from '../services/item_categoryService';
 import { isObject, toNewItem_Category } from '../types/type_functions';
@@ -29,12 +30,16 @@ router.delete('/item_and_category_id', tokenExtractor, (async (req, res, next) =
     }
 }) as RequestHandler);
 
-router.get('/', (async (_req, res, next) => {
-    try {
-        const item_categories = await service.getAll();
-        res.json(item_categories);
-    } catch (err) {
-        next(err);
+router.get('/', apiKeyExtractor, (async (_req, res, next) => {
+    if (res.locals.correct_api_key) {
+        try {
+            const item_categories = await service.getAll();
+            res.json(item_categories);
+        } catch (err) {
+            next(err);
+        }
+    } else {
+        res.status(401).end();
     }
 }) as RequestHandler);
 

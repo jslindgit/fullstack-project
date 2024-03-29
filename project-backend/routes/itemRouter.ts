@@ -33,27 +33,35 @@ router.delete('/:id', tokenExtractor, (async (req, res, next) => {
     }
 }) as RequestHandler);
 
-router.get('/', (async (_req, res, next) => {
-    try {
-        const items = await service.getAll();
-        res.json(items);
-    } catch (err) {
-        next(err);
+router.get('/', apiKeyExtractor, (async (_req, res, next) => {
+    if (res.locals.correct_api_key) {
+        try {
+            const items = await service.getAll();
+            res.json(items);
+        } catch (err) {
+            next(err);
+        }
+    } else {
+        res.status(401).end();
     }
 }) as RequestHandler);
 
-router.get('/:id', (async (req, res, next) => {
-    try {
-        const item = await service.getById(req.params.id);
-        if (item) {
-            res.json(item);
-        } else {
-            res.status(404).json({
-                error: `Item with id ${req.params.id} not found`,
-            });
+router.get('/:id', apiKeyExtractor, (async (req, res, next) => {
+    if (res.locals.correct_api_key) {
+        try {
+            const item = await service.getById(req.params.id);
+            if (item) {
+                res.json(item);
+            } else {
+                res.status(404).json({
+                    error: `Item with id ${req.params.id} not found`,
+                });
+            }
+        } catch (err) {
+            next(err);
         }
-    } catch (err) {
-        next(err);
+    } else {
+        res.status(401).end();
     }
 }) as RequestHandler);
 

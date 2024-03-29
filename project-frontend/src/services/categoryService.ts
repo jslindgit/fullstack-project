@@ -7,7 +7,7 @@ import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
 import { langTextsToText } from '../types/languageFunctions';
 import { authConfig } from '../util/serviceProvider';
-import { categoryFromResBody, categoryToReqBody } from '../util/serviceProvider';
+import { apiKeyConfig, categoryFromResBody, categoryToReqBody } from '../util/serviceProvider';
 
 interface CategoryResponse extends Response {
     addedCategory: Category | null;
@@ -49,7 +49,7 @@ const deleteCategory = async (category: Category, token: string, config: Config)
 
 const getAll = async (): Promise<Category[]> => {
     try {
-        const { data } = await axios.get<Category[]>(url);
+        const { data } = await axios.get<Category[]>(url, apiKeyConfig());
         const result: Category[] = [];
         data.forEach((c) => {
             if (c) {
@@ -68,7 +68,7 @@ const getAll = async (): Promise<Category[]> => {
 
 const getById = async (id: number): Promise<Category | null> => {
     try {
-        const { data } = await axios.get<Category>(`${url}/${id}`);
+        const { data } = await axios.get<Category>(`${url}/${id}`, apiKeyConfig());
         return categoryFromResBody(data);
     } catch (err: unknown) {
         return null;
