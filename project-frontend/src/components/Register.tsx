@@ -110,7 +110,7 @@ const Register = () => {
     const validateField = (field: UseField): string | null => {
         if (required.includes(field) && field.stringValue().length < 1) {
             return `${contentToText(field.label, config)} ${contentToText(ContentID.checkOutIsRequired, config)}.`;
-        } else if (field === email && !isValidEmailAddress(email.value.toString())) {
+        } else if (field === email && !isValidEmailAddress(email.stringValue())) {
             return contentToText(ContentID.errorInvalidEmailAddress, config);
         } else if (field === password && !isValidPassword(password.stringValue())) {
             return contentToText(ContentID.loginNewPasswordTooShort, config);

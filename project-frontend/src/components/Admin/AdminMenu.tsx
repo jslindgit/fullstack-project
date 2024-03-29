@@ -17,7 +17,7 @@ const AdminMenu = ({ config }: Props) => {
     const currentPath = useLocation().pathname;
 
     const link = (page: string, contentId: ContentID) => (
-        <div className={(page !== '' && currentPath.includes(page)) || (page === '' && currentPath === baseUrl) ? 'currentPage' : ''}>
+        <div className={'semiBold' + ((page !== '' && currentPath.includes(page)) || (page === '' && currentPath === baseUrl) ? ' currentPage' : '')}>
             <Link to={baseUrl + page}>{contentToText(contentId, config)}</Link>
         </div>
     );
