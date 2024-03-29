@@ -63,7 +63,7 @@ const Login = () => {
                             </button>
                         </div>
                         <div />
-                        <div className='alignLeft bold'>
+                        <div className='alignLeft semiBold'>
                             {contentToText(ContentID.loginNoAccount, config)}{' '}
                             <Link data-testid='register-link' to='/register'>
                                 {contentToText(ContentID.loginRegisterHere, config)}
