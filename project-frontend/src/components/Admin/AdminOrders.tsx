@@ -271,7 +271,7 @@ const AdminOrders = () => {
                 {folderLabel(folderName)} ({orderCount})
             </div>
         ) : (
-            <div>
+            <div className='semiBold'>
                 <Link to={`${window.location.pathname}?folder=${folderName}`}>
                     {folderLabel(folderName)} ({orderCount})
                 </Link>
