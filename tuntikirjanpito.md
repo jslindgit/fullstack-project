@@ -164,4 +164,5 @@
 |   26.3.   | 2    | Refactorointia                                                                                                       |     |
 |   27.3.   | 2    | Viimeistelyä                                                                                                         |     |
 |   28.3.   | 2    | Viimeistelyä                                                                                                         |     |
-|    yht    | 268  |                                                                                                                      |     |
+|   29.3.   | 2    | Viimeistelyä                                                                                                         | 270 |
+|    yht    | 270  |                                                                                                                      |     |

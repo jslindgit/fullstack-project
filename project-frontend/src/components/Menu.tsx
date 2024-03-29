@@ -5,6 +5,7 @@ import { User } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
 import { contentToText } from '../types/languageFunctions';
+import localstorageHandler from '../util/localstorageHandler';
 import loginService from '../services/loginService';
 import useField from '../hooks/useField';
 
@@ -32,6 +33,7 @@ const Menu = () => {
         event.preventDefault();
 
         if (searchField.stringValue().length > 0) {
+            localstorageHandler.setPreviousLocation(currentPath);
             navigate('/shop/search?q=' + searchField.stringValue());
             searchField.setNewValue('');
         }

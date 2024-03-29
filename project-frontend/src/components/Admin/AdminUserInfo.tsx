@@ -68,7 +68,7 @@ const AdminUserInfo = () => {
     const handleDisableOrEnableAccount = async () => {
         if (user && usersState.loggedUser) {
             if (window.confirm(contentToText(user.disabled ? ContentID.adminUserInfoEnableAccount : ContentID.adminUserInfoDisableAccount, config))) {
-                const response = await userService.update(user.id, { disabled: !user.disabled }, usersState.loggedUser.token, config);
+                const response = await userService.update(user.id, { disabled: !user.disabled }, ContentID.menuAccount, usersState.loggedUser.token, config);
                 dispatch(setNotification({ message: response.message, tone: response.success ? 'Positive' : 'Negative' }));
                 setUser(response.user);
             }
@@ -78,7 +78,13 @@ const AdminUserInfo = () => {
     const handleSaveStatus = async () => {
         if (user && usersState.loggedUser?.admin) {
             if ((newStatus === 'customer' && user.operator) || (newStatus === 'operator' && !user.operator)) {
-                const res = await userService.update(user.id, { operator: newStatus === 'operator' }, usersState.loggedUser.token, config);
+                const res = await userService.update(
+                    user.id,
+                    { operator: newStatus === 'operator' },
+                    ContentID.menuAccount,
+                    usersState.loggedUser.token,
+                    config
+                );
 
                 if (res.user) {
                     setUser(res.user);
@@ -129,7 +135,7 @@ const AdminUserInfo = () => {
                                 type='button'
                                 className='red'
                                 onClick={handleDisableOrEnableAccount}
-                                disabled={user.admin || (user.operator && !usersState.loggedUser?.admin)}
+                                disabled={user.admin || (user.operator && !usersState.loggedUser?.admin) || user.id === 17}
                                 title={
                                     user.operator && !usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''
                                 }
@@ -144,7 +150,7 @@ const AdminUserInfo = () => {
                             <button
                                 type='button'
                                 className='red'
-                                disabled={user.admin || !usersState.loggedUser?.admin}
+                                disabled={user.admin || !usersState.loggedUser?.admin || user.id === 17}
                                 onClick={handleDeleteAccount}
                                 title={!usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
                             >
@@ -176,7 +182,7 @@ const AdminUserInfo = () => {
                                     <button
                                         type='button'
                                         onClick={handleSaveStatus}
-                                        disabled={!((newStatus === 'customer' && user.operator) || (newStatus === 'operator' && !user.operator))}
+                                        disabled={!((newStatus === 'customer' && user.operator) || (newStatus === 'operator' && !user.operator && !user.admin))}
                                     >
                                         {contentToText(ContentID.buttonSave, config)}
                                     </button>

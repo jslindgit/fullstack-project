@@ -32,7 +32,7 @@ describe('Login', function () {
         // Log in with test credentials:
         cy.get('[data-testid="menu-login"]').click();
         cy.get('[data-testid="input-username"]').type('cypress@testingcypress123.com');
-        cy.get('[data-testid="input-password"]').type('cypress123');
+        cy.get('[data-testid="input-password"]').type('6L*Nyqgb&dRNbjTMN$4E!vt%');
         cy.get('[data-testid="button-submit"]').click();
         cy.get('[data-testid="logged-username"]').should('exist');
 

@@ -21,7 +21,7 @@ interface Props {
 }
 const AdminUserGridRow = ({ config, user }: Props) => {
     return (
-        <div className='buttonHighlight displayContents'>
+        <div className={'buttonHighlight displayContents' + (user.admin ? ' bold' : user.operator ? ' semiBold' : '')}>
             <div>{user.contactFirstName + ' ' + user.contactLastName}</div>
             <div>{user.username}</div>
             <div>{user.id}</div>

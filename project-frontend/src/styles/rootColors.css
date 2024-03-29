@@ -2,10 +2,11 @@
     --colorGold: rgb(134, 110, 80);
     --colorGoldLight: rgb(169, 141, 103);
     --colorGoldVeryLight: rgb(201, 175, 132);
+    --colorGoldExtremelyLight: rgb(223, 200, 154);
 
     --colorGrayDarkest: rgb(50, 51, 52);
     --colorGrayDark: rgb(60, 61, 62);
-    --colorGraySemiDark: rgb(75, 76, 77);
+    --colorGraySemiDark: rgb(70, 71, 72);
     --colorGray: rgb(140, 141, 142);
     --colorGrayLight: rgb(210, 211, 212);
     --colorGrayVeryLight: rgb(240, 240, 240);

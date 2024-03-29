@@ -55,9 +55,9 @@ const UserPanel = () => {
         return <>{contentToText(ContentID.menuLogin, config)}</>;
     }
 
-    const updateUserInfo = async (toUpdate: object) => {
+    const updateUserInfo = async (toUpdate: object, propertyName: ContentID) => {
         if (usersState.loggedUser) {
-            const res = await userService.update(user.id, toUpdate, usersState.loggedUser.token, config);
+            const res = await userService.update(user.id, toUpdate, propertyName, usersState.loggedUser.token, config);
 
             dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 

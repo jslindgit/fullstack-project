@@ -25,10 +25,14 @@ const addNew = async (newUser: NewUser): Promise<UserAttributes | null> => {
 const deleteById = async (id: unknown): Promise<UserAttributes | null> => {
     try {
         const user = isNumber(Number(id)) ? await User.findByPk(Number(id)) : null;
-        if (user) {
+
+        // User 'cypress@testingcypress123.com' (id = 17) is required for E2E tests, so can't be deleted:
+        if (user && user.id !== 17) {
             await user.destroy();
+            return removePasswordHash(user);
+        } else {
+            return null;
         }
-        return removePasswordHash(user);
     } catch (err: unknown) {
         handleError(err);
         return null;

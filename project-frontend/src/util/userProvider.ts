@@ -24,8 +24,6 @@ export const getUserStatus = (user: User, config: Config): string => {
 export const registerAndLogin = async (newUser: NewUser, password: string, config: Config, dispatch: Dispatch<AnyAction>) => {
     const response = await userService.addNew(newUser, config);
 
-    console.log('response:', response);
-
     // If the registration was successful, login with the registered user:
     if (response.success && response.user) {
         const setLogged = (loggedUser: User) => {

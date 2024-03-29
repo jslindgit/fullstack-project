@@ -58,7 +58,11 @@ const Items = () => {
                 {category.items.length < 1 ? (
                     <div>{contentToText(ContentID.itemsNoItemsInCategory, config)}</div>
                 ) : (
-                    <ItemGrid items={category.items} colsPerRow={3} config={config} />
+                    <ItemGrid
+                        items={[...category.items].sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config)))}
+                        colsPerRow={3}
+                        config={config}
+                    />
                 )}
             </div>
         </>

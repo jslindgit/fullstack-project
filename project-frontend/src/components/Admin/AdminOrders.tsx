@@ -338,7 +338,7 @@ const AdminOrders = () => {
                 ) : (
                     <>
                         <div className='alignCenter gridSpan6 padding1 semiBold'>
-                            <span>
+                            <span className='sizeLarge'>
                                 {contentToText(ContentID.adminOrdersNoOrdersInFolder, config)} <span className='bold'>{folderLabel(currentFolder)}</span>.
                             </span>
                             {search.stringValue().length > 0 && (

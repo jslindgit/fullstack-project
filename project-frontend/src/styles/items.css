@@ -33,7 +33,9 @@
 }
 
 .itemDetailsPrice {
-    font-size: 1.5rem;
+    border-radius: 20px;
+    color: var(--colorGoldLight);
+    font-size: 2rem;
     font-weight: bold;
 }
 

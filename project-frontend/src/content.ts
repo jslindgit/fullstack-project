@@ -1380,8 +1380,8 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.loginPasswordChangedSuccessfully,
         content: [
-            { langCode: LangCode.EN, text: 'Password changed successfully' },
-            { langCode: LangCode.FI, text: 'Salasanan vaihto onnistui' },
+            { langCode: LangCode.EN, text: 'Password changed successfully.' },
+            { langCode: LangCode.FI, text: 'Salasanan vaihto onnistui.' },
         ],
     },
     {
@@ -1907,8 +1907,8 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.userUpdated,
         content: [
-            { langCode: LangCode.EN, text: 'Account Updated.' },
-            { langCode: LangCode.FI, text: 'Käyttäjätili päivitettiin.' },
+            { langCode: LangCode.EN, text: 'updated.' },
+            { langCode: LangCode.FI, text: 'päivitettiin.' },
         ],
     },
 ];

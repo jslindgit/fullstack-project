@@ -21,7 +21,7 @@ const LanguageSelection = () => {
 
     return (
         <>
-            <div className='grid-container' data-cols='auto' data-gap='0.75rem'>
+            <div className='grid-container' data-cols='auto'>
                 {availableLanguages.map((lang) => (
                     <div key={lang.code} className={'languageSelection' + (isSelected(lang) ? ' languageSelected' : '')} onClick={() => setLang(lang)}>
                         {lang.code}

@@ -16,7 +16,7 @@ import InputField from '../InputField';
 interface Props {
     addLinkToEmail?: boolean;
     config: Config;
-    updateUserInfo: ((toUpdate: object) => Promise<void>) | null;
+    updateUserInfo: ((toUpdate: object, propertyName: ContentID) => Promise<void>) | null;
     user: User;
 }
 const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user }: Props) => {
@@ -67,11 +67,13 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
         setCountry(event.target.value);
     };
 
-    const submitChanges = async (toUpdate: object) => {
+    const submitChanges = async (toUpdate: object, propertyName: ContentID) => {
         if (updateUserInfo) {
-            const usernameIsAvailable = await userService.usernameIsAvailable(email.stringValue());
+            // If username (e-mail address) is being updates, check that the new one isn't already taken:
+            const usernameIsAvailable = email.stringValue() === user.username || (await userService.usernameIsAvailable(email.stringValue()));
+
             if (usernameIsAvailable) {
-                await updateUserInfo(toUpdate);
+                await updateUserInfo(toUpdate, propertyName);
             } else {
                 dispatch(
                     setNotification({
@@ -97,7 +99,7 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
                     </div>
                     <div>
                         <div className='grid-container' data-cols='2' data-gap='1rem'>
-                            <button type='button' onClick={() => submitChanges(toUpdate)} disabled={useField.stringValue() === currentValue}>
+                            <button type='button' onClick={() => submitChanges(toUpdate, buttonLabel)} disabled={useField.stringValue() === currentValue}>
                                 {contentToText(ContentID.buttonSave, config)}
                             </button>
                             <button type='button' onClick={cancelChanges}>
@@ -161,7 +163,11 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
                         </div>
                         <div>
                             <div className='grid-container' data-cols='2' data-gap='1rem'>
-                                <button type='button' onClick={() => submitChanges({ contactCountry: country })} disabled={country === user.contactCountry}>
+                                <button
+                                    type='button'
+                                    onClick={() => submitChanges({ contactCountry: country }, ContentID.checkOutCountry)}
+                                    disabled={country === user.contactCountry}
+                                >
                                     {contentToText(ContentID.buttonSave, config)}
                                 </button>
                                 <button type='button' onClick={cancelChanges}>

@@ -15,7 +15,7 @@ interface Props {
     addLinkToEmail?: boolean;
     config: Config;
     showUserStatus?: boolean;
-    updateUserInfo: ((toUpdate: object) => Promise<void>) | null;
+    updateUserInfo: ((toUpdate: object, propertyName: ContentID) => Promise<void>) | null;
     user: User;
 }
 const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }: Props) => {
@@ -33,9 +33,9 @@ const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }:
         organization.reset();
     };
 
-    const submitChanges = async (toUpdate: object) => {
+    const submitChanges = async (toUpdate: object, propertyName: ContentID) => {
         if (updateUserInfo) {
-            await updateUserInfo(toUpdate);
+            await updateUserInfo(toUpdate, propertyName);
         }
 
         setEditedInfo('');
@@ -67,7 +67,12 @@ const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }:
                             <div className='grid-container' data-cols='2' data-gap='1rem'>
                                 <button
                                     type='button'
-                                    onClick={() => submitChanges({ contactFirstName: firstName.stringValue(), contactLastName: lastName.stringValue() })}
+                                    onClick={() =>
+                                        submitChanges(
+                                            { contactFirstName: firstName.stringValue(), contactLastName: lastName.stringValue() },
+                                            ContentID.miscName
+                                        )
+                                    }
                                     disabled={firstName.stringValue() === user.contactFirstName && lastName.stringValue() === user.contactLastName}
                                 >
                                     {contentToText(ContentID.buttonSave, config)}
@@ -102,7 +107,7 @@ const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }:
                             <div className='grid-container' data-cols='2' data-gap='1rem'>
                                 <button
                                     type='button'
-                                    onClick={() => submitChanges({ contactOrganization: organization.stringValue() })}
+                                    onClick={() => submitChanges({ contactOrganization: organization.stringValue() }, ContentID.miscName)}
                                     disabled={organization.stringValue() === user.contactOrganization}
                                 >
                                     {contentToText(ContentID.buttonSave, config)}

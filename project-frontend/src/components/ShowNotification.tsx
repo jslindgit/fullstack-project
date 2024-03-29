@@ -62,7 +62,7 @@ const ShowNotification = () => {
                     <div />
                     <div className='grid-container valignMiddle'>{finalMessage}</div>
                     <a className='alignCenter textDecorationNone valignMiddle' onClick={() => close()}>
-                        <div className='bold sizeNormal'>✖</div>
+                        <div className='bold sizeVeryLarge'>✖</div>
                     </a>
                 </div>
             </div>

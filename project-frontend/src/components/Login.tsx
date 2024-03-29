@@ -77,7 +77,7 @@ const Login = () => {
 
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const response = await loginService.login(username.value.toString(), password.value.toString(), setLogged, config);
+        const response = await loginService.login(username.stringValue(), password.value.toString(), setLogged, config);
         password.clear();
         if (response.success) {
             username.clear();

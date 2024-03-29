@@ -6,6 +6,38 @@
     user-select: none;
 }
 
+.languageSelection {
+    border-radius: 7px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    padding: 0.75em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    transition: all 0.25s;
+}
+.languageSelection:hover {
+    background-color: var(--colorGrayDark);
+    color: var(--colorGoldVeryLight);
+    transition: all 0.25s;
+}
+.languageSelection:active {
+    color: var(--colorGoldLight);
+    transition: all 0s;
+}
+.languageSelected {
+    cursor: default;
+    text-decoration: underline solid;
+    text-underline-offset: 0.2rem;
+    text-decoration-color: var(--colorGoldVeryLight);
+    text-decoration-thickness: 0.15rem;
+}
+.languageSelected:hover {
+    color: white;
+}
+
 .menu {
     background-color: var(--colorGrayDarkest);
     color: var(--colorGrayLight);
@@ -14,7 +46,7 @@
 
 .menuLink {
     align-items: center;
-    border-radius: 10%;
+    border-radius: 0;
     box-sizing: border-box;
     color: var(--colorWhite);
     display: flex;
@@ -24,22 +56,21 @@
     padding-left: 1.25em;
     padding-right: 1.25em;
     white-space: nowrap;
-    transition: color 0.25s, background-color 0.25s;
+    transition: all 0.25s;
 }
 .menuLink:hover {
-    background-color: var(--colorGraySemiDark);
+    background-color: var(--colorGrayDark);
     color: var(--colorGoldVeryLight);
     cursor: pointer;
-    transition: color 0.25s, background-color 0.25s;
+    transition: all 0.25s;
 }
 .menuLink:active {
-    background-color: var(--colorGrayDark);
     color: var(--colorGoldLight);
-    transition: color 0s, background-color 0s;
+    transition: all 0s;
 }
 .menuLinkSmall {
-    padding-top: 0.5em !important;
-    padding-bottom: 0.5em !important;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
 }
 
 /* Misc */

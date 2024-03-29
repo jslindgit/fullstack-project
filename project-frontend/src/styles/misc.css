@@ -90,33 +90,6 @@
     border-color: var(--colorRed) !important;
 }
 
-.languageSelection {
-    color: white;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.1rem;
-    transition: color 0.25s;
-}
-.languageSelection:hover {
-    color: var(--colorGoldVeryLight);
-    transition: color 0.25s;
-}
-.languageSelection:active {
-    color: var(--colorGoldLight);
-    transition: color 0s;
-}
-.languageSelected {
-    cursor: default;
-    text-decoration: underline solid;
-    text-underline-offset: 0.2rem;
-    text-decoration-color: var(--colorGoldVeryLight);
-    text-decoration-thickness: 0.15rem;
-}
-.languageSelected:hover {
-    color: white;
-}
-
 .loading {
     font-size: 2rem;
     font-weight: 600;

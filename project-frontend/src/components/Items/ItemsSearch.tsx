@@ -10,6 +10,7 @@ import itemService from '../../services/itemService';
 import { contentToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 
+import BackButton from '../BackButton';
 import InputField from '../InputField';
 import ItemGrid from './ItemGrid';
 import ItemsMenu from './ItemsMenu';
@@ -50,19 +51,24 @@ const ItemsSearch = () => {
             <ItemsMenu config={config} />
             <div className='pageWidth'>
                 <div className='pageHeader'>{contentToText(ContentID.miscSearch, config)}</div>
-                <InputField className='sizeLarge' useField={searchField} width='100%' placeHolder={contentToText(ContentID.searchItemsName, config)} />
-                <div className='alignLeft italic marginBottom1_25 marginTop1_25'>
-                    {searchResults.length > 0 ? (
-                        <>
-                            {searchResults.length} {contentToText(ContentID.searchHits, config)}
-                        </>
-                    ) : (
-                        <>
-                            {contentToText(ContentID.searchNoResults, config)} "{searchField.stringValue()}".
-                        </>
-                    )}
+                <div className='grid-container' data-gap='1.5rem'>
+                    <InputField className='sizeLarge' useField={searchField} width='100%' placeHolder={contentToText(ContentID.searchItemsName, config)} />
+                    <div className='alignLeft italic'>
+                        {searchResults.length > 0 ? (
+                            <>
+                                {searchResults.length} {contentToText(ContentID.searchHits, config)}.
+                            </>
+                        ) : (
+                            <>
+                                {contentToText(ContentID.searchNoResults, config)} "{searchField.stringValue()}".
+                            </>
+                        )}
+                    </div>
+                    {searchResults.length > 0 && <ItemGrid colsPerRow={3} config={config} items={searchResults} />}
+                    <div className='alignLeft marginTop1_5'>
+                        <BackButton type='button' />
+                    </div>
                 </div>
-                {searchResults.length > 0 && <ItemGrid colsPerRow={3} config={config} items={searchResults} />}
             </div>
             <br />
             <br />

@@ -76,13 +76,17 @@ const getByToken = async (token: string): Promise<UserResponse> => {
     }
 };
 
-const update = async (userId: number, toUpdate: object, token: string, config: Config): Promise<UserResponse> => {
+const update = async (userId: number, toUpdate: object, propertyName: ContentID, token: string, config: Config): Promise<UserResponse> => {
     try {
         const res = await axios.put<User>(`${url}/${userId}`, toUpdate, authConfig(token));
         const updatedUser = res.data;
 
         if (updatedUser) {
-            return { success: true, message: contentToText(ContentID.userUpdated, config), user: updatedUser };
+            return {
+                success: true,
+                message: `${contentToText(propertyName, config)} ${contentToText(ContentID.userUpdated, config)}`,
+                user: updatedUser,
+            };
         } else {
             handleError(new Error('Server did not return a User object'));
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), user: null };

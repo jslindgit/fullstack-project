@@ -48,6 +48,11 @@ const UserChangePassword = ({ config, user }: Props) => {
             setNewPasswordError('');
             const response = await loginService.changePassword(user.username, passwordCurrent.value.toString(), passwordNew.value.toString(), config);
             dispatch(setNotification({ tone: response.success ? 'Positive' : 'Negative', message: response.message }));
+
+            passwordCurrent.clear();
+            passwordNew.clear();
+            passwordNewConfirm.clear();
+            setShowPasswordFields(false);
         }
     };
 
