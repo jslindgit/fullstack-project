@@ -19,8 +19,8 @@ const CategoryGridColumn = ({ category, config }: ColumnProps) => (
     <div>
         <Link to={'/shop/' + category.id}>
             <div className='categoryLink grid-container' data-cols='1' data-gap='1rem'>
-                <div className='sizeLarge'>{langTextsToText(category.name, config)}</div>
-                <div className='sizeSmallish'>{langTextsToText(category.description, config)}</div>
+                <div className='semiBold sizeLarge'>{langTextsToText(category.name, config)}</div>
+                <div className='semiBold sizeSmallish'>{langTextsToText(category.description, config)}</div>
             </div>
         </Link>
     </div>

@@ -21,9 +21,9 @@ const ItemGridColumn = ({ item, config }: ItemColumnProps) => {
                 <div className='item'>
                     <div className='grid-container left heightFull' data-cols='1fr auto' data-gap='1rem'>
                         <div className='grid-container heightFull' data-cols='1' data-gap='1rem'>
-                            <div className='sizeLarge'>{langTextsToText(item.name, config)}</div>
-                            <div className='sizeNormal'>{format.currency(item.price, config)}</div>
-                            <div className={'sizeSmallish ' + (itemInStockTotal(item) > 0 ? 'itemInStock' : 'itemSoldOut')}>
+                            <div className='semiBold sizeLarge'>{langTextsToText(item.name, config)}</div>
+                            <div className='semiBold sizeNormal'>{format.currency(item.price, config)}</div>
+                            <div className={'semiBold sizeSmallish ' + (itemInStockTotal(item) > 0 ? 'itemInStock' : 'itemSoldOut')}>
                                 {contentToText(itemInStockTotal(item) > 0 ? ContentID.itemsInStock : ContentID.itemsSoldOut, config)}
                             </div>
                         </div>

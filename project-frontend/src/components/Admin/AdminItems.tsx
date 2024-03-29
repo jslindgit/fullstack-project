@@ -124,7 +124,7 @@ const AdminItems = () => {
             <div>
                 {categories.map((c) => (
                     <span key={c.id}>
-                        <span className={category?.id === c.id ? 'bold underlined' : ''}>
+                        <span className={category?.id === c.id ? 'underlined' : ''}>
                             <Link to={'/admin/items?category=' + c.id}>{langTextsToText(c.name, config)}</Link>
                         </span>
                         <span className='bold colorGrayLight'>&emsp;|&emsp;</span>
