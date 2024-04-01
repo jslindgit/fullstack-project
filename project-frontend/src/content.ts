@@ -104,6 +104,8 @@ export enum ContentID {
     checkOutCustomerContactInformation = 'CHECK OUT: Customer Contact Information (header)',
     checkOutDataPrivacyNotice = 'CHECK OUT: Data Privacy Notice',
     checkOutEnterZipcode = 'CHECK OUT: Enter zipcode (pick-up location selection)',
+    checkOutErrorWhenFetchingOrder = 'CHECK OUT: Invalid order. (error)',
+    checkOutErrorSignatureMismatch = 'CHECK OUT: Signature mismatch. (error)',
     checkOutFillAutomatically = 'CHECK OUT: Fill automatically',
     checkOutFirstName = 'CHECK OUT: First name',
     checkOutHeader = 'CHECK OUT: Header',
@@ -118,9 +120,8 @@ export enum ContentID {
     checkOutPleaseCheck = 'CHECK OUT: Please check the following (lacking information)',
     checkOutSafetyInformation = 'CHECK OUT: Safety Information',
     checkOutSelectCountry = 'CHECK OUT: Select a country',
-    checkOutErrorWhenFetchingOrder = 'CHECK OUT: Invalid order. (error)',
-    checkOutErrorSignatureMismatch = 'CHECK OUT: Signature mismatch. (error)',
     checkOutStreetAddress = 'CHECK OUT: Street address',
+    checkOutTestCredentials = 'CHECK OUT: Test credentials info',
     checkOutThankYou = 'CHECK OUT: Thank you!',
     checkOutYourOrderHasBeenReceive = 'CHECK OUT: Your order has been received... etc',
     checkOutZipCode = 'CHECK OUT: Zipcode',
@@ -200,6 +201,8 @@ export enum ContentID {
     miscOrder = 'MISC: Order',
     miscRecycleBin = 'MISC: Recycle Bin',
     miscSearch = 'MISC: Search',
+    miscTestItemCannotBeModified = 'MISC: Test Item cannot be deleted/modified',
+    miscTestUserCannotBeModified = 'MISC: User Cypress Testing cannot be deleted/modified',
     miscUnfortunatelly = 'MISC: unfortunatelly',
     miscUpdated = 'MISC: Updated',
     miscVAT = 'MISC: VAT (tax)',
@@ -1088,6 +1091,19 @@ export const defaultLangContent: LangContent[] = [
         ],
     },
     {
+        id: ContentID.checkOutTestCredentials,
+        content: [
+            {
+                langCode: LangCode.EN,
+                text: 'Paytrail test credentials are in use.\r\n\r\nYou can choose any payment method and finish the order without an actual transaction taking place.\r\n\r\nTest credentials for each payment method can be fround from the link below:',
+            },
+            {
+                langCode: LangCode.FI,
+                text: 'Paytrailin testitunnukset käytössä.\r\n\r\nVoit valita minkä tahansa maksutavan ja suorittaa tilauksen loppuun ilman, että raha liikkuu.\r\n\r\nTestitunnukset eri maksutavoille löydät alla olevasta linkistä:',
+            },
+        ],
+    },
+    {
         id: ContentID.checkOutThankYou,
         content: [
             { langCode: LangCode.EN, text: 'Thank you!' },
@@ -1394,8 +1410,8 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.loginUsername,
         content: [
-            { langCode: LangCode.EN, text: 'Username' },
-            { langCode: LangCode.FI, text: 'Käyttäjätunnus' },
+            { langCode: LangCode.EN, text: 'E-mail address' },
+            { langCode: LangCode.FI, text: 'Sähköpostiosoite' },
         ],
     },
     {
@@ -1635,6 +1651,20 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Search' },
             { langCode: LangCode.FI, text: 'Haku' },
+        ],
+    },
+    {
+        id: ContentID.miscTestItemCannotBeModified,
+        content: [
+            { langCode: LangCode.EN, text: 'Test Item is needed for E2E tests, so it cannot be deleted/modified.' },
+            { langCode: LangCode.FI, text: 'Testituotetta tarvitaan E2E-testeihin, joten sitä ei voi poistaa/muokata.' },
+        ],
+    },
+    {
+        id: ContentID.miscTestUserCannotBeModified,
+        content: [
+            { langCode: LangCode.EN, text: 'User Cypress Testing is needed for E2E tests, so it cannot be deleted/modified.' },
+            { langCode: LangCode.FI, text: 'Käyttäjää Cypress Testing tarvitaan E2E-testeihin, joten sitä ei voi poistaa/muokata.' },
         ],
     },
     {

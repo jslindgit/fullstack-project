@@ -63,12 +63,12 @@ const paymentRequest = async (order: OrderInstance): Promise<PaytrailResponse> =
                 country: order.customerCountry,
             },
             redirectUrls: {
-                success: 'https://tempurlfullstack.com/success',
-                cancel: 'https://tempurlfullstack.com/payment',
+                success: 'https://fullstack-open-project.onrender.com/success',
+                cancel: 'https://fullstack-open-project.onrender.com/payment',
             },
             callbackUrls: {
-                success: 'https://tempurlfullstack.com/success',
-                cancel: 'https://tempurlfullstack.com/payment',
+                success: 'https://fullstack-open-project.onrender.com/success',
+                cancel: 'https://fullstack-open-project.onrender.com/payment',
             },
         };
 
@@ -148,12 +148,12 @@ const testPaymentRequest = async (): Promise<PaytrailResponse> => {
                 email: 'test.customer@example.com',
             },
             redirectUrls: {
-                success: 'https://tempurlfullstack.com/success',
-                cancel: 'https://tempurlfullstack.com/payment',
+                success: 'https://fullstack-open-project.onrender.com/success',
+                cancel: 'https://fullstack-open-project.onrender.com/payment',
             },
             callbackUrls: {
-                success: 'https://tempurlfullstack.com/success',
-                cancel: 'https://tempurlfullstack.com/payment',
+                success: 'https://fullstack-open-project.onrender.com/success',
+                cancel: 'https://fullstack-open-project.onrender.com/payment',
             },
         };
 

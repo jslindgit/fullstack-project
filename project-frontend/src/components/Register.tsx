@@ -29,7 +29,7 @@ const Register = () => {
 
     const address = useField('text', ContentID.checkOutStreetAddress);
     const city = useField('text', ContentID.checkOutCity);
-    const email = useField('text', ContentID.contactEmail);
+    const email = useField('text', ContentID.loginUsername);
     const firstName = useField('text', ContentID.checkOutFirstName);
     const lastName = useField('text', ContentID.checkOutLastName);
     const organization = useField('text', ContentID.checkOutOrganization);
@@ -124,9 +124,7 @@ const Register = () => {
     const inputField = (field: UseField, optional: boolean = false) => {
         const label = contentToText(field.label, config);
         const labelParts: string[] = optional ? [label, '(' + contentToText(ContentID.checkOutOptional, config) + ')'] : [label];
-        if (field === email) {
-            labelParts.push(`\r\n(${contentToText(ContentID.loginUsername, config)})`);
-        }
+
         let error = validateField(field);
 
         if (!error && field === email && usernameAvailableError) {

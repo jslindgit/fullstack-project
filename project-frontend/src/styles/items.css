@@ -27,6 +27,10 @@
     padding: 1.5rem 2.5rem;
 }
 
+.itemDetailsDescription {
+    white-space-collapse: preserve-breaks;
+}
+
 .itemDetailsName {
     font-size: 1.75rem;
     font-weight: bold;

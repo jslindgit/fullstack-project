@@ -110,6 +110,14 @@ const CheckOutPayment = () => {
                                 </a>
                             </div>
                         </div>
+                        <div className='alignLeft paytrailTestCredentialsInfo'>
+                            {contentToText(ContentID.checkOutTestCredentials, config)}
+                            <br />
+                            <br />
+                            <a href='https://docs.paytrail.com/#/payment-method-providers?id=test-credentials'>
+                                https://docs.paytrail.com/#/payment-method-providers?id=test-credentials
+                            </a>
+                        </div>
                         <div>
                             <div className='alignLeft bold marginBottom1 sizeLarge'>{contentToText(ContentID.checkOutPaymentDetails, config)}</div>
                             <div className='grid-container' data-cols='auto 1fr' data-gap='1rem'>

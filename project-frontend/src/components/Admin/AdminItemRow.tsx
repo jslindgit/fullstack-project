@@ -4,6 +4,7 @@ import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 import { Item } from '../../types/types';
 
+import { testItemId } from '../../constants';
 import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { imageFilename, itemInStockTotal } from '../../util/misc';
@@ -22,12 +23,15 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
     const descriptionMaxLengthToShow = 300;
     const description = langTextsToText(item.description, config);
 
-    const canEditAndDelete = () => usersState.loggedUser?.admin || (item.addedBy && item.addedBy === usersState.loggedUser?.id);
+    // Item with id 89 is needed for E2E tests, so it can't be deleted/modified:
+    const canEditAndDelete = () => item.id !== testItemId && (usersState.loggedUser?.admin || (item.addedBy && item.addedBy === usersState.loggedUser?.id));
 
     return (
         <>
             <div className='semiBold'>{langTextsToText(item.name, config)}</div>
-            <div>{description.length > descriptionMaxLengthToShow ? description.substring(0, descriptionMaxLengthToShow - 1) + '...' : description}</div>
+            <div className='itemDetailsDescription'>
+                {description.length > descriptionMaxLengthToShow ? description.substring(0, descriptionMaxLengthToShow - 1) + '...' : description}
+            </div>
             <div className='noWrap'>{format.currency(item.price, config)}</div>
             <div className={'noWrap' + (itemInStockTotal(item) > 0 ? '' : ' colorRedLight')}>
                 {itemInStockTotal(item)} {contentToText(ContentID.itemsPcs, config)}
@@ -46,7 +50,15 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                         type='button'
                         className='compactButton'
                         disabled={!canEditAndDelete()}
-                        title={!canEditAndDelete() ? contentToText(ContentID.adminYouCanOnlyEditItemsAddedByYou, config) : ''}
+                        // prettier-ignore
+                        title={
+                            !canEditAndDelete()
+                                ? contentToText(
+                                    item.id === testItemId ? ContentID.miscTestItemCannotBeModified : ContentID.adminYouCanOnlyEditItemsAddedByYou,
+                                    config
+                                )
+                                : ''
+                        }
                     >
                         {contentToText(ContentID.buttonEdit, config)}
                     </button>
@@ -58,7 +70,15 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                     className='red compactButton'
                     onClick={() => deleteItem(item)}
                     disabled={!canEditAndDelete()}
-                    title={!canEditAndDelete() ? contentToText(ContentID.adminYouCanOnlyDeleteItemsAddedByYou, config) : ''}
+                    // prettier-ignore
+                    title={
+                        !canEditAndDelete()
+                            ? contentToText(
+                                item.id === testItemId ? ContentID.miscTestItemCannotBeModified : ContentID.adminYouCanOnlyEditItemsAddedByYou,
+                                config
+                            )
+                            : ''
+                    }
                 >
                     {contentToText(ContentID.buttonRemove, config)}
                 </button>

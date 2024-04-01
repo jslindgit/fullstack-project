@@ -8,6 +8,7 @@ import { RootState } from '../../reducers/rootReducer';
 import { Category, Item, ItemSizeAndInstock, NewItem, Response } from '../../types/types';
 
 import categoryService from '../../services/categoryService';
+import { testItemId } from '../../constants';
 import { handleError } from '../../util/handleError';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
 import item_categoryService from '../../services/item_categoryService';
@@ -346,8 +347,16 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                 <button
                     type='button'
                     onClick={submit}
-                    disabled={!(changesMade() && validateFields()) || !canSubmit()}
-                    title={!canSubmit() ? contentToText(ContentID.adminYouCanOnlyEditItemsAddedByYou, config) : ''}
+                    // Item with id 89 is needed for E2E tests, so it can't be modified:
+                    disabled={!(changesMade() && validateFields()) || !canSubmit() || (itemToEdit !== null && itemToEdit.id === testItemId)}
+                    // prettier-ignore
+                    title={
+                        !canSubmit()
+                            ? contentToText(ContentID.adminYouCanOnlyEditItemsAddedByYou, config)
+                            : itemToEdit && itemToEdit.id === testItemId
+                                ? contentToText(ContentID.miscTestItemCannotBeModified, config)
+                                : ''
+                    }
                 >
                     {contentToText(ContentID.buttonSave, config)}
                 </button>

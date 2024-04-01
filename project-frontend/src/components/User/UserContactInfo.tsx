@@ -130,8 +130,6 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
             <div className='infoHeader'>{contentToText(ContentID.accountContactInfo, config)}</div>
             <div className='grid-container left' data-cols='auto 1fr auto' data-gap='1rem 2rem'>
                 <div className='semiBold'>{contentToText(ContentID.contactEmail, config)}:</div>
-                {/*<div>{addLinkToEmail ? <a href={'mailto:' + user.username}>{user.username}</a> : <>{user.username}</>}</div>
-                <div />*/}
                 {info('email', email, { username: email.stringValue() }, user.username, ContentID.contactEmail)}
 
                 <div className='semiBold'>{contentToText(ContentID.contactPhone, config)}:</div>

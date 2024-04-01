@@ -6,6 +6,7 @@ import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 import { User } from '../../types/types';
 
+import { testUserId } from '../../constants';
 import { contentToText } from '../../types/languageFunctions';
 import { getUserStatus } from '../../util/userProvider';
 import userService from '../../services/userService';
@@ -124,7 +125,7 @@ const AdminUserInfo = () => {
                             <button
                                 type='button'
                                 onClick={() => setShowStatusChange(!showStatusChange)}
-                                disabled={user.admin || !usersState.loggedUser?.admin}
+                                disabled={user.id === testUserId || user.admin || !usersState.loggedUser?.admin}
                                 title={!usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
                             >
                                 {contentToText(ContentID.adminUserInfoChangeStatus, config)}
@@ -135,9 +136,14 @@ const AdminUserInfo = () => {
                                 type='button'
                                 className='red'
                                 onClick={handleDisableOrEnableAccount}
-                                disabled={user.admin || (user.operator && !usersState.loggedUser?.admin) || user.id === 17}
+                                disabled={user.admin || (user.operator && !usersState.loggedUser?.admin) || user.id === testUserId}
+                                // prettier-ignore
                                 title={
-                                    user.operator && !usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''
+                                    user.id === testUserId
+                                        ? contentToText(ContentID.miscTestUserCannotBeModified, config)
+                                        : user.operator && !usersState.loggedUser?.admin
+                                            ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config)
+                                            : ''
                                 }
                             >
                                 {contentToText(
@@ -150,9 +156,16 @@ const AdminUserInfo = () => {
                             <button
                                 type='button'
                                 className='red'
-                                disabled={user.admin || !usersState.loggedUser?.admin || user.id === 17}
+                                disabled={user.admin || !usersState.loggedUser?.admin || user.id === testUserId}
                                 onClick={handleDeleteAccount}
-                                title={!usersState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
+                                // prettier-ignore
+                                title={
+                                    user.id === testUserId
+                                        ? contentToText(ContentID.miscTestUserCannotBeModified, config)
+                                        : !usersState.loggedUser?.admin
+                                            ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config)
+                                            : ''
+                                }
                             >
                                 {contentToText(ContentID.adminUserInfoDeleteAccountButton, config)}
                             </button>

@@ -57,7 +57,7 @@ const ItemDetails = () => {
                     <div className='grid-container' data-cols='item-details' data-gap='1rem'>
                         <div className='alignLeft grid-container' data-cols='1' data-gap='2rem'>
                             <div className='divMinWidth itemDetailsPrice noWrap'>{format.currency(item.price, config)}</div>
-                            <div>{langTextsToText(item.description, config)}</div>
+                            <div className='itemDetailsDescription'>{langTextsToText(item.description, config)}</div>
                             <div>
                                 <AddToCart config={config} item={item} />
                             </div>

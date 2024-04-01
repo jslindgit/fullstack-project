@@ -3,9 +3,11 @@ import { Op } from 'sequelize';
 import { Category, Item } from '../models';
 import { NewItem, ItemAttributes, ItemInstance } from '../models/item';
 import { NewItem_Category } from '../types/types';
-import { isNumber, isObject, toNewItem_Category } from '../types/type_functions';
-import { handleError } from '../util/error_handler';
+
 import item_category_service from './item_categoryService';
+import { testItemId } from '../constants';
+import { handleError } from '../util/error_handler';
+import { isNumber, isObject, toNewItem_Category } from '../types/type_functions';
 
 const addNew = async (newItem: NewItem, category_id: number | null): Promise<ItemInstance | null> => {
     try {
@@ -27,14 +29,19 @@ const addNew = async (newItem: NewItem, category_id: number | null): Promise<Ite
 const deleteById = async (id: unknown): Promise<ItemInstance | null> => {
     try {
         const item = await getById(id);
-        if (item) {
+
+        // Item with id 89 is needed for E2E tests, so it can't be deleted:
+        if (item && item.id !== testItemId) {
             // First delete the connection tables involving this Item:
             await item_category_service.deleteByItemId(id);
 
             // Then delete the Item:
             await item.destroy();
+
+            return item;
+        } else {
+            return null;
         }
-        return item;
     } catch (err: unknown) {
         handleError(err);
         return null;
@@ -98,7 +105,9 @@ const getById = async (id: unknown): Promise<ItemInstance | null> => {
 const update = async (id: unknown, props: unknown): Promise<ItemInstance | null> => {
     try {
         const item = await getById(id);
-        if (item) {
+
+        // Item with id 89 is needed for E2E tests, so it can't be modified:
+        if (item && item.id !== testItemId) {
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
                     if (key in item) {
@@ -114,8 +123,11 @@ const update = async (id: unknown, props: unknown): Promise<ItemInstance | null>
             } else {
                 throw new Error('Invalid props value (not an object)');
             }
+
+            return item;
+        } else {
+            return null;
         }
-        return item;
     } catch (err: unknown) {
         console.error(err);
         handleError(err);

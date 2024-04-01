@@ -102,6 +102,13 @@
     padding: 1rem;
 }
 
+.paytrailTestCredentialsInfo {
+    background-color: var(--colorOrangeLight);
+    font-weight: 600;
+    padding: 1rem;
+    white-space-collapse: preserve-breaks;
+}
+
 .searchBox {
     align-items: center;
     background-color: var(--colorGrayExtremelyLight);

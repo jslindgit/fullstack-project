@@ -4,6 +4,7 @@ import { Op } from 'sequelize';
 import { Order } from '../models';
 import User, { NewUser, removePasswordHash, removePasswordHashAndToken, UserAttributes } from '../models/user';
 
+import { testUserId } from '../constants';
 import { handleError } from '../util/error_handler';
 import { isNumber, isObject, isString } from '../types/type_functions';
 
@@ -26,8 +27,8 @@ const deleteById = async (id: unknown): Promise<UserAttributes | null> => {
     try {
         const user = isNumber(Number(id)) ? await User.findByPk(Number(id)) : null;
 
-        // User 'cypress@testingcypress123.com' (id = 17) is required for E2E tests, so can't be deleted:
-        if (user && user.id !== 17) {
+        // User 'cypress@testingcypress123.com' (id = 17) is required for E2E tests, so it can't be deleted:
+        if (user && user.id !== testUserId) {
             await user.destroy();
             return removePasswordHash(user);
         } else {
@@ -117,7 +118,8 @@ const update = async (id: unknown, props: unknown): Promise<UserAttributes | nul
     try {
         const user = isNumber(Number(id)) ? await User.findByPk(Number(id)) : null;
 
-        if (user) {
+        // User 'cypress@testingcypress123.com' (id = 17) is required for E2E tests, so it can't be edited:
+        if (user && user.id !== testUserId) {
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
                     if (key in user) {
@@ -133,9 +135,11 @@ const update = async (id: unknown, props: unknown): Promise<UserAttributes | nul
             } else {
                 throw new Error('Invalid props value (not an object)');
             }
-        }
 
-        return removePasswordHashAndToken(user);
+            return removePasswordHashAndToken(user);
+        } else {
+            return null;
+        }
     } catch (err: unknown) {
         handleError(err);
         return null;
