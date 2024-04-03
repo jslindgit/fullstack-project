@@ -81,7 +81,9 @@ const App = () => {
     return (
         <div className='app-container'>
             <Router>
-                <Menu />
+                <div className='asd'>
+                    <Menu />
+                </div>
                 <ShowNotification />
                 <div className='content-container'>
                     <Routes>

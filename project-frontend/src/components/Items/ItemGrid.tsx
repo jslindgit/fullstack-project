@@ -38,12 +38,11 @@ const ItemGridColumn = ({ item, config }: ItemColumnProps) => {
 };
 
 interface Props {
-    colsPerRow: 1 | 2 | 3 | 4 | 5;
     config: Config;
     items: Item[];
 }
-const ItemGrid = ({ colsPerRow, config, items }: Props) => (
-    <div className='grid-container' data-cols={colsPerRow.toString()} data-gap='2rem'>
+const ItemGrid = ({ config, items }: Props) => (
+    <div className='grid-container' data-cols='item-grid' data-gap='2rem'>
         {items.map((item) => (
             <ItemGridColumn key={item.id} item={item} config={config} />
         ))}

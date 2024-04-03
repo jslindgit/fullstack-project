@@ -60,11 +60,11 @@ const Items = () => {
                 ) : (
                     <ItemGrid
                         items={[...category.items].sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config)))}
-                        colsPerRow={3}
                         config={config}
                     />
                 )}
             </div>
+            <br />
         </>
     );
 };

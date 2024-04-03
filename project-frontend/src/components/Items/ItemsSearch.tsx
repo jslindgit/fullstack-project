@@ -64,7 +64,7 @@ const ItemsSearch = () => {
                             </>
                         )}
                     </div>
-                    {searchResults.length > 0 && <ItemGrid colsPerRow={3} config={config} items={searchResults} />}
+                    {searchResults.length > 0 && <ItemGrid config={config} items={searchResults} />}
                     <div className='alignLeft marginTop1_5'>
                         <BackButton type='button' />
                     </div>

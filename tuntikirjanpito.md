@@ -166,4 +166,5 @@
 |   28.3.   | 2    | Viimeistelyä                                                                                                         |     |
 |   29.3.   | 2    | Viimeistelyä                                                                                                         | 270 |
 |   1.4.    | 2    | Viimeistelyä                                                                                                         |     |
-|    yht    | 272  |                                                                                                                      |     |
+|   3.4.    | 1    | Viimeistelyä                                                                                                         |     |
+|    yht    | 273  |                                                                                                                      |     |

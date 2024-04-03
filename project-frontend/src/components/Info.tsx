@@ -15,11 +15,11 @@ const Info = () => {
 
     return (
         <>
-            <div className='pageWidth'>
+            <div className='marginBottom2 pageWidth'>
                 <div data-testid='info-header' className='pageHeader'>
                     {contentToText(ContentID.menuInfo, config)}
                 </div>
-                <div className='grid-container' data-cols='info-page'>
+                <div className='grid-container' data-cols='info-page' data-gap='2rem'>
                     <div className='alignLeft infoBox'>
                         <div className='infoHeader'>{config.store.contactName}</div>
                         <div className='grid-container' data-gap='0.9rem' data-cols='auto 1fr'>
@@ -41,7 +41,6 @@ const Info = () => {
                             </div>
                         </div>
                     </div>
-                    <div />
                     <div className='alignLeft infoBox'>
                         <div className='infoHeader'>{contentToText(ContentID.miscMerchant, config)}</div>
                         <div className='grid-container' data-gap='0.9rem' data-cols='auto 1fr'>

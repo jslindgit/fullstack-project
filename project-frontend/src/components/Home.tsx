@@ -53,11 +53,11 @@ const MainPage = () => {
                 </div>
                 <div>
                     <div className='pageHeader'>{contentToText(ContentID.itemsLatestItems, config)}</div>
-                    <ItemGrid colsPerRow={3} config={config} items={latestItems} />
+                    <ItemGrid config={config} items={latestItems} />
                 </div>
                 <div>
                     <div className='pageHeader'>{contentToText(ContentID.itemsTopSellers, config)}</div>
-                    <ItemGrid colsPerRow={3} config={config} items={topSellers} />
+                    <ItemGrid config={config} items={topSellers} />
                 </div>
                 <div>
                     <div className='pageHeader'>{contentToText(ContentID.itemsAllCategories, config)}</div>

@@ -118,31 +118,31 @@ const Menu = () => {
     return (
         <>
             <form onSubmit={handleSearchSubmit}>
-                <div className='grid-container menu' data-cols='1fr auto 1fr'>
-                    <div />
-                    <div className='grid-container' data-cols='auto'>
-                        <div>{menuLink('/', contentToText(ContentID.menuHome, config), 'Big', 'menu-home')}</div>
-                        <div>{menuLink('/shop', contentToText(ContentID.menuProducts, config), 'Big', 'menu-shop')}</div>
-                        <div>{menuLink('/info', contentToText(ContentID.menuInfo, config), 'Big', 'menu-info')}</div>
-                        <div>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, config), 'Big', 'menu-cart', true)}</div>
-                        <div>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</div>
-                        {showAdminMenu()}
-                        <div className='marginLeft1 valignMiddle'>
-                            <LanguageSelection />
-                        </div>
-                        <div className='grid-container marginLeft2_5 valignMiddle' data-cols='auto' data-gap='1rem'>
-                            <InputField
-                                useField={searchField}
-                                width='11rem'
-                                placeHolder={contentToText(ContentID.searchItemsName, config)}
-                                className='sizeSmallish'
-                            />
-                            <button type='submit' disabled={searchField.stringValue().length <= 0}>
-                                {contentToText(ContentID.miscSearch, config)}
-                            </button>
+                <div className='menu'>
+                    <div className='pageWidth'>
+                        <div className='flex-container'>
+                            <div>{menuLink('/', contentToText(ContentID.menuHome, config), 'Big', 'menu-home')}</div>
+                            <div>{menuLink('/shop', contentToText(ContentID.menuProducts, config), 'Big', 'menu-shop')}</div>
+                            <div>{menuLink('/info', contentToText(ContentID.menuInfo, config), 'Big', 'menu-info')}</div>
+                            <div>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, config), 'Big', 'menu-cart', true)}</div>
+                            <div>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</div>
+                            {showAdminMenu()}
+                            <div className='marginLeft1 valignMiddle'>
+                                <LanguageSelection />
+                            </div>
+                            <div className='grid-container marginLeft2_5 marginBottom1 marginTop1 valignMiddle' data-cols='auto' data-gap='1rem'>
+                                <InputField
+                                    useField={searchField}
+                                    width='11rem'
+                                    placeHolder={contentToText(ContentID.searchItemsName, config)}
+                                    className='sizeSmallish'
+                                />
+                                <button type='submit' disabled={searchField.stringValue().length <= 0}>
+                                    {contentToText(ContentID.miscSearch, config)}
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div />
                 </div>
             </form>
         </>
