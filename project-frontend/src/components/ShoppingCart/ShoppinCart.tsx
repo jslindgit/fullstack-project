@@ -31,7 +31,7 @@ const ShoppingCart = () => {
     return (
         <div className='pageWidth'>
             <div data-testid='cart-header' className='pageHeader'>
-                {contentToText(ContentID.menuShoppingCart, config)}
+                {contentToText(ContentID.menuShoppingCart, config)} | {window.innerWidth}x{window.innerHeight}
             </div>
             <ShoppingCartContent allowEdit={true} shoppingItems={orderState.items} removeItem={removeItem} />
             <div className='grid-container marginBottom2 marginTop2' data-cols='2'>
