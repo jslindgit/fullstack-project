@@ -127,16 +127,19 @@
 }
 
 .pageWidth {
+    background-color: skyblue;
     box-sizing: border-box;
     margin-left: auto;
     margin-right: auto;
     max-width: 1024px;
     min-width: 100px;
 }
-@media (max-width: 1124px) {
+@media (max-width: 1024px) {
     .pageWidth {
-        padding-left: 50px;
-        padding-right: 50px;
+        background-color: orange;
+        box-sizing: border-box;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
     }
 }
 
