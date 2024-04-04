@@ -23,7 +23,7 @@ body {
     padding-top: 0;
     place-items: top;
     position: absolute;
-    width: 100%;
+    width: 100vw;
 }
 
 @media screen and (max-width: 800px) {
