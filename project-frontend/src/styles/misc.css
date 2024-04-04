@@ -83,6 +83,12 @@
     border-radius: 15px;
     padding: 2rem;
 }
+/*@media (max-width: 1024px) {
+    .infoBox {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+}*/
 .infoBox.errors {
     border: solid 3px var(--colorRedLight);
 }

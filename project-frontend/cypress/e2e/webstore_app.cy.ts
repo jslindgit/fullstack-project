@@ -60,7 +60,7 @@ describe('Shopping cart', function () {
         cy.get('[data-testid="item-name"]').should('exist');
     });
 
-    /*it('items can be added to shopping cart, can proceed to checkout, payment selection page works', function () {
+    it('items can be added to shopping cart, can proceed to checkout, payment selection page works', function () {
         // Add 3 pcs of the test item to shopping cart:
         cy.get('[data-testid="increase-quantity"]').click().click();
         cy.get('[data-testid="button-add-to-cart"]').click();
@@ -96,5 +96,5 @@ describe('Shopping cart', function () {
         cy.get('[data-testid="checkout-button-choose-payment-method"]').click();
         cy.get('[data-testid="payment-choose-method"]').should('exist');
         cy.get('[data-testid="payment-providers"]').should('exist');
-    });*/
+    });
 });

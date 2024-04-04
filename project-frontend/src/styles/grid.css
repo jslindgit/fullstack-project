@@ -60,6 +60,11 @@
         grid-template-columns: 1fr auto;
     }
 }
+@media (max-width: 400px) {
+    .grid-container[data-cols='footer'] {
+        grid-template-columns: auto;
+    }
+}
 .grid-container[data-cols='info-page'] {
     grid-template-columns: 1fr 1fr;
 }
