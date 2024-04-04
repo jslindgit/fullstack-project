@@ -142,8 +142,8 @@
     .pageWidth {
         background-color: orange;
         box-sizing: border-box;
-        padding-left: 5vw !important;
-        padding-right: 5vw !important;
+        /*padding-left: 5vw !important;
+        padding-right: 5vw !important;*/
     }
 }
 
