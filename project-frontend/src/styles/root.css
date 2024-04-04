@@ -23,6 +23,12 @@ body {
     place-items: top;
 }
 
+@media screen and (max-width: 800px) {
+    body {
+        max-width: 100vw;
+    }
+}
+
 .app-container {
     display: flex;
     flex-direction: column;
