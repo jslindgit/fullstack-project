@@ -22,8 +22,8 @@ body {
     min-width: 100px;
     padding-top: 0;
     place-items: top;
-    position: absolute;
-    width: 100vw;
+    position: fixed;
+    width: 100%;
 }
 
 @media screen and (max-width: 800px) {
