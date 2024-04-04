@@ -60,9 +60,9 @@
         grid-template-columns: 1fr auto;
     }
 }
-@media (max-width: 400px) {
+@media (max-width: 450px) {
     .grid-container[data-cols='footer'] {
-        grid-template-columns: auto;
+        grid-template-columns: 1fr;
     }
 }
 .grid-container[data-cols='info-page'] {
