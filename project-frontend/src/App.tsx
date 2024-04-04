@@ -79,11 +79,11 @@ const App = () => {
         return <Loading config={config} />;
     }
     return (
-        <div className='app-container borderBox'>
+        <div className='app-container'>
             <Router>
                 <Menu />
                 <ShowNotification />
-                <div className='content-container borderBox'>
+                <div className='content-container'>
                     <Routes>
                         <Route path='/' element={<Home />} />
                         <Route path='/admin' element={adminPage(<AdminPanel />)} />

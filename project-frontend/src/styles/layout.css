@@ -1,7 +1,3 @@
-.borderBox {
-    box-sizing: border-box !important;
-}
-
 .displayContents {
     display: contents !important;
 }

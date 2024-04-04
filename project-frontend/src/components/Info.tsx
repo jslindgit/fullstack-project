@@ -32,7 +32,7 @@ const Info = () => {
 
     return (
         <>
-            <div className='marginBottom2 pageWidth borderBox'>
+            <div className='marginBottom2 pageWidth'>
                 <div data-testid='info-header' className='pageHeader'>
                     {contentToText(ContentID.menuInfo, config)} | {viewportWidth}x{viewportHeight}
                 </div>
