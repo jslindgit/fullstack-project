@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
@@ -17,6 +17,23 @@ const ShoppingCart = () => {
     const config = useSelector((state: RootState) => state.config);
     const orderState = useSelector((state: RootState) => state.order);
 
+    const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth); // TEMP
+    const [viewportHeight, setViewportHeight] = useState<number>(window.innerHeight); // TEMP
+
+    useEffect(() => {
+        // TEMP
+        const handleResize = () => {
+            setViewportWidth(window.innerWidth);
+            setViewportHeight(window.innerHeight);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []); // empty dependency array means this effect runs once after the component mounts
+
     // Page title:
     useEffect(() => {
         document.title = contentToText(ContentID.menuShoppingCart, config) + ' | ' + config.store.contactName;
@@ -31,7 +48,7 @@ const ShoppingCart = () => {
     return (
         <div className='pageWidth'>
             <div data-testid='cart-header' className='pageHeader'>
-                {contentToText(ContentID.menuShoppingCart, config)} | {window.innerWidth}x{window.innerHeight}
+                {contentToText(ContentID.menuShoppingCart, config)} | {viewportWidth}x{viewportHeight}
             </div>
             <ShoppingCartContent allowEdit={true} shoppingItems={orderState.items} removeItem={removeItem} />
             <div className='grid-container marginBottom2 marginTop2' data-cols='2'>
