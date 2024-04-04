@@ -26,10 +26,7 @@ const CategoryGridColumn = ({ category, config }: ColumnProps) => (
     </div>
 );
 
-interface Props {
-    colsPerRow: 2 | 3;
-}
-const CategoryGrid = ({ colsPerRow }: Props) => {
+const CategoryGrid = () => {
     const config = useSelector((state: RootState) => state.config);
 
     const [categories, setCategories] = useState<Category[]>([]);
@@ -49,7 +46,7 @@ const CategoryGrid = ({ colsPerRow }: Props) => {
     return (
         <>
             {loaded ? (
-                <div className='grid-container' data-gap='2rem' data-cols={colsPerRow.toString()}>
+                <div className='grid-container' data-gap='2rem' data-cols='category-grid'>
                     {categories.map((category) => (
                         <CategoryGridColumn key={category.id} category={category} config={config} />
                     ))}

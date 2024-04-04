@@ -119,18 +119,18 @@ const Menu = () => {
         <>
             <form onSubmit={handleSearchSubmit}>
                 <div className='menu'>
-                    <div className='pageWidth'>
-                        <div className='flex-container'>
+                    <div>
+                        <div className='flex-container' data-justify='center'>
                             <div>{menuLink('/', contentToText(ContentID.menuHome, config), 'Big', 'menu-home')}</div>
                             <div>{menuLink('/shop', contentToText(ContentID.menuProducts, config), 'Big', 'menu-shop')}</div>
                             <div>{menuLink('/info', contentToText(ContentID.menuInfo, config), 'Big', 'menu-info')}</div>
                             <div>{menuLink('/cart', contentToText(ContentID.menuShoppingCart, config), 'Big', 'menu-cart', true)}</div>
                             <div>{login(usersState.loggedUser, removeLogged, setLogoutNotification)}</div>
                             {showAdminMenu()}
-                            <div className='marginLeft1 valignMiddle'>
+                            <div className='marginLeft1 marginRight1 valignMiddle'>
                                 <LanguageSelection />
                             </div>
-                            <div className='grid-container marginLeft2_5 marginBottom1 marginTop1 valignMiddle' data-cols='auto' data-gap='1rem'>
+                            <div className='grid-container marginBottom1 marginLeft1_5 marginTop1 valignMiddle' data-cols='auto' data-gap='1rem'>
                                 <InputField
                                     useField={searchField}
                                     width='11rem'

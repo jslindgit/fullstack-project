@@ -16,13 +16,14 @@ import { updateShoppingCartItemQuantity } from '../../reducers/orderReducer';
 import Image from '../Image';
 
 interface Props {
-    shoppingItem: ShoppingItem;
-    indexOf: number;
-    removeItem: ((shoppingItem: number) => void) | null;
     allowEdit: boolean;
+    indexOf: number;
+    narrowView: boolean;
+    removeItem: ((shoppingItem: number) => void) | null;
+    shoppingItem: ShoppingItem;
 }
 
-const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props) => {
+const ShoppingCartRow = ({ allowEdit, indexOf, narrowView, removeItem, shoppingItem }: Props) => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const orderState = useSelector((state: RootState) => state.order);
@@ -61,54 +62,83 @@ const ShoppingCartRow = ({ shoppingItem, indexOf, removeItem, allowEdit }: Props
         }
     }, [config.maxItemQuantity, dispatch, indexOf, orderState.items, quantity, shoppingItem]);
 
-    const imagePath = item && item.images.length > 0 ? item.images[0] : '/no_image.png';
+    const ImageDiv = () => (
+        <div>{item ? <Image src={item && item.images.length > 0 ? item.images[0] : '/no_image.png'} className='imgShoppingCart' /> : ''}</div>
+    );
 
-    return (
-        <React.Fragment>
-            <div>{item ? <Image src={imagePath} className='imgShoppingCart' /> : ''}</div>
-            <div className='grid-container' data-cols='1'>
-                <div>{item ? langTextsToText(item.name, config) : shoppingItem.name}</div>
-                {shoppingItem.size && shoppingItem.size.length > 0 && (
-                    <div className='sizeSmallish'>
-                        {contentToText(ContentID.itemsSize, config)}: {shoppingItem.size}
-                    </div>
-                )}
-            </div>
-            <div>{format.currency(shoppingItem.price, config)}</div>
-            <div>
-                <div className='divMinWidth grid-container middle' data-cols='2'>
-                    <div>
-                        {allowEdit ? (
-                            <input className='width5rem' type={quantity.type} value={quantity.value} onChange={quantity.onChange} />
-                        ) : (
-                            <>
-                                {shoppingItem.quantity} {contentToText(ContentID.itemsPcs, config)}
-                            </>
-                        )}
-                    </div>
-                    <div>
-                        {allowEdit && (
-                            <div className='marginTop0_5'>
-                                <div className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
-                                    +
-                                </div>
-                                <div className='adjustAmountButtons' onClick={() => adjustAmount(-1)}>
-                                    -
-                                </div>
+    const NameDiv = () => (
+        <div className='grid-container' data-cols='1'>
+            <div>{item ? langTextsToText(item.name, config) : shoppingItem.name}</div>
+            {shoppingItem.size && shoppingItem.size.length > 0 && (
+                <div className='sizeSmallish'>
+                    {contentToText(ContentID.itemsSize, config)}: {shoppingItem.size}
+                </div>
+            )}
+        </div>
+    );
+
+    const QuantityDiv = () => (
+        <div>
+            <div className='divMinWidth grid-container middle' data-cols='2'>
+                <div>
+                    {allowEdit ? (
+                        <input className='width5rem' type={quantity.type} value={quantity.value} onChange={quantity.onChange} />
+                    ) : (
+                        <>
+                            {shoppingItem.quantity} {contentToText(ContentID.itemsPcs, config)}
+                        </>
+                    )}
+                </div>
+                <div>
+                    {allowEdit && (
+                        <div className='marginTop0_5'>
+                            <div className='adjustAmountButtons' onClick={() => adjustAmount(1)}>
+                                +
                             </div>
-                        )}
-                    </div>
+                            <div className='adjustAmountButtons' onClick={() => adjustAmount(-1)}>
+                                -
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
-            <div>{format.currency(shoppingItem.price * shoppingItem.quantity, config)}</div>
-            <div>
-                {allowEdit && (
-                    <button type='button' className='red' onClick={() => (removeItem ? removeItem(indexOf) : () => {})} disabled={!allowEdit}>
-                        {contentToText(ContentID.buttonRemove, config)}
-                    </button>
-                )}
-            </div>
-        </React.Fragment>
+        </div>
+    );
+
+    const RemoveButtonDiv = () => (
+        <div>
+            {allowEdit && (
+                <button type='button' className='red' onClick={() => (removeItem ? removeItem(indexOf) : () => {})} disabled={!allowEdit}>
+                    {contentToText(ContentID.buttonRemove, config)}
+                </button>
+            )}
+        </div>
+    );
+
+    return (
+        <>
+            {narrowView === false ? (
+                <React.Fragment>
+                    <ImageDiv />
+                    <NameDiv />
+                    <div>{format.currency(shoppingItem.price, config)}</div>
+                    <QuantityDiv />
+                    <div>{format.currency(shoppingItem.price * shoppingItem.quantity, config)}</div>
+                    <RemoveButtonDiv />
+                </React.Fragment>
+            ) : (
+                <div className='grid-container shoppingCartRowNarrow' data-cols='2' data-gap='1rem'>
+                    <ImageDiv />
+                    <NameDiv />
+                    <div className='bold colorGray'>
+                        {format.currency(shoppingItem.price, config)}/{contentToText(ContentID.itemsPcs, config)}
+                    </div>
+                    <QuantityDiv />
+                    <RemoveButtonDiv />
+                    <div className='bold'>{format.currency(shoppingItem.price * shoppingItem.quantity, config)}</div>
+                </div>
+            )}
+        </>
     );
 };
 

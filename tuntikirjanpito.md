@@ -167,4 +167,5 @@
 |   29.3.   | 2    | Viimeistelyä                                                                                                         | 270 |
 |   1.4.    | 2    | Viimeistelyä                                                                                                         |     |
 |   3.4.    | 1    | Viimeistelyä                                                                                                         |     |
-|    yht    | 273  |                                                                                                                      |     |
+|   4.4.    | 2    | Leiskan muokkaamista mobiiliystävällisemmäksi                                                                        |     |
+|    yht    | 275  |                                                                                                                      |     |

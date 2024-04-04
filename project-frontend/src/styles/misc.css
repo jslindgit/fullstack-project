@@ -81,6 +81,7 @@
 .infoBox {
     border: solid 3px var(--colorGrayLight);
     border-radius: 15px;
+    max-width: min(100%, var(--contentMaxWidth));
     padding: 2rem;
 }
 .infoBox.errors {

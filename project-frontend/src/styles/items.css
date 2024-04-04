@@ -2,9 +2,14 @@
     color: var(--colorGrayDark);
     background-color: white;
     border-radius: 1rem;
+    box-sizing: border-box;
     height: 100%;
     max-width: min(100%, var(--contentMaxWidth));
     outline: 2px solid var(--colorGrayLight);
+    padding-top: 1rem;
+    padding-bottom: 1.25rem;
+    padding-left: 1.3rem;
+    padding-right: 1.3rem;
     transition: all 0.15s;
 }
 .item:hover {
@@ -44,4 +49,8 @@
 }
 .itemSoldOut {
     color: var(--colorRed);
+}
+
+.shoppingCartRowNarrow {
+    background-color: var(--colorGrayExtremelyLight);
 }

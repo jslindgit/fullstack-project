@@ -21,7 +21,7 @@ const Categories = () => {
             <div data-testid='categories-header' className='pageHeader'>
                 {contentToText(ContentID.itemsAllCategories, config)}
             </div>
-            <CategoryGrid colsPerRow={2} />
+            <CategoryGrid />
         </div>
     );
 };

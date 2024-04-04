@@ -29,7 +29,7 @@ const ItemsMenu = ({ config, currentId }: Props) => {
     }, [config]);
 
     return (
-        <div className='divCenter flex-container marginBottom1_25 marginTop1 noWrap sizeLarge' data-gap='2rem' data-justify='center'>
+        <div className='divCenter flex-container marginBottom1_25 marginTop1 noWrap sizeLarge' data-gap='1rem 2rem' data-justify='center'>
             {categories.length > 0 ? (
                 <>
                     {categories.map((c) => (
