@@ -35,11 +35,6 @@
     text-underline-offset: 0.2em;
     white-space: nowrap;
 }
-/*@media (max-width: 1024px) {
-    .pageHeader {
-        margin-left: 1rem;
-    }
-}*/
 .pageHeader.noMargin {
     margin: 0;
 }

@@ -126,31 +126,12 @@
     padding-right: 1rem !important;
 }
 
-:root {
-    --contentWidth: 1024px;
-}
-
 .pageWidth {
     background-color: skyblue;
     box-sizing: border-box;
     margin-left: auto;
     margin-right: auto;
-    max-width: min(1024px, 80vw);
-    min-width: 100px;
-}
-/*@media (max-width: 1024px) {
-    .pageWidth {
-        background-color: orange;
-        box-sizing: border-box;
-        padding-left: 5vw !important;
-        padding-right: 5vw !important;
-    }
-}*/
-
-.pageWidth_66 {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: calc(var(--contentWidth) * 0.66);
+    max-width: min(var(--contentWidth), var(--contentMaxWidth));
     min-width: 100px;
 }
 
