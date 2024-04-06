@@ -41,20 +41,20 @@ const Login = () => {
     };
 
     const loginForm = () => (
-        <div>
+        <div className='marginBottom2'>
             <form onSubmit={submit}>
-                <div className='divCenter divMinWidth'>
+                <div className='contentMaxWidth divCenter divMinWidth'>
                     <div data-testid='login-header' className='pageHeader'>
                         {contentToText(ContentID.menuLogin, config)}
                     </div>
-                    <div className='grid-container valignMiddle' data-cols='auto 1fr' data-gap='2rem'>
-                        <div className='alignLeft semiBold'>{contentToText(username.label, config)}:</div>
+                    <div className='grid-container valignMiddle' data-cols='login-form' data-gap='2rem'>
+                        <div className='alignLeft noWrap semiBold'>{contentToText(username.label, config)}:</div>
                         <div>
-                            <InputField testId='input-username' useField={username} width='20rem' autoFocus={true} />
+                            <InputField testId='input-username' useField={username} width='18rem' autoFocus={true} />
                         </div>
                         <div className='alignLeft semiBold'>{contentToText(password.label, config)}:</div>
                         <div>
-                            <InputField testId='input-password' useField={password} width='20rem' />
+                            <InputField testId='input-password' useField={password} width='18rem' />
                         </div>
                         <div />
                         <div className='alignLeft'>

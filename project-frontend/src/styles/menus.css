@@ -2,15 +2,21 @@
 .adminOrdersMenu {
     border: 3px solid var(--colorGrayLight);
     font-weight: 600;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
     padding: 0.5rem;
     user-select: none;
+}
+@media (max-width: 700px) {
+    .adminOrdersMenu {
+        grid-template-columns: 1fr;
+    }
 }
 
 .languageSelection {
     border-radius: 7px;
     color: white;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: var(--fontSizeSmallish);
     font-weight: 600;
     letter-spacing: 0.1rem;
     padding: 0.75em;
@@ -46,7 +52,7 @@
 
 .menuLink {
     align-items: center;
-    border-radius: 0;
+    border-radius: 5px;
     box-sizing: border-box;
     color: var(--colorWhite);
     display: flex;
@@ -68,10 +74,6 @@
     color: var(--colorGoldLight);
     transition: all 0s;
 }
-.menuLinkSmall {
-    border-top-left-radius: 7px;
-    border-top-right-radius: 7px;
-}
 
 /* Misc */
 .currentPage {
@@ -82,13 +84,13 @@
 }
 
 .shoppingCartIndicator {
+    align-content: center;
     background-color: var(--colorGoldLight);
-    border-radius: 0.27rem;
+    border-radius: 5px;
     color: white;
-    font-size: 0.9rem;
+    font-size: var(--fontSizeNormal);
     font-weight: 600;
-    padding-bottom: 0.26rem !important;
-    padding-left: 0.52rem !important;
-    padding-right: 0.5rem !important;
-    padding-top: 0.2rem !important;
+    height: 100%;
+    padding-left: 0.5em;
+    padding-right: 0.55em;
 }

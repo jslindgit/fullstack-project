@@ -23,9 +23,7 @@ const AdminOrderGridRow = ({ order, isOpened, handleClose, handleOpen }: Props) 
     return (
         <div
             className={
-                'displayContents noWrap ' +
-                (isOpened ? 'adminOrdersOpened' : 'buttonHighlight') +
-                (!order.printedOutDate && !order.deliveredDate ? ' bold' : '')
+                'displayContents ' + (isOpened ? 'adminOrdersOpened' : 'buttonHighlight') + (!order.printedOutDate && !order.deliveredDate ? ' bold' : '')
             }
         >
             <div>{format.dateFormat(date)}</div>
@@ -35,7 +33,7 @@ const AdminOrderGridRow = ({ order, isOpened, handleClose, handleOpen }: Props) 
             <div>{format.currency(order.totalAmount, config)}</div>
             <div>{order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : ''}</div>
             <div>{getOrderStatusForAdmin(order, config)}</div>
-            <div className='alignRight'>
+            <div>
                 {isOpened ? (
                     <button type='button' onClick={handleClose}>
                         {contentToText(ContentID.buttonClose, config)}

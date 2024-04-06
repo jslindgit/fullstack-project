@@ -42,15 +42,15 @@ const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }:
     };
 
     return (
-        <div className='infoBox'>
+        <div className='infoBox userInfo'>
             <div className='grid-container' data-cols='2'>
                 <div className='infoHeader'>{contentToText(ContentID.accountAccountInfo, config)}</div>
                 {user.disabled && (
                     <div className='alignRight bold colorRed marginTop-0_5 sizeLarge upperCase'>{contentToText(ContentID.userDisabled, config)}</div>
                 )}
             </div>
-            <div className='grid-container left size' data-cols='auto 1fr auto' data-gap='1rem 2rem'>
-                <div className='semiBold'>{contentToText(ContentID.miscName, config)}:</div>
+            <div className='grid-container left size' data-cols='user-info' data-gap='1rem 2rem'>
+                <div className='bold'>{contentToText(ContentID.miscName, config)}:</div>
                 {editedInfo === 'name' ? (
                     <>
                         <div className='grid-container' data-cols='2' data-gap='1rem'>
@@ -97,7 +97,7 @@ const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }:
                         )}
                     </>
                 )}
-                <div className='semiBold'>{contentToText(ContentID.checkOutOrganization, config)}:</div>
+                <div className='bold'>{contentToText(ContentID.checkOutOrganization, config)}:</div>
                 {editedInfo === 'organization' ? (
                     <>
                         <div>
@@ -134,15 +134,15 @@ const UserBasicInfo = ({ config, showUserStatus = false, updateUserInfo, user }:
                 )}
                 {showUserStatus && (
                     <>
-                        <div className='semiBold'>Status:</div>
+                        <div className='bold'>Status:</div>
                         <div>{getUserStatus(user, config)}</div>
                         <div />
                     </>
                 )}
-                <div className='semiBold'>{contentToText(ContentID.accountUserId, config)}:</div>
+                <div className='bold'>{contentToText(ContentID.accountUserId, config)}:</div>
                 <div>{user.id}</div>
                 <div />
-                <div className='semiBold'>{contentToText(ContentID.userRegisteredDate, config)}:</div>
+                <div className='bold'>{contentToText(ContentID.userRegisteredDate, config)}:</div>
                 <div>{format.dateFormat(new Date(user.createdAt))}</div>
                 <div />
             </div>

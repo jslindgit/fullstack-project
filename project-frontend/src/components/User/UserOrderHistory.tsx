@@ -19,7 +19,7 @@ const UserOrderHistory = ({ config, user }: Props) => {
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
 
     return (
-        <div className='infoBox'>
+        <div className='infoBox userOrderHistory'>
             <div className='infoHeader'>{contentToText(ContentID.accountOrderHistory, config)}</div>
             {user && user.orders && user.orders.length > 0 ? (
                 <>

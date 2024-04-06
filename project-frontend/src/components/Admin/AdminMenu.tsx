@@ -23,7 +23,7 @@ const AdminMenu = ({ config }: Props) => {
     );
 
     return (
-        <div className='divCenter divMinWidth grid-container marginTop1 sizeLarge' data-cols='auto' data-gap='3rem'>
+        <div className='flex-container marginTop1 sizeLarge' data-gap='1rem 2rem' data-justify='center'>
             {link('orders', ContentID.adminPanelOrders)}
             {link('categories', ContentID.adminPanelCategories)}
             {link('items', ContentID.adminPanelItems)}

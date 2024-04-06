@@ -1,5 +1,5 @@
 .adminItemEditLabel {
-    font-size: 0.85rem;
+    font-size: var(--fontSizeSmallish);
     color: var(--colorGray);
     padding: 0 !important;
     text-transform: uppercase;
@@ -28,8 +28,8 @@
 .pageHeader {
     font-size: var(--fontSizeVeryLarge);
     font-weight: bold;
-    margin-bottom: 2rem;
-    margin-top: 1.5rem;
+    margin-bottom: var(--fontSizeExtremelyLarge);
+    margin-top: var(--fontSizeVeryLarge);
     text-align: left;
     text-decoration: 0.2em underline solid var(--colorGoldVeryLight);
     text-underline-offset: 0.2em;

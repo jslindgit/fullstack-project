@@ -69,7 +69,7 @@ const UserDeleteAccount = ({ config, user }: Props) => {
                 </div>
             ) : (
                 <a className='red sizeLarge' onClick={() => setShowPasswordField(true)}>
-                    {contentToText(ContentID.accountDeleteAccount, config)}
+                    <div className='alignCenter'>{contentToText(ContentID.accountDeleteAccount, config)}</div>
                 </a>
             )}
         </div>

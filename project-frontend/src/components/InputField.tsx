@@ -6,7 +6,7 @@ interface Props {
     placeHolder?: string;
     testId?: string;
     useField: UseField;
-    width: '100%' | '11rem' | '20rem' | '32rem' | '33%';
+    width: '100%' | '11rem' | '18rem' | '20rem' | '32rem' | '33%';
 }
 
 const InputField = ({ className, useField, width, placeHolder = '', autoFocus = false, testId = '' }: Props) => {
@@ -18,6 +18,9 @@ const InputField = ({ className, useField, width, placeHolder = '', autoFocus = 
             break;
         case '11rem':
             classNames += ' width11rem';
+            break;
+        case '18rem':
+            classNames += ' width18rem';
             break;
         case '20rem':
             classNames += ' width20rem';

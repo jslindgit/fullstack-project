@@ -4,6 +4,15 @@
     padding: 2rem;
 }
 
+.adminOrdersList {
+    font-size: min(var(--fontSizeNormal), 2.3vw);
+}
+.adminOrdersList button {
+    font-size: min(var(--fontSizeNormal), 2.3vw);
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
 .buttonHighlight {
     transition: all 0.25s;
 }
@@ -73,7 +82,7 @@
 .footer {
     background-color: var(--colorGrayDarkest);
     color: white;
-    font-size: 1rem;
+    font-size: var(--fontSizeNormal);
     font-weight: normal;
     text-align: left;
 }
@@ -82,7 +91,7 @@
     border: solid 3px var(--colorGrayLight);
     border-radius: 15px;
     max-width: min(100%, var(--contentMaxWidth));
-    padding: 2rem;
+    padding: min(5vw, 2rem);
 }
 .infoBox.errors {
     border: solid 3px var(--colorRedLight);
@@ -92,7 +101,7 @@
 }
 
 .loading {
-    font-size: 2rem;
+    font-size: var(--fontSizeExtremelyLarge);
     font-weight: 600;
     padding: 2rem;
 }
@@ -117,6 +126,10 @@
     border-radius: 0.5rem;
     display: flex;
     padding: 1rem;
+}
+
+.userInfo button {
+    width: 100%;
 }
 
 .validationErrors {

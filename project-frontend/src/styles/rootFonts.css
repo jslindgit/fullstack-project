@@ -1,10 +1,9 @@
 :root {
-    --fontSizeVerySmall: 0.5rem;
-    --fontSizeSmall: 0.75rem;
-    --fontSizeSmallish: 0.85rem;
-    --fontSizeNormal: 1rem;
-    --fontSizeLarge: 1.25rem;
-    --fontSizeVeryLarge: 1.5rem;
-    --fontSizeHuge: 2rem;
-    --fontSizeGigantic: 2.5rem;
+    --fontSizeVerySmall: min(0.5rem, 1.8vw);
+    --fontSizeSmall: min(0.75rem, 2.7vw);
+    --fontSizeSmallish: min(0.85rem, 3vw);
+    --fontSizeNormal: min(1rem, 3.6vw);
+    --fontSizeLarge: min(1.25rem, 4.5vw);
+    --fontSizeVeryLarge: min(1.5rem, 5.4vw);
+    --fontSizeExtremelyLarge: min(2rem, 7.2vw);
 }

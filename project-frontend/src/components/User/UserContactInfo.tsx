@@ -126,25 +126,25 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
     );
 
     return (
-        <div className='infoBox'>
+        <div className='infoBox userInfo'>
             <div className='infoHeader'>{contentToText(ContentID.accountContactInfo, config)}</div>
-            <div className='grid-container left' data-cols='auto 1fr auto' data-gap='1rem 2rem'>
-                <div className='semiBold'>{contentToText(ContentID.contactEmail, config)}:</div>
+            <div className='grid-container left' data-cols='user-info' data-gap='1rem 2rem'>
+                <div className='bold'>{contentToText(ContentID.contactEmail, config)}:</div>
                 {info('email', email, { username: email.stringValue() }, user.username, ContentID.contactEmail)}
 
-                <div className='semiBold'>{contentToText(ContentID.contactPhone, config)}:</div>
+                <div className='bold'>{contentToText(ContentID.contactPhone, config)}:</div>
                 {info('phone', phone, { contactPhone: phone.stringValue() }, user.contactPhone, ContentID.contactPhone)}
 
-                <div className='semiBold'>{contentToText(ContentID.checkOutStreetAddress, config)}:</div>
+                <div className='bold'>{contentToText(ContentID.checkOutStreetAddress, config)}:</div>
                 {info('address', address, { contactAddress: address.stringValue() }, user.contactAddress, ContentID.checkOutStreetAddress)}
 
-                <div className='semiBold'>{contentToText(ContentID.checkOutZipCode, config)}:</div>
+                <div className='bold'>{contentToText(ContentID.checkOutZipCode, config)}:</div>
                 {info('zipcode', zipcode, { contactZipcode: zipcode.stringValue() }, user.contactZipcode, ContentID.checkOutZipCode)}
 
-                <div className='semiBold'>{contentToText(ContentID.checkOutCity, config)}:</div>
+                <div className='bold'>{contentToText(ContentID.checkOutCity, config)}:</div>
                 {info('city', city, { contactCity: city.stringValue() }, user.contactCity, ContentID.checkOutCity)}
 
-                <div className='semiBold'>{contentToText(ContentID.checkOutCountry, config)}:</div>
+                <div className='bold'>{contentToText(ContentID.checkOutCountry, config)}:</div>
                 {editedInfo === 'country' ? (
                     <>
                         <div>

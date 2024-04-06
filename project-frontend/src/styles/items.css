@@ -33,14 +33,14 @@
 }
 
 .itemDetailsName {
-    font-size: 1.75rem;
+    font-size: var(--fontSizeExtremelyLarge);
     font-weight: bold;
 }
 
 .itemDetailsPrice {
     border-radius: 20px;
     color: var(--colorGoldLight);
-    font-size: 2rem;
+    font-size: var(--fontSizeExtremelyLarge);
     font-weight: bold;
 }
 

@@ -267,11 +267,11 @@ const AdminOrders = () => {
         const orderCount = allOrders.filter((o) => belongsToFolder(o, folderName)).length;
 
         return currentFolder === folderName ? (
-            <div className='bold underlined thin'>
+            <div className='bold flex-item underlined thin'>
                 {folderLabel(folderName)} ({orderCount})
             </div>
         ) : (
-            <div className='semiBold'>
+            <div className='flex-item semiBold'>
                 <Link to={`${window.location.pathname}?folder=${folderName}`}>
                     {folderLabel(folderName)} ({orderCount})
                 </Link>
@@ -297,7 +297,7 @@ const AdminOrders = () => {
 
     return (
         <div>
-            <div className='adminOrdersMenu grid-container' data-cols='1fr auto 1fr auto 1fr'>
+            <div className='adminOrdersMenu flex-container' data-justify='center'>
                 {menuItemDiv(Folder.PROCESSING)}
                 <div className='colorGrayLight bold'>|</div>
                 {menuItemDiv(Folder.DELIVERED)}
@@ -305,7 +305,7 @@ const AdminOrders = () => {
                 {menuItemDiv(Folder.RECYCLEBIN)}
             </div>
             <br />
-            <div className='grid-container searchBox' data-cols='auto auto 1fr' data-gap='2rem'>
+            <div className='flex-container searchBox' data-gap='1rem 2rem'>
                 <div className='semiBold'>{contentToText(search.label, config)}:</div>
                 <div>
                     <InputField
@@ -324,7 +324,7 @@ const AdminOrders = () => {
                 </div>
             </div>
             <br />
-            <div className='grid-container left middle padded0_5rem_1rem stripedBackground' data-cols='orders'>
+            <div className='adminOrdersList grid-container left middle padded0_5rem_1rem stripedBackground' data-cols='orders'>
                 <div className='displayContents gridHeaderRowDarkGray'>
                     {gridColumnHeader(ContentID.miscDate, 'date')}
                     {gridColumnHeader(ContentID.orderCustomer, 'customer')}

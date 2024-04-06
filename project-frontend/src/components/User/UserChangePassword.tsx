@@ -92,7 +92,7 @@ const UserChangePassword = ({ config, user }: Props) => {
                 </div>
             ) : (
                 <a className='sizeLarge' onClick={() => setShowPasswordFields(true)}>
-                    {contentToText(ContentID.accountChangePassword, config)}
+                    <div className='alignCenter'>{contentToText(ContentID.accountChangePassword, config)}</div>
                 </a>
             )}
         </div>

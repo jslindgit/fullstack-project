@@ -50,6 +50,7 @@ const CategoryGrid = () => {
                     {categories.map((category) => (
                         <CategoryGridColumn key={category.id} category={category} config={config} />
                     ))}
+                    <div />
                 </div>
             ) : (
                 <Loading config={config} />

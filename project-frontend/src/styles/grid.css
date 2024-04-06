@@ -108,6 +108,14 @@
         grid-template-columns: 1fr;
     }
 }
+.grid-container[data-cols='login-form'] {
+    grid-template-columns: auto 1fr;
+}
+@media (max-width: 550px) {
+    .grid-container[data-cols='login-form'] {
+        grid-template-columns: 1fr;
+    }
+}
 .grid-container[data-cols='notification'] {
     grid-template-columns: 40px 1fr 40px;
 }
@@ -116,6 +124,14 @@
 }
 .grid-container[data-cols='orders'] {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr auto;
+}
+.grid-container[data-cols='user-info'] {
+    grid-template-columns: auto 1fr auto;
+}
+@media (max-width: 650px) {
+    .grid-container[data-cols='user-info'] {
+        grid-template-columns: 1fr;
+    }
 }
 .grid-container[data-cols='users'] {
     grid-template-columns: 1fr 1fr 1fr 1fr auto;
@@ -200,7 +216,7 @@
 }
 
 .grid-container.stripedBackground > div > div {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem min(1.6vw, 1rem);
 }
 .grid-container.stripedBackground > div:nth-child(odd) > div {
     background-color: var(--colorGrayVeryLight);

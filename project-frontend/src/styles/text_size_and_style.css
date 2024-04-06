@@ -9,25 +9,25 @@
 
 /* Font size */
 .sizeVerySmall {
-    font-size: 0.5rem;
+    font-size: var(--fontSizeVerySmall);
 }
 .sizeSmall {
-    font-size: 0.75rem;
+    font-size: var(--fontSizeSmall);
 }
 .sizeSmallish {
-    font-size: 0.85rem;
+    font-size: var(--fontSizeSmallish);
 }
 .sizeNormal {
-    font-size: 1rem;
+    font-size: var(--fontSizeNormal);
 }
 .sizeLarge {
-    font-size: 1.25rem;
+    font-size: var(--fontSizeLarge);
 }
 .sizeVeryLarge {
-    font-size: 1.5rem;
+    font-size: var(--fontSizeVeryLarge);
 }
 .sizeExtremelyLarge {
-    font-size: 2rem;
+    font-size: var(--fontSizeExtremelyLarge);
 }
 
 /* Font weight */

@@ -20,7 +20,7 @@
 .valignMiddle {
     align-items: center;
     display: flex;
-    vertical-align: middle; /* not needed for <div> */
+    vertical-align: middle;
 }
 
 .valignTop {

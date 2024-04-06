@@ -1902,8 +1902,8 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.userRegisteredDate,
         content: [
-            { langCode: LangCode.EN, text: 'Registered:' },
-            { langCode: LangCode.FI, text: 'Rekisteröity:' },
+            { langCode: LangCode.EN, text: 'Registered' },
+            { langCode: LangCode.FI, text: 'Rekisteröity' },
         ],
     },
     {
