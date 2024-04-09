@@ -54,7 +54,7 @@ const UserOrderHistory = ({ config, user }: Props) => {
                     </div>
                 </>
             ) : (
-                <div>{contentToText(ContentID.adminOrdersNoOrders, config)}</div>
+                <div className='sizeNormal'>{contentToText(ContentID.adminOrdersNoOrders, config)}</div>
             )}
         </div>
     );

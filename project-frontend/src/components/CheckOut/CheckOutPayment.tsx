@@ -88,9 +88,9 @@ const CheckOutPayment = () => {
     return (
         <div className='pageWidth'>
             <div className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</div>
-            <div className='grid-container' data-cols='check-out' data-gap='4rem'>
+            <div className='checkOutInfoBox grid-container' data-cols='check-out' data-gap='checkout-layout'>
                 <div>
-                    <div className='grid-container paymentMethodSelection' data-gap='2rem'>
+                    <div className='grid-container paymentMethodSelection' data-gap='2em'>
                         <div className='grid-container' data-cols='2'>
                             <div className='alignLeft'>
                                 <a href='https://www.paytrail.com/kuluttajille' target='_blank'>
@@ -101,7 +101,7 @@ const CheckOutPayment = () => {
                                     />
                                 </a>
                             </div>
-                            <div className='alignRight divMinHeight grid-container sizeSmallish upperCase valignTop' data-gap='0.5rem'>
+                            <div className='alignRight divMinHeight grid-container upperCase valignTop' data-gap='0.5rem'>
                                 <a href='https://www.paytrail.com/turvallisuus' target='_blank'>
                                     {contentToText(ContentID.checkOutSafetyInformation, config)}
                                 </a>

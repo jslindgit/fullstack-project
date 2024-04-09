@@ -44,7 +44,7 @@ const CategoryGrid = () => {
     }, [config]);
 
     return (
-        <>
+        <div>
             {loaded ? (
                 <div className='grid-container' data-gap='2rem' data-cols='category-grid'>
                     {categories.map((category) => (
@@ -55,7 +55,7 @@ const CategoryGrid = () => {
             ) : (
                 <Loading config={config} />
             )}
-        </>
+        </div>
     );
 };
 

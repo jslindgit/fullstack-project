@@ -169,4 +169,5 @@
 |   3.4.    | 1    | Viimeistelyä                                                                                                         |     |
 |   4.4.    | 2    | Leiskan muokkaamista mobiiliystävällisemmäksi                                                                        |     |
 |   6.4.    | 2    | Leiskan muokkaamista mobiiliystävällisemmäksi                                                                        |     |
-|    yht    | 277  |                                                                                                                      |     |
+|   9.4.    | 2    | Leiskan muokkaamista mobiiliystävällisemmäksi                                                                        |     |
+|    yht    | 279  |                                                                                                                      |     |

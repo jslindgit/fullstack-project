@@ -1,8 +1,8 @@
 .imgAdminItems {
     border: 1px solid var(--colorGrayLight);
     display: block;
-    height: 3em;
-    margin-right: 0.5rem;
+    max-height: 3em;
+    max-width: 3em;
 }
 .imgAdminItems.new {
     border-color: var(--colorGreenLight);
@@ -13,6 +13,11 @@
     border-color: var(--colorRedLight);
     opacity: 0.5;
     outline: 1px solid var(--colorRedLight);
+}
+@media (max-width: 500px) {
+    .imgAdminItems {
+        max-width: 2em;
+    }
 }
 
 .imgAdminThumb {

@@ -3,7 +3,7 @@
     --fontSizeSmall: min(0.75rem, 2.7vw);
     --fontSizeSmallish: min(0.85rem, 3vw);
     --fontSizeNormal: min(1rem, 3.6vw);
-    --fontSizeLarge: min(1.25rem, 4.5vw);
-    --fontSizeVeryLarge: min(1.5rem, 5.4vw);
-    --fontSizeExtremelyLarge: min(2rem, 7.2vw);
+    --fontSizeLarge: min(1.25rem, 4.2vw);
+    --fontSizeVeryLarge: min(1.5rem, 4.8vw);
+    --fontSizeExtremelyLarge: min(2rem, 6.5vw);
 }

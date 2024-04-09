@@ -221,7 +221,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
                             <br />
                         </div>
                     )}
-                    <InputField useField={field} width='100%' className={validate && error ? 'error' : ''} testId={testId} />
+                    <InputField className={'checkOutInput' + (validate && error ? ' error' : '')} testId={testId} useField={field} width='100%' />
                 </div>
             </React.Fragment>
         );
@@ -232,7 +232,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
             <div data-testid='checkout-contactinfo-header' className='infoHeader marginBottom2'>
                 {contentToText(ContentID.checkOutCustomerContactInformation, config)}
             </div>
-            <div className='grid-container left' data-cols='auto 1fr' data-gap='1.5rem'>
+            <div className='grid-container left' data-cols='auto 1fr' data-gap='1.5em'>
                 {userState.loggedUser && (
                     <div className='gridSpan2 marginBottom1'>
                         <a onClick={fillWithLoggedUserInfo}>
@@ -257,7 +257,7 @@ const CheckOutContactInfo = ({ currentOrder, password, passwordConfirm, setCusto
                     ) : (
                         <></>
                     )}
-                    <select data-testid='checkout-country' value={country || ''} onChange={handleCountryChange}>
+                    <select data-testid='checkout-country' className='checkOutSelect' value={country || ''} onChange={handleCountryChange}>
                         <option value='' disabled>
                             {contentToText(ContentID.checkOutSelectCountry, config)}
                         </option>

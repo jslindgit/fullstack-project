@@ -129,15 +129,15 @@ const AdminSettings = () => {
     const settingLangFields = (label: string, langFields: LangField[], propertyName: PropertyName, currentValue: LangText[]) => {
         return (
             <div className={'displayContents underlinedGridItem ' + (editedProperty !== propertyName ? 'buttonHighlight' : '')}>
-                <div className='alignLeft padding1 semiBold valignMiddle'>{label}:&emsp;&emsp;&emsp;</div>
-                <div className='alignLeft valignMiddle'>
+                <div className='adminSettingsBreakWord adminSettingsLabelCol alignLeft paddingRight1em semiBold valignMiddle'>{label}:</div>
+                <div className='alignLeft paddingRight1em valignMiddle'>
                     {editedProperty === propertyName ? (
                         <div className='grid-container' data-cols='auto 1fr'>
                             {langFields.map((langField) => (
                                 <React.Fragment key={langField.langCode}>
                                     <div className='padding1 paddingLeft0 valignMiddle'>{langField.langCode}</div>
                                     <div className='valignMiddle'>
-                                        <InputField useField={langField.field} width='100%' />
+                                        <InputField className='narrow' useField={langField.field} width='100%' />
                                     </div>
                                 </React.Fragment>
                             ))}
@@ -145,11 +145,10 @@ const AdminSettings = () => {
                     ) : (
                         langTextsToText(currentValue, config)
                     )}
-                    &emsp;&emsp;&emsp;
                 </div>
-                <div className='alignRight valignMiddle'>
+                <div className='alignRight padding0_5em valignMiddle'>
                     {editedProperty === propertyName ? (
-                        <>
+                        <div className='grid-container' data-gap='1em'>
                             <button
                                 type='button'
                                 onClick={submitChanges}
@@ -157,7 +156,6 @@ const AdminSettings = () => {
                             >
                                 {contentToText(ContentID.buttonSave, config)}
                             </button>
-                            &emsp;
                             <button
                                 type='button'
                                 onClick={() => {
@@ -173,7 +171,7 @@ const AdminSettings = () => {
                             >
                                 {contentToText(ContentID.buttonCancel, config)}
                             </button>
-                        </>
+                        </div>
                     ) : (
                         <>
                             <button type='button' onClick={() => setEditedProperty(propertyName)}>
@@ -188,18 +186,20 @@ const AdminSettings = () => {
 
     const settingText = (label: string, useField: UseField, propertyName: PropertyName, currentValue: string) => (
         <div className={'displayContents underlinedGridItem ' + (editedProperty !== propertyName ? 'buttonHighlight' : '')}>
-            <div className='alignLeft padding1 semiBold valignMiddle'>{label}:&emsp;&emsp;&emsp;</div>
-            <div className='alignLeft valignMiddle'>
-                {editedProperty === propertyName ? <InputField useField={useField} width={'100%'} autoFocus={true} /> : useField.stringValue()}
-                &emsp;&emsp;&emsp;
-            </div>
-            <div className='alignRight valignMiddle'>
+            <div className='adminSettingsBreakWord adminSettingsLabelCol alignLeft paddingRight1em semiBold valignMiddle'>{label}:</div>
+            <div className='alignLeft paddingRight1em valignMiddle'>
                 {editedProperty === propertyName ? (
-                    <>
+                    <InputField className='narrow' useField={useField} width={'100%'} autoFocus={true} />
+                ) : (
+                    useField.stringValue()
+                )}
+            </div>
+            <div className='alignRight padding0_5em valignMiddle'>
+                {editedProperty === propertyName ? (
+                    <div className='grid-container' data-gap='1em'>
                         <button type='button' onClick={submitChanges} disabled={useField.stringValue() === currentValue}>
                             {contentToText(ContentID.buttonSave, config)}
                         </button>
-                        &emsp;
                         <button
                             type='button'
                             onClick={() => {
@@ -209,7 +209,7 @@ const AdminSettings = () => {
                         >
                             {contentToText(ContentID.buttonCancel, config)}
                         </button>
-                    </>
+                    </div>
                 ) : (
                     <>
                         <button type='button' onClick={() => setEditedProperty(propertyName)}>
@@ -255,7 +255,7 @@ const AdminSettings = () => {
             <div className='grid-container pageWidth' data-gap='3rem'>
                 <div className='adminFormDiv'>
                     <div className='infoHeader'>{contentToText(ContentID.miscWebstore, config)}</div>
-                    <div className='grid-container striped' data-cols='auto auto 1fr' data-gap='0'>
+                    <div className='adminSettings grid-container' data-cols='admin-settings' data-gap='0'>
                         {settingText(contentToText(ContentID.miscName, config), storeNameField, 'storeName', config.store.contactName)}
                         {settingText(contentToText(ContentID.contactEmail, config), storeEmailField, 'storeEmail', config.store.contactEmail)}
                         {settingText(contentToText(ContentID.contactPhone, config), storePhoneField, 'storePhone', config.store.contactPhone)}
@@ -269,13 +269,15 @@ const AdminSettings = () => {
                             config.store.contactCountry.names
                         )}
                         <div className={'displayContents underlinedGridItem ' + (editedProperty !== 'storeDeliveryCountries' ? 'buttonHighlight' : '')}>
-                            <div className='alignLeft padding1 semiBold valignMiddle'>{contentToText(ContentID.miscDeliveryCountries, config)}:</div>
-                            <div className='alignLeft valignMiddle'>
+                            <div className='adminSettingsBreakWord adminSettingsLabelCol alignLeft paddingRight1em semiBold valignMiddle'>
+                                {contentToText(ContentID.miscDeliveryCountries, config)}:
+                            </div>
+                            <div className='alignLeft paddingRight1em valignMiddle'>
                                 {editedProperty === 'storeDeliveryCountries' ? <>{deliveryCountrySelection()}</> : <>{deliveryCountryList()}</>}
                             </div>
-                            <div className='alignRight valignMiddle'>
+                            <div className='alignRight padding0_5em valignMiddle'>
                                 {editedProperty === 'storeDeliveryCountries' ? (
-                                    <>
+                                    <div className='grid-container' data-gap='1em'>
                                         <button
                                             type='button'
                                             onClick={submitChanges}
@@ -294,7 +296,6 @@ const AdminSettings = () => {
                                         >
                                             {contentToText(ContentID.buttonSave, config)}
                                         </button>
-                                        &emsp;
                                         <button
                                             type='button'
                                             onClick={() => {
@@ -304,7 +305,7 @@ const AdminSettings = () => {
                                         >
                                             {contentToText(ContentID.buttonCancel, config)}
                                         </button>
-                                    </>
+                                    </div>
                                 ) : (
                                     <>
                                         <button type='button' onClick={() => setEditedProperty('storeDeliveryCountries')}>
@@ -323,9 +324,9 @@ const AdminSettings = () => {
                         {settingText(contentToText(ContentID.miscVAT, config) + '-%', vatField, 'vat', config.vat.toString())}
                     </div>
                 </div>
-                <div className='adminFormDiv'>
+                <div className='adminFormDiv adminSettings'>
                     <div className='infoHeader'>{contentToText(ContentID.miscMerchant, config)}</div>
-                    <div className='grid-container striped' data-cols='auto auto 1fr' data-gap='0'>
+                    <div className='grid-container striped' data-cols='admin-settings' data-gap='0'>
                         {settingText(contentToText(ContentID.miscName, config), ownerNameField, 'ownerName', config.owner.name)}
                         {settingText(contentToText(ContentID.contactEmail, config), ownerEmailField, 'ownerEmail', config.owner.email)}
                         {settingText(contentToText(ContentID.contactPhone, config), ownerPhoneField, 'ownerPhone', config.owner.phone)}
@@ -337,9 +338,9 @@ const AdminSettings = () => {
                         )}
                     </div>
                 </div>
-                <div className='adminFormDiv'>
+                <div className='adminFormDiv adminSettings'>
                     <div className='infoHeader'>{contentToText(ContentID.miscContent, config)}</div>
-                    <div className='grid-container' data-cols='auto auto 1fr' data-gap='0'>
+                    <div className='grid-container' data-cols='admin-settings' data-gap='0'>
                         {settingLangFields(
                             `"${contentToText(ContentID.contentWelcome, config)}" (${contentToText(ContentID.menuHome, config)})`,
                             storeWelcomeFields,

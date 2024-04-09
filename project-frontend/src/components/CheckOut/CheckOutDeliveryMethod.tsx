@@ -21,6 +21,7 @@ interface SelectProps {
     setSelectedPoint: React.Dispatch<React.SetStateAction<string>>;
 }
 const PickupPointSelection = ({ config, currentMethodCode, customerZipCode, thisMethod, selectedPoint, setDeliveryMethod, setSelectedPoint }: SelectProps) => {
+    const [loaded, setLoaded] = useState<boolean>(false);
     const [locations, setLocations] = useState<PostiLocation[]>([]);
 
     const zipCode = useField('text', ContentID.checkOutZipCode, customerZipCode);
@@ -33,6 +34,7 @@ const PickupPointSelection = ({ config, currentMethodCode, customerZipCode, this
 
                 if (res.success) {
                     setLocations(res.locations);
+                    setLoaded(true);
                 }
             };
 
@@ -65,10 +67,10 @@ const PickupPointSelection = ({ config, currentMethodCode, customerZipCode, this
 
     return (
         <div className='grid-container left' data-gap='1rem'>
-            <div>{contentToText(ContentID.checkoutChoosePickupLocation, config)}:</div>
-            <input className='width6rem' type={zipCode.type} value={zipCode.value} onChange={zipCode.onChange} />
+            <div className='semiBold'>{contentToText(ContentID.checkoutChoosePickupLocation, config)}:</div>
+            <input className='checkOutInput width6rem' type={zipCode.type} value={zipCode.value} onChange={zipCode.onChange} />
             {locations.length > 0 ? (
-                <select value={selectedPoint} onChange={handleChange}>
+                <select className='checkOutSelect' value={selectedPoint} onChange={handleChange}>
                     {locations.map((loc) => (
                         <option key={loc.id} value={loc.name + ' (' + loc.address + ')'}>
                             {loc.name}
@@ -76,7 +78,7 @@ const PickupPointSelection = ({ config, currentMethodCode, customerZipCode, this
                     ))}
                 </select>
             ) : zipCode.value.toString().length > 4 ? (
-                <>{contentToText(ContentID.miscLoading, config)}</>
+                <>{contentToText(loaded ? ContentID.checkOutNoPickupPointsWithThisZipcode : ContentID.miscLoading, config)}</>
             ) : (
                 <>{contentToText(ContentID.checkOutEnterZipcode, config)}</>
             )}
@@ -109,10 +111,10 @@ const CheckOutDeliveryMethod = ({ currentMethod, customerZipCode, method, setDel
             className={'alignLeft deliveryMethod' + (currentMethod && currentMethod.code === method.code ? ' deliveryMethodSelected' : '')}
             onClick={() => handleClick()}
         >
-            <span className='sizeNormal bold'>{langTextsToText(method.names, config)}</span>
+            <span className='bold preLine sizeNormal'>{langTextsToText(method.names, config)}</span>
             {currentMethod?.code === method.code ? <span className='sizeNormal extraBold colorGreen'>&ensp;✔</span> : <></>}
             <div className='marginBottom0_5 marginTop0_5 sizeSmallish'>{langTextsToText(method.descriptions, config)}</div>
-            <span className='semiBold'>{format.currency(method.cost, config)}</span>
+            <span className='bold sizeNormal'>{format.currency(method.cost, config)}</span>
             {method.code === DeliveryCode.POSTI_PAKETTI && (
                 <div className='marginTop1'>
                     <PickupPointSelection

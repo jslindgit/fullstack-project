@@ -60,9 +60,6 @@
 .marginBottom3 {
     margin-bottom: 3rem;
 }
-.marginBottom5 {
-    margin-bottom: 5rem !important;
-}
 
 .marginLeft1 {
     margin-left: 1rem;
@@ -113,6 +110,9 @@
 .padding0 {
     padding: 0;
 }
+.padding0_5em {
+    padding: 0.5em;
+}
 .padding0Important {
     padding: 0 !important;
 }
@@ -125,11 +125,17 @@
 .paddingLeft1 {
     padding-left: 1rem;
 }
+.paddingLeft1em {
+    padding-left: 1em;
+}
 .paddingRight0 {
     padding-right: 0 !important;
 }
 .paddingRight1 {
     padding-right: 1rem !important;
+}
+.paddingRight1em {
+    padding-right: 1em !important;
 }
 
 .pageWidth {

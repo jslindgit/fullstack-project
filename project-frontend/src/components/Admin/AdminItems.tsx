@@ -121,14 +121,13 @@ const AdminItems = () => {
 
     return (
         <div className='grid-container marginBottom2' data-gap='2rem'>
-            <div>
+            <div className='flex-container' data-gap='1rem 2rem'>
                 {categories.map((c) => (
-                    <span key={c.id}>
+                    <div key={c.id}>
                         <span className={category?.id === c.id ? 'underlined' : ''}>
                             <Link to={'/admin/items?category=' + c.id}>{langTextsToText(c.name, config)}</Link>
                         </span>
-                        <span className='bold colorGrayLight'>&emsp;|&emsp;</span>
-                    </span>
+                    </div>
                 ))}
                 <span className={category ? '' : 'underlined'}>
                     <Link to='/admin/items/'>{contentToText(ContentID.adminItemsUncategorized, config)}</Link>

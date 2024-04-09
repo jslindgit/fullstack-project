@@ -78,6 +78,7 @@ const AdminOrders = () => {
         }
     };
 
+    // Fetch Orders from server, sort them and set the page title:
     useEffect(() => {
         const sortAndSet = (allOrders: Order[]) => {
             switch (sortBy) {
@@ -324,7 +325,7 @@ const AdminOrders = () => {
                 </div>
             </div>
             <br />
-            <div className='adminOrdersList grid-container left middle padded0_5rem_1rem stripedBackground' data-cols='orders'>
+            <div className='adminOrdersList grid-container left middle stripedBackground' data-cols='orders'>
                 <div className='displayContents gridHeaderRowDarkGray'>
                     {gridColumnHeader(ContentID.miscDate, 'date')}
                     {gridColumnHeader(ContentID.orderCustomer, 'customer')}

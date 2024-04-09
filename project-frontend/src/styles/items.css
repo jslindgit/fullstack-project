@@ -52,5 +52,6 @@
 }
 
 .shoppingCartRowNarrow {
-    background-color: var(--colorGrayExtremelyLight);
+    border-left: 3px solid var(--colorGrayLight);
+    border-right: 3px solid var(--colorGrayLight);
 }

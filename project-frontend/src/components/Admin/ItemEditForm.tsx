@@ -275,7 +275,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             ) : (
                 <div className='semiBold'>{contentToText(ContentID.adminItemNewItem, config)}</div>
             )}
-            <div className='grid-container left marginTop2' data-cols='item-edit-form'>
+            <div className='grid-container left marginTop2' data-cols='item-edit-form' data-gap='1rem 0'>
                 <div className='grid-container' data-gap='1rem'>
                     <div className='adminItemEditLabel'>{contentToText(ContentID.miscName, config)}:</div>
                     <div className='grid-container marginLeft1' data-cols='auto 1fr' data-gap='1rem'>

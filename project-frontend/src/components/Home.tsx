@@ -44,7 +44,7 @@ const MainPage = () => {
 
     return (
         <>
-            <div className='grid-container marginBottom5 marginTop2 pageWidth' data-cols='1' data-gap='2rem'>
+            <div className='grid-container marginBottom1 marginTop2 pageWidth' data-cols='1' data-gap='2rem'>
                 <div data-testid='welcome-message' className='pageWidth semiBold sizeExtremelyLarge'>
                     {langTextsToText(config.store.welcome, config)}
                 </div>

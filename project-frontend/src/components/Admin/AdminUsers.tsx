@@ -23,7 +23,7 @@ const AdminUserGridRow = ({ config, user }: Props) => {
     return (
         <div className={'buttonHighlight displayContents' + (user.admin ? ' bold' : user.operator ? ' semiBold' : '')}>
             <div>{user.contactFirstName + ' ' + user.contactLastName}</div>
-            <div>{user.username}</div>
+            <div className='adminUsersListBreakWord'>{user.username}</div>
             <div>{user.id}</div>
             <div>{getUserStatus(user, config)}</div>
             <div className='alignRight'>
@@ -121,8 +121,8 @@ const AdminUsers = () => {
         return <div className='semiBold sizeLarge'>{fetched ? 'No users' : 'Loading...'}</div>;
     }
 
-    const gridColumnHeader = (label: ContentID, sortByOption: sortByOption) => (
-        <div onClick={() => setSorting(sortByOption)}>
+    const gridColumnHeader = (label: ContentID, sortByOption: sortByOption, breakWord: boolean = false) => (
+        <div className={breakWord ? 'adminUsersListBreakWord' : ''} onClick={() => setSorting(sortByOption)}>
             <span
                 className='clickable'
                 title={contentToText(sortBy === sortByOption ? ContentID.miscClickToChangeSortingOrder : ContentID.miscClickToSortByThis, config)}
@@ -135,7 +135,7 @@ const AdminUsers = () => {
 
     return (
         <div className='grid-container pageWidth' data-gap='2rem'>
-            <div className='grid-container left searchBox' data-cols='auto auto 1fr' data-gap='2rem'>
+            <div className='flex-container left searchBox' data-gap='1rem 2rem'>
                 <div className='semiBold'>{contentToText(search.label, config)}:</div>
                 <div>
                     <InputField
@@ -150,11 +150,11 @@ const AdminUsers = () => {
                     </button>
                 </div>
             </div>
-            <div className='grid-container left middle padded1rem stripedBackground' data-cols='users'>
+            <div className='adminUsersList grid-container left middle padded1rem stripedBackground' data-cols='users'>
                 <div className='displayContents gridHeaderRowDarkGray'>
                     {gridColumnHeader(ContentID.miscName, 'name')}
                     {gridColumnHeader(ContentID.loginUsername, 'username')}
-                    {gridColumnHeader(ContentID.accountUserId, 'id')}
+                    {gridColumnHeader(ContentID.accountUserId, 'id', true)}
                     {gridColumnHeader(ContentID.userStatusHeader, 'status')}
                     <div />
                 </div>

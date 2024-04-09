@@ -1,8 +1,11 @@
 .adminItemEditLabel {
     font-size: var(--fontSizeSmallish);
     color: var(--colorGray);
-    padding: 0 !important;
     text-transform: uppercase;
+}
+
+.breakWord {
+    word-break: break-all;
 }
 
 .infoHeader {
@@ -14,7 +17,6 @@
     text-align: left;
     text-decoration: 0.2em underline solid var(--colorGoldVeryLight);
     text-underline-offset: 0.2em;
-    white-space: nowrap;
 }
 
 .lineHeight1_5 {

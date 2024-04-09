@@ -5,9 +5,12 @@ input {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: var(--fontSizeNormal);
     outline: 1px solid var(--colorGray);
-    padding: 0.45rem;
-    padding-left: 0.6rem;
+    padding: 0.45em;
+    padding-left: 0.6em;
     width: 100%;
+}
+input.narrow {
+    font-size: min(var(--fontSizeNormal), 2.5vw);
 }
 
 input:focus {
@@ -38,7 +41,7 @@ input[type='checkbox'] {
 select,
 option {
     font-size: var(--fontSizeNormal);
-    padding: 0.5rem;
+    padding: 0.5em;
 }
 
 textarea {

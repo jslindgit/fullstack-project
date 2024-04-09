@@ -77,8 +77,8 @@ const AdminItemList = ({ config, deleteItem, items }: ListProps) => {
     if (items.length < 1) {
         return <div className='alignCenter colorGrayDark semiBold sizeLarge'>{contentToText(ContentID.adminItemsNoProducts, config)}</div>;
     }
-    const columnHeader = (label: ContentID, sortByOption: sortByOption) => (
-        <div onClick={() => setSorting(sortByOption)}>
+    const columnHeader = (label: ContentID, sortByOption: sortByOption, breakWord: boolean = false) => (
+        <div className={breakWord ? 'adminItemListBreakWord' : ''} onClick={() => setSorting(sortByOption)}>
             <span
                 className='clickable'
                 title={contentToText(sortBy === sortByOption ? ContentID.miscClickToChangeSortingOrder : ContentID.miscClickToSortByThis, config)}
@@ -91,14 +91,14 @@ const AdminItemList = ({ config, deleteItem, items }: ListProps) => {
 
     return (
         <>
-            <div className='grid-container left middle padded1rem sizeSmallish striped' data-cols='admin-item-list'>
+            <div className='adminItemList grid-container left middle padded1rem striped' data-cols='admin-item-list'>
                 <div className='displayContents gridHeaderRowDarkGray'>
                     {columnHeader(ContentID.miscName, 'name')}
                     {columnHeader(ContentID.miscDescription, 'description')}
                     {columnHeader(ContentID.itemsPrice, 'price')}
                     {columnHeader(ContentID.itemsInStock, 'instock')}
-                    {columnHeader(ContentID.itemsId, 'id')}
-                    <div className='gridSpan3'>{contentToText(ContentID.adminPanelImages, config)}</div>
+                    {columnHeader(ContentID.itemsId, 'id', true)}
+                    <div className='gridSpan2'>{contentToText(ContentID.adminPanelImages, config)}</div>
                 </div>
                 {sortedItems.map((item) => (
                     <AdminItemRow key={item.id} item={item} deleteItem={deleteItem} />

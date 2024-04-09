@@ -154,8 +154,8 @@ const CheckOut = () => {
     return (
         <div className='pageWidth'>
             <div className='pageHeader'>{contentToText(ContentID.checkOutHeader, config)}</div>
-            <div className='grid-container' data-cols='check-out' data-gap='4rem'>
-                <div className='grid-container marginBottom1_5' data-gap='1.5rem'>
+            <div className='checkOutInfoBox grid-container' data-cols='check-out' data-gap='checkout-layout'>
+                <div className='grid-container marginBottom1_5' data-gap='1.5em'>
                     <CheckOutContactInfo
                         currentOrder={order}
                         password={password}
@@ -195,7 +195,7 @@ const CheckOut = () => {
                         <button
                             data-testid='checkout-button-choose-payment-method'
                             type='button'
-                            className='large widthFull'
+                            className='checkOutButton widthFull'
                             onClick={handlePaymentClick}
                             disabled={validationErrors.length > 0}
                         >

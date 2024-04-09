@@ -27,21 +27,21 @@ const OrderInfo = ({ order }: Props) => {
     return (
         <div className={'orderInfo' + (order.status === OrderStatus.PENDING ? ' pending' : '')}>
             <div className='bold sizeVeryLarge'>{contentToText(ContentID.checkOutOrderInfo, config) + ('id' in order ? ' #' + order.id : '')}</div>
-            <div className='lineHeight1_5 paddingLeft1'>
+            <div className='lineHeight1_5 paddingLeft1em'>
                 {'id' in order && (
                     <>
-                        <div className='adminItemEditLabel'>{contentToText(ContentID.orderId, config)}:</div>
-                        <div className='paddingLeft1'>{order.id}</div>
+                        <div className='orderInfoSubHeader'>{contentToText(ContentID.orderId, config)}:</div>
+                        <div className='paddingLeft1em'>{order.id}</div>
                     </>
                 )}
                 {orderStatus.length > 0 && (
                     <>
-                        <div className='adminItemEditLabel marginTop1'>{contentToText(ContentID.orderStatus, config)}:</div>
-                        <div className='paddingLeft1'>{orderStatus}</div>
+                        <div className='orderInfoSubHeader marginTop1'>{contentToText(ContentID.orderStatus, config)}:</div>
+                        <div className='paddingLeft1em'>{orderStatus}</div>
                     </>
                 )}
-                <div className='adminItemEditLabel marginTop1'>{contentToText(ContentID.orderCustomer, config)}:</div>
-                <div className='grid-container paddingLeft1'>
+                <div className='orderInfoSubHeader marginTop1'>{contentToText(ContentID.orderCustomer, config)}:</div>
+                <div className='breakWord grid-container paddingLeft1em'>
                     <div>
                         {order.customerFirstName} {order.customerLastName}
                     </div>
@@ -51,12 +51,12 @@ const OrderInfo = ({ order }: Props) => {
                         {order.customerZipCode} {order.customerCity}
                     </div>
                     <div>{order.customerCountry}</div>
-                    <div>{order.customerEmail}</div>
+                    <div className='breakWord'>{order.customerEmail}</div>
                     <div>{order.customerPhone}</div>
                 </div>
-                <div className='adminItemEditLabel marginTop1'>{contentToText(ContentID.orderDeliveryMethod, config)}:</div>
+                <div className='orderInfoSubHeader marginTop1'>{contentToText(ContentID.orderDeliveryMethod, config)}:</div>
                 {order.deliveryMethod && (
-                    <div className='paddingLeft1'>
+                    <div className='paddingLeft1em'>
                         {langTextsToText(order.deliveryMethod.names, config)} <b>({format.currency(order.deliveryCost, config)})</b>
                         {order.deliveryMethod.notes && order.deliveryMethod.notes.length > 0 && (
                             <>
@@ -67,12 +67,12 @@ const OrderInfo = ({ order }: Props) => {
                 )}
                 {order.paymentMethod && (
                     <>
-                        <div className='adminItemEditLabel marginTop1'>{contentToText(ContentID.orderPaymentMethod, config)}:</div>
-                        <div className='capitalize paddingLeft1'>{order.paymentMethod}</div>
+                        <div className='orderInfoSubHeader marginTop1'>{contentToText(ContentID.orderPaymentMethod, config)}:</div>
+                        <div className='capitalize paddingLeft1em'>{order.paymentMethod}</div>
                     </>
                 )}
-                <div className='adminItemEditLabel marginTop1'>{contentToText(ContentID.orderItems, config)}:</div>
-                <div className='marginTop-0_5 sizeSmallish'>
+                <div className='orderInfoSubHeader marginTop1'>{contentToText(ContentID.orderItems, config)}:</div>
+                <div className='marginTop-0_5'>
                     <ul>
                         {order.items.map((si) => (
                             <li key={si.id.toString() + si.size}>
@@ -84,8 +84,8 @@ const OrderInfo = ({ order }: Props) => {
                         ))}
                     </ul>
                 </div>
-                <div className='adminItemEditLabel marginTop1 sizeNormal'>{contentToText(ContentID.orderTotalAmount, config)}:</div>
-                <div className='bold paddingLeft1 sizeVeryLarge'>{format.currency(orderTotalSum(order), config)}</div>
+                <div className='orderInfoSubHeader marginTop1'>{contentToText(ContentID.orderTotalAmount, config)}:</div>
+                <div className='bold paddingLeft1em sizeLarge'>{format.currency(orderTotalSum(order), config)}</div>
             </div>
         </div>
     );

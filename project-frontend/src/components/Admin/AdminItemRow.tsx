@@ -37,14 +37,14 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                 {itemInStockTotal(item)} {contentToText(ContentID.itemsPcs, config)}
             </div>
             <div>{item.id}</div>
-            <div className='padding0'>
-                <div className='imgFlex'>
+            <div className='padding0Important'>
+                <div className='imgFlex' data-gap='1rem'>
                     {item.images && item.images.length > 0
                         ? item.images.map((img) => <Image key={img} className='imgAdminItems' src={img} title={imageFilename(img)} />)
                         : '-'}
                 </div>
             </div>
-            <div className='paddingRight0'>
+            <div className='grid-container' data-cols='admin-item-list-buttons' data-gap='admin-item-list-buttons'>
                 <Link to={'/admin/edititem/' + item.id}>
                     <button
                         type='button'
@@ -63,8 +63,6 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                         {contentToText(ContentID.buttonEdit, config)}
                     </button>
                 </Link>
-            </div>
-            <div>
                 <button
                     type='button'
                     className='red compactButton'

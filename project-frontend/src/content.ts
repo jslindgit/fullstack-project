@@ -112,6 +112,7 @@ export enum ContentID {
     checkOutInvalidEmail = 'CHECK OUT: Invalid e-mail address',
     checkOutIsRequired = 'CHECK OUT: <some information> is required (validation error)',
     checkOutLastName = 'CHECK OUT: Last name',
+    checkOutNoPickupPointsWithThisZipcode = 'CHECK OUT: No pickup points found with the given zipcode',
     checkOutOptional = 'CHECK OUT: optional (information field)',
     checkOutOrderInfo = 'CHECK OUT: Order Info (header)',
     checkOutOrganization = 'CHECK OUT: Organization',
@@ -1025,6 +1026,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Last name' },
             { langCode: LangCode.FI, text: 'Sukunimi' },
+        ],
+    },
+    {
+        id: ContentID.checkOutNoPickupPointsWithThisZipcode,
+        content: [
+            { langCode: LangCode.EN, text: 'No pickup points found with this zipcode.' },
+            { langCode: LangCode.FI, text: 'Tällä postinumerolla ei löydy noutopisteitä.' },
         ],
     },
     {

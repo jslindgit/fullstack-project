@@ -53,33 +53,35 @@ const AdminCategories = () => {
         <div>
             {loaded ? (
                 <>
-                    <div className='grid-container left middle padded1rem preLine striped' data-cols='auto 1fr auto'>
+                    <div className='adminCategoriesList grid-container padded1rem left middle preLine striped' data-cols='auto 1fr auto'>
                         <div className='bold gridStripedHeaderRow'>{contentToText(ContentID.miscName, config)}</div>
                         <div className='bold gridStripedHeaderRow'>{contentToText(ContentID.miscDescription, config)}</div>
                         <div className='gridStripedHeaderRow' />
                         {categories.map((c) => (
                             <React.Fragment key={c.id}>
-                                <div className='semiBold'>{langTextsToText(c.name, config)}</div>
-                                <div>{langTextsToText(c.description, config)}</div>
-                                <div className='grid-container' data-cols='auto' data-gap='1rem'>
-                                    <Link to={'/admin/editcategory/' + c.id}>
-                                        <button type='button'>{contentToText(ContentID.buttonEditCategoryDetails, config)}</button>
-                                    </Link>
-                                    <Link to={`/admin/items?category=${c.id}&back=1`}>
-                                        <button type='button'>{contentToText(ContentID.buttonEditCategoryProducts, config)}</button>
-                                    </Link>
-                                    <button
-                                        className='red'
-                                        onClick={() => deleteCategory(c)}
-                                        disabled={!(usersState.loggedUser?.admin || (c.addedBy && c.addedBy === usersState.loggedUser?.id))}
-                                        title={
-                                            !(usersState.loggedUser?.admin || (c.addedBy && c.addedBy === usersState.loggedUser?.id))
-                                                ? contentToText(ContentID.adminYouCanOnlyDeleteCategoriesAddedByYou, config)
-                                                : ''
-                                        }
-                                    >
-                                        {contentToText(ContentID.buttonRemove, config)}
-                                    </button>
+                                <div className='buttonHighlight displayContents underlinedGridItem'>
+                                    <div className='semiBold'>{langTextsToText(c.name, config)}</div>
+                                    <div>{langTextsToText(c.description, config)}</div>
+                                    <div className='alignCenter grid-container padded1rem' data-cols='admin-categories-buttons' data-gap='1rem'>
+                                        <Link to={'/admin/editcategory/' + c.id}>
+                                            <button type='button'>{contentToText(ContentID.buttonEditCategoryDetails, config)}</button>
+                                        </Link>
+                                        <Link to={`/admin/items?category=${c.id}&back=1`}>
+                                            <button type='button'>{contentToText(ContentID.buttonEditCategoryProducts, config)}</button>
+                                        </Link>
+                                        <button
+                                            className='red'
+                                            onClick={() => deleteCategory(c)}
+                                            disabled={!(usersState.loggedUser?.admin || (c.addedBy && c.addedBy === usersState.loggedUser?.id))}
+                                            title={
+                                                !(usersState.loggedUser?.admin || (c.addedBy && c.addedBy === usersState.loggedUser?.id))
+                                                    ? contentToText(ContentID.adminYouCanOnlyDeleteCategoriesAddedByYou, config)
+                                                    : ''
+                                            }
+                                        >
+                                            {contentToText(ContentID.buttonRemove, config)}
+                                        </button>
+                                    </div>
                                 </div>
                             </React.Fragment>
                         ))}
