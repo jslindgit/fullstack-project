@@ -184,11 +184,11 @@
 }
 
 .paytrailTestCredentialsInfo {
-    background-color: var(--colorOrangeLight);
+    background-color: var(--colorYellowExtremelyLight);
+    border: 2px solid var(--colorYellow);
     font-weight: 600;
     padding: 1rem;
     white-space-collapse: preserve-breaks;
-    word-break: break-all;
 }
 
 .searchBox {

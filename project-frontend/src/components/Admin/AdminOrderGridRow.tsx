@@ -21,11 +21,7 @@ const AdminOrderGridRow = ({ order, isOpened, handleClose, handleOpen }: Props) 
     const date = new Date(order.createdAt);
 
     return (
-        <div
-            className={
-                'displayContents ' + (isOpened ? 'adminOrdersOpened' : 'buttonHighlight') + (!order.printedOutDate && !order.deliveredDate ? ' bold' : '')
-            }
-        >
+        <div className={'displayContents ' + (isOpened ? 'adminOrdersOpened' : 'buttonHighlight') + (!order.readDate && !order.deliveredDate ? ' bold' : '')}>
             <div>{format.dateFormat(date)}</div>
             <div>
                 {order.customerFirstName} {order.customerLastName}

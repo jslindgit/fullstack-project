@@ -44,3 +44,7 @@
 .preLine {
     white-space: pre-line;
 }
+
+.wordBreakBreakAll {
+    word-break: break-all;
+}

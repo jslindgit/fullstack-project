@@ -26,7 +26,9 @@ const OrderInfo = ({ order }: Props) => {
 
     return (
         <div className={'orderInfo' + (order.status === OrderStatus.PENDING ? ' pending' : '')}>
-            <div className='bold sizeVeryLarge'>{contentToText(ContentID.checkOutOrderInfo, config) + ('id' in order ? ' #' + order.id : '')}</div>
+            <div className='bold marginBottom0_5 sizeVeryLarge'>
+                {contentToText(ContentID.checkOutOrderInfo, config) + ('id' in order ? ' #' + order.id : '')}
+            </div>
             <div className='lineHeight1_5 paddingLeft1em'>
                 {'id' in order && (
                     <>

@@ -162,12 +162,6 @@ const AdminOrderDetails = ({
                         </span>
                     </div>
                     <div>
-                        {contentToText(ContentID.adminOrdersPrintedOut, config)}:{' '}
-                        <span className={order.printedOutDate ? 'colorGreen' : 'colorRed'}>
-                            {order.printedOutDate ? format.dateFormat(new Date(order.printedOutDate)) : contentToText(ContentID.miscNo, config)}
-                        </span>
-                    </div>
-                    <div>
                         {contentToText(ContentID.adminOrdersDeliveredDate, config)}:{' '}
                         <span className={order.deliveredDate ? 'colorGreen' : 'colorRed'}>
                             {order.deliveredDate ? format.dateFormat(new Date(order.deliveredDate)) : contentToText(ContentID.miscNo, config)}

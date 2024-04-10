@@ -46,7 +46,7 @@ const App = () => {
     const miscState = useSelector((state: RootState) => state.misc);
     const userState = useSelector((state: RootState) => state.user);
 
-    // Initialize Config and Order states:
+    // Initialize Config, Order and logged User states:
     useEffect(() => {
         dispatch(setLoaded(false));
 

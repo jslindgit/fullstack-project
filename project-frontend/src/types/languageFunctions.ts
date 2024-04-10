@@ -4,12 +4,8 @@ import { ContentID } from '../content';
 
 import { defaultLangContent } from '../content';
 
-export const contentToText = (contentId: ContentID, config: Config, debug: boolean = false) => {
+export const contentToText = (contentId: ContentID, config: Config) => {
     const langContent = defaultLangContent.find((lc) => lc.id === contentId);
-
-    if (debug) {
-        console.log('langC:', langContent);
-    }
 
     if (langContent) {
         return langTextsToText(langContent.content, config);
@@ -18,11 +14,7 @@ export const contentToText = (contentId: ContentID, config: Config, debug: boole
     }
 };
 
-export const langTextsToText = (langTexts: LangText[] | undefined, config: Config, debug: boolean = false): string => {
-    if (debug) {
-        console.log('langTexts:', langTexts);
-        console.log('langTexts.length:', langTexts?.length);
-    }
+export const langTextsToText = (langTexts: LangText[] | undefined, config: Config): string => {
     if (!langTexts || langTexts.length < 1) {
         return '';
     }

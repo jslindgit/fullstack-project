@@ -114,7 +114,7 @@ const CheckOutPayment = () => {
                             {contentToText(ContentID.checkOutTestCredentials, config)}
                             <br />
                             <br />
-                            <a href='https://docs.paytrail.com/#/payment-method-providers?id=test-credentials'>
+                            <a href='https://docs.paytrail.com/#/payment-method-providers?id=test-credentials' className='wordBreakBreakAll'>
                                 https://docs.paytrail.com/#/payment-method-providers?id=test-credentials
                             </a>
                         </div>

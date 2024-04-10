@@ -60,10 +60,7 @@ export const categoryToReqBody = (category: NewCategory | Category): object => {
     };
 };
 
-export const itemFromResBody = (resBody: unknown, debug: boolean = false): Item | null => {
-    if (debug) {
-        console.log('resBody:', resBody);
-    }
+export const itemFromResBody = (resBody: unknown): Item | null => {
     if (
         isObject(resBody) &&
         'description' in resBody &&
@@ -155,7 +152,6 @@ export const settingsFromResBody = (resBody: unknown): Settings | null => {
             storeWelcome: JSON.parse(resBody.storeWelcome),
         };
     } else {
-        console.log('resBody:', resBody);
         handleError('Invalid resBody for Settings');
         return null;
     }
