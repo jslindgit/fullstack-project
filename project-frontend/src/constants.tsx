@@ -82,28 +82,29 @@ export const defaultConfig: Config = {
     maxItemPriceEUR: 1000000,
     maxItemQuantity: 1000,
     owner: {
-        businessIdentifier: '1234567-8',
-        email: 'owner@unnamedwebstore123.com',
-        name: 'Unnamed Owner Oy',
-        phone: '+358 40 123 45678',
+        businessIdentifier: '',
+        email: '',
+        name: '',
+        phone: '',
     },
+    // Paytrail test credentials: https://docs.paytrail.com/#/?id=test-credentials
     paytrail: {
         merchantId: '375917',
         secretKey: 'SAIPPUAKAUPPIAS',
     },
     store: {
-        contactCity: 'Vantaa',
+        contactCity: '',
         contactCountry: {
             names: [
-                { langCode: LangCode.EN, text: 'Finland' },
-                { langCode: LangCode.FI, text: 'Suomi' },
+                { langCode: LangCode.EN, text: '' },
+                { langCode: LangCode.FI, text: '' },
             ],
         },
-        contactEmail: 'info@unnamedwebstore123.com',
-        contactName: 'Unnamed Webstore',
-        contactPhone: '+358 9 123 45678',
-        contactStreetAddress: 'Verkkokauppatie 1',
-        contactZipcode: '01600',
+        contactEmail: '',
+        contactName: '',
+        contactPhone: '',
+        contactStreetAddress: '',
+        contactZipcode: '',
         deliveryCountries: availableDeliveryCountries,
         deliveryTimeBusinessDays: 3,
         welcome: [
