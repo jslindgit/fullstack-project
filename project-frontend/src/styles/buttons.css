@@ -7,9 +7,10 @@ button {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: var(--fontSizeSmallish);
     font-weight: 600;
-    padding: 1rem;
     padding-bottom: 0.45em;
-    padding-top: 0.3rem;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.35rem;
     pointer-events: auto;
     transition: background-color 0.25s;
 }
@@ -29,10 +30,10 @@ button:disabled {
 
 button.large {
     font-size: var(--fontSizeVeryLarge);
-    padding-top: 0.5rem;
-    padding-bottom: 0.75rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-top: 0.5em;
+    padding-bottom: 0.75em;
+    padding-left: 2em;
+    padding-right: 2em;
 }
 
 button.paymentMethod {

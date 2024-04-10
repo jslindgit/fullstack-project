@@ -59,8 +59,9 @@
     font-size: min(1rem, 2.5vw);
 }
 .userOrderHistory button {
-    font-size: min(1rem, 2.5vw);
-    padding: min(1rem, 1.6vw);
+    font-size: min(1rem, 2.2vw);
+    padding-left: min(1em, 1vw);
+    padding-right: min(1em, 1vw);
 }
 
 .userOrderHistoryRowOpened > div {

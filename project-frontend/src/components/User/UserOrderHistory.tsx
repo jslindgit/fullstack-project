@@ -31,7 +31,7 @@ const UserOrderHistory = ({ config, user }: Props) => {
             <div className='infoHeader'>{contentToText(ContentID.accountOrderHistory, config)}</div>
             {paidOrders.length > 0 ? (
                 <>
-                    <div className='grid-container left middle padded1rem stripedBackground' data-cols='order-history'>
+                    <div className='grid-container left middle stripedBackground' data-cols='order-history'>
                         <div className='displayContents gridHeaderRowDarkGray'>
                             <div>{contentToText(ContentID.miscDate, config)}</div>
                             <div>{contentToText(ContentID.orderId, config)}</div>
@@ -62,7 +62,7 @@ const UserOrderHistory = ({ config, user }: Props) => {
                     </div>
                 </>
             ) : (
-                <div className='sizeNormal'>{contentToText(ContentID.adminOrdersNoOrders, config)}</div>
+                <div className='sizeLarge'>{contentToText(ContentID.adminOrdersNoOrders, config)}</div>
             )}
         </div>
     );

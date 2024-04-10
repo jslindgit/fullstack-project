@@ -23,6 +23,7 @@ interface SelectProps {
 const PickupPointSelection = ({ config, currentMethodCode, customerZipCode, thisMethod, selectedPoint, setDeliveryMethod, setSelectedPoint }: SelectProps) => {
     const [loaded, setLoaded] = useState<boolean>(false);
     const [locations, setLocations] = useState<PostiLocation[]>([]);
+    const [zipCodeActive, setZipCodeActive] = useState<boolean>(false);
 
     const zipCode = useField('text', ContentID.checkOutZipCode, customerZipCode);
 
@@ -56,7 +57,7 @@ const PickupPointSelection = ({ config, currentMethodCode, customerZipCode, this
     }, [currentMethodCode, selectedPoint, setDeliveryMethod, thisMethod]);
 
     useEffect(() => {
-        if (customerZipCode.length > zipCode.value.toString().length) {
+        if (customerZipCode.length > zipCode.value.toString().length && zipCodeActive === false) {
             zipCode.setNewValue(customerZipCode);
         }
     }, [customerZipCode, zipCode]);
@@ -68,7 +69,14 @@ const PickupPointSelection = ({ config, currentMethodCode, customerZipCode, this
     return (
         <div className='grid-container left' data-gap='1rem'>
             <div className='semiBold'>{contentToText(ContentID.checkoutChoosePickupLocation, config)}:</div>
-            <input className='checkOutInput width6rem' type={zipCode.type} value={zipCode.value} onChange={zipCode.onChange} />
+            <input
+                className='checkOutInput width6rem'
+                type={zipCode.type}
+                value={zipCode.value}
+                onChange={zipCode.onChange}
+                onFocus={() => setZipCodeActive(true)}
+                onBlur={() => setZipCodeActive(false)}
+            />
             {locations.length > 0 ? (
                 <select className='checkOutSelect' value={selectedPoint} onChange={handleChange}>
                     {locations.map((loc) => (
