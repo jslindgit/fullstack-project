@@ -343,7 +343,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                     </div>
                 </div>
             </div>
-            <div className='marginTop2'>
+            <div className='alignCenter marginTop2'>
                 <button
                     type='button'
                     onClick={submit}
