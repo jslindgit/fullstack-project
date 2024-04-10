@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
-import { Order } from '../../types/orderTypes';
+import { Order, OrderStatus } from '../../types/orderTypes';
 import { User } from '../../types/types';
 
 import format from '../../util/format';
@@ -17,11 +17,19 @@ interface Props {
 }
 const UserOrderHistory = ({ config, user }: Props) => {
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
+    const [paidOrders, setPaidOrders] = useState<Order[]>([]);
+
+    // Don't include cancelled or pending (unpaid) orders:
+    useEffect(() => {
+        if (user) {
+            setPaidOrders(user.orders.filter((o) => o.status !== OrderStatus.CANCELLED && o.status !== OrderStatus.PENDING));
+        }
+    }, [user]);
 
     return (
         <div className='infoBox userOrderHistory'>
             <div className='infoHeader'>{contentToText(ContentID.accountOrderHistory, config)}</div>
-            {user && user.orders && user.orders.length > 0 ? (
+            {paidOrders.length > 0 ? (
                 <>
                     <div className='grid-container left middle padded1rem stripedBackground' data-cols='order-history'>
                         <div className='displayContents gridHeaderRowDarkGray'>
@@ -31,7 +39,7 @@ const UserOrderHistory = ({ config, user }: Props) => {
                             <div>{contentToText(ContentID.orderStatus, config)}</div>
                             <div />
                         </div>
-                        {[...user.orders]
+                        {[...paidOrders]
                             .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
                             .map((order) => (
                                 <div key={order.id} className={'displayContents ' + (openedOrder === order ? 'userOrderHistoryRowOpened' : 'buttonHighlight')}>
