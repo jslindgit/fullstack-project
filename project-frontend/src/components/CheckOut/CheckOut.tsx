@@ -128,7 +128,7 @@ const CheckOut = () => {
     );
 
     const setDeliveryMethod = (deliveryMethod: DeliveryMethod | null) => {
-        if (order.deliveryMethod?.code !== deliveryMethod?.code) {
+        if (order.deliveryMethod?.code !== deliveryMethod?.code || deliveryMethod?.notes !== order.deliveryMethod?.notes) {
             dispatch(setOrder({ ...order, deliveryMethod: deliveryMethod }));
         }
     };
