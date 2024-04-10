@@ -21,7 +21,7 @@ const UserOrderHistory = ({ config, user }: Props) => {
 
     // Don't include cancelled or pending (unpaid) orders:
     useEffect(() => {
-        if (user) {
+        if (user && user.orders) {
             setPaidOrders(user.orders.filter((o) => o.status !== OrderStatus.CANCELLED && o.status !== OrderStatus.PENDING));
         }
     }, [user]);
