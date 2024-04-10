@@ -60,7 +60,7 @@ const PickupPointSelection = ({ config, currentMethodCode, customerZipCode, this
         if (customerZipCode.length > zipCode.value.toString().length && zipCodeActive === false) {
             zipCode.setNewValue(customerZipCode);
         }
-    }, [customerZipCode, zipCode]);
+    }, [customerZipCode, zipCode, zipCodeActive]);
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedPoint(e.target.value);
