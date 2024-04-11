@@ -179,7 +179,7 @@ const CheckOut = () => {
                 </div>
                 <div>
                     <div className='grid-container stickyTop1rem' data-gap='1.5rem'>
-                        <OrderInfo order={order} />
+                        <OrderInfo order={order} showOrderNumber={false} />
                         {validationErrors.length > 0 && (
                             <>
                                 <div className='alignLeft validationErrors'>

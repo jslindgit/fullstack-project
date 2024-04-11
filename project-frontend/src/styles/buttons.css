@@ -89,6 +89,12 @@ button.small {
     transition: all 0s;
 }
 
+.checkOutButton {
+    font-size: min(var(--fontSizeLarge), 3vw) !important;
+    padding-bottom: 1.1em;
+    padding-top: 1em;
+}
+
 .selectButton {
     color: white;
     padding: 1rem;

@@ -31,6 +31,7 @@
 .orderInfo {
     background-color: var(--colorGrayExtremelyLight);
     border: 3px solid var(--colorGrayLight);
+    border-radius: 0.3rem;
     font-size: min(var(--fontSizeNormal), 2.3vw);
     padding: 1em;
     padding-left: min(1.5em, 2vw);

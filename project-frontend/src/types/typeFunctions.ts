@@ -9,7 +9,7 @@ export const isNumber = (text: unknown): text is number => {
 };
 
 export const isObject = (variable: unknown): variable is object => {
-    return typeof variable === 'object' || variable instanceof Object;
+    return variable !== null && (typeof variable === 'object' || variable instanceof Object);
 };
 
 export const isString = (text: unknown): text is string => {

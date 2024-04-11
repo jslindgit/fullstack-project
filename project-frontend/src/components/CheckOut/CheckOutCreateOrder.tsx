@@ -1,15 +1,16 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../../content';
+import { NewOrder } from '../../types/orderTypes';
 import { RootState } from '../../reducers/rootReducer';
 
-import { orderToRequestBody, validateOrder } from '../../util/orderProvider';
-import { isOrder } from '../../types/orderTypeFunctions';
+import { validateOrder } from '../../util/orderProvider';
+import { isOrder, isOrderOrNewOrder } from '../../types/orderTypeFunctions';
 import orderService from '../../services/orderService';
 
-import { setOrder } from '../../reducers/orderReducer';
+import { OrderState, setOrder } from '../../reducers/orderReducer';
 
 import { contentToText } from '../../types/languageFunctions';
 import { handleError } from '../../util/handleError';
@@ -22,69 +23,70 @@ const CheckOutCreateOrder = () => {
     const orderState = useSelector((state: RootState) => state.order);
     const userState = useSelector((state: RootState) => state.user);
 
-    const attemptedToCreateOrder = useRef(false);
+    const [currentOrder, setCurrentOrder] = useState<OrderState | null>(null);
+    const [error, setError] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
-    // If there's no valid order in Redux state, go back to CheckOut:
+    // If there's no valid Order/NewOrder in Redux state, go back to CheckOut:
     useEffect(() => {
-        if (!orderState || validateOrder(orderState, config).length > 0) {
+        if (!orderState || !isOrderOrNewOrder(orderState) || validateOrder(orderState, config).length > 0) {
             navigate('/checkout');
         }
     }, [config, navigate, orderState]);
 
-    // If the order in Redux state is still NewOrder, make a call to the server to convert it into an Order and to save it in the database-
-    // If it's already an Order (has been posted to the server earlier), update it (in case it has been modified since).
+    // If 'currentOrder' hasn't been set yet, set it as the Order/NewOrder in Redux state:
     useEffect(() => {
-        // If there is a valid Order in Redux state, check if it still exists at the server (Orders with 'PENDING' status are purged periodically):
-        let orderExistsAtServer: boolean = false;
-        if (isOrder(orderState)) {
+        if (currentOrder === null) {
+            const newOrder: NewOrder = { ...orderState };
+            if ('id' in newOrder) {
+                delete newOrder.id;
+            }
+            setCurrentOrder(newOrder);
+        }
+    }, [currentOrder, orderState]);
+
+    // If 'currentOrder' is a NewOrder, post it to the server and set the response (an Order) as the value of both 'currentOrder' and Redux state:
+    useEffect(() => {
+        if (currentOrder !== null && !isOrder(currentOrder)) {
             orderService
-                .getById(orderState.id)
+                .addNew(currentOrder, config, userState.loggedUser ? userState.loggedUser.id : null)
                 .then((res) => {
-                    orderExistsAtServer = res.success && res.order !== null;
+                    if (res.success && res.order) {
+                        dispatch(setOrder(res.order));
+                        setCurrentOrder(res.order);
+                    } else {
+                        setError(true);
+                    }
                 })
-                .catch((err) => handleError(err));
+                .catch((err: unknown) => {
+                    console.error(err);
+                    setError(true);
+                    handleError(err);
+                });
         }
+    }, [config, currentOrder, dispatch, userState.loggedUser]);
 
-        if ((!isOrder(orderState) || !orderExistsAtServer) && validateOrder(orderState, config).length <= 0 && !attemptedToCreateOrder.current) {
-            const createdOrder = async () => {
-                const response = await orderService.addNew(orderState, config, userState.loggedUser ? userState.loggedUser.id : null);
-                if (response.success && response.order) {
-                    dispatch(setOrder(response.order));
-                }
-            };
-
-            const executeCreateOrder = async () => {
-                Promise.all([createdOrder()]);
-            };
-
-            executeCreateOrder();
-
-            attemptedToCreateOrder.current = true;
-        } else if (isOrder(orderState)) {
-            const updateOrder = async () => {
-                const toUpdate = orderToRequestBody(orderState, config, false, userState.loggedUser ? userState.loggedUser.id : null);
-                await orderService.update(orderState.id, toUpdate);
-            };
-
-            updateOrder();
-        }
-    }, [config, dispatch, orderState, userState.loggedUser]);
-
+    // If the order has been successfully posted to the server, navigate onwards to payment method selection:
     useEffect(() => {
-        if (orderState) {
+        if (isOrder(currentOrder) && isOrder(orderState) && currentOrder.id === orderState.id) {
             navigate('/payment');
         }
-    }, [navigate, orderState]);
-
-    if (attemptedToCreateOrder.current === false) {
-        return <Loading config={config} />;
-    }
+    }, [currentOrder, navigate, orderState]);
 
     return (
         <>
-            <div className='pageWidth'>{isOrder(orderState) ? <>Ok</> : <>{contentToText(ContentID.errorSomethingWentWrong, config)}.</>}</div>
+            <div className='alignCenter marginTop2 pageWidth sizeLarge'>
+                {error ? (
+                    <>{contentToText(ContentID.errorSomethingWentWrong, config)}</>
+                ) : isOrder(currentOrder) ? (
+                    <>
+                        <a href='/payment'>{contentToText(ContentID.checkOutChoosePaymentMethod, config)}</a>
+                    </>
+                ) : (
+                    <Loading config={config} />
+                )}
+            </div>
         </>
     );
 };

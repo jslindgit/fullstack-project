@@ -33,11 +33,11 @@ const isNewOrder = (obj: unknown): obj is NewOrder => {
 };
 
 export const isOrder = (obj: unknown): obj is Order => {
-    return isNewOrder(obj) && 'id' in obj && isNumber(obj.id) && 'createdAt' in obj && 'totalAmount' in obj && isNumber(obj.totalAmount);
+    return obj !== null && isNewOrder(obj) && 'id' in obj && isNumber(obj.id) && 'createdAt' in obj && 'totalAmount' in obj && isNumber(obj.totalAmount);
 };
 
 export const isOrderOrNewOrder = (obj: unknown): obj is Order | NewOrder => {
-    return isNewOrder(obj) || isOrder(obj);
+    return (obj !== null && isNewOrder(obj)) || isOrder(obj);
 };
 
 export const isShoppingItem = (obj: object): obj is ShoppingItem => {

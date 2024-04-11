@@ -98,11 +98,6 @@
     transition: all 0s;
 }
 
-.checkOutButton {
-    font-size: min(var(--fontSizeLarge), 3vw) !important;
-    padding-bottom: 1em;
-    padding-top: 1em;
-}
 .checkOutInfoBox {
     font-size: min(var(--fontSizeNormal), 2.3vw) !important;
 }

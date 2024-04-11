@@ -12,9 +12,10 @@ import { getOrderStatus } from '../util/orderProvider';
 
 interface Props {
     order: Order | NewOrder;
+    showOrderNumber?: boolean;
 }
 
-const OrderInfo = ({ order }: Props) => {
+const OrderInfo = ({ order, showOrderNumber = true }: Props) => {
     const config = useSelector((state: RootState) => state.config);
 
     const [orderStatus, setOrderStatus] = useState<string>('');
@@ -27,10 +28,10 @@ const OrderInfo = ({ order }: Props) => {
     return (
         <div className={'orderInfo' + (order.status === OrderStatus.PENDING ? ' pending' : '')}>
             <div className='bold marginBottom0_5 sizeVeryLarge'>
-                {contentToText(ContentID.checkOutOrderInfo, config) + ('id' in order ? ' #' + order.id : '')}
+                {contentToText(ContentID.checkOutOrderInfo, config) + (showOrderNumber && 'id' in order ? ' #' + order.id : '')}
             </div>
             <div className='lineHeight1_5 paddingLeft1em'>
-                {'id' in order && (
+                {showOrderNumber && 'id' in order && (
                     <>
                         <div className='orderInfoSubHeader'>{contentToText(ContentID.orderId, config)}:</div>
                         <div className='paddingLeft1em'>{order.id}</div>

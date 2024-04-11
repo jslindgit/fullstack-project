@@ -41,6 +41,7 @@ const CheckOutPayment = () => {
                 setPaytrailData(data.data);
                 setAttemptedToFetchPaytrailData(true);
             };
+
             createPayment();
         }
     }, [config, order, userState.loggedUser]);
@@ -119,7 +120,7 @@ const CheckOutPayment = () => {
                             </a>
                         </div>
                         <div>
-                            <div className='alignLeft bold marginBottom1 sizeLarge'>{contentToText(ContentID.checkOutPaymentDetails, config)}</div>
+                            <div className='alignLeft bold marginBottom1 sizeVeryLarge'>{contentToText(ContentID.checkOutPaymentDetails, config)}</div>
                             <div className='grid-container' data-cols='auto 1fr' data-gap='1rem'>
                                 <div className='semiBold colorGraySemiDark'>{contentToText(ContentID.checkOutPayee, config)}</div>
                                 <div className='alignLeft'>
@@ -152,10 +153,9 @@ const CheckOutPayment = () => {
                 </div>
             </div>
             <br />
-            <div className='alignLeft'>
+            <div className='alignLeft marginBottom1_5'>
                 <BackButton labelContentID={ContentID.checkOutAbortPayment} type='text' to='/checkout' />
             </div>
-            <br />
         </div>
     );
 };

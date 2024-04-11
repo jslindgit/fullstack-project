@@ -63,7 +63,18 @@ router.post('/', apiKeyExtractor, (async (req, res, next) => {
     if (res.locals.correct_api_key === true) {
         try {
             if (isNewOrder(req.body)) {
-                const addedOrder = await orderService.addNew(req.body);
+                const newOrder = { ...req.body };
+                if ('id' in newOrder) {
+                    delete newOrder.id;
+                }
+                if ('createdAt' in newOrder) {
+                    delete newOrder.createdAt;
+                }
+                if ('updatedAt' in newOrder) {
+                    delete newOrder.updatedAt;
+                }
+
+                const addedOrder = await orderService.addNew(newOrder);
                 res.status(201).json(addedOrder);
             } else {
                 res.status(400).json({ error: 'req.body is not a NewOrder' });

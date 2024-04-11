@@ -63,7 +63,7 @@ const paymentRequest = async (order: OrderInstance): Promise<PaytrailResponse> =
                 country: order.customerCountry,
             },
             redirectUrls: {
-                success: 'https://fullstack-open-project.onrender.com/success',
+                success: 'https://ASDASDASDASDfullstack-open-project.onrender.com/success',
                 cancel: 'https://fullstack-open-project.onrender.com/payment',
             },
             callbackUrls: {
