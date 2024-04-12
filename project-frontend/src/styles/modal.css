@@ -20,14 +20,11 @@
     padding: 1rem;
     padding-bottom: 0.8rem;
     text-align: center;
-    /*opacity: 0.3;*/
-    /*transform: scale(0.8);*/
     transition: all 1s ease-in-out;
 }
 
 .modal-content-active {
     opacity: 1;
-    /*transform: scale(1);*/
     transition: all 1s ease-in-out;
 }
 
