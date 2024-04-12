@@ -65,14 +65,14 @@ const paymentRequest = async (order: OrderInstance): Promise<PaytrailResponse> =
                 country: order.customerCountry,
             },
             // The Paytrail API doesn't accept 'http://localhost:3000/*' URL's as return URL values,
-            // so when testing, the 'https://localhost/*' must be changed to 'http://localhost:3000/*' manually in browser's address field:
+            // so when testing, the 'https://www.mockreturnurl.fi/*' must be changed to 'http://localhost:3000/*' manually in browser's address field:
             redirectUrls: {
-                success: process.env.NODE_ENV === 'dev' ? 'https://localhost/success' : productionUrl + '/success',
-                cancel: process.env.NODE_ENV === 'dev' ? 'https://localhost/cancel' : productionUrl + '/payment',
+                success: process.env.NODE_ENV === 'dev' ? 'https://www.mockreturnurl.fi/success' : productionUrl + '/success',
+                cancel: process.env.NODE_ENV === 'dev' ? 'https://www.mockreturnurl.fi/cancel' : productionUrl + '/payment',
             },
             callbackUrls: {
-                success: process.env.NODE_ENV === 'dev' ? 'https://localhost/success' : productionUrl + '/success',
-                cancel: process.env.NODE_ENV === 'dev' ? 'https://localhost/payment' : productionUrl + '/payment',
+                success: process.env.NODE_ENV === 'dev' ? 'https://www.mockreturnurl.fi/success' : productionUrl + '/success',
+                cancel: process.env.NODE_ENV === 'dev' ? 'https://www.mockreturnurl.fi/payment' : productionUrl + '/payment',
             },
         };
 

@@ -54,8 +54,8 @@ const Item = sequelize.define<ItemInstance>(
         },
         name: {
             type: DataTypes.STRING,
-            unique: true,
             allowNull: false,
+            unique: false,
         },
         price: {
             type: DataTypes.DECIMAL,
