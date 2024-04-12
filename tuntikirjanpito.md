@@ -32,32 +32,32 @@
 |           | 1    | Ulkoasun parantelua                                                                                                  |     |
 |   7.10.   | 1    | Config-tyypin laajennusta ja Info-sivu                                                                               |     |
 |   9.10.   | 1    | Uusi Tuotteet-sivu                                                                                                   |     |
-|           | 2    | Bugien korjausta ja ulkoasun parantelua                                                                              | 61  |
+|           | 2    | Bugien korjausta ja ulkoasun parantelua                                                                              | 62  |
 |  10.10.   | 2    | Tuotesivu yksittäiselle tuotteelle                                                                                   |     |
 |           | 2    | Backend valmiiksi kuvatiedostoja varten, ulkoasun parantelua                                                         |     |
 |  11.10.   | 1    | Backend valmiiksi kuva-tuote-liitostauluja varten                                                                    |     |
 |           | 2    | Tuotteiden lisäyksen/muokkauksen parantelua                                                                          |     |
 |  12.10.   | 3    | Uusi tuotteiden muokkaus -sivu                                                                                       |     |
 |           | 2    | Lisää tuotteiden muokkauksen parantelua                                                                              |     |
-|  16.10.   | 2    | Frontendiin kuvatiedostojen lisääminen aluilleen                                                                     | 75  |
+|  16.10.   | 2    | Frontendiin kuvatiedostojen lisääminen aluilleen                                                                     | 76  |
 |           | 2    | Lisää kuvatiedostojen käsittelyä                                                                                     |     |
 |  17.10.   | 2    | Backendiin Multer käyttöön kuvatiedostojen vastaanottamisessa/säilömisessä                                           |     |
 |           | 3    | Lisää kuvatiedostojen latauksen/käsittelyn työstöä                                                                   |     |
 |  18.10.   | 2    | Lisää kuvatiedostojen käsittelyä                                                                                     |     |
 |           | 2    | Lisää kuvatiedostojen käsittelyä                                                                                     |     |
 |  19.10.   | 2    | Adminille näkymään tuotekuvat                                                                                        |     |
-|           | 2    | Kuvia ladatessa tarkistus, onko saman niminen tiedosto jo olemassa. Adminille mahdollisuus liittää kuvia tuotteisiin | 90  |
+|           | 2    | Kuvia ladatessa tarkistus, onko saman niminen tiedosto jo olemassa. Adminille mahdollisuus liittää kuvia tuotteisiin | 91  |
 |  23.10.   | 1    | Adminille mahdollisuus muokata kategorioita                                                                          |     |
 |  24.10.   | 1    | Ostoskori aluilleen                                                                                                  |     |
 |           | 2    | Lisää ostoskorin työstöä                                                                                             |     |
 |  25.10.   | 3    | Ostoskorin viimeistely ja alustava Checkout-sivu                                                                     |     |
 |           | 1    | Tilauksen luominen aluilleen                                                                                         |     |
-|  26.10.   | 3    | Ostoskorin refactorointia ja Checkoutin työstöä                                                                      | 101 |
+|  26.10.   | 3    | Ostoskorin refactorointia ja Checkoutin työstöä                                                                      | 102 |
 |           | 2    | Lisää Checkoutin työstöä                                                                                             |     |
 |  27.10.   | 1    | Lisää Checkoutin työstöä                                                                                             |     |
 |  30.10.   | 2    | Validointia tilaajan tiedoille Checkout-vaiheessa                                                                    |     |
 |           | 2    | Lisää validointia ja maksutavanvalintasivun pohja                                                                    |     |
-|  31.10.   | 2    | Paytrail-integraatio aluilleen                                                                                       | 110 |
+|  31.10.   | 2    | Paytrail-integraatio aluilleen                                                                                       | 111 |
 |           | 3    | Paytrail-integraation työstöä                                                                                        |     |
 |   1.11.   | 1    | Paytrail-integraation työstöä                                                                                        |     |
 |           | 2    | Paytrail-integraation työstöä                                                                                        |     |
@@ -66,7 +66,7 @@
 |   7.11.   | 2    | Paytrail-integraation työstöä                                                                                        |     |
 |           | 3    | Paytrail-integraation työstöä                                                                                        |     |
 |   8.11.   | 2    | Parempi virheenkäsittely, lisää servicejä/routeja tilauskäsittelyyn                                                  |     |
-|           | 3    | Tilauskäsittelyn työstöä                                                                                             | 130 |
+|           | 3    | Tilauskäsittelyn työstöä                                                                                             | 131 |
 |   9.11.   | 2    | Onnistuneen Paytrail-maksun validointi                                                                               |     |
 |           | 2    | Notifikaation parantelua, alustava tilaushallintasivu Admin-osioon                                                   |     |
 |  10.11.   | 2    | Lisää tilauskäsittelyn työstöä                                                                                       |     |
@@ -77,12 +77,12 @@
 |  15.11.   | 2    | Kielivalinnan työstöä, apufunktio satunnaisten tilausten luomiseen testaamista varten                                |     |
 |           | 2    | Kielivalinnan työstöä                                                                                                |     |
 |  16.11.   | 1    | Kielivalinnan työstöä                                                                                                |     |
-|           | 2    | Kielivalinnan työstöä, tyylien muokkausta                                                                            | 151 |
+|           | 2    | Kielivalinnan työstöä, tyylien muokkausta                                                                            | 152 |
 |  17.11.   | 1    | Kielivalinnan työstöä                                                                                                |     |
 |  20.11.   | 2    | Paranneltu valikko Hallintapaneeliin, kielivalinnan toteuttamista tuotekategorioiden nimissä/kuvauksissa             |     |
 |           | 2    | Kielivalinnan työstöä kategorioiden lisäämisen ja muokkaamisen yhteydessä                                            |     |
 |  21.11.   | 2    | Kielivalinnan työstöä kategorioihin ja tuotteisiin                                                                   |     |
-|           | 2    | Kielivalinnan työstöä                                                                                                | 160 |
+|           | 2    | Kielivalinnan työstöä                                                                                                | 161 |
 |  22.11.   | 2    | Kielivalinnan työstöä                                                                                                |     |
 |           | 2    | Kielivalinnan työstöä                                                                                                |     |
 |  23.11.   | 1    | Tuotteiden lisäyksen/muokkauksen parantelua                                                                          |     |
@@ -90,14 +90,14 @@
 |  24.11.   | 1    | Kielivalinnan työstöä                                                                                                |     |
 |  27.11.   | 1    | Alustava Käyttäjätili-sivu                                                                                           |     |
 |  28.11.   | 1    | User-modelin/tyypin refactorointia                                                                                   |     |
-|           | 2    | Käyttäjätili-sivun työstöä, mahdollisuus vaihtaa salasanaa                                                           | 171 |
+|           | 2    | Käyttäjätili-sivun työstöä, mahdollisuus vaihtaa salasanaa                                                           | 172 |
 |  29.11.   | 2    | Uuden käyttäjän rekisteröinti, refactorointia                                                                        |     |
 |           | 1    | Käyttäjät-sivu Hallintapaneeliin                                                                                     |     |
 |  30.11.   | 1    | Käyttäjätili-sivun refactorointia, Hallintapaneeliin "Käyttäjän tiedot" -sivu,                                       |     |
 |           | 1    | Käyttäjähallinnan työstöä                                                                                            |     |
 |   1.12.   | 1    | One-to-many yhteys käyttäjien ja tilausten välille                                                                   |     |
-|   3.12.   | 2    | Käyttäjien ja tilausten yhteys valmiiksi. Parempi tilanhallinta ostoskorille.                                        |     |
-|           | 1    | Parempi tilanhallinta sisäänkirjautumiselle. Refactorointia.                                                         | 180 |
+|   3.12.   | 2    | Käyttäjien ja tilausten yhteys valmiiksi. Parempi tilanhallinta ostoskorille.                                        | 180 |
+|           | 1    | Parempi tilanhallinta sisäänkirjautumiselle. Refactorointia.                                                         |     |
 |   4.12.   | 2    | Tilanhallintaan parempi persist-ratkaisu. Refactorointia.                                                            |     |
 |           | 1    | Kuvien klikkaaminen suuremmaksi (modal)                                                                              |     |
 |   5.12.   | 1    | Checkoutin parantelua                                                                                                |     |
