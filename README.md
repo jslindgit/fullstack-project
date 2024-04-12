@@ -1,4 +1,4 @@
-A webstore app (backend + frontend with, Express/React/Typescript) made as a project work for https://fullstackopen.com/.
+A webstore app (backend + frontend, Express/React/Typescript) made as a project work for https://fullstackopen.com/.
 
 You can browse the store and make orders without logging in, but you can also register an account if you wish.
 
