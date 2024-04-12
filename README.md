@@ -1,6 +1,6 @@
 Webstore app (backend + frontend).
 
-You can browse the store and make orders without logging, but you can also register an account if you wish.
+You can browse the store and make orders without logging in, but you can also register an account if you wish.
 The app has Finnish and English as language selections, affecting all of the content.
 
 The app is using Paytrail with its test credentials ( https://docs.paytrail.com/#/payment-method-providers?id=test-credentials ), so you can choose any payment method and finish the order without an actual transaction taking place.
