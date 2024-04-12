@@ -1,4 +1,5 @@
 Webstore app (backend + frontend).
+
 You can browse the store and make orders without logging, but you can also register an account if you wish.
 The app has Finnish and English as language selections, affecting all of the content.
 
