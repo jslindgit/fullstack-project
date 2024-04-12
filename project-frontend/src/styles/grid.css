@@ -254,7 +254,11 @@
 .grid-container.padded1rem > div {
     padding: min(1rem, 1vw);
 }
-.grid-container.padded1rem > div > div {
+
+.grid-container.padded1remDeep > div {
+    padding: min(1rem, 1vw);
+}
+.grid-container.padded1remDeep > div > div {
     padding: min(1rem, 1vw);
 }
 

@@ -36,6 +36,8 @@ const paymentRequest = async (order: OrderInstance): Promise<PaytrailResponse> =
 
         const items: ShoppingItem[] = JSON.parse(order.items) as ShoppingItem[];
 
+        const productionUrl = 'https://fullstack-open-project.onrender.com';
+
         const body = {
             stamp: guidv4(),
             reference: order.id.toString(),
@@ -62,13 +64,15 @@ const paymentRequest = async (order: OrderInstance): Promise<PaytrailResponse> =
                 city: order.customerCity,
                 country: order.customerCountry,
             },
+            // The Paytrail API doesn't accept 'http://localhost:3000/*' URL's as return URL values,
+            // so when testing, the 'https://localhost/*' must be changed to 'http://localhost:3000/*' manually in browser's address field:
             redirectUrls: {
-                success: 'https://ASDASDASDASDfullstack-open-project.onrender.com/success',
-                cancel: 'https://fullstack-open-project.onrender.com/payment',
+                success: process.env.NODE_ENV === 'dev' ? 'https://localhost/success' : productionUrl + '/success',
+                cancel: process.env.NODE_ENV === 'dev' ? 'https://localhost/cancel' : productionUrl + '/payment',
             },
             callbackUrls: {
-                success: 'https://fullstack-open-project.onrender.com/success',
-                cancel: 'https://fullstack-open-project.onrender.com/payment',
+                success: process.env.NODE_ENV === 'dev' ? 'https://localhost/success' : productionUrl + '/success',
+                cancel: process.env.NODE_ENV === 'dev' ? 'https://localhost/payment' : productionUrl + '/payment',
             },
         };
 

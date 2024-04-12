@@ -150,7 +150,7 @@ const AdminUsers = () => {
                     </button>
                 </div>
             </div>
-            <div className='adminUsersList grid-container left middle padded1rem stripedBackground' data-cols='users'>
+            <div className='adminUsersList grid-container left middle stripedBackground' data-cols='users'>
                 <div className='displayContents gridHeaderRowDarkGray'>
                     {gridColumnHeader(ContentID.miscName, 'name')}
                     {gridColumnHeader(ContentID.loginUsername, 'username')}

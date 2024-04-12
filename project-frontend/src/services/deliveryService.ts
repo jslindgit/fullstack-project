@@ -5,7 +5,7 @@ const getAllDomestic = (): DeliveryMethod[] => {
     return [
         {
             code: DeliveryCode.POSTI_PIKKUPAKETTI,
-            cost: 3,
+            cost: 5,
             descriptions: [
                 { langCode: LangCode.EN, text: 'Delivered to the recipient’s mail slot or mailbox together with other mail.' },
                 { langCode: LangCode.FI, text: 'Toimitetaan suoraan postiluukkuun tai -laatikkoon kirjepostin mukana.' },
@@ -19,7 +19,7 @@ const getAllDomestic = (): DeliveryMethod[] => {
         },
         {
             code: DeliveryCode.POSTI_PAKETTI,
-            cost: 9,
+            cost: 10,
             descriptions: [
                 { langCode: LangCode.EN, text: 'Delivered to a Posti Parcel Locker or a Posti outlet.' },
                 { langCode: LangCode.FI, text: 'Toimitetaan Postin noutopisteeseen tai pakettiautomaattiin.' },
@@ -33,7 +33,7 @@ const getAllDomestic = (): DeliveryMethod[] => {
         },
         {
             code: DeliveryCode.POSTI_EXPRESS,
-            cost: 15,
+            cost: 17,
             descriptions: [
                 { langCode: LangCode.EN, text: 'Delivered directly to the recipient Mon-Fri between 8 a.m. and 4 p.m.' },
                 { langCode: LangCode.FI, text: 'Toimitetaan suoraan vastaanottajalle arkisin klo 8-16 välillä.' },
@@ -47,7 +47,7 @@ const getAllDomestic = (): DeliveryMethod[] => {
         },
         {
             code: DeliveryCode.POSTI_KOTIPAKETTI,
-            cost: 20,
+            cost: 28,
             descriptions: [
                 {
                     langCode: LangCode.EN,
@@ -103,7 +103,7 @@ const getAllInternational = (): DeliveryMethod[] => {
         },
         {
             code: DeliveryCode.INTERNATIONAL_POSTI_EXPRESS_BUSINESS_DAY,
-            cost: 9,
+            cost: 50,
             descriptions: [
                 {
                     langCode: LangCode.EN,

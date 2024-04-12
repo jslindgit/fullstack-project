@@ -79,7 +79,7 @@ const ShoppingCartRow = ({ allowEdit, indexOf, narrowView, removeItem, shoppingI
 
     const QuantityDiv = () => (
         <div>
-            <div className='divMinWidth grid-container middle' data-cols='2'>
+            <div className='grid-container middle' data-cols='2'>
                 <div>
                     {allowEdit ? (
                         <input className='width5rem' type={quantity.type} value={quantity.value} onChange={quantity.onChange} />

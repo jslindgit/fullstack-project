@@ -37,7 +37,7 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
                 {itemInStockTotal(item)} {contentToText(ContentID.itemsPcs, config)}
             </div>
             <div>{item.id}</div>
-            <div className='padding0Important'>
+            <div>
                 <div className='imgFlex' data-gap='1rem'>
                     {item.images && item.images.length > 0
                         ? item.images.map((img) => <Image key={img} className='imgAdminItems' src={img} title={imageFilename(img)} />)
