@@ -55,7 +55,7 @@ const Menu = () => {
                 </>
             );
         } else {
-            return <div>{menuLink('/login', contentToText(ContentID.menuLogin, config), 'Big', 'menu-login')}</div>;
+            return <>{menuLink('/login', contentToText(ContentID.menuLogin, config), 'Big', 'menu-login')}</>;
         }
     };
 

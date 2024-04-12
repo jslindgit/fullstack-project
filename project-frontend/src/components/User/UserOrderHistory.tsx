@@ -8,16 +8,26 @@ import { User } from '../../types/types';
 import format from '../../util/format';
 import { contentToText } from '../../types/languageFunctions';
 import { getOrderStatus } from '../../util/orderProvider';
+import userService from '../../services/userService';
 
+import Loading from '../Loading';
 import UserOrderDetails from './UserOrderDetails';
 
 interface Props {
     config: Config;
-    user: User;
+    userId: number;
 }
-const UserOrderHistory = ({ config, user }: Props) => {
+const UserOrderHistory = ({ config, userId }: Props) => {
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
     const [paidOrders, setPaidOrders] = useState<Order[]>([]);
+    const [user, setUser] = useState<User | undefined>(undefined);
+
+    // Fetch User from server:
+    useEffect(() => {
+        userService.getById(userId).then((returnedUser) => {
+            setUser(returnedUser);
+        });
+    }, [userId]);
 
     // Don't include cancelled or pending (unpaid) orders:
     useEffect(() => {
@@ -25,6 +35,10 @@ const UserOrderHistory = ({ config, user }: Props) => {
             setPaidOrders(user.orders.filter((o) => o.status !== OrderStatus.CANCELLED && o.status !== OrderStatus.PENDING));
         }
     }, [user]);
+
+    if (!user || user === null) {
+        return <Loading config={config} />;
+    }
 
     return (
         <div className='infoBox userOrderHistory'>

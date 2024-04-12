@@ -76,7 +76,7 @@ const UserPanel = () => {
                 <UserBasicInfo config={config} showUserStatus={user.admin || user.operator} updateUserInfo={updateUserInfo} user={user} />
                 <UserContactInfo config={config} updateUserInfo={updateUserInfo} user={user} />
                 <UserChangePassword config={config} user={user} />
-                <UserOrderHistory config={config} user={user} />
+                <UserOrderHistory config={config} userId={user.id} />
                 <UserDeleteAccount config={config} user={user} />
             </div>
         </div>
