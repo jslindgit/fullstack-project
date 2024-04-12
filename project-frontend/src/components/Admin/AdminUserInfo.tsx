@@ -113,7 +113,7 @@ const AdminUserInfo = () => {
             <div className='grid-container' data-gap='2rem'>
                 <UserBasicInfo addLinkToEmail={true} config={config} showUserStatus={true} updateUserInfo={null} user={user} />
                 <UserContactInfo addLinkToEmail={true} config={config} updateUserInfo={null} user={user} />
-                <UserOrderHistory config={config} user={user} />
+                <UserOrderHistory config={config} userId={user.id} />
                 <div className='infoBox'>
                     <div className='grid-container' data-cols='auto auto auto 1fr' data-gap='1rem'>
                         <div>
