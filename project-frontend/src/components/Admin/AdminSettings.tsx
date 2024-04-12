@@ -152,7 +152,8 @@ const AdminSettings = () => {
                             <button
                                 type='button'
                                 onClick={submitChanges}
-                                disabled={JSON.stringify(langFieldsToLangTexts(langFields)) === JSON.stringify(currentValue)}
+                                disabled={JSON.stringify(langFieldsToLangTexts(langFields)) === JSON.stringify(currentValue || !userState.loggedUser?.admin)}
+                                title={!userState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
                             >
                                 {contentToText(ContentID.buttonSave, config)}
                             </button>
@@ -197,7 +198,12 @@ const AdminSettings = () => {
             <div className='alignRight padding0_5em valignMiddle'>
                 {editedProperty === propertyName ? (
                     <div className='grid-container' data-gap='1em'>
-                        <button type='button' onClick={submitChanges} disabled={useField.stringValue() === currentValue}>
+                        <button
+                            type='button'
+                            onClick={submitChanges}
+                            disabled={useField.stringValue() === currentValue || !userState.loggedUser?.admin}
+                            title={!userState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
+                        >
                             {contentToText(ContentID.buttonSave, config)}
                         </button>
                         <button
@@ -287,12 +293,13 @@ const AdminSettings = () => {
                                                         langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config))
                                                     )
                                                 ) ===
-                                                JSON.stringify(
-                                                    [...config.store.deliveryCountries].sort((a, b) =>
-                                                        langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config))
-                                                    )
-                                                )
+                                                    JSON.stringify(
+                                                        [...config.store.deliveryCountries].sort((a, b) =>
+                                                            langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config))
+                                                        )
+                                                    ) || !userState.loggedUser?.admin
                                             }
+                                            title={!userState.loggedUser?.admin ? contentToText(ContentID.errorThisOperationRequiresAdminRights, config) : ''}
                                         >
                                             {contentToText(ContentID.buttonSave, config)}
                                         </button>

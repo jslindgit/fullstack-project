@@ -78,20 +78,24 @@ router.post('/', tokenExtractor, (async (req, res, next) => {
 
 router.put('/:id', tokenExtractor, (async (req, res, next) => {
     try {
-        const settings = await service.getById(req.params.id);
-        if (!settings) {
-            res.status(404);
-        } else {
-            if (res.locals.admin === true || res.locals.operator === true) {
-                const updatedSettings = await service.update(req.params.id, req.body);
-                if (updatedSettings) {
-                    res.status(200).json(updatedSettings);
-                } else {
-                    res.status(500).end();
-                }
+        if (res.locals.admin === true) {
+            const settings = await service.getById(req.params.id);
+            if (!settings) {
+                res.status(404);
             } else {
-                res.status(403).end();
+                if (res.locals.admin === true || res.locals.operator === true) {
+                    const updatedSettings = await service.update(req.params.id, req.body);
+                    if (updatedSettings) {
+                        res.status(200).json(updatedSettings);
+                    } else {
+                        res.status(500).end();
+                    }
+                } else {
+                    res.status(403).end();
+                }
             }
+        } else {
+            res.status(403).end();
         }
     } catch (err) {
         next(err);
