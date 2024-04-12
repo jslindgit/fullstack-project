@@ -7,7 +7,7 @@ The app is using Paytrail with its test credentials ( https://docs.paytrail.com/
 
 For "Postipaketti" delivery method it uses Posti's pickup location API so the customer can choose a pickup location of their liking.
 
-As a user with admin rights, you can add/edit/delete items and categories, browse and process/delete orders, browse/edit/delete users and edit settings such as webstore's/merchant's name/contact details, etc. 
+As a user with admin rights, you can add/edit/delete items and categories, browse/process/delete orders, browse/edit/delete users and edit settings such as webstore's/merchant's name/contact details, etc. 
 
 As an operator, you can add items/categories (and edit/delete them but only the ones that have been added by yourself), browser and process/delete orders, browser users and browse settings.
 
