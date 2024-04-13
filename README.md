@@ -2,7 +2,7 @@ A webstore app (backend + frontend, Express/React/Typescript) made as a project 
 
 You can browse the store and make orders without logging in, but you can also register an account if you wish.
 
-Finnish and English language selections are available, affecting all of the content. The layout is designed to suite both desktop and mobile phone screens.
+Finnish and English language selections are available, affecting all of the content. The layout is designed to suit both desktop and mobile phone screens.
 
 The app is using Paytrail API with its test credentials ( https://docs.paytrail.com/#/payment-method-providers?id=test-credentials ), so you can choose any payment method and finish the order without an actual transaction taking place.
 
