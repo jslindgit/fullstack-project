@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Config } from '../types/configTypes';
-import { ContentID } from '../content';
-import { ShoppingItem } from '../types/orderTypes';
-import { RootState } from '../reducers/rootReducer';
-import { Item } from '../types/types';
+import { Config } from '../../types/configTypes';
+import { ContentID } from '../../content';
+import { ShoppingItem } from '../../types/orderTypes';
+import { RootState } from '../../reducers/rootReducer';
+import { Item } from '../../types/types';
 
-import { availableSizes } from '../constants';
-import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { itemInStockTotal } from '../util/misc';
-import useField from '../hooks/useField';
+import { availableSizes } from '../../constants';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { itemInStockTotal } from '../../util/misc';
+import useField from '../../hooks/useField';
 
-import { setNotification } from '../reducers/miscReducer';
-import { addItemToShoppingCart } from '../reducers/orderReducer';
+import { setNotification } from '../../reducers/miscReducer';
+import { addItemToShoppingCart } from '../../reducers/orderReducer';
 
 interface Props {
     config: Config;
@@ -147,7 +147,7 @@ const AddToCart = ({ config, item }: Props) => {
             {(sizeInStock() > 0 || (showSizeSelection() && size.length < 1)) && (
                 <div>
                     <div className='semiBold'>{contentToText(quantity.label, config)}:</div>
-                    <div className='grid-container marginTop0_5 valignMiddle' data-cols='auto 1fr'>
+                    <div className='grid-container marginTop0_5 valignMiddle' data-cols='auto auto 1fr'>
                         <div>
                             <input data-testid='item-quantity' className='width5rem' type={quantity.type} value={quantity.value} onChange={quantity.onChange} />
                         </div>
@@ -159,6 +159,7 @@ const AddToCart = ({ config, item }: Props) => {
                                 -
                             </div>
                         </div>
+                        <div />
                     </div>
                 </div>
             )}

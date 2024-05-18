@@ -10,7 +10,7 @@ import { handleError } from '../../util/handleError';
 import itemService from '../../services/itemService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
-import AddToCart from '../AddToCart';
+import AddToCart from './AddToCart';
 import BackButton from '../BackButton';
 import Image from '../Image';
 import ItemsMenu from './ItemsMenu';
