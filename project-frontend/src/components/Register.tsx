@@ -35,7 +35,7 @@ const Register = () => {
     const organization = useField('text', ContentID.checkOutOrganization);
     const password = useField('password', ContentID.loginPassword);
     const passwordConfirm = useField('password', ContentID.registerPasswordConfirm);
-    const phone = useField('text', ContentID.contactPhone);
+    const phone = useField('phone', ContentID.contactPhone);
     const zipCode = useField('text', ContentID.checkOutZipCode);
 
     const required: UseField[] = [address, city, email, firstName, lastName, password, passwordConfirm, phone, zipCode];

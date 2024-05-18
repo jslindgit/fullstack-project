@@ -12,7 +12,7 @@ export interface UseField {
     reset: () => void;
     setNewValue: (newValue: string) => void;
     stringValue: () => string;
-    type: 'text' | 'integer' | 'decimal' | 'password';
+    type: 'text' | 'integer' | 'decimal' | 'password' | 'phone';
     value: string | number;
 }
 
@@ -36,12 +36,30 @@ const convertInput = (input: string, type: string, currentValue: string): string
             } else {
                 return currentValue;
             }
+        case 'phone':
+            const numeric = '0123456789';
+            for (let i = 0; i < input.length; i++) {
+                if (i === 0) {
+                    if (!(numeric.includes(input[i]) || input[i] === '+')) {
+                        return currentValue;
+                    }
+                } else {
+                    if (!(numeric.includes(input[i]) || (' -'.includes(input[i]) && numeric.includes(input[i - 1])))) {
+                        return currentValue;
+                    }
+                }
+            }
+            return input;
         default:
             return input;
     }
 };
 
-const useField = (type: 'text' | 'integer' | 'decimal' | 'password', fieldLabel: ContentID | null, initialValue: string | undefined = undefined): UseField => {
+const useField = (
+    type: 'text' | 'integer' | 'decimal' | 'password' | 'phone',
+    fieldLabel: ContentID | null,
+    initialValue: string | undefined = undefined
+): UseField => {
     const initValue = (): string | number => {
         if (initialValue) {
             return convertInput(initialValue, type, initialValue);

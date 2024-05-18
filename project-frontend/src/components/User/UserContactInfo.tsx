@@ -31,7 +31,7 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
     const address = useField('text', null, user.contactAddress);
     const city = useField('text', null, user.contactCity);
     const email = useField('text', null, user.username);
-    const phone = useField('text', null, user.contactPhone);
+    const phone = useField('phone', null, user.contactPhone);
     const zipcode = useField('text', null, user.contactZipcode);
 
     // Set available countries:
