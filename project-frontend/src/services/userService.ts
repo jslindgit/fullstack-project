@@ -92,7 +92,6 @@ const update = async (userId: number, toUpdate: object, propertyName: ContentID,
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), user: null };
         }
     } catch (err: unknown) {
-        handleError(err);
         return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config), user: null };
     }
 };

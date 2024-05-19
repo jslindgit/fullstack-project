@@ -6,6 +6,7 @@ import { ContentID } from '../../content';
 import { User } from '../../types/types';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { isValidEmailAddress } from '../../util/misc';
 import useField, { UseField } from '../../hooks/useField';
 import userService from '../../services/userService';
 
@@ -69,7 +70,7 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
 
     const submitChanges = async (toUpdate: object, propertyName: ContentID) => {
         if (updateUserInfo) {
-            // If username (e-mail address) is being updates, check that the new one isn't already taken:
+            // If username (e-mail address) is being updated, check that the new one isn't already taken:
             const usernameIsAvailable = email.stringValue() === user.username || (await userService.usernameIsAvailable(email.stringValue()));
 
             if (usernameIsAvailable) {
@@ -99,7 +100,11 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
                     </div>
                     <div>
                         <div className='grid-container' data-cols='2' data-gap='1rem'>
-                            <button type='button' onClick={() => submitChanges(toUpdate, buttonLabel)} disabled={useField.stringValue() === currentValue}>
+                            <button
+                                type='button'
+                                onClick={() => submitChanges(toUpdate, buttonLabel)}
+                                disabled={useField.stringValue() === currentValue || (info === 'email' && !isValidEmailAddress(useField.stringValue()))}
+                            >
                                 {contentToText(ContentID.buttonSave, config)}
                             </button>
                             <button type='button' onClick={cancelChanges}>

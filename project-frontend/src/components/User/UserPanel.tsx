@@ -59,6 +59,8 @@ const UserPanel = () => {
         if (usersState.loggedUser) {
             const res = await userService.update(user.id, toUpdate, propertyName, usersState.loggedUser.token, config);
 
+            console.log('res:', res);
+
             dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
             if (res.user) {
