@@ -10,128 +10,104 @@ import service from '../services/itemService';
 
 const router = express.Router();
 
-router.delete('/:id', tokenExtractor, (async (req, res, next) => {
-    try {
-        const item = await service.getById(req.params.id);
+router.delete('/:id', tokenExtractor, (async (req, res) => {
+    const item = await service.getById(req.params.id);
 
-        if (!item) {
-            res.status(404).end();
-        } else {
-            if (res.locals.admin === true || (res.locals.operator === true && item.addedBy && item.addedBy === res.locals.user_id)) {
-                const deletedItem = await service.deleteById(req.params.id);
-                if (deletedItem) {
-                    res.status(204).end();
-                } else {
-                    res.status(500).end();
-                }
+    if (!item) {
+        res.status(404).end();
+    } else {
+        if (res.locals.admin === true || (res.locals.operator === true && item.addedBy && item.addedBy === res.locals.user_id)) {
+            const deletedItem = await service.deleteById(req.params.id);
+            if (deletedItem) {
+                res.status(204).end();
             } else {
-                res.status(403).end();
+                res.status(500).end();
             }
+        } else {
+            res.status(403).end();
         }
-    } catch (err) {
-        next(err);
     }
 }) as RequestHandler);
 
-router.get('/', apiKeyExtractor, (async (_req, res, next) => {
+router.get('/', apiKeyExtractor, (async (_req, res) => {
     if (res.locals.correct_api_key) {
-        try {
-            const items = await service.getAll();
-            res.json(items);
-        } catch (err) {
-            next(err);
+        const items = await service.getAll();
+        res.json(items);
+    } else {
+        res.status(401).end();
+    }
+}) as RequestHandler);
+
+router.get('/:id', apiKeyExtractor, (async (req, res) => {
+    if (res.locals.correct_api_key) {
+        const item = await service.getById(req.params.id);
+        if (item) {
+            res.json(item);
+        } else {
+            res.status(404).json({
+                error: `Item with id ${req.params.id} not found`,
+            });
         }
     } else {
         res.status(401).end();
     }
 }) as RequestHandler);
 
-router.get('/:id', apiKeyExtractor, (async (req, res, next) => {
-    if (res.locals.correct_api_key) {
-        try {
-            const item = await service.getById(req.params.id);
-            if (item) {
-                res.json(item);
+router.post('/', tokenExtractor, (async (req, res) => {
+    if ((res.locals.admin === true || res.locals.operator === true) && res.locals.user_id && isNumber(res.locals.user_id)) {
+        const newItem = toNewItem(req.body);
+        let category_id = null;
+        if (isObject(req.body) && 'category_id' in req.body && isNumber(req.body.category_id)) {
+            category_id = req.body.category_id;
+        }
+        const addedItem = await service.addNew({ ...newItem, addedBy: res.locals.user_id }, category_id);
+
+        res.status(201).json(addedItem);
+    } else {
+        res.status(403).end();
+    }
+}) as RequestHandler);
+
+router.put('/updateinstockandsold/:id', apiKeyExtractor, (async (req, res) => {
+    if (res.locals.correct_api_key === true) {
+        if (
+            isObject(req.body) &&
+            'sizes' in req.body &&
+            Array.isArray(req.body.sizes) &&
+            req.body.sizes.every((s) => isString(s)) &&
+            'sold' in req.body &&
+            isNumber(req.body.sold)
+        ) {
+            const updatedItem = await service.update(req.params.id, { sizes: req.body.sizes, sold: req.body.sold });
+            if (updatedItem) {
+                res.status(200).json(updatedItem);
             } else {
-                res.status(404).json({
-                    error: `Item with id ${req.params.id} not found`,
-                });
+                res.status(500).end();
             }
-        } catch (err) {
-            next(err);
+        } else {
+            res.status(400).json({ error: '"instock" and "sold" properties missing or invalid.' });
         }
     } else {
-        res.status(401).end();
+        res.status(403).end();
     }
 }) as RequestHandler);
 
-router.post('/', tokenExtractor, (async (req, res, next) => {
-    try {
-        if ((res.locals.admin === true || res.locals.operator === true) && res.locals.user_id && isNumber(res.locals.user_id)) {
-            const newItem = toNewItem(req.body);
-            let category_id = null;
-            if (isObject(req.body) && 'category_id' in req.body && isNumber(req.body.category_id)) {
-                category_id = req.body.category_id;
-            }
-            const addedItem = await service.addNew({ ...newItem, addedBy: res.locals.user_id }, category_id);
-
-            res.status(201).json(addedItem);
-        } else {
-            res.status(403).end();
-        }
-    } catch (err) {
-        next(err);
-    }
-}) as RequestHandler);
-
-router.put('/updateinstockandsold/:id', apiKeyExtractor, (async (req, res, next) => {
-    try {
-        if (res.locals.correct_api_key === true) {
-            if (
-                isObject(req.body) &&
-                'sizes' in req.body &&
-                Array.isArray(req.body.sizes) &&
-                req.body.sizes.every((s) => isString(s)) &&
-                'sold' in req.body &&
-                isNumber(req.body.sold)
-            ) {
-                const updatedItem = await service.update(req.params.id, { sizes: req.body.sizes, sold: req.body.sold });
-                if (updatedItem) {
-                    res.status(200).json(updatedItem);
-                } else {
-                    res.status(500).end();
-                }
+router.put('/:id', tokenExtractor, (async (req, res) => {
+    const item = await service.getById(req.params.id);
+    if (!item) {
+        res.status(404).end();
+    } else {
+        if (res.locals.admin === true || (res.locals.operator === true && item.addedBy && item.addedBy === res.locals.user_id)) {
+            const updatedItem = await service.update(req.params.id, req.body);
+            if (updatedItem) {
+                res.status(200).json(updatedItem);
+                return;
             } else {
-                res.status(400).json({ error: '"instock" and "sold" properties missing or invalid.' });
+                res.status(400).end();
             }
         } else {
             res.status(403).end();
         }
-    } catch (err) {
-        next(err);
-    }
-}) as RequestHandler);
-
-router.put('/:id', tokenExtractor, (async (req, res, next) => {
-    try {
-        const item = await service.getById(req.params.id);
-        if (!item) {
-            res.status(404).end();
-        } else {
-            if (res.locals.admin === true || (res.locals.operator === true && item.addedBy && item.addedBy === res.locals.user_id)) {
-                const updatedItem = await service.update(req.params.id, req.body);
-                if (updatedItem) {
-                    res.status(200).json(updatedItem);
-                    return;
-                } else {
-                    res.status(400).end();
-                }
-            } else {
-                res.status(403).end();
-            }
-        }
-    } catch (err) {
-        next(err);
     }
 }) as RequestHandler);
 
