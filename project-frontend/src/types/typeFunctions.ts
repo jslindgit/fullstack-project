@@ -4,6 +4,10 @@ export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
 };
 
+export const isNotNull = <T>(value: T | null | undefined): value is T => {
+    return value !== null && value !== undefined;
+};
+
 export const isNumber = (text: unknown): text is number => {
     return (typeof text === 'number' || text instanceof Number) && !isNaN(Number(text));
 };

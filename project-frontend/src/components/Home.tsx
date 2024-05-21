@@ -5,7 +5,8 @@ import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 import { Item } from '../types/types';
 
-import itemService from '../services/itemService';
+import { useGetAllItemsQuery } from '../services/apiSlice';
+//import itemService from '../services/itemService';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 
 import CategoryGrid from './CategoryGrid';
@@ -18,13 +19,15 @@ const MainPage = () => {
     const [latestItems, setLatestItems] = useState<Item[]>([]);
     const [topSellers, setTopSellers] = useState<Item[]>([]);
 
+    const itemsQuery = useGetAllItemsQuery();
+
     // Title:
     useEffect(() => {
         document.title = config.store.contactName;
     }, [config]);
 
     // Latest and top-selling Items:
-    useEffect(() => {
+    /*useEffect(() => {
         const setLatestAndTopSellers = async () => {
             const allItems = await itemService.getAll();
 
@@ -40,7 +43,29 @@ const MainPage = () => {
         };
 
         setLatestAndTopSellers();
-    }, []);
+    }, []);*/
+
+    useEffect(() => {
+        if (itemsQuery.data) {
+            const allItems = itemsQuery.data;
+
+            setLatestItems(
+                [...allItems]
+                    .filter((item) => item.categories.length > 0)
+                    .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+                    .reverse()
+                    .slice(0, 3)
+            );
+
+            setTopSellers([...allItems].sort((a, b) => b.sold - a.sold).slice(0, 3));
+        }
+    }, [itemsQuery]);
+
+    if (itemsQuery.isLoading) {
+        return <div>Loading...</div>;
+    } else if (itemsQuery.error) {
+        return <div>Error.</div>;
+    }
 
     return (
         <>

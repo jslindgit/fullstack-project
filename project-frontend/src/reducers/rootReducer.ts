@@ -1,16 +1,9 @@
 import { combineReducers } from 'redux';
 
-import configReducer, { ConfigState } from './configReducer';
-import miscReducer, { MiscState } from './miscReducer';
-import orderReducer, { OrderState } from './orderReducer';
-import userReducer, { UserState } from './userReducer';
-
-export interface RootState {
-    config: ConfigState;
-    misc: MiscState;
-    order: OrderState;
-    user: UserState;
-}
+import configReducer from './configReducer';
+import miscReducer from './miscReducer';
+import orderReducer from './orderReducer';
+import userReducer from './userReducer';
 
 const rootReducer = combineReducers({
     config: configReducer,
@@ -18,5 +11,7 @@ const rootReducer = combineReducers({
     order: orderReducer,
     user: userReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
 
 export default rootReducer;

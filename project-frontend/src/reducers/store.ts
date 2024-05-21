@@ -1,13 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import rootReducer from './rootReducer.ts';
+//import rootReducer from './rootReducer.ts';
+import configReducer from './configReducer.ts';
+import miscReducer from './miscReducer.ts';
+import orderReducer from './orderReducer.ts';
+import userReducer from './userReducer.ts';
+
+import { apiSlice } from '../services/apiSlice.ts';
 
 import { saveConfigToLocalStorage } from './configReducer.ts';
 import { saveOrderToLocalStorage } from './orderReducer.ts';
 import { saveTokenToLocalStorage } from './userReducer.ts';
 
 const store = configureStore({
-    reducer: rootReducer,
+    reducer: { config: configReducer, misc: miscReducer, order: orderReducer, user: userReducer, [apiSlice.reducerPath]: apiSlice.reducer },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
 let previousState = store.getState();
