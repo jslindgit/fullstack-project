@@ -5,66 +5,43 @@ import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 import { Item } from '../types/types';
 
-import { useGetAllItemsQuery } from '../services/apiSlice';
-//import itemService from '../services/itemService';
+import { apiSlice } from '../services/apiSlice';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 
 import CategoryGrid from './CategoryGrid';
 import Description from './Description';
 import ItemGrid from './Items/ItemGrid';
+import Loading from './Loading';
 
 const MainPage = () => {
+    const itemsQuery = apiSlice.useItemGetAllQuery();
+
     const config = useSelector((state: RootState) => state.config);
 
     const [latestItems, setLatestItems] = useState<Item[]>([]);
     const [topSellers, setTopSellers] = useState<Item[]>([]);
-
-    const itemsQuery = useGetAllItemsQuery();
 
     // Title:
     useEffect(() => {
         document.title = config.store.contactName;
     }, [config]);
 
-    // Latest and top-selling Items:
-    /*useEffect(() => {
-        const setLatestAndTopSellers = async () => {
-            const allItems = await itemService.getAll();
-
-            setLatestItems(
-                [...allItems]
-                    .filter((item) => item.categories.length > 0)
-                    .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
-                    .reverse()
-                    .slice(0, 3)
-            );
-
-            setTopSellers([...allItems].sort((a, b) => b.sold - a.sold).slice(0, 3));
-        };
-
-        setLatestAndTopSellers();
-    }, []);*/
-
     useEffect(() => {
         if (itemsQuery.data) {
-            const allItems = itemsQuery.data;
-
             setLatestItems(
-                [...allItems]
+                [...itemsQuery.data]
                     .filter((item) => item.categories.length > 0)
                     .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
                     .reverse()
                     .slice(0, 3)
             );
 
-            setTopSellers([...allItems].sort((a, b) => b.sold - a.sold).slice(0, 3));
+            setTopSellers([...itemsQuery.data].sort((a, b) => b.sold - a.sold).slice(0, 3));
         }
     }, [itemsQuery]);
 
-    if (itemsQuery.isLoading) {
-        return <div>Loading...</div>;
-    } else if (itemsQuery.error) {
-        return <div>Error.</div>;
+    if (itemsQuery.isLoading || itemsQuery.error) {
+        return <Loading config={config} text={itemsQuery.error ? contentToText(ContentID.errorSomethingWentWrong, config) : null} />;
     }
 
     return (

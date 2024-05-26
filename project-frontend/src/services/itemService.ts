@@ -3,20 +3,20 @@ import axios from 'axios';
 import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
 import { Order } from '../types/orderTypes';
-import { NewItem, Item, ItemSizeAndInstock, Response } from '../types/types';
+import { /*NewItem, */ Item, ItemSizeAndInstock, Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { apiKeyConfig, authConfig, itemFromResBody, itemToReqBody } from '../util/serviceProvider';
 
-interface ItemResponse extends Response {
+export interface ItemResponse extends Response {
     item: Item | null;
 }
 
 const url = apiBaseUrl + '/items';
 
-const add = async (toAdd: NewItem, category_id: number | null, token: string, config: Config): Promise<ItemResponse> => {
+/*const add = async (toAdd: NewItem, category_id: number | null, token: string, config: Config): Promise<ItemResponse> => {
     try {
         const itemData = itemToReqBody(toAdd);
         const body = category_id ? { ...itemData, category_id: category_id } : itemData;
@@ -34,7 +34,7 @@ const add = async (toAdd: NewItem, category_id: number | null, token: string, co
         handleError(err);
         return { success: false, message: contentToText(ContentID.errorOccurred, config), item: null };
     }
-};
+};*/
 
 const deleteItem = async (item: Item, token: string, config: Config): Promise<Response> => {
     try {
@@ -56,7 +56,7 @@ const deleteItem = async (item: Item, token: string, config: Config): Promise<Re
     }
 };
 
-const getAll = async (): Promise<Item[]> => {
+/*const getAll = async (): Promise<Item[]> => {
     try {
         const { data } = await axios.get<Item[]>(url, apiKeyConfig());
         const items: Item[] = [];
@@ -71,7 +71,7 @@ const getAll = async (): Promise<Item[]> => {
         handleError(err);
         return [];
     }
-};
+};*/
 
 const getById = async (id: number): Promise<Item | null> => {
     try {
@@ -165,9 +165,9 @@ const updateInstockAndSoldValues = async (order: Order) => {
 };
 
 export default {
-    add,
+    /*add,*/
     deleteItem,
-    getAll,
+    /*getAll,*/
     getById,
     getBySearchQuery,
     update,

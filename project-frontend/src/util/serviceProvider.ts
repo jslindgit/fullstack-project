@@ -9,10 +9,10 @@ interface AuthInterface {
     headers: object;
 }
 
-export const apiKeyConfig = (): AuthInterface => {
+export const apiKeyConfig = () => {
     return {
         headers: {
-            Authorization: 'api_key ' + API_KEY,
+            apikey: 'api_key ' + API_KEY,
         },
     };
 };

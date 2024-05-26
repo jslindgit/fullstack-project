@@ -7,6 +7,7 @@ import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 import { Category, Item } from '../../types/types';
 
+import { apiSlice } from '../../services/apiSlice';
 import categoryService from '../../services/categoryService';
 import itemService from '../../services/itemService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
@@ -19,6 +20,8 @@ import { Link } from '../CustomLink';
 import ItemEditForm from './ItemEditForm';
 
 const AdminItems = () => {
+    const itemsQuery = apiSlice.useItemGetAllQuery();
+
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.user);
@@ -50,13 +53,10 @@ const AdminItems = () => {
 
     // Set Items that don't belong to any Category:
     useEffect(() => {
-        const getUncategorizedItems = async () => {
-            const allItems = (await itemService.getAll()).filter((item) => item.categories.length === 0);
-            setUncategorizedItems(allItems);
-        };
-
-        getUncategorizedItems();
-    }, []);
+        if (itemsQuery.data) {
+            setUncategorizedItems(itemsQuery.data.filter((item) => item.categories.length === 0));
+        }
+    }, [itemsQuery.data]);
 
     // Get Category from URL param:
     useEffect(() => {
