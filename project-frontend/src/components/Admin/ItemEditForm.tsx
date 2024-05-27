@@ -12,7 +12,7 @@ import { testItemId } from '../../constants';
 import { handleError } from '../../util/handleError';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
 import item_categoryService from '../../services/item_categoryService';
-import itemService from '../../services/itemService';
+/*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import localstorageHandler from '../../util/localstorageHandler';
 import useField from '../../hooks/useField';
@@ -35,6 +35,7 @@ interface Props {
 }
 const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefined, onSubmit = undefined, setItemAdded }: Props) => {
     const [itemAdd] = apiSlice.useItemAddMutation();
+    const [itemUpdate] = apiSlice.useItemUpdateMutation();
 
     const dispatch = useDispatch();
     const usersState = useSelector((state: RootState) => state.user);
@@ -184,7 +185,8 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
                     };
 
-                    const res = await itemService.update(finalItem, token, config);
+                    //const res = await itemService.update(finalItem, token, config);
+                    const res = await itemUpdate({ itemToUpdate: finalItem, config: config }).unwrap();
                     returnedItem = res.item;
 
                     dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));

@@ -8,7 +8,7 @@ import { /*NewItem, */ Item, ItemSizeAndInstock, Response } from '../types/types
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { apiKeyConfig, authConfig, itemFromResBody, itemToReqBody } from '../util/serviceProvider';
+import { apiKeyConfig, authConfig, itemFromResBody /*, itemToReqBody*/ } from '../util/serviceProvider';
 
 export interface ItemResponse extends Response {
     item: Item | null;
@@ -100,21 +100,9 @@ const getBySearchQuery = async (searchQuery: string, config: Config): Promise<It
     }
 };
 
-const update = async (item: Item, token: string, config: Config): Promise<ItemResponse> => {
+/*const update = async (item: Item, token: string, config: Config): Promise<ItemResponse> => {
     try {
-        const toUpdate = {
-            addedBy: item.addedBy,
-            description: item.description,
-            fitsInLetter: item.fitsInLetter,
-            images: item.images,
-            instock: item.instock,
-            name: item.name,
-            price: item.price,
-            sizes: item.sizes,
-            sold: item.sold,
-        };
-
-        const res = await axios.put<Item>(`${url}/${item.id}`, itemToReqBody(toUpdate), authConfig(token));
+        const res = await axios.put<Item>(`${url}/${item.id}`, itemToReqBody(item), authConfig(token));
         const updatedItem = itemFromResBody(res.data);
 
         if (updatedItem) {
@@ -134,7 +122,7 @@ const update = async (item: Item, token: string, config: Config): Promise<ItemRe
         handleError(err);
         return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config), item: null };
     }
-};
+};*/
 
 const updateInstockAndSoldValues = async (order: Order) => {
     try {
@@ -170,6 +158,6 @@ export default {
     /*getAll,*/
     getById,
     getBySearchQuery,
-    update,
+    /*update,*/
     updateInstockAndSoldValues,
 };

@@ -111,7 +111,7 @@ const update = async (id: unknown, props: unknown): Promise<ItemInstance | null>
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
                     if (key in item) {
-                        if (key !== 'id') {
+                        if (key !== 'id' && key !== 'createdAt' && key !== 'updatedAt' && key !== 'categories') {
                             item.setDataValue(key as keyof ItemAttributes, props[key as keyof typeof props]);
                         }
                     } else {

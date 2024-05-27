@@ -29,6 +29,7 @@ export enum ContentID {
     adminItemToEdit = 'ADMIN - ITEM EDIT: Edited Item: (<Item name>/New Item)',
     adminItemUrlToImage = 'ADMIN - ITEM EDIT: URL to new image',
     adminItemsDeleteItemConfirmation = 'ADMIN - ITEMS: Delete item <item name>? (confirmation)',
+    adminItemsItemUpdated = 'ADMIN - ITEMS: Item Updated',
     adminItemsNewItemAdded = 'ADMIN - ITEMS: New Item Added',
     adminItemsNoProducts = 'ADMIN - ITEMS: No products in this category',
     adminItemsUncategorized = 'ADMIN - ITEMS: Uncategorized (category)',
@@ -445,6 +446,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Delete item' },
             { langCode: LangCode.FI, text: 'Poistetaanko tuote' },
+        ],
+    },
+    {
+        id: ContentID.adminItemsItemUpdated,
+        content: [
+            { langCode: LangCode.EN, text: 'Item updated' },
+            { langCode: LangCode.FI, text: 'Tuote päivitettiin' },
         ],
     },
     {
