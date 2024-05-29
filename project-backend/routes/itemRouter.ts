@@ -19,7 +19,7 @@ router.delete('/:id', tokenExtractor, (async (req, res) => {
         if (res.locals.admin === true || (res.locals.operator === true && item.addedBy && item.addedBy === res.locals.user_id)) {
             const deletedItem = await service.deleteById(req.params.id);
             if (deletedItem) {
-                res.status(204).end();
+                res.json({ success: true });
             } else {
                 res.status(500).end();
             }

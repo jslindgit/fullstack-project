@@ -9,7 +9,7 @@ import { Category, Item } from '../../types/types';
 
 import { apiSlice } from '../../services/apiSlice';
 import categoryService from '../../services/categoryService';
-import itemService from '../../services/itemService';
+/*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { isNumber } from '../../types/typeFunctions';
 
@@ -21,6 +21,7 @@ import ItemEditForm from './ItemEditForm';
 
 const AdminItems = () => {
     const itemsQuery = apiSlice.useItemGetAllQuery();
+    const [itemDelete] = apiSlice.useItemDeleteMutation();
 
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
@@ -98,7 +99,8 @@ const AdminItems = () => {
             return;
         }
         if (confirm(`${contentToText(ContentID.adminItemsDeleteItemConfirmation, config)} "${langTextsToText(item.name, config)}"?`)) {
-            const res = await itemService.deleteItem(item, usersState.loggedUser.token, config);
+            /*const res = await itemService.deleteItem(item, usersState.loggedUser.token, config);*/
+            const res = await itemDelete({ item: item, config: config }).unwrap();
 
             dispatch(setNotification({ tone: res.success ? 'Neutral' : 'Negative', message: res.message }));
 

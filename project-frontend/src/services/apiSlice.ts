@@ -4,7 +4,7 @@ import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
 import { ItemResponse } from './itemService';
 import { Order } from '../types/orderTypes';
-import { Item, NewItem } from '../types/types';
+import { Item, NewItem, Response } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
 
 import { apiBaseUrl, API_KEY } from '../constants';
@@ -12,6 +12,10 @@ import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { orderFromResponseBody } from '../util/orderProvider';
 import { itemFromResBody, itemToReqBody } from '../util/serviceProvider';
 import { isNotNull } from '../types/typeFunctions';
+
+interface ItemDeleteResponse {
+    success: boolean;
+}
 
 const transformResponseItem = (itemRes: Item, successMessage: ContentID, config: Config): ItemResponse => {
     const item = itemFromResBody(itemRes);
@@ -52,6 +56,27 @@ export const apiSlice = createApi({
             },
             transformResponse: (itemRes: Item, _meta, arg) => {
                 return transformResponseItem(itemRes, ContentID.adminItemsNewItemAdded, arg.config);
+            },
+        }),
+        itemDelete: builder.mutation<Response, { item: Item; config: Config }>({
+            query: ({ item }) => {
+                return {
+                    url: `/items/${item.id}`,
+                    method: 'DELETE',
+                };
+            },
+            transformResponse: (response: ItemDeleteResponse, _meta, arg) => {
+                if (response && response.success) {
+                    return {
+                        success: true,
+                        message: `${contentToText(ContentID.itemsItem, arg.config)} "${langTextsToText(arg.item.name, arg.config)}" ${contentToText(
+                            ContentID.miscDeleted,
+                            arg.config
+                        )}.`,
+                    };
+                } else {
+                    return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, arg.config) };
+                }
             },
         }),
         itemGetAll: builder.query<Item[], void>({
