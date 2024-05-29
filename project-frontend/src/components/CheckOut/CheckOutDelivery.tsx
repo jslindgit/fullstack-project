@@ -8,6 +8,7 @@ import { RootState } from '../../reducers/rootReducer';
 import { orderFitsInLetter } from '../../util/checkoutProvider';
 import deliveryService from '../../services/deliveryService';
 import { contentToText } from '../../types/languageFunctions';
+import store from '../../reducers/store';
 
 import CheckOutDeliveryMethod from './CheckOutDeliveryMethod';
 
@@ -34,7 +35,7 @@ const CheckOutDelivery = ({ currentMethod, customerCountry, customerZipCode, ord
             if (customerCountry && customerCountry.length > 0) {
                 const availableMethods = isDomestic() ? deliveryService.getAllDomestic() : deliveryService.getAllInternational();
 
-                const suitableMethods = (await orderFitsInLetter(order)) ? availableMethods : [...availableMethods].filter((m) => !m.isLetter);
+                const suitableMethods = (await orderFitsInLetter(order, store.dispatch)) ? availableMethods : [...availableMethods].filter((m) => !m.isLetter);
 
                 if (currentMethod && !suitableMethods.find((m) => m.code === currentMethod.code)) {
                     setDeliveryMethod(null);

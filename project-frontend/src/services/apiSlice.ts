@@ -43,6 +43,7 @@ export const apiSlice = createApi({
             }
         },
     }),
+    tagTypes: ['Item', 'Order'],
     endpoints: (builder) => ({
         // ITEMS:
         itemAdd: builder.mutation<ItemResponse, { newItem: NewItem; categoryId: number | null; config: Config }>({
@@ -54,6 +55,7 @@ export const apiSlice = createApi({
                     body,
                 };
             },
+            invalidatesTags: ['Item'],
             transformResponse: (itemRes: Item, _meta, arg) => {
                 return transformResponseItem(itemRes, ContentID.adminItemsNewItemAdded, arg.config);
             },
@@ -65,6 +67,7 @@ export const apiSlice = createApi({
                     method: 'DELETE',
                 };
             },
+            invalidatesTags: ['Item'],
             transformResponse: (response: ItemDeleteResponse, _meta, arg) => {
                 if (response && response.success) {
                     return {
@@ -81,8 +84,16 @@ export const apiSlice = createApi({
         }),
         itemGetAll: builder.query<Item[], void>({
             query: () => '/items',
+            providesTags: ['Item'],
             transformResponse: (res: Item[]) => {
                 return res.map((itemData) => itemFromResBody(itemData)).filter(isNotNull);
+            },
+        }),
+        itemGetById: builder.query<Item | null, number>({
+            query: (id) => `items/${id}`,
+            providesTags: ['Item'],
+            transformResponse: (res: Item) => {
+                return itemFromResBody(res);
             },
         }),
         itemUpdate: builder.mutation<ItemResponse, { itemToUpdate: Item; config: Config }>({
@@ -94,6 +105,7 @@ export const apiSlice = createApi({
                     body,
                 };
             },
+            invalidatesTags: ['Item'],
             transformResponse: (itemRes: Item, _meta, arg) => {
                 return transformResponseItem(itemRes, ContentID.adminItemsItemUpdated, arg.config);
             },
@@ -101,6 +113,7 @@ export const apiSlice = createApi({
         // ORDERS:
         orderGetAll: builder.query<Order[], void>({
             query: () => '/orders',
+            providesTags: ['Order'],
             transformResponse: (res: Order[]) => {
                 return res.map((order) => orderFromResponseBody(order)).filter(isNotNull);
             },

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { apiSlice } from '../../services/apiSlice';
 import { ContentID } from '../../content';
 import { ShoppingItem } from '../../types/orderTypes';
 import { RootState } from '../../reducers/rootReducer';
 import { Item } from '../../types/types';
 
 import format from '../../util/format';
-import itemService from '../../services/itemService';
+/*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 
@@ -24,6 +25,8 @@ interface Props {
 }
 
 const ShoppingCartRow = ({ allowEdit, indexOf, narrowView, removeItem, shoppingItem }: Props) => {
+    const itemGetById = apiSlice.useItemGetByIdQuery(shoppingItem.id);
+
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const orderState = useSelector((state: RootState) => state.order);
@@ -32,17 +35,12 @@ const ShoppingCartRow = ({ allowEdit, indexOf, narrowView, removeItem, shoppingI
 
     const quantity = useField('integer', null, shoppingItem.quantity.toString());
 
-    // Fetch the Item matching the ShoppingItem from the server (unless it's 'id' is -1, meaning it's the order's DeliveryMethod, used in UserOrderHistory):
+    // Fetch the Item matching the ShoppingItem from the server (unless its 'id' is -1, meaning it's the order's DeliveryMethod, used in UserOrderHistory):
     useEffect(() => {
-        if (shoppingItem.id >= 0) {
-            const fetchItem = async () => {
-                const fetchedItem = await itemService.getById(shoppingItem.id);
-                setItem(fetchedItem);
-            };
-
-            fetchItem();
+        if (shoppingItem.id >= 0 && itemGetById.data) {
+            setItem(itemGetById.data);
         }
-    }, [shoppingItem]);
+    }, [itemGetById.data, shoppingItem.id]);
 
     // When quantity is adjusted with the "+" and "-" buttons:
     const adjustAmount = (adjustment: number) => {

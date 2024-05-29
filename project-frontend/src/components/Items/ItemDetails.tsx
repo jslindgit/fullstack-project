@@ -5,9 +5,10 @@ import { useSelector } from 'react-redux';
 import { Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
+import { apiSlice } from '../../services/apiSlice';
+import { testItemId } from '../../constants';
 import format from '../../util/format';
-import { handleError } from '../../util/handleError';
-import itemService from '../../services/itemService';
+/*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
 import AddToCart from './AddToCart';
@@ -17,25 +18,29 @@ import ItemsMenu from './ItemsMenu';
 import { ContentID } from '../../content';
 
 const ItemDetails = () => {
+    const id = Number(useParams().id);
+
+    //const itemGetById = apiSlice.useItemGetByIdQuery({ id: id });
+    const itemGetById = apiSlice.useItemGetByIdQuery(id);
+
     const config = useSelector((state: RootState) => state.config);
 
     const [item, setItem] = useState<Item | undefined>();
     const [loading, setLoading] = useState<string>('Loading...');
 
-    const id = Number(useParams().id);
-
+    // Title:
     useEffect(() => {
         document.title = contentToText(ContentID.menuProducts, config) + ' | ' + config.store.contactName;
+    }, [config]);
 
-        try {
-            itemService.getById(id).then((res) => {
-                setItem(res as Item);
-            });
-        } catch (err: unknown) {
-            handleError(err);
-            setLoading('Something went wrong :(');
+    // Fetch Item:
+    useEffect(() => {
+        if (itemGetById.data && id !== testItemId) {
+            setItem(itemGetById.data);
+        } else {
+            setLoading(contentToText(ContentID.errorSomethingWentWrong, config));
         }
-    }, [config, id]);
+    }, [config, id, itemGetById.data]);
 
     if (!item) {
         return (

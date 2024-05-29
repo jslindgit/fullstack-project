@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 import { Config } from '../types/configTypes';
-import { ContentID } from '../content';
+/*import { ContentID } from '../content';*/
 import { Order } from '../types/orderTypes';
 import { /*NewItem, */ Item, ItemSizeAndInstock, Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
-import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { apiKeyConfig, authConfig, itemFromResBody /*, itemToReqBody*/ } from '../util/serviceProvider';
+import { /*contentToText, */ langTextsToText } from '../types/languageFunctions';
+import { apiKeyConfig, /*authConfig, */ itemFromResBody /*, itemToReqBody*/ } from '../util/serviceProvider';
 
 export interface ItemResponse extends Response {
     item: Item | null;
@@ -36,7 +36,7 @@ const url = apiBaseUrl + '/items';
     }
 };*/
 
-const deleteItem = async (item: Item, token: string, config: Config): Promise<Response> => {
+/*const deleteItem = async (item: Item, token: string, config: Config): Promise<Response> => {
     try {
         const res = await axios.delete<Item>(`${url}/${item.id}`, authConfig(token));
         if (res.status === 204) {
@@ -54,7 +54,7 @@ const deleteItem = async (item: Item, token: string, config: Config): Promise<Re
         handleError(err);
         return { success: false, message: contentToText(ContentID.errorOccurred, config) };
     }
-};
+};*/
 
 /*const getAll = async (): Promise<Item[]> => {
     try {
@@ -154,9 +154,9 @@ const updateInstockAndSoldValues = async (order: Order) => {
 
 export default {
     /*add,*/
-    deleteItem,
+    /*deleteItem,*/
     /*getAll,*/
-    getById,
+    /*getById,*/
     getBySearchQuery,
     /*update,*/
     updateInstockAndSoldValues,

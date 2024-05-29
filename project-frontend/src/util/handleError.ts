@@ -25,5 +25,4 @@ export const handleError = (error: unknown): void => {
     }
 
     console.error(`error_handler.handleError: ${errorMessage}`);
-    throw new Error(errorMessage);
 };

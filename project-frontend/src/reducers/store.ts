@@ -37,3 +37,5 @@ store.subscribe(() => {
 });
 
 export default store;
+
+export type StoreDispatch = typeof store.dispatch;

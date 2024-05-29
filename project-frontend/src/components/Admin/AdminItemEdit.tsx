@@ -6,39 +6,35 @@ import { ContentID } from '../../content';
 import { Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
+import { apiSlice } from '../../services/apiSlice';
 import { contentToText } from '../../types/languageFunctions';
-import { handleError } from '../../util/handleError';
-import itemService from '../../services/itemService';
+/*import itemService from '../../services/itemService';*/
 
 import ItemEditForm from './ItemEditForm';
 
 const AdminItemEdit = () => {
+    const id = Number(useParams().id);
+
+    const itemGetById = apiSlice.useItemGetByIdQuery(id);
+
     const config = useSelector((state: RootState) => state.config);
 
     const [item, setItem] = useState<Item | undefined>();
     const [loading, setLoading] = useState<string>('Loading...');
-
-    const id = Number(useParams().id);
 
     // Title:
     useEffect(() => {
         document.title = contentToText(ContentID.adminPanelHeader, config) + ' - ' + contentToText(ContentID.adminEditItem, config);
     }, [config]);
 
+    // Fetch Item:
     useEffect(() => {
-        const setItemById = () => {
-            try {
-                itemService.getById(id).then((res) => {
-                    setItem(res as Item);
-                });
-            } catch (err: unknown) {
-                handleError(err);
-                setLoading(contentToText(ContentID.errorSomethingWentWrong, config) + ' :(');
-            }
-        };
-
-        setItemById();
-    }, [config, id]);
+        if (itemGetById.data) {
+            setItem(itemGetById.data);
+        } else {
+            setLoading(contentToText(ContentID.errorSomethingWentWrong, config));
+        }
+    }, [config, itemGetById.data]);
 
     if (!item) {
         return (

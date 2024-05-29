@@ -1,16 +1,20 @@
 import { NewOrder, Order, ShoppingItem } from '../types/orderTypes';
+import { StoreDispatch } from '../reducers/store';
 
-import itemService from '../services/itemService';
+import { apiSlice } from '../services/apiSlice';
+/*import itemService from '../services/itemService';*/
+/*import store from '../reducers/store';*/
 
 export const itemsTotalSum = (items: ShoppingItem[]): number => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
 };
 
-export const orderFitsInLetter = async (order: NewOrder | Order): Promise<boolean> => {
+export const orderFitsInLetter = async (order: NewOrder | Order, storeDispatch: StoreDispatch): Promise<boolean> => {
     let letterFullness = 0.0;
 
     for (const shoppingItem of order.items) {
-        const item = await itemService.getById(shoppingItem.id);
+        //const item = await itemService.getById(shoppingItem.id);
+        const item = await storeDispatch(apiSlice.endpoints.itemGetById.initiate(shoppingItem.id)).unwrap();
 
         if (!item || item.fitsInLetter < 1) {
             return false;
