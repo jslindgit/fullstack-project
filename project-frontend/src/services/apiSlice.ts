@@ -4,14 +4,19 @@ import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
 import { ItemResponse } from './itemService';
 import { Order } from '../types/orderTypes';
-import { Item, NewItem, Response } from '../types/types';
 import { RootState } from '../reducers/rootReducer';
+import { Item, NewItem, Response } from '../types/types';
 
 import { apiBaseUrl, API_KEY } from '../constants';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { orderFromResponseBody } from '../util/orderProvider';
 import { itemFromResBody, itemToReqBody } from '../util/serviceProvider';
 import { isNotNull } from '../types/typeFunctions';
+
+interface InstockAndSold {
+    sizes: string[];
+    sold: number;
+}
 
 interface ItemDeleteResponse {
     success: boolean;
@@ -109,6 +114,16 @@ export const apiSlice = createApi({
             transformResponse: (itemRes: Item, _meta, arg) => {
                 return transformResponseItem(itemRes, ContentID.adminItemsItemUpdated, arg.config);
             },
+        }),
+        itemUpdateInstockAndSold: builder.mutation<void, { itemId: number; instockAndSold: InstockAndSold }>({
+            query: ({ itemId, instockAndSold }) => {
+                return {
+                    url: `items/updateinstockandsold/${itemId}`,
+                    method: 'PUT',
+                    body: instockAndSold,
+                };
+            },
+            invalidatesTags: ['Item'],
         }),
         // ORDERS:
         orderGetAll: builder.query<Order[], void>({
