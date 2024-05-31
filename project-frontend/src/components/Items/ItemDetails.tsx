@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
-import { testItemId, VITE_ENV } from '../../constants';
+import { testItemId } from '../../constants';
 import format from '../../util/format';
 /*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
@@ -35,11 +35,9 @@ const ItemDetails = () => {
 
     // Fetch Item:
     useEffect(() => {
-        if (itemGetById.data && (id !== testItemId || VITE_ENV === 'test')) {
+        if (itemGetById.data && (id !== testItemId || window.Cypress)) {
             setItem(itemGetById.data);
         } else {
-            console.log('id:', id);
-            console.log('VITE_ENV:', VITE_ENV);
             setLoading(contentToText(ContentID.errorSomethingWentWrong, config));
         }
     }, [config, id, itemGetById.data]);

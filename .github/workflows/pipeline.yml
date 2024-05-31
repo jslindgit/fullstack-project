@@ -40,8 +40,7 @@ jobs:
                   PAYTRAIL_TEST_ACCOUNT: ${{ secrets.PAYTRAIL_TEST_ACCOUNT }}
                   PAYTRAIL_TEST_SECRET: ${{ secrets.PAYTRAIL_TEST_SECRET }}
                   PORT: ${{ secrets.PORT }}
-                  SECRET: ${{ secrets.SECRET }}       
-                  VITE_ENV: 'test'                             
+                  SECRET: ${{ secrets.SECRET }}                  
               with:
                   command: npm run test:e2e
                   start: npm run start --prefix project-backend
