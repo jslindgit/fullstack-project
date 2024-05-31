@@ -38,6 +38,8 @@ const ItemDetails = () => {
         if (itemGetById.data && (id !== testItemId || VITE_ENV === 'test')) {
             setItem(itemGetById.data);
         } else {
+            console.log('id:', id);
+            console.log('VITE_ENV:', VITE_ENV);
             setLoading(contentToText(ContentID.errorSomethingWentWrong, config));
         }
     }, [config, id, itemGetById.data]);
