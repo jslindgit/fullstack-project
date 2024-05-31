@@ -35,7 +35,7 @@ const ItemDetails = () => {
 
     // Fetch Item:
     useEffect(() => {
-        if (itemGetById.data && (id !== testItemId || VITE_ENV === 'test')) {
+        if (itemGetById.data && (id !== testItemId || VITE_ENV === 'test' || VITE_ENV === 'dev')) {
             setItem(itemGetById.data);
         } else {
             console.log('id:', id);
