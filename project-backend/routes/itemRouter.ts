@@ -60,6 +60,11 @@ router.post('/', tokenExtractor, (async (req, res) => {
         if (isObject(req.body) && 'category_id' in req.body && isNumber(req.body.category_id)) {
             category_id = req.body.category_id;
         }
+
+        console.log('req.body:', req.body);
+        console.log('---');
+        console.log('category_id:', category_id);
+
         const addedItem = await service.addNew({ ...newItem, addedBy: res.locals.user_id }, category_id);
 
         res.status(201).json(addedItem);

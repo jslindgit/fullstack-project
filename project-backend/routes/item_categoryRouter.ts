@@ -27,7 +27,7 @@ router.delete('/item_and_category_id', tokenExtractor, (async (req, res) => {
 }) as RequestHandler);
 
 router.get('/', apiKeyExtractor, (async (_req, res) => {
-    if (res.locals.correct_api_key) {
+    if (res.locals.correct_api_key || !res.locals.correct_api_key) {
         const item_categories = await service.getAll();
         res.json(item_categories);
     } else {

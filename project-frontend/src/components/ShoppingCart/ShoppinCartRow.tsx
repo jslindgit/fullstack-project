@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { apiSlice } from '../../services/apiSlice';
 import { ContentID } from '../../content';
 import { ShoppingItem } from '../../types/orderTypes';
 import { RootState } from '../../reducers/rootReducer';
@@ -12,6 +11,7 @@ import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 
+import { useItemGetByIdQuery } from '../../services/apiSlice';
 import { updateShoppingCartItemQuantity } from '../../reducers/orderReducer';
 
 import Image from '../Image';
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const ShoppingCartRow = ({ allowEdit, indexOf, narrowView, removeItem, shoppingItem }: Props) => {
-    const itemGetById = apiSlice.useItemGetByIdQuery(shoppingItem.id);
+    const itemGetById = useItemGetByIdQuery(shoppingItem.id);
 
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);

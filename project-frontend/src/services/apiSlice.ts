@@ -51,13 +51,12 @@ export const apiSlice = createApi({
     tagTypes: ['Item', 'Order'],
     endpoints: (builder) => ({
         // ITEMS:
-        itemAdd: builder.mutation<ItemResponse, { newItem: NewItem; categoryId: number | null; config: Config }>({
-            query: ({ newItem, categoryId }) => {
-                const body = categoryId ? { ...itemToReqBody(newItem), category_id: categoryId } : itemToReqBody(newItem);
+        itemAdd: builder.mutation<ItemResponse, { newItem: NewItem; config: Config }>({
+            query: ({ newItem }) => {
                 return {
                     url: '/items',
                     method: 'POST',
-                    body,
+                    body: itemToReqBody(newItem),
                 };
             },
             invalidatesTags: ['Item'],
@@ -101,6 +100,20 @@ export const apiSlice = createApi({
                 return itemFromResBody(res);
             },
         }),
+        itemGetBySearchQuery: builder.query<Item[], { searchQuery: string; config: Config }>({
+            query: () => '/items',
+            providesTags: ['Item'],
+            transformResponse: (res: Item[], _meta, arg) => {
+                const items: Item[] = [];
+                res.forEach((itemData) => {
+                    const item = itemFromResBody(itemData);
+                    if (item && langTextsToText(item.name, arg.config).toLowerCase().includes(arg.searchQuery.toLowerCase())) {
+                        items.push(item);
+                    }
+                });
+                return items;
+            },
+        }),
         itemUpdate: builder.mutation<ItemResponse, { itemToUpdate: Item; config: Config }>({
             query: ({ itemToUpdate }) => {
                 const body = itemToReqBody(itemToUpdate);
@@ -135,3 +148,14 @@ export const apiSlice = createApi({
         }),
     }),
 });
+
+export const {
+    useItemAddMutation,
+    useItemDeleteMutation,
+    useItemGetAllQuery,
+    useItemGetByIdQuery,
+    useItemGetBySearchQueryQuery,
+    useItemUpdateMutation,
+    useOrderGetAllQuery,
+} = apiSlice;
+export const { itemGetById } = apiSlice.endpoints;

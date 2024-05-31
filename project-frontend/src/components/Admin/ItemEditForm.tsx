@@ -17,7 +17,7 @@ import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import localstorageHandler from '../../util/localstorageHandler';
 import useField from '../../hooks/useField';
 
-import { apiSlice } from '../../services/apiSlice';
+import { useItemAddMutation, useItemUpdateMutation } from '../../services/apiSlice';
 import { setNotification } from '../../reducers/miscReducer';
 
 import InputField from '../InputField';
@@ -34,8 +34,8 @@ interface Props {
     setItemAdded?: React.Dispatch<React.SetStateAction<Item | null>>;
 }
 const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefined, onSubmit = undefined, setItemAdded }: Props) => {
-    const [itemAdd] = apiSlice.useItemAddMutation();
-    const [itemUpdate] = apiSlice.useItemUpdateMutation();
+    const [itemAdd] = useItemAddMutation();
+    const [itemUpdate] = useItemUpdateMutation();
 
     const dispatch = useDispatch();
     const usersState = useSelector((state: RootState) => state.user);
@@ -202,7 +202,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                     };
 
                     //const res = await itemService.add(finalItem, null, usersState.loggedUser.token, config);
-                    const res = await itemAdd({ newItem: finalItem, categoryId: null, config: config }).unwrap();
+                    const res = await itemAdd({ newItem: finalItem, config: config }).unwrap();
                     returnedItem = res.item;
 
                     dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));

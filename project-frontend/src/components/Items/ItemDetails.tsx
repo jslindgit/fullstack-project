@@ -5,11 +5,12 @@ import { useSelector } from 'react-redux';
 import { Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
-import { apiSlice } from '../../services/apiSlice';
 import { testItemId } from '../../constants';
 import format from '../../util/format';
 /*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
+
+import { useItemGetByIdQuery } from '../../services/apiSlice';
 
 import AddToCart from './AddToCart';
 import BackButton from '../BackButton';
@@ -20,8 +21,7 @@ import { ContentID } from '../../content';
 const ItemDetails = () => {
     const id = Number(useParams().id);
 
-    //const itemGetById = apiSlice.useItemGetByIdQuery({ id: id });
-    const itemGetById = apiSlice.useItemGetByIdQuery(id);
+    const itemGetById = useItemGetByIdQuery(id);
 
     const config = useSelector((state: RootState) => state.config);
 

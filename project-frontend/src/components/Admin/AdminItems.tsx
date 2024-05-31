@@ -7,12 +7,12 @@ import { ContentID } from '../../content';
 import { RootState } from '../../reducers/rootReducer';
 import { Category, Item } from '../../types/types';
 
-import { apiSlice } from '../../services/apiSlice';
 import categoryService from '../../services/categoryService';
 /*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { isNumber } from '../../types/typeFunctions';
 
+import { useItemDeleteMutation, useItemGetAllQuery } from '../../services/apiSlice';
 import { setNotification } from '../../reducers/miscReducer';
 
 import AdminItemList from './AdminItemList';
@@ -20,8 +20,8 @@ import { Link } from '../CustomLink';
 import ItemEditForm from './ItemEditForm';
 
 const AdminItems = () => {
-    const itemsQuery = apiSlice.useItemGetAllQuery();
-    const [itemDelete] = apiSlice.useItemDeleteMutation();
+    const itemGetAll = useItemGetAllQuery();
+    const [itemDelete] = useItemDeleteMutation();
 
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
@@ -54,10 +54,10 @@ const AdminItems = () => {
 
     // Set Items that don't belong to any Category:
     useEffect(() => {
-        if (itemsQuery.data) {
-            setUncategorizedItems(itemsQuery.data.filter((item) => item.categories.length === 0));
+        if (itemGetAll.data) {
+            setUncategorizedItems(itemGetAll.data.filter((item) => item.categories.length === 0));
         }
-    }, [itemsQuery.data]);
+    }, [itemGetAll.data]);
 
     // Get Category from URL param:
     useEffect(() => {

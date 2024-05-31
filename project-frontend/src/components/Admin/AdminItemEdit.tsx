@@ -6,16 +6,17 @@ import { ContentID } from '../../content';
 import { Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
-import { apiSlice } from '../../services/apiSlice';
 import { contentToText } from '../../types/languageFunctions';
 /*import itemService from '../../services/itemService';*/
+
+import { useItemGetByIdQuery } from '../../services/apiSlice';
 
 import ItemEditForm from './ItemEditForm';
 
 const AdminItemEdit = () => {
     const id = Number(useParams().id);
 
-    const itemGetById = apiSlice.useItemGetByIdQuery(id);
+    const itemGetById = useItemGetByIdQuery(id);
 
     const config = useSelector((state: RootState) => state.config);
 

@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-import { Config } from '../types/configTypes';
+/*import { Config } from '../types/configTypes';*/
 /*import { ContentID } from '../content';*/
 import { Order } from '../types/orderTypes';
 import { /*NewItem, */ Item, ItemSizeAndInstock, Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
-import { /*contentToText, */ langTextsToText } from '../types/languageFunctions';
+/*import { contentToText, langTextsToText } from '../types/languageFunctions';*/
 import { apiKeyConfig, /*authConfig, */ itemFromResBody /*, itemToReqBody*/ } from '../util/serviceProvider';
 
 export interface ItemResponse extends Response {
@@ -83,7 +83,7 @@ const getById = async (id: number): Promise<Item | null> => {
     }
 };
 
-const getBySearchQuery = async (searchQuery: string, config: Config): Promise<Item[]> => {
+/*const getBySearchQuery = async (searchQuery: string, config: Config): Promise<Item[]> => {
     try {
         const { data } = await axios.get<Item[]>(url, apiKeyConfig());
         const items: Item[] = [];
@@ -98,7 +98,7 @@ const getBySearchQuery = async (searchQuery: string, config: Config): Promise<It
         handleError(err);
         return [];
     }
-};
+};*/
 
 /*const update = async (item: Item, token: string, config: Config): Promise<ItemResponse> => {
     try {
@@ -157,7 +157,7 @@ export default {
     /*deleteItem,*/
     /*getAll,*/
     /*getById,*/
-    getBySearchQuery,
+    /*getBySearchQuery,*/
     /*update,*/
     updateInstockAndSoldValues,
 };

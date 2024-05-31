@@ -6,9 +6,11 @@ import { ContentID } from '../../content';
 import { Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
-import itemService from '../../services/itemService';
+/*import itemService from '../../services/itemService';*/
 import { contentToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
+
+import { useItemGetBySearchQueryQuery } from '../../services/apiSlice';
 
 import BackButton from '../BackButton';
 import InputField from '../InputField';
@@ -25,6 +27,8 @@ const ItemsSearch = () => {
 
     const [searchParams] = useSearchParams();
 
+    const itemGetBySearchQuery = useItemGetBySearchQueryQuery({ searchQuery: searchField.value.toString(), config: config });
+
     // Get search query from URL:
     useEffect(() => {
         if (!attemptedToGetSearchParam) {
@@ -38,13 +42,10 @@ const ItemsSearch = () => {
 
     // Get Items that match the search query:
     useEffect(() => {
-        if (attemptedToGetSearchParam) {
-            const fetch = async () => {
-                setSearchResults(await itemService.getBySearchQuery(searchField.value.toString().trim(), config));
-            };
-            fetch();
+        if (attemptedToGetSearchParam && itemGetBySearchQuery.data) {
+            setSearchResults(itemGetBySearchQuery.data);
         }
-    }, [attemptedToGetSearchParam, config, searchField.value]);
+    }, [attemptedToGetSearchParam, itemGetBySearchQuery.data]);
 
     return (
         <>

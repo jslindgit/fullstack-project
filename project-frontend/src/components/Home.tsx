@@ -5,8 +5,9 @@ import { ContentID } from '../content';
 import { RootState } from '../reducers/rootReducer';
 import { Item } from '../types/types';
 
-import { apiSlice } from '../services/apiSlice';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
+
+import { useItemGetAllQuery } from '../services/apiSlice';
 
 import CategoryGrid from './CategoryGrid';
 import Description from './Description';
@@ -14,7 +15,7 @@ import ItemGrid from './Items/ItemGrid';
 import Loading from './Loading';
 
 const MainPage = () => {
-    const itemsQuery = apiSlice.useItemGetAllQuery();
+    const itemGetAll = useItemGetAllQuery();
 
     const config = useSelector((state: RootState) => state.config);
 
@@ -27,21 +28,21 @@ const MainPage = () => {
     }, [config]);
 
     useEffect(() => {
-        if (itemsQuery.data) {
+        if (itemGetAll.data) {
             setLatestItems(
-                [...itemsQuery.data]
+                [...itemGetAll.data]
                     .filter((item) => item.categories.length > 0)
                     .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
                     .reverse()
                     .slice(0, 3)
             );
 
-            setTopSellers([...itemsQuery.data].sort((a, b) => b.sold - a.sold).slice(0, 3));
+            setTopSellers([...itemGetAll.data].sort((a, b) => b.sold - a.sold).slice(0, 3));
         }
-    }, [itemsQuery]);
+    }, [itemGetAll]);
 
-    if (itemsQuery.isLoading || itemsQuery.error) {
-        return <Loading config={config} text={itemsQuery.error ? contentToText(ContentID.errorSomethingWentWrong, config) : null} />;
+    if (itemGetAll.isLoading || itemGetAll.error) {
+        return <Loading config={config} text={itemGetAll.error ? contentToText(ContentID.errorSomethingWentWrong, config) : null} />;
     }
 
     return (
