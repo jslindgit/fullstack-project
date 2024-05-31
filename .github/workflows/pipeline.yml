@@ -24,7 +24,6 @@ jobs:
             - name: Build
               env:
                   VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
-                  VITE_ENV: 'test'           
               run: |
                   cd project-frontend
                   npm run build

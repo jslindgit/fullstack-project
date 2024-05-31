@@ -1,5 +1,11 @@
 const url = 'http://localhost:3001';
 
+describe('Debug Environment Variables', () => {
+    it('should log all environment variables', () => {
+        cy.log('Cypress.env():', Cypress.env());
+    });
+});
+
 describe('Pages can be opened', function () {
     beforeEach(function () {
         cy.visit(url);
