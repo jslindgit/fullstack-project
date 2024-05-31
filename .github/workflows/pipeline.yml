@@ -24,6 +24,7 @@ jobs:
             - name: Build
               env:
                   VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+                  VITE_ENV: 'test'           
               run: |
                   cd project-frontend
                   npm run build
@@ -41,7 +42,7 @@ jobs:
                   PAYTRAIL_TEST_SECRET: ${{ secrets.PAYTRAIL_TEST_SECRET }}
                   PORT: ${{ secrets.PORT }}
                   SECRET: ${{ secrets.SECRET }}       
-                  VITE_ENV: 'test'           
+                  VITE_ENV: 'test'                             
               with:
                   command: npm run test:e2e
                   start: npm run start --prefix project-backend
