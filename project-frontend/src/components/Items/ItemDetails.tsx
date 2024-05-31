@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Item } from '../../types/types';
 import { RootState } from '../../reducers/rootReducer';
 
-import { testItemId } from '../../constants';
+import { testItemId, VITE_ENV } from '../../constants';
 import format from '../../util/format';
 /*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
@@ -35,7 +35,7 @@ const ItemDetails = () => {
 
     // Fetch Item:
     useEffect(() => {
-        if (itemGetById.data && id !== testItemId) {
+        if (itemGetById.data && (id !== testItemId || VITE_ENV === 'test')) {
             setItem(itemGetById.data);
         } else {
             setLoading(contentToText(ContentID.errorSomethingWentWrong, config));
