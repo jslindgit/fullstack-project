@@ -7,7 +7,7 @@
         "dev": "cross-env VITE_ENV=dev vite --host",
         "build": "tsc && vite build",
         "cypress:open": "cypress open",
-        "cypress:run": "cypress run",
+        "cypress:run": "cross-env VITE_ENV=test cypress run",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"
     },

@@ -1,6 +1,6 @@
 {
     "scripts": {
         "start:prod": "cd project-backend && npm start",
-        "test:e2e": "cross-env VOTE_ENV=test cd project-frontend && npm run cypress:run"
+        "test:e2e": "cd project-frontend && npm run cypress:run"
     }
 }
