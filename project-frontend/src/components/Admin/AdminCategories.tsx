@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 import { ContentID } from '../../content';
 import { Category } from '../../types/types';
@@ -9,7 +9,7 @@ import { Category } from '../../types/types';
 import categoryService from '../../services/categoryService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
-import { setNotification } from '../../reducers/miscReducer';
+import { setNotification } from '../../redux/miscReducer';
 
 import AddCategoryForm from './AddCategoryForm';
 import { Link } from '../CustomLink';

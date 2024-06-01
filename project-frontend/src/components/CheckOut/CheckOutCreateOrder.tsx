@@ -4,20 +4,22 @@ import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../../content';
 import { NewOrder } from '../../types/orderTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
+import { handleError } from '../../util/handleError';
+import { contentToText } from '../../types/languageFunctions';
 import { validateOrder } from '../../util/orderProvider';
 import { isOrder, isOrderOrNewOrder } from '../../types/orderTypeFunctions';
-import orderService from '../../services/orderService';
+/*import orderService from '../../services/orderService';*/
 
-import { OrderState, setOrder } from '../../reducers/orderReducer';
-
-import { contentToText } from '../../types/languageFunctions';
-import { handleError } from '../../util/handleError';
+import { OrderState, setOrder } from '../../redux/orderReducer';
+import { useOrderAddMutation } from '../../redux/orderSlice';
 
 import Loading from '../Loading';
 
 const CheckOutCreateOrder = () => {
+    const [orderAdd] = useOrderAddMutation();
+
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const orderState = useSelector((state: RootState) => state.order);
@@ -49,8 +51,8 @@ const CheckOutCreateOrder = () => {
     // If 'currentOrder' is a NewOrder, post it to the server and set the response (an Order) as the value of both 'currentOrder' and Redux state:
     useEffect(() => {
         if (currentOrder !== null && !isOrder(currentOrder)) {
-            orderService
-                .addNew(currentOrder, config, userState.loggedUser ? userState.loggedUser.id : null)
+            orderAdd({ toAdd: currentOrder, userId: userState.loggedUser ? userState.loggedUser.id : null, config: config })
+                .unwrap()
                 .then((res) => {
                     if (res.success && res.order) {
                         dispatch(setOrder(res.order));
@@ -64,6 +66,21 @@ const CheckOutCreateOrder = () => {
                     setError(true);
                     handleError(err);
                 });
+            /*orderService
+                .addNew(currentOrder, config, userState.loggedUser ? userState.loggedUser.id : null)
+                .then((res) => {
+                    if (res.success && res.order) {
+                        dispatch(setOrder(res.order));
+                        setCurrentOrder(res.order);
+                    } else {
+                        setError(true);
+                    }
+                })
+                .catch((err: unknown) => {
+                    console.error(err);
+                    setError(true);
+                    handleError(err);
+                });*/
         }
     }, [config, currentOrder, dispatch, userState.loggedUser]);
 

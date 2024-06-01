@@ -10,8 +10,8 @@ import loginService from '../../services/loginService';
 import useField from '../../hooks/useField';
 import userService from '../../services/userService';
 
-import { setNotification } from '../../reducers/miscReducer';
-import { removeLoggedUser } from '../../reducers/userReducer';
+import { setNotification } from '../../redux/miscReducer';
+import { removeLoggedUser } from '../../redux/userReducer';
 
 import InputField from '../InputField';
 

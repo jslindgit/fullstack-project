@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
 import { Order } from '../../types/orderTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
@@ -28,7 +28,7 @@ const AdminOrderGridRow = ({ order, isOpened, handleClose, handleOpen }: Props) 
             </div>
             <div>{format.currency(order.totalAmount, config)}</div>
             <div>{order.deliveryMethod ? langTextsToText(order.deliveryMethod.names, config) : ''}</div>
-            <div>{getOrderStatusForAdmin(order, config)}</div>
+            <div>{getOrderStatusForAdmin(order, config)}&emsp;</div>
             <div>
                 {isOpened ? (
                     <button type='button' onClick={handleClose}>

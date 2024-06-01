@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { RootState } from '../reducers/rootReducer';
+import { RootState } from '../redux/rootReducer';
 
 import { contentToText } from '../types/languageFunctions';
 

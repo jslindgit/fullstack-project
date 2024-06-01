@@ -1,20 +1,22 @@
-import axios from 'axios';
+/*import axios from 'axios';*/
 
 /*import { Config } from '../types/configTypes';*/
 /*import { ContentID } from '../content';*/
 import { Order } from '../types/orderTypes';
+import store, { StoreDispatch } from '../redux/store';
 import { /*NewItem, */ Item, ItemSizeAndInstock, Response } from '../types/types';
 
-import { apiBaseUrl } from '../constants';
+/*import { apiBaseUrl } from '../constants';*/
 import { handleError } from '../util/handleError';
 /*import { contentToText, langTextsToText } from '../types/languageFunctions';*/
-import { apiKeyConfig, /*authConfig, */ itemFromResBody /*, itemToReqBody*/ } from '../util/serviceProvider';
+/*import { apiKeyConfig, /*authConfig, itemFromResBody, itemToReqBody } from '../util/serviceProvider';*/
+import { itemGetById, itemUpdateInstockAndSold } from '../redux/itemSlice';
 
 export interface ItemResponse extends Response {
     item: Item | null;
 }
 
-const url = apiBaseUrl + '/items';
+/*const url = apiBaseUrl + '/items';*/
 
 /*const add = async (toAdd: NewItem, category_id: number | null, token: string, config: Config): Promise<ItemResponse> => {
     try {
@@ -73,7 +75,7 @@ const url = apiBaseUrl + '/items';
     }
 };*/
 
-const getById = async (id: number): Promise<Item | null> => {
+/*const getById = async (id: number): Promise<Item | null> => {
     try {
         const { data } = await axios.get<Item>(`${url}/${id}`, apiKeyConfig());
         return itemFromResBody(data);
@@ -81,7 +83,7 @@ const getById = async (id: number): Promise<Item | null> => {
         handleError(err);
         return null;
     }
-};
+};*/
 
 /*const getBySearchQuery = async (searchQuery: string, config: Config): Promise<Item[]> => {
     try {
@@ -124,10 +126,11 @@ const getById = async (id: number): Promise<Item | null> => {
     }
 };*/
 
-const updateInstockAndSoldValues = async (order: Order) => {
+const updateInstockAndSoldValues = async (order: Order, storeDispatch: StoreDispatch) => {
     try {
         order.items.forEach(async (shoppingItem) => {
-            const item = await getById(shoppingItem.id);
+            const item = await store.dispatch(itemGetById.initiate(shoppingItem.id)).unwrap();
+
             if (item) {
                 const currentSizes = [...item.sizes];
                 const size = currentSizes.find((s) => s.size === (shoppingItem.size.length > 0 ? shoppingItem.size : '-'));
@@ -135,14 +138,12 @@ const updateInstockAndSoldValues = async (order: Order) => {
                     ? [...currentSizes.filter((s) => s.size !== size.size), { size: size.size, instock: size.instock - shoppingItem.quantity }]
                     : currentSizes;
 
-                await axios.put(
-                    `${url}/updateinstockandsold/${item.id}`,
-                    {
-                        sizes: finalSizes.map((sizeAndInstock) => JSON.stringify(sizeAndInstock)),
-                        sold: item.sold + shoppingItem.quantity,
-                    },
-                    apiKeyConfig()
-                );
+                const instockAndSold = {
+                    sizes: finalSizes.map((sizeAndInstock) => JSON.stringify(sizeAndInstock)),
+                    sold: item.sold + shoppingItem.quantity,
+                };
+
+                await storeDispatch(itemUpdateInstockAndSold.initiate({ itemId: item.id, instockAndSold: instockAndSold }));
             } else {
                 handleError(`Item with id ${shoppingItem.id} not found.`);
             }

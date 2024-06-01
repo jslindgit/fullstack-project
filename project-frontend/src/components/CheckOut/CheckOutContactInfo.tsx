@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
 import { NewOrder, Order } from '../../types/orderTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { isValidEmailAddress, isValidPassword } from '../../util/misc';

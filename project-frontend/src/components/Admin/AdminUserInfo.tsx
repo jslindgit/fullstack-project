@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { ContentID } from '../../content';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 import { User } from '../../types/types';
 
 import { testUserId } from '../../constants';
@@ -11,7 +11,7 @@ import { contentToText } from '../../types/languageFunctions';
 import { getUserStatus } from '../../util/userProvider';
 import userService from '../../services/userService';
 
-import { setNotification } from '../../reducers/miscReducer';
+import { setNotification } from '../../redux/miscReducer';
 
 import BackButton from '../BackButton';
 import UserBasicInfo from '../User/UserBasicInfo';

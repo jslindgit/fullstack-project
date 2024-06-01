@@ -10,7 +10,7 @@ import { isValidEmailAddress } from '../../util/misc';
 import useField, { UseField } from '../../hooks/useField';
 import userService from '../../services/userService';
 
-import { setNotification } from '../../reducers/miscReducer';
+import { setNotification } from '../../redux/miscReducer';
 
 import InputField from '../InputField';
 

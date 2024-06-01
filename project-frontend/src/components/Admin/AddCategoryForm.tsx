@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
 import { Category, NewCategory, User } from '../../types/types';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 import categoryService from '../../services/categoryService';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
-import { setNotification } from '../../reducers/miscReducer';
+import { setNotification } from '../../redux/miscReducer';
 
 import InputField from '../InputField';
 

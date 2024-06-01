@@ -8,8 +8,8 @@ import { contentToText } from '../types/languageFunctions';
 import loginService from '../services/loginService';
 import userService from '../services/userService';
 
-import { setNotification } from '../reducers/miscReducer';
-import { setLoggedUser } from '../reducers/userReducer';
+import { setNotification } from '../redux/miscReducer';
+import { setLoggedUser } from '../redux/userReducer';
 
 export const getUserStatus = (user: User, config: Config): string => {
     if (user.admin) {

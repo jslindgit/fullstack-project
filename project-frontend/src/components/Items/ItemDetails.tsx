@@ -3,14 +3,14 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { Item } from '../../types/types';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 import { testItemId } from '../../constants';
 import format from '../../util/format';
 /*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
-import { useItemGetByIdQuery } from '../../services/apiSlice';
+import { useItemGetByIdQuery } from '../../redux/itemSlice';
 
 import AddToCart from './AddToCart';
 import BackButton from '../BackButton';

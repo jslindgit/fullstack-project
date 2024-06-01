@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
 import { DeliveryMethod, DeliveryCode, PostiLocation } from '../../types/orderTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';

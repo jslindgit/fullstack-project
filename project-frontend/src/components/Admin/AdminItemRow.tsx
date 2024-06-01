@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 import { Item } from '../../types/types';
 
 import { testItemId } from '../../constants';

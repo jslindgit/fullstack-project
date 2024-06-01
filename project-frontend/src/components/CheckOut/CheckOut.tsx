@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../../content';
 import { DeliveryMethod } from '../../types/orderTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 import { NewUser } from '../../types/types';
 
 import { contentToText } from '../../types/languageFunctions';
@@ -13,7 +13,7 @@ import { validateOrder } from '../../util/orderProvider';
 import useField from '../../hooks/useField';
 import { registerAndLogin } from '../../util/userProvider';
 
-import { setOrder } from '../../reducers/orderReducer';
+import { setOrder } from '../../redux/orderReducer';
 
 import BackButton from '../BackButton';
 import CheckOutContactInfo from './CheckOutContactInfo';

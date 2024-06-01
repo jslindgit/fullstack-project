@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useField, { UseField } from '../hooks/useField';
 
 import { ContentID } from '../content';
-import { RootState } from '../reducers/rootReducer';
+import { RootState } from '../redux/rootReducer';
 import { NewUser } from '../types/types';
 
 import { contentToText, langTextsToText } from '../types/languageFunctions';

@@ -15,7 +15,7 @@
 }
 
 .adminOrdersList {
-    font-size: min(var(--fontSizeNormal), 2.3vw);
+    font-size: min(var(--fontSizeNormal), 2.1vw);
 }
 .adminOrdersList button {
     font-size: min(var(--fontSizeNormal), 2.3vw);

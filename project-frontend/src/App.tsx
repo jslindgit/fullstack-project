@@ -4,16 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Types:
-import { RootState } from './reducers/rootReducer';
+import { RootState } from './redux/rootReducer';
 
 // Functions:
 import settingsService from './services/settingsService';
 
-// Reducers:
-import { initializeConfig } from './reducers/configReducer';
-import { setLoaded } from './reducers/miscReducer';
-import { initializeOrder } from './reducers/orderReducer';
-import { initializeLoggedUser } from './reducers/userReducer';
+// Redux:
+import { initializeConfig } from './redux/configReducer';
+import { setLoaded } from './redux/miscReducer';
+import { initializeOrder } from './redux/orderReducer';
+import { initializeLoggedUser } from './redux/userReducer';
 
 // Components:
 import AdminCategoryEdit from './components/Admin/AdminCategoryEdit';

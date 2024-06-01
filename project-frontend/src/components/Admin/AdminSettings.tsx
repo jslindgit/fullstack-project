@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Settings } from '../../types/configTypes';
 import { ContentID } from '../../content';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 import { Country } from '../../types/types';
 
 import { availableDeliveryCountries } from '../../constants';
@@ -13,7 +13,7 @@ import { LangField, LangText } from '../../types/languageTypes';
 import settingsService from '../../services/settingsService';
 import useField, { UseField } from '../../hooks/useField';
 
-import { setNotification } from '../../reducers/miscReducer';
+import { setNotification } from '../../redux/miscReducer';
 
 import CheckBox from '../CheckBox';
 import InputField from '../InputField';

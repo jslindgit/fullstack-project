@@ -4,15 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../content';
 import { User } from '../types/types';
-import { RootState } from '../reducers/rootReducer';
+import { RootState } from '../redux/rootReducer';
 
 import { contentToText } from '../types/languageFunctions';
 import localstorageHandler from '../util/localstorageHandler';
 import loginService from '../services/loginService';
 import useField from '../hooks/useField';
 
-import { setNotification } from '../reducers/miscReducer';
-import { removeLoggedUser, setLoggedUser } from '../reducers/userReducer';
+import { setNotification } from '../redux/miscReducer';
+import { removeLoggedUser, setLoggedUser } from '../redux/userReducer';
 
 import InputField from './InputField';
 import { Link } from './CustomLink';

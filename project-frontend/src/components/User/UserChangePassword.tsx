@@ -10,7 +10,7 @@ import loginService from '../../services/loginService';
 import { isValidPassword } from '../../util/misc';
 import useField from '../../hooks/useField';
 
-import { setNotification } from '../../reducers/miscReducer';
+import { setNotification } from '../../redux/miscReducer';
 
 import InputField from '../InputField';
 

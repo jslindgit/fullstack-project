@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
 import { Order } from '../../types/orderTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';

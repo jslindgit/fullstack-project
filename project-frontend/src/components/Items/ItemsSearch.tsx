@@ -4,13 +4,13 @@ import { useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
 import { Item } from '../../types/types';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 /*import itemService from '../../services/itemService';*/
 import { contentToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 
-import { useItemGetBySearchQueryQuery } from '../../services/apiSlice';
+import { useItemGetBySearchQueryQuery } from '../../redux/itemSlice';
 
 import BackButton from '../BackButton';
 import InputField from '../InputField';

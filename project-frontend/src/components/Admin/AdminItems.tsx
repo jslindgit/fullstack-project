@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import smoothscroll from 'smoothscroll-polyfill';
 
 import { ContentID } from '../../content';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 import { Category, Item } from '../../types/types';
 
 import categoryService from '../../services/categoryService';
@@ -12,8 +12,8 @@ import categoryService from '../../services/categoryService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { isNumber } from '../../types/typeFunctions';
 
-import { useItemDeleteMutation, useItemGetAllQuery } from '../../services/apiSlice';
-import { setNotification } from '../../reducers/miscReducer';
+import { useItemDeleteMutation, useItemGetAllQuery } from '../../redux/itemSlice';
+import { setNotification } from '../../redux/miscReducer';
 
 import AdminItemList from './AdminItemList';
 import { Link } from '../CustomLink';
@@ -100,7 +100,7 @@ const AdminItems = () => {
         }
         if (confirm(`${contentToText(ContentID.adminItemsDeleteItemConfirmation, config)} "${langTextsToText(item.name, config)}"?`)) {
             /*const res = await itemService.deleteItem(item, usersState.loggedUser.token, config);*/
-            const res = await itemDelete({ item: item, config: config }).unwrap();
+            const res = await itemDelete({ toDelete: item, config: config }).unwrap();
 
             dispatch(setNotification({ tone: res.success ? 'Neutral' : 'Negative', message: res.message }));
 

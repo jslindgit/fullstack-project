@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
 import { Order, NewOrder, OrderStatus } from '../types/orderTypes';
-import { RootState } from '../reducers/rootReducer';
+import { RootState } from '../redux/rootReducer';
 
 import { orderTotalSum } from '../util/checkoutProvider';
 import format from '../util/format';

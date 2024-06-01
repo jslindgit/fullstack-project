@@ -19,6 +19,10 @@ export enum Currency {
     USD = 'USD',
 }
 
+export interface DeleteResponse {
+    success: boolean;
+}
+
 export interface Item {
     id: number;
     addedBy?: number;

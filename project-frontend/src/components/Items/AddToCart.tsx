@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
 import { ShoppingItem } from '../../types/orderTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 import { Item } from '../../types/types';
 
 import { availableSizes } from '../../constants';
@@ -12,8 +12,8 @@ import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { itemInStockTotal } from '../../util/misc';
 import useField from '../../hooks/useField';
 
-import { setNotification } from '../../reducers/miscReducer';
-import { addItemToShoppingCart } from '../../reducers/orderReducer';
+import { setNotification } from '../../redux/miscReducer';
+import { addItemToShoppingCart } from '../../redux/orderReducer';
 
 interface Props {
     config: Config;

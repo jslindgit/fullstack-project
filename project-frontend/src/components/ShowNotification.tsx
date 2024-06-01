@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '../reducers/rootReducer';
+import { RootState } from '../redux/rootReducer';
 
-import { setNotification } from '../reducers/miscReducer';
+import { setNotification } from '../redux/miscReducer';
 
 import { Link } from './CustomLink';
 

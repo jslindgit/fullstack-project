@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
 import { Category } from '../../types/types';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
-import { setNotification } from '../../reducers/miscReducer';
+import { setNotification } from '../../redux/miscReducer';
 
 import categoryService from '../../services/categoryService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';

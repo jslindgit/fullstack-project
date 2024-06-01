@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
-import { removeItemFromShoppingCart } from '../../reducers/orderReducer';
+import { removeItemFromShoppingCart } from '../../redux/orderReducer';
 
 import { contentToText } from '../../types/languageFunctions';
 

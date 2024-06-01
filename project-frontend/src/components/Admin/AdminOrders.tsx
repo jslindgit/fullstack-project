@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { ContentID } from '../../content';
 import { Order, OrderStatus } from '../../types/orderTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 import { NewNotification, NotificationTone } from '../../types/types';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
@@ -12,7 +12,8 @@ import orderService from '../../services/orderService';
 import { getOrderStatusForAdmin } from '../../util/orderProvider';
 import useField from '../../hooks/useField';
 
-import { setNotification } from '../../reducers/miscReducer';
+import { setNotification } from '../../redux/miscReducer';
+import { useOrderDeleteMutation, useOrderGetAllQuery } from '../../redux/orderSlice';
 
 import AdminOrderDetails from './AdminOrderDetails';
 import AdminOrderGridRow from './AdminOrderGridRow';
@@ -27,6 +28,9 @@ enum Folder {
 }
 
 const AdminOrders = () => {
+    const [orderDelete] = useOrderDeleteMutation();
+    const orderGetAll = useOrderGetAllQuery();
+
     type sortByOption = 'date' | 'customer' | 'totalSum' | 'delivery' | 'status';
 
     const [allOrders, setAllOrders] = useState<Order[]>([]);
@@ -78,7 +82,19 @@ const AdminOrders = () => {
         }
     };
 
-    // Fetch Orders from server, sort them and set the page title:
+    // Page title:
+    useEffect(() => {
+        document.title = `${contentToText(ContentID.adminPanelHeader, config)} - ${contentToText(ContentID.adminPanelOrders, config)} (${orders.length})`;
+    }, [config, orders.length]);
+
+    // Fetch Orders from server:
+    useEffect(() => {
+        if (orderGetAll.data) {
+            setAllOrders(orderGetAll.data.filter((order) => order.status !== OrderStatus.PENDING));
+        }
+    }, [orderGetAll.data]);
+
+    // Sort and filter (if search is being used) the Orders:
     useEffect(() => {
         const sortAndSet = (allOrders: Order[]) => {
             switch (sortBy) {
@@ -125,26 +141,19 @@ const AdminOrders = () => {
             }
         };
 
-        const fetch = async () => {
-            const data = (await orderService.getAll()).filter((order) => order.status !== OrderStatus.PENDING);
-            setAllOrders(data);
+        // prettier-ignore
+        const dataToSort =
+            search.value.toString().length > 0
+                ? allOrders.filter(
+                    (order) =>
+                        order.customerFirstName.toLowerCase().includes(search.value.toString().toLowerCase()) ||
+                        order.customerLastName.toLowerCase().includes(search.value.toString().toLowerCase()) ||
+                        order.id.toString().includes(search.value.toString())
+                )
+                : allOrders;
 
-            // prettier-ignore
-            const dataToSort =
-            search.stringValue().length > 0 ?
-                data.filter((order) =>
-                    order.customerFirstName.toLowerCase().includes(search.stringValue().toLowerCase()) ||
-                    order.customerLastName.toLowerCase().includes(search.stringValue().toLowerCase()) ||
-                    order.id.toString().includes(search.stringValue()))
-                : data;
-
-            sortAndSet(dataToSort.filter((order) => belongsToFolder(order, currentFolder)));
-        };
-
-        fetch();
-
-        document.title = `${contentToText(ContentID.adminPanelHeader, config)} - ${contentToText(ContentID.adminPanelOrders, config)} (${orders.length})`;
-    }, [config, currentFolder, orders.length, search, sortBy, sortDirection]);
+        sortAndSet(dataToSort.filter((order) => belongsToFolder(order, currentFolder)));
+    }, [allOrders, config, currentFolder, search.value, sortBy, sortDirection]);
 
     useEffect(() => {
         setOpenedOrder(orderToOpen.current);
@@ -180,7 +189,8 @@ const AdminOrders = () => {
             window.alert(contentToText(ContentID.errorThisOperationRequiresAdminOrOperatorRights, config));
         } else if (confirm(`${contentToText(ContentID.adminOrdersDeleteOrder, config)} ${order.id} (${order.customerFirstName} ${order.customerLastName})?`)) {
             setOpenedOrder(null);
-            const res = await orderService.deleteOrder(order, usersState.loggedUser?.token, config);
+            //const res = await orderService.deleteOrder(order, usersState.loggedUser?.token, config);
+            const res = await orderDelete({ order: order, config: config }).unwrap();
 
             if (res.success) {
                 setOrders([...orders].filter((o) => o.id !== order.id));

@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
 import { DeliveryMethod, NewOrder, Order } from '../../types/orderTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 import { orderFitsInLetter } from '../../util/checkoutProvider';
 import deliveryService from '../../services/deliveryService';
 import { contentToText } from '../../types/languageFunctions';
-import store from '../../reducers/store';
+import store from '../../redux/store';
 
 import CheckOutDeliveryMethod from './CheckOutDeliveryMethod';
 

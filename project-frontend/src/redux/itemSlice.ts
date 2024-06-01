@@ -1,29 +1,21 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
-import { ItemResponse } from './itemService';
-import { Order } from '../types/orderTypes';
-import { RootState } from '../reducers/rootReducer';
-import { Item, NewItem, Response } from '../types/types';
+import { Config } from '../types/configTypes';
+import { ItemResponse } from '../services/itemService';
+import { DeleteResponse, Item, NewItem, Response } from '../types/types';
 
-import { apiBaseUrl, API_KEY } from '../constants';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { orderFromResponseBody } from '../util/orderProvider';
 import { itemFromResBody, itemToReqBody } from '../util/serviceProvider';
 import { isNotNull } from '../types/typeFunctions';
+
+import { apiSlice } from './apiSlice';
 
 interface InstockAndSold {
     sizes: string[];
     sold: number;
 }
 
-interface ItemDeleteResponse {
-    success: boolean;
-}
-
-const transformResponseItem = (itemRes: Item, successMessage: ContentID, config: Config): ItemResponse => {
-    const item = itemFromResBody(itemRes);
+const transformResponse = (res: Item, successMessage: ContentID, config: Config): ItemResponse => {
+    const item = itemFromResBody(res);
     if (item) {
         return {
             success: true,
@@ -35,48 +27,36 @@ const transformResponseItem = (itemRes: Item, successMessage: ContentID, config:
     }
 };
 
-export const apiSlice = createApi({
-    reducerPath: 'api',
-    baseQuery: fetchBaseQuery({
-        baseUrl: apiBaseUrl,
-        prepareHeaders: (headers, { getState }) => {
-            headers.set('apikey', `api_key ${API_KEY}`);
+const url = '/items';
 
-            const state = getState() as RootState;
-            if (state.user.token) {
-                headers.set('authorization', `bearer ${state.user.token}`);
-            }
-        },
-    }),
-    tagTypes: ['Item', 'Order'],
+export const itemApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        // ITEMS:
-        itemAdd: builder.mutation<ItemResponse, { newItem: NewItem; config: Config }>({
-            query: ({ newItem }) => {
+        itemAdd: builder.mutation<ItemResponse, { toAdd: NewItem; config: Config }>({
+            query: ({ toAdd }) => {
                 return {
-                    url: '/items',
+                    url: url,
                     method: 'POST',
-                    body: itemToReqBody(newItem),
+                    body: itemToReqBody(toAdd),
                 };
             },
             invalidatesTags: ['Item'],
             transformResponse: (itemRes: Item, _meta, arg) => {
-                return transformResponseItem(itemRes, ContentID.adminItemsNewItemAdded, arg.config);
+                return transformResponse(itemRes, ContentID.adminItemsNewItemAdded, arg.config);
             },
         }),
-        itemDelete: builder.mutation<Response, { item: Item; config: Config }>({
-            query: ({ item }) => {
+        itemDelete: builder.mutation<Response, { toDelete: Item; config: Config }>({
+            query: ({ toDelete }) => {
                 return {
-                    url: `/items/${item.id}`,
+                    url: `${url}/${toDelete.id}`,
                     method: 'DELETE',
                 };
             },
             invalidatesTags: ['Item'],
-            transformResponse: (response: ItemDeleteResponse, _meta, arg) => {
+            transformResponse: (response: DeleteResponse, _meta, arg) => {
                 if (response && response.success) {
                     return {
                         success: true,
-                        message: `${contentToText(ContentID.itemsItem, arg.config)} "${langTextsToText(arg.item.name, arg.config)}" ${contentToText(
+                        message: `${contentToText(ContentID.itemsItem, arg.config)} "${langTextsToText(arg.toDelete.name, arg.config)}" ${contentToText(
                             ContentID.miscDeleted,
                             arg.config
                         )}.`,
@@ -87,21 +67,21 @@ export const apiSlice = createApi({
             },
         }),
         itemGetAll: builder.query<Item[], void>({
-            query: () => '/items',
+            query: () => url,
             providesTags: ['Item'],
             transformResponse: (res: Item[]) => {
                 return res.map((itemData) => itemFromResBody(itemData)).filter(isNotNull);
             },
         }),
         itemGetById: builder.query<Item | null, number>({
-            query: (id) => `items/${id}`,
+            query: (id) => `${url}/${id}`,
             providesTags: ['Item'],
             transformResponse: (res: Item) => {
                 return itemFromResBody(res);
             },
         }),
         itemGetBySearchQuery: builder.query<Item[], { searchQuery: string; config: Config }>({
-            query: () => '/items',
+            query: () => url,
             providesTags: ['Item'],
             transformResponse: (res: Item[], _meta, arg) => {
                 const items: Item[] = [];
@@ -114,37 +94,29 @@ export const apiSlice = createApi({
                 return items;
             },
         }),
-        itemUpdate: builder.mutation<ItemResponse, { itemToUpdate: Item; config: Config }>({
-            query: ({ itemToUpdate }) => {
-                const body = itemToReqBody(itemToUpdate);
+        itemUpdate: builder.mutation<ItemResponse, { toUpdate: Item; config: Config }>({
+            query: ({ toUpdate }) => {
+                const body = itemToReqBody(toUpdate);
                 return {
-                    url: `/items/${itemToUpdate.id}`,
+                    url: `${url}/${toUpdate.id}`,
                     method: 'PUT',
                     body,
                 };
             },
             invalidatesTags: ['Item'],
             transformResponse: (itemRes: Item, _meta, arg) => {
-                return transformResponseItem(itemRes, ContentID.adminItemsItemUpdated, arg.config);
+                return transformResponse(itemRes, ContentID.adminItemsItemUpdated, arg.config);
             },
         }),
         itemUpdateInstockAndSold: builder.mutation<void, { itemId: number; instockAndSold: InstockAndSold }>({
             query: ({ itemId, instockAndSold }) => {
                 return {
-                    url: `items/updateinstockandsold/${itemId}`,
+                    url: `${url}/updateinstockandsold/${itemId}`,
                     method: 'PUT',
                     body: instockAndSold,
                 };
             },
             invalidatesTags: ['Item'],
-        }),
-        // ORDERS:
-        orderGetAll: builder.query<Order[], void>({
-            query: () => '/orders',
-            providesTags: ['Order'],
-            transformResponse: (res: Order[]) => {
-                return res.map((order) => orderFromResponseBody(order)).filter(isNotNull);
-            },
         }),
     }),
 });
@@ -156,6 +128,7 @@ export const {
     useItemGetByIdQuery,
     useItemGetBySearchQueryQuery,
     useItemUpdateMutation,
-    useOrderGetAllQuery,
-} = apiSlice;
-export const { itemGetById } = apiSlice.endpoints;
+    useItemUpdateInstockAndSoldMutation,
+} = itemApiSlice;
+
+export const { itemGetById, itemUpdateInstockAndSold } = itemApiSlice.endpoints;

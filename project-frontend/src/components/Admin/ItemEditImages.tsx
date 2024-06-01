@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 import { handleError } from '../../util/handleError';
 import { contentToText } from '../../types/languageFunctions';

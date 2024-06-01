@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
 import { ShoppingItem } from '../../types/orderTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 import { Item } from '../../types/types';
 
 import format from '../../util/format';
@@ -11,8 +11,8 @@ import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 
-import { useItemGetByIdQuery } from '../../services/apiSlice';
-import { updateShoppingCartItemQuantity } from '../../reducers/orderReducer';
+import { useItemGetByIdQuery } from '../../redux/itemSlice';
+import { updateShoppingCartItemQuantity } from '../../redux/orderReducer';
 
 import Image from '../Image';
 

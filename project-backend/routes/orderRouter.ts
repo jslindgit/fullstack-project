@@ -12,7 +12,7 @@ router.delete('/:id', tokenExtractor, (async (req, res) => {
     if (res.locals.admin === true || res.locals.operator === true) {
         const deletedOrder = await orderService.deleteById(req.params.id);
         if (deletedOrder) {
-            res.status(204).end();
+            res.json({ success: true });
         } else {
             res.status(404).json({
                 error: `Order with id ${req.params.id} not found`,

@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
-import { RootState } from '../reducers/rootReducer';
+import { RootState } from '../redux/rootReducer';
 import { Item } from '../types/types';
 
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 
-import { useItemGetAllQuery } from '../services/apiSlice';
+import { useItemGetAllQuery } from '../redux/itemSlice';
 
 import CategoryGrid from './CategoryGrid';
 import Description from './Description';

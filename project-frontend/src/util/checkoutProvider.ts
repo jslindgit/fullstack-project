@@ -1,9 +1,9 @@
 import { NewOrder, Order, ShoppingItem } from '../types/orderTypes';
-import { StoreDispatch } from '../reducers/store';
+import { StoreDispatch } from '../redux/store';
 
 /*import itemService from '../services/itemService';*/
 
-import { itemGetById } from '../services/apiSlice';
+import { itemGetById } from '../redux/itemSlice';
 
 export const itemsTotalSum = (items: ShoppingItem[]): number => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);

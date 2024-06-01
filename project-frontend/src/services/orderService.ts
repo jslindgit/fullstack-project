@@ -1,16 +1,16 @@
 import axios from 'axios';
 
-import { Config } from '../types/configTypes';
-import { ContentID } from '../content';
-import { NewOrder, Order, OrderStatus } from '../types/orderTypes';
+/*import { Config } from '../types/configTypes';
+import { ContentID } from '../content';*/
+import { /*NewOrder, */ Order, OrderStatus } from '../types/orderTypes';
 import { Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
-import { contentToText } from '../types/languageFunctions';
-import { orderFromResponseBody, orderToRequestBody } from '../util/orderProvider';
-import { isOrder } from '../types/orderTypeFunctions';
-import { apiKeyConfig, authConfig } from '../util/serviceProvider';
+/*import { contentToText } from '../types/languageFunctions';*/
+import { orderFromResponseBody /*, orderToRequestBody*/ } from '../util/orderProvider';
+/*import { isOrder } from '../types/orderTypeFunctions';*/
+import { apiKeyConfig /*, authConfig*/ } from '../util/serviceProvider';
 
 const url = apiBaseUrl + '/orders';
 
@@ -18,7 +18,7 @@ export interface OrderResponse extends Response {
     order: Order | null;
 }
 
-const addNew = async (newOrder: NewOrder, config: Config, userId: number | null): Promise<OrderResponse> => {
+/*const addNew = async (newOrder: NewOrder, config: Config, userId: number | null): Promise<OrderResponse> => {
     try {
         const { data } = await axios.post(url, orderToRequestBody(newOrder, config, false, userId), apiKeyConfig());
         const order = orderFromResponseBody(data);
@@ -31,9 +31,9 @@ const addNew = async (newOrder: NewOrder, config: Config, userId: number | null)
         handleError(err);
         return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config), order: null };
     }
-};
+};*/
 
-const deleteOrder = async (order: Order, token: string, config: Config): Promise<Response> => {
+/*const deleteOrder = async (order: Order, token: string, config: Config): Promise<Response> => {
     try {
         const res = await axios.delete<Order>(`${url}/${order.id}`, authConfig(token));
         if (res.status === 204) {
@@ -51,7 +51,7 @@ const deleteOrder = async (order: Order, token: string, config: Config): Promise
         handleError(err);
         return { success: false, message: 'Error occurred' };
     }
-};
+};*/
 
 const getAll = async (): Promise<Order[]> => {
     try {
@@ -107,8 +107,8 @@ const updateStatus = async (orderId: number, newStatus: OrderStatus): Promise<Or
 };
 
 export default {
-    addNew,
-    deleteOrder,
+    /*addNew,*/
+    /*deleteOrder,*/
     getAll,
     getById,
     update,

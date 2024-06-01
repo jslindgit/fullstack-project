@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import { ContentID } from '../../content';
 import { OrderResponse } from '../../services/orderService';
 import { OrderStatus } from '../../types/orderTypes';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 import itemService from '../../services/itemService';
 import { contentToText } from '../../types/languageFunctions';
@@ -13,7 +13,8 @@ import orderService from '../../services/orderService';
 import { isOrder } from '../../types/orderTypeFunctions';
 import paytrailService from '../../services/paytrailService';
 
-import { clearOrder } from '../../reducers/orderReducer';
+import { clearOrder } from '../../redux/orderReducer';
+import store from '../../redux/store';
 
 import BackButton from '../BackButton';
 import { Link } from '../CustomLink';
@@ -102,7 +103,7 @@ const CheckOutDone = () => {
 
             const updateSoldValues = async () => {
                 if (orderResponse.order) {
-                    await itemService.updateInstockAndSoldValues(orderResponse.order);
+                    await itemService.updateInstockAndSoldValues(orderResponse.order, store.dispatch);
                 }
             };
 

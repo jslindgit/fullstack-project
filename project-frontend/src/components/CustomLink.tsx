@@ -3,11 +3,11 @@ import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from 'reac
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '../reducers/rootReducer';
+import { RootState } from '../redux/rootReducer';
 
 import localstorageHandler from '../util/localstorageHandler';
 
-import { tickNotification } from '../reducers/miscReducer';
+import { tickNotification } from '../redux/miscReducer';
 
 interface CustomLinkProps extends ReactRouterLinkProps {
     onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;

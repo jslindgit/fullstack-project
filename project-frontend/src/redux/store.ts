@@ -6,7 +6,7 @@ import miscReducer from './miscReducer.ts';
 import orderReducer from './orderReducer.ts';
 import userReducer from './userReducer.ts';
 
-import { apiSlice } from '../services/apiSlice.ts';
+import { apiSlice } from './apiSlice.ts';
 
 import { saveConfigToLocalStorage } from './configReducer.ts';
 import { saveOrderToLocalStorage } from './orderReducer.ts';

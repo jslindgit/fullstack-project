@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../content';
-import { RootState } from '../reducers/rootReducer';
+import { RootState } from '../redux/rootReducer';
 
 import { contentToText } from '../types/languageFunctions';
 import localstorageHandler from '../util/localstorageHandler';

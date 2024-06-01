@@ -4,12 +4,12 @@ import { useParams } from 'react-router-dom';
 
 import { ContentID } from '../../content';
 import { Item } from '../../types/types';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 
 import { contentToText } from '../../types/languageFunctions';
 /*import itemService from '../../services/itemService';*/
 
-import { useItemGetByIdQuery } from '../../services/apiSlice';
+import { useItemGetByIdQuery } from '../../redux/itemSlice';
 
 import ItemEditForm from './ItemEditForm';
 

@@ -8,7 +8,7 @@ import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
 import { apiKeyConfig, authConfig, settingsFromResBody, settingsToReqBody } from '../util/serviceProvider';
 
-import { initializeConfig } from '../reducers/configReducer';
+import { initializeConfig } from '../redux/configReducer';
 
 interface SettingsResponse extends Response {
     settings: Settings | null;

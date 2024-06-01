@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Config } from '../types/configTypes';
-import { RootState } from '../reducers/rootReducer';
+import { RootState } from '../redux/rootReducer';
 import { Category } from '../types/types';
 
 import categoryService from '../services/categoryService';

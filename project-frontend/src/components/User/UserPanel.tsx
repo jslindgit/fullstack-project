@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { ContentID } from '../../content';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 import { User } from '../../types/types';
 
 import { contentToText } from '../../types/languageFunctions';
 import userService from '../../services/userService';
 
-import { setNotification } from '../../reducers/miscReducer';
-import { initializeLoggedUser } from '../../reducers/userReducer';
+import { setNotification } from '../../redux/miscReducer';
+import { initializeLoggedUser } from '../../redux/userReducer';
 
 import UserBasicInfo from './UserBasicInfo';
 import UserChangePassword from './UserChangePassword';

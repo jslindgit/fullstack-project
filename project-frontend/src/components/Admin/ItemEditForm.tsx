@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 import { Category, Item, ItemSizeAndInstock, NewItem, Response } from '../../types/types';
 
 import categoryService from '../../services/categoryService';
@@ -17,8 +17,8 @@ import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import localstorageHandler from '../../util/localstorageHandler';
 import useField from '../../hooks/useField';
 
-import { useItemAddMutation, useItemUpdateMutation } from '../../services/apiSlice';
-import { setNotification } from '../../reducers/miscReducer';
+import { useItemAddMutation, useItemUpdateMutation } from '../../redux/itemSlice';
+import { setNotification } from '../../redux/miscReducer';
 
 import InputField from '../InputField';
 import ItemEditCategories from './ItemEditCategories';
@@ -186,7 +186,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                     };
 
                     //const res = await itemService.update(finalItem, token, config);
-                    const res = await itemUpdate({ itemToUpdate: finalItem, config: config }).unwrap();
+                    const res = await itemUpdate({ toUpdate: finalItem, config: config }).unwrap();
                     returnedItem = res.item;
 
                     dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
@@ -202,7 +202,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                     };
 
                     //const res = await itemService.add(finalItem, null, usersState.loggedUser.token, config);
-                    const res = await itemAdd({ newItem: finalItem, config: config }).unwrap();
+                    const res = await itemAdd({ toAdd: finalItem, config: config }).unwrap();
                     returnedItem = res.item;
 
                     dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));

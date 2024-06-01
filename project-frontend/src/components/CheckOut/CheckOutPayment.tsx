@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ContentID } from '../../content';
-import { RootState } from '../../reducers/rootReducer';
+import { RootState } from '../../redux/rootReducer';
 import { PaytrailData, PaytrailProvider } from '../../types/orderTypes';
 
 import { orderTotalSum } from '../../util/checkoutProvider';
