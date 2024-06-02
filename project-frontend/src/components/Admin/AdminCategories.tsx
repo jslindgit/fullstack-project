@@ -6,9 +6,10 @@ import { RootState } from '../../redux/rootReducer';
 import { ContentID } from '../../content';
 import { Category } from '../../types/types';
 
-import categoryService from '../../services/categoryService';
+//import categoryService from '../../services/categoryService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
+import { useCategoryDeleteMutation, useCategoryGetAllQuery } from '../../redux/categorySlice';
 import { setNotification } from '../../redux/miscReducer';
 
 import AddCategoryForm from './AddCategoryForm';
@@ -16,42 +17,37 @@ import { Link } from '../CustomLink';
 import Loading from '../Loading';
 
 const AdminCategories = () => {
+    const [categoryDelete] = useCategoryDeleteMutation();
+    const categoryGetAll = useCategoryGetAllQuery();
+
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.user);
 
     const [categories, setCategories] = useState<Category[]>([]);
-    const [loaded, setLoaded] = useState<boolean>(false);
 
     // Fetch the categories from server:
     useEffect(() => {
-        const fetch = async () => {
-            const fetchedCategories = await categoryService.getAll();
-            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
-            setLoaded(true);
-        };
-
-        fetch();
-    }, [config]);
+        if (categoryGetAll.data) {
+            setCategories([...categoryGetAll.data].sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
+        }
+    }, [categoryGetAll.data, config]);
 
     const deleteCategory = async (category: Category) => {
         if (!usersState.loggedUser) {
             return;
         }
         if (confirm(`${contentToText(ContentID.adminDeleteCategory, config)} "${langTextsToText(category.name, config)}"?`)) {
-            const res = await categoryService.deleteCategory(category, usersState.loggedUser.token, config);
+            //const res = await categoryService.deleteCategory(category, usersState.loggedUser.token, config);
+            const res = await categoryDelete({ toDelete: category, config: config }).unwrap();
 
             dispatch(setNotification({ tone: res.success ? 'Neutral' : 'Negative', message: res.message }));
-
-            if (res.success) {
-                setCategories([...categories].filter((c) => c.id !== category.id));
-            }
         }
     };
 
     return (
         <div>
-            {loaded ? (
+            {!categoryGetAll.isLoading ? (
                 <>
                     <div className='adminCategoriesList grid-container padded1remDeep left middle preLine striped' data-cols='auto 1fr auto'>
                         <div className='bold gridStripedHeaderRow'>{contentToText(ContentID.miscName, config)}</div>
@@ -87,7 +83,7 @@ const AdminCategories = () => {
                         ))}
                     </div>
                     <br />
-                    <AddCategoryForm categories={categories} setCategories={setCategories} user={usersState.loggedUser} />
+                    <AddCategoryForm user={usersState.loggedUser} />
                 </>
             ) : (
                 <Loading config={config} />

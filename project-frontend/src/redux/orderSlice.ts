@@ -4,7 +4,7 @@ import { OrderResponse } from '../services/orderService';
 import { NewOrder, Order } from '../types/orderTypes';
 import { DeleteResponse, Response } from '../types/types';
 
-import { contentToText, langTextsToText } from '../types/languageFunctions';
+import { contentToText } from '../types/languageFunctions';
 import { orderFromResponseBody, orderToRequestBody } from '../util/orderProvider';
 import { isNotNull } from '../types/typeFunctions';
 
@@ -68,7 +68,36 @@ export const orderApiSlice = apiSlice.injectEndpoints({
                 return res.map((order) => orderFromResponseBody(order)).filter(isNotNull);
             },
         }),
+        orderGetById: builder.query<OrderResponse, { id: number }>({
+            query: ({ id }) => `${url}/${id}`,
+            providesTags: ['Order'],
+            transformResponse: (res: Order, _meta, arg) => {
+                const order = orderFromResponseBody(res);
+                if (order) {
+                    return { success: true, message: 'Ok', order: order };
+                } else {
+                    return { success: false, message: `Failed to retrieve order ${arg.id}`, order: null };
+                }
+            },
+        }),
+        orderUpdate: builder.mutation<OrderResponse, { orderId: number; propsToUpdate: object; config: Config }>({
+            query: ({ orderId, propsToUpdate }) => {
+                return {
+                    url: `${url}/${orderId}`,
+                    method: 'PUT',
+                    body: propsToUpdate,
+                };
+            },
+            invalidatesTags: ['Order'],
+            transformResponse: (orderRes: Order, _meta, arg) => {
+                return transformResponse(
+                    orderRes,
+                    `${contentToText(ContentID.miscOrder, arg.config)} ${contentToText(ContentID.miscUpdated, arg.config)}.`,
+                    arg.config
+                );
+            },
+        }),
     }),
 });
 
-export const { useOrderAddMutation, useOrderDeleteMutation, useOrderGetAllQuery } = orderApiSlice;
+export const { useOrderAddMutation, useOrderDeleteMutation, useOrderGetAllQuery, useOrderGetByIdQuery, useOrderUpdateMutation } = orderApiSlice;

@@ -7,11 +7,12 @@ import { ContentID } from '../../content';
 import { RootState } from '../../redux/rootReducer';
 import { Category, Item } from '../../types/types';
 
-import categoryService from '../../services/categoryService';
+//import categoryService from '../../services/categoryService';
 /*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { isNumber } from '../../types/typeFunctions';
 
+import { useCategoryGetAllQuery } from '../../redux/categorySlice';
 import { useItemDeleteMutation, useItemGetAllQuery } from '../../redux/itemSlice';
 import { setNotification } from '../../redux/miscReducer';
 
@@ -20,6 +21,7 @@ import { Link } from '../CustomLink';
 import ItemEditForm from './ItemEditForm';
 
 const AdminItems = () => {
+    const categoryGetAll = useCategoryGetAllQuery();
     const itemGetAll = useItemGetAllQuery();
     const [itemDelete] = useItemDeleteMutation();
 
@@ -32,7 +34,7 @@ const AdminItems = () => {
     const [category, setCategory] = useState<Category | undefined>(undefined);
     const [categories, setCategories] = useState<Category[]>([]);
     const [itemAdded, setItemAdded] = useState<Item | null>(null);
-    const [itemDeleted, setItemDeleted] = useState<Item | null>(null);
+    //const [itemDeleted, setItemDeleted] = useState<Item | null>(null);
     const [items, setItems] = useState<Item[]>([]);
     const [scrollTo, setScrollTo] = useState<number>(0);
     const [showAddItem, setShowAddItem] = useState<boolean>(false);
@@ -44,13 +46,10 @@ const AdminItems = () => {
 
     // Fetch the categories from server:
     useEffect(() => {
-        const fetch = async () => {
-            const fetchedCategories = await categoryService.getAll();
-            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
-        };
-
-        fetch();
-    }, [config, itemDeleted]);
+        if (categoryGetAll.data) {
+            setCategories([...categoryGetAll.data].sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
+        }
+    }, [categoryGetAll.data, config]);
 
     // Set Items that don't belong to any Category:
     useEffect(() => {
@@ -106,7 +105,7 @@ const AdminItems = () => {
 
             if (res.success) {
                 setItems(items.filter((i) => i !== item));
-                setItemDeleted(item);
+                //setItemDeleted(item);
             }
         }
     };

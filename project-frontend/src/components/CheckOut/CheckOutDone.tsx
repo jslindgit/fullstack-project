@@ -9,17 +9,19 @@ import { RootState } from '../../redux/rootReducer';
 
 import itemService from '../../services/itemService';
 import { contentToText } from '../../types/languageFunctions';
-import orderService from '../../services/orderService';
+/*import orderService from '../../services/orderService';*/
 import { isOrder } from '../../types/orderTypeFunctions';
 import paytrailService from '../../services/paytrailService';
 
 import { clearOrder } from '../../redux/orderReducer';
+import { useOrderGetByIdQuery, useOrderUpdateMutation } from '../../redux/orderSlice';
 import store from '../../redux/store';
 
 import BackButton from '../BackButton';
 import { Link } from '../CustomLink';
 import Loading from '../Loading';
 import OrderInfo from '../OrderInfo';
+import { isNumber } from '../../types/typeFunctions';
 
 enum SignatureStatus {
     INVALID,
@@ -32,7 +34,6 @@ const CheckOutDone = () => {
     const config = useSelector((state: RootState) => state.config);
     const orderState = useSelector((state: RootState) => state.order);
 
-    const attemptedToFetchOrder = useRef(false);
     const clearedOrderFromRedux = useRef(false);
 
     const [errorWhenFetchingOrder, setErrorWhenFetchingOrder] = useState<boolean>(false);
@@ -42,6 +43,9 @@ const CheckOutDone = () => {
 
     const [searchparams] = useSearchParams();
 
+    const orderGetById = useOrderGetByIdQuery({ id: Number(orderId) }, { skip: !isNumber(Number(orderId)) || Number(orderId) <= 0 });
+    const [orderUpdate] = useOrderUpdateMutation();
+
     // Get 'orderId' from the return URL:
     useEffect(() => {
         const checkoutReference = searchparams.get('checkout-reference');
@@ -50,17 +54,12 @@ const CheckOutDone = () => {
         }
     }, [searchparams]);
 
-    // When 'orderId' is set, get the order from the server:
+    // When 'orderId' is set, check if 'orderGetById' managed to fetch the order from the server:
     useEffect(() => {
-        if (orderId) {
-            const fetchOrder = async () => {
-                const response = await orderService.getById(Number(orderId));
-                setOrderResponse(response);
-                attemptedToFetchOrder.current = true;
-            };
-            fetchOrder();
+        if (orderGetById.data) {
+            setOrderResponse(orderGetById.data);
         }
-    }, [orderId]);
+    }, [orderGetById.data]);
 
     // When 'orderResponse' is set, check that it matches the order in Redux. If yes, remove the order from Redux. If no, set 'errorWhenFetchingOrder' to true:
     useEffect(() => {
@@ -94,8 +93,14 @@ const CheckOutDone = () => {
             const updateOrderStatus = async () => {
                 if (orderResponse.order) {
                     const paymentMethod = searchparams.get('checkout-provider') as string;
-                    const response = await orderService.update(orderResponse.order.id, { paymentMethod: paymentMethod, status: OrderStatus.PROCESSING });
-                    setOrderResponse(response);
+                    //const res = await orderService.update(orderResponse.order.id, { paymentMethod: paymentMethod, status: OrderStatus.PROCESSING });
+                    const res = await orderUpdate({
+                        orderId: orderResponse.order.id,
+                        propsToUpdate: { paymentMethod: paymentMethod, status: OrderStatus.PROCESSING },
+                        config: config,
+                    }).unwrap();
+
+                    setOrderResponse(res);
                 }
             };
 
@@ -109,7 +114,7 @@ const CheckOutDone = () => {
 
             updateSoldValues();
         }
-    }, [errorWhenFetchingOrder, orderResponse, searchparams, signatureStatus]);
+    }, [config, errorWhenFetchingOrder, orderResponse, orderUpdate, searchparams, signatureStatus]);
 
     const signaturePendingOrInvalid = (): JSX.Element => {
         if (signatureStatus === SignatureStatus.INVALID || errorWhenFetchingOrder) {

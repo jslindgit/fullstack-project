@@ -8,12 +8,12 @@ import { RootState } from '../../redux/rootReducer';
 import { NewNotification, NotificationTone } from '../../types/types';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
-import orderService from '../../services/orderService';
+import { /*orderService, */ OrderResponse } from '../../services/orderService';
 import { getOrderStatusForAdmin } from '../../util/orderProvider';
 import useField from '../../hooks/useField';
 
 import { setNotification } from '../../redux/miscReducer';
-import { useOrderDeleteMutation, useOrderGetAllQuery } from '../../redux/orderSlice';
+import { useOrderDeleteMutation, useOrderGetAllQuery, useOrderUpdateMutation } from '../../redux/orderSlice';
 
 import AdminOrderDetails from './AdminOrderDetails';
 import AdminOrderGridRow from './AdminOrderGridRow';
@@ -30,6 +30,7 @@ enum Folder {
 const AdminOrders = () => {
     const [orderDelete] = useOrderDeleteMutation();
     const orderGetAll = useOrderGetAllQuery();
+    const [orderUpdate] = useOrderUpdateMutation();
 
     type sortByOption = 'date' | 'customer' | 'totalSum' | 'delivery' | 'status';
 
@@ -56,6 +57,10 @@ const AdminOrders = () => {
         } else {
             setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
         }
+    };
+
+    const updateOrder = async (orderId: number, propsToUpdate: object): Promise<OrderResponse> => {
+        return await orderUpdate({ orderId: orderId, propsToUpdate: propsToUpdate, config: config }).unwrap();
     };
 
     // Set current folder according to URL parameter:
@@ -201,7 +206,9 @@ const AdminOrders = () => {
     };
 
     const handleMarkAsDelivered = async (order: Order) => {
-        const res = await orderService.update(order.id, { deliveredDate: new Date() });
+        //const res = await orderService.update(order.id, { deliveredDate: new Date() });
+        const res = await updateOrder(order.id, { deliveredDate: new Date() });
+
         handleClose();
 
         if (res.order) {
@@ -217,7 +224,9 @@ const AdminOrders = () => {
     };
 
     const handleMarkAsNotDelivered = async (order: Order) => {
-        const res = await orderService.update(order.id, { deliveredDate: null });
+        //const res = await orderService.update(order.id, { deliveredDate: null });
+        const res = await updateOrder(order.id, { deliveredDate: null });
+
         handleClose();
 
         if (res.order) {
@@ -233,20 +242,26 @@ const AdminOrders = () => {
     };
 
     const handleMoveBackFromRecycleBin = async (order: Order) => {
-        await orderService.update(order.id, { recycledDate: null });
+        //await orderService.update(order.id, { recycledDate: null });
+        await updateOrder(order.id, { recycledDate: null });
+
         handleClose();
         dispatch(setNotification(getNotification(order, order.deliveredDate ? Folder.DELIVERED : Folder.PROCESSING, 'Positive')));
     };
 
     const handleMoveToRecycleBin = async (order: Order) => {
-        await orderService.update(order.id, { recycledDate: new Date() });
+        //await orderService.update(order.id, { recycledDate: new Date() });
+        await updateOrder(order.id, { recycledDate: new Date() });
+
         handleClose();
+
         dispatch(setNotification(getNotification(order, Folder.RECYCLEBIN, 'Neutral')));
     };
 
     const handleOpen = async (order: Order) => {
         if (!order.readDate) {
-            const res = await orderService.update(order.id, { readDate: new Date() });
+            //const res = await orderService.update(order.id, { readDate: new Date() });
+            const res = await updateOrder(order.id, { readDate: new Date() });
 
             if (res.order) {
                 const returnedOrder = res.order;

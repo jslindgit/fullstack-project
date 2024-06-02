@@ -64,9 +64,9 @@ export const getOrderStatusForAdmin = (order: Order, config: Config): string => 
     }
 };
 
-export const orderFromResponseBody = (resBody: unknown): Order => {
+export const orderFromResponseBody = (resBody: unknown): Order | null => {
     if (!isObject(resBody)) {
-        throw new Error('responseBody is not an object');
+        return null;
     }
 
     const delivery = 'deliveryMethod' in resBody ? resBody.deliveryMethod : null;
@@ -74,7 +74,7 @@ export const orderFromResponseBody = (resBody: unknown): Order => {
     const payment = 'paymentMethod' in resBody ? resBody.paymentMethod : null;
 
     if (!('deliveryCost' in resBody && 'totalAmount' in resBody)) {
-        throw new Error('resBody is not an Order');
+        return null;
     }
 
     // Remove the delivery method from the 'items' array (which was added there for Paytrail):

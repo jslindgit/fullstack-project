@@ -82,7 +82,7 @@ const CheckOutCreateOrder = () => {
                     handleError(err);
                 });*/
         }
-    }, [config, currentOrder, dispatch, userState.loggedUser]);
+    }, [config, currentOrder, dispatch, orderAdd, userState.loggedUser]);
 
     // If the order has been successfully posted to the server, navigate onwards to payment method selection:
     useEffect(() => {

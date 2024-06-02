@@ -25,7 +25,7 @@ interface Props {
 }
 
 const ShoppingCartRow = ({ allowEdit, indexOf, narrowView, removeItem, shoppingItem }: Props) => {
-    const itemGetById = useItemGetByIdQuery(shoppingItem.id);
+    const itemGetById = useItemGetByIdQuery(shoppingItem.id, { skip: shoppingItem.id < 0 });
 
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);

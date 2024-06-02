@@ -5,9 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
 import { RootState } from '../../redux/rootReducer';
-import { Category, Item, ItemSizeAndInstock, NewItem, Response } from '../../types/types';
+import { Item, ItemSizeAndInstock, NewItem, Response } from '../../types/types';
 
-import categoryService from '../../services/categoryService';
 import { testItemId } from '../../constants';
 import { handleError } from '../../util/handleError';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
@@ -17,6 +16,7 @@ import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import localstorageHandler from '../../util/localstorageHandler';
 import useField from '../../hooks/useField';
 
+import { useCategoryGetAllQuery } from '../../redux/categorySlice';
 import { useItemAddMutation, useItemUpdateMutation } from '../../redux/itemSlice';
 import { setNotification } from '../../redux/miscReducer';
 
@@ -24,6 +24,7 @@ import InputField from '../InputField';
 import ItemEditCategories from './ItemEditCategories';
 import ItemEditImages from './ItemEditImages';
 import ItemSizes from './ItemSizes';
+import Loading from '../Loading';
 
 interface Props {
     config: Config;
@@ -34,13 +35,13 @@ interface Props {
     setItemAdded?: React.Dispatch<React.SetStateAction<Item | null>>;
 }
 const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefined, onSubmit = undefined, setItemAdded }: Props) => {
+    const categoryGetAll = useCategoryGetAllQuery();
     const [itemAdd] = useItemAddMutation();
     const [itemUpdate] = useItemUpdateMutation();
 
     const dispatch = useDispatch();
     const usersState = useSelector((state: RootState) => state.user);
 
-    const [categories, setCategories] = useState<Category[]>([]);
     const [fieldsInitialized, setFieldsInitialized] = useState<boolean>(false);
     const [imagesToRemove, setImagesToRemove] = useState<string[]>([]);
     const [imagesToAdd, setImagesToAdd] = useState<string[]>([]);
@@ -54,16 +55,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     const nameFields = useLangFields('text');
     const price = useField('decimal', ContentID.itemsPrice);
     const fitsInLetter = useField('integer', null, '0');
-
-    // Fetch the categories from server:
-    useEffect(() => {
-        const fetch = async () => {
-            const fetchedCategories = await categoryService.getAll();
-            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
-        };
-
-        fetch();
-    }, [config]);
 
     // Set initial values for Name/Description/Instock/Price/Images (if editing an existing Item):
     useEffect(() => {
@@ -213,11 +204,13 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
 
                     // Add connections between the updated/added Item and the selected Categories that are not yet connected to the Item:
                     selectedCategories.forEach(async (selected) => {
-                        const category = categories.find((c) => {
-                            return c.id === selected;
-                        });
-                        if (category && returnedItem && !(returnedItem.categories && returnedItem.categories.includes(category))) {
-                            promises.push(item_categoryService.addConnection(returnedItem, category, token));
+                        if (categoryGetAll.data) {
+                            const category = categoryGetAll.data.find((c) => {
+                                return c.id === selected;
+                            });
+                            if (category && returnedItem && !(returnedItem.categories && returnedItem.categories.includes(category))) {
+                                promises.push(item_categoryService.addConnection(returnedItem, category, token));
+                            }
                         }
                     });
 
@@ -266,6 +259,10 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             price.numValue() <= config.maxItemPriceEUR
         );
     };
+
+    if (!categoryGetAll.data) {
+        return <Loading config={config} text={contentToText(categoryGetAll.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
+    }
 
     return (
         <div className='adminFormDiv'>

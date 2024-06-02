@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { Config } from '../../types/configTypes';
-import { Category } from '../../types/types';
 
-import categoryService from '../../services/categoryService';
-import { langTextsToText } from '../../types/languageFunctions';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
+
+import { useCategoryGetAllQuery } from '../../redux/categorySlice';
+import { ContentID } from '../../content';
 
 interface Props {
     config: Config;
@@ -13,17 +14,7 @@ interface Props {
     setSelectedCategories: React.Dispatch<React.SetStateAction<number[]>>;
 }
 const ItemEditCategories = ({ config, initialCategories, selectedCategories, setSelectedCategories }: Props) => {
-    const [categories, setCategories] = useState<Category[]>([]);
-
-    // Fetch the categories from server:
-    useEffect(() => {
-        const fetch = async () => {
-            const fetchedCategories = await categoryService.getAll();
-            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
-        };
-
-        fetch();
-    }, [config]);
+    const categoryGetAll = useCategoryGetAllQuery();
 
     useEffect(() => {
         if (initialCategories) {
@@ -45,16 +36,20 @@ const ItemEditCategories = ({ config, initialCategories, selectedCategories, set
 
     return (
         <>
-            {categories.map((c) => (
-                <button
-                    key={c.id}
-                    type='button'
-                    className={'selectButton ' + (selectedCategories.includes(c.id) ? 'selectButtonTrue' : 'selectButtonFalse')}
-                    onClick={() => handleCategoryChange(c.id)}
-                >
-                    {langTextsToText(c.name, config)}
-                </button>
-            ))}
+            {categoryGetAll.data ? (
+                categoryGetAll.data.map((c) => (
+                    <button
+                        key={c.id}
+                        type='button'
+                        className={'selectButton ' + (selectedCategories.includes(c.id) ? 'selectButtonTrue' : 'selectButtonFalse')}
+                        onClick={() => handleCategoryChange(c.id)}
+                    >
+                        {langTextsToText(c.name, config)}
+                    </button>
+                ))
+            ) : (
+                <>{contentToText(ContentID.miscLoading, config)}</>
+            )}
         </>
     );
 };

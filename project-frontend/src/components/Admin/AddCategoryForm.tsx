@@ -2,23 +2,24 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
-import { Category, NewCategory, User } from '../../types/types';
+import { NewCategory, User } from '../../types/types';
 import { RootState } from '../../redux/rootReducer';
 
-import categoryService from '../../services/categoryService';
+//import categoryService from '../../services/categoryService';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
-import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { contentToText } from '../../types/languageFunctions';
 
+import { useCategoryAddMutation } from '../../redux/categorySlice';
 import { setNotification } from '../../redux/miscReducer';
 
 import InputField from '../InputField';
 
 interface Props {
-    categories: Category[];
-    setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
     user: User | null;
 }
-const AddCategoryForm = ({ categories, setCategories, user }: Props) => {
+const AddCategoryForm = ({ user }: Props) => {
+    const [categoryAdd] = useCategoryAddMutation();
+
     const config = useSelector((state: RootState) => state.config);
 
     const nameFields = useLangFields('text');
@@ -36,11 +37,8 @@ const AddCategoryForm = ({ categories, setCategories, user }: Props) => {
             name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
         };
 
-        const res = await categoryService.add(newCategory, user.token);
-
-        if (res.addedCategory) {
-            setCategories([...categories, res.addedCategory].sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
-        }
+        //const res = await categoryService.add(newCategory, user.token);
+        const res = await categoryAdd({ toAdd: newCategory, config: config }).unwrap();
 
         dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 

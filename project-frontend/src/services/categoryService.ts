@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-import { Config } from '../types/configTypes';
-import { Category, NewCategory, Response } from '../types/types';
+//import { Config } from '../types/configTypes';
+import { Category, /*NewCategory, */ Response } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
-import { langTextsToText } from '../types/languageFunctions';
+//import { langTextsToText } from '../types/languageFunctions';
 import { authConfig } from '../util/serviceProvider';
 import { apiKeyConfig, categoryFromResBody, categoryToReqBody } from '../util/serviceProvider';
 
@@ -15,7 +15,7 @@ interface CategoryResponse extends Response {
 
 const url = apiBaseUrl + '/categories';
 
-const add = async (toAdd: NewCategory, token: string): Promise<CategoryResponse> => {
+/*const add = async (toAdd: NewCategory, token: string): Promise<CategoryResponse> => {
     try {
         const { data } = await axios.post(url, categoryToReqBody(toAdd), authConfig(token));
 
@@ -64,7 +64,7 @@ const getAll = async (): Promise<Category[]> => {
         handleError(err);
         return [];
     }
-};
+};*/
 
 const getById = async (id: number): Promise<Category | null> => {
     try {
@@ -96,9 +96,9 @@ const update = async (category: Category, token: string): Promise<CategoryRespon
 };
 
 export default {
-    add,
-    deleteCategory,
-    getAll,
+    /*add,*/
+    /*deleteCategory,*/
+    /*getAll,*/
     getById,
     update,
 };

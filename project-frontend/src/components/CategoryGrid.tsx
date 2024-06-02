@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { ContentID } from '../content';
 import { Config } from '../types/configTypes';
 import { RootState } from '../redux/rootReducer';
 import { Category } from '../types/types';
 
-import categoryService from '../services/categoryService';
-import { langTextsToText } from '../types/languageFunctions';
+import { contentToText, langTextsToText } from '../types/languageFunctions';
+
+import { useCategoryGetAllQuery } from '../redux/categorySlice';
 
 import { Link } from './CustomLink';
 import Loading from './Loading';
@@ -27,34 +28,22 @@ const CategoryGridColumn = ({ category, config }: ColumnProps) => (
 );
 
 const CategoryGrid = () => {
+    const categoryGetAll = useCategoryGetAllQuery();
+
     const config = useSelector((state: RootState) => state.config);
 
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [loaded, setLoaded] = useState<boolean>(false);
-
-    // Fetch the categories from server:
-    useEffect(() => {
-        const fetch = async () => {
-            const fetchedCategories = await categoryService.getAll();
-            setCategories(fetchedCategories.sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
-            setLoaded(true);
-        };
-
-        fetch();
-    }, [config]);
+    if (!categoryGetAll.data) {
+        return <Loading config={config} text={contentToText(categoryGetAll.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
+    }
 
     return (
-        <div>
-            {loaded ? (
-                <div className='grid-container' data-gap='2rem' data-cols='category-grid'>
-                    {categories.map((category) => (
-                        <CategoryGridColumn key={category.id} category={category} config={config} />
-                    ))}
-                    <div />
-                </div>
-            ) : (
-                <Loading config={config} />
-            )}
+        <div className='grid-container' data-gap='2rem' data-cols='category-grid'>
+            {[...categoryGetAll.data]
+                .sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config)))
+                .map((category) => (
+                    <CategoryGridColumn key={category.id} category={category} config={config} />
+                ))}
+            <div />
         </div>
     );
 };

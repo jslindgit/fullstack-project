@@ -39,7 +39,7 @@ export const itemApiSlice = apiSlice.injectEndpoints({
                     body: itemToReqBody(toAdd),
                 };
             },
-            invalidatesTags: ['Item'],
+            invalidatesTags: ['Category', 'Item'],
             transformResponse: (itemRes: Item, _meta, arg) => {
                 return transformResponse(itemRes, ContentID.adminItemsNewItemAdded, arg.config);
             },
@@ -51,7 +51,7 @@ export const itemApiSlice = apiSlice.injectEndpoints({
                     method: 'DELETE',
                 };
             },
-            invalidatesTags: ['Item'],
+            invalidatesTags: ['Category', 'Item'],
             transformResponse: (response: DeleteResponse, _meta, arg) => {
                 if (response && response.success) {
                     return {
@@ -103,7 +103,7 @@ export const itemApiSlice = apiSlice.injectEndpoints({
                     body,
                 };
             },
-            invalidatesTags: ['Item'],
+            invalidatesTags: ['Category', 'Item'],
             transformResponse: (itemRes: Item, _meta, arg) => {
                 return transformResponse(itemRes, ContentID.adminItemsItemUpdated, arg.config);
             },
