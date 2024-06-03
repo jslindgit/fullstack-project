@@ -14,6 +14,7 @@ import useField from '../../hooks/useField';
 import { registerAndLogin } from '../../util/userProvider';
 
 import { setOrder } from '../../redux/orderReducer';
+import store from '../../redux/store';
 
 import BackButton from '../BackButton';
 import CheckOutContactInfo from './CheckOutContactInfo';
@@ -75,7 +76,7 @@ const CheckOut = () => {
                     password: password.stringValue(),
                 };
 
-                await registerAndLogin(newUser, password.stringValue(), config, dispatch);
+                await registerAndLogin(newUser, password.stringValue(), config, dispatch, store.dispatch);
             }
         }
 

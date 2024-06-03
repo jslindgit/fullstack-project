@@ -65,6 +65,7 @@ export enum ContentID {
     adminUserInfoEnableAccountButton = 'ADMIN - USER INFO: Enable Account (button)',
     adminUserInfoHeader = 'ADMIN - USER INFO: header',
     adminUserInfoSendMessage = 'ADMIN - USER INFO: Send Message (button)',
+    adminUsersNoUsers = 'ADMIN - USERS: No users',
     adminYouCanOnlyDeleteItemsAddedByYou = 'ADMIN: You can only delete items you have added.',
     adminYouCanOnlyDeleteCategoriesAddedByYou = 'ADMIN - CATEGORIES: You can only delete categories you have added.',
     adminYouCanOnlyEditCategoriesAddedByYou = 'ADMIN - CATEGORIES: You can only edit categories you have added.',
@@ -698,6 +699,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Send Message' },
             { langCode: LangCode.FI, text: 'Lähetä viesti' },
+        ],
+    },
+    {
+        id: ContentID.adminUsersNoUsers,
+        content: [
+            { langCode: LangCode.EN, text: 'No users' },
+            { langCode: LangCode.FI, text: 'Ei käyttäjiä' },
         ],
     },
     {
@@ -1714,8 +1722,8 @@ export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.miscWithSearchWords,
         content: [
-            { langCode: LangCode.EN, text: 'with search words' },
-            { langCode: LangCode.FI, text: 'hakusanoilla' },
+            { langCode: LangCode.EN, text: 'with search word' },
+            { langCode: LangCode.FI, text: 'hakusanalla' },
         ],
     },
     {

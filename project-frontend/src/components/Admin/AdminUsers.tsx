@@ -9,10 +9,12 @@ import { User } from '../../types/types';
 import { contentToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 import { getUserStatus } from '../../util/userProvider';
-import userService from '../../services/userService';
+
+import { useUserGetAllQuery } from '../../redux/userSlice';
 
 import { Link } from '../CustomLink';
 import InputField from '../InputField';
+import Loading from '../Loading';
 import SortArrow from '../SortArrow';
 
 interface Props {
@@ -38,10 +40,10 @@ const AdminUserGridRow = ({ config, user }: Props) => {
 const AdminUsers = () => {
     type sortByOption = 'name' | 'username' | 'id' | 'status';
 
+    const userGetAll = useUserGetAllQuery();
+
     const config = useSelector((state: RootState) => state.config);
 
-    const [allUsers, setAllUsers] = useState<User[]>([]);
-    const [fetched, setFetched] = useState<boolean>(false);
     const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
     const [sortBy, setSortBy] = useState<sortByOption>('name');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -57,32 +59,23 @@ const AdminUsers = () => {
         }
     };
 
-    // Fetch all Users from backend:
-    useEffect(() => {
-        if (!fetched) {
-            const fetch = async () => {
-                setAllUsers(await userService.getAll());
-                setFetched(true);
-            };
-            fetch();
-        }
-    }, [fetched]);
-
     // Filter Users according to search field value:
     useEffect(() => {
-        setFilteredUsers(
+        if (userGetAll.data) {
             // prettier-ignore
-            search.value.toString().trim().length > 0
-                ?
-                allUsers.filter(
-                    (user) =>
-                        user.contactFirstName.toLowerCase().includes(search.value.toString().trim().toLowerCase()) ||
-                        user.contactLastName.toLowerCase().includes(search.value.toString().trim().toLowerCase()) ||
-                        user.username.toLowerCase().includes(search.value.toString().trim().toLowerCase())
-                )
-                : allUsers
-        );
-    }, [allUsers, search.value]);
+            setFilteredUsers(
+                search.value.toString().trim().length > 0
+                    ?
+                    userGetAll.data.filter(
+                        (user) =>
+                            user.contactFirstName.toLowerCase().includes(search.value.toString().trim().toLowerCase()) ||
+                            user.contactLastName.toLowerCase().includes(search.value.toString().trim().toLowerCase()) ||
+                            user.username.toLowerCase().includes(search.value.toString().trim().toLowerCase())
+                    )
+                    : userGetAll.data
+            );
+        }
+    }, [search.value, userGetAll.data]);
 
     // Sort Users:
     useEffect(() => {
@@ -117,10 +110,6 @@ const AdminUsers = () => {
         }
     }, [config, filteredUsers, sortBy, sortDirection]);
 
-    if (allUsers.length < 1) {
-        return <div className='semiBold sizeLarge'>{fetched ? 'No users' : 'Loading...'}</div>;
-    }
-
     const gridColumnHeader = (label: ContentID, sortByOption: sortByOption, breakWord: boolean = false) => (
         <div className={breakWord ? 'adminUsersListBreakWord' : ''} onClick={() => setSorting(sortByOption)}>
             <span
@@ -132,6 +121,10 @@ const AdminUsers = () => {
             <SortArrow column={sortByOption} sortBy={sortBy} sortDirection={sortDirection} setSortDirection={setSortDirection} config={config} />
         </div>
     );
+
+    if (!userGetAll.data) {
+        return <Loading config={config} text={contentToText(userGetAll.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
+    }
 
     return (
         <div className='grid-container pageWidth' data-gap='2rem'>
@@ -150,18 +143,31 @@ const AdminUsers = () => {
                     </button>
                 </div>
             </div>
-            <div className='adminUsersList grid-container left middle stripedBackground' data-cols='users'>
-                <div className='displayContents gridHeaderRowDarkGray'>
-                    {gridColumnHeader(ContentID.miscName, 'name')}
-                    {gridColumnHeader(ContentID.loginUsername, 'username')}
-                    {gridColumnHeader(ContentID.accountUserId, 'id', true)}
-                    {gridColumnHeader(ContentID.userStatusHeader, 'status')}
-                    <div />
-                </div>
-                {sortedUsers.map((user) => (
-                    <AdminUserGridRow key={user.id} config={config} user={user} />
-                ))}
-            </div>
+            {sortedUsers.length > 0 ? (
+                <>
+                    <div className='adminUsersList grid-container left middle stripedBackground' data-cols='users'>
+                        <div className='displayContents gridHeaderRowDarkGray'>
+                            {gridColumnHeader(ContentID.miscName, 'name')}
+                            {gridColumnHeader(ContentID.loginUsername, 'username')}
+                            {gridColumnHeader(ContentID.accountUserId, 'id', true)}
+                            {gridColumnHeader(ContentID.userStatusHeader, 'status')}
+                            <div />
+                        </div>
+                        {sortedUsers.map((user) => (
+                            <AdminUserGridRow key={user.id} config={config} user={user} />
+                        ))}
+                    </div>
+                </>
+            ) : (
+                <>
+                    <div className='semiBold sizeLarge'>
+                        <span>
+                            {`${contentToText(ContentID.adminUsersNoUsers, config)} ${contentToText(ContentID.miscWithSearchWords, config)} `}{' '}
+                            <span className='italic'>{`'${search.stringValue()}'`}</span>.
+                        </span>
+                    </div>
+                </>
+            )}
             <br />
         </div>
     );

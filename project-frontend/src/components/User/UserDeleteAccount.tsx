@@ -8,10 +8,10 @@ import { User } from '../../types/types';
 import { contentToText } from '../../types/languageFunctions';
 import loginService from '../../services/loginService';
 import useField from '../../hooks/useField';
-import userService from '../../services/userService';
 
 import { setNotification } from '../../redux/miscReducer';
 import { removeLoggedUser } from '../../redux/userReducer';
+import { useUserDeleteMutation } from '../../redux/userSlice';
 
 import InputField from '../InputField';
 
@@ -20,6 +20,8 @@ interface Props {
     user: User;
 }
 const UserDeleteAccount = ({ config, user }: Props) => {
+    const [userDelete] = useUserDeleteMutation();
+
     const dispatch = useDispatch();
 
     const [showPasswordField, setShowPasswordField] = useState<boolean>(false);
@@ -36,7 +38,8 @@ const UserDeleteAccount = ({ config, user }: Props) => {
         const loginResponse = await loginService.checkPassword(user.username, password.value.toString(), config);
 
         if (loginResponse.success) {
-            const res = await userService.deleteUser(user, user.token, config);
+            //const res = await userService.deleteUser(user, user.token, config);
+            const res = await userDelete({ toDelete: user, config: config }).unwrap();
 
             if (res.success) {
                 dispatch(removeLoggedUser());

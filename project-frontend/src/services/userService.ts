@@ -2,53 +2,19 @@ import axios from 'axios';
 
 import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
-import { NewUser, Response, User } from '../types/types';
+import { Response, User } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
 import { contentToText } from '../types/languageFunctions';
 import { apiKeyConfig, authConfig } from '../util/serviceProvider';
-import { isBoolean, isObject, isUser } from '../types/typeFunctions';
+import { isBoolean, isObject } from '../types/typeFunctions';
 
 type UserResponse = Response & { user: User | null };
 
 const url = apiBaseUrl + '/users';
 
-const addNew = async (newUser: NewUser, config: Config): Promise<UserResponse> => {
-    try {
-        const { data } = await axios.post(url, newUser, apiKeyConfig());
-        if (isUser(data)) {
-            return { success: true, message: contentToText(ContentID.registerSuccess, config) + ' ' + data.username, user: data };
-        } else {
-            return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), user: null };
-        }
-    } catch (err: unknown) {
-        return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config), user: null };
-    }
-};
-
-const deleteUser = async (user: User, token: string, config: Config): Promise<UserResponse> => {
-    try {
-        const res = await axios.delete<User>(`${url}/${user.id}`, authConfig(token));
-        if (res.status === 204) {
-            return {
-                success: true,
-                message: `${contentToText(ContentID.user, config)} ${user.contactFirstName} ${user.contactLastName} (${user.username}) ${contentToText(
-                    ContentID.miscDeleted,
-                    config
-                )}.`,
-                user: user,
-            };
-        } else {
-            return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), user: null };
-        }
-    } catch (err: unknown) {
-        handleError(err);
-        return { success: false, message: contentToText(ContentID.errorOccurred, config), user: null };
-    }
-};
-
-const getAll = async (): Promise<User[]> => {
+/*const getAll = async (): Promise<User[]> => {
     try {
         const { data } = await axios.get<User[]>(url, apiKeyConfig());
         return data;
@@ -56,7 +22,7 @@ const getAll = async (): Promise<User[]> => {
         handleError(err);
         return [];
     }
-};
+};*/
 
 const getById = async (id: number) => {
     try {
@@ -108,9 +74,7 @@ const usernameIsAvailable = async (username: string): Promise<boolean> => {
 };
 
 export default {
-    addNew,
-    deleteUser,
-    getAll,
+    /*getAll,*/
     getById,
     getByToken,
     update,

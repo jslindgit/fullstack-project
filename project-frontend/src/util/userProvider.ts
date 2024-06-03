@@ -2,14 +2,15 @@ import { AnyAction, Dispatch } from 'redux';
 
 import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
+import { StoreDispatch } from '../redux/store';
 import { NewUser, User } from '../types/types';
 
 import { contentToText } from '../types/languageFunctions';
 import loginService from '../services/loginService';
-import userService from '../services/userService';
 
 import { setNotification } from '../redux/miscReducer';
 import { setLoggedUser } from '../redux/userReducer';
+import { userAdd } from '../redux/userSlice';
 
 export const getUserStatus = (user: User, config: Config): string => {
     if (user.admin) {
@@ -21,17 +22,17 @@ export const getUserStatus = (user: User, config: Config): string => {
     }
 };
 
-export const registerAndLogin = async (newUser: NewUser, password: string, config: Config, dispatch: Dispatch<AnyAction>) => {
-    const response = await userService.addNew(newUser, config);
+export const registerAndLogin = async (newUser: NewUser, password: string, config: Config, dispatch: Dispatch<AnyAction>, storeDispatch: StoreDispatch) => {
+    const res = await storeDispatch(userAdd.initiate({ toAdd: newUser, config: config })).unwrap();
 
     // If the registration was successful, login with the registered user:
-    if (response.success && response.user) {
+    if (res.success && res.user) {
         const setLogged = (loggedUser: User) => {
             dispatch(setLoggedUser(loggedUser));
         };
 
-        await loginService.login(response.user.username, password, setLogged, config);
+        await loginService.login(res.user.username, password, setLogged, config);
     }
 
-    dispatch(setNotification({ message: response.message, tone: response.success ? 'Positive' : 'Negative' }));
+    dispatch(setNotification({ message: res.message, tone: res.success ? 'Positive' : 'Negative' }));
 };

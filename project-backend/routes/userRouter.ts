@@ -12,13 +12,16 @@ const router = express.Router();
 
 router.delete('/:id', tokenExtractor, (async (req, res) => {
     const user = await service.getById(req.params.id, false);
+    console.log('user:', user);
     if (!user) {
         res.status(404).end();
     } else {
         if (res.locals.admin === true || res.locals.user_id === user.id) {
             const deletedUser = await service.deleteById(req.params.id);
+            console.log('deletedUser:', deletedUser);
             if (deletedUser) {
-                res.status(204).end();
+                console.log('returning success...');
+                res.json({ success: true });
             } else {
                 res.status(404).end();
             }

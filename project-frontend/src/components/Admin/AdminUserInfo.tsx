@@ -12,6 +12,7 @@ import { getUserStatus } from '../../util/userProvider';
 import userService from '../../services/userService';
 
 import { setNotification } from '../../redux/miscReducer';
+import { useUserDeleteMutation } from '../../redux/userSlice';
 
 import BackButton from '../BackButton';
 import UserBasicInfo from '../User/UserBasicInfo';
@@ -31,6 +32,8 @@ const AdminUserInfo = () => {
     const navigate = useNavigate();
 
     const id = Number(useParams().id);
+
+    const [userDelete] = useUserDeleteMutation();
 
     // Fetch User by the URL param:
     useEffect(() => {
@@ -55,7 +58,8 @@ const AdminUserInfo = () => {
     const handleDeleteAccount = async () => {
         if (user && usersState.loggedUser?.admin) {
             if (window.confirm(contentToText(ContentID.adminUserInfoDeleteAccount, config))) {
-                const res = await userService.deleteUser(user, usersState.loggedUser.token, config);
+                //const res = await userService.deleteUser(user, usersState.loggedUser.token, config);
+                const res = await userDelete({ toDelete: user, config: config }).unwrap();
 
                 dispatch(setNotification({ message: res.message, tone: res.success ? 'Neutral' : 'Negative' }));
 
