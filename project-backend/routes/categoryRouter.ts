@@ -66,11 +66,14 @@ router.put('/:id', tokenExtractor, (async (req, res) => {
         res.status(404);
     } else {
         if (res.locals.admin === true || (res.locals.operator === true && category.addedBy && category.addedBy === res.locals.user_id)) {
+            //console.log('req.body:', req.body);
             const updatedCategory = await service.update(req.params.id, req.body);
+            //console.log('updatedCategory:', updatedCategory);
             if (updatedCategory) {
                 res.status(200).json(updatedCategory);
+                return;
             } else {
-                res.status(500).end();
+                res.status(400).end();
             }
         } else {
             res.status(403).end();

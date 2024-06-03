@@ -110,16 +110,18 @@ const update = async (id: unknown, props: unknown): Promise<CategoryInstance | n
         if (category) {
             if (isObject(props)) {
                 Object.keys(props).forEach((key) => {
-                    if (key in category && key !== 'id') {
-                        category.setDataValue(key as keyof CategoryAttributes, props[key as keyof typeof props]);
+                    if (key in category) {
+                        if (key !== 'id' && key !== 'createdAt' && key !== 'updatedAt' && key !== 'items') {
+                            category.setDataValue(key as keyof CategoryAttributes, props[key as keyof typeof props]);
+                        }
                     } else {
-                        throw new Error(`Invalid property '${key}' for Category`);
+                        handleError(new Error(`Invalid property '${key}' for Category`));
                     }
                 });
 
                 await category.save();
             } else {
-                throw new Error('Invalid props value (not an object)');
+                handleError(new Error('Invalid props value (not an object)'));
             }
         }
         return category;

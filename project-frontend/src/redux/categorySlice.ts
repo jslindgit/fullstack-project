@@ -82,18 +82,18 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
                 return categoryFromResBody(res);
             },
         }),
-        categoryUpdate: builder.mutation<CategoryResponse, { categoryId: number; propsToUpdate: object; config: Config }>({
-            query: ({ categoryId, propsToUpdate }) => {
+        categoryUpdate: builder.mutation<CategoryResponse, { category: Category; config: Config }>({
+            query: ({ category }) => {
                 return {
-                    url: `${url}/${categoryId}`,
+                    url: `${url}/${category.id}`,
                     method: 'PUT',
-                    body: propsToUpdate,
+                    body: categoryToReqBody(category),
                 };
             },
             invalidatesTags: ['Category'],
-            transformResponse: (orderRes: Category, _meta, arg) => {
+            transformResponse: (res: Category, _meta, arg) => {
                 return transformResponse(
-                    orderRes,
+                    res,
                     `${contentToText(ContentID.itemsCategory, arg.config)} ${contentToText(ContentID.miscUpdated, arg.config)}.`,
                     arg.config
                 );

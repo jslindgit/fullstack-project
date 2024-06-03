@@ -1,14 +1,12 @@
-import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { ContentID } from '../../content';
-import { Category } from '../../types/types';
 import { RootState } from '../../redux/rootReducer';
 
-import categoryService from '../../services/categoryService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
-import { isNumber } from '../../types/typeFunctions';
+
+import { useCategoryGetByIdQuery } from '../../redux/categorySlice';
 
 import ItemGrid from './ItemGrid';
 import ItemsMenu from './ItemsMenu';
@@ -17,49 +15,30 @@ import Loading from '../Loading';
 const Items = () => {
     const config = useSelector((state: RootState) => state.config);
 
-    const [category, setCategory] = useState<Category | null>(null);
-    const [loaded, setLoaded] = useState<boolean>(false);
-
     const navigate = useNavigate();
+    const idParam = Number(useParams().id);
 
-    const idParam = useParams().id;
+    const categoryGetById = useCategoryGetByIdQuery(idParam);
 
-    // Get Category from URL:
-    useEffect(() => {
-        const fetch = async () => {
-            const id = idParam ? Number(idParam) : undefined;
-
-            if (id && isNumber(id) && !isNaN(id)) {
-                setCategory(await categoryService.getById(id));
-            }
-
-            setLoaded(true);
-        };
-
-        fetch();
-    }, [idParam]);
-
-    // If there's an invalid Category id in the url, navigate back to /shop:
-    useEffect(() => {
-        if (loaded && !category) {
+    if (!categoryGetById.data) {
+        if (categoryGetById.isLoading) {
+            return <Loading config={config} />;
+        } else {
             navigate('/shop');
+            return <></>;
         }
-    }, [category, loaded, navigate]);
-
-    if (!category) {
-        return <Loading config={config} text={loaded ? contentToText(ContentID.errorSomethingWentWrong, config) : null} />;
     }
 
     return (
         <>
-            <ItemsMenu config={config} currentId={category.id} />
+            <ItemsMenu config={config} currentId={categoryGetById.data.id} />
             <div className='pageWidth'>
-                <div className='pageHeader'>{langTextsToText(category.name, config)}</div>
-                {category.items.length < 1 ? (
+                <div className='pageHeader'>{langTextsToText(categoryGetById.data.name, config)}</div>
+                {categoryGetById.data.items.length < 1 ? (
                     <div>{contentToText(ContentID.itemsNoItemsInCategory, config)}</div>
                 ) : (
                     <ItemGrid
-                        items={[...category.items].sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config)))}
+                        items={[...categoryGetById.data.items].sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config)))}
                         config={config}
                     />
                 )}

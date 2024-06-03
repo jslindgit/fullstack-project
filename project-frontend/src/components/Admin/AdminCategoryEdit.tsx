@@ -6,12 +6,13 @@ import { ContentID } from '../../content';
 import { Category } from '../../types/types';
 import { RootState } from '../../redux/rootReducer';
 
-import { setNotification } from '../../redux/miscReducer';
-
-import categoryService from '../../services/categoryService';
+//import categoryService from '../../services/categoryService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { handleError } from '../../util/handleError';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
+
+import { useCategoryGetByIdQuery, useCategoryUpdateMutation } from '../../redux/categorySlice';
+import { setNotification } from '../../redux/miscReducer';
 
 import BackButton from '../BackButton';
 import InputField from '../InputField';
@@ -22,7 +23,6 @@ const AdminCategoryEdit = () => {
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.user);
 
-    const [attemptedToFetchCategory, setAttemptedToFetchCategory] = useState<boolean>(false);
     const [category, setCategory] = useState<Category | null>();
     const [fieldsInitialized, setFieldsInitialized] = useState<boolean>(false);
 
@@ -31,16 +31,14 @@ const AdminCategoryEdit = () => {
 
     const id = Number(useParams().id);
 
-    // Fetch the Category from server:
-    useEffect(() => {
-        const fetch = async () => {
-            setCategory(await categoryService.getById(id));
-            setFieldsInitialized(false);
-            setAttemptedToFetchCategory(true);
-        };
+    const categoryGetById = useCategoryGetByIdQuery(id);
+    const [categoryUpdate] = useCategoryUpdateMutation();
 
-        fetch();
-    }, [config, id]);
+    useEffect(() => {
+        if (categoryGetById.data) {
+            setCategory(categoryGetById.data);
+        }
+    }, [categoryGetById.data]);
 
     // Set initial values for name and description fields:
     useEffect(() => {
@@ -90,21 +88,18 @@ const AdminCategoryEdit = () => {
                     name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                 };
 
-                const res = await categoryService.update(updatedCategory, usersState.loggedUser.token);
+                //const res = await categoryService.update(updatedCategory, usersState.loggedUser.token);
+                const res = await categoryUpdate({ category: updatedCategory, config: config }).unwrap();
 
                 dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
-
-                if (res.addedCategory) {
-                    setCategory(res.addedCategory);
-                }
             } else {
                 handleError(new Error('Missing token'));
             }
         }
     };
 
-    if (!category) {
-        return <Loading config={config} text={attemptedToFetchCategory ? contentToText(ContentID.errorSomethingWentWrong, config) : null} />;
+    if (!categoryGetById.data || !category) {
+        return <Loading config={config} text={contentToText(categoryGetById.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
     }
 
     return (

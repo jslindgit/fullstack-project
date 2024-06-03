@@ -1,19 +1,19 @@
-import axios from 'axios';
+//import axios from 'axios';
 
 //import { Config } from '../types/configTypes';
-import { Category, /*NewCategory, */ Response } from '../types/types';
+//import { Category, /*NewCategory, */ Response } from '../types/types';
 
-import { apiBaseUrl } from '../constants';
-import { handleError } from '../util/handleError';
+//import { apiBaseUrl } from '../constants';
+//import { handleError } from '../util/handleError';
 //import { langTextsToText } from '../types/languageFunctions';
-import { authConfig } from '../util/serviceProvider';
-import { apiKeyConfig, categoryFromResBody, categoryToReqBody } from '../util/serviceProvider';
+//import { authConfig } from '../util/serviceProvider';
+//import { apiKeyConfig, categoryFromResBody, categoryToReqBody } from '../util/serviceProvider';
 
-interface CategoryResponse extends Response {
+/*interface CategoryResponse extends Response {
     addedCategory: Category | null;
 }
 
-const url = apiBaseUrl + '/categories';
+const url = apiBaseUrl + '/categories';*/
 
 /*const add = async (toAdd: NewCategory, token: string): Promise<CategoryResponse> => {
     try {
@@ -66,16 +66,16 @@ const getAll = async (): Promise<Category[]> => {
     }
 };*/
 
-const getById = async (id: number): Promise<Category | null> => {
+/*const getById = async (id: number): Promise<Category | null> => {
     try {
         const { data } = await axios.get<Category>(`${url}/${id}`, apiKeyConfig());
         return categoryFromResBody(data);
     } catch (err: unknown) {
         return null;
     }
-};
+};*/
 
-const update = async (category: Category, token: string): Promise<CategoryResponse> => {
+/*const update = async (category: Category, token: string): Promise<CategoryResponse> => {
     try {
         const toUpdate = { name: category.name, description: category.description };
 
@@ -93,12 +93,12 @@ const update = async (category: Category, token: string): Promise<CategoryRespon
         handleError(err);
         return { success: false, message: 'Error occurred.', addedCategory: null };
     }
-};
+};*/
 
 export default {
     /*add,*/
     /*deleteCategory,*/
     /*getAll,*/
-    getById,
-    update,
+    /*getById,*/
+    /*update,/*/
 };
