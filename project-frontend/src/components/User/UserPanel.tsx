@@ -7,10 +7,11 @@ import { RootState } from '../../redux/rootReducer';
 import { User } from '../../types/types';
 
 import { contentToText } from '../../types/languageFunctions';
-import userService from '../../services/userService';
 
 import { setNotification } from '../../redux/miscReducer';
+import store from '../../redux/store';
 import { initializeLoggedUser } from '../../redux/userReducer';
+import { useUserUpdateMutation } from '../../redux/userSlice';
 
 import UserBasicInfo from './UserBasicInfo';
 import UserChangePassword from './UserChangePassword';
@@ -19,6 +20,8 @@ import UserDeleteAccount from './UserDeleteAccount';
 import UserOrderHistory from './UserOrderHistory';
 
 const UserPanel = () => {
+    const [userUpdate] = useUserUpdateMutation();
+
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const miscState = useSelector((state: RootState) => state.misc);
@@ -34,7 +37,7 @@ const UserPanel = () => {
         document.title = contentToText(ContentID.menuAccount, config) + ' | ' + config.store.contactName;
 
         const init = async () => {
-            await initializeLoggedUser(dispatch);
+            await initializeLoggedUser(dispatch, store.dispatch);
             setUserInitialized(true);
         };
 
@@ -57,9 +60,7 @@ const UserPanel = () => {
 
     const updateUserInfo = async (toUpdate: object, propertyName: ContentID) => {
         if (usersState.loggedUser) {
-            const res = await userService.update(user.id, toUpdate, propertyName, usersState.loggedUser.token, config);
-
-            console.log('res:', res);
+            const res = await userUpdate({ userId: user.id, propsToUpdate: toUpdate, propertyName: propertyName, config: config }).unwrap();
 
             dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
@@ -78,7 +79,7 @@ const UserPanel = () => {
                 <UserBasicInfo config={config} showUserStatus={user.admin || user.operator} updateUserInfo={updateUserInfo} user={user} />
                 <UserContactInfo config={config} updateUserInfo={updateUserInfo} user={user} />
                 <UserChangePassword config={config} user={user} />
-                <UserOrderHistory config={config} userId={user.id} />
+                <UserOrderHistory config={config} user={user} />
                 <UserDeleteAccount config={config} user={user} />
             </div>
         </div>

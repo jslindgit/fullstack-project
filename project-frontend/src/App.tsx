@@ -13,6 +13,7 @@ import settingsService from './services/settingsService';
 import { initializeConfig } from './redux/configReducer';
 import { setLoaded } from './redux/miscReducer';
 import { initializeOrder } from './redux/orderReducer';
+import store from './redux/store';
 import { initializeLoggedUser } from './redux/userReducer';
 
 // Components:
@@ -54,7 +55,7 @@ const App = () => {
             const settings = await settingsService.get();
             initializeConfig(dispatch, settings);
             initializeOrder(dispatch);
-            Promise.all([initializeLoggedUser(dispatch)]);
+            Promise.all([initializeLoggedUser(dispatch, store.dispatch)]);
         };
 
         fetchData();

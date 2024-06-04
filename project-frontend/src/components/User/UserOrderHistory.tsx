@@ -8,26 +8,17 @@ import { User } from '../../types/types';
 import format from '../../util/format';
 import { contentToText } from '../../types/languageFunctions';
 import { getOrderStatus } from '../../util/orderProvider';
-import userService from '../../services/userService';
 
 import Loading from '../Loading';
 import UserOrderDetails from './UserOrderDetails';
 
 interface Props {
     config: Config;
-    userId: number;
+    user: User;
 }
-const UserOrderHistory = ({ config, userId }: Props) => {
+const UserOrderHistory = ({ config, user }: Props) => {
     const [openedOrder, setOpenedOrder] = useState<Order | null>(null);
     const [paidOrders, setPaidOrders] = useState<Order[]>([]);
-    const [user, setUser] = useState<User | undefined>(undefined);
-
-    // Fetch User from server:
-    useEffect(() => {
-        userService.getById(userId).then((returnedUser) => {
-            setUser(returnedUser);
-        });
-    }, [userId]);
 
     // Don't include cancelled or pending (unpaid) orders:
     useEffect(() => {

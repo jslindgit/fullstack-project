@@ -1,8 +1,9 @@
 import { AnyAction, createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 
+import { StoreDispatch } from './store';
 import { User } from '../types/types';
 
-import userService from '../services/userService';
+import { userGetByToken } from './userSlice';
 
 export interface UserState {
     initialized: boolean;
@@ -37,15 +38,15 @@ const slice = createSlice({
     },
 });
 
-export const initializeLoggedUser = async (dispatch: Dispatch<AnyAction>) => {
+export const initializeLoggedUser = async (dispatch: Dispatch<AnyAction>, storeDispatch: StoreDispatch) => {
     const storedToken = localStorage.getItem('token');
 
     if (storedToken) {
-        const userResponse = await userService.getByToken(storedToken);
+        const userResponse = await storeDispatch(userGetByToken.initiate({ token: storedToken })).unwrap();
 
-        if (userResponse.user) {
+        if (userResponse) {
             dispatch(slice.actions.setToken(storedToken));
-            dispatch(setLoggedUser(userResponse.user));
+            dispatch(setLoggedUser(userResponse));
         } else {
             dispatch(slice.actions.setToken(null));
             dispatch(removeLoggedUser());

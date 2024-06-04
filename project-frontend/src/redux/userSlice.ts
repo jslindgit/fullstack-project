@@ -2,6 +2,7 @@ import { ContentID } from '../content';
 import { Config } from '../types/configTypes';
 import { DeleteResponse, User, NewUser, Response } from '../types/types';
 
+import { handleError } from '../util/handleError';
 import { contentToText } from '../types/languageFunctions';
 import { isUser } from '../types/typeFunctions';
 import { isNotNull } from '../types/typeFunctions';
@@ -69,9 +70,43 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 return res;
             },
         }),
+        userGetByToken: builder.query<User | null, { token: string }>({
+            query: ({ token }) => {
+                return {
+                    url: `${url}/me`,
+                    method: 'GET',
+                    headers: { authorization: `bearer ${token}` },
+                };
+            },
+            transformResponse: (res: unknown) => {
+                return isUser(res) ? res : null;
+            },
+        }),
+        userUpdate: builder.mutation<UserResponse, { userId: number; propsToUpdate: object; propertyName: ContentID; config: Config }>({
+            query: ({ userId, propsToUpdate }) => {
+                return {
+                    url: `${url}/${userId}`,
+                    method: 'PUT',
+                    body: propsToUpdate,
+                };
+            },
+            invalidatesTags: ['User'],
+            transformResponse: (res: unknown, _meta, arg) => {
+                if (isUser(res)) {
+                    return {
+                        success: true,
+                        message: `${contentToText(arg.propertyName, arg.config)} ${contentToText(ContentID.userUpdated, arg.config)}`,
+                        user: res,
+                    };
+                } else {
+                    handleError(new Error('Server did not return a User object'));
+                    return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, arg.config), user: null };
+                }
+            },
+        }),
     }),
 });
 
-export const { useUserAddMutation, useUserDeleteMutation, useUserGetAllQuery, useUserGetByIdQuery } = userApiSlice;
+export const { useUserAddMutation, useUserDeleteMutation, useUserGetAllQuery, useUserGetByIdQuery, useUserUpdateMutation } = userApiSlice;
 
-export const { userAdd } = userApiSlice.endpoints;
+export const { userAdd, userGetByToken } = userApiSlice.endpoints;

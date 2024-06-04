@@ -9,12 +9,12 @@ import { User } from '../../types/types';
 import { testUserId } from '../../constants';
 import { contentToText } from '../../types/languageFunctions';
 import { getUserStatus } from '../../util/userProvider';
-import userService from '../../services/userService';
 
 import { setNotification } from '../../redux/miscReducer';
-import { useUserDeleteMutation } from '../../redux/userSlice';
+import { useUserDeleteMutation, useUserGetByIdQuery, useUserUpdateMutation } from '../../redux/userSlice';
 
 import BackButton from '../BackButton';
+import Loading from '../Loading';
 import UserBasicInfo from '../User/UserBasicInfo';
 import UserContactInfo from '../User/UserContactInfo';
 import UserOrderHistory from '../User/UserOrderHistory';
@@ -24,7 +24,6 @@ const AdminUserInfo = () => {
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.user);
 
-    const [fetched, setFetched] = useState<boolean>(false);
     const [newStatus, setNewStatus] = useState<string>('customer');
     const [showStatusChange, setShowStatusChange] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
@@ -34,19 +33,13 @@ const AdminUserInfo = () => {
     const id = Number(useParams().id);
 
     const [userDelete] = useUserDeleteMutation();
+    const userGetById = useUserGetByIdQuery(id);
+    const [userUpdate] = useUserUpdateMutation();
 
     // Fetch User by the URL param:
     useEffect(() => {
-        setFetched(true);
-        const fetch = async () => {
-            const fetchedUser = await userService.getById(id);
-            if (fetchedUser) {
-                setUser(fetchedUser);
-            }
-        };
-
-        fetch();
-    }, [id]);
+        setUser(userGetById.data ? userGetById.data : null);
+    }, [userGetById.data]);
 
     // Set the initial value of 'newStatus':
     useEffect(() => {
@@ -73,9 +66,15 @@ const AdminUserInfo = () => {
     const handleDisableOrEnableAccount = async () => {
         if (user && usersState.loggedUser) {
             if (window.confirm(contentToText(user.disabled ? ContentID.adminUserInfoEnableAccount : ContentID.adminUserInfoDisableAccount, config))) {
-                const response = await userService.update(user.id, { disabled: !user.disabled }, ContentID.menuAccount, usersState.loggedUser.token, config);
-                dispatch(setNotification({ message: response.message, tone: response.success ? 'Positive' : 'Negative' }));
-                setUser(response.user);
+                const res = await userUpdate({
+                    userId: user.id,
+                    propsToUpdate: { disabled: !user.disabled },
+                    propertyName: ContentID.menuAccount,
+                    config: config,
+                }).unwrap();
+
+                dispatch(setNotification({ message: res.message, tone: res.success ? 'Positive' : 'Negative' }));
+                setUser(res.user);
             }
         }
     };
@@ -83,13 +82,12 @@ const AdminUserInfo = () => {
     const handleSaveStatus = async () => {
         if (user && usersState.loggedUser?.admin) {
             if ((newStatus === 'customer' && user.operator) || (newStatus === 'operator' && !user.operator)) {
-                const res = await userService.update(
-                    user.id,
-                    { operator: newStatus === 'operator' },
-                    ContentID.menuAccount,
-                    usersState.loggedUser.token,
-                    config
-                );
+                const res = await userUpdate({
+                    userId: user.id,
+                    propsToUpdate: { operator: newStatus === 'operator' },
+                    propertyName: ContentID.menuAccount,
+                    config: config,
+                }).unwrap();
 
                 if (res.user) {
                     setUser(res.user);
@@ -102,8 +100,8 @@ const AdminUserInfo = () => {
         }
     };
 
-    if (!user) {
-        return <div className='semiBold sizeLarge'>{fetched ? 'Something went wrong :(' : 'Loading...'}</div>;
+    if (!userGetById.data || !user) {
+        return <Loading config={config} text={contentToText(userGetById.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
     }
 
     return (
@@ -117,7 +115,7 @@ const AdminUserInfo = () => {
             <div className='grid-container' data-gap='2rem'>
                 <UserBasicInfo addLinkToEmail={true} config={config} showUserStatus={true} updateUserInfo={null} user={user} />
                 <UserContactInfo addLinkToEmail={true} config={config} updateUserInfo={null} user={user} />
-                <UserOrderHistory config={config} userId={user.id} />
+                <UserOrderHistory config={config} user={user} />
                 <div className='infoBox'>
                     <div className='grid-container' data-cols='auto auto auto 1fr' data-gap='1rem'>
                         <div>
