@@ -19,6 +19,7 @@ import { setNotification } from '../../redux/miscReducer';
 import AdminItemList from './AdminItemList';
 import { Link } from '../CustomLink';
 import ItemEditForm from './ItemEditForm';
+import Loading from '../Loading';
 
 const AdminItems = () => {
     const categoryGetAll = useCategoryGetAllQuery();
@@ -32,7 +33,6 @@ const AdminItems = () => {
     const addItemButtonRef = useRef<HTMLButtonElement>(null);
 
     const [category, setCategory] = useState<Category | undefined>(undefined);
-    const [categories, setCategories] = useState<Category[]>([]);
     const [itemAdded, setItemAdded] = useState<Item | null>(null);
     //const [itemDeleted, setItemDeleted] = useState<Item | null>(null);
     const [items, setItems] = useState<Item[]>([]);
@@ -44,13 +44,6 @@ const AdminItems = () => {
 
     const [searchParams] = useSearchParams();
 
-    // Fetch the categories from server:
-    useEffect(() => {
-        if (categoryGetAll.data) {
-            setCategories([...categoryGetAll.data].sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config))));
-        }
-    }, [categoryGetAll.data, config]);
-
     // Set Items that don't belong to any Category:
     useEffect(() => {
         if (itemGetAll.data) {
@@ -61,8 +54,11 @@ const AdminItems = () => {
     // Get Category from URL param:
     useEffect(() => {
         const id = Number(searchParams.get('category'));
-        setCategory(id && isNumber(id) ? categories.find((c) => c.id === id) : undefined);
-    }, [categories, searchParams]);
+
+        if (categoryGetAll.data) {
+            setCategory(id && isNumber(id) ? categoryGetAll.data.find((c) => c.id === id) : undefined);
+        }
+    }, [categoryGetAll.data, searchParams]);
 
     // Fetch Items in the current Category:
     useEffect(() => {
@@ -120,16 +116,22 @@ const AdminItems = () => {
         }
     };
 
+    if (!categoryGetAll.data) {
+        return <Loading config={config} text={contentToText(categoryGetAll.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
+    }
+
     return (
         <div className='grid-container marginBottom2' data-gap='2rem'>
-            <div className='flex-container' data-gap='1rem 2rem'>
-                {categories.map((c) => (
-                    <div key={c.id}>
-                        <span className={category?.id === c.id ? 'underlined' : ''}>
-                            <Link to={'/admin/items?category=' + c.id}>{langTextsToText(c.name, config)}</Link>
-                        </span>
-                    </div>
-                ))}
+            <div className='alignCenter flex-container' data-gap='1rem 2rem'>
+                {[...categoryGetAll.data]
+                    .sort((a, b) => langTextsToText(a.name, config).localeCompare(langTextsToText(b.name, config)))
+                    .map((c) => (
+                        <div key={c.id}>
+                            <span className={category?.id === c.id ? 'underlined' : ''}>
+                                <Link to={'/admin/items?category=' + c.id}>{langTextsToText(c.name, config)}</Link>
+                            </span>
+                        </div>
+                    ))}
                 <span className={category ? '' : 'underlined'}>
                     <Link to='/admin/items/'>{contentToText(ContentID.adminItemsUncategorized, config)}</Link>
                 </span>

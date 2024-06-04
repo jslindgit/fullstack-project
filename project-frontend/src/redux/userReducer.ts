@@ -41,16 +41,24 @@ const slice = createSlice({
 export const initializeLoggedUser = async (dispatch: Dispatch<AnyAction>, storeDispatch: StoreDispatch) => {
     const storedToken = localStorage.getItem('token');
 
-    if (storedToken) {
-        const userResponse = await storeDispatch(userGetByToken.initiate({ token: storedToken })).unwrap();
+    const unsuccessful = () => {
+        dispatch(slice.actions.setToken(null));
+        dispatch(removeLoggedUser());
+        localStorage.removeItem('token');
+    };
 
-        if (userResponse) {
-            dispatch(slice.actions.setToken(storedToken));
-            dispatch(setLoggedUser(userResponse));
-        } else {
-            dispatch(slice.actions.setToken(null));
-            dispatch(removeLoggedUser());
-            localStorage.removeItem('token');
+    if (storedToken) {
+        try {
+            const userResponse = await storeDispatch(userGetByToken.initiate({ token: storedToken })).unwrap();
+
+            if (userResponse) {
+                dispatch(slice.actions.setToken(storedToken));
+                dispatch(setLoggedUser(userResponse));
+            } else {
+                unsuccessful();
+            }
+        } catch (err: unknown) {
+            unsuccessful();
         }
     }
 

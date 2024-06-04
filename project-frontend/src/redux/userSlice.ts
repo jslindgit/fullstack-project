@@ -4,7 +4,7 @@ import { DeleteResponse, User, NewUser, Response } from '../types/types';
 
 import { handleError } from '../util/handleError';
 import { contentToText } from '../types/languageFunctions';
-import { isUser } from '../types/typeFunctions';
+import { isBoolean, isObject, isUser } from '../types/typeFunctions';
 import { isNotNull } from '../types/typeFunctions';
 
 import { apiSlice } from './apiSlice';
@@ -43,7 +43,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
             },
             invalidatesTags: ['User'],
             transformResponse: (res: DeleteResponse, _meta, arg) => {
-                console.log('res:', res);
                 if (res && res.success) {
                     return {
                         success: true,
@@ -82,6 +81,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 return isUser(res) ? res : null;
             },
         }),
+        userNameIsAvailable: builder.query<boolean, { username: string }>({
+            query: ({ username }) => `${url}/username/${username}`,
+            transformResponse: (res: unknown): boolean => {
+                return isObject(res) && 'isAvailable' in res && isBoolean(res.isAvailable) && res.isAvailable === true;
+            },
+        }),
         userUpdate: builder.mutation<UserResponse, { userId: number; propsToUpdate: object; propertyName: ContentID; config: Config }>({
             query: ({ userId, propsToUpdate }) => {
                 return {
@@ -109,4 +114,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
 
 export const { useUserAddMutation, useUserDeleteMutation, useUserGetAllQuery, useUserGetByIdQuery, useUserUpdateMutation } = userApiSlice;
 
-export const { userAdd, userGetByToken } = userApiSlice.endpoints;
+export const { userAdd, userGetByToken, userNameIsAvailable } = userApiSlice.endpoints;

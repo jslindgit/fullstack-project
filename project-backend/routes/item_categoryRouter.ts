@@ -9,12 +9,12 @@ import { tokenExtractor } from '../middlewares/tokenExtractor';
 
 const router = express.Router();
 
-router.delete('/item_and_category_id', tokenExtractor, (async (req, res) => {
+router.delete('/', tokenExtractor, (async (req, res) => {
     if (res.locals.admin === true) {
         if (isObject(req.body) && 'item_id' in req.body && 'category_id' in req.body) {
             const item_category = await service.deleteByItemAndCategoryId(req.body.item_id, req.body.category_id);
             if (item_category) {
-                res.status(204).end();
+                res.json({ success: true });
             } else {
                 res.status(404).json({ error: 'Matching Item_Category not found' });
             }
@@ -40,7 +40,11 @@ router.post('/', tokenExtractor, (async (req, res) => {
         const newItem_Category = toNewItem_Category(req.body);
         const addedItem_Category = await service.addNew(newItem_Category);
 
-        res.status(201).json(addedItem_Category);
+        if (addedItem_Category) {
+            res.status(201).json({ success: true });
+        } else {
+            res.status(500).end();
+        }
     } else {
         res.status(403).json({ error: 'Access denied' });
     }

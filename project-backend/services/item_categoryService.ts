@@ -8,8 +8,6 @@ const addNew = async (newItem_Category: NewItem_Category): Promise<Item_Category
         const item_category = await Item_Category.create(newItem_Category);
         await item_category.save();
 
-        console.log('added item_category:', item_category);
-
         return item_category;
     } catch (err: unknown) {
         handleError(err);

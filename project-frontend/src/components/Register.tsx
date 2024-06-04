@@ -10,7 +10,7 @@ import { NewUser } from '../types/types';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { isValidEmailAddress, isValidPassword } from '../util/misc';
 import { registerAndLogin } from '../util/userProvider';
-import userService from '../services/userService';
+import { usernameIsAvailable } from '../services/userService';
 
 import store from '../redux/store';
 
@@ -80,9 +80,7 @@ const Register = () => {
 
         if (errors.length <= 0) {
             // Check if the email (username) is available:
-            const usernameIsAvailable = await userService.usernameIsAvailable(email.stringValue());
-
-            if (usernameIsAvailable === false) {
+            if ((await usernameIsAvailable(email.stringValue(), store.dispatch)) === false) {
                 setUsernameAvailableError(
                     `${contentToText(ContentID.loginUsername, config)} ${email.stringValue()} ${contentToText(ContentID.errorUsernameInUse, config)}`
                 );

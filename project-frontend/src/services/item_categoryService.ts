@@ -1,4 +1,4 @@
-import axios from 'axios';
+/*import axios from 'axios';
 
 import { Category, Item, Response } from '../types/types';
 
@@ -10,7 +10,6 @@ const url = apiBaseUrl + '/item_categories';
 
 const addConnection = async (item: Item, category: Category, token: string): Promise<Response> => {
     try {
-        console.log(item.name + ' -> ' + category.name);
         await axios.post(url, { item_id: item.id, category_id: category.id }, authConfig(token));
 
         return { success: true, message: `${item.name} added to category ${category.name}` };
@@ -38,3 +37,4 @@ export default {
     addConnection,
     deleteConnection,
 };
+*/

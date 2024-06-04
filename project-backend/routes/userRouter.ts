@@ -18,9 +18,7 @@ router.delete('/:id', tokenExtractor, (async (req, res) => {
     } else {
         if (res.locals.admin === true || res.locals.user_id === user.id) {
             const deletedUser = await service.deleteById(req.params.id);
-            console.log('deletedUser:', deletedUser);
             if (deletedUser) {
-                console.log('returning success...');
                 res.json({ success: true });
             } else {
                 res.status(404).end();

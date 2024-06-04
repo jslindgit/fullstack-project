@@ -10,14 +10,13 @@ import { Item, ItemSizeAndInstock, NewItem, Response } from '../../types/types';
 import { testItemId } from '../../constants';
 import { handleError } from '../../util/handleError';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
-import item_categoryService from '../../services/item_categoryService';
-/*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import localstorageHandler from '../../util/localstorageHandler';
 import useField from '../../hooks/useField';
 
 import { useCategoryGetAllQuery } from '../../redux/categorySlice';
 import { useItemAddMutation, useItemUpdateMutation } from '../../redux/itemSlice';
+import { useItem_categoryAddMutation, useItem_categoryDeleteMutation } from '../../redux/item_categorySlice';
 import { setNotification } from '../../redux/miscReducer';
 
 import InputField from '../InputField';
@@ -38,6 +37,8 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     const categoryGetAll = useCategoryGetAllQuery();
     const [itemAdd] = useItemAddMutation();
     const [itemUpdate] = useItemUpdateMutation();
+    const [item_categoryAdd] = useItem_categoryAddMutation();
+    const [item_categoryDelete] = useItem_categoryDeleteMutation();
 
     const dispatch = useDispatch();
     const usersState = useSelector((state: RootState) => state.user);
@@ -159,8 +160,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
 
     const submit = async () => {
         if (usersState.loggedUser && (usersState.loggedUser.admin || usersState.loggedUser.operator) && usersState.loggedUser.token) {
-            const token = usersState.loggedUser.token;
-
             if (changesMade()) {
                 let returnedItem: Item | null = null;
 
@@ -209,7 +208,8 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                                 return c.id === selected;
                             });
                             if (category && returnedItem && !(returnedItem.categories && returnedItem.categories.includes(category))) {
-                                promises.push(item_categoryService.addConnection(returnedItem, category, token));
+                                //promises.push(item_categoryService.addConnection(returnedItem, category, token));
+                                promises.push(item_categoryAdd({ item: returnedItem, category: category }).unwrap());
                             }
                         }
                     });
@@ -223,7 +223,8 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         });
                         toRemove.forEach(async (c) => {
                             if (returnedItem) {
-                                promises.push(item_categoryService.deleteConnection(returnedItem.id, c.id, token));
+                                //promises.push(item_categoryService.deleteConnection(returnedItem.id, c.id, token));
+                                promises.push(item_categoryDelete({ itemId: returnedItem.id, categoryId: c.id }).unwrap());
                             }
                         });
                     }

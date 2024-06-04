@@ -8,9 +8,10 @@ import { User } from '../../types/types';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { isValidEmailAddress } from '../../util/misc';
 import useField, { UseField } from '../../hooks/useField';
-import userService from '../../services/userService';
+import { usernameIsAvailable } from '../../services/userService';
 
 import { setNotification } from '../../redux/miscReducer';
+import store from '../../redux/store';
 
 import InputField from '../InputField';
 
@@ -71,9 +72,9 @@ const UserContactInfo = ({ addLinkToEmail = false, config, updateUserInfo, user 
     const submitChanges = async (toUpdate: object, propertyName: ContentID) => {
         if (updateUserInfo) {
             // If username (e-mail address) is being updated, check that the new one isn't already taken:
-            const usernameIsAvailable = email.stringValue() === user.username || (await userService.usernameIsAvailable(email.stringValue()));
+            const usernameAvailable = email.stringValue() === user.username || (await usernameIsAvailable(email.stringValue(), store.dispatch));
 
-            if (usernameIsAvailable) {
+            if (usernameAvailable) {
                 await updateUserInfo(toUpdate, propertyName);
             } else {
                 dispatch(
