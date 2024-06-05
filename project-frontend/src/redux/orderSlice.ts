@@ -2,13 +2,13 @@ import { ContentID } from '../content';
 import { Config } from '../types/configTypes';
 import { OrderResponse } from '../services/orderService';
 import { NewOrder, Order } from '../types/orderTypes';
-import { DeleteResponse, Response } from '../types/types';
+import { Response } from '../types/types';
 
 import { contentToText } from '../types/languageFunctions';
 import { orderFromResponseBody, orderToRequestBody } from '../util/orderProvider';
 import { isNotNull } from '../types/typeFunctions';
 
-import { apiSlice } from './apiSlice';
+import { apiSlice, successfulResponse } from './apiSlice';
 
 const transformResponse = (res: Order, successMessage: string, config: Config): OrderResponse => {
     const order = orderFromResponseBody(res);
@@ -36,8 +36,8 @@ export const orderApiSlice = apiSlice.injectEndpoints({
                 };
             },
             invalidatesTags: ['Order'],
-            transformResponse: (orderRes: Order, _meta, arg) => {
-                return transformResponse(orderRes, 'Ok', arg.config);
+            transformResponse: (res: Order, _meta, arg) => {
+                return transformResponse(res, 'Ok', arg.config);
             },
         }),
         orderDelete: builder.mutation<Response, { order: Order; config: Config }>({
@@ -48,17 +48,16 @@ export const orderApiSlice = apiSlice.injectEndpoints({
                 };
             },
             invalidatesTags: ['Order'],
-            transformResponse: (response: DeleteResponse, _meta, arg) => {
-                if (response && response.success) {
-                    return {
+            transformResponse: (res: unknown, _meta, arg) => {
+                // prettier-ignore
+                return successfulResponse(res)
+                    ? {
                         success: true,
                         message: `${contentToText(ContentID.miscOrder, arg.config)} #${arg.order.id} (${arg.order.customerFirstName} ${
                             arg.order.customerLastName
                         }) ${contentToText(ContentID.miscDeleted, arg.config)}.`,
-                    };
-                } else {
-                    return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, arg.config) };
-                }
+                    }
+                    : { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, arg.config) };
             },
         }),
         orderGetAll: builder.query<Order[], void>({
@@ -89,9 +88,9 @@ export const orderApiSlice = apiSlice.injectEndpoints({
                 };
             },
             invalidatesTags: ['Order'],
-            transformResponse: (orderRes: Order, _meta, arg) => {
+            transformResponse: (res: Order, _meta, arg) => {
                 return transformResponse(
-                    orderRes,
+                    res,
                     `${contentToText(ContentID.miscOrder, arg.config)} ${contentToText(ContentID.miscUpdated, arg.config)}.`,
                     arg.config
                 );

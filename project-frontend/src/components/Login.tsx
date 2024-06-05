@@ -11,6 +11,7 @@ import localstorageHandler from '../util/localstorageHandler';
 import loginService from '../services/loginService';
 import useField from '../hooks/useField';
 
+import { useLoginMutation } from '../redux/loginSlice';
 import { setNotification } from '../redux/miscReducer';
 import { removeLoggedUser, setLoggedUser } from '../redux/userReducer';
 
@@ -18,6 +19,8 @@ import InputField from './InputField';
 import { Link } from './CustomLink';
 
 const Login = () => {
+    const [login] = useLoginMutation();
+
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.user);
@@ -77,7 +80,9 @@ const Login = () => {
 
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const response = await loginService.login(username.stringValue(), password.value.toString(), setLogged, config);
+        //const response = await loginService.login(username.stringValue(), password.value.toString(), setLogged, config);
+        const response = await login({ username: username.stringValue(), password: password.stringValue(), setLoggedUser: setLogged, config: config }).unwrap();
+
         password.clear();
         if (response.success) {
             username.clear();

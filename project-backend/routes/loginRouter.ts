@@ -52,30 +52,7 @@ router.post('/', apiKeyExtractor, (async (req, res) => {
                 return;
         }
 
-        res.status(200).send({ response });
-    } else {
-        res.status(403).json({ error: 'Access denied' });
-    }
-}) as RequestHandler);
-
-router.post('/checkpassword', apiKeyExtractor, (async (req, res) => {
-    if (res.locals.correct_api_key === true) {
-        const credentials = toCredentials(req.body);
-        const response = await service.checkPassword(credentials);
-
-        switch (response) {
-            case LoginError.InvalidPassword:
-                res.status(401).send({ error: 'Invalid password' });
-                return;
-            case LoginError.InvalidUsername:
-                res.status(401).send({ error: 'Invalid username' });
-                return;
-            case LoginError.SomethingWentWrong:
-                res.status(400).send({ error: 'Something went wrong' });
-                return;
-        }
-
-        res.status(200).send({ response });
+        res.status(200).json(response);
     } else {
         res.status(403).json({ error: 'Access denied' });
     }
@@ -101,12 +78,35 @@ router.post('/changepassword', apiKeyExtractor, (async (req, res) => {
                     res.status(400).send({ error: 'Something went wrong' });
                     break;
                 case ChangePasswordResult.Success:
-                    res.status(200).end();
+                    res.status(200).json({ success: true });
                     break;
             }
         } else {
             res.status(400).json({ error: 'Credentials or new password missing.' });
         }
+    } else {
+        res.status(403).json({ error: 'Access denied' });
+    }
+}) as RequestHandler);
+
+router.post('/checkpassword', apiKeyExtractor, (async (req, res) => {
+    if (res.locals.correct_api_key === true) {
+        const credentials = toCredentials(req.body);
+        const response = await service.checkPassword(credentials);
+
+        switch (response) {
+            case LoginError.InvalidPassword:
+                res.status(401).send({ error: 'Invalid password' });
+                return;
+            case LoginError.InvalidUsername:
+                res.status(401).send({ error: 'Invalid username' });
+                return;
+            case LoginError.SomethingWentWrong:
+                res.status(400).send({ error: 'Something went wrong' });
+                return;
+        }
+
+        res.status(200).send({ success: true });
     } else {
         res.status(403).json({ error: 'Access denied' });
     }

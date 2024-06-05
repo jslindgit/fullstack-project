@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
 import { isUser } from '../types/typeFunctions';
-import { LoginResponse, Response, User } from '../types/types';
+import { Response, User } from '../types/types';
 
 import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
@@ -30,7 +30,7 @@ const changePassword = async (username: string, currentPassword: string, newPass
     }
 };
 
-const checkPassword = async (username: string, password: string, config: Config): Promise<LoginResponse> => {
+const checkPassword = async (username: string, password: string, config: Config): Promise<Response> => {
     try {
         const res = await axios.post(url + '/checkpassword', { username: username, password: password }, apiKeyConfig());
 
@@ -48,7 +48,7 @@ const checkPassword = async (username: string, password: string, config: Config)
     }
 };
 
-const login = async (username: string, password: string, setLoggedUser: (loggedUser: User) => void, config: Config): Promise<LoginResponse> => {
+const login = async (username: string, password: string, setLoggedUser: (loggedUser: User) => void, config: Config): Promise<Response> => {
     try {
         const res = await axios.post(url, { username: username, password: password }, apiKeyConfig());
 

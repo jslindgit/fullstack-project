@@ -1,12 +1,12 @@
 import { ContentID } from '../content';
 import { Config } from '../types/configTypes';
-import { Category, DeleteResponse, NewCategory, Response } from '../types/types';
+import { Category, NewCategory, Response } from '../types/types';
 
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { categoryFromResBody, categoryToReqBody } from '../util/serviceProvider';
 import { isNotNull } from '../types/typeFunctions';
 
-import { apiSlice } from './apiSlice';
+import { apiSlice, successfulResponse } from './apiSlice';
 
 interface CategoryResponse extends Response {
     addedCategory: Category | null;
@@ -38,9 +38,9 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
                 };
             },
             invalidatesTags: ['Category'],
-            transformResponse: (categoryRes: Category, _meta, arg) => {
+            transformResponse: (res: Category, _meta, arg) => {
                 return transformResponse(
-                    categoryRes,
+                    res,
                     `${contentToText(ContentID.adminAddNewCategory, arg.config)}: ${langTextsToText(arg.toAdd.name, arg.config)}`,
                     arg.config
                 );
@@ -54,18 +54,17 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
                 };
             },
             invalidatesTags: ['Category'],
-            transformResponse: (response: DeleteResponse, _meta, arg) => {
-                if (response && response.success) {
-                    return {
+            transformResponse: (res: unknown, _meta, arg) => {
+                // prettier-ignore
+                return successfulResponse(res)
+                    ? {
                         success: true,
                         message: `${contentToText(ContentID.itemsCategory, arg.config)} '${langTextsToText(arg.toDelete.name, arg.config)}' ${contentToText(
                             ContentID.miscDeleted,
                             arg.config
                         )}.`,
-                    };
-                } else {
-                    return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, arg.config) };
-                }
+                    }
+                    : { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, arg.config) };
             },
         }),
         categoryGetAll: builder.query<Category[], void>({

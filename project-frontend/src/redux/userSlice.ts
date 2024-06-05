@@ -1,13 +1,13 @@
 import { ContentID } from '../content';
 import { Config } from '../types/configTypes';
-import { DeleteResponse, User, NewUser, Response } from '../types/types';
+import { User, NewUser, Response } from '../types/types';
 
 import { handleError } from '../util/handleError';
 import { contentToText } from '../types/languageFunctions';
 import { isBoolean, isObject, isUser } from '../types/typeFunctions';
 import { isNotNull } from '../types/typeFunctions';
 
-import { apiSlice } from './apiSlice';
+import { apiSlice, successfulResponse } from './apiSlice';
 
 interface UserResponse extends Response {
     user: User | null;
@@ -42,17 +42,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 };
             },
             invalidatesTags: ['User'],
-            transformResponse: (res: DeleteResponse, _meta, arg) => {
-                if (res && res.success) {
-                    return {
+            transformResponse: (res: unknown, _meta, arg) => {
+                // prettier-ignore
+                return successfulResponse(res)
+                    ? {
                         success: true,
                         message: `${contentToText(ContentID.user, arg.config)} ${arg.toDelete.contactFirstName} ${arg.toDelete.contactLastName} (${
                             arg.toDelete.username
                         }) ${contentToText(ContentID.miscDeleted, arg.config)}.`,
-                    };
-                } else {
-                    return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, arg.config) };
-                }
+                    }
+                    : { success: false, message: contentToText(ContentID.errorSomethingWentWrong, arg.config) };
             },
         }),
         userGetAll: builder.query<User[], void>({

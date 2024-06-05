@@ -1,13 +1,13 @@
 import { ContentID } from '../content';
 import { Config } from '../types/configTypes';
 import { ItemResponse } from '../services/itemService';
-import { DeleteResponse, Item, NewItem, Response } from '../types/types';
+import { Item, NewItem, Response } from '../types/types';
 
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { itemFromResBody, itemToReqBody } from '../util/serviceProvider';
 import { isNotNull } from '../types/typeFunctions';
 
-import { apiSlice } from './apiSlice';
+import { apiSlice, successfulResponse } from './apiSlice';
 
 interface InstockAndSold {
     sizes: string[];
@@ -40,8 +40,8 @@ export const itemApiSlice = apiSlice.injectEndpoints({
                 };
             },
             invalidatesTags: ['Category', 'Item'],
-            transformResponse: (itemRes: Item, _meta, arg) => {
-                return transformResponse(itemRes, ContentID.adminItemsNewItemAdded, arg.config);
+            transformResponse: (res: Item, _meta, arg) => {
+                return transformResponse(res, ContentID.adminItemsNewItemAdded, arg.config);
             },
         }),
         itemDelete: builder.mutation<Response, { toDelete: Item; config: Config }>({
@@ -52,18 +52,17 @@ export const itemApiSlice = apiSlice.injectEndpoints({
                 };
             },
             invalidatesTags: ['Category', 'Item'],
-            transformResponse: (response: DeleteResponse, _meta, arg) => {
-                if (response && response.success) {
-                    return {
+            transformResponse: (res: unknown, _meta, arg) => {
+                // prettier-ignore
+                return successfulResponse(res)
+                    ? {
                         success: true,
                         message: `${contentToText(ContentID.itemsItem, arg.config)} "${langTextsToText(arg.toDelete.name, arg.config)}" ${contentToText(
                             ContentID.miscDeleted,
                             arg.config
                         )}.`,
-                    };
-                } else {
-                    return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, arg.config) };
-                }
+                    }
+                    : { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, arg.config) };
             },
         }),
         itemGetAll: builder.query<Item[], void>({
@@ -104,8 +103,8 @@ export const itemApiSlice = apiSlice.injectEndpoints({
                 };
             },
             invalidatesTags: ['Category', 'Item'],
-            transformResponse: (itemRes: Item, _meta, arg) => {
-                return transformResponse(itemRes, ContentID.adminItemsItemUpdated, arg.config);
+            transformResponse: (res: Item, _meta, arg) => {
+                return transformResponse(res, ContentID.adminItemsItemUpdated, arg.config);
             },
         }),
         itemUpdateInstockAndSold: builder.mutation<void, { itemId: number; instockAndSold: InstockAndSold }>({

@@ -19,10 +19,6 @@ export enum Currency {
     USD = 'USD',
 }
 
-export interface DeleteResponse {
-    success: boolean;
-}
-
 export interface Item {
     id: number;
     addedBy?: number;
@@ -42,11 +38,6 @@ export type NewItem = Omit<Omit<Omit<Omit<Item, 'id'>, 'categories'>, 'sold'>, '
 export interface ItemSizeAndInstock {
     size: string;
     instock: number;
-}
-
-export interface LoginResponse {
-    success: boolean;
-    message: string;
 }
 
 export type NotificationTone = 'Positive' | 'Neutral' | 'Negative';

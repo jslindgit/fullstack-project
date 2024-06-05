@@ -6,7 +6,7 @@ import { handleError } from '../util/error_handler';
 import { isNumber, isObject, isString } from '../types/type_functions';
 import { isValidPassword } from '../util/userProvider';
 import { SECRET } from '../util/config';
-import User, { removePasswordHash, UserAttributes } from '../models/user';
+import User, { removePasswordHashAndToken, UserAttributes } from '../models/user';
 import userService from './userService';
 
 export enum ChangePasswordResult {
@@ -63,7 +63,7 @@ const changePassword = async (credentials: Credentials, newPassword: string): Pr
     }
 };
 
-const checkPassword = async (credentials: Credentials): Promise<UserAttributes | LoginError> => {
+const checkPassword = async (credentials: Credentials): Promise<boolean | LoginError> => {
     try {
         const user = await User.findOne({ where: { username: credentials.username } });
         if (!user) {
@@ -81,12 +81,7 @@ const checkPassword = async (credentials: Credentials): Promise<UserAttributes |
             return LoginError.InvalidPassword;
         }
 
-        const userWithoutPasswordHash = removePasswordHash(user);
-        if (userWithoutPasswordHash) {
-            return userWithoutPasswordHash;
-        } else {
-            return LoginError.SomethingWentWrong;
-        }
+        return true;
     } catch (err) {
         handleError(err);
         return LoginError.SomethingWentWrong;
@@ -121,7 +116,7 @@ const login = async (credentials: Credentials): Promise<UserAttributes | LoginEr
         user.token = token;
         await user.save();
 
-        const userWithoutPasswordHash = removePasswordHash(user);
+        const userWithoutPasswordHash = removePasswordHashAndToken(user);
         if (userWithoutPasswordHash) {
             return userWithoutPasswordHash;
         } else {
