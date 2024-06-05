@@ -6,8 +6,8 @@ import { StoreDispatch } from '../redux/store';
 import { NewUser, User } from '../types/types';
 
 import { contentToText } from '../types/languageFunctions';
-import loginService from '../services/loginService';
 
+import { login } from '../redux/loginSlice';
 import { setNotification } from '../redux/miscReducer';
 import { setLoggedUser } from '../redux/userReducer';
 import { userAdd } from '../redux/userSlice';
@@ -31,7 +31,8 @@ export const registerAndLogin = async (newUser: NewUser, password: string, confi
             dispatch(setLoggedUser(loggedUser));
         };
 
-        await loginService.login(res.user.username, password, setLogged, config);
+        //await loginService.login(res.user.username, password, setLogged, config);
+        await storeDispatch(login.initiate({ username: res.user.username, password: password, setLoggedUser: setLogged, config: config })).unwrap();
     }
 
     dispatch(setNotification({ message: res.message, tone: res.success ? 'Positive' : 'Negative' }));

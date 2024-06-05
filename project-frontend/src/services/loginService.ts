@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+/*import axios, { AxiosError } from 'axios';
 
 import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
@@ -10,9 +10,9 @@ import { handleError } from '../util/handleError';
 import { contentToText } from '../types/languageFunctions';
 import { apiKeyConfig } from '../util/serviceProvider';
 
-const url = apiBaseUrl + '/login';
+const url = apiBaseUrl + '/login';*/
 
-const changePassword = async (username: string, currentPassword: string, newPassword: string, config: Config): Promise<Response> => {
+/*const changePassword = async (username: string, currentPassword: string, newPassword: string, config: Config): Promise<Response> => {
     try {
         const res = await axios.post(url + '/changepassword', { username: username, password: currentPassword, newPassword: newPassword }, apiKeyConfig());
 
@@ -28,9 +28,9 @@ const changePassword = async (username: string, currentPassword: string, newPass
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config) };
         }
     }
-};
+};*/
 
-const checkPassword = async (username: string, password: string, config: Config): Promise<Response> => {
+/*const checkPassword = async (username: string, password: string, config: Config): Promise<Response> => {
     try {
         const res = await axios.post(url + '/checkpassword', { username: username, password: password }, apiKeyConfig());
 
@@ -46,9 +46,9 @@ const checkPassword = async (username: string, password: string, config: Config)
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config) };
         }
     }
-};
+};*/
 
-const login = async (username: string, password: string, setLoggedUser: (loggedUser: User) => void, config: Config): Promise<Response> => {
+/*const login = async (username: string, password: string, setLoggedUser: (loggedUser: User) => void, config: Config): Promise<Response> => {
     try {
         const res = await axios.post(url, { username: username, password: password }, apiKeyConfig());
 
@@ -71,9 +71,9 @@ const login = async (username: string, password: string, setLoggedUser: (loggedU
             return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, config) };
         }
     }
-};
+};*/
 
-const logout = async (token: string, removeLoggedUser: () => void) => {
+/*const logout = async (token: string, removeLoggedUser: () => void) => {
     removeLoggedUser();
 
     try {
@@ -85,11 +85,11 @@ const logout = async (token: string, removeLoggedUser: () => void) => {
     } catch (err: unknown) {
         handleError(err);
     }
-};
+};*/
 
 export default {
-    changePassword,
-    checkPassword,
-    login,
-    logout,
+    /*changePassword,*/
+    /*checkPassword,*/
+    /*login,*/
+    /*logout,*/
 };

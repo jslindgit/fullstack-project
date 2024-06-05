@@ -6,7 +6,7 @@ import { handleError } from '../util/error_handler';
 import { isNumber, isObject, isString } from '../types/type_functions';
 import { isValidPassword } from '../util/userProvider';
 import { SECRET } from '../util/config';
-import User, { removePasswordHashAndToken, UserAttributes } from '../models/user';
+import User, { removePasswordHash, UserAttributes } from '../models/user';
 import userService from './userService';
 
 export enum ChangePasswordResult {
@@ -116,7 +116,7 @@ const login = async (credentials: Credentials): Promise<UserAttributes | LoginEr
         user.token = token;
         await user.save();
 
-        const userWithoutPasswordHash = removePasswordHashAndToken(user);
+        const userWithoutPasswordHash = removePasswordHash(user);
         if (userWithoutPasswordHash) {
             return userWithoutPasswordHash;
         } else {

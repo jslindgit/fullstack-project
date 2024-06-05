@@ -6,9 +6,9 @@ import { ContentID } from '../../content';
 import { User } from '../../types/types';
 
 import { contentToText } from '../../types/languageFunctions';
-import loginService from '../../services/loginService';
 import useField from '../../hooks/useField';
 
+import { useCheckPasswordMutation } from '../../redux/loginSlice';
 import { setNotification } from '../../redux/miscReducer';
 import { removeLoggedUser } from '../../redux/userReducer';
 import { useUserDeleteMutation } from '../../redux/userSlice';
@@ -20,6 +20,7 @@ interface Props {
     user: User;
 }
 const UserDeleteAccount = ({ config, user }: Props) => {
+    const [checkPassword] = useCheckPasswordMutation();
     const [userDelete] = useUserDeleteMutation();
 
     const dispatch = useDispatch();
@@ -35,10 +36,9 @@ const UserDeleteAccount = ({ config, user }: Props) => {
 
     const handleDeleteAccount = async () => {
         // Check that the password is correct:
-        const loginResponse = await loginService.checkPassword(user.username, password.value.toString(), config);
+        const res = await checkPassword({ username: user.username, password: password.value.toString(), config: config }).unwrap();
 
-        if (loginResponse.success) {
-            //const res = await userService.deleteUser(user, user.token, config);
+        if (res.success) {
             const res = await userDelete({ toDelete: user, config: config }).unwrap();
 
             if (res.success) {
@@ -48,7 +48,7 @@ const UserDeleteAccount = ({ config, user }: Props) => {
             dispatch(setNotification({ message: res.message, tone: res.success ? 'Neutral' : 'Negative' }));
         } else {
             password.clear();
-            dispatch(setNotification({ message: loginResponse.message, tone: 'Negative' }));
+            dispatch(setNotification({ message: res.message, tone: 'Negative' }));
         }
     };
 

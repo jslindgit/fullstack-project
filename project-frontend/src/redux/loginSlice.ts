@@ -48,7 +48,6 @@ const loginSlice = apiSlice.injectEndpoints({
                 };
             },
             transformResponse: (res: unknown, _meta, arg) => {
-                console.log('res:', res);
                 if (isUser(res)) {
                     if (res.disabled === true) {
                         return { success: false, message: contentToText(ContentID.userDisabled, arg.config) };
@@ -62,16 +61,19 @@ const loginSlice = apiSlice.injectEndpoints({
             },
         }),
         logout: builder.mutation<void, { removeLoggedUser: () => void }>({
-            query: ({ removeLoggedUser }) => {
-                removeLoggedUser();
-
+            query: () => {
                 return {
                     url: url,
                     method: 'DELETE',
                 };
+            },
+            transformResponse: (_res: unknown, _meta, arg) => {
+                arg.removeLoggedUser();
             },
         }),
     }),
 });
 
 export const { useChangePasswordMutation, useCheckPasswordMutation, useLoginMutation, useLogoutMutation } = loginSlice;
+
+export const { login } = loginSlice.endpoints;

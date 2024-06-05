@@ -8,10 +8,9 @@ import { RootState } from '../redux/rootReducer';
 
 import { contentToText } from '../types/languageFunctions';
 import localstorageHandler from '../util/localstorageHandler';
-import loginService from '../services/loginService';
 import useField from '../hooks/useField';
 
-import { useLoginMutation } from '../redux/loginSlice';
+import { useLoginMutation, useLogoutMutation } from '../redux/loginSlice';
 import { setNotification } from '../redux/miscReducer';
 import { removeLoggedUser, setLoggedUser } from '../redux/userReducer';
 
@@ -20,6 +19,7 @@ import { Link } from './CustomLink';
 
 const Login = () => {
     const [login] = useLoginMutation();
+    const [logout] = useLogoutMutation();
 
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
@@ -103,7 +103,7 @@ const Login = () => {
                         <span className='bold'>{logged.username}</span>
                     </div>
                     <div className='marginTop3 sizeLarge'>
-                        <Link to='/login' onClick={async () => await loginService.logout(logged.token, removeLogged)}>
+                        <Link to='/login' onClick={async () => await logout({ removeLoggedUser: removeLogged })}>
                             {contentToText(ContentID.menuLogout, config)}
                         </Link>
                     </div>

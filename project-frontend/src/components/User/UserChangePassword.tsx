@@ -6,10 +6,10 @@ import { ContentID } from '../../content';
 import { User } from '../../types/types';
 
 import { contentToText } from '../../types/languageFunctions';
-import loginService from '../../services/loginService';
 import { isValidPassword } from '../../util/misc';
 import useField from '../../hooks/useField';
 
+import { useChangePasswordMutation } from '../../redux/loginSlice';
 import { setNotification } from '../../redux/miscReducer';
 
 import InputField from '../InputField';
@@ -19,6 +19,8 @@ interface Props {
     user: User;
 }
 const UserChangePassword = ({ config, user }: Props) => {
+    const [changePassword] = useChangePasswordMutation();
+
     const dispatch = useDispatch();
 
     const [newPasswordError, setNewPasswordError] = useState<string>('');
@@ -46,8 +48,13 @@ const UserChangePassword = ({ config, user }: Props) => {
             setNewPasswordError(contentToText(ContentID.loginNewPasswordMisMatch, config));
         } else {
             setNewPasswordError('');
-            const response = await loginService.changePassword(user.username, passwordCurrent.value.toString(), passwordNew.value.toString(), config);
-            dispatch(setNotification({ tone: response.success ? 'Positive' : 'Negative', message: response.message }));
+            const res = await changePassword({
+                username: user.username,
+                currentPassword: passwordCurrent.value.toString(),
+                newPassword: passwordNew.stringValue(),
+                config: config,
+            }).unwrap();
+            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
             passwordCurrent.clear();
             passwordNew.clear();

@@ -1,23 +1,25 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { ContentID } from '../content';
 import { User } from '../types/types';
 import { RootState } from '../redux/rootReducer';
 
 import { contentToText } from '../types/languageFunctions';
 import localstorageHandler from '../util/localstorageHandler';
-import loginService from '../services/loginService';
 import useField from '../hooks/useField';
 
+import { useLogoutMutation } from '../redux/loginSlice';
 import { setNotification } from '../redux/miscReducer';
 import { removeLoggedUser } from '../redux/userReducer';
 
 import InputField from './InputField';
 import LanguageSelection from './LanguageSelection';
 import { Link } from './CustomLink';
-import { ContentID } from '../content';
 
 const Menu = () => {
+    const [logoutMutation] = useLogoutMutation();
+
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const orderState = useSelector((state: RootState) => state.order);
@@ -48,7 +50,7 @@ const Menu = () => {
                     </div>
                     <div className='grid-container' data-cols='auto'>
                         <div>{menuLink('/you', contentToText(ContentID.menuAccount, config), 'Small', 'menu-account')}</div>
-                        <div onClick={async () => await logout(loggedUser, removeLogged, setLogoutNotification)}>
+                        <div onClick={async () => await logout(removeLogged, setLogoutNotification)}>
                             {menuLink('#', contentToText(ContentID.menuLogout, config), 'Small', 'menu-logout')}
                         </div>
                     </div>
@@ -59,9 +61,9 @@ const Menu = () => {
         }
     };
 
-    const logout = async (loggedUser: User, removeLogged: () => void, setLogoutNotification: () => void) => {
+    const logout = async (removeLogged: () => void, setLogoutNotification: () => void) => {
         setLogoutNotification();
-        await loginService.logout(loggedUser.token, removeLogged);
+        await logoutMutation({ removeLoggedUser: removeLogged }).unwrap();
     };
 
     const menuLink = (to: string, text: string, fontSize: 'Big' | 'Small', testId: string, isShoppingCart: boolean = false) => {
