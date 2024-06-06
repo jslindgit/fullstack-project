@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
 import { ContentID } from '../../content';
-import { OrderResponse } from '../../services/orderService';
-import { OrderStatus } from '../../types/orderTypes';
+import { OrderResponse, OrderStatus } from '../../types/orderTypes';
 import { RootState } from '../../redux/rootReducer';
 
-import itemService from '../../services/itemService';
+/*import itemService from '../../services/itemService';*/
+import { updateInstockAndSoldValues } from '../../services/itemService';
 import { contentToText } from '../../types/languageFunctions';
 /*import orderService from '../../services/orderService';*/
 import { isOrder } from '../../types/orderTypeFunctions';
@@ -108,7 +108,7 @@ const CheckOutDone = () => {
 
             const updateSoldValues = async () => {
                 if (orderResponse.order) {
-                    await itemService.updateInstockAndSoldValues(orderResponse.order, store.dispatch);
+                    await updateInstockAndSoldValues(orderResponse.order, store.dispatch);
                 }
             };
 

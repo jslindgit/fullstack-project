@@ -1,7 +1,6 @@
 import { ContentID } from '../content';
 import { Config } from '../types/configTypes';
-import { OrderResponse } from '../services/orderService';
-import { NewOrder, Order } from '../types/orderTypes';
+import { NewOrder, Order, OrderResponse } from '../types/orderTypes';
 import { Response } from '../types/types';
 
 import { contentToText } from '../types/languageFunctions';

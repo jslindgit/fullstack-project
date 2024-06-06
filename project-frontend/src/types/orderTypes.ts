@@ -1,3 +1,5 @@
+import { Response } from './types';
+
 import { LangText } from './languageTypes';
 
 export enum DeliveryCode {
@@ -45,6 +47,10 @@ export interface Order {
     userId?: number;
 }
 export type NewOrder = Omit<Omit<Omit<Order, 'id'>, 'createdAt'>, 'totalAmount'>;
+
+export interface OrderResponse extends Response {
+    order: Order | null;
+}
 
 export enum OrderStatus {
     PENDING = 'PENDING',

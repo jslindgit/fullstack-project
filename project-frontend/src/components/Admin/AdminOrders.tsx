@@ -3,12 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
 import { ContentID } from '../../content';
-import { Order, OrderStatus } from '../../types/orderTypes';
+import { Order, OrderResponse, OrderStatus } from '../../types/orderTypes';
 import { RootState } from '../../redux/rootReducer';
 import { NewNotification, NotificationTone } from '../../types/types';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
-import { /*orderService, */ OrderResponse } from '../../services/orderService';
 import { getOrderStatusForAdmin } from '../../util/orderProvider';
 import useField from '../../hooks/useField';
 

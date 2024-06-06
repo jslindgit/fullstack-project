@@ -1,7 +1,6 @@
 import { ContentID } from '../content';
 import { Config } from '../types/configTypes';
-import { ItemResponse } from '../services/itemService';
-import { Item, NewItem, Response } from '../types/types';
+import { Item, ItemResponse, NewItem, Response } from '../types/types';
 
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { itemFromResBody, itemToReqBody } from '../util/serviceProvider';

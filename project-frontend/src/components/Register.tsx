@@ -9,8 +9,7 @@ import { NewUser } from '../types/types';
 
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 import { isValidEmailAddress, isValidPassword } from '../util/misc';
-import { registerAndLogin } from '../util/userProvider';
-import { usernameIsAvailable } from '../services/userService';
+import { registerAndLogin, usernameIsAvailable } from '../util/userProvider';
 
 import store from '../redux/store';
 

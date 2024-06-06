@@ -1,6 +1,9 @@
 import { LangText } from './languageTypes';
 import { Order } from './orderTypes';
 
+import { isLangText } from './languageTypeFunctions';
+import { isObject } from './typeFunctions';
+
 export interface Category {
     id: number;
     addedBy?: number;
@@ -13,6 +16,10 @@ export type NewCategory = Omit<Omit<Category, 'id'>, 'items'>;
 export interface Country {
     names: LangText[];
 }
+
+export const isCountry = (obj: unknown): obj is Country => {
+    return isObject(obj) && 'names' in obj && isLangText(obj.names);
+};
 
 export enum Currency {
     EUR = 'EUR',
@@ -34,6 +41,10 @@ export interface Item {
     sold: number;
 }
 export type NewItem = Omit<Omit<Omit<Omit<Item, 'id'>, 'categories'>, 'sold'>, 'createdAt'>;
+
+export interface ItemResponse extends Response {
+    item: Item | null;
+}
 
 export interface ItemSizeAndInstock {
     size: string;

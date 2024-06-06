@@ -8,7 +8,7 @@ import { User } from '../../types/types';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { isValidEmailAddress } from '../../util/misc';
 import useField, { UseField } from '../../hooks/useField';
-import { usernameIsAvailable } from '../../services/userService';
+import { usernameIsAvailable } from '../../util/userProvider';
 
 import { setNotification } from '../../redux/miscReducer';
 import store from '../../redux/store';

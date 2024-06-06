@@ -5,12 +5,13 @@ import { ContentID } from '../content';
 import { StoreDispatch } from '../redux/store';
 import { NewUser, User } from '../types/types';
 
+import { handleError } from './handleError';
 import { contentToText } from '../types/languageFunctions';
 
 import { login } from '../redux/loginSlice';
 import { setNotification } from '../redux/miscReducer';
 import { setLoggedUser } from '../redux/userReducer';
-import { userAdd } from '../redux/userSlice';
+import { userAdd, userNameIsAvailable } from '../redux/userSlice';
 
 export const getUserStatus = (user: User, config: Config): string => {
     if (user.admin) {
@@ -36,4 +37,13 @@ export const registerAndLogin = async (newUser: NewUser, password: string, confi
     }
 
     dispatch(setNotification({ message: res.message, tone: res.success ? 'Positive' : 'Negative' }));
+};
+
+export const usernameIsAvailable = async (username: string, storeDispatch: StoreDispatch): Promise<boolean> => {
+    try {
+        return await storeDispatch(userNameIsAvailable.initiate({ username: username })).unwrap();
+    } catch (err: unknown) {
+        handleError(err);
+        return false;
+    }
 };

@@ -27,14 +27,12 @@ const deleteById = async (id: unknown): Promise<SettingsInstance | null> => {
     }
 };
 
-const getAll = async (): Promise<Array<SettingsInstance> | null> => {
+const getAll = async (): Promise<SettingsInstance[]> => {
     try {
-        const settings = await Settings.findAll();
-
-        return settings;
+        return await Settings.findAll();
     } catch (err: unknown) {
         handleError(err);
-        return null;
+        return [];
     }
 };
 
