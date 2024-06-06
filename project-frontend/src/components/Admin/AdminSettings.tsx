@@ -14,6 +14,7 @@ import settingsService from '../../services/settingsService';
 import useField, { UseField } from '../../hooks/useField';
 
 import { setNotification } from '../../redux/miscReducer';
+import store from '../../redux/store';
 
 import CheckBox from '../CheckBox';
 import InputField from '../InputField';
@@ -249,7 +250,7 @@ const AdminSettings = () => {
                 vat: vatField.numValue(),
             };
 
-            const res = await settingsService.update(settings, userState.loggedUser.token, dispatch);
+            const res = await settingsService.updateSettings(settings, dispatch, store.dispatch, config);
             dispatch(setNotification({ message: res.message, tone: res.success ? 'Positive' : 'Negative' }));
 
             setEditedProperty('');

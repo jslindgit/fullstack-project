@@ -1,72 +1,40 @@
-import axios from 'axios';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 
-import { Settings } from '../types/configTypes';
+import { Config, Settings } from '../types/configTypes';
+import { StoreDispatch } from '../redux/store';
 import { Response } from '../types/types';
 
-import { apiBaseUrl } from '../constants';
 import { handleError } from '../util/handleError';
-import { apiKeyConfig, authConfig, settingsFromResBody, settingsToReqBody } from '../util/serviceProvider';
 
 import { initializeConfig } from '../redux/configReducer';
+import { settingsAdd, settingsGetAll, settingsUpdate } from '../redux/settingsSlice';
 
 interface SettingsResponse extends Response {
     settings: Settings | null;
 }
 
-const url = apiBaseUrl + '/settings';
-
-const get = async (): Promise<Settings | null> => {
-    const all = await getAll();
-    return all.length > 0 ? all[0] : null;
+const fetchCurrentSettings = async (storeDispatch: StoreDispatch): Promise<Settings | null> => {
+    const allSettings = await storeDispatch(settingsGetAll.initiate()).unwrap();
+    return allSettings.length > 0 ? allSettings[0] : null;
 };
 
-const getAll = async (): Promise<Settings[]> => {
-    try {
-        const { data } = await axios.get<Settings[]>(url, apiKeyConfig());
-        const result: Settings[] = [];
-        data.forEach((s) => {
-            if (s) {
-                const settings = settingsFromResBody(s);
-                if (settings) {
-                    result.push(settings);
-                }
-            }
-        });
-        return result;
-    } catch (err: unknown) {
-        handleError(err);
-        return [];
+const updateSettings = async (settings: Settings, dispatch: Dispatch<AnyAction>, storeDispatch: StoreDispatch, config: Config): Promise<SettingsResponse> => {
+    const currentSettings = await fetchCurrentSettings(storeDispatch);
+
+    const res: SettingsResponse = currentSettings
+        ? await storeDispatch(settingsUpdate.initiate({ currentSettings: currentSettings, newSettings: settings, config: config })).unwrap()
+        : await storeDispatch(settingsAdd.initiate({ toAdd: settings, config: config })).unwrap();
+
+    if (res.success && res.settings) {
+        initializeConfig(dispatch, res.settings);
+    } else {
+        handleError(new Error('Failed to update settings.'));
     }
-};
 
-const update = async (settings: Settings, token: string, dispatch: Dispatch<AnyAction>): Promise<SettingsResponse> => {
-    try {
-        let updatedSettings: Settings | null = null;
-
-        const currentSettings = await get();
-        if (currentSettings) {
-            const res = await axios.put<Settings>(`${url}/${currentSettings.id}`, settingsToReqBody(settings), authConfig(token));
-            updatedSettings = settingsFromResBody(res.data);
-        } else {
-            const res = await axios.post<Settings>(url, settingsToReqBody(settings), authConfig(token));
-            updatedSettings = settingsFromResBody(res.data);
-        }
-
-        if (updatedSettings) {
-            initializeConfig(dispatch, updatedSettings);
-            return { success: true, message: 'Settings updated.', settings: updatedSettings };
-        } else {
-            handleError(new Error('Server did not return a Settings object.'));
-            return { success: false, message: 'Something went wrong, try again later.', settings: null };
-        }
-    } catch (err: unknown) {
-        handleError(err);
-        return { success: false, message: 'Error occurred.', settings: null };
-    }
+    return res;
 };
 
 export default {
-    get,
-    update,
+    fetchCurrentSettings,
+    updateSettings,
 };

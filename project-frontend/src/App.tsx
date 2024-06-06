@@ -52,7 +52,7 @@ const App = () => {
         dispatch(setLoaded(false));
 
         const fetchData = async () => {
-            const settings = await settingsService.get();
+            const settings = await settingsService.fetchCurrentSettings(store.dispatch);
             initializeConfig(dispatch, settings);
             initializeOrder(dispatch);
             Promise.all([initializeLoggedUser(dispatch, store.dispatch)]);

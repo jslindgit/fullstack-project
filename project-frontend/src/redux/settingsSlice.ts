@@ -16,6 +16,22 @@ const url = '/settings';
 
 const settingsSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
+        settingsAdd: builder.mutation<SettingsResponse, { toAdd: Settings; config: Config }>({
+            query: ({ toAdd }) => {
+                return {
+                    url: url,
+                    method: 'POST',
+                    body: toAdd,
+                };
+            },
+            invalidatesTags: ['Settings'],
+            transformResponse: (res: unknown, _meta, arg) => {
+                const settings = settingsFromResBody(res);
+                return settings
+                    ? { success: true, message: 'Ok', settings: settings }
+                    : { success: false, message: contentToText(ContentID.errorSomethingWentWrong, arg.config), settings: null };
+            },
+        }),
         settingsGetAll: builder.query<Settings[], void>({
             query: () => url,
             providesTags: ['Settings'],
@@ -23,12 +39,12 @@ const settingsSlice = apiSlice.injectEndpoints({
                 return res.map((s) => settingsFromResBody(s)).filter(isNotNull);
             },
         }),
-        settingsUpdate: builder.mutation<SettingsResponse, { settings: Settings; propName: string; config: Config }>({
-            query: ({ settings }) => {
+        settingsUpdate: builder.mutation<SettingsResponse, { currentSettings: Settings; newSettings: Settings; config: Config }>({
+            query: ({ currentSettings, newSettings }) => {
                 return {
-                    url: `${url}/${settings.id}`,
+                    url: `${url}/${currentSettings.id}`,
                     method: 'PUT',
-                    body: settingsToReqBody(settings),
+                    body: settingsToReqBody(newSettings),
                 };
             },
             invalidatesTags: ['Settings'],
@@ -38,7 +54,7 @@ const settingsSlice = apiSlice.injectEndpoints({
                 if (settings) {
                     return {
                         success: true,
-                        message: `${arg.propName} ${contentToText(ContentID.miscUpdated, arg.config)}.`,
+                        message: `${contentToText(ContentID.adminPanelSettings, arg.config)} ${contentToText(ContentID.miscUpdated, arg.config)}.`,
                         settings: settings,
                     };
                 } else {
@@ -53,4 +69,4 @@ const settingsSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useSettingsGetAllQuery } = settingsSlice;
+export const { settingsAdd, settingsGetAll, settingsUpdate } = settingsSlice.endpoints;

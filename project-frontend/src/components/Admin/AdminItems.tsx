@@ -19,7 +19,7 @@ import { setNotification } from '../../redux/miscReducer';
 import AdminItemList from './AdminItemList';
 import { Link } from '../CustomLink';
 import ItemEditForm from './ItemEditForm';
-import Loading from '../Loading';
+import LoadingQuery from '../LoadingQuery';
 
 const AdminItems = () => {
     const categoryGetAll = useCategoryGetAllQuery();
@@ -117,7 +117,7 @@ const AdminItems = () => {
     };
 
     if (!categoryGetAll.data) {
-        return <Loading config={config} text={contentToText(categoryGetAll.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
+        return <LoadingQuery query={categoryGetAll} config={config} />;
     }
 
     return (
