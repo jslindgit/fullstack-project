@@ -10,6 +10,7 @@ const item_categorySlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         item_categoryAdd: builder.mutation<Response, { item: Item; category: Category }>({
             query: ({ item, category }) => {
+                console.log('item_categoryAdd.query started...');
                 return {
                     url: url,
                     method: 'POST',
@@ -19,6 +20,7 @@ const item_categorySlice = apiSlice.injectEndpoints({
             invalidatesTags: ['Category', 'Item'],
             transformResponse: (res: unknown) => {
                 const success = isObject(res) && 'success' in res && isBoolean(res.success) && res.success === true;
+                console.log('item_categoryAdd.res:', res);
                 return { success: success, message: success ? 'Ok' : 'Error' };
             },
         }),

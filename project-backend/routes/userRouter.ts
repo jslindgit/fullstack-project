@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.delete('/:id', tokenExtractor, (async (req, res) => {
     const user = await service.getById(req.params.id, false);
-    console.log('user:', user);
+
     if (!user) {
         res.status(404).end();
     } else {

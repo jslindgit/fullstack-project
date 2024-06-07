@@ -31,9 +31,9 @@ interface Props {
     itemToEdit: Item | null;
     onCancel?: (() => void) | undefined;
     onSubmit?: (() => void) | undefined;
-    setItemAdded?: React.Dispatch<React.SetStateAction<Item | null>>;
+    setAddedItem?: React.Dispatch<React.SetStateAction<Item | null>>;
 }
-const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefined, onSubmit = undefined, setItemAdded }: Props) => {
+const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefined, onSubmit = undefined, setAddedItem = undefined }: Props) => {
     const categoryGetAll = useCategoryGetAllQuery();
     const [itemAdd] = useItemAddMutation();
     const [itemUpdate] = useItemUpdateMutation();
@@ -91,8 +91,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
         if (onCancel) {
             onCancel();
         }
-
-        navigate(localstorageHandler.getPreviousLocation());
     };
 
     const canSubmit = () => usersState.loggedUser?.admin || !(itemToEdit && !(itemToEdit.addedBy && itemToEdit.addedBy === usersState.loggedUser?.id));
@@ -175,7 +173,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
                     };
 
-                    //const res = await itemService.update(finalItem, token, config);
                     const res = await itemUpdate({ toUpdate: finalItem, config: config }).unwrap();
                     returnedItem = res.item;
 
@@ -191,9 +188,12 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
                     };
 
-                    //const res = await itemService.add(finalItem, null, usersState.loggedUser.token, config);
                     const res = await itemAdd({ toAdd: finalItem, config: config }).unwrap();
                     returnedItem = res.item;
+
+                    if (setAddedItem) {
+                        setAddedItem(returnedItem);
+                    }
 
                     dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
                 }
@@ -208,7 +208,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                                 return c.id === selected;
                             });
                             if (category && returnedItem && !(returnedItem.categories && returnedItem.categories.includes(category))) {
-                                //promises.push(item_categoryService.addConnection(returnedItem, category, token));
                                 promises.push(item_categoryAdd({ item: returnedItem, category: category }).unwrap());
                             }
                         }
@@ -223,17 +222,14 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         });
                         toRemove.forEach(async (c) => {
                             if (returnedItem) {
-                                //promises.push(item_categoryService.deleteConnection(returnedItem.id, c.id, token));
                                 promises.push(item_categoryDelete({ itemId: returnedItem.id, categoryId: c.id }).unwrap());
                             }
                         });
                     }
 
-                    Promise.all(promises);
+                    await Promise.all(promises);
 
-                    if (setItemAdded) {
-                        setItemAdded(returnedItem);
-                    }
+                    console.log('connections added');
                 }
             }
 
@@ -247,6 +243,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
         }
 
         if (onSubmit) {
+            console.log('onSubmit');
             onSubmit();
         }
     };

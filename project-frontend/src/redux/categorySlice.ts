@@ -69,15 +69,16 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
         }),
         categoryGetAll: builder.query<Category[], void>({
             query: () => url,
-            providesTags: ['Category'],
+            providesTags: ['Category', 'Item'],
             transformResponse: (res: Category[]) => {
                 return res.map((categoryData) => categoryFromResBody(categoryData)).filter(isNotNull);
             },
         }),
         categoryGetById: builder.query<Category | null, number>({
             query: (id) => `${url}/${id}`,
-            providesTags: ['Category'],
+            providesTags: ['Category', 'Item'],
             transformResponse: (res: Category) => {
+                console.log('categoryGetById.res.items:', res.items);
                 return categoryFromResBody(res);
             },
         }),

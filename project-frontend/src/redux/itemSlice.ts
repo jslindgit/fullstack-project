@@ -114,7 +114,7 @@ export const itemApiSlice = apiSlice.injectEndpoints({
                     body: instockAndSold,
                 };
             },
-            invalidatesTags: ['Item'],
+            invalidatesTags: ['Category', 'Item'],
         }),
     }),
 });
