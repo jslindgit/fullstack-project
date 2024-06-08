@@ -6,7 +6,6 @@ import { ContentID } from '../../content';
 import { Category } from '../../types/types';
 import { RootState } from '../../redux/rootReducer';
 
-//import categoryService from '../../services/categoryService';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { handleError } from '../../util/handleError';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
@@ -16,14 +15,13 @@ import { setNotification } from '../../redux/miscReducer';
 
 import BackButton from '../BackButton';
 import InputField from '../InputField';
-import Loading from '../Loading';
+import LoadingQuery from '../LoadingQuery';
 
 const AdminCategoryEdit = () => {
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const usersState = useSelector((state: RootState) => state.user);
 
-    const [category, setCategory] = useState<Category | null>();
     const [fieldsInitialized, setFieldsInitialized] = useState<boolean>(false);
 
     const nameFields = useLangFields('text');
@@ -34,11 +32,7 @@ const AdminCategoryEdit = () => {
     const categoryGetById = useCategoryGetByIdQuery(id);
     const [categoryUpdate] = useCategoryUpdateMutation();
 
-    useEffect(() => {
-        if (categoryGetById.data) {
-            setCategory(categoryGetById.data);
-        }
-    }, [categoryGetById.data]);
+    const category = categoryGetById.data;
 
     // Set initial values for name and description fields:
     useEffect(() => {
@@ -88,7 +82,6 @@ const AdminCategoryEdit = () => {
                     name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
                 };
 
-                //const res = await categoryService.update(updatedCategory, usersState.loggedUser.token);
                 const res = await categoryUpdate({ category: updatedCategory, config: config }).unwrap();
 
                 dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
@@ -98,8 +91,8 @@ const AdminCategoryEdit = () => {
         }
     };
 
-    if (!categoryGetById.data || !category) {
-        return <Loading config={config} text={contentToText(categoryGetById.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
+    if (!category || !categoryGetById.data) {
+        return <LoadingQuery query={categoryGetById} config={config} />;
     }
 
     return (

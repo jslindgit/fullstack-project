@@ -1,6 +1,6 @@
 import Category from './category';
 import Item from './item';
-import { Item_Category } from './item_category';
+import Item_Category from './item_category';
 import Order from './order';
 import User from './user';
 

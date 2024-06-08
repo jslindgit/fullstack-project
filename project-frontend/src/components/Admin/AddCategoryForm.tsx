@@ -5,7 +5,6 @@ import { ContentID } from '../../content';
 import { NewCategory, User } from '../../types/types';
 import { RootState } from '../../redux/rootReducer';
 
-//import categoryService from '../../services/categoryService';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
 import { contentToText } from '../../types/languageFunctions';
 
@@ -37,7 +36,6 @@ const AddCategoryForm = ({ user }: Props) => {
             name: nameFields.map((nf) => ({ langCode: nf.langCode, text: nf.field.value.toString() })),
         };
 
-        //const res = await categoryService.add(newCategory, user.token);
         const res = await categoryAdd({ toAdd: newCategory, config: config }).unwrap();
 
         dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));

@@ -2,20 +2,20 @@ import { Op } from 'sequelize';
 
 import { Category, Item } from '../models';
 import { NewItem, ItemAttributes, ItemInstance } from '../models/item';
-import { NewItem_Category } from '../types/types';
+import { NewItem_Category } from '../models/item_category';
 
 import item_category_service from './item_categoryService';
 import { testItemId } from '../constants';
 import { handleError } from '../util/error_handler';
 import { isNumber, isObject, toNewItem_Category } from '../types/type_functions';
 
-const addNew = async (newItem: NewItem, category_id: number | null): Promise<ItemInstance | null> => {
+const addNew = async (newItem: NewItem, category_ids: number[]): Promise<ItemInstance | null> => {
     try {
         const item = await Item.create(newItem);
         await item.save();
 
-        if (category_id && 'id' in item) {
-            const newItem_Category: NewItem_Category = toNewItem_Category({ item_id: item.id, category_id: category_id });
+        for (const categoryId of category_ids) {
+            const newItem_Category: NewItem_Category = toNewItem_Category({ item_id: item.id, category_id: categoryId });
             await item_category_service.addNew(newItem_Category);
         }
 
@@ -33,7 +33,7 @@ const deleteById = async (id: unknown): Promise<ItemInstance | null> => {
         // Item with id 89 is needed for E2E tests, so it can't be deleted:
         if (item && item.id !== testItemId) {
             // First delete the connection tables involving this Item:
-            await item_category_service.deleteByItemId(id);
+            await item_category_service.deleteByItemId(item.id);
 
             // Then delete the Item:
             await item.destroy();
@@ -102,26 +102,41 @@ const getById = async (id: unknown): Promise<ItemInstance | null> => {
     }
 };
 
-const update = async (id: unknown, props: unknown): Promise<ItemInstance | null> => {
+const update = async (id: unknown, props: unknown, categoryIds: number[] | null): Promise<ItemInstance | null> => {
     try {
         const item = await getById(id);
 
         // Item with id 89 is needed for E2E tests, so it can't be modified:
         if (item && item.id !== testItemId) {
             if (isObject(props)) {
-                Object.keys(props).forEach((key) => {
-                    if (key in item) {
-                        if (key !== 'id' && key !== 'createdAt' && key !== 'updatedAt' && key !== 'categories') {
+                Object.keys(props)
+                    .filter((key) => key !== 'id' && key !== 'createdAt' && key !== 'updatedAt' && key !== 'categories' && key !== 'category_ids')
+                    .forEach((key) => {
+                        if (key in item) {
                             item.setDataValue(key as keyof ItemAttributes, props[key as keyof typeof props]);
+                        } else {
+                            throw new Error(`Invalid property '${key}' for Item`);
                         }
-                    } else {
-                        throw new Error(`Invalid property '${key}' for Item`);
-                    }
-                });
+                    });
 
                 await item.save();
             } else {
                 throw new Error('Invalid props value (not an object)');
+            }
+
+            // If 'categoryIds' is provided, set those as the Item's categories (if it isn't, leave the categories as they are):
+            if (categoryIds) {
+                const currentConnections = await item_category_service.getByItemId(item.id);
+
+                for (const item_category of currentConnections.filter((ic) => !categoryIds.includes(ic.categoryId))) {
+                    await item_category_service.deleteById(item_category.id);
+                }
+
+                for (const idToAdd of categoryIds.filter((id) => !currentConnections.find((item_category) => item_category.categoryId === id))) {
+                    const newItem_Category: NewItem_Category = { categoryId: idToAdd, itemId: item.id };
+
+                    await item_category_service.addNew(newItem_Category);
+                }
             }
 
             return item;

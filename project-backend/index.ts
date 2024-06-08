@@ -7,7 +7,6 @@ import { PORT } from './util/config';
 import { connectToDatabase } from './util/db';
 
 import categoryRouter from './routes/categoryRouter';
-import item_categoryRouter from './routes/item_categoryRouter';
 import itemRouter from './routes/itemRouter';
 import loginRouter from './routes/loginRouter';
 import orderRouter from './routes/orderRouter';
@@ -26,7 +25,6 @@ app.use(express.static('dist'));
 
 app.use('/api/categories', categoryRouter);
 app.use('/api/items', itemRouter);
-app.use('/api/item_categories', item_categoryRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/paytrail', paytrailRouter);

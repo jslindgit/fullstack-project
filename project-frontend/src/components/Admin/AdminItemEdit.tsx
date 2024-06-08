@@ -7,7 +7,6 @@ import { Item } from '../../types/types';
 import { RootState } from '../../redux/rootReducer';
 
 import { contentToText } from '../../types/languageFunctions';
-/*import itemService from '../../services/itemService';*/
 
 import { useItemGetByIdQuery } from '../../redux/itemSlice';
 

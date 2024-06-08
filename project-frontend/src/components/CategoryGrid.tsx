@@ -1,16 +1,15 @@
 import { useSelector } from 'react-redux';
 
-import { ContentID } from '../content';
 import { Config } from '../types/configTypes';
 import { RootState } from '../redux/rootReducer';
 import { Category } from '../types/types';
 
-import { contentToText, langTextsToText } from '../types/languageFunctions';
+import { langTextsToText } from '../types/languageFunctions';
 
 import { useCategoryGetAllQuery } from '../redux/categorySlice';
 
 import { Link } from './CustomLink';
-import Loading from './Loading';
+import LoadingQuery from './LoadingQuery';
 
 interface ColumnProps {
     category: Category;
@@ -33,7 +32,7 @@ const CategoryGrid = () => {
     const config = useSelector((state: RootState) => state.config);
 
     if (!categoryGetAll.data) {
-        return <Loading config={config} text={contentToText(categoryGetAll.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
+        return <LoadingQuery query={categoryGetAll} config={config} />;
     }
 
     return (

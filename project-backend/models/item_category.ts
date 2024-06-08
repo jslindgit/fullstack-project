@@ -1,10 +1,21 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, Optional } from 'sequelize';
 
 import { sequelize } from '../util/db';
 
-export class Item_Category extends Model {}
+export interface Item_CategoryAttributes {
+    id: number;
+    itemId: number;
+    categoryId: number;
+}
 
-Item_Category.init(
+export type NewItem_Category = Omit<Item_CategoryAttributes, 'id'>;
+
+interface Item_CategoryCreationAttributes extends Optional<Item_CategoryAttributes, 'id'> {}
+
+export interface Item_CategoryInstance extends Model<Item_CategoryAttributes, Item_CategoryCreationAttributes>, Item_CategoryAttributes {}
+
+const Item_Category = sequelize.define<Item_CategoryInstance>(
+    'item_category',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -23,9 +34,9 @@ Item_Category.init(
         },
     },
     {
-        sequelize,
         underscored: true,
         timestamps: true,
-        modelName: 'item_category',
     }
 );
+
+export default Item_Category;

@@ -9,6 +9,11 @@ input {
     padding-left: 0.6em;
     width: 100%;
 }
+
+input:disabled {
+    color: var(--colorGraySemiLight);
+    outline-color: var(--colorGrayLight);
+}
 input.narrow {
     font-size: min(var(--fontSizeNormal), 2.5vw);
 }

@@ -249,16 +249,6 @@ export enum ContentID {
     userUpdated = 'USER: Account Updated (notification)',
 }
 
-/*
-    {
-        id: ContentID,
-        content: [
-            { langCode: LangCode.EN, text: '' },
-            { langCode: LangCode.FI, text: '' },
-        ],
-    },
-*/
-
 export const defaultLangContent: LangContent[] = [
     {
         id: ContentID.accountAccountInfo,

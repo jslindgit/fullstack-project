@@ -6,10 +6,8 @@ import { ContentID } from '../../content';
 import { OrderResponse, OrderStatus } from '../../types/orderTypes';
 import { RootState } from '../../redux/rootReducer';
 
-/*import itemService from '../../services/itemService';*/
 import { updateInstockAndSoldValues } from '../../services/itemService';
 import { contentToText } from '../../types/languageFunctions';
-/*import orderService from '../../services/orderService';*/
 import { isOrder } from '../../types/orderTypeFunctions';
 import paytrailService from '../../services/paytrailService';
 
@@ -20,6 +18,7 @@ import store from '../../redux/store';
 import BackButton from '../BackButton';
 import { Link } from '../CustomLink';
 import Loading from '../Loading';
+import LoadingQuery from '../LoadingQuery';
 import OrderInfo from '../OrderInfo';
 import { isNumber } from '../../types/typeFunctions';
 
@@ -93,7 +92,7 @@ const CheckOutDone = () => {
             const updateOrderStatus = async () => {
                 if (orderResponse.order) {
                     const paymentMethod = searchparams.get('checkout-provider') as string;
-                    //const res = await orderService.update(orderResponse.order.id, { paymentMethod: paymentMethod, status: OrderStatus.PROCESSING });
+
                     const res = await orderUpdate({
                         orderId: orderResponse.order.id,
                         propsToUpdate: { paymentMethod: paymentMethod, status: OrderStatus.PROCESSING },
@@ -129,6 +128,10 @@ const CheckOutDone = () => {
             return <Loading config={config} />;
         }
     };
+
+    if (!orderGetById.data) {
+        return <LoadingQuery query={orderGetById} config={config} />;
+    }
 
     return (
         <div className='pageWidth'>

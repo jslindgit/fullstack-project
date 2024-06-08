@@ -80,7 +80,7 @@ const Login = () => {
 
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        //const response = await loginService.login(username.stringValue(), password.value.toString(), setLogged, config);
+
         const response = await login({ username: username.stringValue(), password: password.stringValue(), setLoggedUser: setLogged, config: config }).unwrap();
 
         password.clear();

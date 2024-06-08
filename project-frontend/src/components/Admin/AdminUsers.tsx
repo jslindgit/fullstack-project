@@ -14,7 +14,7 @@ import { useUserGetAllQuery } from '../../redux/userSlice';
 
 import { Link } from '../CustomLink';
 import InputField from '../InputField';
-import Loading from '../Loading';
+import LoadingQuery from '../LoadingQuery';
 import SortArrow from '../SortArrow';
 
 interface Props {
@@ -123,7 +123,7 @@ const AdminUsers = () => {
     );
 
     if (!userGetAll.data) {
-        return <Loading config={config} text={contentToText(userGetAll.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
+        return <LoadingQuery query={userGetAll} config={config} />;
     }
 
     return (

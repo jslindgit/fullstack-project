@@ -12,7 +12,7 @@ import { useItemGetAllQuery } from '../redux/itemSlice';
 import CategoryGrid from './CategoryGrid';
 import Description from './Description';
 import ItemGrid from './Items/ItemGrid';
-import Loading from './Loading';
+import LoadingQuery from './LoadingQuery';
 
 const MainPage = () => {
     const itemGetAll = useItemGetAllQuery();
@@ -41,8 +41,8 @@ const MainPage = () => {
         }
     }, [itemGetAll]);
 
-    if (itemGetAll.isLoading || itemGetAll.error) {
-        return <Loading config={config} text={itemGetAll.error ? contentToText(ContentID.errorSomethingWentWrong, config) : null} />;
+    if (!itemGetAll.data) {
+        return <LoadingQuery query={itemGetAll} config={config} />;
     }
 
     return (

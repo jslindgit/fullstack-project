@@ -52,6 +52,9 @@
 .strikeThrough {
     text-decoration: line-through solid;
 }
+.strikeThrough > div {
+    text-decoration: line-through solid;
+}
 
 .textDecorationNone {
     text-decoration: none !important;

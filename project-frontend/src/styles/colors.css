@@ -19,6 +19,9 @@
 .colorGray {
     color: var(--colorGray);
 }
+.colorGraySemiLight {
+    color: var(--colorGraySemiLight);
+}
 .colorGrayLight {
     color: var(--colorGrayLight);
 }

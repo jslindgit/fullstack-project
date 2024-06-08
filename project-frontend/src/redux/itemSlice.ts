@@ -13,34 +13,25 @@ interface InstockAndSold {
     sold: number;
 }
 
-const transformResponse = (res: Item, successMessage: ContentID, config: Config): ItemResponse => {
-    const item = itemFromResBody(res);
-    if (item) {
-        return {
-            success: true,
-            message: `${contentToText(successMessage, config)}: ${langTextsToText(item.name, config)}`,
-            item: item,
-        };
-    } else {
-        return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), item: null };
-    }
-};
-
 const url = '/items';
 
 export const itemApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        itemAdd: builder.mutation<ItemResponse, { toAdd: NewItem; config: Config }>({
-            query: ({ toAdd }) => {
+        itemAdd: builder.mutation<ItemResponse, { toAdd: NewItem; categoryIds: number[]; config: Config }>({
+            query: ({ toAdd, categoryIds }) => {
                 return {
                     url: url,
                     method: 'POST',
-                    body: itemToReqBody(toAdd),
+                    body: { ...itemToReqBody(toAdd), category_ids: categoryIds },
                 };
             },
             invalidatesTags: ['Category', 'Item'],
             transformResponse: (res: Item, _meta, arg) => {
-                return transformResponse(res, ContentID.adminItemsNewItemAdded, arg.config);
+                return {
+                    success: true,
+                    message: `${contentToText(ContentID.adminItemsNewItemAdded, arg.config)}: ${langTextsToText(arg.toAdd.name, arg.config)}.`,
+                    item: itemFromResBody(res),
+                };
             },
         }),
         itemDelete: builder.mutation<Response, { toDelete: Item; config: Config }>({
@@ -92,18 +83,22 @@ export const itemApiSlice = apiSlice.injectEndpoints({
                 return items;
             },
         }),
-        itemUpdate: builder.mutation<ItemResponse, { toUpdate: Item; config: Config }>({
-            query: ({ toUpdate }) => {
+        itemUpdate: builder.mutation<ItemResponse, { toUpdate: Item; categoryIds: number[] | null; config: Config }>({
+            query: ({ toUpdate, categoryIds }) => {
                 const body = itemToReqBody(toUpdate);
                 return {
                     url: `${url}/${toUpdate.id}`,
                     method: 'PUT',
-                    body,
+                    body: categoryIds ? { ...body, category_ids: categoryIds } : body,
                 };
             },
             invalidatesTags: ['Category', 'Item'],
             transformResponse: (res: Item, _meta, arg) => {
-                return transformResponse(res, ContentID.adminItemsItemUpdated, arg.config);
+                return {
+                    success: true,
+                    message: `${contentToText(ContentID.adminItemsItemUpdated, arg.config)}: ${langTextsToText(arg.toUpdate.name, arg.config)}.`,
+                    item: itemFromResBody(res),
+                };
             },
         }),
         itemUpdateInstockAndSold: builder.mutation<void, { itemId: number; instockAndSold: InstockAndSold }>({

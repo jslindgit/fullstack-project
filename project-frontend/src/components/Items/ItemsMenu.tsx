@@ -1,12 +1,11 @@
-import { ContentID } from '../../content';
 import { Config } from '../../types/configTypes';
 
-import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { langTextsToText } from '../../types/languageFunctions';
 
 import { useCategoryGetAllQuery } from '../../redux/categorySlice';
 
 import { Link } from '../CustomLink';
-import Loading from '../Loading';
+import LoadingQuery from '../LoadingQuery';
 
 interface Props {
     config: Config;
@@ -19,7 +18,7 @@ const ItemsMenu = ({ config, currentId }: Props) => {
     const baseUrl = '/shop/';
 
     if (!categoryGetAll.data) {
-        return <Loading config={config} text={contentToText(categoryGetAll.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
+        return <LoadingQuery query={categoryGetAll} config={config} />;
     }
 
     return (

@@ -1,4 +1,4 @@
-import express from 'express';
+/*import express from 'express';
 import { RequestHandler } from 'express';
 
 import { apiKeyExtractor } from '../middlewares/apiKeyExtractor';
@@ -53,3 +53,4 @@ router.post('/', tokenExtractor, (async (req, res) => {
 router.use(errorHandler);
 
 export default router;
+*/

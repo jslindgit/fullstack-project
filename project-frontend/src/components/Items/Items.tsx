@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -10,23 +11,26 @@ import { useCategoryGetByIdQuery } from '../../redux/categorySlice';
 
 import ItemGrid from './ItemGrid';
 import ItemsMenu from './ItemsMenu';
-import Loading from '../Loading';
+import LoadingQuery from '../LoadingQuery';
+import { isNumber } from '../../types/typeFunctions';
 
 const Items = () => {
     const config = useSelector((state: RootState) => state.config);
 
     const navigate = useNavigate();
+
     const idParam = Number(useParams().id);
 
-    const categoryGetById = useCategoryGetByIdQuery(idParam);
+    const categoryGetById = useCategoryGetByIdQuery(idParam, { skip: !isNumber(idParam) });
+
+    useEffect(() => {
+        if (categoryGetById.isError || !isNumber(idParam)) {
+            navigate('/shop');
+        }
+    }, [categoryGetById, idParam, navigate]);
 
     if (!categoryGetById.data) {
-        if (categoryGetById.isLoading) {
-            return <Loading config={config} />;
-        } else {
-            navigate('/shop');
-            return <></>;
-        }
+        return <LoadingQuery query={categoryGetById} config={config} />;
     }
 
     return (

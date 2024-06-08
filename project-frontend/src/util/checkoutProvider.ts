@@ -1,8 +1,6 @@
 import { NewOrder, Order, ShoppingItem } from '../types/orderTypes';
 import { StoreDispatch } from '../redux/store';
 
-/*import itemService from '../services/itemService';*/
-
 import { itemGetById } from '../redux/itemSlice';
 
 export const itemsTotalSum = (items: ShoppingItem[]): number => {
@@ -13,7 +11,6 @@ export const orderFitsInLetter = async (order: NewOrder | Order, storeDispatch: 
     let letterFullness = 0.0;
 
     for (const shoppingItem of order.items) {
-        //const item = await itemService.getById(shoppingItem.id);
         const item = await storeDispatch(itemGetById.initiate(shoppingItem.id)).unwrap();
 
         if (!item || item.fitsInLetter < 1) {

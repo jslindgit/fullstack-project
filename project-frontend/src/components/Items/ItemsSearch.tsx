@@ -6,7 +6,6 @@ import { ContentID } from '../../content';
 import { Item } from '../../types/types';
 import { RootState } from '../../redux/rootReducer';
 
-/*import itemService from '../../services/itemService';*/
 import { contentToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 

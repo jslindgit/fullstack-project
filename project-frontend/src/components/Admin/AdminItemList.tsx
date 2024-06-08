@@ -58,7 +58,6 @@ const AdminItemList = ({ config, deleteItem, items }: ListProps) => {
                     setSortedItems([...items].sort((a, b) => (sortDirection === 'asc' ? a.price - b.price : b.price - a.price)));
                     break;
                 default:
-                    //setItems(items);
                     break;
             }
         };

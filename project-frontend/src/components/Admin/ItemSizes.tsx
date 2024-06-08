@@ -41,40 +41,44 @@ const ItemSizes = ({ config, oneSizeInstock, setOneSizeInstock, setSizes, sizes 
         setSizes(currentSizes);
     };
 
+    const multipleSizes = (): boolean => {
+        return sizes.length > 0 && sizes[0].size !== '-';
+    };
+
     return (
         <>
             <div className='infoBox'>
                 <div className='grid-container left middle' data-cols='3' data-gap='1rem'>
                     <div className='semiBold'>{contentToText(ContentID.itemsSize, config)}</div>
-                    <div className='semiBold'>{contentToText(ContentID.itemsInStock, config)}</div>
+                    <div className='semiBold'>
+                        {contentToText(ContentID.itemsInStock, config)} ({contentToText(ContentID.itemsPcs, config)})
+                    </div>
                     <div />
-                    {sizes.length > 0 && sizes[0].size !== '-' ? (
-                        sizes.map((size) => (
-                            <React.Fragment key={sizes.indexOf(size)}>
-                                <select value={size.size} onChange={handleSizeChange(sizes.indexOf(size))}>
-                                    {availableSizes.map((s) => (
-                                        <option key={s} value={s}>
-                                            {s}
-                                        </option>
-                                    ))}
-                                </select>
-                                <input type='number' value={size.instock} onChange={handleInstockChange(sizes.indexOf(size))} />
-                                <button type='button' className='red' onClick={() => handleDeleteSize(sizes.indexOf(size))}>
-                                    {contentToText(ContentID.buttonRemove, config)}
-                                </button>
-                            </React.Fragment>
-                        ))
-                    ) : (
-                        <React.Fragment>
-                            <div>{contentToText(ContentID.adminItemOneSize, config)}</div>
-                            <input
-                                type='number'
-                                value={oneSizeInstock}
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => setOneSizeInstock(Number(event.target.value))}
-                            />
-                            <div />
+                    <div className={'displayContents' + (multipleSizes() ? ' colorGraySemiLight strikeThrough' : '')}>
+                        <div>{contentToText(ContentID.adminItemOneSize, config)}</div>
+                        <input
+                            type='number'
+                            value={oneSizeInstock}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setOneSizeInstock(Number(event.target.value))}
+                            disabled={multipleSizes()}
+                        />
+                        <div />
+                    </div>
+                    {sizes.map((size) => (
+                        <React.Fragment key={sizes.indexOf(size)}>
+                            <select value={size.size} onChange={handleSizeChange(sizes.indexOf(size))}>
+                                {availableSizes.map((s) => (
+                                    <option key={s} value={s}>
+                                        {s}
+                                    </option>
+                                ))}
+                            </select>
+                            <input type='number' value={size.instock} onChange={handleInstockChange(sizes.indexOf(size))} />
+                            <button type='button' className='red' onClick={() => handleDeleteSize(sizes.indexOf(size))}>
+                                {contentToText(ContentID.buttonRemove, config)}
+                            </button>
                         </React.Fragment>
-                    )}
+                    ))}
                 </div>
                 <button className='marginTop2' type='button' onClick={handleAddSize} disabled={unusedSizeValues().length < 1}>
                     + {contentToText(ContentID.adminItemAddNewSize, config)}

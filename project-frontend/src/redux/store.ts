@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-//import rootReducer from './rootReducer.ts';
 import configReducer from './configReducer.ts';
 import miscReducer from './miscReducer.ts';
 import orderReducer from './orderReducer.ts';

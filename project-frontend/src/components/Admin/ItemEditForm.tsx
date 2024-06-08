@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
 import { RootState } from '../../redux/rootReducer';
-import { Item, ItemSizeAndInstock, NewItem, Response } from '../../types/types';
+import { Item, ItemSizeAndInstock, NewItem } from '../../types/types';
 
 import { testItemId } from '../../constants';
 import { handleError } from '../../util/handleError';
@@ -14,16 +14,13 @@ import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import localstorageHandler from '../../util/localstorageHandler';
 import useField from '../../hooks/useField';
 
-import { useCategoryGetAllQuery } from '../../redux/categorySlice';
 import { useItemAddMutation, useItemUpdateMutation } from '../../redux/itemSlice';
-import { useItem_categoryAddMutation, useItem_categoryDeleteMutation } from '../../redux/item_categorySlice';
 import { setNotification } from '../../redux/miscReducer';
 
 import InputField from '../InputField';
 import ItemEditCategories from './ItemEditCategories';
 import ItemEditImages from './ItemEditImages';
 import ItemSizes from './ItemSizes';
-import Loading from '../Loading';
 
 interface Props {
     config: Config;
@@ -31,14 +28,10 @@ interface Props {
     itemToEdit: Item | null;
     onCancel?: (() => void) | undefined;
     onSubmit?: (() => void) | undefined;
-    setAddedItem?: React.Dispatch<React.SetStateAction<Item | null>>;
 }
-const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefined, onSubmit = undefined, setAddedItem = undefined }: Props) => {
-    const categoryGetAll = useCategoryGetAllQuery();
+const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefined, onSubmit = undefined }: Props) => {
     const [itemAdd] = useItemAddMutation();
     const [itemUpdate] = useItemUpdateMutation();
-    const [item_categoryAdd] = useItem_categoryAddMutation();
-    const [item_categoryDelete] = useItem_categoryDeleteMutation();
 
     const dispatch = useDispatch();
     const usersState = useSelector((state: RootState) => state.user);
@@ -90,6 +83,12 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     const cancel = async () => {
         if (onCancel) {
             onCancel();
+        }
+
+        if (itemToEdit) {
+            navigate(localstorageHandler.getPreviousLocation());
+        } else {
+            reset();
         }
     };
 
@@ -159,8 +158,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
     const submit = async () => {
         if (usersState.loggedUser && (usersState.loggedUser.admin || usersState.loggedUser.operator) && usersState.loggedUser.token) {
             if (changesMade()) {
-                let returnedItem: Item | null = null;
-
                 if (itemToEdit) {
                     const finalItem: Item = {
                         ...itemToEdit,
@@ -173,8 +170,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
                     };
 
-                    const res = await itemUpdate({ toUpdate: finalItem, config: config }).unwrap();
-                    returnedItem = res.item;
+                    const res = await itemUpdate({ toUpdate: finalItem, categoryIds: selectedCategories, config: config }).unwrap();
 
                     dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
                 } else {
@@ -188,48 +184,9 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                         sizes: sizes.length > 0 ? sizes : [{ size: '-', instock: oneSizeInstock }],
                     };
 
-                    const res = await itemAdd({ toAdd: finalItem, config: config }).unwrap();
-                    returnedItem = res.item;
-
-                    if (setAddedItem) {
-                        setAddedItem(returnedItem);
-                    }
+                    const res = await itemAdd({ toAdd: finalItem, categoryIds: selectedCategories, config: config }).unwrap();
 
                     dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
-                }
-
-                if (returnedItem) {
-                    const promises: Promise<Response>[] = [];
-
-                    // Add connections between the updated/added Item and the selected Categories that are not yet connected to the Item:
-                    selectedCategories.forEach(async (selected) => {
-                        if (categoryGetAll.data) {
-                            const category = categoryGetAll.data.find((c) => {
-                                return c.id === selected;
-                            });
-                            if (category && returnedItem && !(returnedItem.categories && returnedItem.categories.includes(category))) {
-                                promises.push(item_categoryAdd({ item: returnedItem, category: category }).unwrap());
-                            }
-                        }
-                    });
-
-                    // Remove connections between the updated/added Item and Categories that are not selected and are currently connected to the Item:
-                    if (returnedItem.categories) {
-                        const toRemove = returnedItem.categories.filter((c) => {
-                            if (!selectedCategories.includes(c.id)) {
-                                return c;
-                            }
-                        });
-                        toRemove.forEach(async (c) => {
-                            if (returnedItem) {
-                                promises.push(item_categoryDelete({ itemId: returnedItem.id, categoryId: c.id }).unwrap());
-                            }
-                        });
-                    }
-
-                    await Promise.all(promises);
-
-                    console.log('connections added');
                 }
             }
 
@@ -243,7 +200,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
         }
 
         if (onSubmit) {
-            console.log('onSubmit');
             onSubmit();
         }
     };
@@ -257,10 +213,6 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             price.numValue() <= config.maxItemPriceEUR
         );
     };
-
-    if (!categoryGetAll.data) {
-        return <Loading config={config} text={contentToText(categoryGetAll.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
-    }
 
     return (
         <div className='adminFormDiv'>
@@ -359,7 +311,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                                 : ''
                     }
                 >
-                    {contentToText(ContentID.buttonSave, config)}
+                    {contentToText(itemToEdit ? ContentID.buttonSave : ContentID.buttonAdd, config)}
                 </button>
                 &emsp;
                 <button type='button' onClick={cancel}>

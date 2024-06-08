@@ -1,6 +1,7 @@
-import { Credentials, NewItem_Category } from './types';
+import { Credentials } from './types';
 import { NewCategory } from '../models/category';
 import { NewItem } from '../models/item';
+import { NewItem_Category } from '../models/item_category';
 
 import { isNewCategory } from '../models/category';
 import { isNewItem } from '../models/item';

@@ -32,7 +32,6 @@ export const registerAndLogin = async (newUser: NewUser, password: string, confi
             dispatch(setLoggedUser(loggedUser));
         };
 
-        //await loginService.login(res.user.username, password, setLogged, config);
         await storeDispatch(login.initiate({ username: res.user.username, password: password, setLoggedUser: setLogged, config: config })).unwrap();
     }
 

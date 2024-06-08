@@ -10,7 +10,6 @@ import { handleError } from '../../util/handleError';
 import { contentToText } from '../../types/languageFunctions';
 import { validateOrder } from '../../util/orderProvider';
 import { isOrder, isOrderOrNewOrder } from '../../types/orderTypeFunctions';
-/*import orderService from '../../services/orderService';*/
 
 import { OrderState, setOrder } from '../../redux/orderReducer';
 import { useOrderAddMutation } from '../../redux/orderSlice';
@@ -66,21 +65,6 @@ const CheckOutCreateOrder = () => {
                     setError(true);
                     handleError(err);
                 });
-            /*orderService
-                .addNew(currentOrder, config, userState.loggedUser ? userState.loggedUser.id : null)
-                .then((res) => {
-                    if (res.success && res.order) {
-                        dispatch(setOrder(res.order));
-                        setCurrentOrder(res.order);
-                    } else {
-                        setError(true);
-                    }
-                })
-                .catch((err: unknown) => {
-                    console.error(err);
-                    setError(true);
-                    handleError(err);
-                });*/
         }
     }, [config, currentOrder, dispatch, orderAdd, userState.loggedUser]);
 

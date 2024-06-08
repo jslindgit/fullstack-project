@@ -12,19 +12,6 @@ interface CategoryResponse extends Response {
     addedCategory: Category | null;
 }
 
-const transformResponse = (res: Category, successMessage: string, config: Config): CategoryResponse => {
-    const category = categoryFromResBody(res);
-    if (category) {
-        return {
-            success: true,
-            message: successMessage,
-            addedCategory: category,
-        };
-    } else {
-        return { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, config), addedCategory: null };
-    }
-};
-
 const url = '/categories';
 
 export const categoryApiSlice = apiSlice.injectEndpoints({
@@ -39,11 +26,15 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
             },
             invalidatesTags: ['Category'],
             transformResponse: (res: Category, _meta, arg) => {
-                return transformResponse(
-                    res,
-                    `${contentToText(ContentID.adminAddNewCategory, arg.config)}: ${langTextsToText(arg.toAdd.name, arg.config)}`,
-                    arg.config
-                );
+                const category = categoryFromResBody(res);
+                // prettier-ignore
+                return category
+                    ? {
+                        success: true,
+                        message: `${contentToText(ContentID.adminAddNewCategory, arg.config)}: ${langTextsToText(arg.toAdd.name, arg.config)}`,
+                        addedCategory: category,
+                    }
+                    : { success: false, message: contentToText(ContentID.errorSomethingWentWrong, arg.config), addedCategory: null };
             },
         }),
         categoryDelete: builder.mutation<Response, { toDelete: Category; config: Config }>({
@@ -78,7 +69,6 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
             query: (id) => `${url}/${id}`,
             providesTags: ['Category', 'Item'],
             transformResponse: (res: Category) => {
-                console.log('categoryGetById.res.items:', res.items);
                 return categoryFromResBody(res);
             },
         }),
@@ -92,11 +82,19 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
             },
             invalidatesTags: ['Category'],
             transformResponse: (res: Category, _meta, arg) => {
-                return transformResponse(
-                    res,
-                    `${contentToText(ContentID.itemsCategory, arg.config)} ${contentToText(ContentID.miscUpdated, arg.config)}.`,
-                    arg.config
-                );
+                const category = categoryFromResBody(res);
+                // prettier-ignore
+                return category
+                    ? {
+                        success: true,
+                        message: `${contentToText(ContentID.itemsCategory, arg.config)} ${contentToText(ContentID.miscUpdated, arg.config)}.`,
+                        addedCategory: category,
+                    }
+                    : {
+                        success: false,
+                        message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, arg.config),
+                        addedCategory: null,
+                    };
             },
         }),
     }),

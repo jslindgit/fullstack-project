@@ -18,6 +18,7 @@ import AdminOrderDetails from './AdminOrderDetails';
 import AdminOrderGridRow from './AdminOrderGridRow';
 import { Link } from '../CustomLink';
 import InputField from '../InputField';
+import LoadingQuery from '../LoadingQuery';
 import SortArrow from '../SortArrow';
 
 enum Folder {
@@ -193,7 +194,7 @@ const AdminOrders = () => {
             window.alert(contentToText(ContentID.errorThisOperationRequiresAdminOrOperatorRights, config));
         } else if (confirm(`${contentToText(ContentID.adminOrdersDeleteOrder, config)} ${order.id} (${order.customerFirstName} ${order.customerLastName})?`)) {
             setOpenedOrder(null);
-            //const res = await orderService.deleteOrder(order, usersState.loggedUser?.token, config);
+
             const res = await orderDelete({ order: order, config: config }).unwrap();
 
             if (res.success) {
@@ -205,7 +206,6 @@ const AdminOrders = () => {
     };
 
     const handleMarkAsDelivered = async (order: Order) => {
-        //const res = await orderService.update(order.id, { deliveredDate: new Date() });
         const res = await updateOrder(order.id, { deliveredDate: new Date() });
 
         handleClose();
@@ -223,7 +223,6 @@ const AdminOrders = () => {
     };
 
     const handleMarkAsNotDelivered = async (order: Order) => {
-        //const res = await orderService.update(order.id, { deliveredDate: null });
         const res = await updateOrder(order.id, { deliveredDate: null });
 
         handleClose();
@@ -241,7 +240,6 @@ const AdminOrders = () => {
     };
 
     const handleMoveBackFromRecycleBin = async (order: Order) => {
-        //await orderService.update(order.id, { recycledDate: null });
         await updateOrder(order.id, { recycledDate: null });
 
         handleClose();
@@ -249,7 +247,6 @@ const AdminOrders = () => {
     };
 
     const handleMoveToRecycleBin = async (order: Order) => {
-        //await orderService.update(order.id, { recycledDate: new Date() });
         await updateOrder(order.id, { recycledDate: new Date() });
 
         handleClose();
@@ -259,7 +256,6 @@ const AdminOrders = () => {
 
     const handleOpen = async (order: Order) => {
         if (!order.readDate) {
-            //const res = await orderService.update(order.id, { readDate: new Date() });
             const res = await updateOrder(order.id, { readDate: new Date() });
 
             if (res.order) {
@@ -319,6 +315,10 @@ const AdminOrders = () => {
             )}
         </React.Fragment>
     );
+
+    if (!orderGetAll.data) {
+        return <LoadingQuery query={orderGetAll} config={config} />;
+    }
 
     return (
         <div>

@@ -7,7 +7,6 @@ import { RootState } from '../../redux/rootReducer';
 import { Item } from '../../types/types';
 
 import format from '../../util/format';
-/*import itemService from '../../services/itemService';*/
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 

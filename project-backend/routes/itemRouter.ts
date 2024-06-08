@@ -56,12 +56,13 @@ router.get('/:id', apiKeyExtractor, (async (req, res) => {
 router.post('/', tokenExtractor, (async (req, res) => {
     if ((res.locals.admin === true || res.locals.operator === true) && res.locals.user_id && isNumber(res.locals.user_id)) {
         const newItem = toNewItem(req.body);
-        let category_id = null;
-        if (isObject(req.body) && 'category_id' in req.body && isNumber(req.body.category_id)) {
-            category_id = req.body.category_id;
+
+        let category_ids: number[] = [];
+        if (isObject(req.body) && 'category_ids' in req.body && Array.isArray(req.body.category_ids) && req.body.category_ids.every((id) => isNumber(id))) {
+            category_ids = [...(req.body.category_ids as number[])];
         }
 
-        const addedItem = await service.addNew({ ...newItem, addedBy: res.locals.user_id }, category_id);
+        const addedItem = await service.addNew({ ...newItem, addedBy: res.locals.user_id }, category_ids);
 
         res.status(201).json(addedItem);
     } else {
@@ -79,7 +80,7 @@ router.put('/updateinstockandsold/:id', apiKeyExtractor, (async (req, res) => {
             'sold' in req.body &&
             isNumber(req.body.sold)
         ) {
-            const updatedItem = await service.update(req.params.id, { sizes: req.body.sizes, sold: req.body.sold });
+            const updatedItem = await service.update(req.params.id, { sizes: req.body.sizes, sold: req.body.sold }, null);
             if (updatedItem) {
                 res.status(200).json(updatedItem);
             } else {
@@ -99,7 +100,13 @@ router.put('/:id', tokenExtractor, (async (req, res) => {
         res.status(404).end();
     } else {
         if (res.locals.admin === true || (res.locals.operator === true && item.addedBy && item.addedBy === res.locals.user_id)) {
-            const updatedItem = await service.update(req.params.id, req.body);
+            let category_ids: number[] | null = null;
+            if (isObject(req.body) && 'category_ids' in req.body && Array.isArray(req.body.category_ids) && req.body.category_ids.every((id) => isNumber(id))) {
+                category_ids = [...(req.body.category_ids as number[])];
+            }
+
+            const updatedItem = await service.update(req.params.id, req.body, category_ids);
+
             if (updatedItem) {
                 res.status(200).json(updatedItem);
                 return;

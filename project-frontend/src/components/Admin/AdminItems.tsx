@@ -37,7 +37,6 @@ const AdminItems = () => {
 
     const addItemButtonRef = useRef<HTMLButtonElement>(null);
 
-    const [addedItemId, setAddedItemId] = useState<number | null>(null);
     const [items, setItems] = useState<Item[]>([]);
     const [scrollTo, setScrollTo] = useState<number>(0);
     const [showAddItem, setShowAddItem] = useState<boolean>(false);
@@ -69,25 +68,6 @@ const AdminItems = () => {
             setItems(itemGetAll.data.filter((item) => item.categories.length < 1));
         }
     }, [categoryGetById.data, categoryId, itemGetAll.data]);
-
-    useEffect(() => {
-        const refetch = async () => {
-            await categoryGetById.refetch();
-            await itemGetAll.refetch();
-        };
-
-        if (addedItem) {
-            if (
-                (categoryId && addedItem.categories && addedItem.categories.find((c) => c.id === categoryId)) ||
-                (!categoryId && addedItem.categories.length < 1)
-            ) {
-                if (!items.find((i) => i.id === addedItem.id)) {
-                    console.log('refetching...');
-                    refetch();
-                }
-            }
-        }
-    }, [addedItem, categoryGetById, categoryId, itemGetAll, items]);
 
     const closeAddItemForm = () => {
         setShowAddItem(false);
@@ -162,7 +142,6 @@ const AdminItems = () => {
                         onSubmit={() => {
                             closeAddItemForm();
                         }}
-                        setAddedItem={setAddedItem}
                     />
                 ) : (
                     <button type='button' ref={addItemButtonRef} onClick={handleAddItemButton}>

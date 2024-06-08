@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 
 import { Config } from '../../types/configTypes';
 
-import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { langTextsToText } from '../../types/languageFunctions';
 
 import { useCategoryGetAllQuery } from '../../redux/categorySlice';
-import { ContentID } from '../../content';
+
+import LoadingQuery from '../LoadingQuery';
 
 interface Props {
     config: Config;
@@ -34,22 +35,22 @@ const ItemEditCategories = ({ config, initialCategories, selectedCategories, set
         setSelectedCategories(updatedCategories);
     };
 
+    if (!categoryGetAll.data) {
+        return <LoadingQuery query={categoryGetAll} config={config} />;
+    }
+
     return (
         <>
-            {categoryGetAll.data ? (
-                categoryGetAll.data.map((c) => (
-                    <button
-                        key={c.id}
-                        type='button'
-                        className={'selectButton ' + (selectedCategories.includes(c.id) ? 'selectButtonTrue' : 'selectButtonFalse')}
-                        onClick={() => handleCategoryChange(c.id)}
-                    >
-                        {langTextsToText(c.name, config)}
-                    </button>
-                ))
-            ) : (
-                <>{contentToText(ContentID.miscLoading, config)}</>
-            )}
+            {categoryGetAll.data.map((c) => (
+                <button
+                    key={c.id}
+                    type='button'
+                    className={'selectButton ' + (selectedCategories.includes(c.id) ? 'selectButtonTrue' : 'selectButtonFalse')}
+                    onClick={() => handleCategoryChange(c.id)}
+                >
+                    {langTextsToText(c.name, config)}
+                </button>
+            ))}
         </>
     );
 };

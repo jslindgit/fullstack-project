@@ -14,7 +14,7 @@ import { setNotification } from '../../redux/miscReducer';
 import { useUserDeleteMutation, useUserGetByIdQuery, useUserUpdateMutation } from '../../redux/userSlice';
 
 import BackButton from '../BackButton';
-import Loading from '../Loading';
+import LoadingQuery from '../LoadingQuery';
 import UserBasicInfo from '../User/UserBasicInfo';
 import UserContactInfo from '../User/UserContactInfo';
 import UserOrderHistory from '../User/UserOrderHistory';
@@ -51,7 +51,6 @@ const AdminUserInfo = () => {
     const handleDeleteAccount = async () => {
         if (user && usersState.loggedUser?.admin) {
             if (window.confirm(contentToText(ContentID.adminUserInfoDeleteAccount, config))) {
-                //const res = await userService.deleteUser(user, usersState.loggedUser.token, config);
                 const res = await userDelete({ toDelete: user, config: config }).unwrap();
 
                 dispatch(setNotification({ message: res.message, tone: res.success ? 'Neutral' : 'Negative' }));
@@ -101,7 +100,7 @@ const AdminUserInfo = () => {
     };
 
     if (!userGetById.data || !user) {
-        return <Loading config={config} text={contentToText(userGetById.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
+        return <LoadingQuery query={userGetById} config={config} />;
     }
 
     return (
