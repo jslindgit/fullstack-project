@@ -91,6 +91,7 @@ export enum ContentID {
     buttonUpload = 'BUTTON: Upload',
     cartIsEmpty = 'SHOPPING CART: Shopping Cart is empty.',
     cartProduct = 'SHOPPING CART: Product',
+    cartRemoveItemConfirmation = 'SHOPPING CART: Remove item confirmation',
     cartQuantity = 'SHOPPING CART: Quantity',
     cartSubtotal = 'SHOPPING CART: Subtotal',
     cartTotalPrice = 'SHOPPING CART: Total price',
@@ -871,6 +872,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Product' },
             { langCode: LangCode.FI, text: 'Tuote' },
+        ],
+    },
+    {
+        id: ContentID.cartRemoveItemConfirmation,
+        content: [
+            { langCode: LangCode.EN, text: 'Remove <item name> from shopping cart?' },
+            { langCode: LangCode.FI, text: 'Poistetaanko <item name> ostoskorista?' },
         ],
     },
     {

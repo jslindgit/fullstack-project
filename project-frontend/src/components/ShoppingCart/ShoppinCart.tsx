@@ -23,7 +23,7 @@ const ShoppingCart = () => {
     }, [config]);
 
     const removeItem = (index: number) => {
-        if (window.confirm(`Remove ${orderState.items[index].name} from shopping cart?`)) {
+        if (window.confirm(contentToText(ContentID.cartRemoveItemConfirmation, config).replace('<item name>', orderState.items[index].name))) {
             dispatch(removeItemFromShoppingCart(orderState.items[index]));
         }
     };
