@@ -14,6 +14,7 @@ import { isOrder } from '../../types/orderTypeFunctions';
 import paytrailService from '../../services/paytrailService';
 
 import BackButton from '../BackButton';
+import { Link } from '../CustomLink';
 import Loading from '../Loading';
 import OrderInfo from '../OrderInfo';
 
@@ -115,9 +116,9 @@ const CheckOutPayment = () => {
                             {contentToText(ContentID.checkOutTestCredentials, config)}
                             <br />
                             <br />
-                            <a href='https://docs.paytrail.com/#/payment-method-providers?id=test-credentials' className='wordBreakBreakAll' target='_blank'>
+                            <Link to='https://docs.paytrail.com/#/payment-method-providers?id=test-credentials' blank={true}>
                                 https://docs.paytrail.com/#/payment-method-providers?id=test-credentials
-                            </a>
+                            </Link>
                         </div>
                         <div>
                             <div className='alignLeft bold marginBottom1 sizeVeryLarge'>{contentToText(ContentID.checkOutPaymentDetails, config)}</div>

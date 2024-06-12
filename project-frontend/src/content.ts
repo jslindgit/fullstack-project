@@ -161,6 +161,7 @@ export enum ContentID {
     itemsSize = 'ITEMS: Size',
     itemsSoldOut = 'ITEMS: Sold out',
     itemsTopSellers = 'ITEMS: Top Sellers',
+    linkOpensInNewTab = 'LINK: Opens in new tab',
     loginInvalidUsernameOrPassword = 'LOGIN: Invalid username or password',
     loginLoggedInAs = 'LOGIN: Logged in as...',
     loginNewPasswordMisMatch = 'LOGIN: Please check the new password',
@@ -1371,6 +1372,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Top Sellers' },
             { langCode: LangCode.FI, text: 'Myydyimmät tuotteet' },
+        ],
+    },
+    {
+        id: ContentID.linkOpensInNewTab,
+        content: [
+            { langCode: LangCode.EN, text: 'Opens in a new tab.' },
+            { langCode: LangCode.FI, text: 'Avautuu uuteen välilehteen.' },
         ],
     },
     {

@@ -1,6 +1,8 @@
 import { Config } from '../types/configTypes';
 import { LangCode } from '../types/languageTypes';
 
+import { Link } from './CustomLink';
+
 interface Props {
     config: Config;
 }
@@ -8,9 +10,9 @@ const Description = ({ config }: Props) => {
     return config.language.code === LangCode.FI ? (
         <>
             Tämä on{' '}
-            <a href='https://fullstackopen.com/' target='_blank' className='u'>
+            <Link to='https://fullstackopen.com/' blank={true}>
                 Full Stack Open
-            </a>{' '}
+            </Link>{' '}
             -kurssin harjoitustyönä kehitetty verkkokauppa-alusta.
         </>
     ) : (
