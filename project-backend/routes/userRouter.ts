@@ -92,15 +92,17 @@ router.post('/', apiKeyExtractor, (async (req, res) => {
 }) as RequestHandler);
 
 router.put('/:id', tokenExtractor, (async (req, res) => {
-    const user = await service.update(req.params.id, req.body);
+    const userToUpdate = await service.getById(req.params.id, false);
 
-    if (!user) {
+    if (!userToUpdate) {
         res.status(404).end();
     } else {
         if (
-            (user.admin === false || res.locals.admin === true) &&
-            (res.locals.admin === true || (res.locals.operator === true && user.operator === false) || res.locals.user_id === user.id)
+            (userToUpdate.admin === false || res.locals.admin === true) &&
+            (res.locals.admin === true || (res.locals.operator === true && userToUpdate.operator === false) || res.locals.user_id === userToUpdate.id)
         ) {
+            const user = await service.update(req.params.id, req.body);
+
             if (user) {
                 res.status(200).json(user);
             } else {
