@@ -1617,7 +1617,7 @@ export const defaultLangContent: LangContent[] = [
         id: ContentID.miscLoading,
         content: [
             { langCode: LangCode.EN, text: 'Loading...' },
-            { langCode: LangCode.FI, text: 'Ladataan sisältöä...' },
+            { langCode: LangCode.FI, text: 'Ladataan...' },
         ],
     },
     {

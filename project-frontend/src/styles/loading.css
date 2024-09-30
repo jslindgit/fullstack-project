@@ -1,0 +1,88 @@
+@keyframes colorShift {
+    0% {
+        border-right-color: var(--colorGoldLight);
+        border-top-color: var(--colorGoldLight);
+    }
+    50% {
+        border-right-color: var(--colorGray);
+        border-top-color: var(--colorGray);
+    }
+    100% {
+        border-right-color: var(--colorGoldLight);
+        border-top-color: var(--colorGoldLight);
+    }
+}
+@keyframes colorShift2 {
+    0% {
+        border-right-color: var(--colorGray);
+        border-top-color: var(--colorGray);
+    }
+    50% {
+        border-right-color: var(--colorGoldLight);
+        border-top-color: var(--colorGoldLight);
+    }
+    100% {
+        border-right-color: var(--colorGray);
+        border-top-color: var(--colorGray);
+    }
+}
+
+@keyframes spinClockwise {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@keyframes spinCounterClockwise {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+.loading {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.loadingSpinner {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    border: 0.5rem solid transparent;
+    border-right-color: var(--colorGoldLight);
+    border-top-color: var(--colorGoldLight);
+    position: absolute;
+    animation: spinClockwise 2s linear infinite, colorShift 4s ease-in-out infinite;
+}
+.loadingSpinner2 {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    border: 0.5rem solid transparent;
+    border-right-color: var(--colorGoldLight);
+    border-top-color: var(--colorGoldLight);
+    position: absolute;
+    animation: spinCounterClockwise 2s linear infinite, colorShift2 4s ease-in-out infinite;
+}
+
+.loadingText {
+    --shadowColor: rgb(255, 255, 255, 255);
+    --shadowSizeNeg: -3px;
+    --shadowSizePos: 3px;
+    font-size: var(--fontSizeExtremelyLarge);
+    font-weight: 600;
+    position: relative;
+    text-shadow: var(--shadowSizePos) var(--shadowSizePos) var(--shadowColor), var(--shadowSizeNeg) var(--shadowSizePos) var(--shadowColor),
+        var(--shadowSizePos) var(--shadowSizeNeg) var(--shadowColor), var(--shadowSizeNeg) var(--shadowSizeNeg) var(--shadowColor),
+        var(--shadowSizePos) 0 var(--shadowColor), var(--shadowSizeNeg) 0 var(--shadowColor), 0 var(--shadowSizePos) var(--shadowColor),
+        0 var(--shadowSizeNeg) var(--shadowColor);
+    z-index: 1000;
+}

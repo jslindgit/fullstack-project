@@ -11,7 +11,13 @@ interface Props {
 }
 
 const LoadingQuery = ({ query, config }: Props) => {
-    return <Loading config={config} text={contentToText(query.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)} />;
+    return (
+        <Loading
+            config={config}
+            text={contentToText(query.isLoading ? ContentID.miscLoading : ContentID.errorSomethingWentWrong, config)}
+            isError={!query.isLoading}
+        />
+    );
 };
 
 export default LoadingQuery;

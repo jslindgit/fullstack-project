@@ -166,12 +166,6 @@
     font-size: min(var(--fontSizeNormal), 2.5vw);
 }
 
-.loading {
-    font-size: var(--fontSizeExtremelyLarge);
-    font-weight: 600;
-    padding: 2rem;
-}
-
 .paymentMethodSelection {
     border-radius: 0;
     border: 0.5em solid var(--colorGrayLight);

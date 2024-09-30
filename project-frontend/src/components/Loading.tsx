@@ -6,7 +6,18 @@ import { contentToText } from '../types/languageFunctions';
 interface Props {
     config: Config;
     text?: string | null;
+    isError?: boolean;
 }
-const Loading = ({ config, text = null }: Props) => <div className='loading'>{text != null ? text : contentToText(ContentID.miscLoading, config)}</div>;
+const Loading = ({ config, text = null, isError = false }: Props) => (
+    <div className='loading valignMiddle'>
+        {!isError && (
+            <>
+                <div className='loadingSpinner'></div>
+                <div className='loadingSpinner2'></div>
+            </>
+        )}
+        <div className='loadingText'>{text != null ? text : contentToText(ContentID.miscLoading, config)}</div>
+    </div>
+);
 
 export default Loading;
