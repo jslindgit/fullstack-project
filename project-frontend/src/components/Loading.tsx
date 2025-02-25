@@ -9,7 +9,7 @@ interface Props {
     isError?: boolean;
 }
 const Loading = ({ config, text = null, isError = false }: Props) => (
-    <div className='loading valignMiddle'>
+    <div className='loading'>
         {!isError && (
             <>
                 <div className='loadingSpinner'></div>

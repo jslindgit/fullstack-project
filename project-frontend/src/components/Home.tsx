@@ -42,7 +42,11 @@ const MainPage = () => {
     }, [itemGetAll]);
 
     if (!itemGetAll.data) {
-        return <LoadingQuery query={itemGetAll} config={config} />;
+        return (
+            <div className='marginTop2'>
+                <LoadingQuery query={itemGetAll} config={config} />
+            </div>
+        );
     }
 
     return (

@@ -78,7 +78,15 @@ const App = () => {
     };
 
     if (!miscState.loaded) {
-        return <Loading config={config} />;
+        return (
+            <div className='app-container'>
+                <div className='content-container alignCenter valignMiddle'>
+                    <div className='alignCenter'>
+                        <Loading config={config} />
+                    </div>
+                </div>
+            </div>
+        );
     }
     return (
         <div className='app-container'>
