@@ -1,3 +1,4 @@
+// Paytrail test credentials: https://docs.paytrail.com/#/?id=test-credentials
 export const TEST_ACCOUNT = process.env.PAYTRAIL_TEST_ACCOUNT as string;
 export const TEST_SECRET = process.env.PAYTRAIL_TEST_SECRET as string;
 
@@ -34,7 +35,9 @@ export const guidv4 = (data?: Uint8Array): string => {
     data[8] = (data[8] & 0x3f) | 0x80;
 
     // Output the 36 character UUID.
-    return `${toHex(data.subarray(0, 4))}-${toHex(data.subarray(4, 6))}-${toHex(data.subarray(6, 8))}-${toHex(data.subarray(8, 10))}-${toHex(data.subarray(10, 16))}`;
+    return `${toHex(data.subarray(0, 4))}-${toHex(data.subarray(4, 6))}-${toHex(data.subarray(6, 8))}-${toHex(data.subarray(8, 10))}-${toHex(
+        data.subarray(10, 16)
+    )}`;
 };
 
 const toHex = (buffer: Uint8Array): string => {
