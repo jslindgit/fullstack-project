@@ -89,7 +89,8 @@ export const toNewItem_Category = (object: unknown): NewItem_Category => {
 
 export const toNewSettings = (object: unknown): NewSettings => {
     if (!isNewSettings(object)) {
-        throw new Error('Incorrect or missing data for toNewSettings');
+        console.log(object);
+        throw new Error('Incorrect or missing data for toNewSettings:');
     } else {
         return object;
     }
