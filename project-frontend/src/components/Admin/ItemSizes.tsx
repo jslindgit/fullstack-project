@@ -23,6 +23,17 @@ const ItemSizes = ({ config, oneSizeInstock, setOneSizeInstock, setSizes, sizes 
         }
     };
 
+    const handleAddAllSizes = () => {
+        const newSizes: ItemSizeAndInstock[] = [];
+
+        availableSizes.forEach((s) => {
+            const existing = sizes.find((e) => e.size === s);
+            newSizes.push({ size: s, instock: existing ? existing.instock : 0 });
+        });
+
+        setSizes([...newSizes]);
+    };
+
     const handleDeleteSize = (index: number) => {
         const currentSizes = [...sizes];
         currentSizes.splice(index, 1);
@@ -82,6 +93,9 @@ const ItemSizes = ({ config, oneSizeInstock, setOneSizeInstock, setSizes, sizes 
                 </div>
                 <button className='marginTop2' type='button' onClick={handleAddSize} disabled={unusedSizeValues().length < 1}>
                     + {contentToText(ContentID.adminItemAddNewSize, config)}
+                </button>
+                <button className='marginLeft1 marginTop2' type='button' onClick={handleAddAllSizes} disabled={unusedSizeValues().length < 1}>
+                    + {contentToText(ContentID.adminItemAddAllSizes, config)}
                 </button>
             </div>
         </>

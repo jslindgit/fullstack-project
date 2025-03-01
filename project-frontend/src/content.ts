@@ -18,6 +18,7 @@ export enum ContentID {
     adminEditCategory = 'ADMIN: Edit Category (header)',
     adminEditItem = 'ADMIN: Edit Item (header)',
     adminItemAddNewImage = 'ADMIN - ITEM EDIT: Add New Image',
+    adminItemAddAllSizes = 'ADMIN - ITEM EDIT: Add All Sizes (button)',
     adminItemAddNewSize = 'ADMIN - ITEM EDIT: Add New Size (button)',
     adminItemDescription = 'ADMIN - ITEM EDIT: Item Description',
     adminItemImageAlreadyAdded = 'ADMIN - ITEM EDIT: Image already added for this item',
@@ -362,6 +363,13 @@ export const defaultLangContent: LangContent[] = [
         content: [
             { langCode: LangCode.EN, text: 'Add New Image' },
             { langCode: LangCode.FI, text: 'Lisää uusi kuva' },
+        ],
+    },
+    {
+        id: ContentID.adminItemAddAllSizes,
+        content: [
+            { langCode: LangCode.EN, text: 'Add all sizes' },
+            { langCode: LangCode.FI, text: 'Lisää kaikki koot' },
         ],
     },
     {
