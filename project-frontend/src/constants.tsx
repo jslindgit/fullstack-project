@@ -4,8 +4,8 @@ import { Country, Currency } from './types/types';
 
 export const API_KEY = import.meta.env.VITE_API_KEY as string;
 export const apiBaseUrl = (import.meta.env.VITE_ENV as string) === 'dev' ? 'http://localhost:3001/api' : '/api';
-export const testItemId = 89;
-export const testUserId = 17;
+export const testItemId = 5;
+export const testUserId = 2;
 
 export const availableDeliveryCountries: Country[] = [
     {

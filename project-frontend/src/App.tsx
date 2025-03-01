@@ -68,10 +68,10 @@ const App = () => {
 
     // Set miscState.loaded to true:
     useEffect(() => {
-        if (userState.initialized) {
+        if (!miscState.loaded && userState.initialized) {
             dispatch(setLoaded(true));
         }
-    }, [dispatch, userState.initialized]);
+    }, [dispatch, userState.initialized, miscState.loaded]);
 
     const adminPage = (page: JSX.Element): JSX.Element => {
         return userState.loggedUser?.admin || userState.loggedUser?.operator ? page : <Error404 />;

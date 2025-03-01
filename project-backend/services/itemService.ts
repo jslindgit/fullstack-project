@@ -30,7 +30,7 @@ const deleteById = async (id: unknown): Promise<ItemInstance | null> => {
     try {
         const item = await getById(id);
 
-        // Item with id 89 is needed for E2E tests, so it can't be deleted:
+        // Item with id 5 is needed for E2E tests, so it can't be deleted:
         if (item && item.id !== testItemId) {
             // First delete the connection tables involving this Item:
             await item_category_service.deleteByItemId(item.id);

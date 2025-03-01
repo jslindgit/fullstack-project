@@ -23,7 +23,7 @@ const AdminItemRow = ({ item, deleteItem }: Props) => {
     const descriptionMaxLengthToShow = 300;
     const description = langTextsToText(item.description, config);
 
-    // Item with id 89 is needed for E2E tests, so it can't be deleted/modified:
+    // Item with id 5 is needed for E2E tests, so it can't be deleted/modified:
     const canEditAndDelete = () => item.id !== testItemId && (usersState.loggedUser?.admin || (item.addedBy && item.addedBy === usersState.loggedUser?.id));
 
     return (

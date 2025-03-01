@@ -21,7 +21,7 @@ const settingsSlice = apiSlice.injectEndpoints({
                 return {
                     url: url,
                     method: 'POST',
-                    body: toAdd,
+                    body: settingsToReqBody(toAdd),
                 };
             },
             invalidatesTags: ['Settings'],

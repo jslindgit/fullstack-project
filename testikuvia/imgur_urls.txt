@@ -1,0 +1,28 @@
+galleria: https://imgur.com/a/17T754s
+
+test_item   https://i.imgur.com/J0CmCKK.jpeg
+
+emalimuki_koodi   https://i.imgur.com/xP7wn5G.jpeg
+emalimuki_logo   https://i.imgur.com/V8mOXbX.jpeg
+golfpallo_koodi   https://i.imgur.com/RtSTBuP.jpeg
+golfpallo_logo   https://i.imgur.com/j6yLoA8.jpeg
+juomapullo_koodi   https://i.imgur.com/CQgjF7x.jpeg
+juomapullo_logo   https://i.imgur.com/QdooBKb.jpeg
+kahvimuki_koodi   https://i.imgur.com/CsTVk4u.jpeg
+kahvimuki_logo   https://i.imgur.com/ViYZvw1.jpeg
+lasimaljakko_koodi   https://i.imgur.com/wai3fgj.jpeg
+lasimaljakko_logo   https://i.imgur.com/7QclpQ3.jpeg
+lasimuki_koodi   https://i.imgur.com/b6vU83a.jpeg
+lasimuki_logo   https://i.imgur.com/pjAycAY.jpeg
+matto_koodi   https://i.imgur.com/bGqwvf4.jpeg
+matto_logo   https://i.imgur.com/Q1WH4QX.jpeg
+sisustustaulu_koodi   https://i.imgur.com/UMqu0Cg.jpeg
+sisustustaulu_logo   https://i.imgur.com/fYc63Tg.jpeg
+tpaita_harmaa_koodi   https://i.imgur.com/jyjhaA9.jpeg
+tpaita_harmaa_logo   https://i.imgur.com/nuDEqWr.jpeg
+tpaita_musta_koodi   https://i.imgur.com/Hiq4Nae.jpeg
+tpaita_musta_logo   https://i.imgur.com/WK9pNdT.jpeg
+tpaita_punainen_koodi   https://i.imgur.com/MkRAV4n.jpeg
+tpaita_punainen_logo   https://i.imgur.com/fCOulwU.jpeg
+tpaita_valkoinen_koodi   https://i.imgur.com/WdmI9DQ.jpeg
+tpaita_valkoinen_logo   blob:https://imgur.com/c68cd666-fd99-48ee-b2c1-1dcd9b5e476f

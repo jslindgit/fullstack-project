@@ -53,7 +53,7 @@ describe('Login', function () {
 
 describe('Shopping cart', function () {
     beforeEach(function () {
-        cy.visit(url + '/shop/item/89');
+        cy.visit(url + '/shop/item/5');
     });
 
     it('item details page can be opened', function () {

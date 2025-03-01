@@ -133,8 +133,8 @@ export const isNewSettings = (obj: unknown): obj is NewSettings => {
             obj.storeDeliveryCountries.every((s) => isString(s)) &&
             'storeDeliveryTimeBusinessDays' in obj &&
             isNumber(obj.storeDeliveryTimeBusinessDays) &&
-            'storeDescription' in obj &&
-            isString(obj.storeDescription) &&
+            /*'storeDescription' in obj &&
+            isString(obj.storeDescription) &&*/
             'storeName' in obj &&
             isString(obj.storeName) &&
             'storeWelcome' in obj &&
