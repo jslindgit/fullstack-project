@@ -1,4 +1,4 @@
-galleria: https://imgur.com/a/17T754s
+galleria: https://imgur.com/a/17T754s / https://imgur.com/a/fullstack-project-17T754s
 
 test_item   https://i.imgur.com/J0CmCKK.jpeg
 
@@ -25,4 +25,4 @@ tpaita_musta_logo   https://i.imgur.com/WK9pNdT.jpeg
 tpaita_punainen_koodi   https://i.imgur.com/MkRAV4n.jpeg
 tpaita_punainen_logo   https://i.imgur.com/fCOulwU.jpeg
 tpaita_valkoinen_koodi   https://i.imgur.com/WdmI9DQ.jpeg
-tpaita_valkoinen_logo   blob:https://imgur.com/c68cd666-fd99-48ee-b2c1-1dcd9b5e476f
+tpaita_valkoinen_logo   https://i.imgur.com/26BijoN.jpeg
