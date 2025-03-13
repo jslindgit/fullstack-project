@@ -2,7 +2,7 @@ import { LangText } from './languageTypes';
 import { Order } from './orderTypes';
 
 import { isLangText } from './languageTypeFunctions';
-import { isObject } from './typeFunctions';
+import { isBoolean, isNumber, isObject, isString } from './typeFunctions';
 
 export interface Category {
     id: number;
@@ -68,6 +68,10 @@ export interface Response {
     message: string;
 }
 
+export const isResponse = (obj: unknown): obj is Response => {
+    return isObject(obj) && 'success' in obj && isBoolean(obj.success) && 'message' in obj && isString(obj.message);
+};
+
 export interface User {
     id: number;
     admin: boolean;
@@ -87,3 +91,33 @@ export interface User {
     username: string;
 }
 export type NewUser = Omit<Omit<Omit<User, 'id'>, 'token'>, 'createdAt'> & { password: string };
+
+export const isUser = (obj: unknown): obj is User => {
+    return (
+        isObject(obj) &&
+        'id' in obj &&
+        isNumber(obj.id) &&
+        'admin' in obj &&
+        isBoolean(obj.admin) &&
+        'contactAddress' in obj &&
+        isString(obj.contactAddress) &&
+        'contactCity' in obj &&
+        isString(obj.contactCity) &&
+        'contactCountry' in obj &&
+        isString(obj.contactCountry) &&
+        'contactFirstName' in obj &&
+        isString(obj.contactFirstName) &&
+        'contactLastName' in obj &&
+        isString(obj.contactLastName) &&
+        'contactPhone' in obj &&
+        isString(obj.contactPhone) &&
+        'contactZipcode' in obj &&
+        isString(obj.contactZipcode) &&
+        'disabled' in obj &&
+        isBoolean(obj.disabled) &&
+        'operator' in obj &&
+        isBoolean(obj.operator) &&
+        'username' in obj &&
+        isString(obj.username)
+    );
+};

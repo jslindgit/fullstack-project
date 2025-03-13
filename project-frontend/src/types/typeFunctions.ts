@@ -1,5 +1,3 @@
-import { User } from './types';
-
 export const isBoolean = (text: unknown): text is boolean => {
     return typeof text === 'boolean' || text instanceof Boolean;
 };
@@ -18,34 +16,4 @@ export const isObject = (variable: unknown): variable is object => {
 
 export const isString = (text: unknown): text is string => {
     return typeof text === 'string' || text instanceof String;
-};
-
-export const isUser = (obj: unknown): obj is User => {
-    return (
-        isObject(obj) &&
-        'id' in obj &&
-        isNumber(obj.id) &&
-        'admin' in obj &&
-        isBoolean(obj.admin) &&
-        'contactAddress' in obj &&
-        isString(obj.contactAddress) &&
-        'contactCity' in obj &&
-        isString(obj.contactCity) &&
-        'contactCountry' in obj &&
-        isString(obj.contactCountry) &&
-        'contactFirstName' in obj &&
-        isString(obj.contactFirstName) &&
-        'contactLastName' in obj &&
-        isString(obj.contactLastName) &&
-        'contactPhone' in obj &&
-        isString(obj.contactPhone) &&
-        'contactZipcode' in obj &&
-        isString(obj.contactZipcode) &&
-        'disabled' in obj &&
-        isBoolean(obj.disabled) &&
-        'operator' in obj &&
-        isBoolean(obj.operator) &&
-        'username' in obj &&
-        isString(obj.username)
-    );
 };

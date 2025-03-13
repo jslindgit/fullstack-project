@@ -4,8 +4,8 @@ import { User, NewUser, Response } from '../types/types';
 
 import { handleError } from '../util/handleError';
 import { contentToText } from '../types/languageFunctions';
-import { isBoolean, isObject, isUser } from '../types/typeFunctions';
-import { isNotNull } from '../types/typeFunctions';
+import { isBoolean, isNotNull, isObject } from '../types/typeFunctions';
+import { isUser } from '../types/types';
 
 import { apiSlice, successfulResponse } from './apiSlice';
 

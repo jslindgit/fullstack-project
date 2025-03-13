@@ -8,6 +8,7 @@ import { RootState } from '../redux/rootReducer';
 
 import { contentToText } from '../types/languageFunctions';
 import localstorageHandler from '../util/localstorageHandler';
+import { isResponse } from '../types/types';
 import useField from '../hooks/useField';
 
 import { useLoginMutation, useLogoutMutation } from '../redux/loginSlice';
@@ -61,7 +62,7 @@ const Login = () => {
                         </div>
                         <div />
                         <div className='alignLeft'>
-                            <button data-testid='button-submit' type='submit'>
+                            <button data-testid='button-submit' type='submit' disabled={username.stringValue().length < 1 || password.stringValue().length < 1}>
                                 {contentToText(ContentID.menuLogin, config)}
                             </button>
                         </div>
@@ -81,15 +82,26 @@ const Login = () => {
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const response = await login({ username: username.stringValue(), password: password.stringValue(), setLoggedUser: setLogged, config: config }).unwrap();
+        try {
+            const response = await login({
+                username: username.stringValue(),
+                password: password.stringValue(),
+                setLoggedUser: setLogged,
+                config: config,
+            }).unwrap();
 
-        password.clear();
-        if (response.success) {
-            username.clear();
-            navigate(localstorageHandler.getPreviousLocation());
-            dispatch(setNotification({ tone: 'Positive', message: response.message, testId: 'login-success' }));
-        } else {
-            dispatch(setNotification({ tone: 'Negative', message: response.message }));
+            password.clear();
+            if (response.success) {
+                username.clear();
+                navigate(localstorageHandler.getPreviousLocation());
+                dispatch(setNotification({ tone: 'Positive', message: response.message, testId: 'login-success' }));
+            } else {
+                dispatch(setNotification({ tone: 'Negative', message: response.message }));
+            }
+        } catch (err) {
+            if (isResponse(err)) {
+                dispatch(setNotification({ tone: 'Negative', message: err.message }));
+            }
         }
     };
 

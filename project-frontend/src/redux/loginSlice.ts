@@ -3,7 +3,7 @@ import { ContentID } from '../content';
 import { Response, User } from '../types/types';
 
 import { contentToText } from '../types/languageFunctions';
-import { isUser } from '../types/typeFunctions';
+import { isUser } from '../types/types';
 
 import { apiSlice, successfulResponse } from './apiSlice';
 
@@ -55,6 +55,13 @@ const loginSlice = apiSlice.injectEndpoints({
                         arg.setLoggedUser(res);
                         return { success: true, message: contentToText(ContentID.loginLoggedInAs, arg.config) + ' ' + res.username };
                     }
+                } else {
+                    return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, arg.config) };
+                }
+            },
+            transformErrorResponse: (res: object, _meta, arg) => {
+                if ('status' in res && res.status === 401) {
+                    return { success: false, message: contentToText(ContentID.loginInvalidUsernameOrPassword, arg.config) };
                 } else {
                     return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, arg.config) };
                 }
