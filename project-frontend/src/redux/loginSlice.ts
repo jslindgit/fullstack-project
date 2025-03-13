@@ -1,6 +1,6 @@
 import { Config } from '../types/configTypes';
 import { ContentID } from '../content';
-import { Response, User } from '../types/types';
+import { ErrorResponse, Response, User } from '../types/types';
 
 import { contentToText } from '../types/languageFunctions';
 import { isUser } from '../types/types';
@@ -24,6 +24,13 @@ const loginSlice = apiSlice.injectEndpoints({
                     ? { success: true, message: contentToText(ContentID.loginPasswordChangedSuccessfully, arg.config) }
                     : { success: false, message: contentToText(ContentID.errorSomethingWentWrongTryAgainlater, arg.config) };
             },
+            transformErrorResponse: (res: ErrorResponse, _meta, arg) => {
+                return {
+                    success: false,
+                    message: contentToText(res.status === 401 ? ContentID.loginInvalidPassword : ContentID.errorSomethingWentWrong, arg.config),
+                    status: res.status,
+                };
+            },
         }),
         checkPassword: builder.mutation<Response, { username: string; password: string; config: Config }>({
             query: ({ username, password }) => {
@@ -37,6 +44,12 @@ const loginSlice = apiSlice.injectEndpoints({
                 return successfulResponse(res)
                     ? { success: true, message: 'Ok' }
                     : { success: false, message: contentToText(ContentID.errorSomethingWentWrong, arg.config) };
+            },
+            transformErrorResponse: (res: ErrorResponse, _meta, arg) => {
+                return {
+                    success: false,
+                    message: contentToText(res.status === 401 ? ContentID.loginInvalidPassword : ContentID.errorSomethingWentWrong, arg.config),
+                };
             },
         }),
         login: builder.mutation<Response, { username: string; password: string; setLoggedUser: (loggedUser: User) => void; config: Config }>({
@@ -59,12 +72,11 @@ const loginSlice = apiSlice.injectEndpoints({
                     return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, arg.config) };
                 }
             },
-            transformErrorResponse: (res: object, _meta, arg) => {
-                if ('status' in res && res.status === 401) {
-                    return { success: false, message: contentToText(ContentID.loginInvalidUsernameOrPassword, arg.config) };
-                } else {
-                    return { success: false, message: contentToText(ContentID.errorSomethingWentWrong, arg.config) };
-                }
+            transformErrorResponse: (res: ErrorResponse, _meta, arg) => {
+                return {
+                    success: false,
+                    message: contentToText(res.status === 401 ? ContentID.loginInvalidUsernameOrPassword : ContentID.errorSomethingWentWrong, arg.config),
+                };
             },
         }),
         logout: builder.mutation<void, { removeLoggedUser: () => void }>({

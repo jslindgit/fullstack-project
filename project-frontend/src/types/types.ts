@@ -26,6 +26,11 @@ export enum Currency {
     USD = 'USD',
 }
 
+export interface ErrorResponse {
+    data: object;
+    status: number;
+}
+
 export interface Item {
     id: number;
     addedBy?: number;
@@ -66,6 +71,7 @@ export type NewNotification = Omit<Notification, 'renders'>;
 export interface Response {
     success: boolean;
     message: string;
+    status?: number;
 }
 
 export const isResponse = (obj: unknown): obj is Response => {

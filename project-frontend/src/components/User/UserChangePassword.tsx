@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { Config } from '../../types/configTypes';
 import { ContentID } from '../../content';
-import { User } from '../../types/types';
+import { isResponse, User } from '../../types/types';
 
 import { contentToText } from '../../types/languageFunctions';
 import { isValidPassword } from '../../util/misc';
@@ -23,6 +23,7 @@ const UserChangePassword = ({ config, user }: Props) => {
 
     const dispatch = useDispatch();
 
+    const [currentPasswordError, setCurrentPasswordError] = useState<string>('');
     const [newPasswordError, setNewPasswordError] = useState<string>('');
     const [showPasswordFields, setShowPasswordFields] = useState<boolean>(false);
 
@@ -33,6 +34,10 @@ const UserChangePassword = ({ config, user }: Props) => {
     useEffect(() => {
         setNewPasswordError('');
     }, [passwordNew.value, passwordNewConfirm.value]);
+
+    useEffect(() => {
+        setCurrentPasswordError('');
+    }, [passwordCurrent.value]);
 
     const handleCancelButton = () => {
         passwordCurrent.clear();
@@ -48,18 +53,30 @@ const UserChangePassword = ({ config, user }: Props) => {
             setNewPasswordError(contentToText(ContentID.loginNewPasswordMisMatch, config));
         } else {
             setNewPasswordError('');
-            const res = await changePassword({
-                username: user.username,
-                currentPassword: passwordCurrent.value.toString(),
-                newPassword: passwordNew.stringValue(),
-                config: config,
-            }).unwrap();
-            dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
 
-            passwordCurrent.clear();
-            passwordNew.clear();
-            passwordNewConfirm.clear();
-            setShowPasswordFields(false);
+            try {
+                const res = await changePassword({
+                    username: user.username,
+                    currentPassword: passwordCurrent.value.toString(),
+                    newPassword: passwordNew.stringValue(),
+                    config: config,
+                }).unwrap();
+
+                dispatch(setNotification({ tone: res.success ? 'Positive' : 'Negative', message: res.message }));
+
+                passwordCurrent.clear();
+                passwordNew.clear();
+                passwordNewConfirm.clear();
+                setShowPasswordFields(false);
+            } catch (err) {
+                if (isResponse(err)) {
+                    if (err.status === 401) {
+                        setCurrentPasswordError(err.message);
+                    } else {
+                        dispatch(setNotification({ tone: 'Negative', message: err.message }));
+                    }
+                }
+            }
         }
     };
 
@@ -70,8 +87,14 @@ const UserChangePassword = ({ config, user }: Props) => {
                     <div className='grid-container left' data-cols='auto 1fr' data-gap='1rem 2rem'>
                         <div className='semiBold'>{contentToText(ContentID.accountPasswordCurrent, config)}:</div>
                         <div>
-                            <InputField useField={passwordCurrent} width='32rem' />
+                            <InputField useField={passwordCurrent} width='32rem' className={currentPasswordError.length > 0 ? 'error' : ''} />
                         </div>
+                        {currentPasswordError.length > 0 && (
+                            <>
+                                <div />
+                                <div className='colorRed semiBold'>{currentPasswordError}</div>
+                            </>
+                        )}
                         <div className='semiBold'>{contentToText(ContentID.accountPasswordNew, config)}</div>
                         <div>
                             <InputField useField={passwordNew} width='32rem' className={newPasswordError.length > 0 ? ' error' : ''} />

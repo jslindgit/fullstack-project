@@ -99,6 +99,7 @@ const Login = () => {
                 dispatch(setNotification({ tone: 'Negative', message: response.message }));
             }
         } catch (err) {
+            console.log('err:', err);
             if (isResponse(err)) {
                 dispatch(setNotification({ tone: 'Negative', message: err.message }));
             }
