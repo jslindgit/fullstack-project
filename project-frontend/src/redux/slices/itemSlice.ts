@@ -1,10 +1,10 @@
-import { ContentID } from '../content';
-import { Config } from '../types/configTypes';
-import { Item, ItemResponse, NewItem, Response } from '../types/types';
+import { ContentID } from '../../content';
+import { Config } from '../../types/configTypes';
+import { Item, ItemResponse, NewItem, Response } from '../../types/types';
 
-import { contentToText, langTextsToText } from '../types/languageFunctions';
-import { itemFromResBody, itemToReqBody } from '../util/serviceProvider';
-import { isNotNull } from '../types/typeFunctions';
+import { contentToText, langTextsToText } from '../../types/languageFunctions';
+import { itemFromResBody, itemToReqBody } from '../../util/serviceProvider';
+import { isNotNull } from '../../types/typeFunctions';
 
 import { apiSlice, successfulResponse } from './apiSlice';
 

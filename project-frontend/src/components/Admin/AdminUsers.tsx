@@ -10,7 +10,7 @@ import { contentToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 import { getUserStatus } from '../../util/userProvider';
 
-import { useUserGetAllQuery } from '../../redux/userSlice';
+import { useUserGetAllQuery } from '../../redux/slices/userSlice';
 
 import { Link } from '../CustomLink';
 import InputField from '../InputField';

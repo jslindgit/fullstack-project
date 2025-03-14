@@ -1,9 +1,9 @@
-import { Config } from '../types/configTypes';
-import { ContentID } from '../content';
-import { ErrorResponse, Response, User } from '../types/types';
+import { Config } from '../../types/configTypes';
+import { ContentID } from '../../content';
+import { ErrorResponse, Response, User } from '../../types/types';
 
-import { contentToText } from '../types/languageFunctions';
-import { isUser } from '../types/types';
+import { contentToText } from '../../types/languageFunctions';
+import { isUser } from '../../types/types';
 
 import { apiSlice, successfulResponse } from './apiSlice';
 

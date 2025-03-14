@@ -8,7 +8,7 @@ import { RootState } from '../../redux/rootReducer';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
 import { contentToText } from '../../types/languageFunctions';
 
-import { useCategoryAddMutation } from '../../redux/categorySlice';
+import { useCategoryAddMutation } from '../../redux/slices/categorySlice';
 import { setNotification } from '../../redux/miscReducer';
 
 import InputField from '../InputField';

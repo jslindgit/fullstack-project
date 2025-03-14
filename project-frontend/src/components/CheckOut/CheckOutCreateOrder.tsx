@@ -12,7 +12,7 @@ import { validateOrder } from '../../util/orderProvider';
 import { isOrder, isOrderOrNewOrder } from '../../types/orderTypeFunctions';
 
 import { OrderState, setOrder } from '../../redux/orderReducer';
-import { useOrderAddMutation } from '../../redux/orderSlice';
+import { useOrderAddMutation } from '../../redux/slices/orderSlice';
 
 import Loading from '../Loading';
 

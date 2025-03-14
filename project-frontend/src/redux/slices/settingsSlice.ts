@@ -1,12 +1,12 @@
-import { Config, Settings } from '../types/configTypes';
-import { Response } from '../types/types';
+import { Config, Settings } from '../../types/configTypes';
+import { Response } from '../../types/types';
 
-import { settingsFromResBody, settingsToReqBody } from '../util/serviceProvider';
-import { isNotNull } from '../types/typeFunctions';
+import { settingsFromResBody, settingsToReqBody } from '../../util/serviceProvider';
+import { isNotNull } from '../../types/typeFunctions';
 
 import { apiSlice } from './apiSlice';
-import { contentToText } from '../types/languageFunctions';
-import { ContentID } from '../content';
+import { contentToText } from '../../types/languageFunctions';
+import { ContentID } from '../../content';
 
 interface SettingsResponse extends Response {
     settings: Settings | null;

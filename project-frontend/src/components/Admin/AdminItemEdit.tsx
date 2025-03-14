@@ -8,7 +8,7 @@ import { RootState } from '../../redux/rootReducer';
 
 import { contentToText } from '../../types/languageFunctions';
 
-import { useItemGetByIdQuery } from '../../redux/itemSlice';
+import { useItemGetByIdQuery } from '../../redux/slices/itemSlice';
 
 import ItemEditForm from './ItemEditForm';
 

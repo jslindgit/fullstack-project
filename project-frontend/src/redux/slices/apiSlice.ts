@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { RootState } from './rootReducer';
+import { RootState } from '../rootReducer';
 
-import { apiBaseUrl, API_KEY } from '../constants';
-import { isBoolean, isObject } from '../types/typeFunctions';
+import { apiBaseUrl, API_KEY } from '../../constants';
+import { isBoolean, isObject } from '../../types/typeFunctions';
 
 export const successfulResponse = (res: unknown): boolean => {
     return isObject(res) && 'success' in res && isBoolean(res.success) && res.success === true;

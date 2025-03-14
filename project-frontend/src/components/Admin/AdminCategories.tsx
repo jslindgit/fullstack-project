@@ -8,7 +8,7 @@ import { Category } from '../../types/types';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
-import { useCategoryDeleteMutation, useCategoryGetAllQuery } from '../../redux/categorySlice';
+import { useCategoryDeleteMutation, useCategoryGetAllQuery } from '../../redux/slices/categorySlice';
 import { setNotification } from '../../redux/miscReducer';
 
 import AddCategoryForm from './AddCategoryForm';

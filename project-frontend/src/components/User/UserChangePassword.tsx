@@ -9,7 +9,7 @@ import { contentToText } from '../../types/languageFunctions';
 import { isValidPassword } from '../../util/misc';
 import useField from '../../hooks/useField';
 
-import { useChangePasswordMutation } from '../../redux/loginSlice';
+import { useChangePasswordMutation } from '../../redux/slices/loginSlice';
 import { setNotification } from '../../redux/miscReducer';
 
 import InputField from '../InputField';

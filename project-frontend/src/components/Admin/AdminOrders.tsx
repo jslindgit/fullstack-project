@@ -12,7 +12,7 @@ import { getOrderStatusForAdmin } from '../../util/orderProvider';
 import useField from '../../hooks/useField';
 
 import { setNotification } from '../../redux/miscReducer';
-import { useOrderDeleteMutation, useOrderGetAllQuery, useOrderUpdateMutation } from '../../redux/orderSlice';
+import { useOrderDeleteMutation, useOrderGetAllQuery, useOrderUpdateMutation } from '../../redux/slices/orderSlice';
 
 import AdminOrderDetails from './AdminOrderDetails';
 import AdminOrderGridRow from './AdminOrderGridRow';

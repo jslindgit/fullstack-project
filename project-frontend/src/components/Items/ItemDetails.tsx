@@ -9,7 +9,7 @@ import { testItemId } from '../../constants';
 import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
-import { useItemGetByIdQuery } from '../../redux/itemSlice';
+import { useItemGetByIdQuery } from '../../redux/slices/itemSlice';
 
 import AddToCart from './AddToCart';
 import BackButton from '../BackButton';

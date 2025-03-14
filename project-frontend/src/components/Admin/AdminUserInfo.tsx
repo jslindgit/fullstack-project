@@ -11,7 +11,7 @@ import { contentToText } from '../../types/languageFunctions';
 import { getUserStatus } from '../../util/userProvider';
 
 import { setNotification } from '../../redux/miscReducer';
-import { useUserDeleteMutation, useUserGetByIdQuery, useUserUpdateMutation } from '../../redux/userSlice';
+import { useUserDeleteMutation, useUserGetByIdQuery, useUserUpdateMutation } from '../../redux/slices/userSlice';
 
 import BackButton from '../BackButton';
 import LoadingQuery from '../LoadingQuery';

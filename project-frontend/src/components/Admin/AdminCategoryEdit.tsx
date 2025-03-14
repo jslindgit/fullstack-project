@@ -10,7 +10,7 @@ import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import { handleError } from '../../util/handleError';
 import { useLangFields, useLangTextAreas } from '../../hooks/useLang';
 
-import { useCategoryGetByIdQuery, useCategoryUpdateMutation } from '../../redux/categorySlice';
+import { useCategoryGetByIdQuery, useCategoryUpdateMutation } from '../../redux/slices/categorySlice';
 import { setNotification } from '../../redux/miscReducer';
 
 import BackButton from '../BackButton';

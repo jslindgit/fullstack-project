@@ -7,7 +7,7 @@ import { RootState } from '../../redux/rootReducer';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
-import { useCategoryGetByIdQuery } from '../../redux/categorySlice';
+import { useCategoryGetByIdQuery } from '../../redux/slices/categorySlice';
 
 import ItemGrid from './ItemGrid';
 import ItemsMenu from './ItemsMenu';

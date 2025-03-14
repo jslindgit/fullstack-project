@@ -11,7 +11,7 @@ import { contentToText } from '../../types/languageFunctions';
 import { setNotification } from '../../redux/miscReducer';
 import store from '../../redux/store';
 import { initializeLoggedUser } from '../../redux/userReducer';
-import { useUserUpdateMutation } from '../../redux/userSlice';
+import { useUserUpdateMutation } from '../../redux/slices/userSlice';
 
 import UserBasicInfo from './UserBasicInfo';
 import UserChangePassword from './UserChangePassword';

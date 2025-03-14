@@ -8,10 +8,10 @@ import { User } from '../../types/types';
 import { contentToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 
-import { useCheckPasswordMutation } from '../../redux/loginSlice';
+import { useCheckPasswordMutation } from '../../redux/slices/loginSlice';
 import { setNotification } from '../../redux/miscReducer';
 import { removeLoggedUser } from '../../redux/userReducer';
-import { useUserDeleteMutation } from '../../redux/userSlice';
+import { useUserDeleteMutation } from '../../redux/slices/userSlice';
 
 import InputField from '../InputField';
 

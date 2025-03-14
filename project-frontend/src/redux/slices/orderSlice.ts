@@ -1,11 +1,11 @@
-import { ContentID } from '../content';
-import { Config } from '../types/configTypes';
-import { NewOrder, Order, OrderResponse } from '../types/orderTypes';
-import { Response } from '../types/types';
+import { ContentID } from '../../content';
+import { Config } from '../../types/configTypes';
+import { NewOrder, Order, OrderResponse } from '../../types/orderTypes';
+import { Response } from '../../types/types';
 
-import { contentToText } from '../types/languageFunctions';
-import { orderFromResponseBody, orderToRequestBody } from '../util/orderProvider';
-import { isNotNull } from '../types/typeFunctions';
+import { contentToText } from '../../types/languageFunctions';
+import { orderFromResponseBody, orderToRequestBody } from '../../util/orderProvider';
+import { isNotNull } from '../../types/typeFunctions';
 
 import { apiSlice, successfulResponse } from './apiSlice';
 

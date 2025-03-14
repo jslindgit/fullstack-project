@@ -9,7 +9,7 @@ import { contentToText } from '../types/languageFunctions';
 import localstorageHandler from '../util/localstorageHandler';
 import useField from '../hooks/useField';
 
-import { useLogoutMutation } from '../redux/loginSlice';
+import { useLogoutMutation } from '../redux/slices/loginSlice';
 import { setNotification } from '../redux/miscReducer';
 import { removeLoggedUser } from '../redux/userReducer';
 

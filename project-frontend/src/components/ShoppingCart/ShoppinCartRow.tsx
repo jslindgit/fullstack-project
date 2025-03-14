@@ -10,7 +10,7 @@ import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 
-import { useItemGetByIdQuery } from '../../redux/itemSlice';
+import { useItemGetByIdQuery } from '../../redux/slices/itemSlice';
 import { updateShoppingCartItemQuantity } from '../../redux/orderReducer';
 
 import Image from '../Image';

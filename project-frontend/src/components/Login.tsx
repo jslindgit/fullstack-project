@@ -11,7 +11,7 @@ import localstorageHandler from '../util/localstorageHandler';
 import { isResponse } from '../types/types';
 import useField from '../hooks/useField';
 
-import { useLoginMutation, useLogoutMutation } from '../redux/loginSlice';
+import { useLoginMutation, useLogoutMutation } from '../redux/slices/loginSlice';
 import { setNotification } from '../redux/miscReducer';
 import { removeLoggedUser, setLoggedUser } from '../redux/userReducer';
 

@@ -8,10 +8,10 @@ import { NewUser, User } from '../types/types';
 import { handleError } from './handleError';
 import { contentToText } from '../types/languageFunctions';
 
-import { login } from '../redux/loginSlice';
+import { login } from '../redux/slices/loginSlice';
 import { setNotification } from '../redux/miscReducer';
 import { setLoggedUser } from '../redux/userReducer';
-import { userAdd, userNameIsAvailable } from '../redux/userSlice';
+import { userAdd, userNameIsAvailable } from '../redux/slices/userSlice';
 
 export const getUserStatus = (user: User, config: Config): string => {
     if (user.admin) {

@@ -3,7 +3,7 @@ import { ItemSizeAndInstock } from '../types/types';
 
 import { handleError } from '../util/handleError';
 
-import { itemGetById, itemUpdateInstockAndSold } from '../redux/itemSlice';
+import { itemGetById, itemUpdateInstockAndSold } from '../redux/slices/itemSlice';
 import store, { StoreDispatch } from '../redux/store';
 
 export const updateInstockAndSoldValues = async (order: Order, storeDispatch: StoreDispatch) => {

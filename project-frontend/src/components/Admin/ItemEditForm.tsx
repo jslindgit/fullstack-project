@@ -14,7 +14,7 @@ import { contentToText, langTextsToText } from '../../types/languageFunctions';
 import localstorageHandler from '../../util/localstorageHandler';
 import useField from '../../hooks/useField';
 
-import { useItemAddMutation, useItemUpdateMutation } from '../../redux/itemSlice';
+import { useItemAddMutation, useItemUpdateMutation } from '../../redux/slices/itemSlice';
 import { setNotification } from '../../redux/miscReducer';
 
 import InputField from '../InputField';

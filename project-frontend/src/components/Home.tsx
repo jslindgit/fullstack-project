@@ -7,7 +7,7 @@ import { Item } from '../types/types';
 
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 
-import { useItemGetAllQuery } from '../redux/itemSlice';
+import { useItemGetAllQuery } from '../redux/slices/itemSlice';
 
 import CategoryGrid from './CategoryGrid';
 import Description from './Description';

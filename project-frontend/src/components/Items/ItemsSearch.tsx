@@ -9,7 +9,7 @@ import { RootState } from '../../redux/rootReducer';
 import { contentToText } from '../../types/languageFunctions';
 import useField from '../../hooks/useField';
 
-import { useItemGetBySearchQueryQuery } from '../../redux/itemSlice';
+import { useItemGetBySearchQueryQuery } from '../../redux/slices/itemSlice';
 
 import BackButton from '../BackButton';
 import InputField from '../InputField';

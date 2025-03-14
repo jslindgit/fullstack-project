@@ -7,7 +7,7 @@ import { Response } from '../types/types';
 import { handleError } from '../util/handleError';
 
 import { initializeConfig } from '../redux/configReducer';
-import { settingsAdd, settingsGetAll, settingsUpdate } from '../redux/settingsSlice';
+import { settingsAdd, settingsGetAll, settingsUpdate } from '../redux/slices/settingsSlice';
 
 interface SettingsResponse extends Response {
     settings: Settings | null;

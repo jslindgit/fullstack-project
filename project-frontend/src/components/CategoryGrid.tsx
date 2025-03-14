@@ -6,7 +6,7 @@ import { Category } from '../types/types';
 
 import { langTextsToText } from '../types/languageFunctions';
 
-import { useCategoryGetAllQuery } from '../redux/categorySlice';
+import { useCategoryGetAllQuery } from '../redux/slices/categorySlice';
 
 import { Link } from './CustomLink';
 import LoadingQuery from './LoadingQuery';

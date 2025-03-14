@@ -3,7 +3,7 @@ import { AnyAction, createSlice, Dispatch, PayloadAction } from '@reduxjs/toolki
 import { StoreDispatch } from './store';
 import { User } from '../types/types';
 
-import { userGetByToken } from './userSlice';
+import { userGetByToken } from './slices/userSlice';
 
 export interface UserState {
     initialized: boolean;

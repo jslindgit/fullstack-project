@@ -12,7 +12,7 @@ import { isOrder } from '../../types/orderTypeFunctions';
 import paytrailService from '../../services/paytrailService';
 
 import { clearOrder } from '../../redux/orderReducer';
-import { useOrderGetByIdQuery, useOrderUpdateMutation } from '../../redux/orderSlice';
+import { useOrderGetByIdQuery, useOrderUpdateMutation } from '../../redux/slices/orderSlice';
 import store from '../../redux/store';
 
 import BackButton from '../BackButton';

@@ -9,8 +9,8 @@ import { Item } from '../../types/types';
 
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
-import { useCategoryGetAllQuery, useCategoryGetByIdQuery } from '../../redux/categorySlice';
-import { useItemDeleteMutation, useItemGetAllQuery } from '../../redux/itemSlice';
+import { useCategoryGetAllQuery, useCategoryGetByIdQuery } from '../../redux/slices/categorySlice';
+import { useItemDeleteMutation, useItemGetAllQuery } from '../../redux/slices/itemSlice';
 import { setNotification } from '../../redux/miscReducer';
 
 import AdminItemList from './AdminItemList';

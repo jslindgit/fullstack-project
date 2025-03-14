@@ -1,11 +1,11 @@
-import { ContentID } from '../content';
-import { Config } from '../types/configTypes';
-import { User, NewUser, Response } from '../types/types';
+import { ContentID } from '../../content';
+import { Config } from '../../types/configTypes';
+import { User, NewUser, Response } from '../../types/types';
 
-import { handleError } from '../util/handleError';
-import { contentToText } from '../types/languageFunctions';
-import { isBoolean, isNotNull, isObject } from '../types/typeFunctions';
-import { isUser } from '../types/types';
+import { handleError } from '../../util/handleError';
+import { contentToText } from '../../types/languageFunctions';
+import { isBoolean, isNotNull, isObject } from '../../types/typeFunctions';
+import { isUser } from '../../types/types';
 
 import { apiSlice, successfulResponse } from './apiSlice';
 
