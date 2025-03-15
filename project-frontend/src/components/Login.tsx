@@ -13,6 +13,7 @@ import useField from '../hooks/useField';
 
 import { useLoginMutation, useLogoutMutation } from '../redux/slices/loginSlice';
 import { setNotification } from '../redux/miscReducer';
+import { useSettingsGetQuery } from '../redux/slices/settingsSlice';
 import { removeLoggedUser, setLoggedUser } from '../redux/userReducer';
 
 import InputField from './InputField';
@@ -21,6 +22,7 @@ import { Link } from './CustomLink';
 const Login = () => {
     const [login] = useLoginMutation();
     const [logout] = useLogoutMutation();
+    const settingsGet = useSettingsGetQuery();
 
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
@@ -33,8 +35,8 @@ const Login = () => {
 
     // Page title:
     useEffect(() => {
-        document.title = contentToText(ContentID.menuLogin, config) + ' | ' + config.store.contactName;
-    }, [config]);
+        document.title = settingsGet.data ? contentToText(ContentID.menuLogin, config) + ' | ' + settingsGet.data.storeName : '';
+    }, [config, settingsGet.data]);
 
     const removeLogged = () => {
         dispatch(removeLoggedUser());

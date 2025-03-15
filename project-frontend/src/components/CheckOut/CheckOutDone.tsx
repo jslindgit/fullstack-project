@@ -13,6 +13,7 @@ import paytrailService from '../../services/paytrailService';
 
 import { clearOrder } from '../../redux/orderReducer';
 import { useOrderGetByIdQuery, useOrderUpdateMutation } from '../../redux/slices/orderSlice';
+import { useSettingsGetQuery } from '../../redux/slices/settingsSlice';
 import store from '../../redux/store';
 
 import BackButton from '../BackButton';
@@ -29,6 +30,8 @@ enum SignatureStatus {
 }
 
 const CheckOutDone = () => {
+    const settingsGet = useSettingsGetQuery();
+
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const orderState = useSelector((state: RootState) => state.order);
@@ -129,8 +132,8 @@ const CheckOutDone = () => {
         }
     };
 
-    if (!orderGetById.data) {
-        return <LoadingQuery query={orderGetById} config={config} />;
+    if (!orderGetById.data || !settingsGet.data) {
+        return <LoadingQuery query={!orderGetById.data ? orderGetById : settingsGet} config={config} />;
     }
 
     return (
@@ -142,7 +145,7 @@ const CheckOutDone = () => {
                         <React.Fragment>
                             <div className='bold sizeExtremelyLarge'>{contentToText(ContentID.checkOutThankYou, config)}</div>
                             <div className='preLine'>
-                                {contentToText(ContentID.checkOutYourOrderHasBeenReceive, config)} {config.store.deliveryTimeBusinessDays}{' '}
+                                {contentToText(ContentID.checkOutYourOrderHasBeenReceive, config)} {settingsGet.data.storeDeliveryTimeBusinessDays}{' '}
                                 {contentToText(ContentID.miscDays, config)}.
                             </div>
                         </React.Fragment>

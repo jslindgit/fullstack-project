@@ -6,6 +6,8 @@ import { NewOrder, Order, ShoppingItem } from '../types/orderTypes';
 import { getEmptyOrder } from '../util/orderProvider';
 import { isOrderOrNewOrder, isShoppingItem } from '../types/orderTypeFunctions';
 
+import { maxItemQuantity } from '../constants';
+
 interface QuantityUpdate {
     itemIndex: number;
     newQuantity: number;
@@ -24,16 +26,15 @@ const slice = createSlice({
     reducers: {
         addItemToShoppingCart(state: OrderState, action: PayloadAction<ShoppingItemAndConfig>) {
             const toAdd: ShoppingItem = action.payload.shoppingItem;
-            const config = action.payload.config;
 
             const existingItem = current(state).items.find((si) => si.id === toAdd.id && si.size === toAdd.size);
 
             if (existingItem) {
                 const updatedShoppingItems = current(state).items.filter((item) => item !== existingItem);
 
-                if (existingItem.quantity + toAdd.quantity > config.maxItemQuantity) {
-                    updatedShoppingItems.push({ ...toAdd, quantity: toAdd.quantity - (existingItem.quantity - config.maxItemQuantity) });
-                    updatedShoppingItems.push({ ...existingItem, quantity: config.maxItemQuantity });
+                if (existingItem.quantity + toAdd.quantity > maxItemQuantity) {
+                    updatedShoppingItems.push({ ...toAdd, quantity: toAdd.quantity - (existingItem.quantity - maxItemQuantity) });
+                    updatedShoppingItems.push({ ...existingItem, quantity: maxItemQuantity });
                 } else {
                     updatedShoppingItems.push({ ...existingItem, quantity: existingItem.quantity + toAdd.quantity });
                 }

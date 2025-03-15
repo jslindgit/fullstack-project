@@ -7,12 +7,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { RootState } from './redux/rootReducer';
 
 // Functions:
-import settingsService from './services/settingsService';
 
 // Redux:
 import { initializeConfig } from './redux/configReducer';
 import { setLoaded } from './redux/miscReducer';
 import { initializeOrder } from './redux/orderReducer';
+import { useSettingsGetQuery } from './redux/slices/settingsSlice';
 import store from './redux/store';
 import { initializeLoggedUser } from './redux/userReducer';
 
@@ -42,6 +42,8 @@ import ShowNotification from './components/ShowNotification';
 import UserPanel from './components/User/UserPanel';
 
 const App = () => {
+    const settings = useSettingsGetQuery();
+
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const miscState = useSelector((state: RootState) => state.misc);
@@ -52,19 +54,18 @@ const App = () => {
         dispatch(setLoaded(false));
 
         const fetchData = async () => {
-            const settings = await settingsService.fetchCurrentSettings(store.dispatch);
-            initializeConfig(dispatch, settings);
+            initializeConfig(dispatch);
             initializeOrder(dispatch);
             await Promise.all([initializeLoggedUser(dispatch, store.dispatch)]);
         };
 
         fetchData();
-    }, [config.store.contactName, dispatch]);
+    }, [dispatch]);
 
     // Set page title:
     useEffect(() => {
-        document.title = config.store.contactName;
-    }, [config.store.contactName]);
+        document.title = settings.data ? settings.data.storeName : '';
+    }, [settings.data]);
 
     // Set miscState.loaded to true:
     useEffect(() => {

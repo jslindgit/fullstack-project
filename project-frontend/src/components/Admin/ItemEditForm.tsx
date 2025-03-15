@@ -17,6 +17,8 @@ import useField from '../../hooks/useField';
 import { useItemAddMutation, useItemUpdateMutation } from '../../redux/slices/itemSlice';
 import { setNotification } from '../../redux/miscReducer';
 
+import { maxItemPriceEUR } from '../../constants';
+
 import InputField from '../InputField';
 import ItemEditCategories from './ItemEditCategories';
 import ItemEditImages from './ItemEditImages';
@@ -210,7 +212,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
             nameFields.every((nf) => nf.field.stringValue().length > 0) &&
             price.stringValue().length > 0 &&
             price.numValue() >= 0 &&
-            price.numValue() <= config.maxItemPriceEUR
+            price.numValue() <= maxItemPriceEUR
         );
     };
 
@@ -260,7 +262,7 @@ const ItemEditForm = ({ config, initialCategories, itemToEdit, onCancel = undefi
                     <div className='adminItemEditLabel'>{contentToText(ContentID.itemsPrice, config)}:</div>
                     <div className='grid-container marginLeft1' data-cols='auto 1fr' data-gap='1rem'>
                         <div className='valignMiddle'>{config.currency}</div>
-                        <InputField useField={price} width='33%' placeHolder={'0–' + config.maxItemPriceEUR} />
+                        <InputField useField={price} width='33%' placeHolder={'0–' + maxItemPriceEUR} />
                     </div>
                     <div className='adminItemEditLabel'>{contentToText(ContentID.adminItemSizes, config)}:</div>
                     <div className='marginLeft1'>

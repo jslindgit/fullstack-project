@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Settings } from '../../types/configTypes';
 import { ContentID } from '../../content';
 import { RootState } from '../../redux/rootReducer';
+import { Settings } from '../../types/settingsTypes';
 import { Country } from '../../types/types';
 
 import { availableDeliveryCountries } from '../../constants';
@@ -14,31 +14,35 @@ import settingsService from '../../services/settingsService';
 import useField, { UseField } from '../../hooks/useField';
 
 import { setNotification } from '../../redux/miscReducer';
+import { useSettingsGetQuery } from '../../redux/slices/settingsSlice';
 import store from '../../redux/store';
 
 import CheckBox from '../CheckBox';
 import InputField from '../InputField';
+import LoadingQuery from '../LoadingQuery';
 
 const AdminSettings = () => {
+    const settingsGet = useSettingsGetQuery();
+
     const dispatch = useDispatch();
     const config = useSelector((state: RootState) => state.config);
     const userState = useSelector((state: RootState) => state.user);
 
-    const ownerBusinessIdentifierField = useField('text', null, config.owner.businessIdentifier);
-    const ownerEmailField = useField('text', null, config.owner.email);
-    const ownerNameField = useField('text', null, config.owner.name);
-    const ownerPhoneField = useField('text', null, config.owner.phone);
-    const storeAddressField = useField('text', null, config.store.contactStreetAddress);
-    const storeCityField = useField('text', null, config.store.contactCity);
+    const ownerBusinessIdentifierField = useField('text', null, settingsGet.data?.ownerBusinessIdentifier);
+    const ownerEmailField = useField('text', null, settingsGet.data?.ownerEmail);
+    const ownerNameField = useField('text', null, settingsGet.data?.ownerName);
+    const ownerPhoneField = useField('text', null, settingsGet.data?.ownerPhone);
+    const storeAddressField = useField('text', null, settingsGet.data?.storeContactStreetAddress);
+    const storeCityField = useField('text', null, settingsGet.data?.storeContactCity);
     const storeCountryFields = useLangFields('text');
-    const [storeDeliveryCountries, setStoreDeliveryCountries] = useState<Country[]>(config.store.deliveryCountries);
-    const storeDeliveryTimeField = useField('integer', null, config.store.deliveryTimeBusinessDays.toString());
-    const storeEmailField = useField('text', null, config.store.contactEmail);
-    const storeNameField = useField('text', null, config.store.contactName);
-    const storePhoneField = useField('text', null, config.store.contactPhone);
-    const storeZipcodeField = useField('text', null, config.store.contactZipcode);
+    const [storeDeliveryCountries, setStoreDeliveryCountries] = useState<Country[]>(settingsGet.data ? settingsGet.data.storeDeliveryCountries : []);
+    const storeDeliveryTimeField = useField('integer', null, settingsGet.data?.storeDeliveryTimeBusinessDays.toString());
+    const storeEmailField = useField('text', null, settingsGet.data?.storeContactEmail);
+    const storeNameField = useField('text', null, settingsGet.data?.storeName);
+    const storePhoneField = useField('text', null, settingsGet.data?.storeContactPhone);
+    const storeZipcodeField = useField('text', null, settingsGet.data?.storeContactZipcode);
     const storeWelcomeFields = useLangFields('text');
-    const vatField = useField('decimal', null, config.vat.toString());
+    const vatField = useField('decimal', null, settingsGet.data?.vat.toString());
 
     type PropertyName =
         | ''
@@ -65,7 +69,7 @@ const AdminSettings = () => {
     useEffect(() => {
         if (editedProperty !== 'storeCountry') {
             storeCountryFields.forEach((langField) => {
-                config.store.contactCountry.names.forEach((langText) => {
+                settingsGet.data?.storeContactCountry.names.forEach((langText) => {
                     if (langText.langCode === langField.langCode) {
                         langField.field.setNewValue(langText.text);
                     }
@@ -75,14 +79,14 @@ const AdminSettings = () => {
 
         if (editedProperty !== 'storeWelcome') {
             storeWelcomeFields.forEach((langField) => {
-                config.store.welcome.forEach((langText) => {
+                settingsGet.data?.storeWelcome.forEach((langText) => {
                     if (langText.langCode === langField.langCode) {
                         langField.field.setNewValue(langText.text);
                     }
                 });
             });
         }
-    }, [config, editedProperty, storeCountryFields, storeWelcomeFields]);
+    }, [editedProperty, settingsGet.data, storeCountryFields, storeWelcomeFields]);
 
     const deliveryCountryIsSelected = (country: Country): boolean => {
         return storeDeliveryCountries.map((c) => JSON.stringify(c)).includes(JSON.stringify(country));
@@ -229,8 +233,8 @@ const AdminSettings = () => {
     );
 
     const submitChanges = async () => {
-        if (userState.loggedUser?.admin) {
-            const settings: Settings = {
+        if (userState.loggedUser?.admin && settingsGet.data) {
+            const newSettings: Settings = {
                 ownerBusinessIdentifier: ownerBusinessIdentifierField.stringValue(),
                 ownerEmail: ownerEmailField.stringValue(),
                 ownerName: ownerNameField.stringValue(),
@@ -250,12 +254,16 @@ const AdminSettings = () => {
                 vat: vatField.numValue(),
             };
 
-            const res = await settingsService.updateSettings(settings, dispatch, store.dispatch, config);
+            const res = await settingsService.updateSettings(settingsGet.data, newSettings, store.dispatch, config);
             dispatch(setNotification({ message: res.message, tone: res.success ? 'Positive' : 'Negative' }));
 
             setEditedProperty('');
         }
     };
+
+    if (!settingsGet.data) {
+        return <LoadingQuery query={settingsGet} config={config} />;
+    }
 
     return (
         <div>
@@ -263,17 +271,22 @@ const AdminSettings = () => {
                 <div className='adminFormDiv'>
                     <div className='infoHeader'>{contentToText(ContentID.miscWebstore, config)}</div>
                     <div className='adminSettings grid-container' data-cols='admin-settings' data-gap='0'>
-                        {settingText(contentToText(ContentID.miscName, config), storeNameField, 'storeName', config.store.contactName)}
-                        {settingText(contentToText(ContentID.contactEmail, config), storeEmailField, 'storeEmail', config.store.contactEmail)}
-                        {settingText(contentToText(ContentID.contactPhone, config), storePhoneField, 'storePhone', config.store.contactPhone)}
-                        {settingText(contentToText(ContentID.miscAddress, config), storeAddressField, 'storeAddress', config.store.contactStreetAddress)}
-                        {settingText(contentToText(ContentID.checkOutZipCode, config), storeZipcodeField, 'storeZipcode', config.store.contactZipcode)}
-                        {settingText(contentToText(ContentID.checkOutCity, config), storeCityField, 'storeCity', config.store.contactCity)}
+                        {settingText(contentToText(ContentID.miscName, config), storeNameField, 'storeName', settingsGet.data.storeName)}
+                        {settingText(contentToText(ContentID.contactEmail, config), storeEmailField, 'storeEmail', settingsGet.data.storeContactEmail)}
+                        {settingText(contentToText(ContentID.contactPhone, config), storePhoneField, 'storePhone', settingsGet.data.storeContactPhone)}
+                        {settingText(
+                            contentToText(ContentID.miscAddress, config),
+                            storeAddressField,
+                            'storeAddress',
+                            settingsGet.data.storeContactStreetAddress
+                        )}
+                        {settingText(contentToText(ContentID.checkOutZipCode, config), storeZipcodeField, 'storeZipcode', settingsGet.data.storeContactZipcode)}
+                        {settingText(contentToText(ContentID.checkOutCity, config), storeCityField, 'storeCity', settingsGet.data.storeContactCity)}
                         {settingLangFields(
                             contentToText(ContentID.checkOutCountry, config),
                             storeCountryFields,
                             'storeCountry',
-                            config.store.contactCountry.names
+                            settingsGet.data.storeContactCountry.names
                         )}
                         <div className={'displayContents underlinedGridItem ' + (editedProperty !== 'storeDeliveryCountries' ? 'buttonHighlight' : '')}>
                             <div className='adminSettingsBreakWord adminSettingsLabelCol alignLeft paddingRight1em semiBold valignMiddle'>
@@ -295,7 +308,7 @@ const AdminSettings = () => {
                                                     )
                                                 ) ===
                                                     JSON.stringify(
-                                                        [...config.store.deliveryCountries].sort((a, b) =>
+                                                        [...settingsGet.data.storeDeliveryCountries].sort((a, b) =>
                                                             langTextsToText(a.names, config).localeCompare(langTextsToText(b.names, config))
                                                         )
                                                     ) || !userState.loggedUser?.admin
@@ -307,7 +320,7 @@ const AdminSettings = () => {
                                         <button
                                             type='button'
                                             onClick={() => {
-                                                setStoreDeliveryCountries([...config.store.deliveryCountries]);
+                                                setStoreDeliveryCountries(settingsGet.data ? [...settingsGet.data.storeDeliveryCountries] : []);
                                                 setEditedProperty('');
                                             }}
                                         >
@@ -327,22 +340,22 @@ const AdminSettings = () => {
                             `${contentToText(ContentID.miscDeliveryTime, config)} (${contentToText(ContentID.miscDays, config)})`,
                             storeDeliveryTimeField,
                             'storeDeliveryTime',
-                            config.store.deliveryTimeBusinessDays.toString()
+                            settingsGet.data.storeDeliveryTimeBusinessDays.toString()
                         )}
-                        {settingText(contentToText(ContentID.miscVAT, config) + '-%', vatField, 'vat', config.vat.toString())}
+                        {settingText(contentToText(ContentID.miscVAT, config) + '-%', vatField, 'vat', settingsGet.data.vat.toString())}
                     </div>
                 </div>
                 <div className='adminFormDiv adminSettings'>
                     <div className='infoHeader'>{contentToText(ContentID.miscMerchant, config)}</div>
                     <div className='grid-container striped' data-cols='admin-settings' data-gap='0'>
-                        {settingText(contentToText(ContentID.miscName, config), ownerNameField, 'ownerName', config.owner.name)}
-                        {settingText(contentToText(ContentID.contactEmail, config), ownerEmailField, 'ownerEmail', config.owner.email)}
-                        {settingText(contentToText(ContentID.contactPhone, config), ownerPhoneField, 'ownerPhone', config.owner.phone)}
+                        {settingText(contentToText(ContentID.miscName, config), ownerNameField, 'ownerName', settingsGet.data.ownerName)}
+                        {settingText(contentToText(ContentID.contactEmail, config), ownerEmailField, 'ownerEmail', settingsGet.data.ownerEmail)}
+                        {settingText(contentToText(ContentID.contactPhone, config), ownerPhoneField, 'ownerPhone', settingsGet.data.ownerPhone)}
                         {settingText(
                             contentToText(ContentID.contactBusinessID, config),
                             ownerBusinessIdentifierField,
                             'ownerBusinessIdentifier',
-                            config.owner.businessIdentifier
+                            settingsGet.data.ownerBusinessIdentifier
                         )}
                     </div>
                 </div>
@@ -353,7 +366,7 @@ const AdminSettings = () => {
                             `"${contentToText(ContentID.contentWelcome, config)}" (${contentToText(ContentID.menuHome, config)})`,
                             storeWelcomeFields,
                             'storeWelcome',
-                            config.store.welcome
+                            settingsGet.data.storeWelcome
                         )}
                     </div>
                 </div>

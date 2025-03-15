@@ -8,6 +8,7 @@ import { Item } from '../types/types';
 import { contentToText, langTextsToText } from '../types/languageFunctions';
 
 import { useItemGetAllQuery } from '../redux/slices/itemSlice';
+import { useSettingsGetQuery } from '../redux/slices/settingsSlice';
 
 import CategoryGrid from './CategoryGrid';
 import Description from './Description';
@@ -16,6 +17,7 @@ import LoadingQuery from './LoadingQuery';
 
 const MainPage = () => {
     const itemGetAll = useItemGetAllQuery();
+    const settingsGet = useSettingsGetQuery();
 
     const config = useSelector((state: RootState) => state.config);
 
@@ -24,8 +26,8 @@ const MainPage = () => {
 
     // Title:
     useEffect(() => {
-        document.title = config.store.contactName;
-    }, [config]);
+        document.title = settingsGet.data ? settingsGet.data.storeName : '';
+    }, [settingsGet.data]);
 
     useEffect(() => {
         if (itemGetAll.data) {
@@ -41,10 +43,10 @@ const MainPage = () => {
         }
     }, [itemGetAll]);
 
-    if (!itemGetAll.data) {
+    if (!itemGetAll.data || !settingsGet.data) {
         return (
             <div className='marginTop2'>
-                <LoadingQuery query={itemGetAll} config={config} />
+                <LoadingQuery query={!itemGetAll.data ? itemGetAll : settingsGet} config={config} />
             </div>
         );
     }
@@ -53,7 +55,7 @@ const MainPage = () => {
         <>
             <div className='grid-container marginBottom1 marginTop2 pageWidth' data-cols='1' data-gap='2rem'>
                 <div data-testid='welcome-message' className='pageWidth semiBold sizeExtremelyLarge'>
-                    {langTextsToText(config.store.welcome, config)}
+                    {langTextsToText(settingsGet.data.storeWelcome, config)}
                 </div>
                 <div className='sizeLarge'>
                     <Description config={config} />

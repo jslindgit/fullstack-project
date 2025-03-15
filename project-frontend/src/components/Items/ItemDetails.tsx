@@ -10,6 +10,7 @@ import format from '../../util/format';
 import { contentToText, langTextsToText } from '../../types/languageFunctions';
 
 import { useItemGetByIdQuery } from '../../redux/slices/itemSlice';
+import { useSettingsGetQuery } from '../../redux/slices/settingsSlice';
 
 import AddToCart from './AddToCart';
 import BackButton from '../BackButton';
@@ -21,6 +22,7 @@ const ItemDetails = () => {
     const id = Number(useParams().id);
 
     const itemGetById = useItemGetByIdQuery(id);
+    const settingsGet = useSettingsGetQuery();
 
     const config = useSelector((state: RootState) => state.config);
 
@@ -29,8 +31,8 @@ const ItemDetails = () => {
 
     // Title:
     useEffect(() => {
-        document.title = contentToText(ContentID.menuProducts, config) + ' | ' + config.store.contactName;
-    }, [config]);
+        document.title = settingsGet.data ? contentToText(ContentID.menuProducts, config) + ' | ' + settingsGet.data.storeName : '';
+    }, [config, settingsGet.data]);
 
     // Fetch Item:
     useEffect(() => {

@@ -13,6 +13,8 @@ import useField from '../../hooks/useField';
 import { useItemGetByIdQuery } from '../../redux/slices/itemSlice';
 import { updateShoppingCartItemQuantity } from '../../redux/orderReducer';
 
+import { maxItemQuantity } from '../../constants';
+
 import Image from '../Image';
 
 interface Props {
@@ -43,7 +45,7 @@ const ShoppingCartRow = ({ allowEdit, indexOf, narrowView, removeItem, shoppingI
 
     // When quantity is adjusted with the "+" and "-" buttons:
     const adjustAmount = (adjustment: number) => {
-        const newValue = Math.max(1, Math.min(Number(quantity.value) + adjustment, config.maxItemQuantity));
+        const newValue = Math.max(1, Math.min(Number(quantity.value) + adjustment, maxItemQuantity));
         if (shoppingItem.quantity !== newValue) {
             quantity.setNewValue(newValue.toString());
             dispatch(updateShoppingCartItemQuantity({ itemIndex: orderState.items.indexOf(shoppingItem), newQuantity: newValue }));
@@ -52,12 +54,12 @@ const ShoppingCartRow = ({ allowEdit, indexOf, narrowView, removeItem, shoppingI
 
     // When quantity is adjusted by typing in the input field:
     useEffect(() => {
-        const quantityValue = Math.max(1, Math.min(Number(quantity.value), config.maxItemQuantity));
+        const quantityValue = Math.max(1, Math.min(Number(quantity.value), maxItemQuantity));
         if (shoppingItem.quantity !== quantityValue) {
             quantity.setNewValue(quantityValue.toString());
             dispatch(updateShoppingCartItemQuantity({ itemIndex: orderState.items.indexOf(shoppingItem), newQuantity: quantityValue }));
         }
-    }, [config.maxItemQuantity, dispatch, indexOf, orderState.items, quantity, shoppingItem]);
+    }, [dispatch, indexOf, orderState.items, quantity, shoppingItem]);
 
     const ImageDiv = () => (
         <div>{item ? <Image src={item && item.images.length > 0 ? item.images[0] : '/no_image.png'} className='imgShoppingCart' /> : ''}</div>

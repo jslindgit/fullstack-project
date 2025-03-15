@@ -9,6 +9,7 @@ import { User } from '../../types/types';
 import { contentToText } from '../../types/languageFunctions';
 
 import { setNotification } from '../../redux/miscReducer';
+import { useSettingsGetQuery } from '../../redux/slices/settingsSlice';
 import store from '../../redux/store';
 import { initializeLoggedUser } from '../../redux/userReducer';
 import { useUserUpdateMutation } from '../../redux/slices/userSlice';
@@ -20,6 +21,7 @@ import UserDeleteAccount from './UserDeleteAccount';
 import UserOrderHistory from './UserOrderHistory';
 
 const UserPanel = () => {
+    const settingsGet = useSettingsGetQuery();
     const [userUpdate] = useUserUpdateMutation();
 
     const dispatch = useDispatch();
@@ -34,7 +36,7 @@ const UserPanel = () => {
 
     // Fetch the loggedUser from the server (with 'initializeLoggedUser') to make sure it's up to date:
     useEffect(() => {
-        document.title = contentToText(ContentID.menuAccount, config) + ' | ' + config.store.contactName;
+        document.title = settingsGet.data ? contentToText(ContentID.menuAccount, config) + ' | ' + settingsGet.data.storeName : '';
 
         const init = async () => {
             await initializeLoggedUser(dispatch, store.dispatch);
@@ -42,7 +44,7 @@ const UserPanel = () => {
         };
 
         init();
-    }, [config, dispatch, user]);
+    }, [config, dispatch, settingsGet.data, user]);
 
     useEffect(() => {
         if (user?.id !== usersState.loggedUser?.id) {

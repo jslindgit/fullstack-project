@@ -1,5 +1,6 @@
 import { LangCode, Language } from './types/languageTypes';
 import { Config } from './types/configTypes';
+import { Settings } from './types/settingsTypes';
 import { Country, Currency } from './types/types';
 
 export const API_KEY = import.meta.env.VITE_API_KEY as string;
@@ -79,38 +80,37 @@ export const defaultLanguage: Language = {
 export const defaultConfig: Config = {
     currency: Currency.EUR,
     language: defaultLanguage,
-    maxItemPriceEUR: 1000000,
-    maxItemQuantity: 1000,
-    owner: {
-        businessIdentifier: '',
-        email: '',
-        name: '',
-        phone: '',
-    },
-    // Paytrail test credentials: https://docs.paytrail.com/#/?id=test-credentials
-    paytrail: {
-        merchantId: '375917',
-        secretKey: 'SAIPPUAKAUPPIAS',
-    },
-    store: {
-        contactCity: '',
-        contactCountry: {
-            names: [
-                { langCode: LangCode.EN, text: '' },
-                { langCode: LangCode.FI, text: '' },
-            ],
-        },
-        contactEmail: '',
-        contactName: '',
-        contactPhone: '',
-        contactStreetAddress: '',
-        contactZipcode: '',
-        deliveryCountries: availableDeliveryCountries,
-        deliveryTimeBusinessDays: 3,
-        welcome: [
-            { langCode: LangCode.EN, text: 'Welcome!' },
-            { langCode: LangCode.FI, text: 'Tervetuloa!' },
+};
+
+export const defaultSettings: Settings = {
+    ownerBusinessIdentifier: '-',
+    ownerEmail: '-',
+    ownerName: '-',
+    ownerPhone: '-',
+    storeContactCity: '-',
+    storeContactCountry: {
+        names: [
+            { langCode: LangCode.EN, text: '' },
+            { langCode: LangCode.FI, text: '' },
         ],
     },
-    vat: 24,
+    storeContactEmail: '-',
+    storeContactPhone: '-',
+    storeContactStreetAddress: '-',
+    storeContactZipcode: '-',
+    storeDeliveryCountries: availableDeliveryCountries,
+    storeDeliveryTimeBusinessDays: 1,
+    storeName: '-',
+    storeWelcome: [
+        { langCode: LangCode.EN, text: 'Welcome!' },
+        { langCode: LangCode.FI, text: 'Tervetuloa!' },
+    ],
+    vat: 25.5,
 };
+
+export const maxItemPriceEUR = 1000000;
+export const maxItemQuantity = 1000;
+
+// Paytrail test credentials: https://docs.paytrail.com/#/?id=test-credentials
+export const paytrailMerchantId = '375917';
+export const paytrailSecretKey = 'SAIPPUAKAUPPIAS';

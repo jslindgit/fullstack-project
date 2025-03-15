@@ -1,12 +1,14 @@
-import { Config, Settings } from '../../types/configTypes';
+import { Config } from '../../types/configTypes';
+import { Settings } from '../../types/settingsTypes';
 import { Response } from '../../types/types';
 
 import { settingsFromResBody, settingsToReqBody } from '../../util/serviceProvider';
-import { isNotNull } from '../../types/typeFunctions';
+//import { isNotNull } from '../../types/typeFunctions';
 
 import { apiSlice } from './apiSlice';
-import { contentToText } from '../../types/languageFunctions';
+import { defaultSettings } from '../../constants';
 import { ContentID } from '../../content';
+import { contentToText } from '../../types/languageFunctions';
 
 interface SettingsResponse extends Response {
     settings: Settings | null;
@@ -32,17 +34,18 @@ const settingsSlice = apiSlice.injectEndpoints({
                     : { success: false, message: contentToText(ContentID.errorSomethingWentWrong, arg.config), settings: null };
             },
         }),
-        settingsGetAll: builder.query<Settings[], void>({
+        settingsGet: builder.query<Settings, void>({
             query: () => url,
             providesTags: ['Settings'],
             transformResponse: (res: Settings[]) => {
-                return res.map((s) => settingsFromResBody(s)).filter(isNotNull);
+                return res.length > 0 ? settingsFromResBody(res[0]) : defaultSettings;
+                //return res.map((s) => settingsFromResBody(s)).filter(isNotNull);
             },
         }),
-        settingsUpdate: builder.mutation<SettingsResponse, { currentSettings: Settings; newSettings: Settings; config: Config }>({
-            query: ({ currentSettings, newSettings }) => {
+        settingsUpdate: builder.mutation<SettingsResponse, { currentSettingsId: number; newSettings: Settings; config: Config }>({
+            query: ({ currentSettingsId, newSettings }) => {
                 return {
-                    url: `${url}/${currentSettings.id}`,
+                    url: `${url}/${currentSettingsId}`,
                     method: 'PUT',
                     body: settingsToReqBody(newSettings),
                 };
@@ -69,4 +72,5 @@ const settingsSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { settingsAdd, settingsGetAll, settingsUpdate } = settingsSlice.endpoints;
+export const { useSettingsGetQuery } = settingsSlice;
+export const { settingsAdd, settingsUpdate } = settingsSlice.endpoints;
